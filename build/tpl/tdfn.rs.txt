@@ -1,0 +1,60 @@
+{% if clz_description %}/// {{ clz_description }}{% endif %}
+{% if clz_is_trait %}{% if set_trait_typetag == 'true' %}#[typetag::serde(tag = "@struct")]{% endif %}{% else %}#[derive(Debug, {% if not has_trait_field %}Clone, {% endif %}Serialize, Deserialize)]{% endif %}
+{% if not is_private %}pub {% endif %}{% if clz_is_trait %}trait{% else %}struct{% endif %} {{ clz_name }}{% if clz_is_trait %}: Debug {}{% else %} {
+  #[doc(hidden)]
+  #[serde(alias = "@type")]
+  _cpp_name_: String,
+{% if fields %}
+{% for field in fields %}  /// {{field.description}}
+  {% if field.name == 'type_' %}#[serde(alias = "type")] {% endif %}{{field.name}}: Option<{{field.type}}>,
+{% endfor %}
+{% endif %}
+}
+{% endif %}
+{% if has_trait_field %}
+impl Clone for {{ clz_name }} {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+{% endif %}
+{% if clz_super %}
+{% if impl_trait_typetag == 'true' %}#[typetag::serde]{% endif %}
+impl {{ clz_super }} for {{ clz_name }} {}
+{% endif %}
+{% if not is_private and not clz_is_trait %}
+impl {{ clz_name }} {
+  pub fn builder() -> {{ clz_name }}Builder {
+    let instance = Self {
+      _cpp_name_: "{{origin_name}}".to_string(),
+      {% if fields %}{% for field in fields %}{{field.name}}: None,
+      {% endfor %}{% endif %}
+    };
+    {{ clz_name }}Builder::new(instance)
+  }
+
+  pub fn json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+{% endif %}
+
+{% if not is_private and not clz_is_trait %}
+#[derive(Debug)]
+pub struct {{ clz_name }}Builder {
+  instance: {{ clz_name }}
+}
+
+impl {{ clz_name }}Builder {
+  fn new(instance: {{ clz_name }}) -> Self { Self { instance } }
+
+  pub fn build(&self) -> {{ clz_name }} {
+    self.instance.clone()
+  }
+  {% if fields %}{% for field in fields %}
+  pub fn {{field.name}}(&mut self, {{field.name}}: {{field.type}}) -> &mut Self {
+    self.instance.{{field.name}} = Some({{field.name}});
+    self
+  }
+  {% endfor %}{% endif %}
+}
+{% endif %}

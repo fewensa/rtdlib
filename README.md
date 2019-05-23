@@ -1,0 +1,6 @@
+rtdlib
+===
+
+TDLib for rust
+
+
