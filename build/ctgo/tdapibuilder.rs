@@ -170,6 +170,7 @@ fn gen_rs<S: AsRef<str>>(czs: Vec<(String, String)>, write_to: S) {
     let mut context = Context::new();
     context.insert("origin_name", name);
     context.insert("clz_name", &bakit::uppercase_first_letter(name)[..]);
+    context.insert("is_private", &false);
 
     self::gen_trait2(&apipe, &mut context, name);
     self::gen_father2(&apipe, &mut context, name);
@@ -204,7 +205,7 @@ fn gen_fill(apipe: &Apipe, context: &mut Context) {
       set_trait_typetag = false;
     }
   }
-  context.insert("set_trait_typetag", &set_trait_typetag.to_string()[..]);
+  context.insert("set_trait_typetag", &set_trait_typetag);
 
   // impl trait typetag
   let mut impl_trait_typetag = true;
@@ -216,8 +217,29 @@ fn gen_fill(apipe: &Apipe, context: &mut Context) {
       impl_trait_typetag = false;
     }
   }
-  context.insert("impl_trait_typetag", &impl_trait_typetag.to_string()[..]);
+  context.insert("impl_trait_typetag", &impl_trait_typetag);
 
+  // has builder struct
+  let mut has_builder_struct = true;
+  if let Some(v) = result.get("is_private") {
+    if v.as_bool().map_or(false, |a| a) {
+      has_builder_struct = false;
+    }
+  }
+  if let Some(v) = result.get("clz_is_trait") {
+    if v.as_bool().map_or(false, |a| a) {
+      has_builder_struct = false;
+    }
+  }
+  if let Some(clz_super) = result.get("clz_super") {
+    let clz_super = &clz_super.as_str().unwrap().to_lowercase();
+    if clz_super == "update" ||
+      clz_super == "authorizationstate" {
+      has_builder_struct = false;
+    }
+  }
+
+  context.insert("has_builder_struct", &has_builder_struct);
 }
 
 fn gen_trait2(apipe: &Apipe, context: &mut Context, name: &String) {

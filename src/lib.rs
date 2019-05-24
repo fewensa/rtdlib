@@ -3,9 +3,12 @@ extern crate serde_derive;
 #[macro_use]
 extern crate typetag;
 
-pub use rtdjson::RTDLib;
+// not use now
+pub use client::Client;
 
-mod tdjson;
-mod rtdjson;
+// tmp pub
+pub mod tdjson;
+
+mod client;
 
 pub mod types;

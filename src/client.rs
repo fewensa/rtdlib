@@ -1,10 +1,10 @@
 use crate::tdjson;
 
-pub struct RTDLib {
+pub struct Client {
   tdlib: tdjson::Tdlib
 }
 
-impl RTDLib {
+impl Client {
   /// Sets the verbosity level of the internal logging of TDLib.
   ///
   /// By default the TDLib uses a log verbosity level of 5.
@@ -19,8 +19,8 @@ impl RTDLib {
   /// # Examples
   ///
   /// ```
-  /// use rtdlib::RTDLib;
-  /// RTdlib::set_log_verbosity_level(3);
+  /// use rtdlib::Client;
+  /// Client::set_log_verbosity_level(3);
   /// ```
   pub fn set_log_verbosity_level<'a>(level: i32) -> Result<(), &'a str> {
     tdjson::Tdlib::set_log_verbosity_level(level)
@@ -37,8 +37,8 @@ impl RTDLib {
   /// # Examples
   ///
   /// ```
-  /// use rtdlib::RTDLib;
-  /// RTDLib::set_log_max_file_size(1024 * 1024);
+  /// use rtdlib::Client;
+  /// Client::set_log_max_file_size(1024 * 1024);
   /// ```
   pub fn set_log_max_file_size(size: i64) {
     tdjson::Tdlib::set_log_max_file_size(size)
@@ -55,8 +55,8 @@ impl RTDLib {
   /// # Examples
   ///
   /// ```
-  /// use rtdlib::RTDLib;
-  /// RTDLib::set_log_file_path(Some("/var/log/tdlib/tdlib.log"));
+  /// use rtdlib::Client;
+  /// Client::set_log_file_path(Some("/var/log/tdlib/tdlib.log"));
   /// ```
   pub fn set_log_file_path(path: Option<&str>) -> bool {
     tdjson::Tdlib::set_log_file_path(path)
@@ -67,8 +67,8 @@ impl RTDLib {
   /// # Examples
   ///
   /// ```
-  /// use rtdlib::RTDLib;
-  /// let tdlib = RTDLib::new();
+  /// use rtdlib::Client;
+  /// let tdlib = Client::new();
   /// ```
   pub fn new() -> Self {
     Self {
@@ -84,8 +84,8 @@ impl RTDLib {
   /// # Examples
   ///
   /// ```
-  /// use rtdlib::RTDLib;
-  /// let tdlib = RTDLib::new();
+  /// use rtdlib::Client;
+  /// let tdlib = Client::new();
   /// let request = r#"{"@type": "getMe"}"#;
   /// tdlib.send(request);
   /// ```
@@ -100,20 +100,31 @@ impl RTDLib {
   /// # Examples
   ///
   /// ```
-  /// use rtdlib::RTDLib;
-  /// let tdlib = RTDLib::new();
+  /// use rtdlib::Client;
+  /// let tdlib = Client::new();
   /// let request = r#"{"@type": "getTextEntities", "text": "@telegram /test_command https://telegram.org telegram.me"}"#;
   /// tdlib.execute(request);
   /// ```
   pub fn execute(&self, request: &str) -> Option<String> {
     self.tdlib.execute(request)
   }
-}
 
-impl Drop for RTDLib {
-  fn drop(&mut self) {
-    self.tdlib.drop()
+  /// Receives incoming updates and request responses from the TDLib client.
+  ///
+  /// May be called from any thread, but shouldn't be called simultaneously
+  /// from two different threads.
+  ///
+  /// # Examples
+  ///
+  /// ```
+  /// use rtdlib::Client;
+  /// let client = Client::new();
+  /// client.receive(5.0);
+  /// ```
+  pub fn receive(&self, timeout: f64) -> Option<String> {
+    self.tdlib.receive(timeout)
   }
 }
+
 
 

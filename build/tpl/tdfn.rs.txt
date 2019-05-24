@@ -1,12 +1,12 @@
 {% if clz_description %}/// {{ clz_description }}{% endif %}
-{% if clz_is_trait %}{% if set_trait_typetag == 'true' %}#[typetag::serde(tag = "@struct")]{% endif %}{% else %}#[derive(Debug, {% if not has_trait_field %}Clone, {% endif %}Serialize, Deserialize)]{% endif %}
+{% if clz_is_trait %}{% if set_trait_typetag %}#[typetag::serde(tag = "@struct")]{% endif %}{% else %}#[derive(Debug, {% if not has_trait_field %}Clone, {% endif %}Serialize, Deserialize)]{% endif %}
 {% if not is_private %}pub {% endif %}{% if clz_is_trait %}trait{% else %}struct{% endif %} {{ clz_name }}{% if clz_is_trait %}: Debug {}{% else %} {
   #[doc(hidden)]
-  #[serde(alias = "@type")]
-  _cpp_name_: String,
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  tdfname: String, // {{origin_name}}
 {% if fields %}
 {% for field in fields %}  /// {{field.description}}
-  {% if field.name == 'type_' %}#[serde(alias = "type")] {% endif %}{{field.name}}: Option<{{field.type}}>,
+  {% if field.name == 'type_' %}#[serde(rename(serialize = "type", deserialize = "type"))] {% endif %}{{field.name}}: Option<{{field.type}}>,
 {% endfor %}
 {% endif %}
 }
@@ -20,25 +20,32 @@ impl Clone for {{ clz_name }} {
 }
 {% endif %}
 {% if clz_super %}
-{% if impl_trait_typetag == 'true' %}#[typetag::serde]{% endif %}
+{% if impl_trait_typetag %}#[typetag::serde]{% endif %}
 impl {{ clz_super }} for {{ clz_name }} {}
 {% endif %}
 {% if not is_private and not clz_is_trait %}
 impl {{ clz_name }} {
+  {% if has_builder_struct %}
   pub fn builder() -> {{ clz_name }}Builder {
     let instance = Self {
-      _cpp_name_: "{{origin_name}}".to_string(),
+      tdfname: "{{origin_name}}".to_string(),
       {% if fields %}{% for field in fields %}{{field.name}}: None,
       {% endfor %}{% endif %}
     };
     {{ clz_name }}Builder::new(instance)
   }
+  {% endif %}
+  {% if fields %}{% for field in fields %}
+  pub fn {{field.name}}(&self) -> &Option<{{field.type}}> { &self.{{field.name}} }
+  {% endfor %}{% endif %}
+  #[doc(hidden)]
+  pub fn tdfname(&self) -> String { self.tdfname.clone() }
 
-  pub fn json(&self) -> String { serde_json::to_string(self).unwrap() }
+  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
 {% endif %}
 
-{% if not is_private and not clz_is_trait %}
+{% if has_builder_struct %}
 #[derive(Debug)]
 pub struct {{ clz_name }}Builder {
   instance: {{ clz_name }}

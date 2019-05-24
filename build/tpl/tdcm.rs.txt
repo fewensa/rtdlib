@@ -2,5 +2,4 @@
 use std::fmt::Debug;
 
 /// This class is a base class for all TDLib TL-objects.
-// #[typetag::serde(tag = "@struct")]
 trait TlObject: Debug {}
