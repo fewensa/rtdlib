@@ -56,7 +56,7 @@ steps:
         path: /root/.cargo
     commands:
       - apt update -y
-      - apt install -y openssl
+      - apt install -y libssl-dev pkg-config
 #      - cargo test
       - sh -f /root/.cargo/credentials
       - cargo publish
@@ -82,7 +82,7 @@ steps:
     image: rust:1.33-slim
     commands:
       - apt update -y
-      - apt install -y openssl
+      - apt install -y libssl-dev pkg-config
 #      - cargo test
       - cargo package
 
