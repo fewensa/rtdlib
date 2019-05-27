@@ -1,10 +1,6 @@
 {% if clz_description %}/// {{ clz_description }}{% endif %}
 {% if clz_is_trait %}{% if set_trait_typetag %}#[typetag::serde(tag = "@struct")]{% endif %}{% else %}#[derive(Debug, {% if not has_trait_field %}Clone, {% endif %}Serialize, Deserialize)]{% endif %}
-{% if not is_private %}pub {% endif %}{% if clz_is_trait %}trait{% else %}struct{% endif %} {{ clz_name }}{% if clz_is_trait %}: {% if clz_name != 'Object' %}Object + {% endif %}Debug {% if clz_name == 'Object' %}{
- #[doc(hidden)] fn tdfname(&self) -> String;
- fn tdtype(&self) -> TDType; /// convert TDLib type to rust enum TDType
- fn to_json(&self) -> String;
-}{% else %}{}{% endif %}{% else %} {
+{% if not is_private %}pub {% endif %}{% if clz_is_trait %}trait{% else %}struct{% endif %} {{ clz_name }}{% if clz_is_trait %}: {% if clz_name != 'Object' %}Object + {% endif %}Debug {}{% else %} {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   tdfname: String, // {{origin_name}}
@@ -22,9 +18,10 @@ impl Clone for {{ clz_name }} {
 }
 {% endif %}
 {% if not clz_is_trait %}
-impl Object for {{ clz_name }} {
-  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
-  fn tdtype(&self) -> TDType { TDType::from_str(&upper_first(&self.tdfname)[..]).unwrap() }
+impl Object for {{ clz_name }} {}
+impl RObject for {{ clz_name }} {
+  #[doc(hidden)] fn tdfname(&self) -> &'static str { "{{ origin_name }}" }
+  fn tdtype(&self) -> TDType { TDType::{{ clz_name }} }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
 {% endif %}

@@ -1,13 +1,10 @@
 
 use std::fmt::Debug;
-use std::str::FromStr;
 
-fn upper_first<S: AsRef<str>>(s: S) -> String {
-  let mut c = s.as_ref().chars();
-  match c.next() {
-    None => String::new(),
-    Some(f) => f.to_uppercase().collect::<String>() + c.as_str(),
-  }
+pub trait RObject {
+ #[doc(hidden)] fn tdfname(&self) -> &'static str;
+ fn tdtype(&self) -> TDType; // convert TDLib type to rust enum TDType
+ fn to_json(&self) -> String;
 }
 
 /// This class is a base class for all TDLib TL-objects.
@@ -15,7 +12,7 @@ fn upper_first<S: AsRef<str>>(s: S) -> String {
 trait TlObject: Debug {}
 
 /// TDLib all class name mappers
-#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
 pub enum TDType {
   {% for name in clz_names %}{{ name }},
   {% endfor %}
