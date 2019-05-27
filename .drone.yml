@@ -55,7 +55,7 @@ steps:
       - name: cargo
         path: /root/.cargo
     commands:
-      - cargo test
+#      - cargo test
       - sh -f /root/.cargo/credentials
       - cargo publish
 
@@ -79,7 +79,7 @@ steps:
   - name: build
     image: rust:1.33-slim
     commands:
-      - cargo test
+#      - cargo test
       - cargo package
 
 trigger:
