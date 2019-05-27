@@ -1,0 +1,9 @@
+
+
+https://core.telegram.org/tdlib/docs/td__api_8h.html
+
+
+https://core.telegram.org/tdlib/docs/td__api_8h_source.html
+
+
+https://core.telegram.org/tdlib/docs/annotated.html

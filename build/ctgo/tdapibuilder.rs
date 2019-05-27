@@ -169,7 +169,7 @@ fn gen_rs<S: AsRef<str>>(czs: Vec<(String, String)>, write_to: S) {
   apipe.names().iter().for_each(|name| {
     let mut context = Context::new();
     context.insert("origin_name", name);
-    context.insert("clz_name", &bakit::uppercase_first_letter(name)[..]);
+    context.insert("clz_name", &toolkit::text::uppercase_first_char(name)[..]);
     context.insert("is_private", &false);
 
     self::gen_trait2(&apipe, &mut context, name);
@@ -251,7 +251,7 @@ fn gen_trait2(apipe: &Apipe, context: &mut Context, name: &String) {
 
 fn gen_father2(apipe: &Apipe, context: &mut Context, name: &String) {
   apipe.father_class(name).map(|father| {
-    let text = bakit::uppercase_first_letter(father);
+    let text = toolkit::text::uppercase_first_char(father);
     context.insert("clz_super", &text[..]);
   });
 }

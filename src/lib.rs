@@ -4,7 +4,7 @@ extern crate serde_derive;
 extern crate typetag;
 
 // not use now
-pub use client::Client;
+pub use self::client::Client;
 
 // tmp pub
 pub mod tdjson;
