@@ -6,7 +6,11 @@ trait TlObject: Debug {}
 
 /// This class is a base class for all TDLib API classes. 
 
-pub trait Object: Debug {}
+pub trait Object: Debug {
+ #[doc(hidden)] fn tdfname(&self) -> String;
+ fn to_json(&self) -> String;
+}
+
 
 
 
@@ -15,15 +19,14 @@ impl TlObject for Object {}
 
 
 
-
 /// This class is a base class for all TDLib API functions. 
 
-pub trait Function: Debug {}
+pub trait Function: Object + Debug {}
+
 
 
 
 impl TlObject for Function {}
-
 
 
 
@@ -43,8 +46,11 @@ pub struct AccountTtl {
 
 
 
+impl Object for AccountTtl {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for AccountTtl {}
 
 
 impl AccountTtl {
@@ -61,12 +67,7 @@ impl AccountTtl {
   
   pub fn days(&self) -> &Option<i32> { &self.days }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -114,8 +115,11 @@ pub struct Address {
 
 
 
+impl Object for Address {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Address {}
 
 
 impl Address {
@@ -147,12 +151,7 @@ impl Address {
   
   pub fn postal_code(&self) -> &Option<String> { &self.postal_code }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -227,8 +226,11 @@ pub struct Animation {
 
 
 
+impl Object for Animation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Animation {}
 
 
 impl Animation {
@@ -263,12 +265,7 @@ impl Animation {
   
   pub fn animation(&self) -> &Option<File> { &self.animation }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -336,8 +333,11 @@ pub struct Animations {
 
 
 
+impl Object for Animations {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Animations {}
 
 
 impl Animations {
@@ -354,12 +354,7 @@ impl Animations {
   
   pub fn animations(&self) -> &Option<Vec<Animation>> { &self.animations }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -409,8 +404,11 @@ pub struct Audio {
 
 
 
+impl Object for Audio {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Audio {}
 
 
 impl Audio {
@@ -445,12 +443,7 @@ impl Audio {
   
   pub fn audio(&self) -> &Option<File> { &self.audio }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -531,8 +524,11 @@ impl Clone for AuthenticationCodeInfo {
 }
 
 
+impl Object for AuthenticationCodeInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for AuthenticationCodeInfo {}
 
 
 impl AuthenticationCodeInfo {
@@ -558,12 +554,7 @@ impl AuthenticationCodeInfo {
   
   pub fn timeout(&self) -> &Option<i32> { &self.timeout }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -603,11 +594,8 @@ impl AuthenticationCodeInfoBuilder {
 
 /// This class is an abstract base class. Provides information about the method by which an authentication code is delivered to the user. 
 #[typetag::serde(tag = "@struct")]
-pub trait AuthenticationCodeType: Debug {}
+pub trait AuthenticationCodeType: Object + Debug {}
 
-
-
-impl Object for AuthenticationCodeType {}
 
 
 
@@ -628,6 +616,12 @@ pub struct AuthenticationCodeTypeTelegramMessage {
 
 
 
+impl Object for AuthenticationCodeTypeTelegramMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl AuthenticationCodeType for AuthenticationCodeTypeTelegramMessage {}
 
@@ -646,12 +640,7 @@ impl AuthenticationCodeTypeTelegramMessage {
   
   pub fn length(&self) -> &Option<i32> { &self.length }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -689,6 +678,12 @@ pub struct AuthenticationCodeTypeSms {
 
 
 
+impl Object for AuthenticationCodeTypeSms {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl AuthenticationCodeType for AuthenticationCodeTypeSms {}
 
@@ -707,12 +702,7 @@ impl AuthenticationCodeTypeSms {
   
   pub fn length(&self) -> &Option<i32> { &self.length }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -750,6 +740,12 @@ pub struct AuthenticationCodeTypeCall {
 
 
 
+impl Object for AuthenticationCodeTypeCall {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl AuthenticationCodeType for AuthenticationCodeTypeCall {}
 
@@ -768,12 +764,7 @@ impl AuthenticationCodeTypeCall {
   
   pub fn length(&self) -> &Option<i32> { &self.length }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -811,6 +802,12 @@ pub struct AuthenticationCodeTypeFlashCall {
 
 
 
+impl Object for AuthenticationCodeTypeFlashCall {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl AuthenticationCodeType for AuthenticationCodeTypeFlashCall {}
 
@@ -829,12 +826,7 @@ impl AuthenticationCodeTypeFlashCall {
   
   pub fn pattern(&self) -> &Option<String> { &self.pattern }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -859,11 +851,8 @@ impl AuthenticationCodeTypeFlashCallBuilder {
 
 /// This class is an abstract base class. Represents the current authorization state of the client. 
 #[typetag::serde(tag = "@struct")]
-pub trait AuthorizationState: Debug {}
+pub trait AuthorizationState: Object + Debug {}
 
-
-
-impl Object for AuthorizationState {}
 
 
 
@@ -880,6 +869,12 @@ pub struct AuthorizationStateWaitTdlibParameters {
 
 
 
+impl Object for AuthorizationStateWaitTdlibParameters {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl AuthorizationState for AuthorizationStateWaitTdlibParameters {}
 
@@ -887,12 +882,7 @@ impl AuthorizationState for AuthorizationStateWaitTdlibParameters {}
 impl AuthorizationStateWaitTdlibParameters {
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -911,6 +901,12 @@ pub struct AuthorizationStateWaitEncryptionKey {
 
 
 
+impl Object for AuthorizationStateWaitEncryptionKey {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl AuthorizationState for AuthorizationStateWaitEncryptionKey {}
 
@@ -920,12 +916,7 @@ impl AuthorizationStateWaitEncryptionKey {
   
   pub fn is_encrypted(&self) -> &Option<bool> { &self.is_encrypted }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -940,6 +931,12 @@ pub struct AuthorizationStateWaitPhoneNumber {
 
 
 
+impl Object for AuthorizationStateWaitPhoneNumber {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl AuthorizationState for AuthorizationStateWaitPhoneNumber {}
 
@@ -947,12 +944,7 @@ impl AuthorizationState for AuthorizationStateWaitPhoneNumber {}
 impl AuthorizationStateWaitPhoneNumber {
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -975,6 +967,12 @@ pub struct AuthorizationStateWaitCode {
 
 
 
+impl Object for AuthorizationStateWaitCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl AuthorizationState for AuthorizationStateWaitCode {}
 
@@ -988,12 +986,7 @@ impl AuthorizationStateWaitCode {
   
   pub fn code_info(&self) -> &Option<AuthenticationCodeInfo> { &self.code_info }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -1016,6 +1009,12 @@ pub struct AuthorizationStateWaitPassword {
 
 
 
+impl Object for AuthorizationStateWaitPassword {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl AuthorizationState for AuthorizationStateWaitPassword {}
 
@@ -1029,12 +1028,7 @@ impl AuthorizationStateWaitPassword {
   
   pub fn recovery_email_address_pattern(&self) -> &Option<String> { &self.recovery_email_address_pattern }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -1049,6 +1043,12 @@ pub struct AuthorizationStateReady {
 
 
 
+impl Object for AuthorizationStateReady {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl AuthorizationState for AuthorizationStateReady {}
 
@@ -1056,12 +1056,7 @@ impl AuthorizationState for AuthorizationStateReady {}
 impl AuthorizationStateReady {
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -1076,6 +1071,12 @@ pub struct AuthorizationStateLoggingOut {
 
 
 
+impl Object for AuthorizationStateLoggingOut {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl AuthorizationState for AuthorizationStateLoggingOut {}
 
@@ -1083,12 +1084,7 @@ impl AuthorizationState for AuthorizationStateLoggingOut {}
 impl AuthorizationStateLoggingOut {
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -1103,6 +1099,12 @@ pub struct AuthorizationStateClosing {
 
 
 
+impl Object for AuthorizationStateClosing {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl AuthorizationState for AuthorizationStateClosing {}
 
@@ -1110,12 +1112,7 @@ impl AuthorizationState for AuthorizationStateClosing {}
 impl AuthorizationStateClosing {
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -1130,6 +1127,12 @@ pub struct AuthorizationStateClosed {
 
 
 
+impl Object for AuthorizationStateClosed {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl AuthorizationState for AuthorizationStateClosed {}
 
@@ -1137,12 +1140,7 @@ impl AuthorizationState for AuthorizationStateClosed {}
 impl AuthorizationStateClosed {
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -1178,8 +1176,11 @@ impl Clone for BasicGroup {
 }
 
 
+impl Object for BasicGroup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for BasicGroup {}
 
 
 impl BasicGroup {
@@ -1211,12 +1212,7 @@ impl BasicGroup {
   
   pub fn upgraded_to_supergroup_id(&self) -> &Option<i32> { &self.upgraded_to_supergroup_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -1283,8 +1279,11 @@ pub struct BasicGroupFullInfo {
 
 
 
+impl Object for BasicGroupFullInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for BasicGroupFullInfo {}
 
 
 impl BasicGroupFullInfo {
@@ -1307,12 +1306,7 @@ impl BasicGroupFullInfo {
   
   pub fn invite_link(&self) -> &Option<String> { &self.invite_link }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -1362,8 +1356,11 @@ pub struct BotCommand {
 
 
 
+impl Object for BotCommand {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for BotCommand {}
 
 
 impl BotCommand {
@@ -1383,12 +1380,7 @@ impl BotCommand {
   
   pub fn description(&self) -> &Option<String> { &self.description }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -1433,8 +1425,11 @@ pub struct BotInfo {
 
 
 
+impl Object for BotInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for BotInfo {}
 
 
 impl BotInfo {
@@ -1454,12 +1449,7 @@ impl BotInfo {
   
   pub fn commands(&self) -> &Option<Vec<BotCommand>> { &self.commands }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -1515,8 +1505,11 @@ impl Clone for Call {
 }
 
 
+impl Object for Call {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Call {}
 
 
 impl Call {
@@ -1542,12 +1535,7 @@ impl Call {
   
   pub fn state(&self) -> &Option<Box<CallState>> { &self.state }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -1608,8 +1596,11 @@ pub struct CallConnection {
 
 
 
+impl Object for CallConnection {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for CallConnection {}
 
 
 impl CallConnection {
@@ -1638,12 +1629,7 @@ impl CallConnection {
   
   pub fn peer_tag(&self) -> &Option<String> { &self.peer_tag }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -1688,11 +1674,8 @@ impl CallConnectionBuilder {
 
 /// This class is an abstract base class. Describes the reason why a call was discarded. 
 #[typetag::serde(tag = "@struct")]
-pub trait CallDiscardReason: Debug {}
+pub trait CallDiscardReason: Object + Debug {}
 
-
-
-impl Object for CallDiscardReason {}
 
 
 
@@ -1707,6 +1690,12 @@ pub struct CallDiscardReasonEmpty {
 
 }
 
+
+
+impl Object for CallDiscardReasonEmpty {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -1724,12 +1713,7 @@ impl CallDiscardReasonEmpty {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -1758,6 +1742,12 @@ pub struct CallDiscardReasonMissed {
 
 
 
+impl Object for CallDiscardReasonMissed {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl CallDiscardReason for CallDiscardReasonMissed {}
 
@@ -1773,12 +1763,7 @@ impl CallDiscardReasonMissed {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -1807,6 +1792,12 @@ pub struct CallDiscardReasonDeclined {
 
 
 
+impl Object for CallDiscardReasonDeclined {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl CallDiscardReason for CallDiscardReasonDeclined {}
 
@@ -1822,12 +1813,7 @@ impl CallDiscardReasonDeclined {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -1856,6 +1842,12 @@ pub struct CallDiscardReasonDisconnected {
 
 
 
+impl Object for CallDiscardReasonDisconnected {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl CallDiscardReason for CallDiscardReasonDisconnected {}
 
@@ -1871,12 +1863,7 @@ impl CallDiscardReasonDisconnected {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -1905,6 +1892,12 @@ pub struct CallDiscardReasonHungUp {
 
 
 
+impl Object for CallDiscardReasonHungUp {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl CallDiscardReason for CallDiscardReasonHungUp {}
 
@@ -1920,12 +1913,7 @@ impl CallDiscardReasonHungUp {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -1958,8 +1946,11 @@ pub struct CallId {
 
 
 
+impl Object for CallId {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for CallId {}
 
 
 impl CallId {
@@ -1976,12 +1967,7 @@ impl CallId {
   
   pub fn id(&self) -> &Option<i32> { &self.id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -2025,8 +2011,11 @@ pub struct CallProtocol {
 
 
 
+impl Object for CallProtocol {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for CallProtocol {}
 
 
 impl CallProtocol {
@@ -2052,12 +2041,7 @@ impl CallProtocol {
   
   pub fn max_layer(&self) -> &Option<i32> { &self.max_layer }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -2097,11 +2081,8 @@ impl CallProtocolBuilder {
 
 /// This class is an abstract base class. Describes the current call state. 
 #[typetag::serde(tag = "@struct")]
-pub trait CallState: Debug {}
+pub trait CallState: Object + Debug {}
 
-
-
-impl Object for CallState {}
 
 
 
@@ -2122,6 +2103,12 @@ pub struct CallStatePending {
 
 }
 
+
+
+impl Object for CallStatePending {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -2145,12 +2132,7 @@ impl CallStatePending {
   
   pub fn is_received(&self) -> &Option<bool> { &self.is_received }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -2189,6 +2171,12 @@ pub struct CallStateExchangingKeys {
 
 
 
+impl Object for CallStateExchangingKeys {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl CallState for CallStateExchangingKeys {}
 
@@ -2204,12 +2192,7 @@ impl CallStateExchangingKeys {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -2252,6 +2235,12 @@ pub struct CallStateReady {
 
 
 
+impl Object for CallStateReady {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl CallState for CallStateReady {}
 
@@ -2285,12 +2274,7 @@ impl CallStateReady {
   
   pub fn allow_p2p(&self) -> &Option<bool> { &self.allow_p2p }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -2349,6 +2333,12 @@ pub struct CallStateHangingUp {
 
 
 
+impl Object for CallStateHangingUp {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl CallState for CallStateHangingUp {}
 
@@ -2364,12 +2354,7 @@ impl CallStateHangingUp {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -2413,6 +2398,12 @@ impl Clone for CallStateDiscarded {
 }
 
 
+impl Object for CallStateDiscarded {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl CallState for CallStateDiscarded {}
 
@@ -2437,12 +2428,7 @@ impl CallStateDiscarded {
   
   pub fn need_debug_information(&self) -> &Option<bool> { &self.need_debug_information }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -2490,6 +2476,12 @@ pub struct CallStateError {
 
 
 
+impl Object for CallStateError {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl CallState for CallStateError {}
 
@@ -2508,12 +2500,7 @@ impl CallStateError {
   
   pub fn error(&self) -> &Option<Error> { &self.error }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -2555,8 +2542,11 @@ pub struct CallbackQueryAnswer {
 
 
 
+impl Object for CallbackQueryAnswer {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for CallbackQueryAnswer {}
 
 
 impl CallbackQueryAnswer {
@@ -2579,12 +2569,7 @@ impl CallbackQueryAnswer {
   
   pub fn url(&self) -> &Option<String> { &self.url }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -2619,11 +2604,8 @@ impl CallbackQueryAnswerBuilder {
 
 /// This class is an abstract base class. Represents a payload of a callback query. 
 #[typetag::serde(tag = "@struct")]
-pub trait CallbackQueryPayload: Debug {}
+pub trait CallbackQueryPayload: Object + Debug {}
 
-
-
-impl Object for CallbackQueryPayload {}
 
 
 
@@ -2644,6 +2626,12 @@ pub struct CallbackQueryPayloadData {
 
 
 
+impl Object for CallbackQueryPayloadData {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl CallbackQueryPayload for CallbackQueryPayloadData {}
 
@@ -2662,12 +2650,7 @@ impl CallbackQueryPayloadData {
   
   pub fn data(&self) -> &Option<String> { &self.data }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -2705,6 +2688,12 @@ pub struct CallbackQueryPayloadGame {
 
 
 
+impl Object for CallbackQueryPayloadGame {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl CallbackQueryPayload for CallbackQueryPayloadGame {}
 
@@ -2723,12 +2712,7 @@ impl CallbackQueryPayloadGame {
   
   pub fn game_short_name(&self) -> &Option<String> { &self.game_short_name }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -2815,8 +2799,11 @@ impl Clone for Chat {
 }
 
 
+impl Object for Chat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Chat {}
 
 
 impl Chat {
@@ -2896,12 +2883,7 @@ impl Chat {
   
   pub fn client_data(&self) -> &Option<String> { &self.client_data }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3031,11 +3013,8 @@ impl ChatBuilder {
 
 /// This class is an abstract base class. Describes the different types of activity in a chat. 
 #[typetag::serde(tag = "@struct")]
-pub trait ChatAction: Debug {}
+pub trait ChatAction: Object + Debug {}
 
-
-
-impl Object for ChatAction {}
 
 
 
@@ -3050,6 +3029,12 @@ pub struct ChatActionTyping {
 
 }
 
+
+
+impl Object for ChatActionTyping {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -3067,12 +3052,7 @@ impl ChatActionTyping {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3101,6 +3081,12 @@ pub struct ChatActionRecordingVideo {
 
 
 
+impl Object for ChatActionRecordingVideo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatAction for ChatActionRecordingVideo {}
 
@@ -3116,12 +3102,7 @@ impl ChatActionRecordingVideo {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3154,6 +3135,12 @@ pub struct ChatActionUploadingVideo {
 
 
 
+impl Object for ChatActionUploadingVideo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatAction for ChatActionUploadingVideo {}
 
@@ -3172,12 +3159,7 @@ impl ChatActionUploadingVideo {
   
   pub fn progress(&self) -> &Option<i32> { &self.progress }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3211,6 +3193,12 @@ pub struct ChatActionRecordingVoiceNote {
 
 
 
+impl Object for ChatActionRecordingVoiceNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatAction for ChatActionRecordingVoiceNote {}
 
@@ -3226,12 +3214,7 @@ impl ChatActionRecordingVoiceNote {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3264,6 +3247,12 @@ pub struct ChatActionUploadingVoiceNote {
 
 
 
+impl Object for ChatActionUploadingVoiceNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatAction for ChatActionUploadingVoiceNote {}
 
@@ -3282,12 +3271,7 @@ impl ChatActionUploadingVoiceNote {
   
   pub fn progress(&self) -> &Option<i32> { &self.progress }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3325,6 +3309,12 @@ pub struct ChatActionUploadingPhoto {
 
 
 
+impl Object for ChatActionUploadingPhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatAction for ChatActionUploadingPhoto {}
 
@@ -3343,12 +3333,7 @@ impl ChatActionUploadingPhoto {
   
   pub fn progress(&self) -> &Option<i32> { &self.progress }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3386,6 +3371,12 @@ pub struct ChatActionUploadingDocument {
 
 
 
+impl Object for ChatActionUploadingDocument {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatAction for ChatActionUploadingDocument {}
 
@@ -3404,12 +3395,7 @@ impl ChatActionUploadingDocument {
   
   pub fn progress(&self) -> &Option<i32> { &self.progress }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3443,6 +3429,12 @@ pub struct ChatActionChoosingLocation {
 
 
 
+impl Object for ChatActionChoosingLocation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatAction for ChatActionChoosingLocation {}
 
@@ -3458,12 +3450,7 @@ impl ChatActionChoosingLocation {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3492,6 +3479,12 @@ pub struct ChatActionChoosingContact {
 
 
 
+impl Object for ChatActionChoosingContact {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatAction for ChatActionChoosingContact {}
 
@@ -3507,12 +3500,7 @@ impl ChatActionChoosingContact {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3541,6 +3529,12 @@ pub struct ChatActionStartPlayingGame {
 
 
 
+impl Object for ChatActionStartPlayingGame {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatAction for ChatActionStartPlayingGame {}
 
@@ -3556,12 +3550,7 @@ impl ChatActionStartPlayingGame {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3590,6 +3579,12 @@ pub struct ChatActionRecordingVideoNote {
 
 
 
+impl Object for ChatActionRecordingVideoNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatAction for ChatActionRecordingVideoNote {}
 
@@ -3605,12 +3600,7 @@ impl ChatActionRecordingVideoNote {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3643,6 +3633,12 @@ pub struct ChatActionUploadingVideoNote {
 
 
 
+impl Object for ChatActionUploadingVideoNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatAction for ChatActionUploadingVideoNote {}
 
@@ -3661,12 +3657,7 @@ impl ChatActionUploadingVideoNote {
   
   pub fn progress(&self) -> &Option<i32> { &self.progress }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3700,6 +3691,12 @@ pub struct ChatActionCancel {
 
 
 
+impl Object for ChatActionCancel {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatAction for ChatActionCancel {}
 
@@ -3715,12 +3712,7 @@ impl ChatActionCancel {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3766,8 +3758,11 @@ impl Clone for ChatEvent {
 }
 
 
+impl Object for ChatEvent {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ChatEvent {}
 
 
 impl ChatEvent {
@@ -3793,12 +3788,7 @@ impl ChatEvent {
   
   pub fn action(&self) -> &Option<Box<ChatEventAction>> { &self.action }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3838,11 +3828,8 @@ impl ChatEventBuilder {
 
 /// This class is an abstract base class. Represents a chat event. 
 #[typetag::serde(tag = "@struct")]
-pub trait ChatEventAction: Debug {}
+pub trait ChatEventAction: Object + Debug {}
 
-
-
-impl Object for ChatEventAction {}
 
 
 
@@ -3863,6 +3850,12 @@ pub struct ChatEventMessageEdited {
 
 }
 
+
+
+impl Object for ChatEventMessageEdited {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -3886,12 +3879,7 @@ impl ChatEventMessageEdited {
   
   pub fn new_message(&self) -> &Option<Message> { &self.new_message }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3934,6 +3922,12 @@ pub struct ChatEventMessageDeleted {
 
 
 
+impl Object for ChatEventMessageDeleted {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventMessageDeleted {}
 
@@ -3952,12 +3946,7 @@ impl ChatEventMessageDeleted {
   
   pub fn message(&self) -> &Option<Message> { &self.message }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -3995,6 +3984,12 @@ pub struct ChatEventMessagePinned {
 
 
 
+impl Object for ChatEventMessagePinned {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventMessagePinned {}
 
@@ -4013,12 +4008,7 @@ impl ChatEventMessagePinned {
   
   pub fn message(&self) -> &Option<Message> { &self.message }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -4052,6 +4042,12 @@ pub struct ChatEventMessageUnpinned {
 
 
 
+impl Object for ChatEventMessageUnpinned {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventMessageUnpinned {}
 
@@ -4067,12 +4063,7 @@ impl ChatEventMessageUnpinned {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -4101,6 +4092,12 @@ pub struct ChatEventMemberJoined {
 
 
 
+impl Object for ChatEventMemberJoined {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventMemberJoined {}
 
@@ -4116,12 +4113,7 @@ impl ChatEventMemberJoined {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -4150,6 +4142,12 @@ pub struct ChatEventMemberLeft {
 
 
 
+impl Object for ChatEventMemberLeft {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventMemberLeft {}
 
@@ -4165,12 +4163,7 @@ impl ChatEventMemberLeft {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -4212,6 +4205,12 @@ impl Clone for ChatEventMemberInvited {
 }
 
 
+impl Object for ChatEventMemberInvited {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventMemberInvited {}
 
@@ -4233,12 +4232,7 @@ impl ChatEventMemberInvited {
   
   pub fn status(&self) -> &Option<Box<ChatMemberStatus>> { &self.status }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -4292,6 +4286,12 @@ impl Clone for ChatEventMemberPromoted {
 }
 
 
+impl Object for ChatEventMemberPromoted {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventMemberPromoted {}
 
@@ -4316,12 +4316,7 @@ impl ChatEventMemberPromoted {
   
   pub fn new_status(&self) -> &Option<Box<ChatMemberStatus>> { &self.new_status }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -4380,6 +4375,12 @@ impl Clone for ChatEventMemberRestricted {
 }
 
 
+impl Object for ChatEventMemberRestricted {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventMemberRestricted {}
 
@@ -4404,12 +4405,7 @@ impl ChatEventMemberRestricted {
   
   pub fn new_status(&self) -> &Option<Box<ChatMemberStatus>> { &self.new_status }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -4459,6 +4455,12 @@ pub struct ChatEventTitleChanged {
 
 
 
+impl Object for ChatEventTitleChanged {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventTitleChanged {}
 
@@ -4480,12 +4482,7 @@ impl ChatEventTitleChanged {
   
   pub fn new_title(&self) -> &Option<String> { &self.new_title }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -4530,6 +4527,12 @@ pub struct ChatEventDescriptionChanged {
 
 
 
+impl Object for ChatEventDescriptionChanged {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventDescriptionChanged {}
 
@@ -4551,12 +4554,7 @@ impl ChatEventDescriptionChanged {
   
   pub fn new_description(&self) -> &Option<String> { &self.new_description }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -4601,6 +4599,12 @@ pub struct ChatEventUsernameChanged {
 
 
 
+impl Object for ChatEventUsernameChanged {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventUsernameChanged {}
 
@@ -4622,12 +4626,7 @@ impl ChatEventUsernameChanged {
   
   pub fn new_username(&self) -> &Option<String> { &self.new_username }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -4672,6 +4671,12 @@ pub struct ChatEventPhotoChanged {
 
 
 
+impl Object for ChatEventPhotoChanged {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventPhotoChanged {}
 
@@ -4693,12 +4698,7 @@ impl ChatEventPhotoChanged {
   
   pub fn new_photo(&self) -> &Option<ChatPhoto> { &self.new_photo }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -4741,6 +4741,12 @@ pub struct ChatEventInvitesToggled {
 
 
 
+impl Object for ChatEventInvitesToggled {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventInvitesToggled {}
 
@@ -4759,12 +4765,7 @@ impl ChatEventInvitesToggled {
   
   pub fn anyone_can_invite(&self) -> &Option<bool> { &self.anyone_can_invite }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -4802,6 +4803,12 @@ pub struct ChatEventSignMessagesToggled {
 
 
 
+impl Object for ChatEventSignMessagesToggled {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventSignMessagesToggled {}
 
@@ -4820,12 +4827,7 @@ impl ChatEventSignMessagesToggled {
   
   pub fn sign_messages(&self) -> &Option<bool> { &self.sign_messages }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -4865,6 +4867,12 @@ pub struct ChatEventStickerSetChanged {
 
 
 
+impl Object for ChatEventStickerSetChanged {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventStickerSetChanged {}
 
@@ -4886,12 +4894,7 @@ impl ChatEventStickerSetChanged {
   
   pub fn new_sticker_set_id(&self) -> &Option<i64> { &self.new_sticker_set_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -4934,6 +4937,12 @@ pub struct ChatEventIsAllHistoryAvailableToggled {
 
 
 
+impl Object for ChatEventIsAllHistoryAvailableToggled {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatEventAction for ChatEventIsAllHistoryAvailableToggled {}
 
@@ -4952,12 +4961,7 @@ impl ChatEventIsAllHistoryAvailableToggled {
   
   pub fn is_all_history_available(&self) -> &Option<bool> { &self.is_all_history_available }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -5013,8 +5017,11 @@ pub struct ChatEventLogFilters {
 
 
 
+impl Object for ChatEventLogFilters {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ChatEventLogFilters {}
 
 
 impl ChatEventLogFilters {
@@ -5058,12 +5065,7 @@ impl ChatEventLogFilters {
   
   pub fn setting_changes(&self) -> &Option<bool> { &self.setting_changes }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -5146,8 +5148,11 @@ pub struct ChatEvents {
 
 
 
+impl Object for ChatEvents {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ChatEvents {}
 
 
 impl ChatEvents {
@@ -5164,12 +5169,7 @@ impl ChatEvents {
   
   pub fn events(&self) -> &Option<Vec<ChatEvent>> { &self.events }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -5207,8 +5207,11 @@ pub struct ChatInviteLink {
 
 
 
+impl Object for ChatInviteLink {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ChatInviteLink {}
 
 
 impl ChatInviteLink {
@@ -5225,12 +5228,7 @@ impl ChatInviteLink {
   
   pub fn invite_link(&self) -> &Option<String> { &self.invite_link }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -5287,8 +5285,11 @@ impl Clone for ChatInviteLinkInfo {
 }
 
 
+impl Object for ChatInviteLinkInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ChatInviteLinkInfo {}
 
 
 impl ChatInviteLinkInfo {
@@ -5323,12 +5324,7 @@ impl ChatInviteLinkInfo {
   
   pub fn is_public(&self) -> &Option<bool> { &self.is_public }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -5411,8 +5407,11 @@ impl Clone for ChatMember {
 }
 
 
+impl Object for ChatMember {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ChatMember {}
 
 
 impl ChatMember {
@@ -5441,12 +5440,7 @@ impl ChatMember {
   
   pub fn bot_info(&self) -> &Option<BotInfo> { &self.bot_info }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -5491,11 +5485,8 @@ impl ChatMemberBuilder {
 
 /// This class is an abstract base class. Provides information about the status of a member in a chat. 
 #[typetag::serde(tag = "@struct")]
-pub trait ChatMemberStatus: Debug {}
+pub trait ChatMemberStatus: Object + Debug {}
 
-
-
-impl Object for ChatMemberStatus {}
 
 
 
@@ -5516,6 +5507,12 @@ pub struct ChatMemberStatusCreator {
 
 
 
+impl Object for ChatMemberStatusCreator {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatMemberStatus for ChatMemberStatusCreator {}
 
@@ -5534,12 +5531,7 @@ impl ChatMemberStatusCreator {
   
   pub fn is_member(&self) -> &Option<bool> { &self.is_member }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -5593,6 +5585,12 @@ pub struct ChatMemberStatusAdministrator {
 
 
 
+impl Object for ChatMemberStatusAdministrator {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatMemberStatus for ChatMemberStatusAdministrator {}
 
@@ -5635,12 +5633,7 @@ impl ChatMemberStatusAdministrator {
   
   pub fn can_promote_members(&self) -> &Option<bool> { &self.can_promote_members }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -5714,6 +5707,12 @@ pub struct ChatMemberStatusMember {
 
 
 
+impl Object for ChatMemberStatusMember {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatMemberStatus for ChatMemberStatusMember {}
 
@@ -5729,12 +5728,7 @@ impl ChatMemberStatusMember {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -5777,6 +5771,12 @@ pub struct ChatMemberStatusRestricted {
 
 
 
+impl Object for ChatMemberStatusRestricted {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatMemberStatus for ChatMemberStatusRestricted {}
 
@@ -5810,12 +5810,7 @@ impl ChatMemberStatusRestricted {
   
   pub fn can_add_web_page_previews(&self) -> &Option<bool> { &self.can_add_web_page_previews }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -5874,6 +5869,12 @@ pub struct ChatMemberStatusLeft {
 
 
 
+impl Object for ChatMemberStatusLeft {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatMemberStatus for ChatMemberStatusLeft {}
 
@@ -5889,12 +5890,7 @@ impl ChatMemberStatusLeft {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -5927,6 +5923,12 @@ pub struct ChatMemberStatusBanned {
 
 
 
+impl Object for ChatMemberStatusBanned {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatMemberStatus for ChatMemberStatusBanned {}
 
@@ -5945,12 +5947,7 @@ impl ChatMemberStatusBanned {
   
   pub fn banned_until_date(&self) -> &Option<i32> { &self.banned_until_date }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -5990,8 +5987,11 @@ pub struct ChatMembers {
 
 
 
+impl Object for ChatMembers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ChatMembers {}
 
 
 impl ChatMembers {
@@ -6011,12 +6011,7 @@ impl ChatMembers {
   
   pub fn members(&self) -> &Option<Vec<ChatMember>> { &self.members }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6046,11 +6041,8 @@ impl ChatMembersBuilder {
 
 /// This class is an abstract base class. Specifies the kind of chat members to return in 
 #[typetag::serde(tag = "@struct")]
-pub trait ChatMembersFilter: Debug {}
+pub trait ChatMembersFilter: Object + Debug {}
 
-
-
-impl Object for ChatMembersFilter {}
 
 
 
@@ -6065,6 +6057,12 @@ pub struct ChatMembersFilterAdministrators {
 
 }
 
+
+
+impl Object for ChatMembersFilterAdministrators {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -6082,12 +6080,7 @@ impl ChatMembersFilterAdministrators {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6116,6 +6109,12 @@ pub struct ChatMembersFilterMembers {
 
 
 
+impl Object for ChatMembersFilterMembers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatMembersFilter for ChatMembersFilterMembers {}
 
@@ -6131,12 +6130,7 @@ impl ChatMembersFilterMembers {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6165,6 +6159,12 @@ pub struct ChatMembersFilterRestricted {
 
 
 
+impl Object for ChatMembersFilterRestricted {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatMembersFilter for ChatMembersFilterRestricted {}
 
@@ -6180,12 +6180,7 @@ impl ChatMembersFilterRestricted {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6214,6 +6209,12 @@ pub struct ChatMembersFilterBanned {
 
 
 
+impl Object for ChatMembersFilterBanned {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatMembersFilter for ChatMembersFilterBanned {}
 
@@ -6229,12 +6230,7 @@ impl ChatMembersFilterBanned {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6263,6 +6259,12 @@ pub struct ChatMembersFilterBots {
 
 
 
+impl Object for ChatMembersFilterBots {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatMembersFilter for ChatMembersFilterBots {}
 
@@ -6278,12 +6280,7 @@ impl ChatMembersFilterBots {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6334,8 +6331,11 @@ pub struct ChatNotificationSettings {
 
 
 
+impl Object for ChatNotificationSettings {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ChatNotificationSettings {}
 
 
 impl ChatNotificationSettings {
@@ -6379,12 +6379,7 @@ impl ChatNotificationSettings {
   
   pub fn disable_mention_notifications(&self) -> &Option<bool> { &self.disable_mention_notifications }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6469,8 +6464,11 @@ pub struct ChatPhoto {
 
 
 
+impl Object for ChatPhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ChatPhoto {}
 
 
 impl ChatPhoto {
@@ -6490,12 +6488,7 @@ impl ChatPhoto {
   
   pub fn big(&self) -> &Option<File> { &self.big }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6525,11 +6518,8 @@ impl ChatPhotoBuilder {
 
 /// This class is an abstract base class. Describes the reason why a chat is reported. 
 #[typetag::serde(tag = "@struct")]
-pub trait ChatReportReason: Debug {}
+pub trait ChatReportReason: Object + Debug {}
 
-
-
-impl Object for ChatReportReason {}
 
 
 
@@ -6544,6 +6534,12 @@ pub struct ChatReportReasonSpam {
 
 }
 
+
+
+impl Object for ChatReportReasonSpam {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -6561,12 +6557,7 @@ impl ChatReportReasonSpam {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6595,6 +6586,12 @@ pub struct ChatReportReasonViolence {
 
 
 
+impl Object for ChatReportReasonViolence {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatReportReason for ChatReportReasonViolence {}
 
@@ -6610,12 +6607,7 @@ impl ChatReportReasonViolence {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6644,6 +6636,12 @@ pub struct ChatReportReasonPornography {
 
 
 
+impl Object for ChatReportReasonPornography {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatReportReason for ChatReportReasonPornography {}
 
@@ -6659,12 +6657,7 @@ impl ChatReportReasonPornography {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6693,6 +6686,12 @@ pub struct ChatReportReasonChildAbuse {
 
 
 
+impl Object for ChatReportReasonChildAbuse {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatReportReason for ChatReportReasonChildAbuse {}
 
@@ -6708,12 +6707,7 @@ impl ChatReportReasonChildAbuse {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6742,6 +6736,12 @@ pub struct ChatReportReasonCopyright {
 
 
 
+impl Object for ChatReportReasonCopyright {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatReportReason for ChatReportReasonCopyright {}
 
@@ -6757,12 +6757,7 @@ impl ChatReportReasonCopyright {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6795,6 +6790,12 @@ pub struct ChatReportReasonCustom {
 
 
 
+impl Object for ChatReportReasonCustom {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatReportReason for ChatReportReasonCustom {}
 
@@ -6813,12 +6814,7 @@ impl ChatReportReasonCustom {
   
   pub fn text(&self) -> &Option<String> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6856,8 +6852,11 @@ pub struct ChatReportSpamState {
 
 
 
+impl Object for ChatReportSpamState {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ChatReportSpamState {}
 
 
 impl ChatReportSpamState {
@@ -6874,12 +6873,7 @@ impl ChatReportSpamState {
   
   pub fn can_report_spam(&self) -> &Option<bool> { &self.can_report_spam }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6904,11 +6898,8 @@ impl ChatReportSpamStateBuilder {
 
 /// This class is an abstract base class. Describes the type of a chat. 
 #[typetag::serde(tag = "@struct")]
-pub trait ChatType: Debug {}
+pub trait ChatType: Object + Debug {}
 
-
-
-impl Object for ChatType {}
 
 
 
@@ -6929,6 +6920,12 @@ pub struct ChatTypePrivate {
 
 
 
+impl Object for ChatTypePrivate {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatType for ChatTypePrivate {}
 
@@ -6947,12 +6944,7 @@ impl ChatTypePrivate {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -6990,6 +6982,12 @@ pub struct ChatTypeBasicGroup {
 
 
 
+impl Object for ChatTypeBasicGroup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatType for ChatTypeBasicGroup {}
 
@@ -7008,12 +7006,7 @@ impl ChatTypeBasicGroup {
   
   pub fn basic_group_id(&self) -> &Option<i32> { &self.basic_group_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7053,6 +7046,12 @@ pub struct ChatTypeSupergroup {
 
 
 
+impl Object for ChatTypeSupergroup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatType for ChatTypeSupergroup {}
 
@@ -7074,12 +7073,7 @@ impl ChatTypeSupergroup {
   
   pub fn is_channel(&self) -> &Option<bool> { &self.is_channel }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7124,6 +7118,12 @@ pub struct ChatTypeSecret {
 
 
 
+impl Object for ChatTypeSecret {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ChatType for ChatTypeSecret {}
 
@@ -7145,12 +7145,7 @@ impl ChatTypeSecret {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7193,8 +7188,11 @@ pub struct Chats {
 
 
 
+impl Object for Chats {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Chats {}
 
 
 impl Chats {
@@ -7211,12 +7209,7 @@ impl Chats {
   
   pub fn chat_ids(&self) -> &Option<Vec<i64>> { &self.chat_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7241,11 +7234,8 @@ impl ChatsBuilder {
 
 /// This class is an abstract base class. Represents result of checking whether a username can be set for a chat. 
 #[typetag::serde(tag = "@struct")]
-pub trait CheckChatUsernameResult: Debug {}
+pub trait CheckChatUsernameResult: Object + Debug {}
 
-
-
-impl Object for CheckChatUsernameResult {}
 
 
 
@@ -7260,6 +7250,12 @@ pub struct CheckChatUsernameResultOk {
 
 }
 
+
+
+impl Object for CheckChatUsernameResultOk {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -7277,12 +7273,7 @@ impl CheckChatUsernameResultOk {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7311,6 +7302,12 @@ pub struct CheckChatUsernameResultUsernameInvalid {
 
 
 
+impl Object for CheckChatUsernameResultUsernameInvalid {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl CheckChatUsernameResult for CheckChatUsernameResultUsernameInvalid {}
 
@@ -7326,12 +7323,7 @@ impl CheckChatUsernameResultUsernameInvalid {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7360,6 +7352,12 @@ pub struct CheckChatUsernameResultUsernameOccupied {
 
 
 
+impl Object for CheckChatUsernameResultUsernameOccupied {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl CheckChatUsernameResult for CheckChatUsernameResultUsernameOccupied {}
 
@@ -7375,12 +7373,7 @@ impl CheckChatUsernameResultUsernameOccupied {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7409,6 +7402,12 @@ pub struct CheckChatUsernameResultPublicChatsTooMuch {
 
 
 
+impl Object for CheckChatUsernameResultPublicChatsTooMuch {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl CheckChatUsernameResult for CheckChatUsernameResultPublicChatsTooMuch {}
 
@@ -7424,12 +7423,7 @@ impl CheckChatUsernameResultPublicChatsTooMuch {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7458,6 +7452,12 @@ pub struct CheckChatUsernameResultPublicGroupsUnavailable {
 
 
 
+impl Object for CheckChatUsernameResultPublicGroupsUnavailable {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl CheckChatUsernameResult for CheckChatUsernameResultPublicGroupsUnavailable {}
 
@@ -7473,12 +7473,7 @@ impl CheckChatUsernameResultPublicGroupsUnavailable {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7527,8 +7522,11 @@ pub struct ConnectedWebsite {
 
 
 
+impl Object for ConnectedWebsite {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ConnectedWebsite {}
 
 
 impl ConnectedWebsite {
@@ -7569,12 +7567,7 @@ impl ConnectedWebsite {
   
   pub fn location(&self) -> &Option<String> { &self.location }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7652,8 +7645,11 @@ pub struct ConnectedWebsites {
 
 
 
+impl Object for ConnectedWebsites {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ConnectedWebsites {}
 
 
 impl ConnectedWebsites {
@@ -7670,12 +7666,7 @@ impl ConnectedWebsites {
   
   pub fn websites(&self) -> &Option<Vec<ConnectedWebsite>> { &self.websites }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7700,11 +7691,8 @@ impl ConnectedWebsitesBuilder {
 
 /// This class is an abstract base class. Describes the current state of the connection to Telegram servers. 
 #[typetag::serde(tag = "@struct")]
-pub trait ConnectionState: Debug {}
+pub trait ConnectionState: Object + Debug {}
 
-
-
-impl Object for ConnectionState {}
 
 
 
@@ -7719,6 +7707,12 @@ pub struct ConnectionStateWaitingForNetwork {
 
 }
 
+
+
+impl Object for ConnectionStateWaitingForNetwork {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -7736,12 +7730,7 @@ impl ConnectionStateWaitingForNetwork {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7770,6 +7759,12 @@ pub struct ConnectionStateConnectingToProxy {
 
 
 
+impl Object for ConnectionStateConnectingToProxy {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ConnectionState for ConnectionStateConnectingToProxy {}
 
@@ -7785,12 +7780,7 @@ impl ConnectionStateConnectingToProxy {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7819,6 +7809,12 @@ pub struct ConnectionStateConnecting {
 
 
 
+impl Object for ConnectionStateConnecting {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ConnectionState for ConnectionStateConnecting {}
 
@@ -7834,12 +7830,7 @@ impl ConnectionStateConnecting {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7868,6 +7859,12 @@ pub struct ConnectionStateUpdating {
 
 
 
+impl Object for ConnectionStateUpdating {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ConnectionState for ConnectionStateUpdating {}
 
@@ -7883,12 +7880,7 @@ impl ConnectionStateUpdating {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7917,6 +7909,12 @@ pub struct ConnectionStateReady {
 
 
 
+impl Object for ConnectionStateReady {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ConnectionState for ConnectionStateReady {}
 
@@ -7932,12 +7930,7 @@ impl ConnectionStateReady {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -7978,8 +7971,11 @@ pub struct Contact {
 
 
 
+impl Object for Contact {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Contact {}
 
 
 impl Contact {
@@ -8008,12 +8004,7 @@ impl Contact {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -8071,8 +8062,11 @@ pub struct Count {
 
 
 
+impl Object for Count {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Count {}
 
 
 impl Count {
@@ -8089,12 +8083,7 @@ impl Count {
   
   pub fn count(&self) -> &Option<i32> { &self.count }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -8132,8 +8121,11 @@ pub struct CustomRequestResult {
 
 
 
+impl Object for CustomRequestResult {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for CustomRequestResult {}
 
 
 impl CustomRequestResult {
@@ -8150,12 +8142,7 @@ impl CustomRequestResult {
   
   pub fn result(&self) -> &Option<String> { &self.result }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -8193,8 +8180,11 @@ pub struct DatabaseStatistics {
 
 
 
+impl Object for DatabaseStatistics {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for DatabaseStatistics {}
 
 
 impl DatabaseStatistics {
@@ -8211,12 +8201,7 @@ impl DatabaseStatistics {
   
   pub fn statistics(&self) -> &Option<String> { &self.statistics }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -8258,8 +8243,11 @@ pub struct Date {
 
 
 
+impl Object for Date {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Date {}
 
 
 impl Date {
@@ -8282,12 +8270,7 @@ impl Date {
   
   pub fn year(&self) -> &Option<i32> { &self.year }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -8337,8 +8320,11 @@ pub struct DatedFile {
 
 
 
+impl Object for DatedFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for DatedFile {}
 
 
 impl DatedFile {
@@ -8358,12 +8344,7 @@ impl DatedFile {
   
   pub fn date(&self) -> &Option<i32> { &self.date }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -8408,8 +8389,11 @@ pub struct DeepLinkInfo {
 
 
 
+impl Object for DeepLinkInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for DeepLinkInfo {}
 
 
 impl DeepLinkInfo {
@@ -8429,12 +8413,7 @@ impl DeepLinkInfo {
   
   pub fn need_update_application(&self) -> &Option<bool> { &self.need_update_application }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -8464,11 +8443,8 @@ impl DeepLinkInfoBuilder {
 
 /// This class is an abstract base class. Represents a data needed to subscribe for push notifications through 
 #[typetag::serde(tag = "@struct")]
-pub trait DeviceToken: Debug {}
+pub trait DeviceToken: Object + Debug {}
 
-
-
-impl Object for DeviceToken {}
 
 
 
@@ -8489,6 +8465,12 @@ pub struct DeviceTokenFirebaseCloudMessaging {
 
 }
 
+
+
+impl Object for DeviceTokenFirebaseCloudMessaging {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -8512,12 +8494,7 @@ impl DeviceTokenFirebaseCloudMessaging {
   
   pub fn encrypt(&self) -> &Option<bool> { &self.encrypt }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -8562,6 +8539,12 @@ pub struct DeviceTokenApplePush {
 
 
 
+impl Object for DeviceTokenApplePush {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl DeviceToken for DeviceTokenApplePush {}
 
@@ -8583,12 +8566,7 @@ impl DeviceTokenApplePush {
   
   pub fn is_app_sandbox(&self) -> &Option<bool> { &self.is_app_sandbox }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -8635,6 +8613,12 @@ pub struct DeviceTokenApplePushVoIP {
 
 
 
+impl Object for DeviceTokenApplePushVoIP {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl DeviceToken for DeviceTokenApplePushVoIP {}
 
@@ -8659,12 +8643,7 @@ impl DeviceTokenApplePushVoIP {
   
   pub fn encrypt(&self) -> &Option<bool> { &self.encrypt }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -8712,6 +8691,12 @@ pub struct DeviceTokenWindowsPush {
 
 
 
+impl Object for DeviceTokenWindowsPush {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl DeviceToken for DeviceTokenWindowsPush {}
 
@@ -8730,12 +8715,7 @@ impl DeviceTokenWindowsPush {
   
   pub fn access_token(&self) -> &Option<String> { &self.access_token }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -8773,6 +8753,12 @@ pub struct DeviceTokenMicrosoftPush {
 
 
 
+impl Object for DeviceTokenMicrosoftPush {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl DeviceToken for DeviceTokenMicrosoftPush {}
 
@@ -8791,12 +8777,7 @@ impl DeviceTokenMicrosoftPush {
   
   pub fn channel_uri(&self) -> &Option<String> { &self.channel_uri }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -8834,6 +8815,12 @@ pub struct DeviceTokenMicrosoftPushVoIP {
 
 
 
+impl Object for DeviceTokenMicrosoftPushVoIP {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl DeviceToken for DeviceTokenMicrosoftPushVoIP {}
 
@@ -8852,12 +8839,7 @@ impl DeviceTokenMicrosoftPushVoIP {
   
   pub fn channel_uri(&self) -> &Option<String> { &self.channel_uri }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -8899,6 +8881,12 @@ pub struct DeviceTokenWebPush {
 
 
 
+impl Object for DeviceTokenWebPush {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl DeviceToken for DeviceTokenWebPush {}
 
@@ -8923,12 +8911,7 @@ impl DeviceTokenWebPush {
   
   pub fn auth_base64url(&self) -> &Option<String> { &self.auth_base64url }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -8976,6 +8959,12 @@ pub struct DeviceTokenSimplePush {
 
 
 
+impl Object for DeviceTokenSimplePush {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl DeviceToken for DeviceTokenSimplePush {}
 
@@ -8994,12 +8983,7 @@ impl DeviceTokenSimplePush {
   
   pub fn endpoint(&self) -> &Option<String> { &self.endpoint }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -9037,6 +9021,12 @@ pub struct DeviceTokenUbuntuPush {
 
 
 
+impl Object for DeviceTokenUbuntuPush {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl DeviceToken for DeviceTokenUbuntuPush {}
 
@@ -9055,12 +9045,7 @@ impl DeviceTokenUbuntuPush {
   
   pub fn token(&self) -> &Option<String> { &self.token }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -9098,6 +9083,12 @@ pub struct DeviceTokenBlackBerryPush {
 
 
 
+impl Object for DeviceTokenBlackBerryPush {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl DeviceToken for DeviceTokenBlackBerryPush {}
 
@@ -9116,12 +9107,7 @@ impl DeviceTokenBlackBerryPush {
   
   pub fn token(&self) -> &Option<String> { &self.token }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -9159,6 +9145,12 @@ pub struct DeviceTokenTizenPush {
 
 
 
+impl Object for DeviceTokenTizenPush {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl DeviceToken for DeviceTokenTizenPush {}
 
@@ -9177,12 +9169,7 @@ impl DeviceTokenTizenPush {
   
   pub fn reg_id(&self) -> &Option<String> { &self.reg_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -9226,8 +9213,11 @@ pub struct Document {
 
 
 
+impl Object for Document {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Document {}
 
 
 impl Document {
@@ -9253,12 +9243,7 @@ impl Document {
   
   pub fn document(&self) -> &Option<File> { &self.document }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -9320,8 +9305,11 @@ impl Clone for DraftMessage {
 }
 
 
+impl Object for DraftMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for DraftMessage {}
 
 
 impl DraftMessage {
@@ -9341,12 +9329,7 @@ impl DraftMessage {
   
   pub fn input_message_text(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -9391,8 +9374,11 @@ pub struct EmailAddressAuthenticationCodeInfo {
 
 
 
+impl Object for EmailAddressAuthenticationCodeInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for EmailAddressAuthenticationCodeInfo {}
 
 
 impl EmailAddressAuthenticationCodeInfo {
@@ -9412,12 +9398,7 @@ impl EmailAddressAuthenticationCodeInfo {
   
   pub fn length(&self) -> &Option<i32> { &self.length }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -9464,8 +9445,11 @@ pub struct EncryptedCredentials {
 
 
 
+impl Object for EncryptedCredentials {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for EncryptedCredentials {}
 
 
 impl EncryptedCredentials {
@@ -9488,12 +9472,7 @@ impl EncryptedCredentials {
   
   pub fn secret(&self) -> &Option<String> { &self.secret }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -9564,8 +9543,11 @@ impl Clone for EncryptedPassportElement {
 }
 
 
+impl Object for EncryptedPassportElement {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for EncryptedPassportElement {}
 
 
 impl EncryptedPassportElement {
@@ -9606,12 +9588,7 @@ impl EncryptedPassportElement {
   
   pub fn hash(&self) -> &Option<String> { &self.hash }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -9691,8 +9668,11 @@ pub struct Error {
 
 
 
+impl Object for Error {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Error {}
 
 
 impl Error {
@@ -9712,12 +9692,7 @@ impl Error {
   
   pub fn message(&self) -> &Option<String> { &self.message }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -9768,8 +9743,11 @@ pub struct File {
 
 
 
+impl Object for File {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for File {}
 
 
 impl File {
@@ -9798,12 +9776,7 @@ impl File {
   
   pub fn remote(&self) -> &Option<RemoteFile> { &self.remote }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -9861,8 +9834,11 @@ pub struct FilePart {
 
 
 
+impl Object for FilePart {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for FilePart {}
 
 
 impl FilePart {
@@ -9879,12 +9855,7 @@ impl FilePart {
   
   pub fn data(&self) -> &Option<String> { &self.data }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -9909,11 +9880,8 @@ impl FilePartBuilder {
 
 /// This class is an abstract base class. Represents the type of a file. 
 #[typetag::serde(tag = "@struct")]
-pub trait FileType: Debug {}
+pub trait FileType: Object + Debug {}
 
-
-
-impl Object for FileType {}
 
 
 
@@ -9928,6 +9896,12 @@ pub struct FileTypeNone {
 
 }
 
+
+
+impl Object for FileTypeNone {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -9945,12 +9919,7 @@ impl FileTypeNone {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -9979,6 +9948,12 @@ pub struct FileTypeAnimation {
 
 
 
+impl Object for FileTypeAnimation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl FileType for FileTypeAnimation {}
 
@@ -9994,12 +9969,7 @@ impl FileTypeAnimation {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10028,6 +9998,12 @@ pub struct FileTypeAudio {
 
 
 
+impl Object for FileTypeAudio {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl FileType for FileTypeAudio {}
 
@@ -10043,12 +10019,7 @@ impl FileTypeAudio {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10077,6 +10048,12 @@ pub struct FileTypeDocument {
 
 
 
+impl Object for FileTypeDocument {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl FileType for FileTypeDocument {}
 
@@ -10092,12 +10069,7 @@ impl FileTypeDocument {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10126,6 +10098,12 @@ pub struct FileTypePhoto {
 
 
 
+impl Object for FileTypePhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl FileType for FileTypePhoto {}
 
@@ -10141,12 +10119,7 @@ impl FileTypePhoto {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10175,6 +10148,12 @@ pub struct FileTypeProfilePhoto {
 
 
 
+impl Object for FileTypeProfilePhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl FileType for FileTypeProfilePhoto {}
 
@@ -10190,12 +10169,7 @@ impl FileTypeProfilePhoto {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10224,6 +10198,12 @@ pub struct FileTypeSecret {
 
 
 
+impl Object for FileTypeSecret {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl FileType for FileTypeSecret {}
 
@@ -10239,12 +10219,7 @@ impl FileTypeSecret {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10273,6 +10248,12 @@ pub struct FileTypeSecretThumbnail {
 
 
 
+impl Object for FileTypeSecretThumbnail {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl FileType for FileTypeSecretThumbnail {}
 
@@ -10288,12 +10269,7 @@ impl FileTypeSecretThumbnail {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10322,6 +10298,12 @@ pub struct FileTypeSecure {
 
 
 
+impl Object for FileTypeSecure {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl FileType for FileTypeSecure {}
 
@@ -10337,12 +10319,7 @@ impl FileTypeSecure {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10371,6 +10348,12 @@ pub struct FileTypeSticker {
 
 
 
+impl Object for FileTypeSticker {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl FileType for FileTypeSticker {}
 
@@ -10386,12 +10369,7 @@ impl FileTypeSticker {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10420,6 +10398,12 @@ pub struct FileTypeThumbnail {
 
 
 
+impl Object for FileTypeThumbnail {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl FileType for FileTypeThumbnail {}
 
@@ -10435,12 +10419,7 @@ impl FileTypeThumbnail {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10469,6 +10448,12 @@ pub struct FileTypeUnknown {
 
 
 
+impl Object for FileTypeUnknown {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl FileType for FileTypeUnknown {}
 
@@ -10484,12 +10469,7 @@ impl FileTypeUnknown {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10518,6 +10498,12 @@ pub struct FileTypeVideo {
 
 
 
+impl Object for FileTypeVideo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl FileType for FileTypeVideo {}
 
@@ -10533,12 +10519,7 @@ impl FileTypeVideo {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10567,6 +10548,12 @@ pub struct FileTypeVideoNote {
 
 
 
+impl Object for FileTypeVideoNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl FileType for FileTypeVideoNote {}
 
@@ -10582,12 +10569,7 @@ impl FileTypeVideoNote {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10616,6 +10598,12 @@ pub struct FileTypeVoiceNote {
 
 
 
+impl Object for FileTypeVoiceNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl FileType for FileTypeVoiceNote {}
 
@@ -10631,12 +10619,7 @@ impl FileTypeVoiceNote {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10665,6 +10648,12 @@ pub struct FileTypeWallpaper {
 
 
 
+impl Object for FileTypeWallpaper {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl FileType for FileTypeWallpaper {}
 
@@ -10680,12 +10669,7 @@ impl FileTypeWallpaper {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10720,8 +10704,11 @@ pub struct FormattedText {
 
 
 
+impl Object for FormattedText {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for FormattedText {}
 
 
 impl FormattedText {
@@ -10741,12 +10728,7 @@ impl FormattedText {
   
   pub fn entities(&self) -> &Option<Vec<TextEntity>> { &self.entities }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10791,8 +10773,11 @@ pub struct FoundMessages {
 
 
 
+impl Object for FoundMessages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for FoundMessages {}
 
 
 impl FoundMessages {
@@ -10812,12 +10797,7 @@ impl FoundMessages {
   
   pub fn next_from_search_id(&self) -> &Option<i64> { &self.next_from_search_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10872,8 +10852,11 @@ pub struct Game {
 
 
 
+impl Object for Game {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Game {}
 
 
 impl Game {
@@ -10908,12 +10891,7 @@ impl Game {
   
   pub fn animation(&self) -> &Option<Animation> { &self.animation }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -10985,8 +10963,11 @@ pub struct GameHighScore {
 
 
 
+impl Object for GameHighScore {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for GameHighScore {}
 
 
 impl GameHighScore {
@@ -11009,12 +10990,7 @@ impl GameHighScore {
   
   pub fn score(&self) -> &Option<i32> { &self.score }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -11062,8 +11038,11 @@ pub struct GameHighScores {
 
 
 
+impl Object for GameHighScores {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for GameHighScores {}
 
 
 impl GameHighScores {
@@ -11080,12 +11059,7 @@ impl GameHighScores {
   
   pub fn scores(&self) -> &Option<Vec<GameHighScore>> { &self.scores }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -11123,8 +11097,11 @@ pub struct Hashtags {
 
 
 
+impl Object for Hashtags {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Hashtags {}
 
 
 impl Hashtags {
@@ -11141,12 +11118,7 @@ impl Hashtags {
   
   pub fn hashtags(&self) -> &Option<Vec<String>> { &self.hashtags }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -11184,8 +11156,11 @@ pub struct HttpUrl {
 
 
 
+impl Object for HttpUrl {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for HttpUrl {}
 
 
 impl HttpUrl {
@@ -11202,12 +11177,7 @@ impl HttpUrl {
   
   pub fn url(&self) -> &Option<String> { &self.url }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -11255,8 +11225,11 @@ pub struct IdentityDocument {
 
 
 
+impl Object for IdentityDocument {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for IdentityDocument {}
 
 
 impl IdentityDocument {
@@ -11288,12 +11261,7 @@ impl IdentityDocument {
   
   pub fn translation(&self) -> &Option<Vec<DatedFile>> { &self.translation }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -11358,8 +11326,11 @@ pub struct ImportedContacts {
 
 
 
+impl Object for ImportedContacts {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ImportedContacts {}
 
 
 impl ImportedContacts {
@@ -11379,12 +11350,7 @@ impl ImportedContacts {
   
   pub fn importer_count(&self) -> &Option<Vec<i32>> { &self.importer_count }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -11436,8 +11402,11 @@ impl Clone for InlineKeyboardButton {
 }
 
 
+impl Object for InlineKeyboardButton {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for InlineKeyboardButton {}
 
 
 impl InlineKeyboardButton {
@@ -11457,12 +11426,7 @@ impl InlineKeyboardButton {
   
   pub fn type_(&self) -> &Option<Box<InlineKeyboardButtonType>> { &self.type_ }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -11492,11 +11456,8 @@ impl InlineKeyboardButtonBuilder {
 
 /// This class is an abstract base class. Describes the type of an inline keyboard button. 
 #[typetag::serde(tag = "@struct")]
-pub trait InlineKeyboardButtonType: Debug {}
+pub trait InlineKeyboardButtonType: Object + Debug {}
 
-
-
-impl Object for InlineKeyboardButtonType {}
 
 
 
@@ -11517,6 +11478,12 @@ pub struct InlineKeyboardButtonTypeUrl {
 
 
 
+impl Object for InlineKeyboardButtonTypeUrl {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineKeyboardButtonType for InlineKeyboardButtonTypeUrl {}
 
@@ -11535,12 +11502,7 @@ impl InlineKeyboardButtonTypeUrl {
   
   pub fn url(&self) -> &Option<String> { &self.url }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -11578,6 +11540,12 @@ pub struct InlineKeyboardButtonTypeCallback {
 
 
 
+impl Object for InlineKeyboardButtonTypeCallback {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineKeyboardButtonType for InlineKeyboardButtonTypeCallback {}
 
@@ -11596,12 +11564,7 @@ impl InlineKeyboardButtonTypeCallback {
   
   pub fn data(&self) -> &Option<String> { &self.data }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -11635,6 +11598,12 @@ pub struct InlineKeyboardButtonTypeCallbackGame {
 
 
 
+impl Object for InlineKeyboardButtonTypeCallbackGame {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineKeyboardButtonType for InlineKeyboardButtonTypeCallbackGame {}
 
@@ -11650,12 +11619,7 @@ impl InlineKeyboardButtonTypeCallbackGame {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -11690,6 +11654,12 @@ pub struct InlineKeyboardButtonTypeSwitchInline {
 
 
 
+impl Object for InlineKeyboardButtonTypeSwitchInline {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineKeyboardButtonType for InlineKeyboardButtonTypeSwitchInline {}
 
@@ -11711,12 +11681,7 @@ impl InlineKeyboardButtonTypeSwitchInline {
   
   pub fn in_current_chat(&self) -> &Option<bool> { &self.in_current_chat }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -11755,6 +11720,12 @@ pub struct InlineKeyboardButtonTypeBuy {
 
 
 
+impl Object for InlineKeyboardButtonTypeBuy {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineKeyboardButtonType for InlineKeyboardButtonTypeBuy {}
 
@@ -11770,12 +11741,7 @@ impl InlineKeyboardButtonTypeBuy {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -11795,11 +11761,8 @@ impl InlineKeyboardButtonTypeBuyBuilder {
 
 /// This class is an abstract base class. Represents a single result of an inline query. 
 #[typetag::serde(tag = "@struct")]
-pub trait InlineQueryResult: Debug {}
+pub trait InlineQueryResult: Object + Debug {}
 
-
-
-impl Object for InlineQueryResult {}
 
 
 
@@ -11828,6 +11791,12 @@ pub struct InlineQueryResultArticle {
 
 }
 
+
+
+impl Object for InlineQueryResultArticle {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -11863,12 +11832,7 @@ impl InlineQueryResultArticle {
   
   pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -11935,6 +11899,12 @@ pub struct InlineQueryResultContact {
 
 
 
+impl Object for InlineQueryResultContact {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineQueryResult for InlineQueryResultContact {}
 
@@ -11959,12 +11929,7 @@ impl InlineQueryResultContact {
   
   pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -12018,6 +11983,12 @@ pub struct InlineQueryResultLocation {
 
 
 
+impl Object for InlineQueryResultLocation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineQueryResult for InlineQueryResultLocation {}
 
@@ -12045,12 +12016,7 @@ impl InlineQueryResultLocation {
   
   pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -12107,6 +12073,12 @@ pub struct InlineQueryResultVenue {
 
 
 
+impl Object for InlineQueryResultVenue {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineQueryResult for InlineQueryResultVenue {}
 
@@ -12131,12 +12103,7 @@ impl InlineQueryResultVenue {
   
   pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -12186,6 +12153,12 @@ pub struct InlineQueryResultGame {
 
 
 
+impl Object for InlineQueryResultGame {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineQueryResult for InlineQueryResultGame {}
 
@@ -12207,12 +12180,7 @@ impl InlineQueryResultGame {
   
   pub fn game(&self) -> &Option<Game> { &self.game }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -12259,6 +12227,12 @@ pub struct InlineQueryResultAnimation {
 
 
 
+impl Object for InlineQueryResultAnimation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineQueryResult for InlineQueryResultAnimation {}
 
@@ -12283,12 +12257,7 @@ impl InlineQueryResultAnimation {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -12338,6 +12307,12 @@ pub struct InlineQueryResultAudio {
 
 
 
+impl Object for InlineQueryResultAudio {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineQueryResult for InlineQueryResultAudio {}
 
@@ -12359,12 +12334,7 @@ impl InlineQueryResultAudio {
   
   pub fn audio(&self) -> &Option<Audio> { &self.audio }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -12413,6 +12383,12 @@ pub struct InlineQueryResultDocument {
 
 
 
+impl Object for InlineQueryResultDocument {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineQueryResult for InlineQueryResultDocument {}
 
@@ -12440,12 +12416,7 @@ impl InlineQueryResultDocument {
   
   pub fn description(&self) -> &Option<String> { &self.description }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -12504,6 +12475,12 @@ pub struct InlineQueryResultPhoto {
 
 
 
+impl Object for InlineQueryResultPhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineQueryResult for InlineQueryResultPhoto {}
 
@@ -12531,12 +12508,7 @@ impl InlineQueryResultPhoto {
   
   pub fn description(&self) -> &Option<String> { &self.description }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -12591,6 +12563,12 @@ pub struct InlineQueryResultSticker {
 
 
 
+impl Object for InlineQueryResultSticker {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineQueryResult for InlineQueryResultSticker {}
 
@@ -12612,12 +12590,7 @@ impl InlineQueryResultSticker {
   
   pub fn sticker(&self) -> &Option<Sticker> { &self.sticker }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -12666,6 +12639,12 @@ pub struct InlineQueryResultVideo {
 
 
 
+impl Object for InlineQueryResultVideo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineQueryResult for InlineQueryResultVideo {}
 
@@ -12693,12 +12672,7 @@ impl InlineQueryResultVideo {
   
   pub fn description(&self) -> &Option<String> { &self.description }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -12755,6 +12729,12 @@ pub struct InlineQueryResultVoiceNote {
 
 
 
+impl Object for InlineQueryResultVoiceNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InlineQueryResult for InlineQueryResultVoiceNote {}
 
@@ -12779,12 +12759,7 @@ impl InlineQueryResultVoiceNote {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -12847,8 +12822,11 @@ impl Clone for InlineQueryResults {
 }
 
 
+impl Object for InlineQueryResults {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for InlineQueryResults {}
 
 
 impl InlineQueryResults {
@@ -12877,12 +12855,7 @@ impl InlineQueryResults {
   
   pub fn switch_pm_parameter(&self) -> &Option<String> { &self.switch_pm_parameter }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -12927,11 +12900,8 @@ impl InlineQueryResultsBuilder {
 
 /// This class is an abstract base class. Contains information about the payment method chosen by the user. 
 #[typetag::serde(tag = "@struct")]
-pub trait InputCredentials: Debug {}
+pub trait InputCredentials: Object + Debug {}
 
-
-
-impl Object for InputCredentials {}
 
 
 
@@ -12952,6 +12922,12 @@ pub struct InputCredentialsSaved {
 
 
 
+impl Object for InputCredentialsSaved {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputCredentials for InputCredentialsSaved {}
 
@@ -12970,12 +12946,7 @@ impl InputCredentialsSaved {
   
   pub fn saved_credentials_id(&self) -> &Option<String> { &self.saved_credentials_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -13015,6 +12986,12 @@ pub struct InputCredentialsNew {
 
 
 
+impl Object for InputCredentialsNew {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputCredentials for InputCredentialsNew {}
 
@@ -13036,12 +13013,7 @@ impl InputCredentialsNew {
   
   pub fn allow_save(&self) -> &Option<bool> { &self.allow_save }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -13084,6 +13056,12 @@ pub struct InputCredentialsAndroidPay {
 
 
 
+impl Object for InputCredentialsAndroidPay {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputCredentials for InputCredentialsAndroidPay {}
 
@@ -13102,12 +13080,7 @@ impl InputCredentialsAndroidPay {
   
   pub fn data(&self) -> &Option<String> { &self.data }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -13145,6 +13118,12 @@ pub struct InputCredentialsApplePay {
 
 
 
+impl Object for InputCredentialsApplePay {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputCredentials for InputCredentialsApplePay {}
 
@@ -13163,12 +13142,7 @@ impl InputCredentialsApplePay {
   
   pub fn data(&self) -> &Option<String> { &self.data }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -13193,11 +13167,8 @@ impl InputCredentialsApplePayBuilder {
 
 /// This class is an abstract base class. Points to a file. 
 #[typetag::serde(tag = "@struct")]
-pub trait InputFile: Debug {}
+pub trait InputFile: Object + Debug {}
 
-
-
-impl Object for InputFile {}
 
 
 
@@ -13218,6 +13189,12 @@ pub struct InputFileId {
 
 
 
+impl Object for InputFileId {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputFile for InputFileId {}
 
@@ -13236,12 +13213,7 @@ impl InputFileId {
   
   pub fn id(&self) -> &Option<i32> { &self.id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -13279,6 +13251,12 @@ pub struct InputFileRemote {
 
 
 
+impl Object for InputFileRemote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputFile for InputFileRemote {}
 
@@ -13297,12 +13275,7 @@ impl InputFileRemote {
   
   pub fn id(&self) -> &Option<String> { &self.id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -13340,6 +13313,12 @@ pub struct InputFileLocal {
 
 
 
+impl Object for InputFileLocal {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputFile for InputFileLocal {}
 
@@ -13358,12 +13337,7 @@ impl InputFileLocal {
   
   pub fn path(&self) -> &Option<String> { &self.path }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -13405,6 +13379,12 @@ pub struct InputFileGenerated {
 
 
 
+impl Object for InputFileGenerated {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputFile for InputFileGenerated {}
 
@@ -13429,12 +13409,7 @@ impl InputFileGenerated {
   
   pub fn expected_size(&self) -> &Option<i32> { &self.expected_size }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -13499,8 +13474,11 @@ impl Clone for InputIdentityDocument {
 }
 
 
+impl Object for InputIdentityDocument {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for InputIdentityDocument {}
 
 
 impl InputIdentityDocument {
@@ -13532,12 +13510,7 @@ impl InputIdentityDocument {
   
   pub fn translation(&self) -> &Option<Vec<Box<InputFile>>> { &self.translation }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -13587,11 +13560,8 @@ impl InputIdentityDocumentBuilder {
 
 /// This class is an abstract base class. Represents a single result of an inline query; for bots only. 
 #[typetag::serde(tag = "@struct")]
-pub trait InputInlineQueryResult: Debug {}
+pub trait InputInlineQueryResult: Object + Debug {}
 
-
-
-impl Object for InputInlineQueryResult {}
 
 
 
@@ -13632,6 +13602,12 @@ impl Clone for InputInlineQueryResultAnimatedGif {
     let json = serde_json::to_string(self).unwrap();
     serde_json::from_str(&json[..]).unwrap()
   }
+}
+
+
+impl Object for InputInlineQueryResultAnimatedGif {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
 
 
@@ -13677,12 +13653,7 @@ impl InputInlineQueryResultAnimatedGif {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -13783,6 +13754,12 @@ impl Clone for InputInlineQueryResultAnimatedMpeg4 {
 }
 
 
+impl Object for InputInlineQueryResultAnimatedMpeg4 {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputInlineQueryResult for InputInlineQueryResultAnimatedMpeg4 {}
 
@@ -13825,12 +13802,7 @@ impl InputInlineQueryResultAnimatedMpeg4 {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -13933,6 +13905,12 @@ impl Clone for InputInlineQueryResultArticle {
 }
 
 
+impl Object for InputInlineQueryResultArticle {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputInlineQueryResult for InputInlineQueryResultArticle {}
 
@@ -13978,12 +13956,7 @@ impl InputInlineQueryResultArticle {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -14085,6 +14058,12 @@ impl Clone for InputInlineQueryResultAudio {
 }
 
 
+impl Object for InputInlineQueryResultAudio {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputInlineQueryResult for InputInlineQueryResultAudio {}
 
@@ -14121,12 +14100,7 @@ impl InputInlineQueryResultAudio {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -14213,6 +14187,12 @@ impl Clone for InputInlineQueryResultContact {
 }
 
 
+impl Object for InputInlineQueryResultContact {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputInlineQueryResult for InputInlineQueryResultContact {}
 
@@ -14249,12 +14229,7 @@ impl InputInlineQueryResultContact {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -14347,6 +14322,12 @@ impl Clone for InputInlineQueryResultDocument {
 }
 
 
+impl Object for InputInlineQueryResultDocument {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputInlineQueryResult for InputInlineQueryResultDocument {}
 
@@ -14392,12 +14373,7 @@ impl InputInlineQueryResultDocument {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -14491,6 +14467,12 @@ impl Clone for InputInlineQueryResultGame {
 }
 
 
+impl Object for InputInlineQueryResultGame {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputInlineQueryResult for InputInlineQueryResultGame {}
 
@@ -14515,12 +14497,7 @@ impl InputInlineQueryResultGame {
   
   pub fn reply_markup(&self) -> &Option<Box<ReplyMarkup>> { &self.reply_markup }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -14591,6 +14568,12 @@ impl Clone for InputInlineQueryResultLocation {
 }
 
 
+impl Object for InputInlineQueryResultLocation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputInlineQueryResult for InputInlineQueryResultLocation {}
 
@@ -14633,12 +14616,7 @@ impl InputInlineQueryResultLocation {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -14739,6 +14717,12 @@ impl Clone for InputInlineQueryResultPhoto {
 }
 
 
+impl Object for InputInlineQueryResultPhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputInlineQueryResult for InputInlineQueryResultPhoto {}
 
@@ -14781,12 +14765,7 @@ impl InputInlineQueryResultPhoto {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -14883,6 +14862,12 @@ impl Clone for InputInlineQueryResultSticker {
 }
 
 
+impl Object for InputInlineQueryResultSticker {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputInlineQueryResult for InputInlineQueryResultSticker {}
 
@@ -14919,12 +14904,7 @@ impl InputInlineQueryResultSticker {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -15011,6 +14991,12 @@ impl Clone for InputInlineQueryResultVenue {
 }
 
 
+impl Object for InputInlineQueryResultVenue {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputInlineQueryResult for InputInlineQueryResultVenue {}
 
@@ -15047,12 +15033,7 @@ impl InputInlineQueryResultVenue {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -15147,6 +15128,12 @@ impl Clone for InputInlineQueryResultVideo {
 }
 
 
+impl Object for InputInlineQueryResultVideo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputInlineQueryResult for InputInlineQueryResultVideo {}
 
@@ -15195,12 +15182,7 @@ impl InputInlineQueryResultVideo {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -15305,6 +15287,12 @@ impl Clone for InputInlineQueryResultVoiceNote {
 }
 
 
+impl Object for InputInlineQueryResultVoiceNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputInlineQueryResult for InputInlineQueryResultVoiceNote {}
 
@@ -15338,12 +15326,7 @@ impl InputInlineQueryResultVoiceNote {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -15393,11 +15376,8 @@ impl InputInlineQueryResultVoiceNoteBuilder {
 
 /// This class is an abstract base class. The content of a message to send. 
 #[typetag::serde(tag = "@struct")]
-pub trait InputMessageContent: Debug {}
+pub trait InputMessageContent: Object + Debug {}
 
-
-
-impl Object for InputMessageContent {}
 
 
 
@@ -15420,6 +15400,12 @@ pub struct InputMessageText {
 
 }
 
+
+
+impl Object for InputMessageText {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -15446,12 +15432,7 @@ impl InputMessageText {
   
   pub fn clear_draft(&self) -> &Option<bool> { &self.clear_draft }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -15516,6 +15497,12 @@ impl Clone for InputMessageAnimation {
 }
 
 
+impl Object for InputMessageAnimation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputMessageContent for InputMessageAnimation {}
 
@@ -15549,12 +15536,7 @@ impl InputMessageAnimation {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -15634,6 +15616,12 @@ impl Clone for InputMessageAudio {
 }
 
 
+impl Object for InputMessageAudio {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputMessageContent for InputMessageAudio {}
 
@@ -15667,12 +15655,7 @@ impl InputMessageAudio {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -15746,6 +15729,12 @@ impl Clone for InputMessageDocument {
 }
 
 
+impl Object for InputMessageDocument {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputMessageContent for InputMessageDocument {}
 
@@ -15770,12 +15759,7 @@ impl InputMessageDocument {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -15842,6 +15826,12 @@ impl Clone for InputMessagePhoto {
 }
 
 
+impl Object for InputMessagePhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputMessageContent for InputMessagePhoto {}
 
@@ -15878,12 +15868,7 @@ impl InputMessagePhoto {
   
   pub fn ttl(&self) -> &Option<i32> { &self.ttl }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -15964,6 +15949,12 @@ impl Clone for InputMessageSticker {
 }
 
 
+impl Object for InputMessageSticker {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputMessageContent for InputMessageSticker {}
 
@@ -15991,12 +15982,7 @@ impl InputMessageSticker {
   
   pub fn height(&self) -> &Option<i32> { &self.height }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -16072,6 +16058,12 @@ impl Clone for InputMessageVideo {
 }
 
 
+impl Object for InputMessageVideo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputMessageContent for InputMessageVideo {}
 
@@ -16114,12 +16106,7 @@ impl InputMessageVideo {
   
   pub fn ttl(&self) -> &Option<i32> { &self.ttl }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -16210,6 +16197,12 @@ impl Clone for InputMessageVideoNote {
 }
 
 
+impl Object for InputMessageVideoNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputMessageContent for InputMessageVideoNote {}
 
@@ -16237,12 +16230,7 @@ impl InputMessageVideoNote {
   
   pub fn length(&self) -> &Option<i32> { &self.length }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -16308,6 +16296,12 @@ impl Clone for InputMessageVoiceNote {
 }
 
 
+impl Object for InputMessageVoiceNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputMessageContent for InputMessageVoiceNote {}
 
@@ -16335,12 +16329,7 @@ impl InputMessageVoiceNote {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -16395,6 +16384,12 @@ pub struct InputMessageLocation {
 
 
 
+impl Object for InputMessageLocation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputMessageContent for InputMessageLocation {}
 
@@ -16416,12 +16411,7 @@ impl InputMessageLocation {
   
   pub fn live_period(&self) -> &Option<i32> { &self.live_period }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -16464,6 +16454,12 @@ pub struct InputMessageVenue {
 
 
 
+impl Object for InputMessageVenue {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputMessageContent for InputMessageVenue {}
 
@@ -16482,12 +16478,7 @@ impl InputMessageVenue {
   
   pub fn venue(&self) -> &Option<Venue> { &self.venue }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -16525,6 +16516,12 @@ pub struct InputMessageContact {
 
 
 
+impl Object for InputMessageContact {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputMessageContent for InputMessageContact {}
 
@@ -16543,12 +16540,7 @@ impl InputMessageContact {
   
   pub fn contact(&self) -> &Option<Contact> { &self.contact }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -16588,6 +16580,12 @@ pub struct InputMessageGame {
 
 
 
+impl Object for InputMessageGame {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputMessageContent for InputMessageGame {}
 
@@ -16609,12 +16607,7 @@ impl InputMessageGame {
   
   pub fn game_short_name(&self) -> &Option<String> { &self.game_short_name }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -16677,6 +16670,12 @@ pub struct InputMessageInvoice {
 
 
 
+impl Object for InputMessageInvoice {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputMessageContent for InputMessageInvoice {}
 
@@ -16725,12 +16724,7 @@ impl InputMessageInvoice {
   
   pub fn start_parameter(&self) -> &Option<String> { &self.start_parameter }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -16820,6 +16814,12 @@ pub struct InputMessagePoll {
 
 
 
+impl Object for InputMessagePoll {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputMessageContent for InputMessagePoll {}
 
@@ -16841,12 +16841,7 @@ impl InputMessagePoll {
   
   pub fn options(&self) -> &Option<Vec<String>> { &self.options }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -16893,6 +16888,12 @@ pub struct InputMessageForwarded {
 
 
 
+impl Object for InputMessageForwarded {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputMessageContent for InputMessageForwarded {}
 
@@ -16917,12 +16918,7 @@ impl InputMessageForwarded {
   
   pub fn in_game_share(&self) -> &Option<bool> { &self.in_game_share }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -16957,11 +16953,8 @@ impl InputMessageForwardedBuilder {
 
 /// This class is an abstract base class. Contains information about a Telegram Passport element to be saved. 
 #[typetag::serde(tag = "@struct")]
-pub trait InputPassportElement: Debug {}
+pub trait InputPassportElement: Object + Debug {}
 
-
-
-impl Object for InputPassportElement {}
 
 
 
@@ -16982,6 +16975,12 @@ pub struct InputPassportElementPersonalDetails {
 
 
 
+impl Object for InputPassportElementPersonalDetails {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElement for InputPassportElementPersonalDetails {}
 
@@ -17000,12 +16999,7 @@ impl InputPassportElementPersonalDetails {
   
   pub fn personal_details(&self) -> &Option<PersonalDetails> { &self.personal_details }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -17043,6 +17037,12 @@ pub struct InputPassportElementPassport {
 
 
 
+impl Object for InputPassportElementPassport {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElement for InputPassportElementPassport {}
 
@@ -17061,12 +17061,7 @@ impl InputPassportElementPassport {
   
   pub fn passport(&self) -> &Option<InputIdentityDocument> { &self.passport }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -17104,6 +17099,12 @@ pub struct InputPassportElementDriverLicense {
 
 
 
+impl Object for InputPassportElementDriverLicense {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElement for InputPassportElementDriverLicense {}
 
@@ -17122,12 +17123,7 @@ impl InputPassportElementDriverLicense {
   
   pub fn driver_license(&self) -> &Option<InputIdentityDocument> { &self.driver_license }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -17165,6 +17161,12 @@ pub struct InputPassportElementIdentityCard {
 
 
 
+impl Object for InputPassportElementIdentityCard {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElement for InputPassportElementIdentityCard {}
 
@@ -17183,12 +17185,7 @@ impl InputPassportElementIdentityCard {
   
   pub fn identity_card(&self) -> &Option<InputIdentityDocument> { &self.identity_card }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -17226,6 +17223,12 @@ pub struct InputPassportElementInternalPassport {
 
 
 
+impl Object for InputPassportElementInternalPassport {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElement for InputPassportElementInternalPassport {}
 
@@ -17244,12 +17247,7 @@ impl InputPassportElementInternalPassport {
   
   pub fn internal_passport(&self) -> &Option<InputIdentityDocument> { &self.internal_passport }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -17287,6 +17285,12 @@ pub struct InputPassportElementAddress {
 
 
 
+impl Object for InputPassportElementAddress {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElement for InputPassportElementAddress {}
 
@@ -17305,12 +17309,7 @@ impl InputPassportElementAddress {
   
   pub fn address(&self) -> &Option<Address> { &self.address }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -17348,6 +17347,12 @@ pub struct InputPassportElementUtilityBill {
 
 
 
+impl Object for InputPassportElementUtilityBill {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElement for InputPassportElementUtilityBill {}
 
@@ -17366,12 +17371,7 @@ impl InputPassportElementUtilityBill {
   
   pub fn utility_bill(&self) -> &Option<InputPersonalDocument> { &self.utility_bill }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -17409,6 +17409,12 @@ pub struct InputPassportElementBankStatement {
 
 
 
+impl Object for InputPassportElementBankStatement {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElement for InputPassportElementBankStatement {}
 
@@ -17427,12 +17433,7 @@ impl InputPassportElementBankStatement {
   
   pub fn bank_statement(&self) -> &Option<InputPersonalDocument> { &self.bank_statement }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -17470,6 +17471,12 @@ pub struct InputPassportElementRentalAgreement {
 
 
 
+impl Object for InputPassportElementRentalAgreement {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElement for InputPassportElementRentalAgreement {}
 
@@ -17488,12 +17495,7 @@ impl InputPassportElementRentalAgreement {
   
   pub fn rental_agreement(&self) -> &Option<InputPersonalDocument> { &self.rental_agreement }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -17531,6 +17533,12 @@ pub struct InputPassportElementPassportRegistration {
 
 
 
+impl Object for InputPassportElementPassportRegistration {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElement for InputPassportElementPassportRegistration {}
 
@@ -17549,12 +17557,7 @@ impl InputPassportElementPassportRegistration {
   
   pub fn passport_registration(&self) -> &Option<InputPersonalDocument> { &self.passport_registration }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -17592,6 +17595,12 @@ pub struct InputPassportElementTemporaryRegistration {
 
 
 
+impl Object for InputPassportElementTemporaryRegistration {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElement for InputPassportElementTemporaryRegistration {}
 
@@ -17610,12 +17619,7 @@ impl InputPassportElementTemporaryRegistration {
   
   pub fn temporary_registration(&self) -> &Option<InputPersonalDocument> { &self.temporary_registration }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -17653,6 +17657,12 @@ pub struct InputPassportElementPhoneNumber {
 
 
 
+impl Object for InputPassportElementPhoneNumber {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElement for InputPassportElementPhoneNumber {}
 
@@ -17671,12 +17681,7 @@ impl InputPassportElementPhoneNumber {
   
   pub fn phone_number(&self) -> &Option<String> { &self.phone_number }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -17714,6 +17719,12 @@ pub struct InputPassportElementEmailAddress {
 
 
 
+impl Object for InputPassportElementEmailAddress {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElement for InputPassportElementEmailAddress {}
 
@@ -17732,12 +17743,7 @@ impl InputPassportElementEmailAddress {
   
   pub fn email_address(&self) -> &Option<String> { &self.email_address }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -17786,8 +17792,11 @@ impl Clone for InputPassportElementError {
 }
 
 
+impl Object for InputPassportElementError {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for InputPassportElementError {}
 
 
 impl InputPassportElementError {
@@ -17810,12 +17819,7 @@ impl InputPassportElementError {
   
   pub fn source(&self) -> &Option<Box<InputPassportElementErrorSource>> { &self.source }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -17850,11 +17854,8 @@ impl InputPassportElementErrorBuilder {
 
 /// This class is an abstract base class. Contains the description of an error in a Telegram Passport element; for bots only. 
 #[typetag::serde(tag = "@struct")]
-pub trait InputPassportElementErrorSource: Debug {}
+pub trait InputPassportElementErrorSource: Object + Debug {}
 
-
-
-impl Object for InputPassportElementErrorSource {}
 
 
 
@@ -17875,6 +17876,12 @@ pub struct InputPassportElementErrorSourceUnspecified {
 
 
 
+impl Object for InputPassportElementErrorSourceUnspecified {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElementErrorSource for InputPassportElementErrorSourceUnspecified {}
 
@@ -17893,12 +17900,7 @@ impl InputPassportElementErrorSourceUnspecified {
   
   pub fn element_hash(&self) -> &Option<String> { &self.element_hash }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -17938,6 +17940,12 @@ pub struct InputPassportElementErrorSourceDataField {
 
 
 
+impl Object for InputPassportElementErrorSourceDataField {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElementErrorSource for InputPassportElementErrorSourceDataField {}
 
@@ -17959,12 +17967,7 @@ impl InputPassportElementErrorSourceDataField {
   
   pub fn data_hash(&self) -> &Option<String> { &self.data_hash }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -18007,6 +18010,12 @@ pub struct InputPassportElementErrorSourceFrontSide {
 
 
 
+impl Object for InputPassportElementErrorSourceFrontSide {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElementErrorSource for InputPassportElementErrorSourceFrontSide {}
 
@@ -18025,12 +18034,7 @@ impl InputPassportElementErrorSourceFrontSide {
   
   pub fn file_hash(&self) -> &Option<String> { &self.file_hash }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -18068,6 +18072,12 @@ pub struct InputPassportElementErrorSourceReverseSide {
 
 
 
+impl Object for InputPassportElementErrorSourceReverseSide {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElementErrorSource for InputPassportElementErrorSourceReverseSide {}
 
@@ -18086,12 +18096,7 @@ impl InputPassportElementErrorSourceReverseSide {
   
   pub fn file_hash(&self) -> &Option<String> { &self.file_hash }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -18129,6 +18134,12 @@ pub struct InputPassportElementErrorSourceSelfie {
 
 
 
+impl Object for InputPassportElementErrorSourceSelfie {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElementErrorSource for InputPassportElementErrorSourceSelfie {}
 
@@ -18147,12 +18158,7 @@ impl InputPassportElementErrorSourceSelfie {
   
   pub fn file_hash(&self) -> &Option<String> { &self.file_hash }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -18190,6 +18196,12 @@ pub struct InputPassportElementErrorSourceTranslationFile {
 
 
 
+impl Object for InputPassportElementErrorSourceTranslationFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElementErrorSource for InputPassportElementErrorSourceTranslationFile {}
 
@@ -18208,12 +18220,7 @@ impl InputPassportElementErrorSourceTranslationFile {
   
   pub fn file_hash(&self) -> &Option<String> { &self.file_hash }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -18251,6 +18258,12 @@ pub struct InputPassportElementErrorSourceTranslationFiles {
 
 
 
+impl Object for InputPassportElementErrorSourceTranslationFiles {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElementErrorSource for InputPassportElementErrorSourceTranslationFiles {}
 
@@ -18269,12 +18282,7 @@ impl InputPassportElementErrorSourceTranslationFiles {
   
   pub fn file_hashes(&self) -> &Option<Vec<String>> { &self.file_hashes }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -18312,6 +18320,12 @@ pub struct InputPassportElementErrorSourceFile {
 
 
 
+impl Object for InputPassportElementErrorSourceFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElementErrorSource for InputPassportElementErrorSourceFile {}
 
@@ -18330,12 +18344,7 @@ impl InputPassportElementErrorSourceFile {
   
   pub fn file_hash(&self) -> &Option<String> { &self.file_hash }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -18373,6 +18382,12 @@ pub struct InputPassportElementErrorSourceFiles {
 
 
 
+impl Object for InputPassportElementErrorSourceFiles {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl InputPassportElementErrorSource for InputPassportElementErrorSourceFiles {}
 
@@ -18391,12 +18406,7 @@ impl InputPassportElementErrorSourceFiles {
   
   pub fn file_hashes(&self) -> &Option<Vec<String>> { &self.file_hashes }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -18443,8 +18453,11 @@ impl Clone for InputPersonalDocument {
 }
 
 
+impl Object for InputPersonalDocument {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for InputPersonalDocument {}
 
 
 impl InputPersonalDocument {
@@ -18464,12 +18477,7 @@ impl InputPersonalDocument {
   
   pub fn translation(&self) -> &Option<Vec<Box<InputFile>>> { &self.translation }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -18523,8 +18531,11 @@ impl Clone for InputSticker {
 }
 
 
+impl Object for InputSticker {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for InputSticker {}
 
 
 impl InputSticker {
@@ -18547,12 +18558,7 @@ impl InputSticker {
   
   pub fn mask_position(&self) -> &Option<MaskPosition> { &self.mask_position }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -18611,8 +18617,11 @@ impl Clone for InputThumbnail {
 }
 
 
+impl Object for InputThumbnail {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for InputThumbnail {}
 
 
 impl InputThumbnail {
@@ -18635,12 +18644,7 @@ impl InputThumbnail {
   
   pub fn height(&self) -> &Option<i32> { &self.height }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -18706,8 +18710,11 @@ pub struct Invoice {
 
 
 
+impl Object for Invoice {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Invoice {}
 
 
 impl Invoice {
@@ -18751,12 +18758,7 @@ impl Invoice {
   
   pub fn is_flexible(&self) -> &Option<bool> { &self.is_flexible }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -18848,8 +18850,11 @@ impl Clone for KeyboardButton {
 }
 
 
+impl Object for KeyboardButton {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for KeyboardButton {}
 
 
 impl KeyboardButton {
@@ -18869,12 +18874,7 @@ impl KeyboardButton {
   
   pub fn type_(&self) -> &Option<Box<KeyboardButtonType>> { &self.type_ }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -18904,11 +18904,8 @@ impl KeyboardButtonBuilder {
 
 /// This class is an abstract base class. Describes a keyboard button type. 
 #[typetag::serde(tag = "@struct")]
-pub trait KeyboardButtonType: Debug {}
+pub trait KeyboardButtonType: Object + Debug {}
 
-
-
-impl Object for KeyboardButtonType {}
 
 
 
@@ -18923,6 +18920,12 @@ pub struct KeyboardButtonTypeText {
 
 }
 
+
+
+impl Object for KeyboardButtonTypeText {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -18940,12 +18943,7 @@ impl KeyboardButtonTypeText {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -18974,6 +18972,12 @@ pub struct KeyboardButtonTypeRequestPhoneNumber {
 
 
 
+impl Object for KeyboardButtonTypeRequestPhoneNumber {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl KeyboardButtonType for KeyboardButtonTypeRequestPhoneNumber {}
 
@@ -18989,12 +18993,7 @@ impl KeyboardButtonTypeRequestPhoneNumber {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -19023,6 +19022,12 @@ pub struct KeyboardButtonTypeRequestLocation {
 
 
 
+impl Object for KeyboardButtonTypeRequestLocation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl KeyboardButtonType for KeyboardButtonTypeRequestLocation {}
 
@@ -19038,12 +19043,7 @@ impl KeyboardButtonTypeRequestLocation {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -19078,8 +19078,11 @@ pub struct LabeledPricePart {
 
 
 
+impl Object for LabeledPricePart {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for LabeledPricePart {}
 
 
 impl LabeledPricePart {
@@ -19099,12 +19102,7 @@ impl LabeledPricePart {
   
   pub fn amount(&self) -> &Option<i64> { &self.amount }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -19171,8 +19169,11 @@ pub struct LanguagePackInfo {
 
 
 
+impl Object for LanguagePackInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for LanguagePackInfo {}
 
 
 impl LanguagePackInfo {
@@ -19225,12 +19226,7 @@ impl LanguagePackInfo {
   
   pub fn translation_url(&self) -> &Option<String> { &self.translation_url }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -19337,8 +19333,11 @@ impl Clone for LanguagePackString {
 }
 
 
+impl Object for LanguagePackString {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for LanguagePackString {}
 
 
 impl LanguagePackString {
@@ -19358,12 +19357,7 @@ impl LanguagePackString {
   
   pub fn value(&self) -> &Option<Box<LanguagePackStringValue>> { &self.value }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -19393,11 +19387,8 @@ impl LanguagePackStringBuilder {
 
 /// This class is an abstract base class. Represents the value of a string in a language pack. 
 #[typetag::serde(tag = "@struct")]
-pub trait LanguagePackStringValue: Debug {}
+pub trait LanguagePackStringValue: Object + Debug {}
 
-
-
-impl Object for LanguagePackStringValue {}
 
 
 
@@ -19418,6 +19409,12 @@ pub struct LanguagePackStringValueOrdinary {
 
 
 
+impl Object for LanguagePackStringValueOrdinary {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl LanguagePackStringValue for LanguagePackStringValueOrdinary {}
 
@@ -19436,12 +19433,7 @@ impl LanguagePackStringValueOrdinary {
   
   pub fn value(&self) -> &Option<String> { &self.value }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -19489,6 +19481,12 @@ pub struct LanguagePackStringValuePluralized {
 
 
 
+impl Object for LanguagePackStringValuePluralized {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl LanguagePackStringValue for LanguagePackStringValuePluralized {}
 
@@ -19522,12 +19520,7 @@ impl LanguagePackStringValuePluralized {
   
   pub fn other_value(&self) -> &Option<String> { &self.other_value }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -19586,6 +19579,12 @@ pub struct LanguagePackStringValueDeleted {
 
 
 
+impl Object for LanguagePackStringValueDeleted {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl LanguagePackStringValue for LanguagePackStringValueDeleted {}
 
@@ -19601,12 +19600,7 @@ impl LanguagePackStringValueDeleted {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -19639,8 +19633,11 @@ pub struct LanguagePackStrings {
 
 
 
+impl Object for LanguagePackStrings {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for LanguagePackStrings {}
 
 
 impl LanguagePackStrings {
@@ -19657,12 +19654,7 @@ impl LanguagePackStrings {
   
   pub fn strings(&self) -> &Option<Vec<LanguagePackString>> { &self.strings }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -19687,11 +19679,8 @@ impl LanguagePackStringsBuilder {
 
 /// This class is an abstract base class. Represents the relationship between user A and user B. For incoming_link, user A is the current user; for outgoing_link, user B is the current user. 
 #[typetag::serde(tag = "@struct")]
-pub trait LinkState: Debug {}
+pub trait LinkState: Object + Debug {}
 
-
-
-impl Object for LinkState {}
 
 
 
@@ -19706,6 +19695,12 @@ pub struct LinkStateNone {
 
 }
 
+
+
+impl Object for LinkStateNone {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -19723,12 +19718,7 @@ impl LinkStateNone {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -19757,6 +19747,12 @@ pub struct LinkStateKnowsPhoneNumber {
 
 
 
+impl Object for LinkStateKnowsPhoneNumber {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl LinkState for LinkStateKnowsPhoneNumber {}
 
@@ -19772,12 +19768,7 @@ impl LinkStateKnowsPhoneNumber {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -19806,6 +19797,12 @@ pub struct LinkStateIsContact {
 
 
 
+impl Object for LinkStateIsContact {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl LinkState for LinkStateIsContact {}
 
@@ -19821,12 +19818,7 @@ impl LinkStateIsContact {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -19873,8 +19865,11 @@ pub struct LocalFile {
 
 
 
+impl Object for LocalFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for LocalFile {}
 
 
 impl LocalFile {
@@ -19912,12 +19907,7 @@ impl LocalFile {
   
   pub fn downloaded_size(&self) -> &Option<i32> { &self.downloaded_size }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -19990,8 +19980,11 @@ pub struct LocalizationTargetInfo {
 
 
 
+impl Object for LocalizationTargetInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for LocalizationTargetInfo {}
 
 
 impl LocalizationTargetInfo {
@@ -20008,12 +20001,7 @@ impl LocalizationTargetInfo {
   
   pub fn language_packs(&self) -> &Option<Vec<LanguagePackInfo>> { &self.language_packs }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -20053,8 +20041,11 @@ pub struct Location {
 
 
 
+impl Object for Location {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Location {}
 
 
 impl Location {
@@ -20074,12 +20065,7 @@ impl Location {
   
   pub fn longitude(&self) -> &Option<f64> { &self.longitude }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -20109,11 +20095,8 @@ impl LocationBuilder {
 
 /// This class is an abstract base class. Describes a stream to which TDLib internal log is written. 
 #[typetag::serde(tag = "@struct")]
-pub trait LogStream: Debug {}
+pub trait LogStream: Object + Debug {}
 
-
-
-impl Object for LogStream {}
 
 
 
@@ -20128,6 +20111,12 @@ pub struct LogStreamDefault {
 
 }
 
+
+
+impl Object for LogStreamDefault {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -20145,12 +20134,7 @@ impl LogStreamDefault {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -20185,6 +20169,12 @@ pub struct LogStreamFile {
 
 
 
+impl Object for LogStreamFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl LogStream for LogStreamFile {}
 
@@ -20206,12 +20196,7 @@ impl LogStreamFile {
   
   pub fn max_file_size(&self) -> &Option<i64> { &self.max_file_size }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -20250,6 +20235,12 @@ pub struct LogStreamEmpty {
 
 
 
+impl Object for LogStreamEmpty {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl LogStream for LogStreamEmpty {}
 
@@ -20265,12 +20256,7 @@ impl LogStreamEmpty {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -20303,8 +20289,11 @@ pub struct LogTags {
 
 
 
+impl Object for LogTags {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for LogTags {}
 
 
 impl LogTags {
@@ -20321,12 +20310,7 @@ impl LogTags {
   
   pub fn tags(&self) -> &Option<Vec<String>> { &self.tags }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -20364,8 +20348,11 @@ pub struct LogVerbosityLevel {
 
 
 
+impl Object for LogVerbosityLevel {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for LogVerbosityLevel {}
 
 
 impl LogVerbosityLevel {
@@ -20382,12 +20369,7 @@ impl LogVerbosityLevel {
   
   pub fn verbosity_level(&self) -> &Option<i32> { &self.verbosity_level }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -20412,11 +20394,8 @@ impl LogVerbosityLevelBuilder {
 
 /// This class is an abstract base class. Part of the face, relative to which a mask should be placed. 
 #[typetag::serde(tag = "@struct")]
-pub trait MaskPoint: Debug {}
+pub trait MaskPoint: Object + Debug {}
 
-
-
-impl Object for MaskPoint {}
 
 
 
@@ -20431,6 +20410,12 @@ pub struct MaskPointForehead {
 
 }
 
+
+
+impl Object for MaskPointForehead {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -20448,12 +20433,7 @@ impl MaskPointForehead {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -20482,6 +20462,12 @@ pub struct MaskPointEyes {
 
 
 
+impl Object for MaskPointEyes {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MaskPoint for MaskPointEyes {}
 
@@ -20497,12 +20483,7 @@ impl MaskPointEyes {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -20531,6 +20512,12 @@ pub struct MaskPointMouth {
 
 
 
+impl Object for MaskPointMouth {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MaskPoint for MaskPointMouth {}
 
@@ -20546,12 +20533,7 @@ impl MaskPointMouth {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -20580,6 +20562,12 @@ pub struct MaskPointChin {
 
 
 
+impl Object for MaskPointChin {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MaskPoint for MaskPointChin {}
 
@@ -20595,12 +20583,7 @@ impl MaskPointChin {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -20646,8 +20629,11 @@ impl Clone for MaskPosition {
 }
 
 
+impl Object for MaskPosition {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for MaskPosition {}
 
 
 impl MaskPosition {
@@ -20673,12 +20659,7 @@ impl MaskPosition {
   
   pub fn scale(&self) -> &Option<f64> { &self.scale }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -20782,8 +20763,11 @@ impl Clone for Message {
 }
 
 
+impl Object for Message {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Message {}
 
 
 impl Message {
@@ -20866,12 +20850,7 @@ impl Message {
   
   pub fn reply_markup(&self) -> &Option<Box<ReplyMarkup>> { &self.reply_markup }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -21006,11 +20985,8 @@ impl MessageBuilder {
 
 /// This class is an abstract base class. Contains the content of a message. 
 #[typetag::serde(tag = "@struct")]
-pub trait MessageContent: Debug {}
+pub trait MessageContent: Object + Debug {}
 
-
-
-impl Object for MessageContent {}
 
 
 
@@ -21031,6 +21007,12 @@ pub struct MessageText {
 
 }
 
+
+
+impl Object for MessageText {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -21054,12 +21036,7 @@ impl MessageText {
   
   pub fn web_page(&self) -> &Option<WebPage> { &self.web_page }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -21106,6 +21083,12 @@ pub struct MessageAnimation {
 
 
 
+impl Object for MessageAnimation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageAnimation {}
 
@@ -21130,12 +21113,7 @@ impl MessageAnimation {
   
   pub fn is_secret(&self) -> &Option<bool> { &self.is_secret }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -21185,6 +21163,12 @@ pub struct MessageAudio {
 
 
 
+impl Object for MessageAudio {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageAudio {}
 
@@ -21206,12 +21190,7 @@ impl MessageAudio {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -21256,6 +21235,12 @@ pub struct MessageDocument {
 
 
 
+impl Object for MessageDocument {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageDocument {}
 
@@ -21277,12 +21262,7 @@ impl MessageDocument {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -21329,6 +21309,12 @@ pub struct MessagePhoto {
 
 
 
+impl Object for MessagePhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessagePhoto {}
 
@@ -21353,12 +21339,7 @@ impl MessagePhoto {
   
   pub fn is_secret(&self) -> &Option<bool> { &self.is_secret }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -21402,6 +21383,12 @@ pub struct MessageExpiredPhoto {
 
 
 
+impl Object for MessageExpiredPhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageExpiredPhoto {}
 
@@ -21417,12 +21404,7 @@ impl MessageExpiredPhoto {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -21455,6 +21437,12 @@ pub struct MessageSticker {
 
 
 
+impl Object for MessageSticker {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageSticker {}
 
@@ -21473,12 +21461,7 @@ impl MessageSticker {
   
   pub fn sticker(&self) -> &Option<Sticker> { &self.sticker }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -21520,6 +21503,12 @@ pub struct MessageVideo {
 
 
 
+impl Object for MessageVideo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageVideo {}
 
@@ -21544,12 +21533,7 @@ impl MessageVideo {
   
   pub fn is_secret(&self) -> &Option<bool> { &self.is_secret }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -21593,6 +21577,12 @@ pub struct MessageExpiredVideo {
 
 
 
+impl Object for MessageExpiredVideo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageExpiredVideo {}
 
@@ -21608,12 +21598,7 @@ impl MessageExpiredVideo {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -21650,6 +21635,12 @@ pub struct MessageVideoNote {
 
 
 
+impl Object for MessageVideoNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageVideoNote {}
 
@@ -21674,12 +21665,7 @@ impl MessageVideoNote {
   
   pub fn is_secret(&self) -> &Option<bool> { &self.is_secret }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -21731,6 +21717,12 @@ pub struct MessageVoiceNote {
 
 
 
+impl Object for MessageVoiceNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageVoiceNote {}
 
@@ -21755,12 +21747,7 @@ impl MessageVoiceNote {
   
   pub fn is_listened(&self) -> &Option<bool> { &self.is_listened }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -21812,6 +21799,12 @@ pub struct MessageLocation {
 
 
 
+impl Object for MessageLocation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageLocation {}
 
@@ -21836,12 +21829,7 @@ impl MessageLocation {
   
   pub fn expires_in(&self) -> &Option<i32> { &self.expires_in }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -21889,6 +21877,12 @@ pub struct MessageVenue {
 
 
 
+impl Object for MessageVenue {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageVenue {}
 
@@ -21907,12 +21901,7 @@ impl MessageVenue {
   
   pub fn venue(&self) -> &Option<Venue> { &self.venue }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -21950,6 +21939,12 @@ pub struct MessageContact {
 
 
 
+impl Object for MessageContact {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageContact {}
 
@@ -21968,12 +21963,7 @@ impl MessageContact {
   
   pub fn contact(&self) -> &Option<Contact> { &self.contact }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -22011,6 +22001,12 @@ pub struct MessageGame {
 
 
 
+impl Object for MessageGame {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageGame {}
 
@@ -22029,12 +22025,7 @@ impl MessageGame {
   
   pub fn game(&self) -> &Option<Game> { &self.game }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -22072,6 +22063,12 @@ pub struct MessagePoll {
 
 
 
+impl Object for MessagePoll {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessagePoll {}
 
@@ -22090,12 +22087,7 @@ impl MessagePoll {
   
   pub fn poll(&self) -> &Option<Poll> { &self.poll }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -22149,6 +22141,12 @@ pub struct MessageInvoice {
 
 
 
+impl Object for MessageInvoice {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageInvoice {}
 
@@ -22191,12 +22189,7 @@ impl MessageInvoice {
   
   pub fn receipt_message_id(&self) -> &Option<i64> { &self.receipt_message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -22283,6 +22276,12 @@ impl Clone for MessageCall {
 }
 
 
+impl Object for MessageCall {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageCall {}
 
@@ -22304,12 +22303,7 @@ impl MessageCall {
   
   pub fn duration(&self) -> &Option<i32> { &self.duration }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -22354,6 +22348,12 @@ pub struct MessageBasicGroupChatCreate {
 
 
 
+impl Object for MessageBasicGroupChatCreate {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageBasicGroupChatCreate {}
 
@@ -22375,12 +22375,7 @@ impl MessageBasicGroupChatCreate {
   
   pub fn member_user_ids(&self) -> &Option<Vec<i32>> { &self.member_user_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -22423,6 +22418,12 @@ pub struct MessageSupergroupChatCreate {
 
 
 
+impl Object for MessageSupergroupChatCreate {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageSupergroupChatCreate {}
 
@@ -22441,12 +22442,7 @@ impl MessageSupergroupChatCreate {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -22484,6 +22480,12 @@ pub struct MessageChatChangeTitle {
 
 
 
+impl Object for MessageChatChangeTitle {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageChatChangeTitle {}
 
@@ -22502,12 +22504,7 @@ impl MessageChatChangeTitle {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -22545,6 +22542,12 @@ pub struct MessageChatChangePhoto {
 
 
 
+impl Object for MessageChatChangePhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageChatChangePhoto {}
 
@@ -22563,12 +22566,7 @@ impl MessageChatChangePhoto {
   
   pub fn photo(&self) -> &Option<Photo> { &self.photo }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -22602,6 +22600,12 @@ pub struct MessageChatDeletePhoto {
 
 
 
+impl Object for MessageChatDeletePhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageChatDeletePhoto {}
 
@@ -22617,12 +22621,7 @@ impl MessageChatDeletePhoto {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -22655,6 +22654,12 @@ pub struct MessageChatAddMembers {
 
 
 
+impl Object for MessageChatAddMembers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageChatAddMembers {}
 
@@ -22673,12 +22678,7 @@ impl MessageChatAddMembers {
   
   pub fn member_user_ids(&self) -> &Option<Vec<i32>> { &self.member_user_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -22712,6 +22712,12 @@ pub struct MessageChatJoinByLink {
 
 
 
+impl Object for MessageChatJoinByLink {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageChatJoinByLink {}
 
@@ -22727,12 +22733,7 @@ impl MessageChatJoinByLink {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -22765,6 +22766,12 @@ pub struct MessageChatDeleteMember {
 
 
 
+impl Object for MessageChatDeleteMember {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageChatDeleteMember {}
 
@@ -22783,12 +22790,7 @@ impl MessageChatDeleteMember {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -22826,6 +22828,12 @@ pub struct MessageChatUpgradeTo {
 
 
 
+impl Object for MessageChatUpgradeTo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageChatUpgradeTo {}
 
@@ -22844,12 +22852,7 @@ impl MessageChatUpgradeTo {
   
   pub fn supergroup_id(&self) -> &Option<i32> { &self.supergroup_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -22889,6 +22892,12 @@ pub struct MessageChatUpgradeFrom {
 
 
 
+impl Object for MessageChatUpgradeFrom {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageChatUpgradeFrom {}
 
@@ -22910,12 +22919,7 @@ impl MessageChatUpgradeFrom {
   
   pub fn basic_group_id(&self) -> &Option<i32> { &self.basic_group_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -22958,6 +22962,12 @@ pub struct MessagePinMessage {
 
 
 
+impl Object for MessagePinMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessagePinMessage {}
 
@@ -22976,12 +22986,7 @@ impl MessagePinMessage {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -23015,6 +23020,12 @@ pub struct MessageScreenshotTaken {
 
 
 
+impl Object for MessageScreenshotTaken {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageScreenshotTaken {}
 
@@ -23030,12 +23041,7 @@ impl MessageScreenshotTaken {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -23068,6 +23074,12 @@ pub struct MessageChatSetTtl {
 
 
 
+impl Object for MessageChatSetTtl {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageChatSetTtl {}
 
@@ -23086,12 +23098,7 @@ impl MessageChatSetTtl {
   
   pub fn ttl(&self) -> &Option<i32> { &self.ttl }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -23129,6 +23136,12 @@ pub struct MessageCustomServiceAction {
 
 
 
+impl Object for MessageCustomServiceAction {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageCustomServiceAction {}
 
@@ -23147,12 +23160,7 @@ impl MessageCustomServiceAction {
   
   pub fn text(&self) -> &Option<String> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -23194,6 +23202,12 @@ pub struct MessageGameScore {
 
 
 
+impl Object for MessageGameScore {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageGameScore {}
 
@@ -23218,12 +23232,7 @@ impl MessageGameScore {
   
   pub fn score(&self) -> &Option<i32> { &self.score }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -23275,6 +23284,12 @@ pub struct MessagePaymentSuccessful {
 
 
 
+impl Object for MessagePaymentSuccessful {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessagePaymentSuccessful {}
 
@@ -23299,12 +23314,7 @@ impl MessagePaymentSuccessful {
   
   pub fn total_amount(&self) -> &Option<i64> { &self.total_amount }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -23366,6 +23376,12 @@ pub struct MessagePaymentSuccessfulBot {
 
 
 
+impl Object for MessagePaymentSuccessfulBot {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessagePaymentSuccessfulBot {}
 
@@ -23405,12 +23421,7 @@ impl MessagePaymentSuccessfulBot {
   
   pub fn provider_payment_charge_id(&self) -> &Option<String> { &self.provider_payment_charge_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -23479,6 +23490,12 @@ pub struct MessageContactRegistered {
 
 
 
+impl Object for MessageContactRegistered {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageContactRegistered {}
 
@@ -23494,12 +23511,7 @@ impl MessageContactRegistered {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -23532,6 +23544,12 @@ pub struct MessageWebsiteConnected {
 
 
 
+impl Object for MessageWebsiteConnected {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageWebsiteConnected {}
 
@@ -23550,12 +23568,7 @@ impl MessageWebsiteConnected {
   
   pub fn domain_name(&self) -> &Option<String> { &self.domain_name }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -23600,6 +23613,12 @@ impl Clone for MessagePassportDataSent {
 }
 
 
+impl Object for MessagePassportDataSent {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessagePassportDataSent {}
 
@@ -23618,12 +23637,7 @@ impl MessagePassportDataSent {
   
   pub fn types(&self) -> &Option<Vec<Box<PassportElementType>>> { &self.types }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -23663,6 +23677,12 @@ pub struct MessagePassportDataReceived {
 
 
 
+impl Object for MessagePassportDataReceived {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessagePassportDataReceived {}
 
@@ -23684,12 +23704,7 @@ impl MessagePassportDataReceived {
   
   pub fn credentials(&self) -> &Option<EncryptedCredentials> { &self.credentials }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -23728,6 +23743,12 @@ pub struct MessageUnsupported {
 
 
 
+impl Object for MessageUnsupported {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageContent for MessageUnsupported {}
 
@@ -23743,12 +23764,7 @@ impl MessageUnsupported {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -23794,8 +23810,11 @@ impl Clone for MessageForwardInfo {
 }
 
 
+impl Object for MessageForwardInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for MessageForwardInfo {}
 
 
 impl MessageForwardInfo {
@@ -23821,12 +23840,7 @@ impl MessageForwardInfo {
   
   pub fn from_message_id(&self) -> &Option<i64> { &self.from_message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -23866,11 +23880,8 @@ impl MessageForwardInfoBuilder {
 
 /// This class is an abstract base class. Contains information about the origin of a forwarded message. 
 #[typetag::serde(tag = "@struct")]
-pub trait MessageForwardOrigin: Debug {}
+pub trait MessageForwardOrigin: Object + Debug {}
 
-
-
-impl Object for MessageForwardOrigin {}
 
 
 
@@ -23891,6 +23902,12 @@ pub struct MessageForwardOriginUser {
 
 
 
+impl Object for MessageForwardOriginUser {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageForwardOrigin for MessageForwardOriginUser {}
 
@@ -23909,12 +23926,7 @@ impl MessageForwardOriginUser {
   
   pub fn sender_user_id(&self) -> &Option<i32> { &self.sender_user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -23952,6 +23964,12 @@ pub struct MessageForwardOriginHiddenUser {
 
 
 
+impl Object for MessageForwardOriginHiddenUser {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageForwardOrigin for MessageForwardOriginHiddenUser {}
 
@@ -23970,12 +23988,7 @@ impl MessageForwardOriginHiddenUser {
   
   pub fn sender_name(&self) -> &Option<String> { &self.sender_name }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -24017,6 +24030,12 @@ pub struct MessageForwardOriginChannel {
 
 
 
+impl Object for MessageForwardOriginChannel {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageForwardOrigin for MessageForwardOriginChannel {}
 
@@ -24041,12 +24060,7 @@ impl MessageForwardOriginChannel {
   
   pub fn author_signature(&self) -> &Option<String> { &self.author_signature }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -24081,11 +24095,8 @@ impl MessageForwardOriginChannelBuilder {
 
 /// This class is an abstract base class. Contains information about the sending state of the message. 
 #[typetag::serde(tag = "@struct")]
-pub trait MessageSendingState: Debug {}
+pub trait MessageSendingState: Object + Debug {}
 
-
-
-impl Object for MessageSendingState {}
 
 
 
@@ -24100,6 +24111,12 @@ pub struct MessageSendingStatePending {
 
 }
 
+
+
+impl Object for MessageSendingStatePending {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -24117,12 +24134,7 @@ impl MessageSendingStatePending {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -24151,6 +24163,12 @@ pub struct MessageSendingStateFailed {
 
 
 
+impl Object for MessageSendingStateFailed {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl MessageSendingState for MessageSendingStateFailed {}
 
@@ -24166,12 +24184,7 @@ impl MessageSendingStateFailed {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -24206,8 +24219,11 @@ pub struct Messages {
 
 
 
+impl Object for Messages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Messages {}
 
 
 impl Messages {
@@ -24227,12 +24243,7 @@ impl Messages {
   
   pub fn messages(&self) -> &Option<Vec<Message>> { &self.messages }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -24284,8 +24295,11 @@ impl Clone for NetworkStatistics {
 }
 
 
+impl Object for NetworkStatistics {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for NetworkStatistics {}
 
 
 impl NetworkStatistics {
@@ -24305,12 +24319,7 @@ impl NetworkStatistics {
   
   pub fn entries(&self) -> &Option<Vec<Box<NetworkStatisticsEntry>>> { &self.entries }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -24340,11 +24349,8 @@ impl NetworkStatisticsBuilder {
 
 /// This class is an abstract base class. Contains statistics about network usage. 
 #[typetag::serde(tag = "@struct")]
-pub trait NetworkStatisticsEntry: Debug {}
+pub trait NetworkStatisticsEntry: Object + Debug {}
 
-
-
-impl Object for NetworkStatisticsEntry {}
 
 
 
@@ -24378,6 +24384,12 @@ impl Clone for NetworkStatisticsEntryFile {
 }
 
 
+impl Object for NetworkStatisticsEntryFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl NetworkStatisticsEntry for NetworkStatisticsEntryFile {}
 
@@ -24405,12 +24417,7 @@ impl NetworkStatisticsEntryFile {
   
   pub fn received_bytes(&self) -> &Option<i64> { &self.received_bytes }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -24476,6 +24483,12 @@ impl Clone for NetworkStatisticsEntryCall {
 }
 
 
+impl Object for NetworkStatisticsEntryCall {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl NetworkStatisticsEntry for NetworkStatisticsEntryCall {}
 
@@ -24503,12 +24516,7 @@ impl NetworkStatisticsEntryCall {
   
   pub fn duration(&self) -> &Option<f64> { &self.duration }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -24548,11 +24556,8 @@ impl NetworkStatisticsEntryCallBuilder {
 
 /// This class is an abstract base class. Represents the type of a network. 
 #[typetag::serde(tag = "@struct")]
-pub trait NetworkType: Debug {}
+pub trait NetworkType: Object + Debug {}
 
-
-
-impl Object for NetworkType {}
 
 
 
@@ -24567,6 +24572,12 @@ pub struct NetworkTypeNone {
 
 }
 
+
+
+impl Object for NetworkTypeNone {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -24584,12 +24595,7 @@ impl NetworkTypeNone {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -24618,6 +24624,12 @@ pub struct NetworkTypeMobile {
 
 
 
+impl Object for NetworkTypeMobile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl NetworkType for NetworkTypeMobile {}
 
@@ -24633,12 +24645,7 @@ impl NetworkTypeMobile {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -24667,6 +24674,12 @@ pub struct NetworkTypeMobileRoaming {
 
 
 
+impl Object for NetworkTypeMobileRoaming {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl NetworkType for NetworkTypeMobileRoaming {}
 
@@ -24682,12 +24695,7 @@ impl NetworkTypeMobileRoaming {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -24716,6 +24724,12 @@ pub struct NetworkTypeWiFi {
 
 
 
+impl Object for NetworkTypeWiFi {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl NetworkType for NetworkTypeWiFi {}
 
@@ -24731,12 +24745,7 @@ impl NetworkTypeWiFi {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -24765,6 +24774,12 @@ pub struct NetworkTypeOther {
 
 
 
+impl Object for NetworkTypeOther {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl NetworkType for NetworkTypeOther {}
 
@@ -24780,12 +24795,7 @@ impl NetworkTypeOther {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -24829,8 +24839,11 @@ impl Clone for Notification {
 }
 
 
+impl Object for Notification {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Notification {}
 
 
 impl Notification {
@@ -24853,12 +24866,7 @@ impl Notification {
   
   pub fn type_(&self) -> &Option<Box<NotificationType>> { &self.type_ }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -24921,8 +24929,11 @@ impl Clone for NotificationGroup {
 }
 
 
+impl Object for NotificationGroup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for NotificationGroup {}
 
 
 impl NotificationGroup {
@@ -24951,12 +24962,7 @@ impl NotificationGroup {
   
   pub fn notifications(&self) -> &Option<Vec<Notification>> { &self.notifications }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25001,11 +25007,8 @@ impl NotificationGroupBuilder {
 
 /// This class is an abstract base class. Describes type of notifications in the group. 
 #[typetag::serde(tag = "@struct")]
-pub trait NotificationGroupType: Debug {}
+pub trait NotificationGroupType: Object + Debug {}
 
-
-
-impl Object for NotificationGroupType {}
 
 
 
@@ -25020,6 +25023,12 @@ pub struct NotificationGroupTypeMessages {
 
 }
 
+
+
+impl Object for NotificationGroupTypeMessages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -25037,12 +25046,7 @@ impl NotificationGroupTypeMessages {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25071,6 +25075,12 @@ pub struct NotificationGroupTypeMentions {
 
 
 
+impl Object for NotificationGroupTypeMentions {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl NotificationGroupType for NotificationGroupTypeMentions {}
 
@@ -25086,12 +25096,7 @@ impl NotificationGroupTypeMentions {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25120,6 +25125,12 @@ pub struct NotificationGroupTypeSecretChat {
 
 
 
+impl Object for NotificationGroupTypeSecretChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl NotificationGroupType for NotificationGroupTypeSecretChat {}
 
@@ -25135,12 +25146,7 @@ impl NotificationGroupTypeSecretChat {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25169,6 +25175,12 @@ pub struct NotificationGroupTypeCalls {
 
 
 
+impl Object for NotificationGroupTypeCalls {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl NotificationGroupType for NotificationGroupTypeCalls {}
 
@@ -25184,12 +25196,7 @@ impl NotificationGroupTypeCalls {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25209,11 +25216,8 @@ impl NotificationGroupTypeCallsBuilder {
 
 /// This class is an abstract base class. Describes the types of chats to which notification settings are applied. 
 #[typetag::serde(tag = "@struct")]
-pub trait NotificationSettingsScope: Debug {}
+pub trait NotificationSettingsScope: Object + Debug {}
 
-
-
-impl Object for NotificationSettingsScope {}
 
 
 
@@ -25228,6 +25232,12 @@ pub struct NotificationSettingsScopePrivateChats {
 
 }
 
+
+
+impl Object for NotificationSettingsScopePrivateChats {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -25245,12 +25255,7 @@ impl NotificationSettingsScopePrivateChats {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25279,6 +25284,12 @@ pub struct NotificationSettingsScopeGroupChats {
 
 
 
+impl Object for NotificationSettingsScopeGroupChats {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl NotificationSettingsScope for NotificationSettingsScopeGroupChats {}
 
@@ -25294,12 +25305,7 @@ impl NotificationSettingsScopeGroupChats {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25328,6 +25334,12 @@ pub struct NotificationSettingsScopeChannelChats {
 
 
 
+impl Object for NotificationSettingsScopeChannelChats {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl NotificationSettingsScope for NotificationSettingsScopeChannelChats {}
 
@@ -25343,12 +25355,7 @@ impl NotificationSettingsScopeChannelChats {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25368,11 +25375,8 @@ impl NotificationSettingsScopeChannelChatsBuilder {
 
 /// This class is an abstract base class. Contains detailed information about a notification. 
 #[typetag::serde(tag = "@struct")]
-pub trait NotificationType: Debug {}
+pub trait NotificationType: Object + Debug {}
 
-
-
-impl Object for NotificationType {}
 
 
 
@@ -25393,6 +25397,12 @@ pub struct NotificationTypeNewMessage {
 
 
 
+impl Object for NotificationTypeNewMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl NotificationType for NotificationTypeNewMessage {}
 
@@ -25411,12 +25421,7 @@ impl NotificationTypeNewMessage {
   
   pub fn message(&self) -> &Option<Message> { &self.message }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25450,6 +25455,12 @@ pub struct NotificationTypeNewSecretChat {
 
 
 
+impl Object for NotificationTypeNewSecretChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl NotificationType for NotificationTypeNewSecretChat {}
 
@@ -25465,12 +25476,7 @@ impl NotificationTypeNewSecretChat {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25503,6 +25509,12 @@ pub struct NotificationTypeNewCall {
 
 
 
+impl Object for NotificationTypeNewCall {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl NotificationType for NotificationTypeNewCall {}
 
@@ -25521,12 +25533,7 @@ impl NotificationTypeNewCall {
   
   pub fn call_id(&self) -> &Option<i32> { &self.call_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25575,6 +25582,12 @@ impl Clone for NotificationTypeNewPushMessage {
 }
 
 
+impl Object for NotificationTypeNewPushMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl NotificationType for NotificationTypeNewPushMessage {}
 
@@ -25599,12 +25612,7 @@ impl NotificationTypeNewPushMessage {
   
   pub fn content(&self) -> &Option<Box<PushMessageContent>> { &self.content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25648,8 +25656,11 @@ pub struct Ok {
 
 
 
+impl Object for Ok {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Ok {}
 
 
 impl Ok {
@@ -25663,12 +25674,7 @@ impl Ok {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25688,11 +25694,8 @@ impl OkBuilder {
 
 /// This class is an abstract base class. Represents the value of an option. 
 #[typetag::serde(tag = "@struct")]
-pub trait OptionValue: Debug {}
+pub trait OptionValue: Object + Debug {}
 
-
-
-impl Object for OptionValue {}
 
 
 
@@ -25713,6 +25716,12 @@ pub struct OptionValueBoolean {
 
 
 
+impl Object for OptionValueBoolean {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl OptionValue for OptionValueBoolean {}
 
@@ -25731,12 +25740,7 @@ impl OptionValueBoolean {
   
   pub fn value(&self) -> &Option<bool> { &self.value }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25770,6 +25774,12 @@ pub struct OptionValueEmpty {
 
 
 
+impl Object for OptionValueEmpty {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl OptionValue for OptionValueEmpty {}
 
@@ -25785,12 +25795,7 @@ impl OptionValueEmpty {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25823,6 +25828,12 @@ pub struct OptionValueInteger {
 
 
 
+impl Object for OptionValueInteger {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl OptionValue for OptionValueInteger {}
 
@@ -25841,12 +25852,7 @@ impl OptionValueInteger {
   
   pub fn value(&self) -> &Option<i32> { &self.value }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25884,6 +25890,12 @@ pub struct OptionValueString {
 
 
 
+impl Object for OptionValueString {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl OptionValue for OptionValueString {}
 
@@ -25902,12 +25914,7 @@ impl OptionValueString {
   
   pub fn value(&self) -> &Option<String> { &self.value }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -25951,8 +25958,11 @@ pub struct OrderInfo {
 
 
 
+impl Object for OrderInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for OrderInfo {}
 
 
 impl OrderInfo {
@@ -25978,12 +25988,7 @@ impl OrderInfo {
   
   pub fn shipping_address(&self) -> &Option<Address> { &self.shipping_address }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -26023,11 +26028,8 @@ impl OrderInfoBuilder {
 
 /// This class is an abstract base class. Describes a block of an instant view web page. 
 #[typetag::serde(tag = "@struct")]
-pub trait PageBlock: Debug {}
+pub trait PageBlock: Object + Debug {}
 
-
-
-impl Object for PageBlock {}
 
 
 
@@ -26055,6 +26057,12 @@ impl Clone for PageBlockTitle {
 }
 
 
+impl Object for PageBlockTitle {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockTitle {}
 
@@ -26073,12 +26081,7 @@ impl PageBlockTitle {
   
   pub fn title(&self) -> &Option<Box<RichText>> { &self.title }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -26123,6 +26126,12 @@ impl Clone for PageBlockSubtitle {
 }
 
 
+impl Object for PageBlockSubtitle {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockSubtitle {}
 
@@ -26141,12 +26150,7 @@ impl PageBlockSubtitle {
   
   pub fn subtitle(&self) -> &Option<Box<RichText>> { &self.subtitle }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -26193,6 +26197,12 @@ impl Clone for PageBlockAuthorDate {
 }
 
 
+impl Object for PageBlockAuthorDate {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockAuthorDate {}
 
@@ -26214,12 +26224,7 @@ impl PageBlockAuthorDate {
   
   pub fn publish_date(&self) -> &Option<i32> { &self.publish_date }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -26269,6 +26274,12 @@ impl Clone for PageBlockHeader {
 }
 
 
+impl Object for PageBlockHeader {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockHeader {}
 
@@ -26287,12 +26298,7 @@ impl PageBlockHeader {
   
   pub fn header(&self) -> &Option<Box<RichText>> { &self.header }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -26337,6 +26343,12 @@ impl Clone for PageBlockSubheader {
 }
 
 
+impl Object for PageBlockSubheader {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockSubheader {}
 
@@ -26355,12 +26367,7 @@ impl PageBlockSubheader {
   
   pub fn subheader(&self) -> &Option<Box<RichText>> { &self.subheader }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -26405,6 +26412,12 @@ impl Clone for PageBlockKicker {
 }
 
 
+impl Object for PageBlockKicker {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockKicker {}
 
@@ -26423,12 +26436,7 @@ impl PageBlockKicker {
   
   pub fn kicker(&self) -> &Option<Box<RichText>> { &self.kicker }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -26473,6 +26481,12 @@ impl Clone for PageBlockParagraph {
 }
 
 
+impl Object for PageBlockParagraph {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockParagraph {}
 
@@ -26491,12 +26505,7 @@ impl PageBlockParagraph {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -26543,6 +26552,12 @@ impl Clone for PageBlockPreformatted {
 }
 
 
+impl Object for PageBlockPreformatted {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockPreformatted {}
 
@@ -26564,12 +26579,7 @@ impl PageBlockPreformatted {
   
   pub fn language(&self) -> &Option<String> { &self.language }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -26619,6 +26629,12 @@ impl Clone for PageBlockFooter {
 }
 
 
+impl Object for PageBlockFooter {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockFooter {}
 
@@ -26637,12 +26653,7 @@ impl PageBlockFooter {
   
   pub fn footer(&self) -> &Option<Box<RichText>> { &self.footer }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -26676,6 +26687,12 @@ pub struct PageBlockDivider {
 
 
 
+impl Object for PageBlockDivider {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockDivider {}
 
@@ -26691,12 +26708,7 @@ impl PageBlockDivider {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -26729,6 +26741,12 @@ pub struct PageBlockAnchor {
 
 
 
+impl Object for PageBlockAnchor {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockAnchor {}
 
@@ -26747,12 +26765,7 @@ impl PageBlockAnchor {
   
   pub fn name(&self) -> &Option<String> { &self.name }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -26790,6 +26803,12 @@ pub struct PageBlockList {
 
 
 
+impl Object for PageBlockList {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockList {}
 
@@ -26808,12 +26827,7 @@ impl PageBlockList {
   
   pub fn items(&self) -> &Option<Vec<PageBlockListItem>> { &self.items }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -26860,6 +26874,12 @@ impl Clone for PageBlockBlockQuote {
 }
 
 
+impl Object for PageBlockBlockQuote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockBlockQuote {}
 
@@ -26881,12 +26901,7 @@ impl PageBlockBlockQuote {
   
   pub fn credit(&self) -> &Option<Box<RichText>> { &self.credit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -26938,6 +26953,12 @@ impl Clone for PageBlockPullQuote {
 }
 
 
+impl Object for PageBlockPullQuote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockPullQuote {}
 
@@ -26959,12 +26980,7 @@ impl PageBlockPullQuote {
   
   pub fn credit(&self) -> &Option<Box<RichText>> { &self.credit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -27011,6 +27027,12 @@ pub struct PageBlockAnimation {
 
 
 
+impl Object for PageBlockAnimation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockAnimation {}
 
@@ -27035,12 +27057,7 @@ impl PageBlockAnimation {
   
   pub fn need_autoplay(&self) -> &Option<bool> { &self.need_autoplay }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -27090,6 +27107,12 @@ pub struct PageBlockAudio {
 
 
 
+impl Object for PageBlockAudio {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockAudio {}
 
@@ -27111,12 +27134,7 @@ impl PageBlockAudio {
   
   pub fn caption(&self) -> &Option<PageBlockCaption> { &self.caption }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -27163,6 +27181,12 @@ pub struct PageBlockPhoto {
 
 
 
+impl Object for PageBlockPhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockPhoto {}
 
@@ -27187,12 +27211,7 @@ impl PageBlockPhoto {
   
   pub fn url(&self) -> &Option<String> { &self.url }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -27246,6 +27265,12 @@ pub struct PageBlockVideo {
 
 
 
+impl Object for PageBlockVideo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockVideo {}
 
@@ -27273,12 +27298,7 @@ impl PageBlockVideo {
   
   pub fn is_looped(&self) -> &Option<bool> { &self.is_looped }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -27338,6 +27358,12 @@ impl Clone for PageBlockCover {
 }
 
 
+impl Object for PageBlockCover {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockCover {}
 
@@ -27356,12 +27382,7 @@ impl PageBlockCover {
   
   pub fn cover(&self) -> &Option<Box<PageBlock>> { &self.cover }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -27413,6 +27434,12 @@ pub struct PageBlockEmbedded {
 
 
 
+impl Object for PageBlockEmbedded {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockEmbedded {}
 
@@ -27452,12 +27479,7 @@ impl PageBlockEmbedded {
   
   pub fn allow_scrolling(&self) -> &Option<bool> { &self.allow_scrolling }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -27547,6 +27569,12 @@ impl Clone for PageBlockEmbeddedPost {
 }
 
 
+impl Object for PageBlockEmbeddedPost {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockEmbeddedPost {}
 
@@ -27580,12 +27608,7 @@ impl PageBlockEmbeddedPost {
   
   pub fn caption(&self) -> &Option<PageBlockCaption> { &self.caption }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -27657,6 +27680,12 @@ impl Clone for PageBlockCollage {
 }
 
 
+impl Object for PageBlockCollage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockCollage {}
 
@@ -27678,12 +27707,7 @@ impl PageBlockCollage {
   
   pub fn caption(&self) -> &Option<PageBlockCaption> { &self.caption }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -27735,6 +27759,12 @@ impl Clone for PageBlockSlideshow {
 }
 
 
+impl Object for PageBlockSlideshow {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockSlideshow {}
 
@@ -27756,12 +27786,7 @@ impl PageBlockSlideshow {
   
   pub fn caption(&self) -> &Option<PageBlockCaption> { &self.caption }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -27808,6 +27833,12 @@ pub struct PageBlockChatLink {
 
 
 
+impl Object for PageBlockChatLink {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockChatLink {}
 
@@ -27832,12 +27863,7 @@ impl PageBlockChatLink {
   
   pub fn username(&self) -> &Option<String> { &self.username }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -27898,6 +27924,12 @@ impl Clone for PageBlockTable {
 }
 
 
+impl Object for PageBlockTable {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockTable {}
 
@@ -27925,12 +27957,7 @@ impl PageBlockTable {
   
   pub fn is_striped(&self) -> &Option<bool> { &self.is_striped }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -27994,6 +28021,12 @@ impl Clone for PageBlockDetails {
 }
 
 
+impl Object for PageBlockDetails {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockDetails {}
 
@@ -28018,12 +28051,7 @@ impl PageBlockDetails {
   
   pub fn is_open(&self) -> &Option<bool> { &self.is_open }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -28080,6 +28108,12 @@ impl Clone for PageBlockRelatedArticles {
 }
 
 
+impl Object for PageBlockRelatedArticles {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockRelatedArticles {}
 
@@ -28101,12 +28135,7 @@ impl PageBlockRelatedArticles {
   
   pub fn articles(&self) -> &Option<Vec<PageBlockRelatedArticle>> { &self.articles }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -28157,6 +28186,12 @@ pub struct PageBlockMap {
 
 
 
+impl Object for PageBlockMap {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlock for PageBlockMap {}
 
@@ -28187,12 +28222,7 @@ impl PageBlockMap {
   
   pub fn caption(&self) -> &Option<PageBlockCaption> { &self.caption }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -28259,8 +28289,11 @@ impl Clone for PageBlockCaption {
 }
 
 
+impl Object for PageBlockCaption {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PageBlockCaption {}
 
 
 impl PageBlockCaption {
@@ -28280,12 +28313,7 @@ impl PageBlockCaption {
   
   pub fn credit(&self) -> &Option<Box<RichText>> { &self.credit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -28315,11 +28343,8 @@ impl PageBlockCaptionBuilder {
 
 /// This class is an abstract base class. Describes a horizontal alignment of a table cell content. 
 #[typetag::serde(tag = "@struct")]
-pub trait PageBlockHorizontalAlignment: Debug {}
+pub trait PageBlockHorizontalAlignment: Object + Debug {}
 
-
-
-impl Object for PageBlockHorizontalAlignment {}
 
 
 
@@ -28334,6 +28359,12 @@ pub struct PageBlockHorizontalAlignmentLeft {
 
 }
 
+
+
+impl Object for PageBlockHorizontalAlignmentLeft {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -28351,12 +28382,7 @@ impl PageBlockHorizontalAlignmentLeft {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -28385,6 +28411,12 @@ pub struct PageBlockHorizontalAlignmentCenter {
 
 
 
+impl Object for PageBlockHorizontalAlignmentCenter {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlockHorizontalAlignment for PageBlockHorizontalAlignmentCenter {}
 
@@ -28400,12 +28432,7 @@ impl PageBlockHorizontalAlignmentCenter {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -28434,6 +28461,12 @@ pub struct PageBlockHorizontalAlignmentRight {
 
 
 
+impl Object for PageBlockHorizontalAlignmentRight {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlockHorizontalAlignment for PageBlockHorizontalAlignmentRight {}
 
@@ -28449,12 +28482,7 @@ impl PageBlockHorizontalAlignmentRight {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -28496,8 +28524,11 @@ impl Clone for PageBlockListItem {
 }
 
 
+impl Object for PageBlockListItem {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PageBlockListItem {}
 
 
 impl PageBlockListItem {
@@ -28517,12 +28548,7 @@ impl PageBlockListItem {
   
   pub fn page_blocks(&self) -> &Option<Vec<Box<PageBlock>>> { &self.page_blocks }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -28575,8 +28601,11 @@ pub struct PageBlockRelatedArticle {
 
 
 
+impl Object for PageBlockRelatedArticle {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PageBlockRelatedArticle {}
 
 
 impl PageBlockRelatedArticle {
@@ -28608,12 +28637,7 @@ impl PageBlockRelatedArticle {
   
   pub fn publish_date(&self) -> &Option<i32> { &self.publish_date }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -28693,8 +28717,11 @@ impl Clone for PageBlockTableCell {
 }
 
 
+impl Object for PageBlockTableCell {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PageBlockTableCell {}
 
 
 impl PageBlockTableCell {
@@ -28726,12 +28753,7 @@ impl PageBlockTableCell {
   
   pub fn valign(&self) -> &Option<Box<PageBlockVerticalAlignment>> { &self.valign }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -28781,11 +28803,8 @@ impl PageBlockTableCellBuilder {
 
 /// This class is an abstract base class. Describes a Vertical alignment of a table cell content. 
 #[typetag::serde(tag = "@struct")]
-pub trait PageBlockVerticalAlignment: Debug {}
+pub trait PageBlockVerticalAlignment: Object + Debug {}
 
-
-
-impl Object for PageBlockVerticalAlignment {}
 
 
 
@@ -28800,6 +28819,12 @@ pub struct PageBlockVerticalAlignmentTop {
 
 }
 
+
+
+impl Object for PageBlockVerticalAlignmentTop {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -28817,12 +28842,7 @@ impl PageBlockVerticalAlignmentTop {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -28851,6 +28871,12 @@ pub struct PageBlockVerticalAlignmentMiddle {
 
 
 
+impl Object for PageBlockVerticalAlignmentMiddle {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlockVerticalAlignment for PageBlockVerticalAlignmentMiddle {}
 
@@ -28866,12 +28892,7 @@ impl PageBlockVerticalAlignmentMiddle {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -28900,6 +28921,12 @@ pub struct PageBlockVerticalAlignmentBottom {
 
 
 
+impl Object for PageBlockVerticalAlignmentBottom {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PageBlockVerticalAlignment for PageBlockVerticalAlignmentBottom {}
 
@@ -28915,12 +28942,7 @@ impl PageBlockVerticalAlignmentBottom {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -28957,8 +28979,11 @@ pub struct PassportAuthorizationForm {
 
 
 
+impl Object for PassportAuthorizationForm {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PassportAuthorizationForm {}
 
 
 impl PassportAuthorizationForm {
@@ -28981,12 +29006,7 @@ impl PassportAuthorizationForm {
   
   pub fn privacy_policy_url(&self) -> &Option<String> { &self.privacy_policy_url }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29021,11 +29041,8 @@ impl PassportAuthorizationFormBuilder {
 
 /// This class is an abstract base class. Contains information about a Telegram Passport element. 
 #[typetag::serde(tag = "@struct")]
-pub trait PassportElement: Debug {}
+pub trait PassportElement: Object + Debug {}
 
-
-
-impl Object for PassportElement {}
 
 
 
@@ -29046,6 +29063,12 @@ pub struct PassportElementPersonalDetails {
 
 
 
+impl Object for PassportElementPersonalDetails {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElement for PassportElementPersonalDetails {}
 
@@ -29064,12 +29087,7 @@ impl PassportElementPersonalDetails {
   
   pub fn personal_details(&self) -> &Option<PersonalDetails> { &self.personal_details }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29107,6 +29125,12 @@ pub struct PassportElementPassport {
 
 
 
+impl Object for PassportElementPassport {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElement for PassportElementPassport {}
 
@@ -29125,12 +29149,7 @@ impl PassportElementPassport {
   
   pub fn passport(&self) -> &Option<IdentityDocument> { &self.passport }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29168,6 +29187,12 @@ pub struct PassportElementDriverLicense {
 
 
 
+impl Object for PassportElementDriverLicense {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElement for PassportElementDriverLicense {}
 
@@ -29186,12 +29211,7 @@ impl PassportElementDriverLicense {
   
   pub fn driver_license(&self) -> &Option<IdentityDocument> { &self.driver_license }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29229,6 +29249,12 @@ pub struct PassportElementIdentityCard {
 
 
 
+impl Object for PassportElementIdentityCard {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElement for PassportElementIdentityCard {}
 
@@ -29247,12 +29273,7 @@ impl PassportElementIdentityCard {
   
   pub fn identity_card(&self) -> &Option<IdentityDocument> { &self.identity_card }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29290,6 +29311,12 @@ pub struct PassportElementInternalPassport {
 
 
 
+impl Object for PassportElementInternalPassport {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElement for PassportElementInternalPassport {}
 
@@ -29308,12 +29335,7 @@ impl PassportElementInternalPassport {
   
   pub fn internal_passport(&self) -> &Option<IdentityDocument> { &self.internal_passport }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29351,6 +29373,12 @@ pub struct PassportElementAddress {
 
 
 
+impl Object for PassportElementAddress {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElement for PassportElementAddress {}
 
@@ -29369,12 +29397,7 @@ impl PassportElementAddress {
   
   pub fn address(&self) -> &Option<Address> { &self.address }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29412,6 +29435,12 @@ pub struct PassportElementUtilityBill {
 
 
 
+impl Object for PassportElementUtilityBill {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElement for PassportElementUtilityBill {}
 
@@ -29430,12 +29459,7 @@ impl PassportElementUtilityBill {
   
   pub fn utility_bill(&self) -> &Option<PersonalDocument> { &self.utility_bill }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29473,6 +29497,12 @@ pub struct PassportElementBankStatement {
 
 
 
+impl Object for PassportElementBankStatement {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElement for PassportElementBankStatement {}
 
@@ -29491,12 +29521,7 @@ impl PassportElementBankStatement {
   
   pub fn bank_statement(&self) -> &Option<PersonalDocument> { &self.bank_statement }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29534,6 +29559,12 @@ pub struct PassportElementRentalAgreement {
 
 
 
+impl Object for PassportElementRentalAgreement {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElement for PassportElementRentalAgreement {}
 
@@ -29552,12 +29583,7 @@ impl PassportElementRentalAgreement {
   
   pub fn rental_agreement(&self) -> &Option<PersonalDocument> { &self.rental_agreement }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29595,6 +29621,12 @@ pub struct PassportElementPassportRegistration {
 
 
 
+impl Object for PassportElementPassportRegistration {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElement for PassportElementPassportRegistration {}
 
@@ -29613,12 +29645,7 @@ impl PassportElementPassportRegistration {
   
   pub fn passport_registration(&self) -> &Option<PersonalDocument> { &self.passport_registration }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29656,6 +29683,12 @@ pub struct PassportElementTemporaryRegistration {
 
 
 
+impl Object for PassportElementTemporaryRegistration {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElement for PassportElementTemporaryRegistration {}
 
@@ -29674,12 +29707,7 @@ impl PassportElementTemporaryRegistration {
   
   pub fn temporary_registration(&self) -> &Option<PersonalDocument> { &self.temporary_registration }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29717,6 +29745,12 @@ pub struct PassportElementPhoneNumber {
 
 
 
+impl Object for PassportElementPhoneNumber {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElement for PassportElementPhoneNumber {}
 
@@ -29735,12 +29769,7 @@ impl PassportElementPhoneNumber {
   
   pub fn phone_number(&self) -> &Option<String> { &self.phone_number }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29778,6 +29807,12 @@ pub struct PassportElementEmailAddress {
 
 
 
+impl Object for PassportElementEmailAddress {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElement for PassportElementEmailAddress {}
 
@@ -29796,12 +29831,7 @@ impl PassportElementEmailAddress {
   
   pub fn email_address(&self) -> &Option<String> { &self.email_address }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29850,8 +29880,11 @@ impl Clone for PassportElementError {
 }
 
 
+impl Object for PassportElementError {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PassportElementError {}
 
 
 impl PassportElementError {
@@ -29874,12 +29907,7 @@ impl PassportElementError {
   
   pub fn source(&self) -> &Option<Box<PassportElementErrorSource>> { &self.source }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29914,11 +29942,8 @@ impl PassportElementErrorBuilder {
 
 /// This class is an abstract base class. Contains the description of an error in a Telegram Passport element. 
 #[typetag::serde(tag = "@struct")]
-pub trait PassportElementErrorSource: Debug {}
+pub trait PassportElementErrorSource: Object + Debug {}
 
-
-
-impl Object for PassportElementErrorSource {}
 
 
 
@@ -29933,6 +29958,12 @@ pub struct PassportElementErrorSourceUnspecified {
 
 }
 
+
+
+impl Object for PassportElementErrorSourceUnspecified {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -29950,12 +29981,7 @@ impl PassportElementErrorSourceUnspecified {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -29988,6 +30014,12 @@ pub struct PassportElementErrorSourceDataField {
 
 
 
+impl Object for PassportElementErrorSourceDataField {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementErrorSource for PassportElementErrorSourceDataField {}
 
@@ -30006,12 +30038,7 @@ impl PassportElementErrorSourceDataField {
   
   pub fn field_name(&self) -> &Option<String> { &self.field_name }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30045,6 +30072,12 @@ pub struct PassportElementErrorSourceFrontSide {
 
 
 
+impl Object for PassportElementErrorSourceFrontSide {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementErrorSource for PassportElementErrorSourceFrontSide {}
 
@@ -30060,12 +30093,7 @@ impl PassportElementErrorSourceFrontSide {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30094,6 +30122,12 @@ pub struct PassportElementErrorSourceReverseSide {
 
 
 
+impl Object for PassportElementErrorSourceReverseSide {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementErrorSource for PassportElementErrorSourceReverseSide {}
 
@@ -30109,12 +30143,7 @@ impl PassportElementErrorSourceReverseSide {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30143,6 +30172,12 @@ pub struct PassportElementErrorSourceSelfie {
 
 
 
+impl Object for PassportElementErrorSourceSelfie {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementErrorSource for PassportElementErrorSourceSelfie {}
 
@@ -30158,12 +30193,7 @@ impl PassportElementErrorSourceSelfie {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30196,6 +30226,12 @@ pub struct PassportElementErrorSourceTranslationFile {
 
 
 
+impl Object for PassportElementErrorSourceTranslationFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementErrorSource for PassportElementErrorSourceTranslationFile {}
 
@@ -30214,12 +30250,7 @@ impl PassportElementErrorSourceTranslationFile {
   
   pub fn file_index(&self) -> &Option<i32> { &self.file_index }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30253,6 +30284,12 @@ pub struct PassportElementErrorSourceTranslationFiles {
 
 
 
+impl Object for PassportElementErrorSourceTranslationFiles {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementErrorSource for PassportElementErrorSourceTranslationFiles {}
 
@@ -30268,12 +30305,7 @@ impl PassportElementErrorSourceTranslationFiles {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30306,6 +30338,12 @@ pub struct PassportElementErrorSourceFile {
 
 
 
+impl Object for PassportElementErrorSourceFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementErrorSource for PassportElementErrorSourceFile {}
 
@@ -30324,12 +30362,7 @@ impl PassportElementErrorSourceFile {
   
   pub fn file_index(&self) -> &Option<i32> { &self.file_index }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30363,6 +30396,12 @@ pub struct PassportElementErrorSourceFiles {
 
 
 
+impl Object for PassportElementErrorSourceFiles {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementErrorSource for PassportElementErrorSourceFiles {}
 
@@ -30378,12 +30417,7 @@ impl PassportElementErrorSourceFiles {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30403,11 +30437,8 @@ impl PassportElementErrorSourceFilesBuilder {
 
 /// This class is an abstract base class. Contains the type of a Telegram Passport element. 
 #[typetag::serde(tag = "@struct")]
-pub trait PassportElementType: Debug {}
+pub trait PassportElementType: Object + Debug {}
 
-
-
-impl Object for PassportElementType {}
 
 
 
@@ -30422,6 +30453,12 @@ pub struct PassportElementTypePersonalDetails {
 
 }
 
+
+
+impl Object for PassportElementTypePersonalDetails {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -30439,12 +30476,7 @@ impl PassportElementTypePersonalDetails {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30473,6 +30505,12 @@ pub struct PassportElementTypePassport {
 
 
 
+impl Object for PassportElementTypePassport {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementType for PassportElementTypePassport {}
 
@@ -30488,12 +30526,7 @@ impl PassportElementTypePassport {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30522,6 +30555,12 @@ pub struct PassportElementTypeDriverLicense {
 
 
 
+impl Object for PassportElementTypeDriverLicense {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementType for PassportElementTypeDriverLicense {}
 
@@ -30537,12 +30576,7 @@ impl PassportElementTypeDriverLicense {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30571,6 +30605,12 @@ pub struct PassportElementTypeIdentityCard {
 
 
 
+impl Object for PassportElementTypeIdentityCard {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementType for PassportElementTypeIdentityCard {}
 
@@ -30586,12 +30626,7 @@ impl PassportElementTypeIdentityCard {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30620,6 +30655,12 @@ pub struct PassportElementTypeInternalPassport {
 
 
 
+impl Object for PassportElementTypeInternalPassport {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementType for PassportElementTypeInternalPassport {}
 
@@ -30635,12 +30676,7 @@ impl PassportElementTypeInternalPassport {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30669,6 +30705,12 @@ pub struct PassportElementTypeAddress {
 
 
 
+impl Object for PassportElementTypeAddress {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementType for PassportElementTypeAddress {}
 
@@ -30684,12 +30726,7 @@ impl PassportElementTypeAddress {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30718,6 +30755,12 @@ pub struct PassportElementTypeUtilityBill {
 
 
 
+impl Object for PassportElementTypeUtilityBill {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementType for PassportElementTypeUtilityBill {}
 
@@ -30733,12 +30776,7 @@ impl PassportElementTypeUtilityBill {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30767,6 +30805,12 @@ pub struct PassportElementTypeBankStatement {
 
 
 
+impl Object for PassportElementTypeBankStatement {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementType for PassportElementTypeBankStatement {}
 
@@ -30782,12 +30826,7 @@ impl PassportElementTypeBankStatement {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30816,6 +30855,12 @@ pub struct PassportElementTypeRentalAgreement {
 
 
 
+impl Object for PassportElementTypeRentalAgreement {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementType for PassportElementTypeRentalAgreement {}
 
@@ -30831,12 +30876,7 @@ impl PassportElementTypeRentalAgreement {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30865,6 +30905,12 @@ pub struct PassportElementTypePassportRegistration {
 
 
 
+impl Object for PassportElementTypePassportRegistration {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementType for PassportElementTypePassportRegistration {}
 
@@ -30880,12 +30926,7 @@ impl PassportElementTypePassportRegistration {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30914,6 +30955,12 @@ pub struct PassportElementTypeTemporaryRegistration {
 
 
 
+impl Object for PassportElementTypeTemporaryRegistration {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementType for PassportElementTypeTemporaryRegistration {}
 
@@ -30929,12 +30976,7 @@ impl PassportElementTypeTemporaryRegistration {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -30963,6 +31005,12 @@ pub struct PassportElementTypePhoneNumber {
 
 
 
+impl Object for PassportElementTypePhoneNumber {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementType for PassportElementTypePhoneNumber {}
 
@@ -30978,12 +31026,7 @@ impl PassportElementTypePhoneNumber {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -31012,6 +31055,12 @@ pub struct PassportElementTypeEmailAddress {
 
 
 
+impl Object for PassportElementTypeEmailAddress {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PassportElementType for PassportElementTypeEmailAddress {}
 
@@ -31027,12 +31076,7 @@ impl PassportElementTypeEmailAddress {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -31072,8 +31116,11 @@ impl Clone for PassportElements {
 }
 
 
+impl Object for PassportElements {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PassportElements {}
 
 
 impl PassportElements {
@@ -31090,12 +31137,7 @@ impl PassportElements {
   
   pub fn elements(&self) -> &Option<Vec<Box<PassportElement>>> { &self.elements }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -31142,8 +31184,11 @@ impl Clone for PassportElementsWithErrors {
 }
 
 
+impl Object for PassportElementsWithErrors {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PassportElementsWithErrors {}
 
 
 impl PassportElementsWithErrors {
@@ -31163,12 +31208,7 @@ impl PassportElementsWithErrors {
   
   pub fn errors(&self) -> &Option<Vec<PassportElementError>> { &self.errors }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -31211,8 +31251,11 @@ pub struct PassportRequiredElement {
 
 
 
+impl Object for PassportRequiredElement {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PassportRequiredElement {}
 
 
 impl PassportRequiredElement {
@@ -31229,12 +31272,7 @@ impl PassportRequiredElement {
   
   pub fn suitable_elements(&self) -> &Option<Vec<PassportSuitableElement>> { &self.suitable_elements }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -31285,8 +31323,11 @@ impl Clone for PassportSuitableElement {
 }
 
 
+impl Object for PassportSuitableElement {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PassportSuitableElement {}
 
 
 impl PassportSuitableElement {
@@ -31312,12 +31353,7 @@ impl PassportSuitableElement {
   
   pub fn is_native_name_required(&self) -> &Option<bool> { &self.is_native_name_required }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -31378,8 +31414,11 @@ pub struct PasswordState {
 
 
 
+impl Object for PasswordState {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PasswordState {}
 
 
 impl PasswordState {
@@ -31408,12 +31447,7 @@ impl PasswordState {
   
   pub fn recovery_email_address_code_info(&self) -> &Option<EmailAddressAuthenticationCodeInfo> { &self.recovery_email_address_code_info }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -31483,8 +31517,11 @@ pub struct PaymentForm {
 
 
 
+impl Object for PaymentForm {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PaymentForm {}
 
 
 impl PaymentForm {
@@ -31519,12 +31556,7 @@ impl PaymentForm {
   
   pub fn need_password(&self) -> &Option<bool> { &self.need_password }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -31602,8 +31634,11 @@ pub struct PaymentReceipt {
 
 
 
+impl Object for PaymentReceipt {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PaymentReceipt {}
 
 
 impl PaymentReceipt {
@@ -31635,12 +31670,7 @@ impl PaymentReceipt {
   
   pub fn credentials_title(&self) -> &Option<String> { &self.credentials_title }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -31705,8 +31735,11 @@ pub struct PaymentResult {
 
 
 
+impl Object for PaymentResult {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PaymentResult {}
 
 
 impl PaymentResult {
@@ -31726,12 +31759,7 @@ impl PaymentResult {
   
   pub fn verification_url(&self) -> &Option<String> { &self.verification_url }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -31780,8 +31808,11 @@ pub struct PaymentsProviderStripe {
 
 
 
+impl Object for PaymentsProviderStripe {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PaymentsProviderStripe {}
 
 
 impl PaymentsProviderStripe {
@@ -31807,12 +31838,7 @@ impl PaymentsProviderStripe {
   
   pub fn need_cardholder_name(&self) -> &Option<bool> { &self.need_cardholder_name }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -31883,8 +31909,11 @@ pub struct PersonalDetails {
 
 
 
+impl Object for PersonalDetails {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PersonalDetails {}
 
 
 impl PersonalDetails {
@@ -31928,12 +31957,7 @@ impl PersonalDetails {
   
   pub fn residence_country_code(&self) -> &Option<String> { &self.residence_country_code }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -32018,8 +32042,11 @@ pub struct PersonalDocument {
 
 
 
+impl Object for PersonalDocument {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PersonalDocument {}
 
 
 impl PersonalDocument {
@@ -32039,12 +32066,7 @@ impl PersonalDocument {
   
   pub fn translation(&self) -> &Option<Vec<DatedFile>> { &self.translation }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -32089,8 +32111,11 @@ pub struct Photo {
 
 
 
+impl Object for Photo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Photo {}
 
 
 impl Photo {
@@ -32110,12 +32135,7 @@ impl Photo {
   
   pub fn sizes(&self) -> &Option<Vec<PhotoSize>> { &self.sizes }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -32164,8 +32184,11 @@ pub struct PhotoSize {
 
 
 
+impl Object for PhotoSize {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PhotoSize {}
 
 
 impl PhotoSize {
@@ -32191,12 +32214,7 @@ impl PhotoSize {
   
   pub fn height(&self) -> &Option<i32> { &self.height }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -32257,8 +32275,11 @@ pub struct Poll {
 
 
 
+impl Object for Poll {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Poll {}
 
 
 impl Poll {
@@ -32287,12 +32308,7 @@ impl Poll {
   
   pub fn is_closed(&self) -> &Option<bool> { &self.is_closed }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -32358,8 +32374,11 @@ pub struct PollOption {
 
 
 
+impl Object for PollOption {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PollOption {}
 
 
 impl PollOption {
@@ -32388,12 +32407,7 @@ impl PollOption {
   
   pub fn is_being_chosen(&self) -> &Option<bool> { &self.is_being_chosen }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -32455,8 +32469,11 @@ pub struct ProfilePhoto {
 
 
 
+impl Object for ProfilePhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ProfilePhoto {}
 
 
 impl ProfilePhoto {
@@ -32479,12 +32496,7 @@ impl ProfilePhoto {
   
   pub fn big(&self) -> &Option<File> { &self.big }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -32532,8 +32544,11 @@ pub struct Proxies {
 
 
 
+impl Object for Proxies {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Proxies {}
 
 
 impl Proxies {
@@ -32550,12 +32565,7 @@ impl Proxies {
   
   pub fn proxies(&self) -> &Option<Vec<Proxy>> { &self.proxies }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -32610,8 +32620,11 @@ impl Clone for Proxy {
 }
 
 
+impl Object for Proxy {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Proxy {}
 
 
 impl Proxy {
@@ -32643,12 +32656,7 @@ impl Proxy {
   
   pub fn type_(&self) -> &Option<Box<ProxyType>> { &self.type_ }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -32698,11 +32706,8 @@ impl ProxyBuilder {
 
 /// This class is an abstract base class. Describes the type of the proxy server. 
 #[typetag::serde(tag = "@struct")]
-pub trait ProxyType: Debug {}
+pub trait ProxyType: Object + Debug {}
 
-
-
-impl Object for ProxyType {}
 
 
 
@@ -32723,6 +32728,12 @@ pub struct ProxyTypeSocks5 {
 
 }
 
+
+
+impl Object for ProxyTypeSocks5 {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -32746,12 +32757,7 @@ impl ProxyTypeSocks5 {
   
   pub fn password(&self) -> &Option<String> { &self.password }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -32798,6 +32804,12 @@ pub struct ProxyTypeHttp {
 
 
 
+impl Object for ProxyTypeHttp {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ProxyType for ProxyTypeHttp {}
 
@@ -32822,12 +32834,7 @@ impl ProxyTypeHttp {
   
   pub fn http_only(&self) -> &Option<bool> { &self.http_only }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -32875,6 +32882,12 @@ pub struct ProxyTypeMtproto {
 
 
 
+impl Object for ProxyTypeMtproto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ProxyType for ProxyTypeMtproto {}
 
@@ -32893,12 +32906,7 @@ impl ProxyTypeMtproto {
   
   pub fn secret(&self) -> &Option<String> { &self.secret }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -32938,8 +32946,11 @@ pub struct PublicMessageLink {
 
 
 
+impl Object for PublicMessageLink {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PublicMessageLink {}
 
 
 impl PublicMessageLink {
@@ -32959,12 +32970,7 @@ impl PublicMessageLink {
   
   pub fn html(&self) -> &Option<String> { &self.html }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -32994,11 +33000,8 @@ impl PublicMessageLinkBuilder {
 
 /// This class is an abstract base class. Contains content of a push message notification. 
 #[typetag::serde(tag = "@struct")]
-pub trait PushMessageContent: Debug {}
+pub trait PushMessageContent: Object + Debug {}
 
-
-
-impl Object for PushMessageContent {}
 
 
 
@@ -33019,6 +33022,12 @@ pub struct PushMessageContentHidden {
 
 
 
+impl Object for PushMessageContentHidden {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentHidden {}
 
@@ -33037,12 +33046,7 @@ impl PushMessageContentHidden {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -33084,6 +33088,12 @@ pub struct PushMessageContentAnimation {
 
 
 
+impl Object for PushMessageContentAnimation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentAnimation {}
 
@@ -33108,12 +33118,7 @@ impl PushMessageContentAnimation {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -33163,6 +33168,12 @@ pub struct PushMessageContentAudio {
 
 
 
+impl Object for PushMessageContentAudio {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentAudio {}
 
@@ -33184,12 +33195,7 @@ impl PushMessageContentAudio {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -33234,6 +33240,12 @@ pub struct PushMessageContentContact {
 
 
 
+impl Object for PushMessageContentContact {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentContact {}
 
@@ -33255,12 +33267,7 @@ impl PushMessageContentContact {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -33299,6 +33306,12 @@ pub struct PushMessageContentContactRegistered {
 
 
 
+impl Object for PushMessageContentContactRegistered {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentContactRegistered {}
 
@@ -33314,12 +33327,7 @@ impl PushMessageContentContactRegistered {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -33354,6 +33362,12 @@ pub struct PushMessageContentDocument {
 
 
 
+impl Object for PushMessageContentDocument {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentDocument {}
 
@@ -33375,12 +33389,7 @@ impl PushMessageContentDocument {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -33425,6 +33434,12 @@ pub struct PushMessageContentGame {
 
 
 
+impl Object for PushMessageContentGame {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentGame {}
 
@@ -33446,12 +33461,7 @@ impl PushMessageContentGame {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -33498,6 +33508,12 @@ pub struct PushMessageContentGameScore {
 
 
 
+impl Object for PushMessageContentGameScore {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentGameScore {}
 
@@ -33522,12 +33538,7 @@ impl PushMessageContentGameScore {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -33577,6 +33588,12 @@ pub struct PushMessageContentInvoice {
 
 
 
+impl Object for PushMessageContentInvoice {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentInvoice {}
 
@@ -33598,12 +33615,7 @@ impl PushMessageContentInvoice {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -33648,6 +33660,12 @@ pub struct PushMessageContentLocation {
 
 
 
+impl Object for PushMessageContentLocation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentLocation {}
 
@@ -33669,12 +33687,7 @@ impl PushMessageContentLocation {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -33723,6 +33736,12 @@ pub struct PushMessageContentPhoto {
 
 
 
+impl Object for PushMessageContentPhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentPhoto {}
 
@@ -33750,12 +33769,7 @@ impl PushMessageContentPhoto {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -33810,6 +33824,12 @@ pub struct PushMessageContentPoll {
 
 
 
+impl Object for PushMessageContentPoll {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentPoll {}
 
@@ -33831,12 +33851,7 @@ impl PushMessageContentPoll {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -33875,6 +33890,12 @@ pub struct PushMessageContentScreenshotTaken {
 
 
 
+impl Object for PushMessageContentScreenshotTaken {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentScreenshotTaken {}
 
@@ -33890,12 +33911,7 @@ impl PushMessageContentScreenshotTaken {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -33932,6 +33948,12 @@ pub struct PushMessageContentSticker {
 
 
 
+impl Object for PushMessageContentSticker {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentSticker {}
 
@@ -33956,12 +33978,7 @@ impl PushMessageContentSticker {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -34011,6 +34028,12 @@ pub struct PushMessageContentText {
 
 
 
+impl Object for PushMessageContentText {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentText {}
 
@@ -34032,12 +34055,7 @@ impl PushMessageContentText {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -34086,6 +34104,12 @@ pub struct PushMessageContentVideo {
 
 
 
+impl Object for PushMessageContentVideo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentVideo {}
 
@@ -34113,12 +34137,7 @@ impl PushMessageContentVideo {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -34173,6 +34192,12 @@ pub struct PushMessageContentVideoNote {
 
 
 
+impl Object for PushMessageContentVideoNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentVideoNote {}
 
@@ -34194,12 +34219,7 @@ impl PushMessageContentVideoNote {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -34244,6 +34264,12 @@ pub struct PushMessageContentVoiceNote {
 
 
 
+impl Object for PushMessageContentVoiceNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentVoiceNote {}
 
@@ -34265,12 +34291,7 @@ impl PushMessageContentVoiceNote {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -34309,6 +34330,12 @@ pub struct PushMessageContentBasicGroupChatCreate {
 
 
 
+impl Object for PushMessageContentBasicGroupChatCreate {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentBasicGroupChatCreate {}
 
@@ -34324,12 +34351,7 @@ impl PushMessageContentBasicGroupChatCreate {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -34366,6 +34388,12 @@ pub struct PushMessageContentChatAddMembers {
 
 
 
+impl Object for PushMessageContentChatAddMembers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentChatAddMembers {}
 
@@ -34390,12 +34418,7 @@ impl PushMessageContentChatAddMembers {
   
   pub fn is_returned(&self) -> &Option<bool> { &self.is_returned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -34439,6 +34462,12 @@ pub struct PushMessageContentChatChangePhoto {
 
 
 
+impl Object for PushMessageContentChatChangePhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentChatChangePhoto {}
 
@@ -34454,12 +34483,7 @@ impl PushMessageContentChatChangePhoto {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -34492,6 +34516,12 @@ pub struct PushMessageContentChatChangeTitle {
 
 
 
+impl Object for PushMessageContentChatChangeTitle {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentChatChangeTitle {}
 
@@ -34510,12 +34540,7 @@ impl PushMessageContentChatChangeTitle {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -34557,6 +34582,12 @@ pub struct PushMessageContentChatDeleteMember {
 
 
 
+impl Object for PushMessageContentChatDeleteMember {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentChatDeleteMember {}
 
@@ -34581,12 +34612,7 @@ impl PushMessageContentChatDeleteMember {
   
   pub fn is_left(&self) -> &Option<bool> { &self.is_left }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -34630,6 +34656,12 @@ pub struct PushMessageContentChatJoinByLink {
 
 
 
+impl Object for PushMessageContentChatJoinByLink {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentChatJoinByLink {}
 
@@ -34645,12 +34677,7 @@ impl PushMessageContentChatJoinByLink {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -34683,6 +34710,12 @@ pub struct PushMessageContentMessageForwards {
 
 
 
+impl Object for PushMessageContentMessageForwards {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentMessageForwards {}
 
@@ -34701,12 +34734,7 @@ impl PushMessageContentMessageForwards {
   
   pub fn total_count(&self) -> &Option<i32> { &self.total_count }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -34748,6 +34776,12 @@ pub struct PushMessageContentMediaAlbum {
 
 
 
+impl Object for PushMessageContentMediaAlbum {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl PushMessageContent for PushMessageContentMediaAlbum {}
 
@@ -34772,12 +34806,7 @@ impl PushMessageContentMediaAlbum {
   
   pub fn has_videos(&self) -> &Option<bool> { &self.has_videos }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -34825,8 +34854,11 @@ pub struct PushReceiverId {
 
 
 
+impl Object for PushReceiverId {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for PushReceiverId {}
 
 
 impl PushReceiverId {
@@ -34843,12 +34875,7 @@ impl PushReceiverId {
   
   pub fn id(&self) -> &Option<i64> { &self.id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -34886,8 +34913,11 @@ pub struct RecoveryEmailAddress {
 
 
 
+impl Object for RecoveryEmailAddress {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for RecoveryEmailAddress {}
 
 
 impl RecoveryEmailAddress {
@@ -34904,12 +34934,7 @@ impl RecoveryEmailAddress {
   
   pub fn recovery_email_address(&self) -> &Option<String> { &self.recovery_email_address }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -34953,8 +34978,11 @@ pub struct RemoteFile {
 
 
 
+impl Object for RemoteFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for RemoteFile {}
 
 
 impl RemoteFile {
@@ -34980,12 +35008,7 @@ impl RemoteFile {
   
   pub fn uploaded_size(&self) -> &Option<i32> { &self.uploaded_size }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -35025,11 +35048,8 @@ impl RemoteFileBuilder {
 
 /// This class is an abstract base class. Contains a description of a custom keyboard and actions that can be done with it to quickly reply to bots. 
 #[typetag::serde(tag = "@struct")]
-pub trait ReplyMarkup: Debug {}
+pub trait ReplyMarkup: Object + Debug {}
 
-
-
-impl Object for ReplyMarkup {}
 
 
 
@@ -35050,6 +35070,12 @@ pub struct ReplyMarkupRemoveKeyboard {
 
 
 
+impl Object for ReplyMarkupRemoveKeyboard {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ReplyMarkup for ReplyMarkupRemoveKeyboard {}
 
@@ -35068,12 +35094,7 @@ impl ReplyMarkupRemoveKeyboard {
   
   pub fn is_personal(&self) -> &Option<bool> { &self.is_personal }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -35111,6 +35132,12 @@ pub struct ReplyMarkupForceReply {
 
 
 
+impl Object for ReplyMarkupForceReply {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ReplyMarkup for ReplyMarkupForceReply {}
 
@@ -35129,12 +35156,7 @@ impl ReplyMarkupForceReply {
   
   pub fn is_personal(&self) -> &Option<bool> { &self.is_personal }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -35178,6 +35200,12 @@ pub struct ReplyMarkupShowKeyboard {
 
 
 
+impl Object for ReplyMarkupShowKeyboard {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ReplyMarkup for ReplyMarkupShowKeyboard {}
 
@@ -35205,12 +35233,7 @@ impl ReplyMarkupShowKeyboard {
   
   pub fn is_personal(&self) -> &Option<bool> { &self.is_personal }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -35263,6 +35286,12 @@ pub struct ReplyMarkupInlineKeyboard {
 
 
 
+impl Object for ReplyMarkupInlineKeyboard {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl ReplyMarkup for ReplyMarkupInlineKeyboard {}
 
@@ -35281,12 +35310,7 @@ impl ReplyMarkupInlineKeyboard {
   
   pub fn rows(&self) -> &Option<Vec<Vec<InlineKeyboardButton>>> { &self.rows }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -35311,11 +35335,8 @@ impl ReplyMarkupInlineKeyboardBuilder {
 
 /// This class is an abstract base class. Describes a text object inside an instant-view web page. 
 #[typetag::serde(tag = "@struct")]
-pub trait RichText: Debug {}
+pub trait RichText: Object + Debug {}
 
-
-
-impl Object for RichText {}
 
 
 
@@ -35336,6 +35357,12 @@ pub struct RichTextPlain {
 
 
 
+impl Object for RichTextPlain {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl RichText for RichTextPlain {}
 
@@ -35354,12 +35381,7 @@ impl RichTextPlain {
   
   pub fn text(&self) -> &Option<String> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -35404,6 +35426,12 @@ impl Clone for RichTextBold {
 }
 
 
+impl Object for RichTextBold {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl RichText for RichTextBold {}
 
@@ -35422,12 +35450,7 @@ impl RichTextBold {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -35472,6 +35495,12 @@ impl Clone for RichTextItalic {
 }
 
 
+impl Object for RichTextItalic {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl RichText for RichTextItalic {}
 
@@ -35490,12 +35519,7 @@ impl RichTextItalic {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -35540,6 +35564,12 @@ impl Clone for RichTextUnderline {
 }
 
 
+impl Object for RichTextUnderline {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl RichText for RichTextUnderline {}
 
@@ -35558,12 +35588,7 @@ impl RichTextUnderline {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -35608,6 +35633,12 @@ impl Clone for RichTextStrikethrough {
 }
 
 
+impl Object for RichTextStrikethrough {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl RichText for RichTextStrikethrough {}
 
@@ -35626,12 +35657,7 @@ impl RichTextStrikethrough {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -35676,6 +35702,12 @@ impl Clone for RichTextFixed {
 }
 
 
+impl Object for RichTextFixed {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl RichText for RichTextFixed {}
 
@@ -35694,12 +35726,7 @@ impl RichTextFixed {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -35746,6 +35773,12 @@ impl Clone for RichTextUrl {
 }
 
 
+impl Object for RichTextUrl {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl RichText for RichTextUrl {}
 
@@ -35767,12 +35800,7 @@ impl RichTextUrl {
   
   pub fn url(&self) -> &Option<String> { &self.url }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -35824,6 +35852,12 @@ impl Clone for RichTextEmailAddress {
 }
 
 
+impl Object for RichTextEmailAddress {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl RichText for RichTextEmailAddress {}
 
@@ -35845,12 +35879,7 @@ impl RichTextEmailAddress {
   
   pub fn email_address(&self) -> &Option<String> { &self.email_address }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -35900,6 +35929,12 @@ impl Clone for RichTextSubscript {
 }
 
 
+impl Object for RichTextSubscript {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl RichText for RichTextSubscript {}
 
@@ -35918,12 +35953,7 @@ impl RichTextSubscript {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -35968,6 +35998,12 @@ impl Clone for RichTextSuperscript {
 }
 
 
+impl Object for RichTextSuperscript {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl RichText for RichTextSuperscript {}
 
@@ -35986,12 +36022,7 @@ impl RichTextSuperscript {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36036,6 +36067,12 @@ impl Clone for RichTextMarked {
 }
 
 
+impl Object for RichTextMarked {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl RichText for RichTextMarked {}
 
@@ -36054,12 +36091,7 @@ impl RichTextMarked {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36106,6 +36138,12 @@ impl Clone for RichTextPhoneNumber {
 }
 
 
+impl Object for RichTextPhoneNumber {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl RichText for RichTextPhoneNumber {}
 
@@ -36127,12 +36165,7 @@ impl RichTextPhoneNumber {
   
   pub fn phone_number(&self) -> &Option<String> { &self.phone_number }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36179,6 +36212,12 @@ pub struct RichTextIcon {
 
 
 
+impl Object for RichTextIcon {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl RichText for RichTextIcon {}
 
@@ -36203,12 +36242,7 @@ impl RichTextIcon {
   
   pub fn height(&self) -> &Option<i32> { &self.height }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36265,6 +36299,12 @@ impl Clone for RichTextAnchor {
 }
 
 
+impl Object for RichTextAnchor {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl RichText for RichTextAnchor {}
 
@@ -36286,12 +36326,7 @@ impl RichTextAnchor {
   
   pub fn name(&self) -> &Option<String> { &self.name }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36341,6 +36376,12 @@ impl Clone for RichTexts {
 }
 
 
+impl Object for RichTexts {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl RichText for RichTexts {}
 
@@ -36359,12 +36400,7 @@ impl RichTexts {
   
   pub fn texts(&self) -> &Option<Vec<Box<RichText>>> { &self.texts }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36404,8 +36440,11 @@ pub struct SavedCredentials {
 
 
 
+impl Object for SavedCredentials {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for SavedCredentials {}
 
 
 impl SavedCredentials {
@@ -36425,12 +36464,7 @@ impl SavedCredentials {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36481,8 +36515,11 @@ pub struct ScopeNotificationSettings {
 
 
 
+impl Object for ScopeNotificationSettings {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ScopeNotificationSettings {}
 
 
 impl ScopeNotificationSettings {
@@ -36511,12 +36548,7 @@ impl ScopeNotificationSettings {
   
   pub fn disable_mention_notifications(&self) -> &Option<bool> { &self.disable_mention_notifications }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36561,11 +36593,8 @@ impl ScopeNotificationSettingsBuilder {
 
 /// This class is an abstract base class. Represents a filter for message search results. 
 #[typetag::serde(tag = "@struct")]
-pub trait SearchMessagesFilter: Debug {}
+pub trait SearchMessagesFilter: Object + Debug {}
 
-
-
-impl Object for SearchMessagesFilter {}
 
 
 
@@ -36580,6 +36609,12 @@ pub struct SearchMessagesFilterEmpty {
 
 }
 
+
+
+impl Object for SearchMessagesFilterEmpty {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -36597,12 +36632,7 @@ impl SearchMessagesFilterEmpty {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36631,6 +36661,12 @@ pub struct SearchMessagesFilterAnimation {
 
 
 
+impl Object for SearchMessagesFilterAnimation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SearchMessagesFilter for SearchMessagesFilterAnimation {}
 
@@ -36646,12 +36682,7 @@ impl SearchMessagesFilterAnimation {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36680,6 +36711,12 @@ pub struct SearchMessagesFilterAudio {
 
 
 
+impl Object for SearchMessagesFilterAudio {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SearchMessagesFilter for SearchMessagesFilterAudio {}
 
@@ -36695,12 +36732,7 @@ impl SearchMessagesFilterAudio {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36729,6 +36761,12 @@ pub struct SearchMessagesFilterDocument {
 
 
 
+impl Object for SearchMessagesFilterDocument {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SearchMessagesFilter for SearchMessagesFilterDocument {}
 
@@ -36744,12 +36782,7 @@ impl SearchMessagesFilterDocument {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36778,6 +36811,12 @@ pub struct SearchMessagesFilterPhoto {
 
 
 
+impl Object for SearchMessagesFilterPhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SearchMessagesFilter for SearchMessagesFilterPhoto {}
 
@@ -36793,12 +36832,7 @@ impl SearchMessagesFilterPhoto {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36827,6 +36861,12 @@ pub struct SearchMessagesFilterVideo {
 
 
 
+impl Object for SearchMessagesFilterVideo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SearchMessagesFilter for SearchMessagesFilterVideo {}
 
@@ -36842,12 +36882,7 @@ impl SearchMessagesFilterVideo {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36876,6 +36911,12 @@ pub struct SearchMessagesFilterVoiceNote {
 
 
 
+impl Object for SearchMessagesFilterVoiceNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SearchMessagesFilter for SearchMessagesFilterVoiceNote {}
 
@@ -36891,12 +36932,7 @@ impl SearchMessagesFilterVoiceNote {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36925,6 +36961,12 @@ pub struct SearchMessagesFilterPhotoAndVideo {
 
 
 
+impl Object for SearchMessagesFilterPhotoAndVideo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SearchMessagesFilter for SearchMessagesFilterPhotoAndVideo {}
 
@@ -36940,12 +36982,7 @@ impl SearchMessagesFilterPhotoAndVideo {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -36974,6 +37011,12 @@ pub struct SearchMessagesFilterUrl {
 
 
 
+impl Object for SearchMessagesFilterUrl {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SearchMessagesFilter for SearchMessagesFilterUrl {}
 
@@ -36989,12 +37032,7 @@ impl SearchMessagesFilterUrl {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -37023,6 +37061,12 @@ pub struct SearchMessagesFilterChatPhoto {
 
 
 
+impl Object for SearchMessagesFilterChatPhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SearchMessagesFilter for SearchMessagesFilterChatPhoto {}
 
@@ -37038,12 +37082,7 @@ impl SearchMessagesFilterChatPhoto {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -37072,6 +37111,12 @@ pub struct SearchMessagesFilterCall {
 
 
 
+impl Object for SearchMessagesFilterCall {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SearchMessagesFilter for SearchMessagesFilterCall {}
 
@@ -37087,12 +37132,7 @@ impl SearchMessagesFilterCall {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -37121,6 +37161,12 @@ pub struct SearchMessagesFilterMissedCall {
 
 
 
+impl Object for SearchMessagesFilterMissedCall {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SearchMessagesFilter for SearchMessagesFilterMissedCall {}
 
@@ -37136,12 +37182,7 @@ impl SearchMessagesFilterMissedCall {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -37170,6 +37211,12 @@ pub struct SearchMessagesFilterVideoNote {
 
 
 
+impl Object for SearchMessagesFilterVideoNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SearchMessagesFilter for SearchMessagesFilterVideoNote {}
 
@@ -37185,12 +37232,7 @@ impl SearchMessagesFilterVideoNote {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -37219,6 +37261,12 @@ pub struct SearchMessagesFilterVoiceAndVideoNote {
 
 
 
+impl Object for SearchMessagesFilterVoiceAndVideoNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SearchMessagesFilter for SearchMessagesFilterVoiceAndVideoNote {}
 
@@ -37234,12 +37282,7 @@ impl SearchMessagesFilterVoiceAndVideoNote {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -37268,6 +37311,12 @@ pub struct SearchMessagesFilterMention {
 
 
 
+impl Object for SearchMessagesFilterMention {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SearchMessagesFilter for SearchMessagesFilterMention {}
 
@@ -37283,12 +37332,7 @@ impl SearchMessagesFilterMention {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -37317,6 +37361,12 @@ pub struct SearchMessagesFilterUnreadMention {
 
 
 
+impl Object for SearchMessagesFilterUnreadMention {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SearchMessagesFilter for SearchMessagesFilterUnreadMention {}
 
@@ -37332,12 +37382,7 @@ impl SearchMessagesFilterUnreadMention {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -37370,8 +37415,11 @@ pub struct Seconds {
 
 
 
+impl Object for Seconds {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Seconds {}
 
 
 impl Seconds {
@@ -37388,12 +37436,7 @@ impl Seconds {
   
   pub fn seconds(&self) -> &Option<f64> { &self.seconds }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -37450,8 +37493,11 @@ impl Clone for SecretChat {
 }
 
 
+impl Object for SecretChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for SecretChat {}
 
 
 impl SecretChat {
@@ -37486,12 +37532,7 @@ impl SecretChat {
   
   pub fn layer(&self) -> &Option<i32> { &self.layer }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -37546,11 +37587,8 @@ impl SecretChatBuilder {
 
 /// This class is an abstract base class. Describes the current secret chat state. 
 #[typetag::serde(tag = "@struct")]
-pub trait SecretChatState: Debug {}
+pub trait SecretChatState: Object + Debug {}
 
-
-
-impl Object for SecretChatState {}
 
 
 
@@ -37565,6 +37603,12 @@ pub struct SecretChatStatePending {
 
 }
 
+
+
+impl Object for SecretChatStatePending {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -37582,12 +37626,7 @@ impl SecretChatStatePending {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -37616,6 +37655,12 @@ pub struct SecretChatStateReady {
 
 
 
+impl Object for SecretChatStateReady {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SecretChatState for SecretChatStateReady {}
 
@@ -37631,12 +37676,7 @@ impl SecretChatStateReady {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -37665,6 +37705,12 @@ pub struct SecretChatStateClosed {
 
 
 
+impl Object for SecretChatStateClosed {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SecretChatState for SecretChatStateClosed {}
 
@@ -37680,12 +37726,7 @@ impl SecretChatStateClosed {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -37746,8 +37787,11 @@ pub struct Session {
 
 
 
+impl Object for Session {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Session {}
 
 
 impl Session {
@@ -37806,12 +37850,7 @@ impl Session {
   
   pub fn region(&self) -> &Option<String> { &self.region }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -37919,8 +37958,11 @@ pub struct Sessions {
 
 
 
+impl Object for Sessions {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Sessions {}
 
 
 impl Sessions {
@@ -37937,12 +37979,7 @@ impl Sessions {
   
   pub fn sessions(&self) -> &Option<Vec<Session>> { &self.sessions }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -37984,8 +38021,11 @@ pub struct ShippingOption {
 
 
 
+impl Object for ShippingOption {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ShippingOption {}
 
 
 impl ShippingOption {
@@ -38008,12 +38048,7 @@ impl ShippingOption {
   
   pub fn price_parts(&self) -> &Option<Vec<LabeledPricePart>> { &self.price_parts }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -38075,8 +38110,11 @@ pub struct Sticker {
 
 
 
+impl Object for Sticker {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Sticker {}
 
 
 impl Sticker {
@@ -38114,12 +38152,7 @@ impl Sticker {
   
   pub fn sticker(&self) -> &Option<File> { &self.sticker }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -38192,8 +38225,11 @@ pub struct StickerEmojis {
 
 
 
+impl Object for StickerEmojis {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for StickerEmojis {}
 
 
 impl StickerEmojis {
@@ -38210,12 +38246,7 @@ impl StickerEmojis {
   
   pub fn emojis(&self) -> &Option<Vec<String>> { &self.emojis }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -38271,8 +38302,11 @@ pub struct StickerSet {
 
 
 
+impl Object for StickerSet {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for StickerSet {}
 
 
 impl StickerSet {
@@ -38316,12 +38350,7 @@ impl StickerSet {
   
   pub fn emojis(&self) -> &Option<Vec<StickerEmojis>> { &self.emojis }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -38422,8 +38451,11 @@ pub struct StickerSetInfo {
 
 
 
+impl Object for StickerSetInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for StickerSetInfo {}
 
 
 impl StickerSetInfo {
@@ -38467,12 +38499,7 @@ impl StickerSetInfo {
   
   pub fn covers(&self) -> &Option<Vec<Sticker>> { &self.covers }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -38557,8 +38584,11 @@ pub struct StickerSets {
 
 
 
+impl Object for StickerSets {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for StickerSets {}
 
 
 impl StickerSets {
@@ -38578,12 +38608,7 @@ impl StickerSets {
   
   pub fn sets(&self) -> &Option<Vec<StickerSetInfo>> { &self.sets }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -38626,8 +38651,11 @@ pub struct Stickers {
 
 
 
+impl Object for Stickers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Stickers {}
 
 
 impl Stickers {
@@ -38644,12 +38672,7 @@ impl Stickers {
   
   pub fn stickers(&self) -> &Option<Vec<Sticker>> { &self.stickers }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -38691,8 +38714,11 @@ pub struct StorageStatistics {
 
 
 
+impl Object for StorageStatistics {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for StorageStatistics {}
 
 
 impl StorageStatistics {
@@ -38715,12 +38741,7 @@ impl StorageStatistics {
   
   pub fn by_chat(&self) -> &Option<Vec<StorageStatisticsByChat>> { &self.by_chat }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -38774,8 +38795,11 @@ pub struct StorageStatisticsByChat {
 
 
 
+impl Object for StorageStatisticsByChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for StorageStatisticsByChat {}
 
 
 impl StorageStatisticsByChat {
@@ -38801,12 +38825,7 @@ impl StorageStatisticsByChat {
   
   pub fn by_file_type(&self) -> &Option<Vec<StorageStatisticsByFileType>> { &self.by_file_type }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -38870,8 +38889,11 @@ impl Clone for StorageStatisticsByFileType {
 }
 
 
+impl Object for StorageStatisticsByFileType {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for StorageStatisticsByFileType {}
 
 
 impl StorageStatisticsByFileType {
@@ -38894,12 +38916,7 @@ impl StorageStatisticsByFileType {
   
   pub fn count(&self) -> &Option<i32> { &self.count }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -38955,8 +38972,11 @@ pub struct StorageStatisticsFast {
 
 
 
+impl Object for StorageStatisticsFast {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for StorageStatisticsFast {}
 
 
 impl StorageStatisticsFast {
@@ -38985,12 +39005,7 @@ impl StorageStatisticsFast {
   
   pub fn log_size(&self) -> &Option<i64> { &self.log_size }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -39073,8 +39088,11 @@ impl Clone for Supergroup {
 }
 
 
+impl Object for Supergroup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Supergroup {}
 
 
 impl Supergroup {
@@ -39118,12 +39136,7 @@ impl Supergroup {
   
   pub fn restriction_reason(&self) -> &Option<String> { &self.restriction_reason }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -39232,8 +39245,11 @@ pub struct SupergroupFullInfo {
 
 
 
+impl Object for SupergroupFullInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for SupergroupFullInfo {}
 
 
 impl SupergroupFullInfo {
@@ -39289,12 +39305,7 @@ impl SupergroupFullInfo {
   
   pub fn upgraded_from_max_message_id(&self) -> &Option<i64> { &self.upgraded_from_max_message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -39384,11 +39395,8 @@ impl SupergroupFullInfoBuilder {
 
 /// This class is an abstract base class. Specifies the kind of chat members to return in 
 #[typetag::serde(tag = "@struct")]
-pub trait SupergroupMembersFilter: Debug {}
+pub trait SupergroupMembersFilter: Object + Debug {}
 
-
-
-impl Object for SupergroupMembersFilter {}
 
 
 
@@ -39403,6 +39411,12 @@ pub struct SupergroupMembersFilterRecent {
 
 }
 
+
+
+impl Object for SupergroupMembersFilterRecent {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -39420,12 +39434,7 @@ impl SupergroupMembersFilterRecent {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -39454,6 +39463,12 @@ pub struct SupergroupMembersFilterAdministrators {
 
 
 
+impl Object for SupergroupMembersFilterAdministrators {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SupergroupMembersFilter for SupergroupMembersFilterAdministrators {}
 
@@ -39469,12 +39484,7 @@ impl SupergroupMembersFilterAdministrators {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -39507,6 +39517,12 @@ pub struct SupergroupMembersFilterSearch {
 
 
 
+impl Object for SupergroupMembersFilterSearch {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SupergroupMembersFilter for SupergroupMembersFilterSearch {}
 
@@ -39525,12 +39541,7 @@ impl SupergroupMembersFilterSearch {
   
   pub fn query(&self) -> &Option<String> { &self.query }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -39568,6 +39579,12 @@ pub struct SupergroupMembersFilterRestricted {
 
 
 
+impl Object for SupergroupMembersFilterRestricted {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SupergroupMembersFilter for SupergroupMembersFilterRestricted {}
 
@@ -39586,12 +39603,7 @@ impl SupergroupMembersFilterRestricted {
   
   pub fn query(&self) -> &Option<String> { &self.query }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -39629,6 +39641,12 @@ pub struct SupergroupMembersFilterBanned {
 
 
 
+impl Object for SupergroupMembersFilterBanned {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SupergroupMembersFilter for SupergroupMembersFilterBanned {}
 
@@ -39647,12 +39665,7 @@ impl SupergroupMembersFilterBanned {
   
   pub fn query(&self) -> &Option<String> { &self.query }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -39686,6 +39699,12 @@ pub struct SupergroupMembersFilterBots {
 
 
 
+impl Object for SupergroupMembersFilterBots {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl SupergroupMembersFilter for SupergroupMembersFilterBots {}
 
@@ -39701,12 +39720,7 @@ impl SupergroupMembersFilterBots {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -39748,8 +39762,11 @@ impl Clone for TMeUrl {
 }
 
 
+impl Object for TMeUrl {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for TMeUrl {}
 
 
 impl TMeUrl {
@@ -39769,12 +39786,7 @@ impl TMeUrl {
   
   pub fn type_(&self) -> &Option<Box<TMeUrlType>> { &self.type_ }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -39804,11 +39816,8 @@ impl TMeUrlBuilder {
 
 /// This class is an abstract base class. Describes the type of a URL linking to an internal Telegram entity. 
 #[typetag::serde(tag = "@struct")]
-pub trait TMeUrlType: Debug {}
+pub trait TMeUrlType: Object + Debug {}
 
-
-
-impl Object for TMeUrlType {}
 
 
 
@@ -39829,6 +39838,12 @@ pub struct TMeUrlTypeUser {
 
 
 
+impl Object for TMeUrlTypeUser {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TMeUrlType for TMeUrlTypeUser {}
 
@@ -39847,12 +39862,7 @@ impl TMeUrlTypeUser {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -39890,6 +39900,12 @@ pub struct TMeUrlTypeSupergroup {
 
 
 
+impl Object for TMeUrlTypeSupergroup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TMeUrlType for TMeUrlTypeSupergroup {}
 
@@ -39908,12 +39924,7 @@ impl TMeUrlTypeSupergroup {
   
   pub fn supergroup_id(&self) -> &Option<i64> { &self.supergroup_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -39951,6 +39962,12 @@ pub struct TMeUrlTypeChatInvite {
 
 
 
+impl Object for TMeUrlTypeChatInvite {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TMeUrlType for TMeUrlTypeChatInvite {}
 
@@ -39969,12 +39986,7 @@ impl TMeUrlTypeChatInvite {
   
   pub fn info(&self) -> &Option<ChatInviteLinkInfo> { &self.info }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -40012,6 +40024,12 @@ pub struct TMeUrlTypeStickerSet {
 
 
 
+impl Object for TMeUrlTypeStickerSet {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TMeUrlType for TMeUrlTypeStickerSet {}
 
@@ -40030,12 +40048,7 @@ impl TMeUrlTypeStickerSet {
   
   pub fn sticker_set_id(&self) -> &Option<i64> { &self.sticker_set_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -40073,8 +40086,11 @@ pub struct TMeUrls {
 
 
 
+impl Object for TMeUrls {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for TMeUrls {}
 
 
 impl TMeUrls {
@@ -40091,12 +40107,7 @@ impl TMeUrls {
   
   pub fn urls(&self) -> &Option<Vec<TMeUrl>> { &self.urls }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -40162,8 +40173,11 @@ pub struct TdlibParameters {
 
 
 
+impl Object for TdlibParameters {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for TdlibParameters {}
 
 
 impl TdlibParameters {
@@ -40222,12 +40236,7 @@ impl TdlibParameters {
   
   pub fn ignore_file_names(&self) -> &Option<bool> { &self.ignore_file_names }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -40337,8 +40346,11 @@ pub struct TemporaryPasswordState {
 
 
 
+impl Object for TemporaryPasswordState {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for TemporaryPasswordState {}
 
 
 impl TemporaryPasswordState {
@@ -40358,12 +40370,7 @@ impl TemporaryPasswordState {
   
   pub fn valid_for(&self) -> &Option<i32> { &self.valid_for }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -40410,8 +40417,11 @@ pub struct TermsOfService {
 
 
 
+impl Object for TermsOfService {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for TermsOfService {}
 
 
 impl TermsOfService {
@@ -40434,12 +40444,7 @@ impl TermsOfService {
   
   pub fn show_popup(&self) -> &Option<bool> { &self.show_popup }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -40487,8 +40492,11 @@ pub struct TestBytes {
 
 
 
+impl Object for TestBytes {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for TestBytes {}
 
 
 impl TestBytes {
@@ -40505,12 +40513,7 @@ impl TestBytes {
   
   pub fn value(&self) -> &Option<String> { &self.value }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -40548,8 +40551,11 @@ pub struct TestInt {
 
 
 
+impl Object for TestInt {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for TestInt {}
 
 
 impl TestInt {
@@ -40566,12 +40572,7 @@ impl TestInt {
   
   pub fn value(&self) -> &Option<i32> { &self.value }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -40609,8 +40610,11 @@ pub struct TestString {
 
 
 
+impl Object for TestString {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for TestString {}
 
 
 impl TestString {
@@ -40627,12 +40631,7 @@ impl TestString {
   
   pub fn value(&self) -> &Option<String> { &self.value }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -40670,8 +40669,11 @@ pub struct TestVectorInt {
 
 
 
+impl Object for TestVectorInt {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for TestVectorInt {}
 
 
 impl TestVectorInt {
@@ -40688,12 +40690,7 @@ impl TestVectorInt {
   
   pub fn value(&self) -> &Option<Vec<i32>> { &self.value }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -40731,8 +40728,11 @@ pub struct TestVectorIntObject {
 
 
 
+impl Object for TestVectorIntObject {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for TestVectorIntObject {}
 
 
 impl TestVectorIntObject {
@@ -40749,12 +40749,7 @@ impl TestVectorIntObject {
   
   pub fn value(&self) -> &Option<Vec<TestInt>> { &self.value }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -40792,8 +40787,11 @@ pub struct TestVectorString {
 
 
 
+impl Object for TestVectorString {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for TestVectorString {}
 
 
 impl TestVectorString {
@@ -40810,12 +40808,7 @@ impl TestVectorString {
   
   pub fn value(&self) -> &Option<Vec<String>> { &self.value }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -40853,8 +40846,11 @@ pub struct TestVectorStringObject {
 
 
 
+impl Object for TestVectorStringObject {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for TestVectorStringObject {}
 
 
 impl TestVectorStringObject {
@@ -40871,12 +40867,7 @@ impl TestVectorStringObject {
   
   pub fn value(&self) -> &Option<Vec<TestString>> { &self.value }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -40914,8 +40905,11 @@ pub struct Text {
 
 
 
+impl Object for Text {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Text {}
 
 
 impl Text {
@@ -40932,12 +40926,7 @@ impl Text {
   
   pub fn text(&self) -> &Option<String> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -40975,8 +40964,11 @@ pub struct TextEntities {
 
 
 
+impl Object for TextEntities {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for TextEntities {}
 
 
 impl TextEntities {
@@ -40993,12 +40985,7 @@ impl TextEntities {
   
   pub fn entities(&self) -> &Option<Vec<TextEntity>> { &self.entities }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41047,8 +41034,11 @@ impl Clone for TextEntity {
 }
 
 
+impl Object for TextEntity {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for TextEntity {}
 
 
 impl TextEntity {
@@ -41071,12 +41061,7 @@ impl TextEntity {
   
   pub fn type_(&self) -> &Option<Box<TextEntityType>> { &self.type_ }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41111,11 +41096,8 @@ impl TextEntityBuilder {
 
 /// This class is an abstract base class. Represents a part of the text which must be formatted differently. 
 #[typetag::serde(tag = "@struct")]
-pub trait TextEntityType: Debug {}
+pub trait TextEntityType: Object + Debug {}
 
-
-
-impl Object for TextEntityType {}
 
 
 
@@ -41130,6 +41112,12 @@ pub struct TextEntityTypeMention {
 
 }
 
+
+
+impl Object for TextEntityTypeMention {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -41147,12 +41135,7 @@ impl TextEntityTypeMention {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41181,6 +41164,12 @@ pub struct TextEntityTypeHashtag {
 
 
 
+impl Object for TextEntityTypeHashtag {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TextEntityType for TextEntityTypeHashtag {}
 
@@ -41196,12 +41185,7 @@ impl TextEntityTypeHashtag {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41230,6 +41214,12 @@ pub struct TextEntityTypeCashtag {
 
 
 
+impl Object for TextEntityTypeCashtag {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TextEntityType for TextEntityTypeCashtag {}
 
@@ -41245,12 +41235,7 @@ impl TextEntityTypeCashtag {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41279,6 +41264,12 @@ pub struct TextEntityTypeBotCommand {
 
 
 
+impl Object for TextEntityTypeBotCommand {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TextEntityType for TextEntityTypeBotCommand {}
 
@@ -41294,12 +41285,7 @@ impl TextEntityTypeBotCommand {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41328,6 +41314,12 @@ pub struct TextEntityTypeUrl {
 
 
 
+impl Object for TextEntityTypeUrl {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TextEntityType for TextEntityTypeUrl {}
 
@@ -41343,12 +41335,7 @@ impl TextEntityTypeUrl {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41377,6 +41364,12 @@ pub struct TextEntityTypeEmailAddress {
 
 
 
+impl Object for TextEntityTypeEmailAddress {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TextEntityType for TextEntityTypeEmailAddress {}
 
@@ -41392,12 +41385,7 @@ impl TextEntityTypeEmailAddress {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41426,6 +41414,12 @@ pub struct TextEntityTypeBold {
 
 
 
+impl Object for TextEntityTypeBold {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TextEntityType for TextEntityTypeBold {}
 
@@ -41441,12 +41435,7 @@ impl TextEntityTypeBold {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41475,6 +41464,12 @@ pub struct TextEntityTypeItalic {
 
 
 
+impl Object for TextEntityTypeItalic {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TextEntityType for TextEntityTypeItalic {}
 
@@ -41490,12 +41485,7 @@ impl TextEntityTypeItalic {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41524,6 +41514,12 @@ pub struct TextEntityTypeCode {
 
 
 
+impl Object for TextEntityTypeCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TextEntityType for TextEntityTypeCode {}
 
@@ -41539,12 +41535,7 @@ impl TextEntityTypeCode {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41573,6 +41564,12 @@ pub struct TextEntityTypePre {
 
 
 
+impl Object for TextEntityTypePre {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TextEntityType for TextEntityTypePre {}
 
@@ -41588,12 +41585,7 @@ impl TextEntityTypePre {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41626,6 +41618,12 @@ pub struct TextEntityTypePreCode {
 
 
 
+impl Object for TextEntityTypePreCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TextEntityType for TextEntityTypePreCode {}
 
@@ -41644,12 +41642,7 @@ impl TextEntityTypePreCode {
   
   pub fn language(&self) -> &Option<String> { &self.language }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41687,6 +41680,12 @@ pub struct TextEntityTypeTextUrl {
 
 
 
+impl Object for TextEntityTypeTextUrl {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TextEntityType for TextEntityTypeTextUrl {}
 
@@ -41705,12 +41704,7 @@ impl TextEntityTypeTextUrl {
   
   pub fn url(&self) -> &Option<String> { &self.url }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41748,6 +41742,12 @@ pub struct TextEntityTypeMentionName {
 
 
 
+impl Object for TextEntityTypeMentionName {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TextEntityType for TextEntityTypeMentionName {}
 
@@ -41766,12 +41766,7 @@ impl TextEntityTypeMentionName {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41805,6 +41800,12 @@ pub struct TextEntityTypePhoneNumber {
 
 
 
+impl Object for TextEntityTypePhoneNumber {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TextEntityType for TextEntityTypePhoneNumber {}
 
@@ -41820,12 +41821,7 @@ impl TextEntityTypePhoneNumber {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41845,11 +41841,8 @@ impl TextEntityTypePhoneNumberBuilder {
 
 /// This class is an abstract base class. Describes the way the text should be parsed for TextEntities. 
 #[typetag::serde(tag = "@struct")]
-pub trait TextParseMode: Debug {}
+pub trait TextParseMode: Object + Debug {}
 
-
-
-impl Object for TextParseMode {}
 
 
 
@@ -41864,6 +41857,12 @@ pub struct TextParseModeMarkdown {
 
 }
 
+
+
+impl Object for TextParseModeMarkdown {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -41881,12 +41880,7 @@ impl TextParseModeMarkdown {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41915,6 +41909,12 @@ pub struct TextParseModeHTML {
 
 
 
+impl Object for TextParseModeHTML {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TextParseMode for TextParseModeHTML {}
 
@@ -41930,12 +41930,7 @@ impl TextParseModeHTML {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -41955,11 +41950,8 @@ impl TextParseModeHTMLBuilder {
 
 /// This class is an abstract base class. Represents the categories of chats for which a list of frequently used chats can be retrieved. 
 #[typetag::serde(tag = "@struct")]
-pub trait TopChatCategory: Debug {}
+pub trait TopChatCategory: Object + Debug {}
 
-
-
-impl Object for TopChatCategory {}
 
 
 
@@ -41974,6 +41966,12 @@ pub struct TopChatCategoryUsers {
 
 }
 
+
+
+impl Object for TopChatCategoryUsers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -41991,12 +41989,7 @@ impl TopChatCategoryUsers {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -42025,6 +42018,12 @@ pub struct TopChatCategoryBots {
 
 
 
+impl Object for TopChatCategoryBots {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TopChatCategory for TopChatCategoryBots {}
 
@@ -42040,12 +42039,7 @@ impl TopChatCategoryBots {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -42074,6 +42068,12 @@ pub struct TopChatCategoryGroups {
 
 
 
+impl Object for TopChatCategoryGroups {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TopChatCategory for TopChatCategoryGroups {}
 
@@ -42089,12 +42089,7 @@ impl TopChatCategoryGroups {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -42123,6 +42118,12 @@ pub struct TopChatCategoryChannels {
 
 
 
+impl Object for TopChatCategoryChannels {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TopChatCategory for TopChatCategoryChannels {}
 
@@ -42138,12 +42139,7 @@ impl TopChatCategoryChannels {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -42172,6 +42168,12 @@ pub struct TopChatCategoryInlineBots {
 
 
 
+impl Object for TopChatCategoryInlineBots {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TopChatCategory for TopChatCategoryInlineBots {}
 
@@ -42187,12 +42189,7 @@ impl TopChatCategoryInlineBots {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -42221,6 +42218,12 @@ pub struct TopChatCategoryCalls {
 
 
 
+impl Object for TopChatCategoryCalls {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl TopChatCategory for TopChatCategoryCalls {}
 
@@ -42236,12 +42239,7 @@ impl TopChatCategoryCalls {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -42261,11 +42259,8 @@ impl TopChatCategoryCallsBuilder {
 
 /// This class is an abstract base class. Contains notifications about data changes. 
 #[typetag::serde(tag = "@struct")]
-pub trait Update: Debug {}
+pub trait Update: Object + Debug {}
 
-
-
-impl Object for Update {}
 
 
 
@@ -42293,6 +42288,12 @@ impl Clone for UpdateAuthorizationState {
 }
 
 
+impl Object for UpdateAuthorizationState {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateAuthorizationState {}
 
@@ -42302,12 +42303,7 @@ impl UpdateAuthorizationState {
   
   pub fn authorization_state(&self) -> &Option<Box<AuthorizationState>> { &self.authorization_state }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42326,6 +42322,12 @@ pub struct UpdateNewMessage {
 
 
 
+impl Object for UpdateNewMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateNewMessage {}
 
@@ -42335,12 +42337,7 @@ impl UpdateNewMessage {
   
   pub fn message(&self) -> &Option<Message> { &self.message }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42361,6 +42358,12 @@ pub struct UpdateMessageSendAcknowledged {
 
 
 
+impl Object for UpdateMessageSendAcknowledged {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateMessageSendAcknowledged {}
 
@@ -42372,12 +42375,7 @@ impl UpdateMessageSendAcknowledged {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42398,6 +42396,12 @@ pub struct UpdateMessageSendSucceeded {
 
 
 
+impl Object for UpdateMessageSendSucceeded {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateMessageSendSucceeded {}
 
@@ -42409,12 +42413,7 @@ impl UpdateMessageSendSucceeded {
   
   pub fn old_message_id(&self) -> &Option<i64> { &self.old_message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42439,6 +42438,12 @@ pub struct UpdateMessageSendFailed {
 
 
 
+impl Object for UpdateMessageSendFailed {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateMessageSendFailed {}
 
@@ -42454,12 +42459,7 @@ impl UpdateMessageSendFailed {
   
   pub fn error_message(&self) -> &Option<String> { &self.error_message }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42489,6 +42489,12 @@ impl Clone for UpdateMessageContent {
 }
 
 
+impl Object for UpdateMessageContent {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateMessageContent {}
 
@@ -42502,12 +42508,7 @@ impl UpdateMessageContent {
   
   pub fn new_content(&self) -> &Option<Box<MessageContent>> { &self.new_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42539,6 +42540,12 @@ impl Clone for UpdateMessageEdited {
 }
 
 
+impl Object for UpdateMessageEdited {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateMessageEdited {}
 
@@ -42554,12 +42561,7 @@ impl UpdateMessageEdited {
   
   pub fn reply_markup(&self) -> &Option<Box<ReplyMarkup>> { &self.reply_markup }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42582,6 +42584,12 @@ pub struct UpdateMessageViews {
 
 
 
+impl Object for UpdateMessageViews {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateMessageViews {}
 
@@ -42595,12 +42603,7 @@ impl UpdateMessageViews {
   
   pub fn views(&self) -> &Option<i32> { &self.views }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42621,6 +42624,12 @@ pub struct UpdateMessageContentOpened {
 
 
 
+impl Object for UpdateMessageContentOpened {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateMessageContentOpened {}
 
@@ -42632,12 +42641,7 @@ impl UpdateMessageContentOpened {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42660,6 +42664,12 @@ pub struct UpdateMessageMentionRead {
 
 
 
+impl Object for UpdateMessageMentionRead {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateMessageMentionRead {}
 
@@ -42673,12 +42683,7 @@ impl UpdateMessageMentionRead {
   
   pub fn unread_mention_count(&self) -> &Option<i32> { &self.unread_mention_count }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42697,6 +42702,12 @@ pub struct UpdateNewChat {
 
 
 
+impl Object for UpdateNewChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateNewChat {}
 
@@ -42706,12 +42717,7 @@ impl UpdateNewChat {
   
   pub fn chat(&self) -> &Option<Chat> { &self.chat }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42732,6 +42738,12 @@ pub struct UpdateChatTitle {
 
 
 
+impl Object for UpdateChatTitle {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatTitle {}
 
@@ -42743,12 +42755,7 @@ impl UpdateChatTitle {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42769,6 +42776,12 @@ pub struct UpdateChatPhoto {
 
 
 
+impl Object for UpdateChatPhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatPhoto {}
 
@@ -42780,12 +42793,7 @@ impl UpdateChatPhoto {
   
   pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42808,6 +42816,12 @@ pub struct UpdateChatLastMessage {
 
 
 
+impl Object for UpdateChatLastMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatLastMessage {}
 
@@ -42821,12 +42835,7 @@ impl UpdateChatLastMessage {
   
   pub fn order(&self) -> &Option<i64> { &self.order }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42847,6 +42856,12 @@ pub struct UpdateChatOrder {
 
 
 
+impl Object for UpdateChatOrder {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatOrder {}
 
@@ -42858,12 +42873,7 @@ impl UpdateChatOrder {
   
   pub fn order(&self) -> &Option<i64> { &self.order }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42886,6 +42896,12 @@ pub struct UpdateChatIsPinned {
 
 
 
+impl Object for UpdateChatIsPinned {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatIsPinned {}
 
@@ -42899,12 +42915,7 @@ impl UpdateChatIsPinned {
   
   pub fn order(&self) -> &Option<i64> { &self.order }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42925,6 +42936,12 @@ pub struct UpdateChatIsMarkedAsUnread {
 
 
 
+impl Object for UpdateChatIsMarkedAsUnread {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatIsMarkedAsUnread {}
 
@@ -42936,12 +42953,7 @@ impl UpdateChatIsMarkedAsUnread {
   
   pub fn is_marked_as_unread(&self) -> &Option<bool> { &self.is_marked_as_unread }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -42964,6 +42976,12 @@ pub struct UpdateChatIsSponsored {
 
 
 
+impl Object for UpdateChatIsSponsored {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatIsSponsored {}
 
@@ -42977,12 +42995,7 @@ impl UpdateChatIsSponsored {
   
   pub fn order(&self) -> &Option<i64> { &self.order }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43003,6 +43016,12 @@ pub struct UpdateChatDefaultDisableNotification {
 
 
 
+impl Object for UpdateChatDefaultDisableNotification {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatDefaultDisableNotification {}
 
@@ -43014,12 +43033,7 @@ impl UpdateChatDefaultDisableNotification {
   
   pub fn default_disable_notification(&self) -> &Option<bool> { &self.default_disable_notification }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43042,6 +43056,12 @@ pub struct UpdateChatReadInbox {
 
 
 
+impl Object for UpdateChatReadInbox {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatReadInbox {}
 
@@ -43055,12 +43075,7 @@ impl UpdateChatReadInbox {
   
   pub fn unread_count(&self) -> &Option<i32> { &self.unread_count }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43081,6 +43096,12 @@ pub struct UpdateChatReadOutbox {
 
 
 
+impl Object for UpdateChatReadOutbox {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatReadOutbox {}
 
@@ -43092,12 +43113,7 @@ impl UpdateChatReadOutbox {
   
   pub fn last_read_outbox_message_id(&self) -> &Option<i64> { &self.last_read_outbox_message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43118,6 +43134,12 @@ pub struct UpdateChatUnreadMentionCount {
 
 
 
+impl Object for UpdateChatUnreadMentionCount {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatUnreadMentionCount {}
 
@@ -43129,12 +43151,7 @@ impl UpdateChatUnreadMentionCount {
   
   pub fn unread_mention_count(&self) -> &Option<i32> { &self.unread_mention_count }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43155,6 +43172,12 @@ pub struct UpdateChatNotificationSettings {
 
 
 
+impl Object for UpdateChatNotificationSettings {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatNotificationSettings {}
 
@@ -43166,12 +43189,7 @@ impl UpdateChatNotificationSettings {
   
   pub fn notification_settings(&self) -> &Option<ChatNotificationSettings> { &self.notification_settings }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43199,6 +43217,12 @@ impl Clone for UpdateScopeNotificationSettings {
 }
 
 
+impl Object for UpdateScopeNotificationSettings {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateScopeNotificationSettings {}
 
@@ -43210,12 +43234,7 @@ impl UpdateScopeNotificationSettings {
   
   pub fn notification_settings(&self) -> &Option<ScopeNotificationSettings> { &self.notification_settings }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43236,6 +43255,12 @@ pub struct UpdateChatPinnedMessage {
 
 
 
+impl Object for UpdateChatPinnedMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatPinnedMessage {}
 
@@ -43247,12 +43272,7 @@ impl UpdateChatPinnedMessage {
   
   pub fn pinned_message_id(&self) -> &Option<i64> { &self.pinned_message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43273,6 +43293,12 @@ pub struct UpdateChatReplyMarkup {
 
 
 
+impl Object for UpdateChatReplyMarkup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatReplyMarkup {}
 
@@ -43284,12 +43310,7 @@ impl UpdateChatReplyMarkup {
   
   pub fn reply_markup_message_id(&self) -> &Option<i64> { &self.reply_markup_message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43312,6 +43333,12 @@ pub struct UpdateChatDraftMessage {
 
 
 
+impl Object for UpdateChatDraftMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatDraftMessage {}
 
@@ -43325,12 +43352,7 @@ impl UpdateChatDraftMessage {
   
   pub fn order(&self) -> &Option<i64> { &self.order }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43351,6 +43373,12 @@ pub struct UpdateChatOnlineMemberCount {
 
 
 
+impl Object for UpdateChatOnlineMemberCount {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateChatOnlineMemberCount {}
 
@@ -43362,12 +43390,7 @@ impl UpdateChatOnlineMemberCount {
   
   pub fn online_member_count(&self) -> &Option<i32> { &self.online_member_count }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43388,6 +43411,12 @@ pub struct UpdateNotification {
 
 
 
+impl Object for UpdateNotification {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateNotification {}
 
@@ -43399,12 +43428,7 @@ impl UpdateNotification {
   
   pub fn notification(&self) -> &Option<Notification> { &self.notification }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43444,6 +43468,12 @@ impl Clone for UpdateNotificationGroup {
 }
 
 
+impl Object for UpdateNotificationGroup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateNotificationGroup {}
 
@@ -43467,12 +43497,7 @@ impl UpdateNotificationGroup {
   
   pub fn removed_notification_ids(&self) -> &Option<Vec<i32>> { &self.removed_notification_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43491,6 +43516,12 @@ pub struct UpdateActiveNotifications {
 
 
 
+impl Object for UpdateActiveNotifications {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateActiveNotifications {}
 
@@ -43500,12 +43531,7 @@ impl UpdateActiveNotifications {
   
   pub fn groups(&self) -> &Option<Vec<NotificationGroup>> { &self.groups }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43526,6 +43552,12 @@ pub struct UpdateHavePendingNotifications {
 
 
 
+impl Object for UpdateHavePendingNotifications {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateHavePendingNotifications {}
 
@@ -43537,12 +43569,7 @@ impl UpdateHavePendingNotifications {
   
   pub fn have_unreceived_notifications(&self) -> &Option<bool> { &self.have_unreceived_notifications }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43567,6 +43594,12 @@ pub struct UpdateDeleteMessages {
 
 
 
+impl Object for UpdateDeleteMessages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateDeleteMessages {}
 
@@ -43582,12 +43615,7 @@ impl UpdateDeleteMessages {
   
   pub fn from_cache(&self) -> &Option<bool> { &self.from_cache }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43617,6 +43645,12 @@ impl Clone for UpdateUserChatAction {
 }
 
 
+impl Object for UpdateUserChatAction {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateUserChatAction {}
 
@@ -43630,12 +43664,7 @@ impl UpdateUserChatAction {
   
   pub fn action(&self) -> &Option<Box<ChatAction>> { &self.action }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43663,6 +43692,12 @@ impl Clone for UpdateUserStatus {
 }
 
 
+impl Object for UpdateUserStatus {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateUserStatus {}
 
@@ -43674,12 +43709,7 @@ impl UpdateUserStatus {
   
   pub fn status(&self) -> &Option<Box<UserStatus>> { &self.status }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43698,6 +43728,12 @@ pub struct UpdateUser {
 
 
 
+impl Object for UpdateUser {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateUser {}
 
@@ -43707,12 +43743,7 @@ impl UpdateUser {
   
   pub fn user(&self) -> &Option<User> { &self.user }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43731,6 +43762,12 @@ pub struct UpdateBasicGroup {
 
 
 
+impl Object for UpdateBasicGroup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateBasicGroup {}
 
@@ -43740,12 +43777,7 @@ impl UpdateBasicGroup {
   
   pub fn basic_group(&self) -> &Option<BasicGroup> { &self.basic_group }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43764,6 +43796,12 @@ pub struct UpdateSupergroup {
 
 
 
+impl Object for UpdateSupergroup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateSupergroup {}
 
@@ -43773,12 +43811,7 @@ impl UpdateSupergroup {
   
   pub fn supergroup(&self) -> &Option<Supergroup> { &self.supergroup }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43797,6 +43830,12 @@ pub struct UpdateSecretChat {
 
 
 
+impl Object for UpdateSecretChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateSecretChat {}
 
@@ -43806,12 +43845,7 @@ impl UpdateSecretChat {
   
   pub fn secret_chat(&self) -> &Option<SecretChat> { &self.secret_chat }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43832,6 +43866,12 @@ pub struct UpdateUserFullInfo {
 
 
 
+impl Object for UpdateUserFullInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateUserFullInfo {}
 
@@ -43843,12 +43883,7 @@ impl UpdateUserFullInfo {
   
   pub fn user_full_info(&self) -> &Option<UserFullInfo> { &self.user_full_info }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43869,6 +43904,12 @@ pub struct UpdateBasicGroupFullInfo {
 
 
 
+impl Object for UpdateBasicGroupFullInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateBasicGroupFullInfo {}
 
@@ -43880,12 +43921,7 @@ impl UpdateBasicGroupFullInfo {
   
   pub fn basic_group_full_info(&self) -> &Option<BasicGroupFullInfo> { &self.basic_group_full_info }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43906,6 +43942,12 @@ pub struct UpdateSupergroupFullInfo {
 
 
 
+impl Object for UpdateSupergroupFullInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateSupergroupFullInfo {}
 
@@ -43917,12 +43959,7 @@ impl UpdateSupergroupFullInfo {
   
   pub fn supergroup_full_info(&self) -> &Option<SupergroupFullInfo> { &self.supergroup_full_info }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43950,6 +43987,12 @@ impl Clone for UpdateServiceNotification {
 }
 
 
+impl Object for UpdateServiceNotification {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateServiceNotification {}
 
@@ -43961,12 +44004,7 @@ impl UpdateServiceNotification {
   
   pub fn content(&self) -> &Option<Box<MessageContent>> { &self.content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -43985,6 +44023,12 @@ pub struct UpdateFile {
 
 
 
+impl Object for UpdateFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateFile {}
 
@@ -43994,12 +44038,7 @@ impl UpdateFile {
   
   pub fn file(&self) -> &Option<File> { &self.file }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44024,6 +44063,12 @@ pub struct UpdateFileGenerationStart {
 
 
 
+impl Object for UpdateFileGenerationStart {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateFileGenerationStart {}
 
@@ -44039,12 +44084,7 @@ impl UpdateFileGenerationStart {
   
   pub fn conversion(&self) -> &Option<String> { &self.conversion }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44063,6 +44103,12 @@ pub struct UpdateFileGenerationStop {
 
 
 
+impl Object for UpdateFileGenerationStop {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateFileGenerationStop {}
 
@@ -44072,12 +44118,7 @@ impl UpdateFileGenerationStop {
   
   pub fn generation_id(&self) -> &Option<i64> { &self.generation_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44096,6 +44137,12 @@ pub struct UpdateCall {
 
 
 
+impl Object for UpdateCall {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateCall {}
 
@@ -44105,12 +44152,7 @@ impl UpdateCall {
   
   pub fn call(&self) -> &Option<Call> { &self.call }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44138,6 +44180,12 @@ impl Clone for UpdateUserPrivacySettingRules {
 }
 
 
+impl Object for UpdateUserPrivacySettingRules {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateUserPrivacySettingRules {}
 
@@ -44149,12 +44197,7 @@ impl UpdateUserPrivacySettingRules {
   
   pub fn rules(&self) -> &Option<UserPrivacySettingRules> { &self.rules }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44175,6 +44218,12 @@ pub struct UpdateUnreadMessageCount {
 
 
 
+impl Object for UpdateUnreadMessageCount {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateUnreadMessageCount {}
 
@@ -44186,12 +44235,7 @@ impl UpdateUnreadMessageCount {
   
   pub fn unread_unmuted_count(&self) -> &Option<i32> { &self.unread_unmuted_count }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44216,6 +44260,12 @@ pub struct UpdateUnreadChatCount {
 
 
 
+impl Object for UpdateUnreadChatCount {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateUnreadChatCount {}
 
@@ -44231,12 +44281,7 @@ impl UpdateUnreadChatCount {
   
   pub fn marked_as_unread_unmuted_count(&self) -> &Option<i32> { &self.marked_as_unread_unmuted_count }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44264,6 +44309,12 @@ impl Clone for UpdateOption {
 }
 
 
+impl Object for UpdateOption {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateOption {}
 
@@ -44275,12 +44326,7 @@ impl UpdateOption {
   
   pub fn value(&self) -> &Option<Box<OptionValue>> { &self.value }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44301,6 +44347,12 @@ pub struct UpdateInstalledStickerSets {
 
 
 
+impl Object for UpdateInstalledStickerSets {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateInstalledStickerSets {}
 
@@ -44312,12 +44364,7 @@ impl UpdateInstalledStickerSets {
   
   pub fn sticker_set_ids(&self) -> &Option<Vec<i64>> { &self.sticker_set_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44336,6 +44383,12 @@ pub struct UpdateTrendingStickerSets {
 
 
 
+impl Object for UpdateTrendingStickerSets {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateTrendingStickerSets {}
 
@@ -44345,12 +44398,7 @@ impl UpdateTrendingStickerSets {
   
   pub fn sticker_sets(&self) -> &Option<StickerSets> { &self.sticker_sets }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44371,6 +44419,12 @@ pub struct UpdateRecentStickers {
 
 
 
+impl Object for UpdateRecentStickers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateRecentStickers {}
 
@@ -44382,12 +44436,7 @@ impl UpdateRecentStickers {
   
   pub fn sticker_ids(&self) -> &Option<Vec<i32>> { &self.sticker_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44406,6 +44455,12 @@ pub struct UpdateFavoriteStickers {
 
 
 
+impl Object for UpdateFavoriteStickers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateFavoriteStickers {}
 
@@ -44415,12 +44470,7 @@ impl UpdateFavoriteStickers {
   
   pub fn sticker_ids(&self) -> &Option<Vec<i32>> { &self.sticker_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44439,6 +44489,12 @@ pub struct UpdateSavedAnimations {
 
 
 
+impl Object for UpdateSavedAnimations {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateSavedAnimations {}
 
@@ -44448,12 +44504,7 @@ impl UpdateSavedAnimations {
   
   pub fn animation_ids(&self) -> &Option<Vec<i32>> { &self.animation_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44476,6 +44527,12 @@ pub struct UpdateLanguagePackStrings {
 
 
 
+impl Object for UpdateLanguagePackStrings {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateLanguagePackStrings {}
 
@@ -44489,12 +44546,7 @@ impl UpdateLanguagePackStrings {
   
   pub fn strings(&self) -> &Option<Vec<LanguagePackString>> { &self.strings }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44520,6 +44572,12 @@ impl Clone for UpdateConnectionState {
 }
 
 
+impl Object for UpdateConnectionState {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateConnectionState {}
 
@@ -44529,12 +44587,7 @@ impl UpdateConnectionState {
   
   pub fn state(&self) -> &Option<Box<ConnectionState>> { &self.state }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44555,6 +44608,12 @@ pub struct UpdateTermsOfService {
 
 
 
+impl Object for UpdateTermsOfService {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateTermsOfService {}
 
@@ -44566,12 +44625,7 @@ impl UpdateTermsOfService {
   
   pub fn terms_of_service(&self) -> &Option<TermsOfService> { &self.terms_of_service }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44598,6 +44652,12 @@ pub struct UpdateNewInlineQuery {
 
 
 
+impl Object for UpdateNewInlineQuery {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateNewInlineQuery {}
 
@@ -44615,12 +44675,7 @@ impl UpdateNewInlineQuery {
   
   pub fn offset(&self) -> &Option<String> { &self.offset }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44647,6 +44702,12 @@ pub struct UpdateNewChosenInlineResult {
 
 
 
+impl Object for UpdateNewChosenInlineResult {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateNewChosenInlineResult {}
 
@@ -44664,12 +44725,7 @@ impl UpdateNewChosenInlineResult {
   
   pub fn inline_message_id(&self) -> &Option<String> { &self.inline_message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44705,6 +44761,12 @@ impl Clone for UpdateNewCallbackQuery {
 }
 
 
+impl Object for UpdateNewCallbackQuery {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateNewCallbackQuery {}
 
@@ -44724,12 +44786,7 @@ impl UpdateNewCallbackQuery {
   
   pub fn payload(&self) -> &Option<Box<CallbackQueryPayload>> { &self.payload }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44763,6 +44820,12 @@ impl Clone for UpdateNewInlineCallbackQuery {
 }
 
 
+impl Object for UpdateNewInlineCallbackQuery {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateNewInlineCallbackQuery {}
 
@@ -44780,12 +44843,7 @@ impl UpdateNewInlineCallbackQuery {
   
   pub fn payload(&self) -> &Option<Box<CallbackQueryPayload>> { &self.payload }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44810,6 +44868,12 @@ pub struct UpdateNewShippingQuery {
 
 
 
+impl Object for UpdateNewShippingQuery {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateNewShippingQuery {}
 
@@ -44825,12 +44889,7 @@ impl UpdateNewShippingQuery {
   
   pub fn shipping_address(&self) -> &Option<Address> { &self.shipping_address }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44861,6 +44920,12 @@ pub struct UpdateNewPreCheckoutQuery {
 
 
 
+impl Object for UpdateNewPreCheckoutQuery {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateNewPreCheckoutQuery {}
 
@@ -44882,12 +44947,7 @@ impl UpdateNewPreCheckoutQuery {
   
   pub fn order_info(&self) -> &Option<OrderInfo> { &self.order_info }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44906,6 +44966,12 @@ pub struct UpdateNewCustomEvent {
 
 
 
+impl Object for UpdateNewCustomEvent {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateNewCustomEvent {}
 
@@ -44915,12 +44981,7 @@ impl UpdateNewCustomEvent {
   
   pub fn event(&self) -> &Option<String> { &self.event }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44943,6 +45004,12 @@ pub struct UpdateNewCustomQuery {
 
 
 
+impl Object for UpdateNewCustomQuery {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdateNewCustomQuery {}
 
@@ -44956,12 +45023,7 @@ impl UpdateNewCustomQuery {
   
   pub fn timeout(&self) -> &Option<i32> { &self.timeout }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -44980,6 +45042,12 @@ pub struct UpdatePoll {
 
 
 
+impl Object for UpdatePoll {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl Update for UpdatePoll {}
 
@@ -44989,12 +45057,7 @@ impl UpdatePoll {
   
   pub fn poll(&self) -> &Option<Poll> { &self.poll }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 
@@ -45020,8 +45083,11 @@ impl Clone for Updates {
 }
 
 
+impl Object for Updates {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Updates {}
 
 
 impl Updates {
@@ -45038,12 +45104,7 @@ impl Updates {
   
   pub fn updates(&self) -> &Option<Vec<Box<Update>>> { &self.updates }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -45116,8 +45177,11 @@ impl Clone for User {
 }
 
 
+impl Object for User {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for User {}
 
 
 impl User {
@@ -45176,12 +45240,7 @@ impl User {
   
   pub fn language_code(&self) -> &Option<String> { &self.language_code }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -45301,8 +45360,11 @@ pub struct UserFullInfo {
 
 
 
+impl Object for UserFullInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for UserFullInfo {}
 
 
 impl UserFullInfo {
@@ -45337,12 +45399,7 @@ impl UserFullInfo {
   
   pub fn bot_info(&self) -> &Option<BotInfo> { &self.bot_info }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -45397,11 +45454,8 @@ impl UserFullInfoBuilder {
 
 /// This class is an abstract base class. Describes available user privacy settings. 
 #[typetag::serde(tag = "@struct")]
-pub trait UserPrivacySetting: Debug {}
+pub trait UserPrivacySetting: Object + Debug {}
 
-
-
-impl Object for UserPrivacySetting {}
 
 
 
@@ -45416,6 +45470,12 @@ pub struct UserPrivacySettingShowStatus {
 
 }
 
+
+
+impl Object for UserPrivacySettingShowStatus {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -45433,12 +45493,7 @@ impl UserPrivacySettingShowStatus {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -45467,6 +45522,12 @@ pub struct UserPrivacySettingAllowChatInvites {
 
 
 
+impl Object for UserPrivacySettingAllowChatInvites {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserPrivacySetting for UserPrivacySettingAllowChatInvites {}
 
@@ -45482,12 +45543,7 @@ impl UserPrivacySettingAllowChatInvites {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -45516,6 +45572,12 @@ pub struct UserPrivacySettingAllowCalls {
 
 
 
+impl Object for UserPrivacySettingAllowCalls {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserPrivacySetting for UserPrivacySettingAllowCalls {}
 
@@ -45531,12 +45593,7 @@ impl UserPrivacySettingAllowCalls {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -45565,6 +45622,12 @@ pub struct UserPrivacySettingAllowPeerToPeerCalls {
 
 
 
+impl Object for UserPrivacySettingAllowPeerToPeerCalls {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserPrivacySetting for UserPrivacySettingAllowPeerToPeerCalls {}
 
@@ -45580,12 +45643,7 @@ impl UserPrivacySettingAllowPeerToPeerCalls {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -45605,11 +45663,8 @@ impl UserPrivacySettingAllowPeerToPeerCallsBuilder {
 
 /// This class is an abstract base class. Represents a single rule for managing privacy settings. 
 #[typetag::serde(tag = "@struct")]
-pub trait UserPrivacySettingRule: Debug {}
+pub trait UserPrivacySettingRule: Object + Debug {}
 
-
-
-impl Object for UserPrivacySettingRule {}
 
 
 
@@ -45624,6 +45679,12 @@ pub struct UserPrivacySettingRuleAllowAll {
 
 }
 
+
+
+impl Object for UserPrivacySettingRuleAllowAll {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -45641,12 +45702,7 @@ impl UserPrivacySettingRuleAllowAll {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -45675,6 +45731,12 @@ pub struct UserPrivacySettingRuleAllowContacts {
 
 
 
+impl Object for UserPrivacySettingRuleAllowContacts {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserPrivacySettingRule for UserPrivacySettingRuleAllowContacts {}
 
@@ -45690,12 +45752,7 @@ impl UserPrivacySettingRuleAllowContacts {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -45728,6 +45785,12 @@ pub struct UserPrivacySettingRuleAllowUsers {
 
 
 
+impl Object for UserPrivacySettingRuleAllowUsers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserPrivacySettingRule for UserPrivacySettingRuleAllowUsers {}
 
@@ -45746,12 +45809,7 @@ impl UserPrivacySettingRuleAllowUsers {
   
   pub fn user_ids(&self) -> &Option<Vec<i32>> { &self.user_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -45785,6 +45843,12 @@ pub struct UserPrivacySettingRuleRestrictAll {
 
 
 
+impl Object for UserPrivacySettingRuleRestrictAll {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserPrivacySettingRule for UserPrivacySettingRuleRestrictAll {}
 
@@ -45800,12 +45864,7 @@ impl UserPrivacySettingRuleRestrictAll {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -45834,6 +45893,12 @@ pub struct UserPrivacySettingRuleRestrictContacts {
 
 
 
+impl Object for UserPrivacySettingRuleRestrictContacts {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserPrivacySettingRule for UserPrivacySettingRuleRestrictContacts {}
 
@@ -45849,12 +45914,7 @@ impl UserPrivacySettingRuleRestrictContacts {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -45887,6 +45947,12 @@ pub struct UserPrivacySettingRuleRestrictUsers {
 
 
 
+impl Object for UserPrivacySettingRuleRestrictUsers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserPrivacySettingRule for UserPrivacySettingRuleRestrictUsers {}
 
@@ -45905,12 +45971,7 @@ impl UserPrivacySettingRuleRestrictUsers {
   
   pub fn user_ids(&self) -> &Option<Vec<i32>> { &self.user_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -45955,8 +46016,11 @@ impl Clone for UserPrivacySettingRules {
 }
 
 
+impl Object for UserPrivacySettingRules {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for UserPrivacySettingRules {}
 
 
 impl UserPrivacySettingRules {
@@ -45973,12 +46037,7 @@ impl UserPrivacySettingRules {
   
   pub fn rules(&self) -> &Option<Vec<Box<UserPrivacySettingRule>>> { &self.rules }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -46020,8 +46079,11 @@ pub struct UserProfilePhoto {
 
 
 
+impl Object for UserProfilePhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for UserProfilePhoto {}
 
 
 impl UserProfilePhoto {
@@ -46044,12 +46106,7 @@ impl UserProfilePhoto {
   
   pub fn sizes(&self) -> &Option<Vec<PhotoSize>> { &self.sizes }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -46099,8 +46156,11 @@ pub struct UserProfilePhotos {
 
 
 
+impl Object for UserProfilePhotos {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for UserProfilePhotos {}
 
 
 impl UserProfilePhotos {
@@ -46120,12 +46180,7 @@ impl UserProfilePhotos {
   
   pub fn photos(&self) -> &Option<Vec<UserProfilePhoto>> { &self.photos }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -46155,11 +46210,8 @@ impl UserProfilePhotosBuilder {
 
 /// This class is an abstract base class. Describes the last time the user was online. 
 #[typetag::serde(tag = "@struct")]
-pub trait UserStatus: Debug {}
+pub trait UserStatus: Object + Debug {}
 
-
-
-impl Object for UserStatus {}
 
 
 
@@ -46174,6 +46226,12 @@ pub struct UserStatusEmpty {
 
 }
 
+
+
+impl Object for UserStatusEmpty {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -46191,12 +46249,7 @@ impl UserStatusEmpty {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -46229,6 +46282,12 @@ pub struct UserStatusOnline {
 
 
 
+impl Object for UserStatusOnline {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserStatus for UserStatusOnline {}
 
@@ -46247,12 +46306,7 @@ impl UserStatusOnline {
   
   pub fn expires(&self) -> &Option<i32> { &self.expires }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -46290,6 +46344,12 @@ pub struct UserStatusOffline {
 
 
 
+impl Object for UserStatusOffline {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserStatus for UserStatusOffline {}
 
@@ -46308,12 +46368,7 @@ impl UserStatusOffline {
   
   pub fn was_online(&self) -> &Option<i32> { &self.was_online }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -46347,6 +46402,12 @@ pub struct UserStatusRecently {
 
 
 
+impl Object for UserStatusRecently {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserStatus for UserStatusRecently {}
 
@@ -46362,12 +46423,7 @@ impl UserStatusRecently {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -46396,6 +46452,12 @@ pub struct UserStatusLastWeek {
 
 
 
+impl Object for UserStatusLastWeek {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserStatus for UserStatusLastWeek {}
 
@@ -46411,12 +46473,7 @@ impl UserStatusLastWeek {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -46445,6 +46502,12 @@ pub struct UserStatusLastMonth {
 
 
 
+impl Object for UserStatusLastMonth {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserStatus for UserStatusLastMonth {}
 
@@ -46460,12 +46523,7 @@ impl UserStatusLastMonth {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -46485,11 +46543,8 @@ impl UserStatusLastMonthBuilder {
 
 /// This class is an abstract base class. Represents the type of the user. The following types are possible: regular users, deleted users and bots. 
 #[typetag::serde(tag = "@struct")]
-pub trait UserType: Debug {}
+pub trait UserType: Object + Debug {}
 
-
-
-impl Object for UserType {}
 
 
 
@@ -46504,6 +46559,12 @@ pub struct UserTypeRegular {
 
 }
 
+
+
+impl Object for UserTypeRegular {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
 
 #[typetag::serde]
@@ -46521,12 +46582,7 @@ impl UserTypeRegular {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -46555,6 +46611,12 @@ pub struct UserTypeDeleted {
 
 
 
+impl Object for UserTypeDeleted {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserType for UserTypeDeleted {}
 
@@ -46570,12 +46632,7 @@ impl UserTypeDeleted {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -46616,6 +46673,12 @@ pub struct UserTypeBot {
 
 
 
+impl Object for UserTypeBot {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserType for UserTypeBot {}
 
@@ -46646,12 +46709,7 @@ impl UserTypeBot {
   
   pub fn need_location(&self) -> &Option<bool> { &self.need_location }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -46705,6 +46763,12 @@ pub struct UserTypeUnknown {
 
 
 
+impl Object for UserTypeUnknown {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 #[typetag::serde]
 impl UserType for UserTypeUnknown {}
 
@@ -46720,12 +46784,7 @@ impl UserTypeUnknown {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -46760,8 +46819,11 @@ pub struct Users {
 
 
 
+impl Object for Users {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Users {}
 
 
 impl Users {
@@ -46781,12 +46843,7 @@ impl Users {
   
   pub fn user_ids(&self) -> &Option<Vec<i32>> { &self.user_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -46831,8 +46888,11 @@ pub struct ValidatedOrderInfo {
 
 
 
+impl Object for ValidatedOrderInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for ValidatedOrderInfo {}
 
 
 impl ValidatedOrderInfo {
@@ -46852,12 +46912,7 @@ impl ValidatedOrderInfo {
   
   pub fn shipping_options(&self) -> &Option<Vec<ShippingOption>> { &self.shipping_options }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -46910,8 +46965,11 @@ pub struct Venue {
 
 
 
+impl Object for Venue {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Venue {}
 
 
 impl Venue {
@@ -46943,12 +47001,7 @@ impl Venue {
   
   pub fn type_(&self) -> &Option<String> { &self.type_ }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -47027,8 +47080,11 @@ pub struct Video {
 
 
 
+impl Object for Video {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Video {}
 
 
 impl Video {
@@ -47069,12 +47125,7 @@ impl Video {
   
   pub fn video(&self) -> &Option<File> { &self.video }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -47158,8 +47209,11 @@ pub struct VideoNote {
 
 
 
+impl Object for VideoNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for VideoNote {}
 
 
 impl VideoNote {
@@ -47185,12 +47239,7 @@ impl VideoNote {
   
   pub fn video(&self) -> &Option<File> { &self.video }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -47249,8 +47298,11 @@ pub struct VoiceNote {
 
 
 
+impl Object for VoiceNote {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for VoiceNote {}
 
 
 impl VoiceNote {
@@ -47276,12 +47328,7 @@ impl VoiceNote {
   
   pub fn voice(&self) -> &Option<File> { &self.voice }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -47338,8 +47385,11 @@ pub struct Wallpaper {
 
 
 
+impl Object for Wallpaper {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Wallpaper {}
 
 
 impl Wallpaper {
@@ -47362,12 +47412,7 @@ impl Wallpaper {
   
   pub fn color(&self) -> &Option<i32> { &self.color }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -47415,8 +47460,11 @@ pub struct Wallpapers {
 
 
 
+impl Object for Wallpapers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for Wallpapers {}
 
 
 impl Wallpapers {
@@ -47433,12 +47481,7 @@ impl Wallpapers {
   
   pub fn wallpapers(&self) -> &Option<Vec<Wallpaper>> { &self.wallpapers }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -47516,8 +47559,11 @@ pub struct WebPage {
 
 
 
+impl Object for WebPage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for WebPage {}
 
 
 impl WebPage {
@@ -47594,12 +47640,7 @@ impl WebPage {
   
   pub fn instant_view_version(&self) -> &Option<i32> { &self.instant_view_version }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -47752,8 +47793,11 @@ impl Clone for WebPageInstantView {
 }
 
 
+impl Object for WebPageInstantView {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
 
-impl Object for WebPageInstantView {}
 
 
 impl WebPageInstantView {
@@ -47782,12 +47826,7 @@ impl WebPageInstantView {
   
   pub fn is_full(&self) -> &Option<bool> { &self.is_full }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -47847,6 +47886,12 @@ pub struct AcceptCall {
 
 
 
+impl Object for AcceptCall {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AcceptCall {}
 
@@ -47868,12 +47913,7 @@ impl AcceptCall {
   
   pub fn protocol(&self) -> &Option<CallProtocol> { &self.protocol }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -47916,6 +47956,12 @@ pub struct AcceptTermsOfService {
 
 
 
+impl Object for AcceptTermsOfService {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AcceptTermsOfService {}
 
@@ -47934,12 +47980,7 @@ impl AcceptTermsOfService {
   
   pub fn terms_of_service_id(&self) -> &Option<String> { &self.terms_of_service_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -47981,6 +48022,12 @@ pub struct AddChatMember {
 
 
 
+impl Object for AddChatMember {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AddChatMember {}
 
@@ -48005,12 +48052,7 @@ impl AddChatMember {
   
   pub fn forward_limit(&self) -> &Option<i32> { &self.forward_limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -48060,6 +48102,12 @@ pub struct AddChatMembers {
 
 
 
+impl Object for AddChatMembers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AddChatMembers {}
 
@@ -48081,12 +48129,7 @@ impl AddChatMembers {
   
   pub fn user_ids(&self) -> &Option<Vec<i32>> { &self.user_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -48129,6 +48172,12 @@ pub struct AddCustomServerLanguagePack {
 
 
 
+impl Object for AddCustomServerLanguagePack {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AddCustomServerLanguagePack {}
 
@@ -48147,12 +48196,7 @@ impl AddCustomServerLanguagePack {
   
   pub fn language_pack_id(&self) -> &Option<String> { &self.language_pack_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -48197,6 +48241,12 @@ impl Clone for AddFavoriteSticker {
 }
 
 
+impl Object for AddFavoriteSticker {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AddFavoriteSticker {}
 
@@ -48215,12 +48265,7 @@ impl AddFavoriteSticker {
   
   pub fn sticker(&self) -> &Option<Box<InputFile>> { &self.sticker }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -48273,6 +48318,12 @@ impl Clone for AddLocalMessage {
 }
 
 
+impl Object for AddLocalMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AddLocalMessage {}
 
@@ -48303,12 +48354,7 @@ impl AddLocalMessage {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -48368,6 +48414,12 @@ pub struct AddLogMessage {
 
 
 
+impl Object for AddLogMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AddLogMessage {}
 
@@ -48389,12 +48441,7 @@ impl AddLogMessage {
   
   pub fn text(&self) -> &Option<String> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -48444,6 +48491,12 @@ impl Clone for AddNetworkStatistics {
 }
 
 
+impl Object for AddNetworkStatistics {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AddNetworkStatistics {}
 
@@ -48462,12 +48515,7 @@ impl AddNetworkStatistics {
   
   pub fn entry(&self) -> &Option<Box<NetworkStatisticsEntry>> { &self.entry }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -48518,6 +48566,12 @@ impl Clone for AddProxy {
 }
 
 
+impl Object for AddProxy {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AddProxy {}
 
@@ -48545,12 +48599,7 @@ impl AddProxy {
   
   pub fn type_(&self) -> &Option<Box<ProxyType>> { &self.type_ }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -48612,6 +48661,12 @@ impl Clone for AddRecentSticker {
 }
 
 
+impl Object for AddRecentSticker {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AddRecentSticker {}
 
@@ -48633,12 +48688,7 @@ impl AddRecentSticker {
   
   pub fn sticker(&self) -> &Option<Box<InputFile>> { &self.sticker }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -48681,6 +48731,12 @@ pub struct AddRecentlyFoundChat {
 
 
 
+impl Object for AddRecentlyFoundChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AddRecentlyFoundChat {}
 
@@ -48699,12 +48755,7 @@ impl AddRecentlyFoundChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -48749,6 +48800,12 @@ impl Clone for AddSavedAnimation {
 }
 
 
+impl Object for AddSavedAnimation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AddSavedAnimation {}
 
@@ -48767,12 +48824,7 @@ impl AddSavedAnimation {
   
   pub fn animation(&self) -> &Option<Box<InputFile>> { &self.animation }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -48814,6 +48866,12 @@ pub struct AddStickerToSet {
 
 
 
+impl Object for AddStickerToSet {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AddStickerToSet {}
 
@@ -48838,12 +48896,7 @@ impl AddStickerToSet {
   
   pub fn sticker(&self) -> &Option<InputSticker> { &self.sticker }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -48899,6 +48952,12 @@ pub struct AnswerCallbackQuery {
 
 
 
+impl Object for AnswerCallbackQuery {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AnswerCallbackQuery {}
 
@@ -48929,12 +48988,7 @@ impl AnswerCallbackQuery {
   
   pub fn cache_time(&self) -> &Option<i32> { &self.cache_time }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -48994,6 +49048,12 @@ pub struct AnswerCustomQuery {
 
 
 
+impl Object for AnswerCustomQuery {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AnswerCustomQuery {}
 
@@ -49015,12 +49075,7 @@ impl AnswerCustomQuery {
   
   pub fn data(&self) -> &Option<String> { &self.data }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -49082,6 +49137,12 @@ impl Clone for AnswerInlineQuery {
 }
 
 
+impl Object for AnswerInlineQuery {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AnswerInlineQuery {}
 
@@ -49118,12 +49179,7 @@ impl AnswerInlineQuery {
   
   pub fn switch_pm_parameter(&self) -> &Option<String> { &self.switch_pm_parameter }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -49193,6 +49249,12 @@ pub struct AnswerPreCheckoutQuery {
 
 
 
+impl Object for AnswerPreCheckoutQuery {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AnswerPreCheckoutQuery {}
 
@@ -49214,12 +49276,7 @@ impl AnswerPreCheckoutQuery {
   
   pub fn error_message(&self) -> &Option<String> { &self.error_message }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -49266,6 +49323,12 @@ pub struct AnswerShippingQuery {
 
 
 
+impl Object for AnswerShippingQuery {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for AnswerShippingQuery {}
 
@@ -49290,12 +49353,7 @@ impl AnswerShippingQuery {
   
   pub fn error_message(&self) -> &Option<String> { &self.error_message }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -49343,6 +49401,12 @@ pub struct BlockUser {
 
 
 
+impl Object for BlockUser {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for BlockUser {}
 
@@ -49361,12 +49425,7 @@ impl BlockUser {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -49406,6 +49465,12 @@ pub struct CancelDownloadFile {
 
 
 
+impl Object for CancelDownloadFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CancelDownloadFile {}
 
@@ -49427,12 +49492,7 @@ impl CancelDownloadFile {
   
   pub fn only_if_pending(&self) -> &Option<bool> { &self.only_if_pending }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -49475,6 +49535,12 @@ pub struct CancelUploadFile {
 
 
 
+impl Object for CancelUploadFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CancelUploadFile {}
 
@@ -49493,12 +49559,7 @@ impl CancelUploadFile {
   
   pub fn file_id(&self) -> &Option<i32> { &self.file_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -49538,6 +49599,12 @@ pub struct ChangeChatReportSpamState {
 
 
 
+impl Object for ChangeChatReportSpamState {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ChangeChatReportSpamState {}
 
@@ -49559,12 +49626,7 @@ impl ChangeChatReportSpamState {
   
   pub fn is_spam_chat(&self) -> &Option<bool> { &self.is_spam_chat }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -49607,6 +49669,12 @@ pub struct ChangeImportedContacts {
 
 
 
+impl Object for ChangeImportedContacts {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ChangeImportedContacts {}
 
@@ -49625,12 +49693,7 @@ impl ChangeImportedContacts {
   
   pub fn contacts(&self) -> &Option<Vec<Contact>> { &self.contacts }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -49672,6 +49735,12 @@ pub struct ChangePhoneNumber {
 
 
 
+impl Object for ChangePhoneNumber {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ChangePhoneNumber {}
 
@@ -49696,12 +49765,7 @@ impl ChangePhoneNumber {
   
   pub fn is_current_phone_number(&self) -> &Option<bool> { &self.is_current_phone_number }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -49753,6 +49817,12 @@ pub struct ChangeStickerSet {
 
 
 
+impl Object for ChangeStickerSet {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ChangeStickerSet {}
 
@@ -49777,12 +49847,7 @@ impl ChangeStickerSet {
   
   pub fn is_archived(&self) -> &Option<bool> { &self.is_archived }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -49830,6 +49895,12 @@ pub struct CheckAuthenticationBotToken {
 
 
 
+impl Object for CheckAuthenticationBotToken {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CheckAuthenticationBotToken {}
 
@@ -49848,12 +49919,7 @@ impl CheckAuthenticationBotToken {
   
   pub fn token(&self) -> &Option<String> { &self.token }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -49895,6 +49961,12 @@ pub struct CheckAuthenticationCode {
 
 
 
+impl Object for CheckAuthenticationCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CheckAuthenticationCode {}
 
@@ -49919,12 +49991,7 @@ impl CheckAuthenticationCode {
   
   pub fn last_name(&self) -> &Option<String> { &self.last_name }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -49972,6 +50039,12 @@ pub struct CheckAuthenticationPassword {
 
 
 
+impl Object for CheckAuthenticationPassword {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CheckAuthenticationPassword {}
 
@@ -49990,12 +50063,7 @@ impl CheckAuthenticationPassword {
   
   pub fn password(&self) -> &Option<String> { &self.password }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50033,6 +50101,12 @@ pub struct CheckChangePhoneNumberCode {
 
 
 
+impl Object for CheckChangePhoneNumberCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CheckChangePhoneNumberCode {}
 
@@ -50051,12 +50125,7 @@ impl CheckChangePhoneNumberCode {
   
   pub fn code(&self) -> &Option<String> { &self.code }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50094,6 +50163,12 @@ pub struct CheckChatInviteLink {
 
 
 
+impl Object for CheckChatInviteLink {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CheckChatInviteLink {}
 
@@ -50112,12 +50187,7 @@ impl CheckChatInviteLink {
   
   pub fn invite_link(&self) -> &Option<String> { &self.invite_link }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50157,6 +50227,12 @@ pub struct CheckChatUsername {
 
 
 
+impl Object for CheckChatUsername {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CheckChatUsername {}
 
@@ -50178,12 +50254,7 @@ impl CheckChatUsername {
   
   pub fn username(&self) -> &Option<String> { &self.username }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50226,6 +50297,12 @@ pub struct CheckDatabaseEncryptionKey {
 
 
 
+impl Object for CheckDatabaseEncryptionKey {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CheckDatabaseEncryptionKey {}
 
@@ -50244,12 +50321,7 @@ impl CheckDatabaseEncryptionKey {
   
   pub fn encryption_key(&self) -> &Option<String> { &self.encryption_key }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50287,6 +50359,12 @@ pub struct CheckEmailAddressVerificationCode {
 
 
 
+impl Object for CheckEmailAddressVerificationCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CheckEmailAddressVerificationCode {}
 
@@ -50305,12 +50383,7 @@ impl CheckEmailAddressVerificationCode {
   
   pub fn code(&self) -> &Option<String> { &self.code }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50348,6 +50421,12 @@ pub struct CheckPhoneNumberConfirmationCode {
 
 
 
+impl Object for CheckPhoneNumberConfirmationCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CheckPhoneNumberConfirmationCode {}
 
@@ -50366,12 +50445,7 @@ impl CheckPhoneNumberConfirmationCode {
   
   pub fn code(&self) -> &Option<String> { &self.code }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50409,6 +50483,12 @@ pub struct CheckPhoneNumberVerificationCode {
 
 
 
+impl Object for CheckPhoneNumberVerificationCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CheckPhoneNumberVerificationCode {}
 
@@ -50427,12 +50507,7 @@ impl CheckPhoneNumberVerificationCode {
   
   pub fn code(&self) -> &Option<String> { &self.code }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50470,6 +50545,12 @@ pub struct CheckRecoveryEmailAddressCode {
 
 
 
+impl Object for CheckRecoveryEmailAddressCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CheckRecoveryEmailAddressCode {}
 
@@ -50488,12 +50569,7 @@ impl CheckRecoveryEmailAddressCode {
   
   pub fn code(&self) -> &Option<String> { &self.code }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50531,6 +50607,12 @@ pub struct CleanFileName {
 
 
 
+impl Object for CleanFileName {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CleanFileName {}
 
@@ -50549,12 +50631,7 @@ impl CleanFileName {
   
   pub fn file_name(&self) -> &Option<String> { &self.file_name }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50592,6 +50669,12 @@ pub struct ClearAllDraftMessages {
 
 
 
+impl Object for ClearAllDraftMessages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ClearAllDraftMessages {}
 
@@ -50610,12 +50693,7 @@ impl ClearAllDraftMessages {
   
   pub fn exclude_secret_chats(&self) -> &Option<bool> { &self.exclude_secret_chats }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50649,6 +50727,12 @@ pub struct ClearImportedContacts {
 
 
 
+impl Object for ClearImportedContacts {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ClearImportedContacts {}
 
@@ -50664,12 +50748,7 @@ impl ClearImportedContacts {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50702,6 +50781,12 @@ pub struct ClearRecentStickers {
 
 
 
+impl Object for ClearRecentStickers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ClearRecentStickers {}
 
@@ -50720,12 +50805,7 @@ impl ClearRecentStickers {
   
   pub fn is_attached(&self) -> &Option<bool> { &self.is_attached }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50759,6 +50839,12 @@ pub struct ClearRecentlyFoundChats {
 
 
 
+impl Object for ClearRecentlyFoundChats {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ClearRecentlyFoundChats {}
 
@@ -50774,12 +50860,7 @@ impl ClearRecentlyFoundChats {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50808,6 +50889,12 @@ pub struct Close {
 
 
 
+impl Object for Close {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for Close {}
 
@@ -50823,12 +50910,7 @@ impl Close {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50861,6 +50943,12 @@ pub struct CloseChat {
 
 
 
+impl Object for CloseChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CloseChat {}
 
@@ -50879,12 +50967,7 @@ impl CloseChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50922,6 +51005,12 @@ pub struct CloseSecretChat {
 
 
 
+impl Object for CloseSecretChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CloseSecretChat {}
 
@@ -50940,12 +51029,7 @@ impl CloseSecretChat {
   
   pub fn secret_chat_id(&self) -> &Option<i32> { &self.secret_chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -50985,6 +51069,12 @@ pub struct CreateBasicGroupChat {
 
 
 
+impl Object for CreateBasicGroupChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CreateBasicGroupChat {}
 
@@ -51006,12 +51096,7 @@ impl CreateBasicGroupChat {
   
   pub fn force(&self) -> &Option<bool> { &self.force }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -51056,6 +51141,12 @@ pub struct CreateCall {
 
 
 
+impl Object for CreateCall {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CreateCall {}
 
@@ -51077,12 +51168,7 @@ impl CreateCall {
   
   pub fn protocol(&self) -> &Option<CallProtocol> { &self.protocol }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -51127,6 +51213,12 @@ pub struct CreateNewBasicGroupChat {
 
 
 
+impl Object for CreateNewBasicGroupChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CreateNewBasicGroupChat {}
 
@@ -51148,12 +51240,7 @@ impl CreateNewBasicGroupChat {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -51196,6 +51283,12 @@ pub struct CreateNewSecretChat {
 
 
 
+impl Object for CreateNewSecretChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CreateNewSecretChat {}
 
@@ -51214,12 +51307,7 @@ impl CreateNewSecretChat {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -51265,6 +51353,12 @@ pub struct CreateNewStickerSet {
 
 
 
+impl Object for CreateNewStickerSet {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CreateNewStickerSet {}
 
@@ -51295,12 +51389,7 @@ impl CreateNewStickerSet {
   
   pub fn stickers(&self) -> &Option<Vec<InputSticker>> { &self.stickers }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -51362,6 +51451,12 @@ pub struct CreateNewSupergroupChat {
 
 
 
+impl Object for CreateNewSupergroupChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CreateNewSupergroupChat {}
 
@@ -51386,12 +51481,7 @@ impl CreateNewSupergroupChat {
   
   pub fn description(&self) -> &Option<String> { &self.description }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -51441,6 +51531,12 @@ pub struct CreatePrivateChat {
 
 
 
+impl Object for CreatePrivateChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CreatePrivateChat {}
 
@@ -51462,12 +51558,7 @@ impl CreatePrivateChat {
   
   pub fn force(&self) -> &Option<bool> { &self.force }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -51510,6 +51601,12 @@ pub struct CreateSecretChat {
 
 
 
+impl Object for CreateSecretChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CreateSecretChat {}
 
@@ -51528,12 +51625,7 @@ impl CreateSecretChat {
   
   pub fn secret_chat_id(&self) -> &Option<i32> { &self.secret_chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -51573,6 +51665,12 @@ pub struct CreateSupergroupChat {
 
 
 
+impl Object for CreateSupergroupChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CreateSupergroupChat {}
 
@@ -51594,12 +51692,7 @@ impl CreateSupergroupChat {
   
   pub fn force(&self) -> &Option<bool> { &self.force }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -51644,6 +51737,12 @@ pub struct CreateTemporaryPassword {
 
 
 
+impl Object for CreateTemporaryPassword {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for CreateTemporaryPassword {}
 
@@ -51665,12 +51764,7 @@ impl CreateTemporaryPassword {
   
   pub fn valid_for(&self) -> &Option<i32> { &self.valid_for }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -51713,6 +51807,12 @@ pub struct DeleteAccount {
 
 
 
+impl Object for DeleteAccount {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DeleteAccount {}
 
@@ -51731,12 +51831,7 @@ impl DeleteAccount {
   
   pub fn reason(&self) -> &Option<String> { &self.reason }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -51778,6 +51873,12 @@ pub struct DeleteChatHistory {
 
 
 
+impl Object for DeleteChatHistory {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DeleteChatHistory {}
 
@@ -51802,12 +51903,7 @@ impl DeleteChatHistory {
   
   pub fn revoke(&self) -> &Option<bool> { &self.revoke }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -51857,6 +51953,12 @@ pub struct DeleteChatMessagesFromUser {
 
 
 
+impl Object for DeleteChatMessagesFromUser {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DeleteChatMessagesFromUser {}
 
@@ -51878,12 +51980,7 @@ impl DeleteChatMessagesFromUser {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -51928,6 +52025,12 @@ pub struct DeleteChatReplyMarkup {
 
 
 
+impl Object for DeleteChatReplyMarkup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DeleteChatReplyMarkup {}
 
@@ -51949,12 +52052,7 @@ impl DeleteChatReplyMarkup {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -51997,6 +52095,12 @@ pub struct DeleteFile {
 
 
 
+impl Object for DeleteFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DeleteFile {}
 
@@ -52015,12 +52119,7 @@ impl DeleteFile {
   
   pub fn file_id(&self) -> &Option<i32> { &self.file_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -52058,6 +52157,12 @@ pub struct DeleteLanguagePack {
 
 
 
+impl Object for DeleteLanguagePack {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DeleteLanguagePack {}
 
@@ -52076,12 +52181,7 @@ impl DeleteLanguagePack {
   
   pub fn language_pack_id(&self) -> &Option<String> { &self.language_pack_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -52123,6 +52223,12 @@ pub struct DeleteMessages {
 
 
 
+impl Object for DeleteMessages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DeleteMessages {}
 
@@ -52147,12 +52253,7 @@ impl DeleteMessages {
   
   pub fn revoke(&self) -> &Option<bool> { &self.revoke }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -52207,6 +52308,12 @@ impl Clone for DeletePassportElement {
 }
 
 
+impl Object for DeletePassportElement {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DeletePassportElement {}
 
@@ -52225,12 +52332,7 @@ impl DeletePassportElement {
   
   pub fn type_(&self) -> &Option<Box<PassportElementType>> { &self.type_ }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -52268,6 +52370,12 @@ pub struct DeleteProfilePhoto {
 
 
 
+impl Object for DeleteProfilePhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DeleteProfilePhoto {}
 
@@ -52286,12 +52394,7 @@ impl DeleteProfilePhoto {
   
   pub fn profile_photo_id(&self) -> &Option<i64> { &self.profile_photo_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -52325,6 +52428,12 @@ pub struct DeleteSavedCredentials {
 
 
 
+impl Object for DeleteSavedCredentials {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DeleteSavedCredentials {}
 
@@ -52340,12 +52449,7 @@ impl DeleteSavedCredentials {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -52374,6 +52478,12 @@ pub struct DeleteSavedOrderInfo {
 
 
 
+impl Object for DeleteSavedOrderInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DeleteSavedOrderInfo {}
 
@@ -52389,12 +52499,7 @@ impl DeleteSavedOrderInfo {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -52427,6 +52532,12 @@ pub struct DeleteSupergroup {
 
 
 
+impl Object for DeleteSupergroup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DeleteSupergroup {}
 
@@ -52445,12 +52556,7 @@ impl DeleteSupergroup {
   
   pub fn supergroup_id(&self) -> &Option<i32> { &self.supergroup_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -52484,6 +52590,12 @@ pub struct Destroy {
 
 
 
+impl Object for Destroy {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for Destroy {}
 
@@ -52499,12 +52611,7 @@ impl Destroy {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -52533,6 +52640,12 @@ pub struct DisableProxy {
 
 
 
+impl Object for DisableProxy {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DisableProxy {}
 
@@ -52548,12 +52661,7 @@ impl DisableProxy {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -52592,6 +52700,12 @@ pub struct DiscardCall {
 
 
 
+impl Object for DiscardCall {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DiscardCall {}
 
@@ -52619,12 +52733,7 @@ impl DiscardCall {
   
   pub fn connection_id(&self) -> &Option<i64> { &self.connection_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -52673,6 +52782,12 @@ pub struct DisconnectAllWebsites {
 
 
 
+impl Object for DisconnectAllWebsites {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DisconnectAllWebsites {}
 
@@ -52688,12 +52803,7 @@ impl DisconnectAllWebsites {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -52726,6 +52836,12 @@ pub struct DisconnectWebsite {
 
 
 
+impl Object for DisconnectWebsite {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DisconnectWebsite {}
 
@@ -52744,12 +52860,7 @@ impl DisconnectWebsite {
   
   pub fn website_id(&self) -> &Option<i64> { &self.website_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -52795,6 +52906,12 @@ pub struct DownloadFile {
 
 
 
+impl Object for DownloadFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for DownloadFile {}
 
@@ -52825,12 +52942,7 @@ impl DownloadFile {
   
   pub fn synchronous(&self) -> &Option<bool> { &self.synchronous }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -52888,6 +53000,12 @@ pub struct EditCustomLanguagePackInfo {
 
 
 
+impl Object for EditCustomLanguagePackInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for EditCustomLanguagePackInfo {}
 
@@ -52906,12 +53024,7 @@ impl EditCustomLanguagePackInfo {
   
   pub fn info(&self) -> &Option<LanguagePackInfo> { &self.info }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -52960,6 +53073,12 @@ impl Clone for EditInlineMessageCaption {
 }
 
 
+impl Object for EditInlineMessageCaption {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for EditInlineMessageCaption {}
 
@@ -52984,12 +53103,7 @@ impl EditInlineMessageCaption {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -53048,6 +53162,12 @@ impl Clone for EditInlineMessageLiveLocation {
 }
 
 
+impl Object for EditInlineMessageLiveLocation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for EditInlineMessageLiveLocation {}
 
@@ -53072,12 +53192,7 @@ impl EditInlineMessageLiveLocation {
   
   pub fn location(&self) -> &Option<Location> { &self.location }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -53136,6 +53251,12 @@ impl Clone for EditInlineMessageMedia {
 }
 
 
+impl Object for EditInlineMessageMedia {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for EditInlineMessageMedia {}
 
@@ -53160,12 +53281,7 @@ impl EditInlineMessageMedia {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -53222,6 +53338,12 @@ impl Clone for EditInlineMessageReplyMarkup {
 }
 
 
+impl Object for EditInlineMessageReplyMarkup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for EditInlineMessageReplyMarkup {}
 
@@ -53243,12 +53365,7 @@ impl EditInlineMessageReplyMarkup {
   
   pub fn reply_markup(&self) -> &Option<Box<ReplyMarkup>> { &self.reply_markup }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -53302,6 +53419,12 @@ impl Clone for EditInlineMessageText {
 }
 
 
+impl Object for EditInlineMessageText {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for EditInlineMessageText {}
 
@@ -53326,12 +53449,7 @@ impl EditInlineMessageText {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -53392,6 +53510,12 @@ impl Clone for EditMessageCaption {
 }
 
 
+impl Object for EditMessageCaption {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for EditMessageCaption {}
 
@@ -53419,12 +53543,7 @@ impl EditMessageCaption {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -53490,6 +53609,12 @@ impl Clone for EditMessageLiveLocation {
 }
 
 
+impl Object for EditMessageLiveLocation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for EditMessageLiveLocation {}
 
@@ -53517,12 +53642,7 @@ impl EditMessageLiveLocation {
   
   pub fn location(&self) -> &Option<Location> { &self.location }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -53588,6 +53708,12 @@ impl Clone for EditMessageMedia {
 }
 
 
+impl Object for EditMessageMedia {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for EditMessageMedia {}
 
@@ -53615,12 +53741,7 @@ impl EditMessageMedia {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -53684,6 +53805,12 @@ impl Clone for EditMessageReplyMarkup {
 }
 
 
+impl Object for EditMessageReplyMarkup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for EditMessageReplyMarkup {}
 
@@ -53708,12 +53835,7 @@ impl EditMessageReplyMarkup {
   
   pub fn reply_markup(&self) -> &Option<Box<ReplyMarkup>> { &self.reply_markup }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -53774,6 +53896,12 @@ impl Clone for EditMessageText {
 }
 
 
+impl Object for EditMessageText {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for EditMessageText {}
 
@@ -53801,12 +53929,7 @@ impl EditMessageText {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -53874,6 +53997,12 @@ impl Clone for EditProxy {
 }
 
 
+impl Object for EditProxy {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for EditProxy {}
 
@@ -53904,12 +54033,7 @@ impl EditProxy {
   
   pub fn type_(&self) -> &Option<Box<ProxyType>> { &self.type_ }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -53967,6 +54091,12 @@ pub struct EnableProxy {
 
 
 
+impl Object for EnableProxy {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for EnableProxy {}
 
@@ -53985,12 +54115,7 @@ impl EnableProxy {
   
   pub fn proxy_id(&self) -> &Option<i32> { &self.proxy_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -54030,6 +54155,12 @@ pub struct FinishFileGeneration {
 
 
 
+impl Object for FinishFileGeneration {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for FinishFileGeneration {}
 
@@ -54051,12 +54182,7 @@ impl FinishFileGeneration {
   
   pub fn error(&self) -> &Option<Error> { &self.error }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -54109,6 +54235,12 @@ pub struct ForwardMessages {
 
 
 
+impl Object for ForwardMessages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ForwardMessages {}
 
@@ -54142,12 +54274,7 @@ impl ForwardMessages {
   
   pub fn as_album(&self) -> &Option<bool> { &self.as_album }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -54210,6 +54337,12 @@ pub struct GenerateChatInviteLink {
 
 
 
+impl Object for GenerateChatInviteLink {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GenerateChatInviteLink {}
 
@@ -54228,12 +54361,7 @@ impl GenerateChatInviteLink {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -54267,6 +54395,12 @@ pub struct GetAccountTtl {
 
 
 
+impl Object for GetAccountTtl {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetAccountTtl {}
 
@@ -54282,12 +54416,7 @@ impl GetAccountTtl {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -54316,6 +54445,12 @@ pub struct GetActiveLiveLocationMessages {
 
 
 
+impl Object for GetActiveLiveLocationMessages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetActiveLiveLocationMessages {}
 
@@ -54331,12 +54466,7 @@ impl GetActiveLiveLocationMessages {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -54365,6 +54495,12 @@ pub struct GetActiveSessions {
 
 
 
+impl Object for GetActiveSessions {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetActiveSessions {}
 
@@ -54380,12 +54516,7 @@ impl GetActiveSessions {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -54418,6 +54549,12 @@ pub struct GetAllPassportElements {
 
 
 
+impl Object for GetAllPassportElements {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetAllPassportElements {}
 
@@ -54436,12 +54573,7 @@ impl GetAllPassportElements {
   
   pub fn password(&self) -> &Option<String> { &self.password }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -54475,6 +54607,12 @@ pub struct GetApplicationConfig {
 
 
 
+impl Object for GetApplicationConfig {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetApplicationConfig {}
 
@@ -54490,12 +54628,7 @@ impl GetApplicationConfig {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -54532,6 +54665,12 @@ pub struct GetArchivedStickerSets {
 
 
 
+impl Object for GetArchivedStickerSets {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetArchivedStickerSets {}
 
@@ -54556,12 +54695,7 @@ impl GetArchivedStickerSets {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -54609,6 +54743,12 @@ pub struct GetAttachedStickerSets {
 
 
 
+impl Object for GetAttachedStickerSets {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetAttachedStickerSets {}
 
@@ -54627,12 +54767,7 @@ impl GetAttachedStickerSets {
   
   pub fn file_id(&self) -> &Option<i32> { &self.file_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -54666,6 +54801,12 @@ pub struct GetAuthorizationState {
 
 
 
+impl Object for GetAuthorizationState {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetAuthorizationState {}
 
@@ -54681,12 +54822,7 @@ impl GetAuthorizationState {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -54719,6 +54855,12 @@ pub struct GetBasicGroup {
 
 
 
+impl Object for GetBasicGroup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetBasicGroup {}
 
@@ -54737,12 +54879,7 @@ impl GetBasicGroup {
   
   pub fn basic_group_id(&self) -> &Option<i32> { &self.basic_group_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -54780,6 +54917,12 @@ pub struct GetBasicGroupFullInfo {
 
 
 
+impl Object for GetBasicGroupFullInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetBasicGroupFullInfo {}
 
@@ -54798,12 +54941,7 @@ impl GetBasicGroupFullInfo {
   
   pub fn basic_group_id(&self) -> &Option<i32> { &self.basic_group_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -54843,6 +54981,12 @@ pub struct GetBlockedUsers {
 
 
 
+impl Object for GetBlockedUsers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetBlockedUsers {}
 
@@ -54864,12 +55008,7 @@ impl GetBlockedUsers {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -54923,6 +55062,12 @@ impl Clone for GetCallbackQueryAnswer {
 }
 
 
+impl Object for GetCallbackQueryAnswer {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetCallbackQueryAnswer {}
 
@@ -54947,12 +55092,7 @@ impl GetCallbackQueryAnswer {
   
   pub fn payload(&self) -> &Option<Box<CallbackQueryPayload>> { &self.payload }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -55000,6 +55140,12 @@ pub struct GetChat {
 
 
 
+impl Object for GetChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetChat {}
 
@@ -55018,12 +55164,7 @@ impl GetChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -55061,6 +55202,12 @@ pub struct GetChatAdministrators {
 
 
 
+impl Object for GetChatAdministrators {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetChatAdministrators {}
 
@@ -55079,12 +55226,7 @@ impl GetChatAdministrators {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -55132,6 +55274,12 @@ pub struct GetChatEventLog {
 
 
 
+impl Object for GetChatEventLog {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetChatEventLog {}
 
@@ -55165,12 +55313,7 @@ impl GetChatEventLog {
   
   pub fn user_ids(&self) -> &Option<Vec<i32>> { &self.user_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -55241,6 +55384,12 @@ pub struct GetChatHistory {
 
 
 
+impl Object for GetChatHistory {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetChatHistory {}
 
@@ -55271,12 +55420,7 @@ impl GetChatHistory {
   
   pub fn only_local(&self) -> &Option<bool> { &self.only_local }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -55336,6 +55480,12 @@ pub struct GetChatMember {
 
 
 
+impl Object for GetChatMember {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetChatMember {}
 
@@ -55357,12 +55507,7 @@ impl GetChatMember {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -55407,6 +55552,12 @@ pub struct GetChatMessageByDate {
 
 
 
+impl Object for GetChatMessageByDate {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetChatMessageByDate {}
 
@@ -55428,12 +55579,7 @@ impl GetChatMessageByDate {
   
   pub fn date(&self) -> &Option<i32> { &self.date }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -55487,6 +55633,12 @@ impl Clone for GetChatMessageCount {
 }
 
 
+impl Object for GetChatMessageCount {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetChatMessageCount {}
 
@@ -55511,12 +55663,7 @@ impl GetChatMessageCount {
   
   pub fn return_local(&self) -> &Option<bool> { &self.return_local }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -55573,6 +55720,12 @@ impl Clone for GetChatNotificationSettingsExceptions {
 }
 
 
+impl Object for GetChatNotificationSettingsExceptions {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetChatNotificationSettingsExceptions {}
 
@@ -55594,12 +55747,7 @@ impl GetChatNotificationSettingsExceptions {
   
   pub fn compare_sound(&self) -> &Option<bool> { &self.compare_sound }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -55642,6 +55790,12 @@ pub struct GetChatPinnedMessage {
 
 
 
+impl Object for GetChatPinnedMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetChatPinnedMessage {}
 
@@ -55660,12 +55814,7 @@ impl GetChatPinnedMessage {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -55703,6 +55852,12 @@ pub struct GetChatReportSpamState {
 
 
 
+impl Object for GetChatReportSpamState {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetChatReportSpamState {}
 
@@ -55721,12 +55876,7 @@ impl GetChatReportSpamState {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -55768,6 +55918,12 @@ pub struct GetChatStatisticsUrl {
 
 
 
+impl Object for GetChatStatisticsUrl {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetChatStatisticsUrl {}
 
@@ -55792,12 +55948,7 @@ impl GetChatStatisticsUrl {
   
   pub fn is_dark(&self) -> &Option<bool> { &self.is_dark }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -55849,6 +56000,12 @@ pub struct GetChats {
 
 
 
+impl Object for GetChats {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetChats {}
 
@@ -55873,12 +56030,7 @@ impl GetChats {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -55922,6 +56074,12 @@ pub struct GetConnectedWebsites {
 
 
 
+impl Object for GetConnectedWebsites {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetConnectedWebsites {}
 
@@ -55937,12 +56095,7 @@ impl GetConnectedWebsites {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -55971,6 +56124,12 @@ pub struct GetContacts {
 
 
 
+impl Object for GetContacts {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetContacts {}
 
@@ -55986,12 +56145,7 @@ impl GetContacts {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56020,6 +56174,12 @@ pub struct GetCountryCode {
 
 
 
+impl Object for GetCountryCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetCountryCode {}
 
@@ -56035,12 +56195,7 @@ impl GetCountryCode {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56069,6 +56224,12 @@ pub struct GetCreatedPublicChats {
 
 
 
+impl Object for GetCreatedPublicChats {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetCreatedPublicChats {}
 
@@ -56084,12 +56245,7 @@ impl GetCreatedPublicChats {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56118,6 +56274,12 @@ pub struct GetCurrentState {
 
 
 
+impl Object for GetCurrentState {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetCurrentState {}
 
@@ -56133,12 +56295,7 @@ impl GetCurrentState {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56167,6 +56324,12 @@ pub struct GetDatabaseStatistics {
 
 
 
+impl Object for GetDatabaseStatistics {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetDatabaseStatistics {}
 
@@ -56182,12 +56345,7 @@ impl GetDatabaseStatistics {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56220,6 +56378,12 @@ pub struct GetDeepLinkInfo {
 
 
 
+impl Object for GetDeepLinkInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetDeepLinkInfo {}
 
@@ -56238,12 +56402,7 @@ impl GetDeepLinkInfo {
   
   pub fn link(&self) -> &Option<String> { &self.link }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56277,6 +56436,12 @@ pub struct GetFavoriteStickers {
 
 
 
+impl Object for GetFavoriteStickers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetFavoriteStickers {}
 
@@ -56292,12 +56457,7 @@ impl GetFavoriteStickers {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56330,6 +56490,12 @@ pub struct GetFile {
 
 
 
+impl Object for GetFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetFile {}
 
@@ -56348,12 +56514,7 @@ impl GetFile {
   
   pub fn file_id(&self) -> &Option<i32> { &self.file_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56393,6 +56554,12 @@ pub struct GetFileDownloadedPrefixSize {
 
 
 
+impl Object for GetFileDownloadedPrefixSize {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetFileDownloadedPrefixSize {}
 
@@ -56414,12 +56581,7 @@ impl GetFileDownloadedPrefixSize {
   
   pub fn offset(&self) -> &Option<i32> { &self.offset }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56462,6 +56624,12 @@ pub struct GetFileExtension {
 
 
 
+impl Object for GetFileExtension {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetFileExtension {}
 
@@ -56480,12 +56648,7 @@ impl GetFileExtension {
   
   pub fn mime_type(&self) -> &Option<String> { &self.mime_type }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56523,6 +56686,12 @@ pub struct GetFileMimeType {
 
 
 
+impl Object for GetFileMimeType {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetFileMimeType {}
 
@@ -56541,12 +56710,7 @@ impl GetFileMimeType {
   
   pub fn file_name(&self) -> &Option<String> { &self.file_name }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56588,6 +56752,12 @@ pub struct GetGameHighScores {
 
 
 
+impl Object for GetGameHighScores {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetGameHighScores {}
 
@@ -56612,12 +56782,7 @@ impl GetGameHighScores {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56669,6 +56834,12 @@ pub struct GetGroupsInCommon {
 
 
 
+impl Object for GetGroupsInCommon {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetGroupsInCommon {}
 
@@ -56693,12 +56864,7 @@ impl GetGroupsInCommon {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56742,6 +56908,12 @@ pub struct GetImportedContactCount {
 
 
 
+impl Object for GetImportedContactCount {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetImportedContactCount {}
 
@@ -56757,12 +56929,7 @@ impl GetImportedContactCount {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56797,6 +56964,12 @@ pub struct GetInlineGameHighScores {
 
 
 
+impl Object for GetInlineGameHighScores {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetInlineGameHighScores {}
 
@@ -56818,12 +56991,7 @@ impl GetInlineGameHighScores {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56874,6 +57042,12 @@ pub struct GetInlineQueryResults {
 
 
 
+impl Object for GetInlineQueryResults {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetInlineQueryResults {}
 
@@ -56904,12 +57078,7 @@ impl GetInlineQueryResults {
   
   pub fn offset(&self) -> &Option<String> { &self.offset }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -56967,6 +57136,12 @@ pub struct GetInstalledStickerSets {
 
 
 
+impl Object for GetInstalledStickerSets {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetInstalledStickerSets {}
 
@@ -56985,12 +57160,7 @@ impl GetInstalledStickerSets {
   
   pub fn is_masks(&self) -> &Option<bool> { &self.is_masks }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -57024,6 +57194,12 @@ pub struct GetInviteText {
 
 
 
+impl Object for GetInviteText {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetInviteText {}
 
@@ -57039,12 +57215,7 @@ impl GetInviteText {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -57077,6 +57248,12 @@ pub struct GetLanguagePackInfo {
 
 
 
+impl Object for GetLanguagePackInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetLanguagePackInfo {}
 
@@ -57095,12 +57272,7 @@ impl GetLanguagePackInfo {
   
   pub fn language_pack_id(&self) -> &Option<String> { &self.language_pack_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -57144,6 +57316,12 @@ pub struct GetLanguagePackString {
 
 
 
+impl Object for GetLanguagePackString {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetLanguagePackString {}
 
@@ -57171,12 +57349,7 @@ impl GetLanguagePackString {
   
   pub fn key(&self) -> &Option<String> { &self.key }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -57231,6 +57404,12 @@ pub struct GetLanguagePackStrings {
 
 
 
+impl Object for GetLanguagePackStrings {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetLanguagePackStrings {}
 
@@ -57252,12 +57431,7 @@ impl GetLanguagePackStrings {
   
   pub fn keys(&self) -> &Option<Vec<String>> { &self.keys }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -57300,6 +57474,12 @@ pub struct GetLocalizationTargetInfo {
 
 
 
+impl Object for GetLocalizationTargetInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetLocalizationTargetInfo {}
 
@@ -57318,12 +57498,7 @@ impl GetLocalizationTargetInfo {
   
   pub fn only_local(&self) -> &Option<bool> { &self.only_local }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -57357,6 +57532,12 @@ pub struct GetLogStream {
 
 
 
+impl Object for GetLogStream {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetLogStream {}
 
@@ -57372,12 +57553,7 @@ impl GetLogStream {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -57410,6 +57586,12 @@ pub struct GetLogTagVerbosityLevel {
 
 
 
+impl Object for GetLogTagVerbosityLevel {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetLogTagVerbosityLevel {}
 
@@ -57428,12 +57610,7 @@ impl GetLogTagVerbosityLevel {
   
   pub fn tag(&self) -> &Option<String> { &self.tag }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -57467,6 +57644,12 @@ pub struct GetLogTags {
 
 
 
+impl Object for GetLogTags {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetLogTags {}
 
@@ -57482,12 +57665,7 @@ impl GetLogTags {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -57516,6 +57694,12 @@ pub struct GetLogVerbosityLevel {
 
 
 
+impl Object for GetLogVerbosityLevel {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetLogVerbosityLevel {}
 
@@ -57531,12 +57715,7 @@ impl GetLogVerbosityLevel {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -57579,6 +57758,12 @@ pub struct GetMapThumbnailFile {
 
 
 
+impl Object for GetMapThumbnailFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetMapThumbnailFile {}
 
@@ -57612,12 +57797,7 @@ impl GetMapThumbnailFile {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -57676,6 +57856,12 @@ pub struct GetMe {
 
 
 
+impl Object for GetMe {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetMe {}
 
@@ -57691,12 +57877,7 @@ impl GetMe {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -57731,6 +57912,12 @@ pub struct GetMessage {
 
 
 
+impl Object for GetMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetMessage {}
 
@@ -57752,12 +57939,7 @@ impl GetMessage {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -57802,6 +57984,12 @@ pub struct GetMessageLink {
 
 
 
+impl Object for GetMessageLink {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetMessageLink {}
 
@@ -57823,12 +58011,7 @@ impl GetMessageLink {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -57873,6 +58056,12 @@ pub struct GetMessageLocally {
 
 
 
+impl Object for GetMessageLocally {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetMessageLocally {}
 
@@ -57894,12 +58083,7 @@ impl GetMessageLocally {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -57944,6 +58128,12 @@ pub struct GetMessages {
 
 
 
+impl Object for GetMessages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetMessages {}
 
@@ -57965,12 +58155,7 @@ impl GetMessages {
   
   pub fn message_ids(&self) -> &Option<Vec<i64>> { &self.message_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58013,6 +58198,12 @@ pub struct GetNetworkStatistics {
 
 
 
+impl Object for GetNetworkStatistics {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetNetworkStatistics {}
 
@@ -58031,12 +58222,7 @@ impl GetNetworkStatistics {
   
   pub fn only_current(&self) -> &Option<bool> { &self.only_current }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58074,6 +58260,12 @@ pub struct GetOption {
 
 
 
+impl Object for GetOption {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetOption {}
 
@@ -58092,12 +58284,7 @@ impl GetOption {
   
   pub fn name(&self) -> &Option<String> { &self.name }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58141,6 +58328,12 @@ pub struct GetPassportAuthorizationForm {
 
 
 
+impl Object for GetPassportAuthorizationForm {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetPassportAuthorizationForm {}
 
@@ -58168,12 +58361,7 @@ impl GetPassportAuthorizationForm {
   
   pub fn nonce(&self) -> &Option<String> { &self.nonce }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58228,6 +58416,12 @@ pub struct GetPassportAuthorizationFormAvailableElements {
 
 
 
+impl Object for GetPassportAuthorizationFormAvailableElements {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetPassportAuthorizationFormAvailableElements {}
 
@@ -58249,12 +58443,7 @@ impl GetPassportAuthorizationFormAvailableElements {
   
   pub fn password(&self) -> &Option<String> { &self.password }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58306,6 +58495,12 @@ impl Clone for GetPassportElement {
 }
 
 
+impl Object for GetPassportElement {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetPassportElement {}
 
@@ -58327,12 +58522,7 @@ impl GetPassportElement {
   
   pub fn password(&self) -> &Option<String> { &self.password }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58371,6 +58561,12 @@ pub struct GetPasswordState {
 
 
 
+impl Object for GetPasswordState {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetPasswordState {}
 
@@ -58386,12 +58582,7 @@ impl GetPasswordState {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58426,6 +58617,12 @@ pub struct GetPaymentForm {
 
 
 
+impl Object for GetPaymentForm {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetPaymentForm {}
 
@@ -58447,12 +58644,7 @@ impl GetPaymentForm {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58497,6 +58689,12 @@ pub struct GetPaymentReceipt {
 
 
 
+impl Object for GetPaymentReceipt {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetPaymentReceipt {}
 
@@ -58518,12 +58716,7 @@ impl GetPaymentReceipt {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58566,6 +58759,12 @@ pub struct GetPreferredCountryLanguage {
 
 
 
+impl Object for GetPreferredCountryLanguage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetPreferredCountryLanguage {}
 
@@ -58584,12 +58783,7 @@ impl GetPreferredCountryLanguage {
   
   pub fn country_code(&self) -> &Option<String> { &self.country_code }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58623,6 +58817,12 @@ pub struct GetProxies {
 
 
 
+impl Object for GetProxies {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetProxies {}
 
@@ -58638,12 +58838,7 @@ impl GetProxies {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58676,6 +58871,12 @@ pub struct GetProxyLink {
 
 
 
+impl Object for GetProxyLink {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetProxyLink {}
 
@@ -58694,12 +58895,7 @@ impl GetProxyLink {
   
   pub fn proxy_id(&self) -> &Option<i32> { &self.proxy_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58741,6 +58937,12 @@ pub struct GetPublicMessageLink {
 
 
 
+impl Object for GetPublicMessageLink {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetPublicMessageLink {}
 
@@ -58765,12 +58967,7 @@ impl GetPublicMessageLink {
   
   pub fn for_album(&self) -> &Option<bool> { &self.for_album }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58818,6 +59015,12 @@ pub struct GetPushReceiverId {
 
 
 
+impl Object for GetPushReceiverId {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetPushReceiverId {}
 
@@ -58836,12 +59039,7 @@ impl GetPushReceiverId {
   
   pub fn payload(&self) -> &Option<String> { &self.payload }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58875,6 +59073,12 @@ pub struct GetRecentInlineBots {
 
 
 
+impl Object for GetRecentInlineBots {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetRecentInlineBots {}
 
@@ -58890,12 +59094,7 @@ impl GetRecentInlineBots {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58928,6 +59127,12 @@ pub struct GetRecentStickers {
 
 
 
+impl Object for GetRecentStickers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetRecentStickers {}
 
@@ -58946,12 +59151,7 @@ impl GetRecentStickers {
   
   pub fn is_attached(&self) -> &Option<bool> { &self.is_attached }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -58989,6 +59189,12 @@ pub struct GetRecentlyVisitedTMeUrls {
 
 
 
+impl Object for GetRecentlyVisitedTMeUrls {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetRecentlyVisitedTMeUrls {}
 
@@ -59007,12 +59213,7 @@ impl GetRecentlyVisitedTMeUrls {
   
   pub fn referrer(&self) -> &Option<String> { &self.referrer }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -59050,6 +59251,12 @@ pub struct GetRecoveryEmailAddress {
 
 
 
+impl Object for GetRecoveryEmailAddress {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetRecoveryEmailAddress {}
 
@@ -59068,12 +59275,7 @@ impl GetRecoveryEmailAddress {
   
   pub fn password(&self) -> &Option<String> { &self.password }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -59120,6 +59322,12 @@ impl Clone for GetRemoteFile {
 }
 
 
+impl Object for GetRemoteFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetRemoteFile {}
 
@@ -59141,12 +59349,7 @@ impl GetRemoteFile {
   
   pub fn file_type(&self) -> &Option<Box<FileType>> { &self.file_type }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -59191,6 +59394,12 @@ pub struct GetRepliedMessage {
 
 
 
+impl Object for GetRepliedMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetRepliedMessage {}
 
@@ -59212,12 +59421,7 @@ impl GetRepliedMessage {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -59256,6 +59460,12 @@ pub struct GetSavedAnimations {
 
 
 
+impl Object for GetSavedAnimations {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetSavedAnimations {}
 
@@ -59271,12 +59481,7 @@ impl GetSavedAnimations {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -59305,6 +59510,12 @@ pub struct GetSavedOrderInfo {
 
 
 
+impl Object for GetSavedOrderInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetSavedOrderInfo {}
 
@@ -59320,12 +59531,7 @@ impl GetSavedOrderInfo {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -59365,6 +59571,12 @@ impl Clone for GetScopeNotificationSettings {
 }
 
 
+impl Object for GetScopeNotificationSettings {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetScopeNotificationSettings {}
 
@@ -59383,12 +59595,7 @@ impl GetScopeNotificationSettings {
   
   pub fn scope(&self) -> &Option<Box<NotificationSettingsScope>> { &self.scope }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -59426,6 +59633,12 @@ pub struct GetSecretChat {
 
 
 
+impl Object for GetSecretChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetSecretChat {}
 
@@ -59444,12 +59657,7 @@ impl GetSecretChat {
   
   pub fn secret_chat_id(&self) -> &Option<i32> { &self.secret_chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -59494,6 +59702,12 @@ impl Clone for GetStickerEmojis {
 }
 
 
+impl Object for GetStickerEmojis {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetStickerEmojis {}
 
@@ -59512,12 +59726,7 @@ impl GetStickerEmojis {
   
   pub fn sticker(&self) -> &Option<Box<InputFile>> { &self.sticker }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -59555,6 +59764,12 @@ pub struct GetStickerSet {
 
 
 
+impl Object for GetStickerSet {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetStickerSet {}
 
@@ -59573,12 +59788,7 @@ impl GetStickerSet {
   
   pub fn set_id(&self) -> &Option<i64> { &self.set_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -59618,6 +59828,12 @@ pub struct GetStickers {
 
 
 
+impl Object for GetStickers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetStickers {}
 
@@ -59639,12 +59855,7 @@ impl GetStickers {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -59687,6 +59898,12 @@ pub struct GetStorageStatistics {
 
 
 
+impl Object for GetStorageStatistics {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetStorageStatistics {}
 
@@ -59705,12 +59922,7 @@ impl GetStorageStatistics {
   
   pub fn chat_limit(&self) -> &Option<i32> { &self.chat_limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -59744,6 +59956,12 @@ pub struct GetStorageStatisticsFast {
 
 
 
+impl Object for GetStorageStatisticsFast {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetStorageStatisticsFast {}
 
@@ -59759,12 +59977,7 @@ impl GetStorageStatisticsFast {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -59797,6 +60010,12 @@ pub struct GetSupergroup {
 
 
 
+impl Object for GetSupergroup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetSupergroup {}
 
@@ -59815,12 +60034,7 @@ impl GetSupergroup {
   
   pub fn supergroup_id(&self) -> &Option<i32> { &self.supergroup_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -59858,6 +60072,12 @@ pub struct GetSupergroupFullInfo {
 
 
 
+impl Object for GetSupergroupFullInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetSupergroupFullInfo {}
 
@@ -59876,12 +60096,7 @@ impl GetSupergroupFullInfo {
   
   pub fn supergroup_id(&self) -> &Option<i32> { &self.supergroup_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -59932,6 +60147,12 @@ impl Clone for GetSupergroupMembers {
 }
 
 
+impl Object for GetSupergroupMembers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetSupergroupMembers {}
 
@@ -59959,12 +60180,7 @@ impl GetSupergroupMembers {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60013,6 +60229,12 @@ pub struct GetSupportUser {
 
 
 
+impl Object for GetSupportUser {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetSupportUser {}
 
@@ -60028,12 +60250,7 @@ impl GetSupportUser {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60062,6 +60279,12 @@ pub struct GetTemporaryPasswordState {
 
 
 
+impl Object for GetTemporaryPasswordState {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetTemporaryPasswordState {}
 
@@ -60077,12 +60300,7 @@ impl GetTemporaryPasswordState {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60115,6 +60333,12 @@ pub struct GetTextEntities {
 
 
 
+impl Object for GetTextEntities {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetTextEntities {}
 
@@ -60133,12 +60357,7 @@ impl GetTextEntities {
   
   pub fn text(&self) -> &Option<String> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60185,6 +60404,12 @@ impl Clone for GetTopChats {
 }
 
 
+impl Object for GetTopChats {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetTopChats {}
 
@@ -60206,12 +60431,7 @@ impl GetTopChats {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60250,6 +60470,12 @@ pub struct GetTrendingStickerSets {
 
 
 
+impl Object for GetTrendingStickerSets {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetTrendingStickerSets {}
 
@@ -60265,12 +60491,7 @@ impl GetTrendingStickerSets {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60303,6 +60524,12 @@ pub struct GetUser {
 
 
 
+impl Object for GetUser {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetUser {}
 
@@ -60321,12 +60548,7 @@ impl GetUser {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60364,6 +60586,12 @@ pub struct GetUserFullInfo {
 
 
 
+impl Object for GetUserFullInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetUserFullInfo {}
 
@@ -60382,12 +60610,7 @@ impl GetUserFullInfo {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60432,6 +60655,12 @@ impl Clone for GetUserPrivacySettingRules {
 }
 
 
+impl Object for GetUserPrivacySettingRules {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetUserPrivacySettingRules {}
 
@@ -60450,12 +60679,7 @@ impl GetUserPrivacySettingRules {
   
   pub fn setting(&self) -> &Option<Box<UserPrivacySetting>> { &self.setting }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60497,6 +60721,12 @@ pub struct GetUserProfilePhotos {
 
 
 
+impl Object for GetUserProfilePhotos {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetUserProfilePhotos {}
 
@@ -60521,12 +60751,7 @@ impl GetUserProfilePhotos {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60570,6 +60795,12 @@ pub struct GetWallpapers {
 
 
 
+impl Object for GetWallpapers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetWallpapers {}
 
@@ -60585,12 +60816,7 @@ impl GetWallpapers {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60625,6 +60851,12 @@ pub struct GetWebPageInstantView {
 
 
 
+impl Object for GetWebPageInstantView {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetWebPageInstantView {}
 
@@ -60646,12 +60878,7 @@ impl GetWebPageInstantView {
   
   pub fn force_full(&self) -> &Option<bool> { &self.force_full }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60694,6 +60921,12 @@ pub struct GetWebPagePreview {
 
 
 
+impl Object for GetWebPagePreview {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for GetWebPagePreview {}
 
@@ -60712,12 +60945,7 @@ impl GetWebPagePreview {
   
   pub fn text(&self) -> &Option<FormattedText> { &self.text }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60755,6 +60983,12 @@ pub struct ImportContacts {
 
 
 
+impl Object for ImportContacts {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ImportContacts {}
 
@@ -60773,12 +61007,7 @@ impl ImportContacts {
   
   pub fn contacts(&self) -> &Option<Vec<Contact>> { &self.contacts }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60816,6 +61045,12 @@ pub struct JoinChat {
 
 
 
+impl Object for JoinChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for JoinChat {}
 
@@ -60834,12 +61069,7 @@ impl JoinChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60877,6 +61107,12 @@ pub struct JoinChatByInviteLink {
 
 
 
+impl Object for JoinChatByInviteLink {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for JoinChatByInviteLink {}
 
@@ -60895,12 +61131,7 @@ impl JoinChatByInviteLink {
   
   pub fn invite_link(&self) -> &Option<String> { &self.invite_link }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60938,6 +61169,12 @@ pub struct LeaveChat {
 
 
 
+impl Object for LeaveChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for LeaveChat {}
 
@@ -60956,12 +61193,7 @@ impl LeaveChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -60995,6 +61227,12 @@ pub struct LogOut {
 
 
 
+impl Object for LogOut {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for LogOut {}
 
@@ -61010,12 +61248,7 @@ impl LogOut {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -61048,6 +61281,12 @@ pub struct OpenChat {
 
 
 
+impl Object for OpenChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for OpenChat {}
 
@@ -61066,12 +61305,7 @@ impl OpenChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -61111,6 +61345,12 @@ pub struct OpenMessageContent {
 
 
 
+impl Object for OpenMessageContent {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for OpenMessageContent {}
 
@@ -61132,12 +61372,7 @@ impl OpenMessageContent {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -61201,6 +61436,12 @@ impl Clone for OptimizeStorage {
 }
 
 
+impl Object for OptimizeStorage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for OptimizeStorage {}
 
@@ -61240,12 +61481,7 @@ impl OptimizeStorage {
   
   pub fn chat_limit(&self) -> &Option<i32> { &self.chat_limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -61327,6 +61563,12 @@ impl Clone for ParseTextEntities {
 }
 
 
+impl Object for ParseTextEntities {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ParseTextEntities {}
 
@@ -61348,12 +61590,7 @@ impl ParseTextEntities {
   
   pub fn parse_mode(&self) -> &Option<Box<TextParseMode>> { &self.parse_mode }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -61400,6 +61637,12 @@ pub struct PinChatMessage {
 
 
 
+impl Object for PinChatMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for PinChatMessage {}
 
@@ -61424,12 +61667,7 @@ impl PinChatMessage {
   
   pub fn disable_notification(&self) -> &Option<bool> { &self.disable_notification }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -61477,6 +61715,12 @@ pub struct PingProxy {
 
 
 
+impl Object for PingProxy {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for PingProxy {}
 
@@ -61495,12 +61739,7 @@ impl PingProxy {
   
   pub fn proxy_id(&self) -> &Option<i32> { &self.proxy_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -61538,6 +61777,12 @@ pub struct ProcessPushNotification {
 
 
 
+impl Object for ProcessPushNotification {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ProcessPushNotification {}
 
@@ -61556,12 +61801,7 @@ impl ProcessPushNotification {
   
   pub fn payload(&self) -> &Option<String> { &self.payload }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -61599,6 +61839,12 @@ pub struct ReadAllChatMentions {
 
 
 
+impl Object for ReadAllChatMentions {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ReadAllChatMentions {}
 
@@ -61617,12 +61863,7 @@ impl ReadAllChatMentions {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -61664,6 +61905,12 @@ pub struct ReadFilePart {
 
 
 
+impl Object for ReadFilePart {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ReadFilePart {}
 
@@ -61688,12 +61935,7 @@ impl ReadFilePart {
   
   pub fn count(&self) -> &Option<i32> { &self.count }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -61741,6 +61983,12 @@ pub struct RecoverAuthenticationPassword {
 
 
 
+impl Object for RecoverAuthenticationPassword {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RecoverAuthenticationPassword {}
 
@@ -61759,12 +62007,7 @@ impl RecoverAuthenticationPassword {
   
   pub fn recovery_code(&self) -> &Option<String> { &self.recovery_code }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -61802,6 +62045,12 @@ pub struct RecoverPassword {
 
 
 
+impl Object for RecoverPassword {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RecoverPassword {}
 
@@ -61820,12 +62069,7 @@ impl RecoverPassword {
   
   pub fn recovery_code(&self) -> &Option<String> { &self.recovery_code }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -61872,6 +62116,12 @@ impl Clone for RegisterDevice {
 }
 
 
+impl Object for RegisterDevice {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RegisterDevice {}
 
@@ -61893,12 +62143,7 @@ impl RegisterDevice {
   
   pub fn other_user_ids(&self) -> &Option<Vec<i32>> { &self.other_user_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -61941,6 +62186,12 @@ pub struct RemoveContacts {
 
 
 
+impl Object for RemoveContacts {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RemoveContacts {}
 
@@ -61959,12 +62210,7 @@ impl RemoveContacts {
   
   pub fn user_ids(&self) -> &Option<Vec<i32>> { &self.user_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -62009,6 +62255,12 @@ impl Clone for RemoveFavoriteSticker {
 }
 
 
+impl Object for RemoveFavoriteSticker {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RemoveFavoriteSticker {}
 
@@ -62027,12 +62279,7 @@ impl RemoveFavoriteSticker {
   
   pub fn sticker(&self) -> &Option<Box<InputFile>> { &self.sticker }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -62072,6 +62319,12 @@ pub struct RemoveNotification {
 
 
 
+impl Object for RemoveNotification {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RemoveNotification {}
 
@@ -62093,12 +62346,7 @@ impl RemoveNotification {
   
   pub fn notification_id(&self) -> &Option<i32> { &self.notification_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -62143,6 +62391,12 @@ pub struct RemoveNotificationGroup {
 
 
 
+impl Object for RemoveNotificationGroup {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RemoveNotificationGroup {}
 
@@ -62164,12 +62418,7 @@ impl RemoveNotificationGroup {
   
   pub fn max_notification_id(&self) -> &Option<i32> { &self.max_notification_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -62212,6 +62461,12 @@ pub struct RemoveProxy {
 
 
 
+impl Object for RemoveProxy {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RemoveProxy {}
 
@@ -62230,12 +62485,7 @@ impl RemoveProxy {
   
   pub fn proxy_id(&self) -> &Option<i32> { &self.proxy_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -62273,6 +62523,12 @@ pub struct RemoveRecentHashtag {
 
 
 
+impl Object for RemoveRecentHashtag {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RemoveRecentHashtag {}
 
@@ -62291,12 +62547,7 @@ impl RemoveRecentHashtag {
   
   pub fn hashtag(&self) -> &Option<String> { &self.hashtag }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -62343,6 +62594,12 @@ impl Clone for RemoveRecentSticker {
 }
 
 
+impl Object for RemoveRecentSticker {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RemoveRecentSticker {}
 
@@ -62364,12 +62621,7 @@ impl RemoveRecentSticker {
   
   pub fn sticker(&self) -> &Option<Box<InputFile>> { &self.sticker }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -62412,6 +62664,12 @@ pub struct RemoveRecentlyFoundChat {
 
 
 
+impl Object for RemoveRecentlyFoundChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RemoveRecentlyFoundChat {}
 
@@ -62430,12 +62688,7 @@ impl RemoveRecentlyFoundChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -62480,6 +62733,12 @@ impl Clone for RemoveSavedAnimation {
 }
 
 
+impl Object for RemoveSavedAnimation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RemoveSavedAnimation {}
 
@@ -62498,12 +62757,7 @@ impl RemoveSavedAnimation {
   
   pub fn animation(&self) -> &Option<Box<InputFile>> { &self.animation }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -62548,6 +62802,12 @@ impl Clone for RemoveStickerFromSet {
 }
 
 
+impl Object for RemoveStickerFromSet {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RemoveStickerFromSet {}
 
@@ -62566,12 +62826,7 @@ impl RemoveStickerFromSet {
   
   pub fn sticker(&self) -> &Option<Box<InputFile>> { &self.sticker }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -62618,6 +62873,12 @@ impl Clone for RemoveTopChat {
 }
 
 
+impl Object for RemoveTopChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RemoveTopChat {}
 
@@ -62639,12 +62900,7 @@ impl RemoveTopChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -62689,6 +62945,12 @@ pub struct ReorderInstalledStickerSets {
 
 
 
+impl Object for ReorderInstalledStickerSets {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ReorderInstalledStickerSets {}
 
@@ -62710,12 +62972,7 @@ impl ReorderInstalledStickerSets {
   
   pub fn sticker_set_ids(&self) -> &Option<Vec<i64>> { &self.sticker_set_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -62769,6 +63026,12 @@ impl Clone for ReportChat {
 }
 
 
+impl Object for ReportChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ReportChat {}
 
@@ -62793,12 +63056,7 @@ impl ReportChat {
   
   pub fn message_ids(&self) -> &Option<Vec<i64>> { &self.message_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -62850,6 +63108,12 @@ pub struct ReportSupergroupSpam {
 
 
 
+impl Object for ReportSupergroupSpam {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ReportSupergroupSpam {}
 
@@ -62874,12 +63138,7 @@ impl ReportSupergroupSpam {
   
   pub fn message_ids(&self) -> &Option<Vec<i64>> { &self.message_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -62923,6 +63182,12 @@ pub struct RequestAuthenticationPasswordRecovery {
 
 
 
+impl Object for RequestAuthenticationPasswordRecovery {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RequestAuthenticationPasswordRecovery {}
 
@@ -62938,12 +63203,7 @@ impl RequestAuthenticationPasswordRecovery {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -62972,6 +63232,12 @@ pub struct RequestPasswordRecovery {
 
 
 
+impl Object for RequestPasswordRecovery {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for RequestPasswordRecovery {}
 
@@ -62987,12 +63253,7 @@ impl RequestPasswordRecovery {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -63021,6 +63282,12 @@ pub struct ResendAuthenticationCode {
 
 
 
+impl Object for ResendAuthenticationCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ResendAuthenticationCode {}
 
@@ -63036,12 +63303,7 @@ impl ResendAuthenticationCode {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -63070,6 +63332,12 @@ pub struct ResendChangePhoneNumberCode {
 
 
 
+impl Object for ResendChangePhoneNumberCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ResendChangePhoneNumberCode {}
 
@@ -63085,12 +63353,7 @@ impl ResendChangePhoneNumberCode {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -63119,6 +63382,12 @@ pub struct ResendEmailAddressVerificationCode {
 
 
 
+impl Object for ResendEmailAddressVerificationCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ResendEmailAddressVerificationCode {}
 
@@ -63134,12 +63403,7 @@ impl ResendEmailAddressVerificationCode {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -63168,6 +63432,12 @@ pub struct ResendPhoneNumberConfirmationCode {
 
 
 
+impl Object for ResendPhoneNumberConfirmationCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ResendPhoneNumberConfirmationCode {}
 
@@ -63183,12 +63453,7 @@ impl ResendPhoneNumberConfirmationCode {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -63217,6 +63482,12 @@ pub struct ResendPhoneNumberVerificationCode {
 
 
 
+impl Object for ResendPhoneNumberVerificationCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ResendPhoneNumberVerificationCode {}
 
@@ -63232,12 +63503,7 @@ impl ResendPhoneNumberVerificationCode {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -63266,6 +63532,12 @@ pub struct ResendRecoveryEmailAddressCode {
 
 
 
+impl Object for ResendRecoveryEmailAddressCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ResendRecoveryEmailAddressCode {}
 
@@ -63281,12 +63553,7 @@ impl ResendRecoveryEmailAddressCode {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -63315,6 +63582,12 @@ pub struct ResetAllNotificationSettings {
 
 
 
+impl Object for ResetAllNotificationSettings {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ResetAllNotificationSettings {}
 
@@ -63330,12 +63603,7 @@ impl ResetAllNotificationSettings {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -63364,6 +63632,12 @@ pub struct ResetNetworkStatistics {
 
 
 
+impl Object for ResetNetworkStatistics {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ResetNetworkStatistics {}
 
@@ -63379,12 +63653,7 @@ impl ResetNetworkStatistics {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -63421,6 +63690,12 @@ pub struct SearchCallMessages {
 
 
 
+impl Object for SearchCallMessages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchCallMessages {}
 
@@ -63445,12 +63720,7 @@ impl SearchCallMessages {
   
   pub fn only_missed(&self) -> &Option<bool> { &self.only_missed }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -63511,6 +63781,12 @@ impl Clone for SearchChatMembers {
 }
 
 
+impl Object for SearchChatMembers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchChatMembers {}
 
@@ -63538,12 +63814,7 @@ impl SearchChatMembers {
   
   pub fn filter(&self) -> &Option<Box<ChatMembersFilter>> { &self.filter }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -63615,6 +63886,12 @@ impl Clone for SearchChatMessages {
 }
 
 
+impl Object for SearchChatMessages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchChatMessages {}
 
@@ -63651,12 +63928,7 @@ impl SearchChatMessages {
   
   pub fn filter(&self) -> &Option<Box<SearchMessagesFilter>> { &self.filter }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -63726,6 +63998,12 @@ pub struct SearchChatRecentLocationMessages {
 
 
 
+impl Object for SearchChatRecentLocationMessages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchChatRecentLocationMessages {}
 
@@ -63747,12 +64025,7 @@ impl SearchChatRecentLocationMessages {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -63797,6 +64070,12 @@ pub struct SearchChats {
 
 
 
+impl Object for SearchChats {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchChats {}
 
@@ -63818,12 +64097,7 @@ impl SearchChats {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -63868,6 +64142,12 @@ pub struct SearchChatsOnServer {
 
 
 
+impl Object for SearchChatsOnServer {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchChatsOnServer {}
 
@@ -63889,12 +64169,7 @@ impl SearchChatsOnServer {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -63939,6 +64214,12 @@ pub struct SearchContacts {
 
 
 
+impl Object for SearchContacts {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchContacts {}
 
@@ -63960,12 +64241,7 @@ impl SearchContacts {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -64010,6 +64286,12 @@ pub struct SearchHashtags {
 
 
 
+impl Object for SearchHashtags {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchHashtags {}
 
@@ -64031,12 +64313,7 @@ impl SearchHashtags {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -64083,6 +64360,12 @@ pub struct SearchInstalledStickerSets {
 
 
 
+impl Object for SearchInstalledStickerSets {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchInstalledStickerSets {}
 
@@ -64107,12 +64390,7 @@ impl SearchInstalledStickerSets {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -64168,6 +64446,12 @@ pub struct SearchMessages {
 
 
 
+impl Object for SearchMessages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchMessages {}
 
@@ -64198,12 +64482,7 @@ impl SearchMessages {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -64261,6 +64540,12 @@ pub struct SearchPublicChat {
 
 
 
+impl Object for SearchPublicChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchPublicChat {}
 
@@ -64279,12 +64564,7 @@ impl SearchPublicChat {
   
   pub fn username(&self) -> &Option<String> { &self.username }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -64322,6 +64602,12 @@ pub struct SearchPublicChats {
 
 
 
+impl Object for SearchPublicChats {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchPublicChats {}
 
@@ -64340,12 +64626,7 @@ impl SearchPublicChats {
   
   pub fn query(&self) -> &Option<String> { &self.query }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -64398,6 +64679,12 @@ impl Clone for SearchSecretMessages {
 }
 
 
+impl Object for SearchSecretMessages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchSecretMessages {}
 
@@ -64428,12 +64715,7 @@ impl SearchSecretMessages {
   
   pub fn filter(&self) -> &Option<Box<SearchMessagesFilter>> { &self.filter }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -64491,6 +64773,12 @@ pub struct SearchStickerSet {
 
 
 
+impl Object for SearchStickerSet {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchStickerSet {}
 
@@ -64509,12 +64797,7 @@ impl SearchStickerSet {
   
   pub fn name(&self) -> &Option<String> { &self.name }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -64552,6 +64835,12 @@ pub struct SearchStickerSets {
 
 
 
+impl Object for SearchStickerSets {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchStickerSets {}
 
@@ -64570,12 +64859,7 @@ impl SearchStickerSets {
   
   pub fn query(&self) -> &Option<String> { &self.query }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -64615,6 +64899,12 @@ pub struct SearchStickers {
 
 
 
+impl Object for SearchStickers {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SearchStickers {}
 
@@ -64636,12 +64926,7 @@ impl SearchStickers {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -64688,6 +64973,12 @@ pub struct SendBotStartMessage {
 
 
 
+impl Object for SendBotStartMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SendBotStartMessage {}
 
@@ -64712,12 +65003,7 @@ impl SendBotStartMessage {
   
   pub fn parameter(&self) -> &Option<String> { &self.parameter }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -64767,6 +65053,12 @@ pub struct SendCallDebugInformation {
 
 
 
+impl Object for SendCallDebugInformation {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SendCallDebugInformation {}
 
@@ -64788,12 +65080,7 @@ impl SendCallDebugInformation {
   
   pub fn debug_information(&self) -> &Option<String> { &self.debug_information }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -64840,6 +65127,12 @@ pub struct SendCallRating {
 
 
 
+impl Object for SendCallRating {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SendCallRating {}
 
@@ -64864,12 +65157,7 @@ impl SendCallRating {
   
   pub fn comment(&self) -> &Option<String> { &self.comment }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -64926,6 +65214,12 @@ impl Clone for SendChatAction {
 }
 
 
+impl Object for SendChatAction {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SendChatAction {}
 
@@ -64947,12 +65241,7 @@ impl SendChatAction {
   
   pub fn action(&self) -> &Option<Box<ChatAction>> { &self.action }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -64995,6 +65284,12 @@ pub struct SendChatScreenshotTakenNotification {
 
 
 
+impl Object for SendChatScreenshotTakenNotification {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SendChatScreenshotTakenNotification {}
 
@@ -65013,12 +65308,7 @@ impl SendChatScreenshotTakenNotification {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -65058,6 +65348,12 @@ pub struct SendChatSetTtlMessage {
 
 
 
+impl Object for SendChatSetTtlMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SendChatSetTtlMessage {}
 
@@ -65079,12 +65375,7 @@ impl SendChatSetTtlMessage {
   
   pub fn ttl(&self) -> &Option<i32> { &self.ttl }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -65129,6 +65420,12 @@ pub struct SendCustomRequest {
 
 
 
+impl Object for SendCustomRequest {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SendCustomRequest {}
 
@@ -65150,12 +65447,7 @@ impl SendCustomRequest {
   
   pub fn parameters(&self) -> &Option<String> { &self.parameters }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -65198,6 +65490,12 @@ pub struct SendEmailAddressVerificationCode {
 
 
 
+impl Object for SendEmailAddressVerificationCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SendEmailAddressVerificationCode {}
 
@@ -65216,12 +65514,7 @@ impl SendEmailAddressVerificationCode {
   
   pub fn email_address(&self) -> &Option<String> { &self.email_address }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -65271,6 +65564,12 @@ pub struct SendInlineQueryResultMessage {
 
 
 
+impl Object for SendInlineQueryResultMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SendInlineQueryResultMessage {}
 
@@ -65307,12 +65606,7 @@ impl SendInlineQueryResultMessage {
   
   pub fn hide_via_bot(&self) -> &Option<bool> { &self.hide_via_bot }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -65397,6 +65691,12 @@ impl Clone for SendMessage {
 }
 
 
+impl Object for SendMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SendMessage {}
 
@@ -65430,12 +65730,7 @@ impl SendMessage {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -65513,6 +65808,12 @@ impl Clone for SendMessageAlbum {
 }
 
 
+impl Object for SendMessageAlbum {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SendMessageAlbum {}
 
@@ -65543,12 +65844,7 @@ impl SendMessageAlbum {
   
   pub fn input_message_contents(&self) -> &Option<Vec<Box<InputMessageContent>>> { &self.input_message_contents }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -65615,6 +65911,12 @@ impl Clone for SendPassportAuthorizationForm {
 }
 
 
+impl Object for SendPassportAuthorizationForm {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SendPassportAuthorizationForm {}
 
@@ -65636,12 +65938,7 @@ impl SendPassportAuthorizationForm {
   
   pub fn types(&self) -> &Option<Vec<Box<PassportElementType>>> { &self.types }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -65699,6 +65996,12 @@ impl Clone for SendPaymentForm {
 }
 
 
+impl Object for SendPaymentForm {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SendPaymentForm {}
 
@@ -65729,12 +66032,7 @@ impl SendPaymentForm {
   
   pub fn credentials(&self) -> &Option<Box<InputCredentials>> { &self.credentials }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -65798,6 +66096,12 @@ pub struct SendPhoneNumberConfirmationCode {
 
 
 
+impl Object for SendPhoneNumberConfirmationCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SendPhoneNumberConfirmationCode {}
 
@@ -65825,12 +66129,7 @@ impl SendPhoneNumberConfirmationCode {
   
   pub fn is_current_phone_number(&self) -> &Option<bool> { &self.is_current_phone_number }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -65887,6 +66186,12 @@ pub struct SendPhoneNumberVerificationCode {
 
 
 
+impl Object for SendPhoneNumberVerificationCode {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SendPhoneNumberVerificationCode {}
 
@@ -65911,12 +66216,7 @@ impl SendPhoneNumberVerificationCode {
   
   pub fn is_current_phone_number(&self) -> &Option<bool> { &self.is_current_phone_number }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -65964,6 +66264,12 @@ pub struct SetAccountTtl {
 
 
 
+impl Object for SetAccountTtl {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetAccountTtl {}
 
@@ -65982,12 +66288,7 @@ impl SetAccountTtl {
   
   pub fn ttl(&self) -> &Option<AccountTtl> { &self.ttl }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -66025,6 +66326,12 @@ pub struct SetAlarm {
 
 
 
+impl Object for SetAlarm {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetAlarm {}
 
@@ -66043,12 +66350,7 @@ impl SetAlarm {
   
   pub fn seconds(&self) -> &Option<f64> { &self.seconds }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -66090,6 +66392,12 @@ pub struct SetAuthenticationPhoneNumber {
 
 
 
+impl Object for SetAuthenticationPhoneNumber {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetAuthenticationPhoneNumber {}
 
@@ -66114,12 +66422,7 @@ impl SetAuthenticationPhoneNumber {
   
   pub fn is_current_phone_number(&self) -> &Option<bool> { &self.is_current_phone_number }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -66167,6 +66470,12 @@ pub struct SetBio {
 
 
 
+impl Object for SetBio {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetBio {}
 
@@ -66185,12 +66494,7 @@ impl SetBio {
   
   pub fn bio(&self) -> &Option<String> { &self.bio }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -66230,6 +66534,12 @@ pub struct SetBotUpdatesStatus {
 
 
 
+impl Object for SetBotUpdatesStatus {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetBotUpdatesStatus {}
 
@@ -66251,12 +66561,7 @@ impl SetBotUpdatesStatus {
   
   pub fn error_message(&self) -> &Option<String> { &self.error_message }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -66301,6 +66606,12 @@ pub struct SetChatClientData {
 
 
 
+impl Object for SetChatClientData {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetChatClientData {}
 
@@ -66322,12 +66633,7 @@ impl SetChatClientData {
   
   pub fn client_data(&self) -> &Option<String> { &self.client_data }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -66372,6 +66678,12 @@ pub struct SetChatDraftMessage {
 
 
 
+impl Object for SetChatDraftMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetChatDraftMessage {}
 
@@ -66393,12 +66705,7 @@ impl SetChatDraftMessage {
   
   pub fn draft_message(&self) -> &Option<DraftMessage> { &self.draft_message }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -66452,6 +66759,12 @@ impl Clone for SetChatMemberStatus {
 }
 
 
+impl Object for SetChatMemberStatus {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetChatMemberStatus {}
 
@@ -66476,12 +66789,7 @@ impl SetChatMemberStatus {
   
   pub fn status(&self) -> &Option<Box<ChatMemberStatus>> { &self.status }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -66531,6 +66839,12 @@ pub struct SetChatNotificationSettings {
 
 
 
+impl Object for SetChatNotificationSettings {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetChatNotificationSettings {}
 
@@ -66552,12 +66866,7 @@ impl SetChatNotificationSettings {
   
   pub fn notification_settings(&self) -> &Option<ChatNotificationSettings> { &self.notification_settings }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -66609,6 +66918,12 @@ impl Clone for SetChatPhoto {
 }
 
 
+impl Object for SetChatPhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetChatPhoto {}
 
@@ -66630,12 +66945,7 @@ impl SetChatPhoto {
   
   pub fn photo(&self) -> &Option<Box<InputFile>> { &self.photo }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -66680,6 +66990,12 @@ pub struct SetChatTitle {
 
 
 
+impl Object for SetChatTitle {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetChatTitle {}
 
@@ -66701,12 +67017,7 @@ impl SetChatTitle {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -66751,6 +67062,12 @@ pub struct SetCustomLanguagePack {
 
 
 
+impl Object for SetCustomLanguagePack {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetCustomLanguagePack {}
 
@@ -66772,12 +67089,7 @@ impl SetCustomLanguagePack {
   
   pub fn strings(&self) -> &Option<Vec<LanguagePackString>> { &self.strings }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -66822,6 +67134,12 @@ pub struct SetCustomLanguagePackString {
 
 
 
+impl Object for SetCustomLanguagePackString {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetCustomLanguagePackString {}
 
@@ -66843,12 +67161,7 @@ impl SetCustomLanguagePackString {
   
   pub fn new_string(&self) -> &Option<LanguagePackString> { &self.new_string }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -66891,6 +67204,12 @@ pub struct SetDatabaseEncryptionKey {
 
 
 
+impl Object for SetDatabaseEncryptionKey {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetDatabaseEncryptionKey {}
 
@@ -66909,12 +67228,7 @@ impl SetDatabaseEncryptionKey {
   
   pub fn new_encryption_key(&self) -> &Option<String> { &self.new_encryption_key }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -66956,6 +67270,12 @@ pub struct SetFileGenerationProgress {
 
 
 
+impl Object for SetFileGenerationProgress {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetFileGenerationProgress {}
 
@@ -66980,12 +67300,7 @@ impl SetFileGenerationProgress {
   
   pub fn local_prefix_size(&self) -> &Option<i32> { &self.local_prefix_size }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -67043,6 +67358,12 @@ pub struct SetGameScore {
 
 
 
+impl Object for SetGameScore {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetGameScore {}
 
@@ -67076,12 +67397,7 @@ impl SetGameScore {
   
   pub fn force(&self) -> &Option<bool> { &self.force }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -67152,6 +67468,12 @@ pub struct SetInlineGameScore {
 
 
 
+impl Object for SetInlineGameScore {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetInlineGameScore {}
 
@@ -67182,12 +67504,7 @@ impl SetInlineGameScore {
   
   pub fn force(&self) -> &Option<bool> { &self.force }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -67252,6 +67569,12 @@ impl Clone for SetLogStream {
 }
 
 
+impl Object for SetLogStream {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetLogStream {}
 
@@ -67270,12 +67593,7 @@ impl SetLogStream {
   
   pub fn log_stream(&self) -> &Option<Box<LogStream>> { &self.log_stream }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -67315,6 +67633,12 @@ pub struct SetLogTagVerbosityLevel {
 
 
 
+impl Object for SetLogTagVerbosityLevel {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetLogTagVerbosityLevel {}
 
@@ -67336,12 +67660,7 @@ impl SetLogTagVerbosityLevel {
   
   pub fn new_verbosity_level(&self) -> &Option<i32> { &self.new_verbosity_level }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -67384,6 +67703,12 @@ pub struct SetLogVerbosityLevel {
 
 
 
+impl Object for SetLogVerbosityLevel {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetLogVerbosityLevel {}
 
@@ -67402,12 +67727,7 @@ impl SetLogVerbosityLevel {
   
   pub fn new_verbosity_level(&self) -> &Option<i32> { &self.new_verbosity_level }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -67447,6 +67767,12 @@ pub struct SetName {
 
 
 
+impl Object for SetName {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetName {}
 
@@ -67468,12 +67794,7 @@ impl SetName {
   
   pub fn last_name(&self) -> &Option<String> { &self.last_name }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -67523,6 +67844,12 @@ impl Clone for SetNetworkType {
 }
 
 
+impl Object for SetNetworkType {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetNetworkType {}
 
@@ -67541,12 +67868,7 @@ impl SetNetworkType {
   
   pub fn type_(&self) -> &Option<Box<NetworkType>> { &self.type_ }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -67593,6 +67915,12 @@ impl Clone for SetOption {
 }
 
 
+impl Object for SetOption {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetOption {}
 
@@ -67614,12 +67942,7 @@ impl SetOption {
   
   pub fn value(&self) -> &Option<Box<OptionValue>> { &self.value }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -67671,6 +67994,12 @@ impl Clone for SetPassportElement {
 }
 
 
+impl Object for SetPassportElement {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetPassportElement {}
 
@@ -67692,12 +68021,7 @@ impl SetPassportElement {
   
   pub fn password(&self) -> &Option<String> { &self.password }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -67742,6 +68066,12 @@ pub struct SetPassportElementErrors {
 
 
 
+impl Object for SetPassportElementErrors {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetPassportElementErrors {}
 
@@ -67763,12 +68093,7 @@ impl SetPassportElementErrors {
   
   pub fn errors(&self) -> &Option<Vec<InputPassportElementError>> { &self.errors }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -67819,6 +68144,12 @@ pub struct SetPassword {
 
 
 
+impl Object for SetPassword {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetPassword {}
 
@@ -67849,12 +68180,7 @@ impl SetPassword {
   
   pub fn new_recovery_email_address(&self) -> &Option<String> { &self.new_recovery_email_address }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -67912,6 +68238,12 @@ pub struct SetPinnedChats {
 
 
 
+impl Object for SetPinnedChats {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetPinnedChats {}
 
@@ -67930,12 +68262,7 @@ impl SetPinnedChats {
   
   pub fn chat_ids(&self) -> &Option<Vec<i64>> { &self.chat_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -67977,6 +68304,12 @@ pub struct SetPollAnswer {
 
 
 
+impl Object for SetPollAnswer {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetPollAnswer {}
 
@@ -68001,12 +68334,7 @@ impl SetPollAnswer {
   
   pub fn option_ids(&self) -> &Option<Vec<i32>> { &self.option_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -68061,6 +68389,12 @@ impl Clone for SetProfilePhoto {
 }
 
 
+impl Object for SetProfilePhoto {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetProfilePhoto {}
 
@@ -68079,12 +68413,7 @@ impl SetProfilePhoto {
   
   pub fn photo(&self) -> &Option<Box<InputFile>> { &self.photo }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -68124,6 +68453,12 @@ pub struct SetRecoveryEmailAddress {
 
 
 
+impl Object for SetRecoveryEmailAddress {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetRecoveryEmailAddress {}
 
@@ -68145,12 +68480,7 @@ impl SetRecoveryEmailAddress {
   
   pub fn new_recovery_email_address(&self) -> &Option<String> { &self.new_recovery_email_address }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -68202,6 +68532,12 @@ impl Clone for SetScopeNotificationSettings {
 }
 
 
+impl Object for SetScopeNotificationSettings {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetScopeNotificationSettings {}
 
@@ -68223,12 +68559,7 @@ impl SetScopeNotificationSettings {
   
   pub fn notification_settings(&self) -> &Option<ScopeNotificationSettings> { &self.notification_settings }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -68280,6 +68611,12 @@ impl Clone for SetStickerPositionInSet {
 }
 
 
+impl Object for SetStickerPositionInSet {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetStickerPositionInSet {}
 
@@ -68301,12 +68638,7 @@ impl SetStickerPositionInSet {
   
   pub fn position(&self) -> &Option<i32> { &self.position }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -68351,6 +68683,12 @@ pub struct SetSupergroupDescription {
 
 
 
+impl Object for SetSupergroupDescription {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetSupergroupDescription {}
 
@@ -68372,12 +68710,7 @@ impl SetSupergroupDescription {
   
   pub fn description(&self) -> &Option<String> { &self.description }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -68422,6 +68755,12 @@ pub struct SetSupergroupStickerSet {
 
 
 
+impl Object for SetSupergroupStickerSet {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetSupergroupStickerSet {}
 
@@ -68443,12 +68782,7 @@ impl SetSupergroupStickerSet {
   
   pub fn sticker_set_id(&self) -> &Option<i64> { &self.sticker_set_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -68493,6 +68827,12 @@ pub struct SetSupergroupUsername {
 
 
 
+impl Object for SetSupergroupUsername {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetSupergroupUsername {}
 
@@ -68514,12 +68854,7 @@ impl SetSupergroupUsername {
   
   pub fn username(&self) -> &Option<String> { &self.username }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -68562,6 +68897,12 @@ pub struct SetTdlibParameters {
 
 
 
+impl Object for SetTdlibParameters {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetTdlibParameters {}
 
@@ -68580,12 +68921,7 @@ impl SetTdlibParameters {
   
   pub fn parameters(&self) -> &Option<TdlibParameters> { &self.parameters }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -68632,6 +68968,12 @@ impl Clone for SetUserPrivacySettingRules {
 }
 
 
+impl Object for SetUserPrivacySettingRules {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetUserPrivacySettingRules {}
 
@@ -68653,12 +68995,7 @@ impl SetUserPrivacySettingRules {
   
   pub fn rules(&self) -> &Option<UserPrivacySettingRules> { &self.rules }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -68701,6 +69038,12 @@ pub struct SetUsername {
 
 
 
+impl Object for SetUsername {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SetUsername {}
 
@@ -68719,12 +69062,7 @@ impl SetUsername {
   
   pub fn username(&self) -> &Option<String> { &self.username }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -68773,6 +69111,12 @@ impl Clone for StopPoll {
 }
 
 
+impl Object for StopPoll {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for StopPoll {}
 
@@ -68797,12 +69141,7 @@ impl StopPoll {
   
   pub fn reply_markup(&self) -> &Option<Box<ReplyMarkup>> { &self.reply_markup }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -68850,6 +69189,12 @@ pub struct SynchronizeLanguagePack {
 
 
 
+impl Object for SynchronizeLanguagePack {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for SynchronizeLanguagePack {}
 
@@ -68868,12 +69213,7 @@ impl SynchronizeLanguagePack {
   
   pub fn language_pack_id(&self) -> &Option<String> { &self.language_pack_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -68907,6 +69247,12 @@ pub struct TerminateAllOtherSessions {
 
 
 
+impl Object for TerminateAllOtherSessions {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for TerminateAllOtherSessions {}
 
@@ -68922,12 +69268,7 @@ impl TerminateAllOtherSessions {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -68960,6 +69301,12 @@ pub struct TerminateSession {
 
 
 
+impl Object for TerminateSession {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for TerminateSession {}
 
@@ -68978,12 +69325,7 @@ impl TerminateSession {
   
   pub fn session_id(&self) -> &Option<i64> { &self.session_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69021,6 +69363,12 @@ pub struct TestCallBytes {
 
 
 
+impl Object for TestCallBytes {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for TestCallBytes {}
 
@@ -69039,12 +69387,7 @@ impl TestCallBytes {
   
   pub fn x(&self) -> &Option<String> { &self.x }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69078,6 +69421,12 @@ pub struct TestCallEmpty {
 
 
 
+impl Object for TestCallEmpty {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for TestCallEmpty {}
 
@@ -69093,12 +69442,7 @@ impl TestCallEmpty {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69131,6 +69475,12 @@ pub struct TestCallString {
 
 
 
+impl Object for TestCallString {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for TestCallString {}
 
@@ -69149,12 +69499,7 @@ impl TestCallString {
   
   pub fn x(&self) -> &Option<String> { &self.x }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69192,6 +69537,12 @@ pub struct TestCallVectorInt {
 
 
 
+impl Object for TestCallVectorInt {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for TestCallVectorInt {}
 
@@ -69210,12 +69561,7 @@ impl TestCallVectorInt {
   
   pub fn x(&self) -> &Option<Vec<i32>> { &self.x }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69253,6 +69599,12 @@ pub struct TestCallVectorIntObject {
 
 
 
+impl Object for TestCallVectorIntObject {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for TestCallVectorIntObject {}
 
@@ -69271,12 +69623,7 @@ impl TestCallVectorIntObject {
   
   pub fn x(&self) -> &Option<Vec<TestInt>> { &self.x }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69314,6 +69661,12 @@ pub struct TestCallVectorString {
 
 
 
+impl Object for TestCallVectorString {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for TestCallVectorString {}
 
@@ -69332,12 +69685,7 @@ impl TestCallVectorString {
   
   pub fn x(&self) -> &Option<Vec<String>> { &self.x }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69375,6 +69723,12 @@ pub struct TestCallVectorStringObject {
 
 
 
+impl Object for TestCallVectorStringObject {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for TestCallVectorStringObject {}
 
@@ -69393,12 +69747,7 @@ impl TestCallVectorStringObject {
   
   pub fn x(&self) -> &Option<Vec<TestString>> { &self.x }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69432,6 +69781,12 @@ pub struct TestGetDifference {
 
 
 
+impl Object for TestGetDifference {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for TestGetDifference {}
 
@@ -69447,12 +69802,7 @@ impl TestGetDifference {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69481,6 +69831,12 @@ pub struct TestNetwork {
 
 
 
+impl Object for TestNetwork {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for TestNetwork {}
 
@@ -69496,12 +69852,7 @@ impl TestNetwork {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69534,6 +69885,12 @@ pub struct TestSquareInt {
 
 
 
+impl Object for TestSquareInt {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for TestSquareInt {}
 
@@ -69552,12 +69909,7 @@ impl TestSquareInt {
   
   pub fn x(&self) -> &Option<i32> { &self.x }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69591,6 +69943,12 @@ pub struct TestUseError {
 
 
 
+impl Object for TestUseError {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for TestUseError {}
 
@@ -69606,12 +69964,7 @@ impl TestUseError {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69640,6 +69993,12 @@ pub struct TestUseUpdate {
 
 
 
+impl Object for TestUseUpdate {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for TestUseUpdate {}
 
@@ -69655,12 +70014,7 @@ impl TestUseUpdate {
   }
   
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69695,6 +70049,12 @@ pub struct ToggleBasicGroupAdministrators {
 
 
 
+impl Object for ToggleBasicGroupAdministrators {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ToggleBasicGroupAdministrators {}
 
@@ -69716,12 +70076,7 @@ impl ToggleBasicGroupAdministrators {
   
   pub fn everyone_is_administrator(&self) -> &Option<bool> { &self.everyone_is_administrator }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69766,6 +70121,12 @@ pub struct ToggleChatDefaultDisableNotification {
 
 
 
+impl Object for ToggleChatDefaultDisableNotification {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ToggleChatDefaultDisableNotification {}
 
@@ -69787,12 +70148,7 @@ impl ToggleChatDefaultDisableNotification {
   
   pub fn default_disable_notification(&self) -> &Option<bool> { &self.default_disable_notification }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69837,6 +70193,12 @@ pub struct ToggleChatIsMarkedAsUnread {
 
 
 
+impl Object for ToggleChatIsMarkedAsUnread {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ToggleChatIsMarkedAsUnread {}
 
@@ -69858,12 +70220,7 @@ impl ToggleChatIsMarkedAsUnread {
   
   pub fn is_marked_as_unread(&self) -> &Option<bool> { &self.is_marked_as_unread }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69908,6 +70265,12 @@ pub struct ToggleChatIsPinned {
 
 
 
+impl Object for ToggleChatIsPinned {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ToggleChatIsPinned {}
 
@@ -69929,12 +70292,7 @@ impl ToggleChatIsPinned {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -69979,6 +70337,12 @@ pub struct ToggleSupergroupInvites {
 
 
 
+impl Object for ToggleSupergroupInvites {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ToggleSupergroupInvites {}
 
@@ -70000,12 +70364,7 @@ impl ToggleSupergroupInvites {
   
   pub fn anyone_can_invite(&self) -> &Option<bool> { &self.anyone_can_invite }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -70050,6 +70409,12 @@ pub struct ToggleSupergroupIsAllHistoryAvailable {
 
 
 
+impl Object for ToggleSupergroupIsAllHistoryAvailable {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ToggleSupergroupIsAllHistoryAvailable {}
 
@@ -70071,12 +70436,7 @@ impl ToggleSupergroupIsAllHistoryAvailable {
   
   pub fn is_all_history_available(&self) -> &Option<bool> { &self.is_all_history_available }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -70121,6 +70481,12 @@ pub struct ToggleSupergroupSignMessages {
 
 
 
+impl Object for ToggleSupergroupSignMessages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ToggleSupergroupSignMessages {}
 
@@ -70142,12 +70508,7 @@ impl ToggleSupergroupSignMessages {
   
   pub fn sign_messages(&self) -> &Option<bool> { &self.sign_messages }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -70190,6 +70551,12 @@ pub struct UnblockUser {
 
 
 
+impl Object for UnblockUser {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for UnblockUser {}
 
@@ -70208,12 +70575,7 @@ impl UnblockUser {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -70251,6 +70613,12 @@ pub struct UnpinChatMessage {
 
 
 
+impl Object for UnpinChatMessage {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for UnpinChatMessage {}
 
@@ -70269,12 +70637,7 @@ impl UnpinChatMessage {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -70312,6 +70675,12 @@ pub struct UpgradeBasicGroupChatToSupergroupChat {
 
 
 
+impl Object for UpgradeBasicGroupChatToSupergroupChat {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for UpgradeBasicGroupChatToSupergroupChat {}
 
@@ -70330,12 +70699,7 @@ impl UpgradeBasicGroupChatToSupergroupChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -70384,6 +70748,12 @@ impl Clone for UploadFile {
 }
 
 
+impl Object for UploadFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for UploadFile {}
 
@@ -70408,12 +70778,7 @@ impl UploadFile {
   
   pub fn priority(&self) -> &Option<i32> { &self.priority }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -70470,6 +70835,12 @@ impl Clone for UploadStickerFile {
 }
 
 
+impl Object for UploadStickerFile {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for UploadStickerFile {}
 
@@ -70491,12 +70862,7 @@ impl UploadStickerFile {
   
   pub fn png_sticker(&self) -> &Option<Box<InputFile>> { &self.png_sticker }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -70545,6 +70911,12 @@ pub struct ValidateOrderInfo {
 
 
 
+impl Object for ValidateOrderInfo {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ValidateOrderInfo {}
 
@@ -70572,12 +70944,7 @@ impl ValidateOrderInfo {
   
   pub fn allow_save(&self) -> &Option<bool> { &self.allow_save }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -70634,6 +71001,12 @@ pub struct ViewMessages {
 
 
 
+impl Object for ViewMessages {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ViewMessages {}
 
@@ -70658,12 +71031,7 @@ impl ViewMessages {
   
   pub fn force_read(&self) -> &Option<bool> { &self.force_read }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -70711,6 +71079,12 @@ pub struct ViewTrendingStickerSets {
 
 
 
+impl Object for ViewTrendingStickerSets {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for ViewTrendingStickerSets {}
 
@@ -70729,12 +71103,7 @@ impl ViewTrendingStickerSets {
   
   pub fn sticker_set_ids(&self) -> &Option<Vec<i64>> { &self.sticker_set_ids }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]
@@ -70776,6 +71145,12 @@ pub struct WriteGeneratedFilePart {
 
 
 
+impl Object for WriteGeneratedFilePart {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+
+
 
 impl Function for WriteGeneratedFilePart {}
 
@@ -70800,12 +71175,7 @@ impl WriteGeneratedFilePart {
   
   pub fn data(&self) -> &Option<String> { &self.data }
   
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 #[derive(Debug)]

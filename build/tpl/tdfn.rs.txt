@@ -1,6 +1,9 @@
 {% if clz_description %}/// {{ clz_description }}{% endif %}
 {% if clz_is_trait %}{% if set_trait_typetag %}#[typetag::serde(tag = "@struct")]{% endif %}{% else %}#[derive(Debug, {% if not has_trait_field %}Clone, {% endif %}Serialize, Deserialize)]{% endif %}
-{% if not is_private %}pub {% endif %}{% if clz_is_trait %}trait{% else %}struct{% endif %} {{ clz_name }}{% if clz_is_trait %}: Debug {}{% else %} {
+{% if not is_private %}pub {% endif %}{% if clz_is_trait %}trait{% else %}struct{% endif %} {{ clz_name }}{% if clz_is_trait %}: {% if clz_name == 'Object' %}TlObject + {% else %}Object + {% endif %}Debug {% if clz_name == 'Object' %}{
+ #[doc(hidden)] fn tdfname(&self) -> String;
+ fn to_json(&self) -> String;
+}{% else %}{}{% endif %}{% else %} {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   tdfname: String, // {{origin_name}}
@@ -19,7 +22,13 @@ impl Clone for {{ clz_name }} {
   }
 }
 {% endif %}
-{% if clz_super %}
+{% if not clz_is_trait %}
+impl Object for {{ clz_name }} {
+  #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+}
+{% endif %}
+{% if clz_super and clz_super != 'Object' %}
 {% if impl_trait_typetag %}#[typetag::serde]{% endif %}
 impl {{ clz_super }} for {{ clz_name }} {}
 {% endif %}
@@ -38,13 +47,8 @@ impl {{ clz_name }} {
   {% if fields %}{% for field in fields %}
   pub fn {{field.name}}(&self) -> &Option<{{field.type}}> { &self.{{field.name}} }
   {% endfor %}{% endif %}
-  #[doc(hidden)]
-  pub fn tdfname(&self) -> String { self.tdfname.clone() }
-
-  pub fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
 {% endif %}
-
 {% if has_builder_struct %}
 #[derive(Debug)]
 pub struct {{ clz_name }}Builder {
