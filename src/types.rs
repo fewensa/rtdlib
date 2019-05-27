@@ -1110,7 +1110,7 @@ impl TlObject for Object {}
 
 /// This class is a base class for all TDLib API functions. 
 
-pub trait Function: Object + Debug {}
+pub trait Function: Object + RObject + Debug {}
 
 
 
@@ -1659,7 +1659,7 @@ impl AuthenticationCodeInfoBuilder {
 
 /// This class is an abstract base class. Provides information about the method by which an authentication code is delivered to the user. 
 #[typetag::serde(tag = "@struct")]
-pub trait AuthenticationCodeType: Object + Debug {}
+pub trait AuthenticationCodeType: Object + RObject + Debug {}
 
 
 
@@ -1900,7 +1900,7 @@ impl AuthenticationCodeTypeFlashCallBuilder {
 
 /// This class is an abstract base class. Represents the current authorization state of the client. 
 #[typetag::serde(tag = "@struct")]
-pub trait AuthorizationState: Object + Debug {}
+pub trait AuthorizationState: Object + RObject + Debug {}
 
 
 
@@ -2711,7 +2711,7 @@ impl CallConnectionBuilder {
 
 /// This class is an abstract base class. Describes the reason why a call was discarded. 
 #[typetag::serde(tag = "@struct")]
-pub trait CallDiscardReason: Object + Debug {}
+pub trait CallDiscardReason: Object + RObject + Debug {}
 
 
 
@@ -3100,7 +3100,7 @@ impl CallProtocolBuilder {
 
 /// This class is an abstract base class. Describes the current call state. 
 #[typetag::serde(tag = "@struct")]
-pub trait CallState: Object + Debug {}
+pub trait CallState: Object + RObject + Debug {}
 
 
 
@@ -3599,7 +3599,7 @@ impl CallbackQueryAnswerBuilder {
 
 /// This class is an abstract base class. Represents a payload of a callback query. 
 #[typetag::serde(tag = "@struct")]
-pub trait CallbackQueryPayload: Object + Debug {}
+pub trait CallbackQueryPayload: Object + RObject + Debug {}
 
 
 
@@ -3996,7 +3996,7 @@ impl ChatBuilder {
 
 /// This class is an abstract base class. Describes the different types of activity in a chat. 
 #[typetag::serde(tag = "@struct")]
-pub trait ChatAction: Object + Debug {}
+pub trait ChatAction: Object + RObject + Debug {}
 
 
 
@@ -4771,7 +4771,7 @@ impl ChatEventBuilder {
 
 /// This class is an abstract base class. Represents a chat event. 
 #[typetag::serde(tag = "@struct")]
-pub trait ChatEventAction: Object + Debug {}
+pub trait ChatEventAction: Object + RObject + Debug {}
 
 
 
@@ -6346,7 +6346,7 @@ impl ChatMemberBuilder {
 
 /// This class is an abstract base class. Provides information about the status of a member in a chat. 
 #[typetag::serde(tag = "@struct")]
-pub trait ChatMemberStatus: Object + Debug {}
+pub trait ChatMemberStatus: Object + RObject + Debug {}
 
 
 
@@ -6878,7 +6878,7 @@ impl ChatMembersBuilder {
 
 /// This class is an abstract base class. Specifies the kind of chat members to return in 
 #[typetag::serde(tag = "@struct")]
-pub trait ChatMembersFilter: Object + Debug {}
+pub trait ChatMembersFilter: Object + RObject + Debug {}
 
 
 
@@ -7337,7 +7337,7 @@ impl ChatPhotoBuilder {
 
 /// This class is an abstract base class. Describes the reason why a chat is reported. 
 #[typetag::serde(tag = "@struct")]
-pub trait ChatReportReason: Object + Debug {}
+pub trait ChatReportReason: Object + RObject + Debug {}
 
 
 
@@ -7699,7 +7699,7 @@ impl ChatReportSpamStateBuilder {
 
 /// This class is an abstract base class. Describes the type of a chat. 
 #[typetag::serde(tag = "@struct")]
-pub trait ChatType: Object + Debug {}
+pub trait ChatType: Object + RObject + Debug {}
 
 
 
@@ -8015,7 +8015,7 @@ impl ChatsBuilder {
 
 /// This class is an abstract base class. Represents result of checking whether a username can be set for a chat. 
 #[typetag::serde(tag = "@struct")]
-pub trait CheckChatUsernameResult: Object + Debug {}
+pub trait CheckChatUsernameResult: Object + RObject + Debug {}
 
 
 
@@ -8454,7 +8454,7 @@ impl ConnectedWebsitesBuilder {
 
 /// This class is an abstract base class. Describes the current state of the connection to Telegram servers. 
 #[typetag::serde(tag = "@struct")]
-pub trait ConnectionState: Object + Debug {}
+pub trait ConnectionState: Object + RObject + Debug {}
 
 
 
@@ -9168,7 +9168,7 @@ impl DeepLinkInfoBuilder {
 
 /// This class is an abstract base class. Represents a data needed to subscribe for push notifications through 
 #[typetag::serde(tag = "@struct")]
-pub trait DeviceToken: Object + Debug {}
+pub trait DeviceToken: Object + RObject + Debug {}
 
 
 
@@ -10529,7 +10529,7 @@ impl FilePartBuilder {
 
 /// This class is an abstract base class. Represents the type of a file. 
 #[typetag::serde(tag = "@struct")]
-pub trait FileType: Object + Debug {}
+pub trait FileType: Object + RObject + Debug {}
 
 
 
@@ -12033,7 +12033,7 @@ impl InlineKeyboardButtonBuilder {
 
 /// This class is an abstract base class. Describes the type of an inline keyboard button. 
 #[typetag::serde(tag = "@struct")]
-pub trait InlineKeyboardButtonType: Object + Debug {}
+pub trait InlineKeyboardButtonType: Object + RObject + Debug {}
 
 
 
@@ -12322,7 +12322,7 @@ impl InlineKeyboardButtonTypeBuyBuilder {
 
 /// This class is an abstract base class. Represents a single result of an inline query. 
 #[typetag::serde(tag = "@struct")]
-pub trait InlineQueryResult: Object + Debug {}
+pub trait InlineQueryResult: Object + RObject + Debug {}
 
 
 
@@ -13409,7 +13409,7 @@ impl InlineQueryResultsBuilder {
 
 /// This class is an abstract base class. Contains information about the payment method chosen by the user. 
 #[typetag::serde(tag = "@struct")]
-pub trait InputCredentials: Object + Debug {}
+pub trait InputCredentials: Object + RObject + Debug {}
 
 
 
@@ -13660,7 +13660,7 @@ impl InputCredentialsApplePayBuilder {
 
 /// This class is an abstract base class. Points to a file. 
 #[typetag::serde(tag = "@struct")]
-pub trait InputFile: Object + Debug {}
+pub trait InputFile: Object + RObject + Debug {}
 
 
 
@@ -14033,7 +14033,7 @@ impl InputIdentityDocumentBuilder {
 
 /// This class is an abstract base class. Represents a single result of an inline query; for bots only. 
 #[typetag::serde(tag = "@struct")]
-pub trait InputInlineQueryResult: Object + Debug {}
+pub trait InputInlineQueryResult: Object + RObject + Debug {}
 
 
 
@@ -15797,7 +15797,7 @@ impl InputInlineQueryResultVoiceNoteBuilder {
 
 /// This class is an abstract base class. The content of a message to send. 
 #[typetag::serde(tag = "@struct")]
-pub trait InputMessageContent: Object + Debug {}
+pub trait InputMessageContent: Object + RObject + Debug {}
 
 
 
@@ -17310,7 +17310,7 @@ impl InputMessageForwardedBuilder {
 
 /// This class is an abstract base class. Contains information about a Telegram Passport element to be saved. 
 #[typetag::serde(tag = "@struct")]
-pub trait InputPassportElement: Object + Debug {}
+pub trait InputPassportElement: Object + RObject + Debug {}
 
 
 
@@ -18155,7 +18155,7 @@ impl InputPassportElementErrorBuilder {
 
 /// This class is an abstract base class. Contains the description of an error in a Telegram Passport element; for bots only. 
 #[typetag::serde(tag = "@struct")]
-pub trait InputPassportElementErrorSource: Object + Debug {}
+pub trait InputPassportElementErrorSource: Object + RObject + Debug {}
 
 
 
@@ -19149,7 +19149,7 @@ impl KeyboardButtonBuilder {
 
 /// This class is an abstract base class. Describes a keyboard button type. 
 #[typetag::serde(tag = "@struct")]
-pub trait KeyboardButtonType: Object + Debug {}
+pub trait KeyboardButtonType: Object + RObject + Debug {}
 
 
 
@@ -19614,7 +19614,7 @@ impl LanguagePackStringBuilder {
 
 /// This class is an abstract base class. Represents the value of a string in a language pack. 
 #[typetag::serde(tag = "@struct")]
-pub trait LanguagePackStringValue: Object + Debug {}
+pub trait LanguagePackStringValue: Object + RObject + Debug {}
 
 
 
@@ -19892,7 +19892,7 @@ impl LanguagePackStringsBuilder {
 
 /// This class is an abstract base class. Represents the relationship between user A and user B. For incoming_link, user A is the current user; for outgoing_link, user B is the current user. 
 #[typetag::serde(tag = "@struct")]
-pub trait LinkState: Object + Debug {}
+pub trait LinkState: Object + RObject + Debug {}
 
 
 
@@ -20290,7 +20290,7 @@ impl LocationBuilder {
 
 /// This class is an abstract base class. Describes a stream to which TDLib internal log is written. 
 #[typetag::serde(tag = "@struct")]
-pub trait LogStream: Object + Debug {}
+pub trait LogStream: Object + RObject + Debug {}
 
 
 
@@ -20573,7 +20573,7 @@ impl LogVerbosityLevelBuilder {
 
 /// This class is an abstract base class. Part of the face, relative to which a mask should be placed. 
 #[typetag::serde(tag = "@struct")]
-pub trait MaskPoint: Object + Debug {}
+pub trait MaskPoint: Object + RObject + Debug {}
 
 
 
@@ -21148,7 +21148,7 @@ impl MessageBuilder {
 
 /// This class is an abstract base class. Contains the content of a message. 
 #[typetag::serde(tag = "@struct")]
-pub trait MessageContent: Object + Debug {}
+pub trait MessageContent: Object + RObject + Debug {}
 
 
 
@@ -23893,7 +23893,7 @@ impl MessageForwardInfoBuilder {
 
 /// This class is an abstract base class. Contains information about the origin of a forwarded message. 
 #[typetag::serde(tag = "@struct")]
-pub trait MessageForwardOrigin: Object + Debug {}
+pub trait MessageForwardOrigin: Object + RObject + Debug {}
 
 
 
@@ -24096,7 +24096,7 @@ impl MessageForwardOriginChannelBuilder {
 
 /// This class is an abstract base class. Contains information about the sending state of the message. 
 #[typetag::serde(tag = "@struct")]
-pub trait MessageSendingState: Object + Debug {}
+pub trait MessageSendingState: Object + RObject + Debug {}
 
 
 
@@ -24338,7 +24338,7 @@ impl NetworkStatisticsBuilder {
 
 /// This class is an abstract base class. Contains statistics about network usage. 
 #[typetag::serde(tag = "@struct")]
-pub trait NetworkStatisticsEntry: Object + Debug {}
+pub trait NetworkStatisticsEntry: Object + RObject + Debug {}
 
 
 
@@ -24537,7 +24537,7 @@ impl NetworkStatisticsEntryCallBuilder {
 
 /// This class is an abstract base class. Represents the type of a network. 
 #[typetag::serde(tag = "@struct")]
-pub trait NetworkType: Object + Debug {}
+pub trait NetworkType: Object + RObject + Debug {}
 
 
 
@@ -24970,7 +24970,7 @@ impl NotificationGroupBuilder {
 
 /// This class is an abstract base class. Describes type of notifications in the group. 
 #[typetag::serde(tag = "@struct")]
-pub trait NotificationGroupType: Object + Debug {}
+pub trait NotificationGroupType: Object + RObject + Debug {}
 
 
 
@@ -25171,7 +25171,7 @@ impl NotificationGroupTypeCallsBuilder {
 
 /// This class is an abstract base class. Describes the types of chats to which notification settings are applied. 
 #[typetag::serde(tag = "@struct")]
-pub trait NotificationSettingsScope: Object + Debug {}
+pub trait NotificationSettingsScope: Object + RObject + Debug {}
 
 
 
@@ -25324,7 +25324,7 @@ impl NotificationSettingsScopeChannelChatsBuilder {
 
 /// This class is an abstract base class. Contains detailed information about a notification. 
 #[typetag::serde(tag = "@struct")]
-pub trait NotificationType: Object + Debug {}
+pub trait NotificationType: Object + RObject + Debug {}
 
 
 
@@ -25627,7 +25627,7 @@ impl OkBuilder {
 
 /// This class is an abstract base class. Represents the value of an option. 
 #[typetag::serde(tag = "@struct")]
-pub trait OptionValue: Object + Debug {}
+pub trait OptionValue: Object + RObject + Debug {}
 
 
 
@@ -25943,7 +25943,7 @@ impl OrderInfoBuilder {
 
 /// This class is an abstract base class. Describes a block of an instant view web page. 
 #[typetag::serde(tag = "@struct")]
-pub trait PageBlock: Object + Debug {}
+pub trait PageBlock: Object + RObject + Debug {}
 
 
 
@@ -28144,7 +28144,7 @@ impl PageBlockCaptionBuilder {
 
 /// This class is an abstract base class. Describes a horizontal alignment of a table cell content. 
 #[typetag::serde(tag = "@struct")]
-pub trait PageBlockHorizontalAlignment: Object + Debug {}
+pub trait PageBlockHorizontalAlignment: Object + RObject + Debug {}
 
 
 
@@ -28586,7 +28586,7 @@ impl PageBlockTableCellBuilder {
 
 /// This class is an abstract base class. Describes a Vertical alignment of a table cell content. 
 #[typetag::serde(tag = "@struct")]
-pub trait PageBlockVerticalAlignment: Object + Debug {}
+pub trait PageBlockVerticalAlignment: Object + RObject + Debug {}
 
 
 
@@ -28814,7 +28814,7 @@ impl PassportAuthorizationFormBuilder {
 
 /// This class is an abstract base class. Contains information about a Telegram Passport element. 
 #[typetag::serde(tag = "@struct")]
-pub trait PassportElement: Object + Debug {}
+pub trait PassportElement: Object + RObject + Debug {}
 
 
 
@@ -29659,7 +29659,7 @@ impl PassportElementErrorBuilder {
 
 /// This class is an abstract base class. Contains the description of an error in a Telegram Passport element. 
 #[typetag::serde(tag = "@struct")]
-pub trait PassportElementErrorSource: Object + Debug {}
+pub trait PassportElementErrorSource: Object + RObject + Debug {}
 
 
 
@@ -30130,7 +30130,7 @@ impl PassportElementErrorSourceFilesBuilder {
 
 /// This class is an abstract base class. Contains the type of a Telegram Passport element. 
 #[typetag::serde(tag = "@struct")]
-pub trait PassportElementType: Object + Debug {}
+pub trait PassportElementType: Object + RObject + Debug {}
 
 
 
@@ -32301,7 +32301,7 @@ impl ProxyBuilder {
 
 /// This class is an abstract base class. Describes the type of the proxy server. 
 #[typetag::serde(tag = "@struct")]
-pub trait ProxyType: Object + Debug {}
+pub trait ProxyType: Object + RObject + Debug {}
 
 
 
@@ -32579,7 +32579,7 @@ impl PublicMessageLinkBuilder {
 
 /// This class is an abstract base class. Contains content of a push message notification. 
 #[typetag::serde(tag = "@struct")]
-pub trait PushMessageContent: Object + Debug {}
+pub trait PushMessageContent: Object + RObject + Debug {}
 
 
 
@@ -34521,7 +34521,7 @@ impl RemoteFileBuilder {
 
 /// This class is an abstract base class. Contains a description of a custom keyboard and actions that can be done with it to quickly reply to bots. 
 #[typetag::serde(tag = "@struct")]
-pub trait ReplyMarkup: Object + Debug {}
+pub trait ReplyMarkup: Object + RObject + Debug {}
 
 
 
@@ -34792,7 +34792,7 @@ impl ReplyMarkupInlineKeyboardBuilder {
 
 /// This class is an abstract base class. Describes a text object inside an instant-view web page. 
 #[typetag::serde(tag = "@struct")]
-pub trait RichText: Object + Debug {}
+pub trait RichText: Object + RObject + Debug {}
 
 
 
@@ -35982,7 +35982,7 @@ impl ScopeNotificationSettingsBuilder {
 
 /// This class is an abstract base class. Represents a filter for message search results. 
 #[typetag::serde(tag = "@struct")]
-pub trait SearchMessagesFilter: Object + Debug {}
+pub trait SearchMessagesFilter: Object + RObject + Debug {}
 
 
 
@@ -36936,7 +36936,7 @@ impl SecretChatBuilder {
 
 /// This class is an abstract base class. Describes the current secret chat state. 
 #[typetag::serde(tag = "@struct")]
-pub trait SecretChatState: Object + Debug {}
+pub trait SecretChatState: Object + RObject + Debug {}
 
 
 
@@ -38678,7 +38678,7 @@ impl SupergroupFullInfoBuilder {
 
 /// This class is an abstract base class. Specifies the kind of chat members to return in 
 #[typetag::serde(tag = "@struct")]
-pub trait SupergroupMembersFilter: Object + Debug {}
+pub trait SupergroupMembersFilter: Object + RObject + Debug {}
 
 
 
@@ -39077,7 +39077,7 @@ impl TMeUrlBuilder {
 
 /// This class is an abstract base class. Describes the type of a URL linking to an internal Telegram entity. 
 #[typetag::serde(tag = "@struct")]
-pub trait TMeUrlType: Object + Debug {}
+pub trait TMeUrlType: Object + RObject + Debug {}
 
 
 
@@ -40285,7 +40285,7 @@ impl TextEntityBuilder {
 
 /// This class is an abstract base class. Represents a part of the text which must be formatted differently. 
 #[typetag::serde(tag = "@struct")]
-pub trait TextEntityType: Object + Debug {}
+pub trait TextEntityType: Object + RObject + Debug {}
 
 
 
@@ -40996,7 +40996,7 @@ impl TextEntityTypePhoneNumberBuilder {
 
 /// This class is an abstract base class. Describes the way the text should be parsed for TextEntities. 
 #[typetag::serde(tag = "@struct")]
-pub trait TextParseMode: Object + Debug {}
+pub trait TextParseMode: Object + RObject + Debug {}
 
 
 
@@ -41101,7 +41101,7 @@ impl TextParseModeHTMLBuilder {
 
 /// This class is an abstract base class. Represents the categories of chats for which a list of frequently used chats can be retrieved. 
 #[typetag::serde(tag = "@struct")]
-pub trait TopChatCategory: Object + Debug {}
+pub trait TopChatCategory: Object + RObject + Debug {}
 
 
 
@@ -41398,7 +41398,7 @@ impl TopChatCategoryCallsBuilder {
 
 /// This class is an abstract base class. Contains notifications about data changes. 
 #[typetag::serde(tag = "@struct")]
-pub trait Update: Object + Debug {}
+pub trait Update: Object + RObject + Debug {}
 
 
 
@@ -44581,7 +44581,7 @@ impl UserFullInfoBuilder {
 
 /// This class is an abstract base class. Describes available user privacy settings. 
 #[typetag::serde(tag = "@struct")]
-pub trait UserPrivacySetting: Object + Debug {}
+pub trait UserPrivacySetting: Object + RObject + Debug {}
 
 
 
@@ -44782,7 +44782,7 @@ impl UserPrivacySettingAllowPeerToPeerCallsBuilder {
 
 /// This class is an abstract base class. Represents a single rule for managing privacy settings. 
 #[typetag::serde(tag = "@struct")]
-pub trait UserPrivacySettingRule: Object + Debug {}
+pub trait UserPrivacySettingRule: Object + RObject + Debug {}
 
 
 
@@ -45301,7 +45301,7 @@ impl UserProfilePhotosBuilder {
 
 /// This class is an abstract base class. Describes the last time the user was online. 
 #[typetag::serde(tag = "@struct")]
-pub trait UserStatus: Object + Debug {}
+pub trait UserStatus: Object + RObject + Debug {}
 
 
 
@@ -45618,7 +45618,7 @@ impl UserStatusLastMonthBuilder {
 
 /// This class is an abstract base class. Represents the type of the user. The following types are possible: regular users, deleted users and bots. 
 #[typetag::serde(tag = "@struct")]
-pub trait UserType: Object + Debug {}
+pub trait UserType: Object + RObject + Debug {}
 
 
 

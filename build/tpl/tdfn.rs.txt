@@ -1,6 +1,6 @@
 {% if clz_description %}/// {{ clz_description }}{% endif %}
 {% if clz_is_trait %}{% if set_trait_typetag %}#[typetag::serde(tag = "@struct")]{% endif %}{% else %}#[derive(Debug, {% if not has_trait_field %}Clone, {% endif %}Serialize, Deserialize)]{% endif %}
-{% if not is_private %}pub {% endif %}{% if clz_is_trait %}trait{% else %}struct{% endif %} {{ clz_name }}{% if clz_is_trait %}: {% if clz_name != 'Object' %}Object + {% endif %}Debug {}{% else %} {
+{% if not is_private %}pub {% endif %}{% if clz_is_trait %}trait{% else %}struct{% endif %} {{ clz_name }}{% if clz_is_trait %}: {% if clz_name != 'Object' %}Object + RObject + {% endif %}Debug {}{% else %} {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   tdfname: String, // {{origin_name}}
