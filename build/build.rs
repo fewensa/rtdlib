@@ -19,7 +19,6 @@ fn main() {
     }
     Err(_) => {}
   }
-  build_tdapi();
 }
 
 fn build_tdapi() {
