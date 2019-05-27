@@ -55,6 +55,8 @@ steps:
       - name: cargo
         path: /root/.cargo
     commands:
+      - apt update -y
+      - apt install -y openssl
 #      - cargo test
       - sh -f /root/.cargo/credentials
       - cargo publish
@@ -79,6 +81,8 @@ steps:
   - name: build
     image: rust:1.33-slim
     commands:
+      - apt update -y
+      - apt install -y openssl
 #      - cargo test
       - cargo package
 
