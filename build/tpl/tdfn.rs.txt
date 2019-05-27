@@ -1,17 +1,16 @@
 {% if clz_description %}/// {{ clz_description }}{% endif %}
 {% if clz_is_trait %}{% if set_trait_typetag %}#[typetag::serde(tag = "@struct")]{% endif %}{% else %}#[derive(Debug, {% if not has_trait_field %}Clone, {% endif %}Serialize, Deserialize)]{% endif %}
-{% if not is_private %}pub {% endif %}{% if clz_is_trait %}trait{% else %}struct{% endif %} {{ clz_name }}{% if clz_is_trait %}: {% if clz_name == 'Object' %}TlObject + {% else %}Object + {% endif %}Debug {% if clz_name == 'Object' %}{
+{% if not is_private %}pub {% endif %}{% if clz_is_trait %}trait{% else %}struct{% endif %} {{ clz_name }}{% if clz_is_trait %}: {% if clz_name != 'Object' %}Object + {% endif %}Debug {% if clz_name == 'Object' %}{
  #[doc(hidden)] fn tdfname(&self) -> String;
+ fn tdtype(&self) -> TDType; /// convert TDLib type to rust enum TDType
  fn to_json(&self) -> String;
 }{% else %}{}{% endif %}{% else %} {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   tdfname: String, // {{origin_name}}
-{% if fields %}
-{% for field in fields %}  /// {{field.description}}
+  {% if fields %}{% for field in fields %}/// {{field.description}}
   {% if field.name == 'type_' %}#[serde(rename(serialize = "type", deserialize = "type"))] {% endif %}{{field.name}}: Option<{{field.type}}>,
-{% endfor %}
-{% endif %}
+  {% endfor %}{% endif %}
 }
 {% endif %}
 {% if has_trait_field %}
@@ -25,6 +24,7 @@ impl Clone for {{ clz_name }} {
 {% if not clz_is_trait %}
 impl Object for {{ clz_name }} {
   #[doc(hidden)] fn tdfname(&self) -> String { self.tdfname.clone() }
+  fn tdtype(&self) -> TDType { TDType::from_str(&upper_first(&self.tdfname)[..]).unwrap() }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
 {% endif %}
@@ -51,16 +51,12 @@ impl {{ clz_name }} {
 {% endif %}
 {% if has_builder_struct %}
 #[derive(Debug)]
-pub struct {{ clz_name }}Builder {
-  instance: {{ clz_name }}
-}
+pub struct {{ clz_name }}Builder { instance: {{ clz_name }} }
 
 impl {{ clz_name }}Builder {
   fn new(instance: {{ clz_name }}) -> Self { Self { instance } }
 
-  pub fn build(&self) -> {{ clz_name }} {
-    self.instance.clone()
-  }
+  pub fn build(&self) -> {{ clz_name }} { self.instance.clone() }
   {% if fields %}{% for field in fields %}
   pub fn {{field.name}}(&mut self, {{field.name}}: {{field.type}}) -> &mut Self {
     self.instance.{{field.name}} = Some({{field.name}});

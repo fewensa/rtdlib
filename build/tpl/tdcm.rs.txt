@@ -1,5 +1,22 @@
 
 use std::fmt::Debug;
+use std::str::FromStr;
+
+fn upper_first<S: AsRef<str>>(s: S) -> String {
+  let mut c = s.as_ref().chars();
+  match c.next() {
+    None => String::new(),
+    Some(f) => f.to_uppercase().collect::<String>() + c.as_str(),
+  }
+}
 
 /// This class is a base class for all TDLib TL-objects.
+/// This parent class is not important and will not be implemented for every class.
 trait TlObject: Debug {}
+
+/// TDLib all class name mappers
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
+pub enum TDType {
+  {% for name in clz_names %}{{ name }},
+  {% endfor %}
+}

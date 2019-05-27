@@ -164,7 +164,7 @@ fn gen_rs<S: AsRef<str>>(czs: Vec<(String, String)>, write_to: S) {
 
   let apipe = Apipe::new(czs.clone());
 
-  self::gen_common(write_to);
+  self::gen_common(&apipe, &tera, write_to);
 
   apipe.names().iter().for_each(|name| {
     let mut context = Context::new();
@@ -178,16 +178,17 @@ fn gen_rs<S: AsRef<str>>(czs: Vec<(String, String)>, write_to: S) {
     self::gen_fill(&apipe, &mut context);
 
 
-    match tera.render("tdfn.rs.txt", &context) {
-      Ok(s) => write_rawtd(s, write_to.to_string()),
-      Err(e) => {
-        println!("Error: {}", e);
-        for e in e.iter().skip(1) {
-          println!("Reason: {}", e);
-        }
-        panic!("Can not gen rawfn => {:?}", e);
-      }
-    }
+//    match tera.render("tdfn.rs.txt", &context) {
+//      Ok(s) => write_rawtd(s, write_to.to_string()),
+//      Err(e) => {
+//        println!("Error: {}", e);
+//        for e in e.iter().skip(1) {
+//          println!("Reason: {}", e);
+//        }
+//        panic!("Can not gen rawfn => {:?}", e);
+//      }
+//    }
+    render(&tera, "tdfn.rs.txt", &context, write_to);
   });
 }
 
@@ -276,10 +277,35 @@ fn gen_fields2(apipe: &Apipe, context: &mut Context, name: &String) {
   context.insert("has_trait_field", &has_trait_field);
 }
 
-fn gen_common<S: AsRef<str>>(write_to: S) {
-  let cm_path = Path::new(bakit::root_dir()).join("build/tpl/tdcm.rs.txt");
-  match fs::read_to_string(cm_path) {
-    Ok(text) => write_rawtd(text, write_to.as_ref().to_string()),
-    Err(_) => return
+fn gen_common<S: AsRef<str>>(apipe: &Apipe, tera: &Tera, write_to: S) {
+//  let cm_path = Path::new(bakit::root_dir()).join("build/tpl/tdcm.rs.txt");
+
+//  match fs::read_to_string(cm_path) {
+//    Ok(text) => write_rawtd(text, write_to.as_ref().to_string()),
+//    Err(_) => return
+//  }
+
+  let mut context = Context::new();
+  let names = apipe.names();
+  let clznames = names.clone().iter()
+    .map(|item| toolkit::text::uppercase_first_char(item))
+    .collect::<Vec<String>>();
+  context.insert("origin_names", &names);
+  context.insert("clz_names", &clznames);
+  context.insert("len", &names.len());
+  render(tera, "tdcm.rs.txt", &context, write_to.as_ref());
+}
+
+
+fn render(tera: &Tera, tpl: &str, context: &Context, write_to: &str) {
+  match tera.render(tpl, &context) {
+    Ok(s) => write_rawtd(s, write_to.to_string()),
+    Err(e) => {
+      println!("Error: {}", e);
+      for e in e.iter().skip(1) {
+        println!("Reason: {}", e);
+      }
+      panic!("Can not gen rawfn => {:?}", e);
+    }
   }
 }
