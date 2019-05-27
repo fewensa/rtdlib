@@ -11,7 +11,7 @@ categories = ["api-bindings"]
 include = [
   "Cargo.toml",
   "**/*.rs",
-  "**/tdfn.rs.txt",
+  "**/*.rs.txt",
   "README.md",
   "LICENSE"
 ]
