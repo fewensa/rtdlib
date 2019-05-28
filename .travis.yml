@@ -4,23 +4,19 @@ rust:
   - stable
 
 stages:
-  - init
-  - package
+  - usually
   - name: publish
     if: tag IS present
 
 jobs:
   include:
-    - state: init
-      name: Init environment
-      script:
-        - cargo login $CRATES_TOKEN
-    - stage: package
+    - stage: usually
       name: Package rtdlib
       script:
         - cargo package
     - stage: publish
       name: Publish rtdlib to crates.io
       script:
+        - cargo login $CRATES_TOKEN
         - cargo publish
 
