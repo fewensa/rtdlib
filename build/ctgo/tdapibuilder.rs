@@ -248,6 +248,14 @@ fn gen_trait2(apipe: &Apipe, context: &mut Context, name: &String) {
   let description = apipe.description(name);
   context.insert("clz_is_trait", &is_trait);
   context.insert("clz_description", &description);
+  if is_trait {
+    let mut has_subclasses = false;
+    if let Some(sub_classes) =  apipe.sub_classes(name) {
+      context.insert("sub_classes", &sub_classes);
+      has_subclasses = sub_classes.len() > 0;
+    }
+    context.insert("has_subclasses", &has_subclasses);
+  }
 }
 
 fn gen_father2(apipe: &Apipe, context: &mut Context, name: &String) {

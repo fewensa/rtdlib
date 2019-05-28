@@ -1,9 +1,10 @@
 
 use std::fmt::Debug;
+use std::str::FromStr;
 
 pub trait RObject {
- #[doc(hidden)] fn tdfname(&self) -> &'static str;
- fn tdtype(&self) -> TDType; // convert TDLib type to rust enum TDType
+ #[doc(hidden)] fn td_name(&self) -> &'static str;
+ fn td_type(&self) -> TDType; // convert TDLib type to rust enum TDType
  fn to_json(&self) -> String;
 }
 

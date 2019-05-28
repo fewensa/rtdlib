@@ -3,7 +3,7 @@
 {% if not is_private %}pub {% endif %}{% if clz_is_trait %}trait{% else %}struct{% endif %} {{ clz_name }}{% if clz_is_trait %}: {% if clz_name != 'Object' %}Object + RObject + {% endif %}Debug {}{% else %} {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  tdfname: String, // {{origin_name}}
+  td_name: String, // {{origin_name}}
   {% if fields %}{% for field in fields %}/// {{field.description}}
   {% if field.name == 'type_' %}#[serde(rename(serialize = "type", deserialize = "type"))] {% endif %}{{field.name}}: Option<{{field.type}}>,
   {% endfor %}{% endif %}
@@ -20,8 +20,8 @@ impl Clone for {{ clz_name }} {
 {% if not clz_is_trait %}
 impl Object for {{ clz_name }} {}
 impl RObject for {{ clz_name }} {
-  #[doc(hidden)] fn tdfname(&self) -> &'static str { "{{ origin_name }}" }
-  fn tdtype(&self) -> TDType { TDType::{{ clz_name }} }
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "{{ origin_name }}" }
+  fn td_type(&self) -> TDType { TDType::{{ clz_name }} }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
 {% endif %}
@@ -34,7 +34,7 @@ impl {{ clz_name }} {
   {% if has_builder_struct %}
   pub fn builder() -> {{ clz_name }}Builder {
     let instance = Self {
-      tdfname: "{{origin_name}}".to_string(),
+      td_name: "{{origin_name}}".to_string(),
       {% if fields %}{% for field in fields %}{{field.name}}: None,
       {% endfor %}{% endif %}
     };
@@ -60,5 +60,15 @@ impl {{ clz_name }}Builder {
     self
   }
   {% endfor %}{% endif %}
+}
+{% endif %}
+{% if clz_is_trait and has_subclasses and clz_name != 'Object' %}
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
+pub enum TD{{clz_name}}Type {
+  {% for sub in sub_classes %}{{ sub }},
+  {% endfor %}
+}
+impl TD{{clz_name}}Type {
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
 {% endif %}

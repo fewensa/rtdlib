@@ -61,6 +61,7 @@ impl Apipe {
     Some(Html::parse_fragment(&content[..]))
   }
 
+
   pub fn names(&self) -> Vec<String> {
     self.czs.iter()
       .map(|(cname, _)| cname.clone())
@@ -115,6 +116,34 @@ impl Apipe {
     bakit::flatten_option(ret)
   }
 
+  pub fn sub_classes<S: AsRef<str>>(&self, name: S) -> Option<Vec<String>> {
+    if !self.exists_name(&name) {
+      return None;
+    }
+    let selector_inherited = Selector::parse(".contents p").unwrap();
+    let selector_subel = Selector::parse(".el").unwrap();
+
+
+    let subclasses = self.document(name)
+      .map(|doc| {
+        let eles = doc.select(&selector_inherited)
+          .filter(|eref| self::ele_text(eref).to_lowercase().starts_with("inherited by"))
+          .collect::<Vec<ElementRef>>();
+        let ele = eles.first();
+        if None == ele {
+          return None;
+        }
+        let ele = ele.unwrap();
+        let mut rets = vec![];
+        ele.select(&selector_subel).for_each(|subclzele| {
+          let text = self::ele_text(&subclzele);
+          rets.push(toolkit::text::uppercase_first_char(text));
+        });
+        Some(rets)
+      });
+    bakit::flatten_option(subclasses)
+  }
+
   pub fn fields<S: AsRef<str>>(&self, name: S) -> Vec<HashMap<FieldINF, String>> {
     let rets = vec![];
     if !self.exists_name(&name) {
@@ -159,8 +188,8 @@ impl Apipe {
       }
 
       if css_class.starts_with("memitem") {
-        let field_name = self::rs_field_name(self::ele_text(&tr, ".memItemRight"));
-        let field_type = self::rs_type(self::ele_text(&tr, ".memItemLeft"));
+        let field_name = self::rs_field_name(self::ele_text_rule(&tr, ".memItemRight"));
+        let field_type = self::rs_type(self::ele_text_rule(&tr, ".memItemLeft"));
         let is_trait = self::field_is_trait(self, &field_type);
         tdpf.insert(FieldINF::Name, field_name);
         tdpf.insert(FieldINF::IsTrait, if is_trait { 1 } else { 0 }.to_string());
@@ -168,7 +197,7 @@ impl Apipe {
         return None;
       }
       if css_class.starts_with("memdesc") {
-        tdpf.insert(FieldINF::Description, self::ele_text(&tr, ".mdescRight"));
+        tdpf.insert(FieldINF::Description, self::ele_text_rule(&tr, ".mdescRight"));
         bog::info(format!("FOUND FIELD => {:?}", tdpf));
         let s = Some(tdpf.clone());
         tdpf.clear();
@@ -247,12 +276,19 @@ fn type_items<S: AsRef<str>>(field_type: S) -> Vec<String> {
   chs
 }
 
-fn ele_text(ele: &ElementRef, rule: &'static str) -> String {
+fn ele_text_rule(ele: &ElementRef, rule: &'static str) -> String {
   let mut chs: Vec<char> = Vec::new();
   ele.select(&Selector::parse(rule).unwrap())
     .for_each(|ele| {
       ele.text().for_each(|t| chs.extend(t.chars().into_iter()))
     });
+  let text: String = chs.iter().collect();
+  text.trim().to_string().replace("&quot;", "\"")
+}
+
+fn ele_text(ele: &ElementRef) -> String {
+  let mut chs: Vec<char> = Vec::new();
+  ele.text().for_each(|t| chs.extend(t.chars().into_iter()));
   let text: String = chs.iter().collect();
   text.trim().to_string().replace("&quot;", "\"")
 }
