@@ -1,0 +1,28 @@
+language: rust
+
+rust:
+  - stable
+  - beta
+  - nightly
+
+stages:
+  - init
+  - package
+  - name: publish
+    if: tag IS present
+
+jobs:
+  include:
+    - state: init
+      name: Init environment
+      script:
+        - cargo login $CRATES_TOKEN
+    - stage: package
+      name: Package rtdlib
+      script:
+        - cargo package
+    - stage: publish
+      name: Publish rtdlib to crates.io
+      script:
+        - cargo publish
+
