@@ -111,7 +111,6 @@ impl Tdlib {
   /// let tdlib = Tdlib::new();
   /// ```
   pub fn new() -> Self {
-//    debug!("creating tdlib");
     let client = unsafe { td_json_client_create() };
     Tdlib { instance: client }
   }
@@ -129,7 +128,6 @@ impl Tdlib {
   /// tdlib.send(request);
   /// ```
   pub fn send(&self, request: &str) {
-//    debug!("tdlib send: {}", request);
     let cstring = CString::new(request).unwrap();
     unsafe { td_json_client_send(self.instance, cstring.as_ptr()) }
   }
@@ -147,14 +145,12 @@ impl Tdlib {
   /// tdlib.execute(request);
   /// ```
   pub fn execute(&self, request: &str) -> Option<String> {
-//    debug!("tdlib execute: {}", request);
     let cstring = CString::new(request).unwrap();
     let result = unsafe {
       td_json_client_execute(self.instance, cstring.as_ptr())
         .as_ref()
         .map(|response| CStr::from_ptr(response).to_string_lossy().into_owned())
     };
-//    debug!("tdlib execute result: {:?}", result);
     result
   }
 
@@ -177,11 +173,9 @@ impl Tdlib {
         .as_ref()
         .map(|response| CStr::from_ptr(response).to_string_lossy().into_owned()) {
         None => {
-//          debug!("tdlib receive timeout");
           None
         }
         Some(contents) => {
-//          debug!("tdlib receive result: {}", contents);
           Some(contents)
         }
       }
@@ -191,7 +185,6 @@ impl Tdlib {
 
 impl Drop for Tdlib {
   fn drop(&mut self) {
-//    debug!("destroying tdlib");
     unsafe {
       td_json_client_destroy(self.instance);
     }
