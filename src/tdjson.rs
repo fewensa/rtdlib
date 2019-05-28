@@ -41,6 +41,7 @@ impl Tdlib {
   /// # Examples
   ///
   /// ```
+  /// use rtdlib::tdjson::Tdlib;
   /// Tdlib::set_log_verbosity_level(3);
   /// ```
   pub fn set_log_verbosity_level<'a>(level: i32) -> Result<(), &'a str> {
@@ -65,6 +66,7 @@ impl Tdlib {
   /// # Examples
   ///
   /// ```
+  /// use rtdlib::tdjson::Tdlib;
   /// Tdlib::set_log_max_file_size(1024 * 1024);
   /// ```
   pub fn set_log_max_file_size(size: i64) {
@@ -82,6 +84,7 @@ impl Tdlib {
   /// # Examples
   ///
   /// ```
+  /// use rtdlib::tdjson::Tdlib;
   /// Tdlib::set_log_file_path(Some("/var/log/tdlib/tdlib.log"));
   /// ```
   pub fn set_log_file_path(path: Option<&str>) -> bool {
@@ -104,6 +107,7 @@ impl Tdlib {
   /// # Examples
   ///
   /// ```
+  /// use rtdlib::tdjson::Tdlib;
   /// let tdlib = Tdlib::new();
   /// ```
   pub fn new() -> Self {
@@ -119,6 +123,7 @@ impl Tdlib {
   /// # Examples
   ///
   /// ```
+  /// use rtdlib::tdjson::Tdlib;
   /// let tdlib = Tdlib::new();
   /// let request = r#"{"@type": "getMe"}"#;
   /// tdlib.send(request);
@@ -136,6 +141,7 @@ impl Tdlib {
   /// # Examples
   ///
   /// ```
+  /// use rtdlib::tdjson::Tdlib;
   /// let tdlib = Tdlib::new();
   /// let request = r#"{"@type": "getTextEntities", "text": "@telegram /test_command https://telegram.org telegram.me"}"#;
   /// tdlib.execute(request);
@@ -160,6 +166,7 @@ impl Tdlib {
   /// # Examples
   ///
   /// ```
+  /// use rtdlib::tdjson::Tdlib;
   /// let tdlib = Tdlib::new();
   /// tdlib.receive(5.0);
   /// ```
