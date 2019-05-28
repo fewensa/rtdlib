@@ -24,8 +24,8 @@ fn main() {
 fn build_tdapi() {
   bog::clear();
 
-//  let dpath = Path::new(bakit::out_dir()).join("tg_api");
-  let dpath = Path::new(bakit::root_dir()).join("_tmp");
+  let dpath = Path::new(bakit::out_dir()).join("tg_api");
+//  let dpath = Path::new(bakit::root_dir()).join("_tmp");
   ctgo::tdapibuilder::build(dpath, "types.rs");
 }
 
