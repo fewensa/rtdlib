@@ -10,7 +10,7 @@ pub trait RObject {
 
 /// This class is a base class for all TDLib TL-objects.
 /// This parent class is not important and will not be implemented for every class.
-trait TlObject: Debug {}
+trait TlObject: Debug + Clone {}
 
 /// TDLib all class name mappers
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]

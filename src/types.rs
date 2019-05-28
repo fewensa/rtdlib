@@ -10,7 +10,7 @@ pub trait RObject {
 
 /// This class is a base class for all TDLib TL-objects.
 /// This parent class is not important and will not be implemented for every class.
-trait TlObject: Debug {}
+trait TlObject: Debug + Clone {}
 
 /// TDLib all class name mappers
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
@@ -1104,7 +1104,7 @@ pub trait Object: Debug {}
 
 
 
-impl TlObject for Object {}
+
 
 
 
@@ -1117,7 +1117,6 @@ pub trait Function: Object + RObject + Debug {}
 
 
 
-impl TlObject for Function {}
 
 
 
@@ -1463,6 +1462,7 @@ pub enum TDFunctionType {
 impl TDFunctionType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// Contains information about the period of inactivity after which the current user's account will automatically be deleted. 
@@ -2017,6 +2017,15 @@ pub trait AuthenticationCodeType: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<AuthenticationCodeType> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDAuthenticationCodeTypeType {
   AuthenticationCodeTypeCall,
@@ -2028,6 +2037,7 @@ pub enum TDAuthenticationCodeTypeType {
 impl TDAuthenticationCodeTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// An authentication code is delivered via a private Telegram message, which can be viewed in another client. 
@@ -2051,8 +2061,7 @@ impl RObject for AuthenticationCodeTypeTelegramMessage {
 }
 
 
-#[typetag::serde]
-impl AuthenticationCodeType for AuthenticationCodeTypeTelegramMessage {}
+#[typetag::serde] impl AuthenticationCodeType for AuthenticationCodeTypeTelegramMessage {}
 
 
 impl AuthenticationCodeTypeTelegramMessage {
@@ -2110,8 +2119,7 @@ impl RObject for AuthenticationCodeTypeSms {
 }
 
 
-#[typetag::serde]
-impl AuthenticationCodeType for AuthenticationCodeTypeSms {}
+#[typetag::serde] impl AuthenticationCodeType for AuthenticationCodeTypeSms {}
 
 
 impl AuthenticationCodeTypeSms {
@@ -2169,8 +2177,7 @@ impl RObject for AuthenticationCodeTypeCall {
 }
 
 
-#[typetag::serde]
-impl AuthenticationCodeType for AuthenticationCodeTypeCall {}
+#[typetag::serde] impl AuthenticationCodeType for AuthenticationCodeTypeCall {}
 
 
 impl AuthenticationCodeTypeCall {
@@ -2228,8 +2235,7 @@ impl RObject for AuthenticationCodeTypeFlashCall {
 }
 
 
-#[typetag::serde]
-impl AuthenticationCodeType for AuthenticationCodeTypeFlashCall {}
+#[typetag::serde] impl AuthenticationCodeType for AuthenticationCodeTypeFlashCall {}
 
 
 impl AuthenticationCodeTypeFlashCall {
@@ -2275,6 +2281,15 @@ pub trait AuthorizationState: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<AuthorizationState> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDAuthorizationStateType {
   AuthorizationStateClosed,
@@ -2291,6 +2306,7 @@ pub enum TDAuthorizationStateType {
 impl TDAuthorizationStateType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// TDLib needs TdlibParameters for initialization. 
@@ -2312,8 +2328,7 @@ impl RObject for AuthorizationStateWaitTdlibParameters {
 }
 
 
-#[typetag::serde]
-impl AuthorizationState for AuthorizationStateWaitTdlibParameters {}
+#[typetag::serde] impl AuthorizationState for AuthorizationStateWaitTdlibParameters {}
 
 
 impl AuthorizationStateWaitTdlibParameters {
@@ -2345,8 +2360,7 @@ impl RObject for AuthorizationStateWaitEncryptionKey {
 }
 
 
-#[typetag::serde]
-impl AuthorizationState for AuthorizationStateWaitEncryptionKey {}
+#[typetag::serde] impl AuthorizationState for AuthorizationStateWaitEncryptionKey {}
 
 
 impl AuthorizationStateWaitEncryptionKey {
@@ -2378,8 +2392,7 @@ impl RObject for AuthorizationStateWaitPhoneNumber {
 }
 
 
-#[typetag::serde]
-impl AuthorizationState for AuthorizationStateWaitPhoneNumber {}
+#[typetag::serde] impl AuthorizationState for AuthorizationStateWaitPhoneNumber {}
 
 
 impl AuthorizationStateWaitPhoneNumber {
@@ -2415,8 +2428,7 @@ impl RObject for AuthorizationStateWaitCode {
 }
 
 
-#[typetag::serde]
-impl AuthorizationState for AuthorizationStateWaitCode {}
+#[typetag::serde] impl AuthorizationState for AuthorizationStateWaitCode {}
 
 
 impl AuthorizationStateWaitCode {
@@ -2458,8 +2470,7 @@ impl RObject for AuthorizationStateWaitPassword {
 }
 
 
-#[typetag::serde]
-impl AuthorizationState for AuthorizationStateWaitPassword {}
+#[typetag::serde] impl AuthorizationState for AuthorizationStateWaitPassword {}
 
 
 impl AuthorizationStateWaitPassword {
@@ -2495,8 +2506,7 @@ impl RObject for AuthorizationStateReady {
 }
 
 
-#[typetag::serde]
-impl AuthorizationState for AuthorizationStateReady {}
+#[typetag::serde] impl AuthorizationState for AuthorizationStateReady {}
 
 
 impl AuthorizationStateReady {
@@ -2526,8 +2536,7 @@ impl RObject for AuthorizationStateLoggingOut {
 }
 
 
-#[typetag::serde]
-impl AuthorizationState for AuthorizationStateLoggingOut {}
+#[typetag::serde] impl AuthorizationState for AuthorizationStateLoggingOut {}
 
 
 impl AuthorizationStateLoggingOut {
@@ -2557,8 +2566,7 @@ impl RObject for AuthorizationStateClosing {
 }
 
 
-#[typetag::serde]
-impl AuthorizationState for AuthorizationStateClosing {}
+#[typetag::serde] impl AuthorizationState for AuthorizationStateClosing {}
 
 
 impl AuthorizationStateClosing {
@@ -2588,8 +2596,7 @@ impl RObject for AuthorizationStateClosed {
 }
 
 
-#[typetag::serde]
-impl AuthorizationState for AuthorizationStateClosed {}
+#[typetag::serde] impl AuthorizationState for AuthorizationStateClosed {}
 
 
 impl AuthorizationStateClosed {
@@ -3119,6 +3126,15 @@ pub trait CallDiscardReason: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<CallDiscardReason> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDCallDiscardReasonType {
   CallDiscardReasonDeclined,
@@ -3131,6 +3147,7 @@ pub enum TDCallDiscardReasonType {
 impl TDCallDiscardReasonType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The call wasn't discarded, or the reason is unknown. 
@@ -3152,8 +3169,7 @@ impl RObject for CallDiscardReasonEmpty {
 }
 
 
-#[typetag::serde]
-impl CallDiscardReason for CallDiscardReasonEmpty {}
+#[typetag::serde] impl CallDiscardReason for CallDiscardReasonEmpty {}
 
 
 impl CallDiscardReasonEmpty {
@@ -3201,8 +3217,7 @@ impl RObject for CallDiscardReasonMissed {
 }
 
 
-#[typetag::serde]
-impl CallDiscardReason for CallDiscardReasonMissed {}
+#[typetag::serde] impl CallDiscardReason for CallDiscardReasonMissed {}
 
 
 impl CallDiscardReasonMissed {
@@ -3250,8 +3265,7 @@ impl RObject for CallDiscardReasonDeclined {
 }
 
 
-#[typetag::serde]
-impl CallDiscardReason for CallDiscardReasonDeclined {}
+#[typetag::serde] impl CallDiscardReason for CallDiscardReasonDeclined {}
 
 
 impl CallDiscardReasonDeclined {
@@ -3299,8 +3313,7 @@ impl RObject for CallDiscardReasonDisconnected {
 }
 
 
-#[typetag::serde]
-impl CallDiscardReason for CallDiscardReasonDisconnected {}
+#[typetag::serde] impl CallDiscardReason for CallDiscardReasonDisconnected {}
 
 
 impl CallDiscardReasonDisconnected {
@@ -3348,8 +3361,7 @@ impl RObject for CallDiscardReasonHungUp {
 }
 
 
-#[typetag::serde]
-impl CallDiscardReason for CallDiscardReasonHungUp {}
+#[typetag::serde] impl CallDiscardReason for CallDiscardReasonHungUp {}
 
 
 impl CallDiscardReasonHungUp {
@@ -3529,6 +3541,15 @@ pub trait CallState: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<CallState> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDCallStateType {
   CallStateDiscarded,
@@ -3542,6 +3563,7 @@ pub enum TDCallStateType {
 impl TDCallStateType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The call is pending, waiting to be accepted by a user. 
@@ -3567,8 +3589,7 @@ impl RObject for CallStatePending {
 }
 
 
-#[typetag::serde]
-impl CallState for CallStatePending {}
+#[typetag::serde] impl CallState for CallStatePending {}
 
 
 impl CallStatePending {
@@ -3632,8 +3653,7 @@ impl RObject for CallStateExchangingKeys {
 }
 
 
-#[typetag::serde]
-impl CallState for CallStateExchangingKeys {}
+#[typetag::serde] impl CallState for CallStateExchangingKeys {}
 
 
 impl CallStateExchangingKeys {
@@ -3693,8 +3713,7 @@ impl RObject for CallStateReady {
 }
 
 
-#[typetag::serde]
-impl CallState for CallStateReady {}
+#[typetag::serde] impl CallState for CallStateReady {}
 
 
 impl CallStateReady {
@@ -3790,8 +3809,7 @@ impl RObject for CallStateHangingUp {
 }
 
 
-#[typetag::serde]
-impl CallState for CallStateHangingUp {}
+#[typetag::serde] impl CallState for CallStateHangingUp {}
 
 
 impl CallStateHangingUp {
@@ -3852,8 +3870,7 @@ impl RObject for CallStateDiscarded {
 }
 
 
-#[typetag::serde]
-impl CallState for CallStateDiscarded {}
+#[typetag::serde] impl CallState for CallStateDiscarded {}
 
 
 impl CallStateDiscarded {
@@ -3927,8 +3944,7 @@ impl RObject for CallStateError {
 }
 
 
-#[typetag::serde]
-impl CallState for CallStateError {}
+#[typetag::serde] impl CallState for CallStateError {}
 
 
 impl CallStateError {
@@ -4050,6 +4066,15 @@ pub trait CallbackQueryPayload: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<CallbackQueryPayload> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDCallbackQueryPayloadType {
   CallbackQueryPayloadData,
@@ -4059,6 +4084,7 @@ pub enum TDCallbackQueryPayloadType {
 impl TDCallbackQueryPayloadType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The payload from a general callback button. 
@@ -4082,8 +4108,7 @@ impl RObject for CallbackQueryPayloadData {
 }
 
 
-#[typetag::serde]
-impl CallbackQueryPayload for CallbackQueryPayloadData {}
+#[typetag::serde] impl CallbackQueryPayload for CallbackQueryPayloadData {}
 
 
 impl CallbackQueryPayloadData {
@@ -4141,8 +4166,7 @@ impl RObject for CallbackQueryPayloadGame {
 }
 
 
-#[typetag::serde]
-impl CallbackQueryPayload for CallbackQueryPayloadGame {}
+#[typetag::serde] impl CallbackQueryPayload for CallbackQueryPayloadGame {}
 
 
 impl CallbackQueryPayloadGame {
@@ -4461,6 +4485,15 @@ pub trait ChatAction: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<ChatAction> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDChatActionType {
   ChatActionCancel,
@@ -4483,6 +4516,7 @@ impl TDChatActionType {
 }
 
 
+
 /// The user is typing a message. 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChatActionTyping {
@@ -4502,8 +4536,7 @@ impl RObject for ChatActionTyping {
 }
 
 
-#[typetag::serde]
-impl ChatAction for ChatActionTyping {}
+#[typetag::serde] impl ChatAction for ChatActionTyping {}
 
 
 impl ChatActionTyping {
@@ -4551,8 +4584,7 @@ impl RObject for ChatActionRecordingVideo {
 }
 
 
-#[typetag::serde]
-impl ChatAction for ChatActionRecordingVideo {}
+#[typetag::serde] impl ChatAction for ChatActionRecordingVideo {}
 
 
 impl ChatActionRecordingVideo {
@@ -4602,8 +4634,7 @@ impl RObject for ChatActionUploadingVideo {
 }
 
 
-#[typetag::serde]
-impl ChatAction for ChatActionUploadingVideo {}
+#[typetag::serde] impl ChatAction for ChatActionUploadingVideo {}
 
 
 impl ChatActionUploadingVideo {
@@ -4659,8 +4690,7 @@ impl RObject for ChatActionRecordingVoiceNote {
 }
 
 
-#[typetag::serde]
-impl ChatAction for ChatActionRecordingVoiceNote {}
+#[typetag::serde] impl ChatAction for ChatActionRecordingVoiceNote {}
 
 
 impl ChatActionRecordingVoiceNote {
@@ -4710,8 +4740,7 @@ impl RObject for ChatActionUploadingVoiceNote {
 }
 
 
-#[typetag::serde]
-impl ChatAction for ChatActionUploadingVoiceNote {}
+#[typetag::serde] impl ChatAction for ChatActionUploadingVoiceNote {}
 
 
 impl ChatActionUploadingVoiceNote {
@@ -4769,8 +4798,7 @@ impl RObject for ChatActionUploadingPhoto {
 }
 
 
-#[typetag::serde]
-impl ChatAction for ChatActionUploadingPhoto {}
+#[typetag::serde] impl ChatAction for ChatActionUploadingPhoto {}
 
 
 impl ChatActionUploadingPhoto {
@@ -4828,8 +4856,7 @@ impl RObject for ChatActionUploadingDocument {
 }
 
 
-#[typetag::serde]
-impl ChatAction for ChatActionUploadingDocument {}
+#[typetag::serde] impl ChatAction for ChatActionUploadingDocument {}
 
 
 impl ChatActionUploadingDocument {
@@ -4885,8 +4912,7 @@ impl RObject for ChatActionChoosingLocation {
 }
 
 
-#[typetag::serde]
-impl ChatAction for ChatActionChoosingLocation {}
+#[typetag::serde] impl ChatAction for ChatActionChoosingLocation {}
 
 
 impl ChatActionChoosingLocation {
@@ -4934,8 +4960,7 @@ impl RObject for ChatActionChoosingContact {
 }
 
 
-#[typetag::serde]
-impl ChatAction for ChatActionChoosingContact {}
+#[typetag::serde] impl ChatAction for ChatActionChoosingContact {}
 
 
 impl ChatActionChoosingContact {
@@ -4983,8 +5008,7 @@ impl RObject for ChatActionStartPlayingGame {
 }
 
 
-#[typetag::serde]
-impl ChatAction for ChatActionStartPlayingGame {}
+#[typetag::serde] impl ChatAction for ChatActionStartPlayingGame {}
 
 
 impl ChatActionStartPlayingGame {
@@ -5032,8 +5056,7 @@ impl RObject for ChatActionRecordingVideoNote {
 }
 
 
-#[typetag::serde]
-impl ChatAction for ChatActionRecordingVideoNote {}
+#[typetag::serde] impl ChatAction for ChatActionRecordingVideoNote {}
 
 
 impl ChatActionRecordingVideoNote {
@@ -5083,8 +5106,7 @@ impl RObject for ChatActionUploadingVideoNote {
 }
 
 
-#[typetag::serde]
-impl ChatAction for ChatActionUploadingVideoNote {}
+#[typetag::serde] impl ChatAction for ChatActionUploadingVideoNote {}
 
 
 impl ChatActionUploadingVideoNote {
@@ -5140,8 +5162,7 @@ impl RObject for ChatActionCancel {
 }
 
 
-#[typetag::serde]
-impl ChatAction for ChatActionCancel {}
+#[typetag::serde] impl ChatAction for ChatActionCancel {}
 
 
 impl ChatActionCancel {
@@ -5272,6 +5293,15 @@ pub trait ChatEventAction: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<ChatEventAction> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDChatEventActionType {
   ChatEventDescriptionChanged,
@@ -5298,6 +5328,7 @@ impl TDChatEventActionType {
 }
 
 
+
 /// A message was edited. 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChatEventMessageEdited {
@@ -5321,8 +5352,7 @@ impl RObject for ChatEventMessageEdited {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventMessageEdited {}
+#[typetag::serde] impl ChatEventAction for ChatEventMessageEdited {}
 
 
 impl ChatEventMessageEdited {
@@ -5388,8 +5418,7 @@ impl RObject for ChatEventMessageDeleted {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventMessageDeleted {}
+#[typetag::serde] impl ChatEventAction for ChatEventMessageDeleted {}
 
 
 impl ChatEventMessageDeleted {
@@ -5447,8 +5476,7 @@ impl RObject for ChatEventMessagePinned {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventMessagePinned {}
+#[typetag::serde] impl ChatEventAction for ChatEventMessagePinned {}
 
 
 impl ChatEventMessagePinned {
@@ -5504,8 +5532,7 @@ impl RObject for ChatEventMessageUnpinned {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventMessageUnpinned {}
+#[typetag::serde] impl ChatEventAction for ChatEventMessageUnpinned {}
 
 
 impl ChatEventMessageUnpinned {
@@ -5553,8 +5580,7 @@ impl RObject for ChatEventMemberJoined {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventMemberJoined {}
+#[typetag::serde] impl ChatEventAction for ChatEventMemberJoined {}
 
 
 impl ChatEventMemberJoined {
@@ -5602,8 +5628,7 @@ impl RObject for ChatEventMemberLeft {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventMemberLeft {}
+#[typetag::serde] impl ChatEventAction for ChatEventMemberLeft {}
 
 
 impl ChatEventMemberLeft {
@@ -5662,8 +5687,7 @@ impl RObject for ChatEventMemberInvited {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventMemberInvited {}
+#[typetag::serde] impl ChatEventAction for ChatEventMemberInvited {}
 
 
 impl ChatEventMemberInvited {
@@ -5740,8 +5764,7 @@ impl RObject for ChatEventMemberPromoted {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventMemberPromoted {}
+#[typetag::serde] impl ChatEventAction for ChatEventMemberPromoted {}
 
 
 impl ChatEventMemberPromoted {
@@ -5826,8 +5849,7 @@ impl RObject for ChatEventMemberRestricted {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventMemberRestricted {}
+#[typetag::serde] impl ChatEventAction for ChatEventMemberRestricted {}
 
 
 impl ChatEventMemberRestricted {
@@ -5903,8 +5925,7 @@ impl RObject for ChatEventTitleChanged {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventTitleChanged {}
+#[typetag::serde] impl ChatEventAction for ChatEventTitleChanged {}
 
 
 impl ChatEventTitleChanged {
@@ -5972,8 +5993,7 @@ impl RObject for ChatEventDescriptionChanged {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventDescriptionChanged {}
+#[typetag::serde] impl ChatEventAction for ChatEventDescriptionChanged {}
 
 
 impl ChatEventDescriptionChanged {
@@ -6041,8 +6061,7 @@ impl RObject for ChatEventUsernameChanged {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventUsernameChanged {}
+#[typetag::serde] impl ChatEventAction for ChatEventUsernameChanged {}
 
 
 impl ChatEventUsernameChanged {
@@ -6110,8 +6129,7 @@ impl RObject for ChatEventPhotoChanged {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventPhotoChanged {}
+#[typetag::serde] impl ChatEventAction for ChatEventPhotoChanged {}
 
 
 impl ChatEventPhotoChanged {
@@ -6177,8 +6195,7 @@ impl RObject for ChatEventInvitesToggled {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventInvitesToggled {}
+#[typetag::serde] impl ChatEventAction for ChatEventInvitesToggled {}
 
 
 impl ChatEventInvitesToggled {
@@ -6236,8 +6253,7 @@ impl RObject for ChatEventSignMessagesToggled {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventSignMessagesToggled {}
+#[typetag::serde] impl ChatEventAction for ChatEventSignMessagesToggled {}
 
 
 impl ChatEventSignMessagesToggled {
@@ -6297,8 +6313,7 @@ impl RObject for ChatEventStickerSetChanged {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventStickerSetChanged {}
+#[typetag::serde] impl ChatEventAction for ChatEventStickerSetChanged {}
 
 
 impl ChatEventStickerSetChanged {
@@ -6364,8 +6379,7 @@ impl RObject for ChatEventIsAllHistoryAvailableToggled {
 }
 
 
-#[typetag::serde]
-impl ChatEventAction for ChatEventIsAllHistoryAvailableToggled {}
+#[typetag::serde] impl ChatEventAction for ChatEventIsAllHistoryAvailableToggled {}
 
 
 impl ChatEventIsAllHistoryAvailableToggled {
@@ -6895,6 +6909,15 @@ pub trait ChatMemberStatus: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<ChatMemberStatus> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDChatMemberStatusType {
   ChatMemberStatusAdministrator,
@@ -6908,6 +6931,7 @@ pub enum TDChatMemberStatusType {
 impl TDChatMemberStatusType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The user is the creator of a chat and has all the administrator privileges. 
@@ -6931,8 +6955,7 @@ impl RObject for ChatMemberStatusCreator {
 }
 
 
-#[typetag::serde]
-impl ChatMemberStatus for ChatMemberStatusCreator {}
+#[typetag::serde] impl ChatMemberStatus for ChatMemberStatusCreator {}
 
 
 impl ChatMemberStatusCreator {
@@ -7006,8 +7029,7 @@ impl RObject for ChatMemberStatusAdministrator {
 }
 
 
-#[typetag::serde]
-impl ChatMemberStatus for ChatMemberStatusAdministrator {}
+#[typetag::serde] impl ChatMemberStatus for ChatMemberStatusAdministrator {}
 
 
 impl ChatMemberStatusAdministrator {
@@ -7127,8 +7149,7 @@ impl RObject for ChatMemberStatusMember {
 }
 
 
-#[typetag::serde]
-impl ChatMemberStatus for ChatMemberStatusMember {}
+#[typetag::serde] impl ChatMemberStatus for ChatMemberStatusMember {}
 
 
 impl ChatMemberStatusMember {
@@ -7188,8 +7209,7 @@ impl RObject for ChatMemberStatusRestricted {
 }
 
 
-#[typetag::serde]
-impl ChatMemberStatus for ChatMemberStatusRestricted {}
+#[typetag::serde] impl ChatMemberStatus for ChatMemberStatusRestricted {}
 
 
 impl ChatMemberStatusRestricted {
@@ -7285,8 +7305,7 @@ impl RObject for ChatMemberStatusLeft {
 }
 
 
-#[typetag::serde]
-impl ChatMemberStatus for ChatMemberStatusLeft {}
+#[typetag::serde] impl ChatMemberStatus for ChatMemberStatusLeft {}
 
 
 impl ChatMemberStatusLeft {
@@ -7336,8 +7355,7 @@ impl RObject for ChatMemberStatusBanned {
 }
 
 
-#[typetag::serde]
-impl ChatMemberStatus for ChatMemberStatusBanned {}
+#[typetag::serde] impl ChatMemberStatus for ChatMemberStatusBanned {}
 
 
 impl ChatMemberStatusBanned {
@@ -7449,6 +7467,15 @@ pub trait ChatMembersFilter: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<ChatMembersFilter> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDChatMembersFilterType {
   ChatMembersFilterAdministrators,
@@ -7461,6 +7488,7 @@ pub enum TDChatMembersFilterType {
 impl TDChatMembersFilterType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// Returns the creator and administrators. 
@@ -7482,8 +7510,7 @@ impl RObject for ChatMembersFilterAdministrators {
 }
 
 
-#[typetag::serde]
-impl ChatMembersFilter for ChatMembersFilterAdministrators {}
+#[typetag::serde] impl ChatMembersFilter for ChatMembersFilterAdministrators {}
 
 
 impl ChatMembersFilterAdministrators {
@@ -7531,8 +7558,7 @@ impl RObject for ChatMembersFilterMembers {
 }
 
 
-#[typetag::serde]
-impl ChatMembersFilter for ChatMembersFilterMembers {}
+#[typetag::serde] impl ChatMembersFilter for ChatMembersFilterMembers {}
 
 
 impl ChatMembersFilterMembers {
@@ -7580,8 +7606,7 @@ impl RObject for ChatMembersFilterRestricted {
 }
 
 
-#[typetag::serde]
-impl ChatMembersFilter for ChatMembersFilterRestricted {}
+#[typetag::serde] impl ChatMembersFilter for ChatMembersFilterRestricted {}
 
 
 impl ChatMembersFilterRestricted {
@@ -7629,8 +7654,7 @@ impl RObject for ChatMembersFilterBanned {
 }
 
 
-#[typetag::serde]
-impl ChatMembersFilter for ChatMembersFilterBanned {}
+#[typetag::serde] impl ChatMembersFilter for ChatMembersFilterBanned {}
 
 
 impl ChatMembersFilterBanned {
@@ -7678,8 +7702,7 @@ impl RObject for ChatMembersFilterBots {
 }
 
 
-#[typetag::serde]
-impl ChatMembersFilter for ChatMembersFilterBots {}
+#[typetag::serde] impl ChatMembersFilter for ChatMembersFilterBots {}
 
 
 impl ChatMembersFilterBots {
@@ -7929,6 +7952,15 @@ pub trait ChatReportReason: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<ChatReportReason> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDChatReportReasonType {
   ChatReportReasonChildAbuse,
@@ -7942,6 +7974,7 @@ pub enum TDChatReportReasonType {
 impl TDChatReportReasonType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The chat contains spam messages. 
@@ -7963,8 +7996,7 @@ impl RObject for ChatReportReasonSpam {
 }
 
 
-#[typetag::serde]
-impl ChatReportReason for ChatReportReasonSpam {}
+#[typetag::serde] impl ChatReportReason for ChatReportReasonSpam {}
 
 
 impl ChatReportReasonSpam {
@@ -8012,8 +8044,7 @@ impl RObject for ChatReportReasonViolence {
 }
 
 
-#[typetag::serde]
-impl ChatReportReason for ChatReportReasonViolence {}
+#[typetag::serde] impl ChatReportReason for ChatReportReasonViolence {}
 
 
 impl ChatReportReasonViolence {
@@ -8061,8 +8092,7 @@ impl RObject for ChatReportReasonPornography {
 }
 
 
-#[typetag::serde]
-impl ChatReportReason for ChatReportReasonPornography {}
+#[typetag::serde] impl ChatReportReason for ChatReportReasonPornography {}
 
 
 impl ChatReportReasonPornography {
@@ -8110,8 +8140,7 @@ impl RObject for ChatReportReasonChildAbuse {
 }
 
 
-#[typetag::serde]
-impl ChatReportReason for ChatReportReasonChildAbuse {}
+#[typetag::serde] impl ChatReportReason for ChatReportReasonChildAbuse {}
 
 
 impl ChatReportReasonChildAbuse {
@@ -8159,8 +8188,7 @@ impl RObject for ChatReportReasonCopyright {
 }
 
 
-#[typetag::serde]
-impl ChatReportReason for ChatReportReasonCopyright {}
+#[typetag::serde] impl ChatReportReason for ChatReportReasonCopyright {}
 
 
 impl ChatReportReasonCopyright {
@@ -8210,8 +8238,7 @@ impl RObject for ChatReportReasonCustom {
 }
 
 
-#[typetag::serde]
-impl ChatReportReason for ChatReportReasonCustom {}
+#[typetag::serde] impl ChatReportReason for ChatReportReasonCustom {}
 
 
 impl ChatReportReasonCustom {
@@ -8313,6 +8340,15 @@ pub trait ChatType: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<ChatType> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDChatTypeType {
   ChatTypeBasicGroup,
@@ -8324,6 +8360,7 @@ pub enum TDChatTypeType {
 impl TDChatTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// An ordinary chat with a user. 
@@ -8347,8 +8384,7 @@ impl RObject for ChatTypePrivate {
 }
 
 
-#[typetag::serde]
-impl ChatType for ChatTypePrivate {}
+#[typetag::serde] impl ChatType for ChatTypePrivate {}
 
 
 impl ChatTypePrivate {
@@ -8406,8 +8442,7 @@ impl RObject for ChatTypeBasicGroup {
 }
 
 
-#[typetag::serde]
-impl ChatType for ChatTypeBasicGroup {}
+#[typetag::serde] impl ChatType for ChatTypeBasicGroup {}
 
 
 impl ChatTypeBasicGroup {
@@ -8467,8 +8502,7 @@ impl RObject for ChatTypeSupergroup {
 }
 
 
-#[typetag::serde]
-impl ChatType for ChatTypeSupergroup {}
+#[typetag::serde] impl ChatType for ChatTypeSupergroup {}
 
 
 impl ChatTypeSupergroup {
@@ -8536,8 +8570,7 @@ impl RObject for ChatTypeSecret {
 }
 
 
-#[typetag::serde]
-impl ChatType for ChatTypeSecret {}
+#[typetag::serde] impl ChatType for ChatTypeSecret {}
 
 
 impl ChatTypeSecret {
@@ -8647,6 +8680,15 @@ pub trait CheckChatUsernameResult: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<CheckChatUsernameResult> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDCheckChatUsernameResultType {
   CheckChatUsernameResultOk,
@@ -8659,6 +8701,7 @@ pub enum TDCheckChatUsernameResultType {
 impl TDCheckChatUsernameResultType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The username can be set. 
@@ -8680,8 +8723,7 @@ impl RObject for CheckChatUsernameResultOk {
 }
 
 
-#[typetag::serde]
-impl CheckChatUsernameResult for CheckChatUsernameResultOk {}
+#[typetag::serde] impl CheckChatUsernameResult for CheckChatUsernameResultOk {}
 
 
 impl CheckChatUsernameResultOk {
@@ -8729,8 +8771,7 @@ impl RObject for CheckChatUsernameResultUsernameInvalid {
 }
 
 
-#[typetag::serde]
-impl CheckChatUsernameResult for CheckChatUsernameResultUsernameInvalid {}
+#[typetag::serde] impl CheckChatUsernameResult for CheckChatUsernameResultUsernameInvalid {}
 
 
 impl CheckChatUsernameResultUsernameInvalid {
@@ -8778,8 +8819,7 @@ impl RObject for CheckChatUsernameResultUsernameOccupied {
 }
 
 
-#[typetag::serde]
-impl CheckChatUsernameResult for CheckChatUsernameResultUsernameOccupied {}
+#[typetag::serde] impl CheckChatUsernameResult for CheckChatUsernameResultUsernameOccupied {}
 
 
 impl CheckChatUsernameResultUsernameOccupied {
@@ -8827,8 +8867,7 @@ impl RObject for CheckChatUsernameResultPublicChatsTooMuch {
 }
 
 
-#[typetag::serde]
-impl CheckChatUsernameResult for CheckChatUsernameResultPublicChatsTooMuch {}
+#[typetag::serde] impl CheckChatUsernameResult for CheckChatUsernameResultPublicChatsTooMuch {}
 
 
 impl CheckChatUsernameResultPublicChatsTooMuch {
@@ -8876,8 +8915,7 @@ impl RObject for CheckChatUsernameResultPublicGroupsUnavailable {
 }
 
 
-#[typetag::serde]
-impl CheckChatUsernameResult for CheckChatUsernameResultPublicGroupsUnavailable {}
+#[typetag::serde] impl CheckChatUsernameResult for CheckChatUsernameResultPublicGroupsUnavailable {}
 
 
 impl CheckChatUsernameResultPublicGroupsUnavailable {
@@ -9107,6 +9145,15 @@ pub trait ConnectionState: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<ConnectionState> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDConnectionStateType {
   ConnectionStateConnecting,
@@ -9119,6 +9166,7 @@ pub enum TDConnectionStateType {
 impl TDConnectionStateType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// Currently waiting for the network to become available. Use SetNetworkType to change the available network type. 
@@ -9140,8 +9188,7 @@ impl RObject for ConnectionStateWaitingForNetwork {
 }
 
 
-#[typetag::serde]
-impl ConnectionState for ConnectionStateWaitingForNetwork {}
+#[typetag::serde] impl ConnectionState for ConnectionStateWaitingForNetwork {}
 
 
 impl ConnectionStateWaitingForNetwork {
@@ -9189,8 +9236,7 @@ impl RObject for ConnectionStateConnectingToProxy {
 }
 
 
-#[typetag::serde]
-impl ConnectionState for ConnectionStateConnectingToProxy {}
+#[typetag::serde] impl ConnectionState for ConnectionStateConnectingToProxy {}
 
 
 impl ConnectionStateConnectingToProxy {
@@ -9238,8 +9284,7 @@ impl RObject for ConnectionStateConnecting {
 }
 
 
-#[typetag::serde]
-impl ConnectionState for ConnectionStateConnecting {}
+#[typetag::serde] impl ConnectionState for ConnectionStateConnecting {}
 
 
 impl ConnectionStateConnecting {
@@ -9287,8 +9332,7 @@ impl RObject for ConnectionStateUpdating {
 }
 
 
-#[typetag::serde]
-impl ConnectionState for ConnectionStateUpdating {}
+#[typetag::serde] impl ConnectionState for ConnectionStateUpdating {}
 
 
 impl ConnectionStateUpdating {
@@ -9336,8 +9380,7 @@ impl RObject for ConnectionStateReady {
 }
 
 
-#[typetag::serde]
-impl ConnectionState for ConnectionStateReady {}
+#[typetag::serde] impl ConnectionState for ConnectionStateReady {}
 
 
 impl ConnectionStateReady {
@@ -9847,6 +9890,15 @@ pub trait DeviceToken: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<DeviceToken> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDDeviceTokenType {
   DeviceTokenApplePush,
@@ -9865,6 +9917,7 @@ pub enum TDDeviceTokenType {
 impl TDDeviceTokenType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// A token for Firebase Cloud Messaging. 
@@ -9890,8 +9943,7 @@ impl RObject for DeviceTokenFirebaseCloudMessaging {
 }
 
 
-#[typetag::serde]
-impl DeviceToken for DeviceTokenFirebaseCloudMessaging {}
+#[typetag::serde] impl DeviceToken for DeviceTokenFirebaseCloudMessaging {}
 
 
 impl DeviceTokenFirebaseCloudMessaging {
@@ -9959,8 +10011,7 @@ impl RObject for DeviceTokenApplePush {
 }
 
 
-#[typetag::serde]
-impl DeviceToken for DeviceTokenApplePush {}
+#[typetag::serde] impl DeviceToken for DeviceTokenApplePush {}
 
 
 impl DeviceTokenApplePush {
@@ -10030,8 +10081,7 @@ impl RObject for DeviceTokenApplePushVoIP {
 }
 
 
-#[typetag::serde]
-impl DeviceToken for DeviceTokenApplePushVoIP {}
+#[typetag::serde] impl DeviceToken for DeviceTokenApplePushVoIP {}
 
 
 impl DeviceTokenApplePushVoIP {
@@ -10105,8 +10155,7 @@ impl RObject for DeviceTokenWindowsPush {
 }
 
 
-#[typetag::serde]
-impl DeviceToken for DeviceTokenWindowsPush {}
+#[typetag::serde] impl DeviceToken for DeviceTokenWindowsPush {}
 
 
 impl DeviceTokenWindowsPush {
@@ -10164,8 +10213,7 @@ impl RObject for DeviceTokenMicrosoftPush {
 }
 
 
-#[typetag::serde]
-impl DeviceToken for DeviceTokenMicrosoftPush {}
+#[typetag::serde] impl DeviceToken for DeviceTokenMicrosoftPush {}
 
 
 impl DeviceTokenMicrosoftPush {
@@ -10223,8 +10271,7 @@ impl RObject for DeviceTokenMicrosoftPushVoIP {
 }
 
 
-#[typetag::serde]
-impl DeviceToken for DeviceTokenMicrosoftPushVoIP {}
+#[typetag::serde] impl DeviceToken for DeviceTokenMicrosoftPushVoIP {}
 
 
 impl DeviceTokenMicrosoftPushVoIP {
@@ -10286,8 +10333,7 @@ impl RObject for DeviceTokenWebPush {
 }
 
 
-#[typetag::serde]
-impl DeviceToken for DeviceTokenWebPush {}
+#[typetag::serde] impl DeviceToken for DeviceTokenWebPush {}
 
 
 impl DeviceTokenWebPush {
@@ -10361,8 +10407,7 @@ impl RObject for DeviceTokenSimplePush {
 }
 
 
-#[typetag::serde]
-impl DeviceToken for DeviceTokenSimplePush {}
+#[typetag::serde] impl DeviceToken for DeviceTokenSimplePush {}
 
 
 impl DeviceTokenSimplePush {
@@ -10420,8 +10465,7 @@ impl RObject for DeviceTokenUbuntuPush {
 }
 
 
-#[typetag::serde]
-impl DeviceToken for DeviceTokenUbuntuPush {}
+#[typetag::serde] impl DeviceToken for DeviceTokenUbuntuPush {}
 
 
 impl DeviceTokenUbuntuPush {
@@ -10479,8 +10523,7 @@ impl RObject for DeviceTokenBlackBerryPush {
 }
 
 
-#[typetag::serde]
-impl DeviceToken for DeviceTokenBlackBerryPush {}
+#[typetag::serde] impl DeviceToken for DeviceTokenBlackBerryPush {}
 
 
 impl DeviceTokenBlackBerryPush {
@@ -10538,8 +10581,7 @@ impl RObject for DeviceTokenTizenPush {
 }
 
 
-#[typetag::serde]
-impl DeviceToken for DeviceTokenTizenPush {}
+#[typetag::serde] impl DeviceToken for DeviceTokenTizenPush {}
 
 
 impl DeviceTokenTizenPush {
@@ -11247,6 +11289,15 @@ pub trait FileType: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<FileType> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDFileTypeType {
   FileTypeAnimation,
@@ -11272,6 +11323,7 @@ impl TDFileTypeType {
 }
 
 
+
 /// The data is not a file. 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FileTypeNone {
@@ -11291,8 +11343,7 @@ impl RObject for FileTypeNone {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypeNone {}
+#[typetag::serde] impl FileType for FileTypeNone {}
 
 
 impl FileTypeNone {
@@ -11340,8 +11391,7 @@ impl RObject for FileTypeAnimation {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypeAnimation {}
+#[typetag::serde] impl FileType for FileTypeAnimation {}
 
 
 impl FileTypeAnimation {
@@ -11389,8 +11439,7 @@ impl RObject for FileTypeAudio {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypeAudio {}
+#[typetag::serde] impl FileType for FileTypeAudio {}
 
 
 impl FileTypeAudio {
@@ -11438,8 +11487,7 @@ impl RObject for FileTypeDocument {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypeDocument {}
+#[typetag::serde] impl FileType for FileTypeDocument {}
 
 
 impl FileTypeDocument {
@@ -11487,8 +11535,7 @@ impl RObject for FileTypePhoto {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypePhoto {}
+#[typetag::serde] impl FileType for FileTypePhoto {}
 
 
 impl FileTypePhoto {
@@ -11536,8 +11583,7 @@ impl RObject for FileTypeProfilePhoto {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypeProfilePhoto {}
+#[typetag::serde] impl FileType for FileTypeProfilePhoto {}
 
 
 impl FileTypeProfilePhoto {
@@ -11585,8 +11631,7 @@ impl RObject for FileTypeSecret {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypeSecret {}
+#[typetag::serde] impl FileType for FileTypeSecret {}
 
 
 impl FileTypeSecret {
@@ -11634,8 +11679,7 @@ impl RObject for FileTypeSecretThumbnail {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypeSecretThumbnail {}
+#[typetag::serde] impl FileType for FileTypeSecretThumbnail {}
 
 
 impl FileTypeSecretThumbnail {
@@ -11683,8 +11727,7 @@ impl RObject for FileTypeSecure {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypeSecure {}
+#[typetag::serde] impl FileType for FileTypeSecure {}
 
 
 impl FileTypeSecure {
@@ -11732,8 +11775,7 @@ impl RObject for FileTypeSticker {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypeSticker {}
+#[typetag::serde] impl FileType for FileTypeSticker {}
 
 
 impl FileTypeSticker {
@@ -11781,8 +11823,7 @@ impl RObject for FileTypeThumbnail {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypeThumbnail {}
+#[typetag::serde] impl FileType for FileTypeThumbnail {}
 
 
 impl FileTypeThumbnail {
@@ -11830,8 +11871,7 @@ impl RObject for FileTypeUnknown {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypeUnknown {}
+#[typetag::serde] impl FileType for FileTypeUnknown {}
 
 
 impl FileTypeUnknown {
@@ -11879,8 +11919,7 @@ impl RObject for FileTypeVideo {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypeVideo {}
+#[typetag::serde] impl FileType for FileTypeVideo {}
 
 
 impl FileTypeVideo {
@@ -11928,8 +11967,7 @@ impl RObject for FileTypeVideoNote {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypeVideoNote {}
+#[typetag::serde] impl FileType for FileTypeVideoNote {}
 
 
 impl FileTypeVideoNote {
@@ -11977,8 +12015,7 @@ impl RObject for FileTypeVoiceNote {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypeVoiceNote {}
+#[typetag::serde] impl FileType for FileTypeVoiceNote {}
 
 
 impl FileTypeVoiceNote {
@@ -12026,8 +12063,7 @@ impl RObject for FileTypeWallpaper {
 }
 
 
-#[typetag::serde]
-impl FileType for FileTypeWallpaper {}
+#[typetag::serde] impl FileType for FileTypeWallpaper {}
 
 
 impl FileTypeWallpaper {
@@ -12802,6 +12838,15 @@ pub trait InlineKeyboardButtonType: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<InlineKeyboardButtonType> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDInlineKeyboardButtonTypeType {
   InlineKeyboardButtonTypeBuy,
@@ -12814,6 +12859,7 @@ pub enum TDInlineKeyboardButtonTypeType {
 impl TDInlineKeyboardButtonTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// A button that opens a specified URL. 
@@ -12837,8 +12883,7 @@ impl RObject for InlineKeyboardButtonTypeUrl {
 }
 
 
-#[typetag::serde]
-impl InlineKeyboardButtonType for InlineKeyboardButtonTypeUrl {}
+#[typetag::serde] impl InlineKeyboardButtonType for InlineKeyboardButtonTypeUrl {}
 
 
 impl InlineKeyboardButtonTypeUrl {
@@ -12896,8 +12941,7 @@ impl RObject for InlineKeyboardButtonTypeCallback {
 }
 
 
-#[typetag::serde]
-impl InlineKeyboardButtonType for InlineKeyboardButtonTypeCallback {}
+#[typetag::serde] impl InlineKeyboardButtonType for InlineKeyboardButtonTypeCallback {}
 
 
 impl InlineKeyboardButtonTypeCallback {
@@ -12953,8 +12997,7 @@ impl RObject for InlineKeyboardButtonTypeCallbackGame {
 }
 
 
-#[typetag::serde]
-impl InlineKeyboardButtonType for InlineKeyboardButtonTypeCallbackGame {}
+#[typetag::serde] impl InlineKeyboardButtonType for InlineKeyboardButtonTypeCallbackGame {}
 
 
 impl InlineKeyboardButtonTypeCallbackGame {
@@ -13006,8 +13049,7 @@ impl RObject for InlineKeyboardButtonTypeSwitchInline {
 }
 
 
-#[typetag::serde]
-impl InlineKeyboardButtonType for InlineKeyboardButtonTypeSwitchInline {}
+#[typetag::serde] impl InlineKeyboardButtonType for InlineKeyboardButtonTypeSwitchInline {}
 
 
 impl InlineKeyboardButtonTypeSwitchInline {
@@ -13071,8 +13113,7 @@ impl RObject for InlineKeyboardButtonTypeBuy {
 }
 
 
-#[typetag::serde]
-impl InlineKeyboardButtonType for InlineKeyboardButtonTypeBuy {}
+#[typetag::serde] impl InlineKeyboardButtonType for InlineKeyboardButtonTypeBuy {}
 
 
 impl InlineKeyboardButtonTypeBuy {
@@ -13110,6 +13151,15 @@ pub trait InlineQueryResult: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<InlineQueryResult> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDInlineQueryResultType {
   InlineQueryResultAnimation,
@@ -13129,6 +13179,7 @@ pub enum TDInlineQueryResultType {
 impl TDInlineQueryResultType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// Represents a link to an article or web page. 
@@ -13162,8 +13213,7 @@ impl RObject for InlineQueryResultArticle {
 }
 
 
-#[typetag::serde]
-impl InlineQueryResult for InlineQueryResultArticle {}
+#[typetag::serde] impl InlineQueryResult for InlineQueryResultArticle {}
 
 
 impl InlineQueryResultArticle {
@@ -13265,8 +13315,7 @@ impl RObject for InlineQueryResultContact {
 }
 
 
-#[typetag::serde]
-impl InlineQueryResult for InlineQueryResultContact {}
+#[typetag::serde] impl InlineQueryResult for InlineQueryResultContact {}
 
 
 impl InlineQueryResultContact {
@@ -13346,8 +13395,7 @@ impl RObject for InlineQueryResultLocation {
 }
 
 
-#[typetag::serde]
-impl InlineQueryResult for InlineQueryResultLocation {}
+#[typetag::serde] impl InlineQueryResult for InlineQueryResultLocation {}
 
 
 impl InlineQueryResultLocation {
@@ -13433,8 +13481,7 @@ impl RObject for InlineQueryResultVenue {
 }
 
 
-#[typetag::serde]
-impl InlineQueryResult for InlineQueryResultVenue {}
+#[typetag::serde] impl InlineQueryResult for InlineQueryResultVenue {}
 
 
 impl InlineQueryResultVenue {
@@ -13510,8 +13557,7 @@ impl RObject for InlineQueryResultGame {
 }
 
 
-#[typetag::serde]
-impl InlineQueryResult for InlineQueryResultGame {}
+#[typetag::serde] impl InlineQueryResult for InlineQueryResultGame {}
 
 
 impl InlineQueryResultGame {
@@ -13581,8 +13627,7 @@ impl RObject for InlineQueryResultAnimation {
 }
 
 
-#[typetag::serde]
-impl InlineQueryResult for InlineQueryResultAnimation {}
+#[typetag::serde] impl InlineQueryResult for InlineQueryResultAnimation {}
 
 
 impl InlineQueryResultAnimation {
@@ -13658,8 +13703,7 @@ impl RObject for InlineQueryResultAudio {
 }
 
 
-#[typetag::serde]
-impl InlineQueryResult for InlineQueryResultAudio {}
+#[typetag::serde] impl InlineQueryResult for InlineQueryResultAudio {}
 
 
 impl InlineQueryResultAudio {
@@ -13731,8 +13775,7 @@ impl RObject for InlineQueryResultDocument {
 }
 
 
-#[typetag::serde]
-impl InlineQueryResult for InlineQueryResultDocument {}
+#[typetag::serde] impl InlineQueryResult for InlineQueryResultDocument {}
 
 
 impl InlineQueryResultDocument {
@@ -13820,8 +13863,7 @@ impl RObject for InlineQueryResultPhoto {
 }
 
 
-#[typetag::serde]
-impl InlineQueryResult for InlineQueryResultPhoto {}
+#[typetag::serde] impl InlineQueryResult for InlineQueryResultPhoto {}
 
 
 impl InlineQueryResultPhoto {
@@ -13905,8 +13947,7 @@ impl RObject for InlineQueryResultSticker {
 }
 
 
-#[typetag::serde]
-impl InlineQueryResult for InlineQueryResultSticker {}
+#[typetag::serde] impl InlineQueryResult for InlineQueryResultSticker {}
 
 
 impl InlineQueryResultSticker {
@@ -13978,8 +14019,7 @@ impl RObject for InlineQueryResultVideo {
 }
 
 
-#[typetag::serde]
-impl InlineQueryResult for InlineQueryResultVideo {}
+#[typetag::serde] impl InlineQueryResult for InlineQueryResultVideo {}
 
 
 impl InlineQueryResultVideo {
@@ -14065,8 +14105,7 @@ impl RObject for InlineQueryResultVoiceNote {
 }
 
 
-#[typetag::serde]
-impl InlineQueryResult for InlineQueryResultVoiceNote {}
+#[typetag::serde] impl InlineQueryResult for InlineQueryResultVoiceNote {}
 
 
 impl InlineQueryResultVoiceNote {
@@ -14231,6 +14270,15 @@ pub trait InputCredentials: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<InputCredentials> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDInputCredentialsType {
   InputCredentialsAndroidPay,
@@ -14242,6 +14290,7 @@ pub enum TDInputCredentialsType {
 impl TDInputCredentialsType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// Applies if a user chooses some previously saved payment credentials. To use their previously saved credentials, the user must have a valid temporary password. 
@@ -14265,8 +14314,7 @@ impl RObject for InputCredentialsSaved {
 }
 
 
-#[typetag::serde]
-impl InputCredentials for InputCredentialsSaved {}
+#[typetag::serde] impl InputCredentials for InputCredentialsSaved {}
 
 
 impl InputCredentialsSaved {
@@ -14326,8 +14374,7 @@ impl RObject for InputCredentialsNew {
 }
 
 
-#[typetag::serde]
-impl InputCredentials for InputCredentialsNew {}
+#[typetag::serde] impl InputCredentials for InputCredentialsNew {}
 
 
 impl InputCredentialsNew {
@@ -14393,8 +14440,7 @@ impl RObject for InputCredentialsAndroidPay {
 }
 
 
-#[typetag::serde]
-impl InputCredentials for InputCredentialsAndroidPay {}
+#[typetag::serde] impl InputCredentials for InputCredentialsAndroidPay {}
 
 
 impl InputCredentialsAndroidPay {
@@ -14452,8 +14498,7 @@ impl RObject for InputCredentialsApplePay {
 }
 
 
-#[typetag::serde]
-impl InputCredentials for InputCredentialsApplePay {}
+#[typetag::serde] impl InputCredentials for InputCredentialsApplePay {}
 
 
 impl InputCredentialsApplePay {
@@ -14499,6 +14544,15 @@ pub trait InputFile: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<InputFile> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDInputFileType {
   InputFileGenerated,
@@ -14510,6 +14564,7 @@ pub enum TDInputFileType {
 impl TDInputFileType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// A file defined by its unique ID. 
@@ -14533,8 +14588,7 @@ impl RObject for InputFileId {
 }
 
 
-#[typetag::serde]
-impl InputFile for InputFileId {}
+#[typetag::serde] impl InputFile for InputFileId {}
 
 
 impl InputFileId {
@@ -14592,8 +14646,7 @@ impl RObject for InputFileRemote {
 }
 
 
-#[typetag::serde]
-impl InputFile for InputFileRemote {}
+#[typetag::serde] impl InputFile for InputFileRemote {}
 
 
 impl InputFileRemote {
@@ -14651,8 +14704,7 @@ impl RObject for InputFileLocal {
 }
 
 
-#[typetag::serde]
-impl InputFile for InputFileLocal {}
+#[typetag::serde] impl InputFile for InputFileLocal {}
 
 
 impl InputFileLocal {
@@ -14714,8 +14766,7 @@ impl RObject for InputFileGenerated {
 }
 
 
-#[typetag::serde]
-impl InputFile for InputFileGenerated {}
+#[typetag::serde] impl InputFile for InputFileGenerated {}
 
 
 impl InputFileGenerated {
@@ -14890,6 +14941,15 @@ pub trait InputInlineQueryResult: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<InputInlineQueryResult> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDInputInlineQueryResultType {
   InputInlineQueryResultAnimatedGif,
@@ -14910,6 +14970,7 @@ pub enum TDInputInlineQueryResultType {
 impl TDInputInlineQueryResultType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// Represents a link to an animated GIF. 
@@ -14956,8 +15017,7 @@ impl RObject for InputInlineQueryResultAnimatedGif {
 }
 
 
-#[typetag::serde]
-impl InputInlineQueryResult for InputInlineQueryResultAnimatedGif {}
+#[typetag::serde] impl InputInlineQueryResult for InputInlineQueryResultAnimatedGif {}
 
 
 impl InputInlineQueryResultAnimatedGif {
@@ -15102,8 +15162,7 @@ impl RObject for InputInlineQueryResultAnimatedMpeg4 {
 }
 
 
-#[typetag::serde]
-impl InputInlineQueryResult for InputInlineQueryResultAnimatedMpeg4 {}
+#[typetag::serde] impl InputInlineQueryResult for InputInlineQueryResultAnimatedMpeg4 {}
 
 
 impl InputInlineQueryResultAnimatedMpeg4 {
@@ -15250,8 +15309,7 @@ impl RObject for InputInlineQueryResultArticle {
 }
 
 
-#[typetag::serde]
-impl InputInlineQueryResult for InputInlineQueryResultArticle {}
+#[typetag::serde] impl InputInlineQueryResult for InputInlineQueryResultArticle {}
 
 
 impl InputInlineQueryResultArticle {
@@ -15400,8 +15458,7 @@ impl RObject for InputInlineQueryResultAudio {
 }
 
 
-#[typetag::serde]
-impl InputInlineQueryResult for InputInlineQueryResultAudio {}
+#[typetag::serde] impl InputInlineQueryResult for InputInlineQueryResultAudio {}
 
 
 impl InputInlineQueryResultAudio {
@@ -15526,8 +15583,7 @@ impl RObject for InputInlineQueryResultContact {
 }
 
 
-#[typetag::serde]
-impl InputInlineQueryResult for InputInlineQueryResultContact {}
+#[typetag::serde] impl InputInlineQueryResult for InputInlineQueryResultContact {}
 
 
 impl InputInlineQueryResultContact {
@@ -15658,8 +15714,7 @@ impl RObject for InputInlineQueryResultDocument {
 }
 
 
-#[typetag::serde]
-impl InputInlineQueryResult for InputInlineQueryResultDocument {}
+#[typetag::serde] impl InputInlineQueryResult for InputInlineQueryResultDocument {}
 
 
 impl InputInlineQueryResultDocument {
@@ -15800,8 +15855,7 @@ impl RObject for InputInlineQueryResultGame {
 }
 
 
-#[typetag::serde]
-impl InputInlineQueryResult for InputInlineQueryResultGame {}
+#[typetag::serde] impl InputInlineQueryResult for InputInlineQueryResultGame {}
 
 
 impl InputInlineQueryResultGame {
@@ -15898,8 +15952,7 @@ impl RObject for InputInlineQueryResultLocation {
 }
 
 
-#[typetag::serde]
-impl InputInlineQueryResult for InputInlineQueryResultLocation {}
+#[typetag::serde] impl InputInlineQueryResult for InputInlineQueryResultLocation {}
 
 
 impl InputInlineQueryResultLocation {
@@ -16044,8 +16097,7 @@ impl RObject for InputInlineQueryResultPhoto {
 }
 
 
-#[typetag::serde]
-impl InputInlineQueryResult for InputInlineQueryResultPhoto {}
+#[typetag::serde] impl InputInlineQueryResult for InputInlineQueryResultPhoto {}
 
 
 impl InputInlineQueryResultPhoto {
@@ -16186,8 +16238,7 @@ impl RObject for InputInlineQueryResultSticker {
 }
 
 
-#[typetag::serde]
-impl InputInlineQueryResult for InputInlineQueryResultSticker {}
+#[typetag::serde] impl InputInlineQueryResult for InputInlineQueryResultSticker {}
 
 
 impl InputInlineQueryResultSticker {
@@ -16312,8 +16363,7 @@ impl RObject for InputInlineQueryResultVenue {
 }
 
 
-#[typetag::serde]
-impl InputInlineQueryResult for InputInlineQueryResultVenue {}
+#[typetag::serde] impl InputInlineQueryResult for InputInlineQueryResultVenue {}
 
 
 impl InputInlineQueryResultVenue {
@@ -16446,8 +16496,7 @@ impl RObject for InputInlineQueryResultVideo {
 }
 
 
-#[typetag::serde]
-impl InputInlineQueryResult for InputInlineQueryResultVideo {}
+#[typetag::serde] impl InputInlineQueryResult for InputInlineQueryResultVideo {}
 
 
 impl InputInlineQueryResultVideo {
@@ -16602,8 +16651,7 @@ impl RObject for InputInlineQueryResultVoiceNote {
 }
 
 
-#[typetag::serde]
-impl InputInlineQueryResult for InputInlineQueryResultVoiceNote {}
+#[typetag::serde] impl InputInlineQueryResult for InputInlineQueryResultVoiceNote {}
 
 
 impl InputInlineQueryResultVoiceNote {
@@ -16689,6 +16737,15 @@ pub trait InputMessageContent: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<InputMessageContent> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDInputMessageContentType {
   InputMessageAnimation,
@@ -16712,6 +16769,7 @@ pub enum TDInputMessageContentType {
 impl TDInputMessageContentType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// A text message. 
@@ -16739,8 +16797,7 @@ impl RObject for InputMessageText {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessageText {}
+#[typetag::serde] impl InputMessageContent for InputMessageText {}
 
 
 impl InputMessageText {
@@ -16831,8 +16888,7 @@ impl RObject for InputMessageAnimation {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessageAnimation {}
+#[typetag::serde] impl InputMessageContent for InputMessageAnimation {}
 
 
 impl InputMessageAnimation {
@@ -16947,8 +17003,7 @@ impl RObject for InputMessageAudio {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessageAudio {}
+#[typetag::serde] impl InputMessageContent for InputMessageAudio {}
 
 
 impl InputMessageAudio {
@@ -17057,8 +17112,7 @@ impl RObject for InputMessageDocument {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessageDocument {}
+#[typetag::serde] impl InputMessageContent for InputMessageDocument {}
 
 
 impl InputMessageDocument {
@@ -17151,8 +17205,7 @@ impl RObject for InputMessagePhoto {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessagePhoto {}
+#[typetag::serde] impl InputMessageContent for InputMessagePhoto {}
 
 
 impl InputMessagePhoto {
@@ -17271,8 +17324,7 @@ impl RObject for InputMessageSticker {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessageSticker {}
+#[typetag::serde] impl InputMessageContent for InputMessageSticker {}
 
 
 impl InputMessageSticker {
@@ -17377,8 +17429,7 @@ impl RObject for InputMessageVideo {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessageVideo {}
+#[typetag::serde] impl InputMessageContent for InputMessageVideo {}
 
 
 impl InputMessageVideo {
@@ -17513,8 +17564,7 @@ impl RObject for InputMessageVideoNote {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessageVideoNote {}
+#[typetag::serde] impl InputMessageContent for InputMessageVideoNote {}
 
 
 impl InputMessageVideoNote {
@@ -17609,8 +17659,7 @@ impl RObject for InputMessageVoiceNote {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessageVoiceNote {}
+#[typetag::serde] impl InputMessageContent for InputMessageVoiceNote {}
 
 
 impl InputMessageVoiceNote {
@@ -17694,8 +17743,7 @@ impl RObject for InputMessageLocation {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessageLocation {}
+#[typetag::serde] impl InputMessageContent for InputMessageLocation {}
 
 
 impl InputMessageLocation {
@@ -17761,8 +17809,7 @@ impl RObject for InputMessageVenue {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessageVenue {}
+#[typetag::serde] impl InputMessageContent for InputMessageVenue {}
 
 
 impl InputMessageVenue {
@@ -17820,8 +17867,7 @@ impl RObject for InputMessageContact {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessageContact {}
+#[typetag::serde] impl InputMessageContent for InputMessageContact {}
 
 
 impl InputMessageContact {
@@ -17881,8 +17927,7 @@ impl RObject for InputMessageGame {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessageGame {}
+#[typetag::serde] impl InputMessageContent for InputMessageGame {}
 
 
 impl InputMessageGame {
@@ -17968,8 +18013,7 @@ impl RObject for InputMessageInvoice {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessageInvoice {}
+#[typetag::serde] impl InputMessageContent for InputMessageInvoice {}
 
 
 impl InputMessageInvoice {
@@ -18109,8 +18153,7 @@ impl RObject for InputMessagePoll {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessagePoll {}
+#[typetag::serde] impl InputMessageContent for InputMessagePoll {}
 
 
 impl InputMessagePoll {
@@ -18180,8 +18223,7 @@ impl RObject for InputMessageForwarded {
 }
 
 
-#[typetag::serde]
-impl InputMessageContent for InputMessageForwarded {}
+#[typetag::serde] impl InputMessageContent for InputMessageForwarded {}
 
 
 impl InputMessageForwarded {
@@ -18243,6 +18285,15 @@ pub trait InputPassportElement: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<InputPassportElement> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDInputPassportElementType {
   InputPassportElementAddress,
@@ -18263,6 +18314,7 @@ pub enum TDInputPassportElementType {
 impl TDInputPassportElementType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// A Telegram Passport element to be saved containing the user's personal details. 
@@ -18286,8 +18338,7 @@ impl RObject for InputPassportElementPersonalDetails {
 }
 
 
-#[typetag::serde]
-impl InputPassportElement for InputPassportElementPersonalDetails {}
+#[typetag::serde] impl InputPassportElement for InputPassportElementPersonalDetails {}
 
 
 impl InputPassportElementPersonalDetails {
@@ -18345,8 +18396,7 @@ impl RObject for InputPassportElementPassport {
 }
 
 
-#[typetag::serde]
-impl InputPassportElement for InputPassportElementPassport {}
+#[typetag::serde] impl InputPassportElement for InputPassportElementPassport {}
 
 
 impl InputPassportElementPassport {
@@ -18404,8 +18454,7 @@ impl RObject for InputPassportElementDriverLicense {
 }
 
 
-#[typetag::serde]
-impl InputPassportElement for InputPassportElementDriverLicense {}
+#[typetag::serde] impl InputPassportElement for InputPassportElementDriverLicense {}
 
 
 impl InputPassportElementDriverLicense {
@@ -18463,8 +18512,7 @@ impl RObject for InputPassportElementIdentityCard {
 }
 
 
-#[typetag::serde]
-impl InputPassportElement for InputPassportElementIdentityCard {}
+#[typetag::serde] impl InputPassportElement for InputPassportElementIdentityCard {}
 
 
 impl InputPassportElementIdentityCard {
@@ -18522,8 +18570,7 @@ impl RObject for InputPassportElementInternalPassport {
 }
 
 
-#[typetag::serde]
-impl InputPassportElement for InputPassportElementInternalPassport {}
+#[typetag::serde] impl InputPassportElement for InputPassportElementInternalPassport {}
 
 
 impl InputPassportElementInternalPassport {
@@ -18581,8 +18628,7 @@ impl RObject for InputPassportElementAddress {
 }
 
 
-#[typetag::serde]
-impl InputPassportElement for InputPassportElementAddress {}
+#[typetag::serde] impl InputPassportElement for InputPassportElementAddress {}
 
 
 impl InputPassportElementAddress {
@@ -18640,8 +18686,7 @@ impl RObject for InputPassportElementUtilityBill {
 }
 
 
-#[typetag::serde]
-impl InputPassportElement for InputPassportElementUtilityBill {}
+#[typetag::serde] impl InputPassportElement for InputPassportElementUtilityBill {}
 
 
 impl InputPassportElementUtilityBill {
@@ -18699,8 +18744,7 @@ impl RObject for InputPassportElementBankStatement {
 }
 
 
-#[typetag::serde]
-impl InputPassportElement for InputPassportElementBankStatement {}
+#[typetag::serde] impl InputPassportElement for InputPassportElementBankStatement {}
 
 
 impl InputPassportElementBankStatement {
@@ -18758,8 +18802,7 @@ impl RObject for InputPassportElementRentalAgreement {
 }
 
 
-#[typetag::serde]
-impl InputPassportElement for InputPassportElementRentalAgreement {}
+#[typetag::serde] impl InputPassportElement for InputPassportElementRentalAgreement {}
 
 
 impl InputPassportElementRentalAgreement {
@@ -18817,8 +18860,7 @@ impl RObject for InputPassportElementPassportRegistration {
 }
 
 
-#[typetag::serde]
-impl InputPassportElement for InputPassportElementPassportRegistration {}
+#[typetag::serde] impl InputPassportElement for InputPassportElementPassportRegistration {}
 
 
 impl InputPassportElementPassportRegistration {
@@ -18876,8 +18918,7 @@ impl RObject for InputPassportElementTemporaryRegistration {
 }
 
 
-#[typetag::serde]
-impl InputPassportElement for InputPassportElementTemporaryRegistration {}
+#[typetag::serde] impl InputPassportElement for InputPassportElementTemporaryRegistration {}
 
 
 impl InputPassportElementTemporaryRegistration {
@@ -18935,8 +18976,7 @@ impl RObject for InputPassportElementPhoneNumber {
 }
 
 
-#[typetag::serde]
-impl InputPassportElement for InputPassportElementPhoneNumber {}
+#[typetag::serde] impl InputPassportElement for InputPassportElementPhoneNumber {}
 
 
 impl InputPassportElementPhoneNumber {
@@ -18994,8 +19034,7 @@ impl RObject for InputPassportElementEmailAddress {
 }
 
 
-#[typetag::serde]
-impl InputPassportElement for InputPassportElementEmailAddress {}
+#[typetag::serde] impl InputPassportElement for InputPassportElementEmailAddress {}
 
 
 impl InputPassportElementEmailAddress {
@@ -19124,6 +19163,15 @@ pub trait InputPassportElementErrorSource: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<InputPassportElementErrorSource> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDInputPassportElementErrorSourceType {
   InputPassportElementErrorSourceDataField,
@@ -19140,6 +19188,7 @@ pub enum TDInputPassportElementErrorSourceType {
 impl TDInputPassportElementErrorSourceType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The element contains an error in an unspecified place. The error will be considered resolved when new data is added. 
@@ -19163,8 +19212,7 @@ impl RObject for InputPassportElementErrorSourceUnspecified {
 }
 
 
-#[typetag::serde]
-impl InputPassportElementErrorSource for InputPassportElementErrorSourceUnspecified {}
+#[typetag::serde] impl InputPassportElementErrorSource for InputPassportElementErrorSourceUnspecified {}
 
 
 impl InputPassportElementErrorSourceUnspecified {
@@ -19224,8 +19272,7 @@ impl RObject for InputPassportElementErrorSourceDataField {
 }
 
 
-#[typetag::serde]
-impl InputPassportElementErrorSource for InputPassportElementErrorSourceDataField {}
+#[typetag::serde] impl InputPassportElementErrorSource for InputPassportElementErrorSourceDataField {}
 
 
 impl InputPassportElementErrorSourceDataField {
@@ -19291,8 +19338,7 @@ impl RObject for InputPassportElementErrorSourceFrontSide {
 }
 
 
-#[typetag::serde]
-impl InputPassportElementErrorSource for InputPassportElementErrorSourceFrontSide {}
+#[typetag::serde] impl InputPassportElementErrorSource for InputPassportElementErrorSourceFrontSide {}
 
 
 impl InputPassportElementErrorSourceFrontSide {
@@ -19350,8 +19396,7 @@ impl RObject for InputPassportElementErrorSourceReverseSide {
 }
 
 
-#[typetag::serde]
-impl InputPassportElementErrorSource for InputPassportElementErrorSourceReverseSide {}
+#[typetag::serde] impl InputPassportElementErrorSource for InputPassportElementErrorSourceReverseSide {}
 
 
 impl InputPassportElementErrorSourceReverseSide {
@@ -19409,8 +19454,7 @@ impl RObject for InputPassportElementErrorSourceSelfie {
 }
 
 
-#[typetag::serde]
-impl InputPassportElementErrorSource for InputPassportElementErrorSourceSelfie {}
+#[typetag::serde] impl InputPassportElementErrorSource for InputPassportElementErrorSourceSelfie {}
 
 
 impl InputPassportElementErrorSourceSelfie {
@@ -19468,8 +19512,7 @@ impl RObject for InputPassportElementErrorSourceTranslationFile {
 }
 
 
-#[typetag::serde]
-impl InputPassportElementErrorSource for InputPassportElementErrorSourceTranslationFile {}
+#[typetag::serde] impl InputPassportElementErrorSource for InputPassportElementErrorSourceTranslationFile {}
 
 
 impl InputPassportElementErrorSourceTranslationFile {
@@ -19527,8 +19570,7 @@ impl RObject for InputPassportElementErrorSourceTranslationFiles {
 }
 
 
-#[typetag::serde]
-impl InputPassportElementErrorSource for InputPassportElementErrorSourceTranslationFiles {}
+#[typetag::serde] impl InputPassportElementErrorSource for InputPassportElementErrorSourceTranslationFiles {}
 
 
 impl InputPassportElementErrorSourceTranslationFiles {
@@ -19586,8 +19628,7 @@ impl RObject for InputPassportElementErrorSourceFile {
 }
 
 
-#[typetag::serde]
-impl InputPassportElementErrorSource for InputPassportElementErrorSourceFile {}
+#[typetag::serde] impl InputPassportElementErrorSource for InputPassportElementErrorSourceFile {}
 
 
 impl InputPassportElementErrorSourceFile {
@@ -19645,8 +19686,7 @@ impl RObject for InputPassportElementErrorSourceFiles {
 }
 
 
-#[typetag::serde]
-impl InputPassportElementErrorSource for InputPassportElementErrorSourceFiles {}
+#[typetag::serde] impl InputPassportElementErrorSource for InputPassportElementErrorSourceFiles {}
 
 
 impl InputPassportElementErrorSourceFiles {
@@ -20150,6 +20190,15 @@ pub trait KeyboardButtonType: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<KeyboardButtonType> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDKeyboardButtonTypeType {
   KeyboardButtonTypeRequestLocation,
@@ -20160,6 +20209,7 @@ pub enum TDKeyboardButtonTypeType {
 impl TDKeyboardButtonTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// A simple button, with text that should be sent when the button is pressed. 
@@ -20181,8 +20231,7 @@ impl RObject for KeyboardButtonTypeText {
 }
 
 
-#[typetag::serde]
-impl KeyboardButtonType for KeyboardButtonTypeText {}
+#[typetag::serde] impl KeyboardButtonType for KeyboardButtonTypeText {}
 
 
 impl KeyboardButtonTypeText {
@@ -20230,8 +20279,7 @@ impl RObject for KeyboardButtonTypeRequestPhoneNumber {
 }
 
 
-#[typetag::serde]
-impl KeyboardButtonType for KeyboardButtonTypeRequestPhoneNumber {}
+#[typetag::serde] impl KeyboardButtonType for KeyboardButtonTypeRequestPhoneNumber {}
 
 
 impl KeyboardButtonTypeRequestPhoneNumber {
@@ -20279,8 +20327,7 @@ impl RObject for KeyboardButtonTypeRequestLocation {
 }
 
 
-#[typetag::serde]
-impl KeyboardButtonType for KeyboardButtonTypeRequestLocation {}
+#[typetag::serde] impl KeyboardButtonType for KeyboardButtonTypeRequestLocation {}
 
 
 impl KeyboardButtonTypeRequestLocation {
@@ -20633,6 +20680,15 @@ pub trait LanguagePackStringValue: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<LanguagePackStringValue> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDLanguagePackStringValueType {
   LanguagePackStringValueDeleted,
@@ -20643,6 +20699,7 @@ pub enum TDLanguagePackStringValueType {
 impl TDLanguagePackStringValueType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// An ordinary language pack string. 
@@ -20666,8 +20723,7 @@ impl RObject for LanguagePackStringValueOrdinary {
 }
 
 
-#[typetag::serde]
-impl LanguagePackStringValue for LanguagePackStringValueOrdinary {}
+#[typetag::serde] impl LanguagePackStringValue for LanguagePackStringValueOrdinary {}
 
 
 impl LanguagePackStringValueOrdinary {
@@ -20735,8 +20791,7 @@ impl RObject for LanguagePackStringValuePluralized {
 }
 
 
-#[typetag::serde]
-impl LanguagePackStringValue for LanguagePackStringValuePluralized {}
+#[typetag::serde] impl LanguagePackStringValue for LanguagePackStringValuePluralized {}
 
 
 impl LanguagePackStringValuePluralized {
@@ -20832,8 +20887,7 @@ impl RObject for LanguagePackStringValueDeleted {
 }
 
 
-#[typetag::serde]
-impl LanguagePackStringValue for LanguagePackStringValueDeleted {}
+#[typetag::serde] impl LanguagePackStringValue for LanguagePackStringValueDeleted {}
 
 
 impl LanguagePackStringValueDeleted {
@@ -20927,6 +20981,15 @@ pub trait LinkState: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<LinkState> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDLinkStateType {
   LinkStateIsContact,
@@ -20937,6 +21000,7 @@ pub enum TDLinkStateType {
 impl TDLinkStateType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The phone number of user A is not known to user B. 
@@ -20958,8 +21022,7 @@ impl RObject for LinkStateNone {
 }
 
 
-#[typetag::serde]
-impl LinkState for LinkStateNone {}
+#[typetag::serde] impl LinkState for LinkStateNone {}
 
 
 impl LinkStateNone {
@@ -21007,8 +21070,7 @@ impl RObject for LinkStateKnowsPhoneNumber {
 }
 
 
-#[typetag::serde]
-impl LinkState for LinkStateKnowsPhoneNumber {}
+#[typetag::serde] impl LinkState for LinkStateKnowsPhoneNumber {}
 
 
 impl LinkStateKnowsPhoneNumber {
@@ -21056,8 +21118,7 @@ impl RObject for LinkStateIsContact {
 }
 
 
-#[typetag::serde]
-impl LinkState for LinkStateIsContact {}
+#[typetag::serde] impl LinkState for LinkStateIsContact {}
 
 
 impl LinkStateIsContact {
@@ -21343,6 +21404,15 @@ pub trait LogStream: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<LogStream> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDLogStreamType {
   LogStreamDefault,
@@ -21353,6 +21423,7 @@ pub enum TDLogStreamType {
 impl TDLogStreamType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The log is written to stderr or an OS specific log. 
@@ -21374,8 +21445,7 @@ impl RObject for LogStreamDefault {
 }
 
 
-#[typetag::serde]
-impl LogStream for LogStreamDefault {}
+#[typetag::serde] impl LogStream for LogStreamDefault {}
 
 
 impl LogStreamDefault {
@@ -21427,8 +21497,7 @@ impl RObject for LogStreamFile {
 }
 
 
-#[typetag::serde]
-impl LogStream for LogStreamFile {}
+#[typetag::serde] impl LogStream for LogStreamFile {}
 
 
 impl LogStreamFile {
@@ -21492,8 +21561,7 @@ impl RObject for LogStreamEmpty {
 }
 
 
-#[typetag::serde]
-impl LogStream for LogStreamEmpty {}
+#[typetag::serde] impl LogStream for LogStreamEmpty {}
 
 
 impl LogStreamEmpty {
@@ -21643,6 +21711,15 @@ pub trait MaskPoint: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<MaskPoint> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDMaskPointType {
   MaskPointChin,
@@ -21654,6 +21731,7 @@ pub enum TDMaskPointType {
 impl TDMaskPointType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// A mask should be placed relatively to the forehead. 
@@ -21675,8 +21753,7 @@ impl RObject for MaskPointForehead {
 }
 
 
-#[typetag::serde]
-impl MaskPoint for MaskPointForehead {}
+#[typetag::serde] impl MaskPoint for MaskPointForehead {}
 
 
 impl MaskPointForehead {
@@ -21724,8 +21801,7 @@ impl RObject for MaskPointEyes {
 }
 
 
-#[typetag::serde]
-impl MaskPoint for MaskPointEyes {}
+#[typetag::serde] impl MaskPoint for MaskPointEyes {}
 
 
 impl MaskPointEyes {
@@ -21773,8 +21849,7 @@ impl RObject for MaskPointMouth {
 }
 
 
-#[typetag::serde]
-impl MaskPoint for MaskPointMouth {}
+#[typetag::serde] impl MaskPoint for MaskPointMouth {}
 
 
 impl MaskPointMouth {
@@ -21822,8 +21897,7 @@ impl RObject for MaskPointChin {
 }
 
 
-#[typetag::serde]
-impl MaskPoint for MaskPointChin {}
+#[typetag::serde] impl MaskPoint for MaskPointChin {}
 
 
 impl MaskPointChin {
@@ -22237,6 +22311,15 @@ pub trait MessageContent: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<MessageContent> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDMessageContentType {
   MessageAnimation,
@@ -22286,6 +22369,7 @@ impl TDMessageContentType {
 }
 
 
+
 /// A text message. 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MessageText {
@@ -22309,8 +22393,7 @@ impl RObject for MessageText {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageText {}
+#[typetag::serde] impl MessageContent for MessageText {}
 
 
 impl MessageText {
@@ -22380,8 +22463,7 @@ impl RObject for MessageAnimation {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageAnimation {}
+#[typetag::serde] impl MessageContent for MessageAnimation {}
 
 
 impl MessageAnimation {
@@ -22457,8 +22539,7 @@ impl RObject for MessageAudio {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageAudio {}
+#[typetag::serde] impl MessageContent for MessageAudio {}
 
 
 impl MessageAudio {
@@ -22526,8 +22607,7 @@ impl RObject for MessageDocument {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageDocument {}
+#[typetag::serde] impl MessageContent for MessageDocument {}
 
 
 impl MessageDocument {
@@ -22597,8 +22677,7 @@ impl RObject for MessagePhoto {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessagePhoto {}
+#[typetag::serde] impl MessageContent for MessagePhoto {}
 
 
 impl MessagePhoto {
@@ -22670,8 +22749,7 @@ impl RObject for MessageExpiredPhoto {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageExpiredPhoto {}
+#[typetag::serde] impl MessageContent for MessageExpiredPhoto {}
 
 
 impl MessageExpiredPhoto {
@@ -22721,8 +22799,7 @@ impl RObject for MessageSticker {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageSticker {}
+#[typetag::serde] impl MessageContent for MessageSticker {}
 
 
 impl MessageSticker {
@@ -22784,8 +22861,7 @@ impl RObject for MessageVideo {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageVideo {}
+#[typetag::serde] impl MessageContent for MessageVideo {}
 
 
 impl MessageVideo {
@@ -22857,8 +22933,7 @@ impl RObject for MessageExpiredVideo {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageExpiredVideo {}
+#[typetag::serde] impl MessageContent for MessageExpiredVideo {}
 
 
 impl MessageExpiredVideo {
@@ -22912,8 +22987,7 @@ impl RObject for MessageVideoNote {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageVideoNote {}
+#[typetag::serde] impl MessageContent for MessageVideoNote {}
 
 
 impl MessageVideoNote {
@@ -22991,8 +23065,7 @@ impl RObject for MessageVoiceNote {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageVoiceNote {}
+#[typetag::serde] impl MessageContent for MessageVoiceNote {}
 
 
 impl MessageVoiceNote {
@@ -23070,8 +23143,7 @@ impl RObject for MessageLocation {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageLocation {}
+#[typetag::serde] impl MessageContent for MessageLocation {}
 
 
 impl MessageLocation {
@@ -23145,8 +23217,7 @@ impl RObject for MessageVenue {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageVenue {}
+#[typetag::serde] impl MessageContent for MessageVenue {}
 
 
 impl MessageVenue {
@@ -23204,8 +23275,7 @@ impl RObject for MessageContact {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageContact {}
+#[typetag::serde] impl MessageContent for MessageContact {}
 
 
 impl MessageContact {
@@ -23263,8 +23333,7 @@ impl RObject for MessageGame {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageGame {}
+#[typetag::serde] impl MessageContent for MessageGame {}
 
 
 impl MessageGame {
@@ -23322,8 +23391,7 @@ impl RObject for MessagePoll {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessagePoll {}
+#[typetag::serde] impl MessageContent for MessagePoll {}
 
 
 impl MessagePoll {
@@ -23397,8 +23465,7 @@ impl RObject for MessageInvoice {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageInvoice {}
+#[typetag::serde] impl MessageContent for MessageInvoice {}
 
 
 impl MessageInvoice {
@@ -23529,8 +23596,7 @@ impl RObject for MessageCall {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageCall {}
+#[typetag::serde] impl MessageContent for MessageCall {}
 
 
 impl MessageCall {
@@ -23598,8 +23664,7 @@ impl RObject for MessageBasicGroupChatCreate {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageBasicGroupChatCreate {}
+#[typetag::serde] impl MessageContent for MessageBasicGroupChatCreate {}
 
 
 impl MessageBasicGroupChatCreate {
@@ -23665,8 +23730,7 @@ impl RObject for MessageSupergroupChatCreate {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageSupergroupChatCreate {}
+#[typetag::serde] impl MessageContent for MessageSupergroupChatCreate {}
 
 
 impl MessageSupergroupChatCreate {
@@ -23724,8 +23788,7 @@ impl RObject for MessageChatChangeTitle {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageChatChangeTitle {}
+#[typetag::serde] impl MessageContent for MessageChatChangeTitle {}
 
 
 impl MessageChatChangeTitle {
@@ -23783,8 +23846,7 @@ impl RObject for MessageChatChangePhoto {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageChatChangePhoto {}
+#[typetag::serde] impl MessageContent for MessageChatChangePhoto {}
 
 
 impl MessageChatChangePhoto {
@@ -23840,8 +23902,7 @@ impl RObject for MessageChatDeletePhoto {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageChatDeletePhoto {}
+#[typetag::serde] impl MessageContent for MessageChatDeletePhoto {}
 
 
 impl MessageChatDeletePhoto {
@@ -23891,8 +23952,7 @@ impl RObject for MessageChatAddMembers {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageChatAddMembers {}
+#[typetag::serde] impl MessageContent for MessageChatAddMembers {}
 
 
 impl MessageChatAddMembers {
@@ -23948,8 +24008,7 @@ impl RObject for MessageChatJoinByLink {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageChatJoinByLink {}
+#[typetag::serde] impl MessageContent for MessageChatJoinByLink {}
 
 
 impl MessageChatJoinByLink {
@@ -23999,8 +24058,7 @@ impl RObject for MessageChatDeleteMember {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageChatDeleteMember {}
+#[typetag::serde] impl MessageContent for MessageChatDeleteMember {}
 
 
 impl MessageChatDeleteMember {
@@ -24058,8 +24116,7 @@ impl RObject for MessageChatUpgradeTo {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageChatUpgradeTo {}
+#[typetag::serde] impl MessageContent for MessageChatUpgradeTo {}
 
 
 impl MessageChatUpgradeTo {
@@ -24119,8 +24176,7 @@ impl RObject for MessageChatUpgradeFrom {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageChatUpgradeFrom {}
+#[typetag::serde] impl MessageContent for MessageChatUpgradeFrom {}
 
 
 impl MessageChatUpgradeFrom {
@@ -24186,8 +24242,7 @@ impl RObject for MessagePinMessage {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessagePinMessage {}
+#[typetag::serde] impl MessageContent for MessagePinMessage {}
 
 
 impl MessagePinMessage {
@@ -24243,8 +24298,7 @@ impl RObject for MessageScreenshotTaken {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageScreenshotTaken {}
+#[typetag::serde] impl MessageContent for MessageScreenshotTaken {}
 
 
 impl MessageScreenshotTaken {
@@ -24294,8 +24348,7 @@ impl RObject for MessageChatSetTtl {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageChatSetTtl {}
+#[typetag::serde] impl MessageContent for MessageChatSetTtl {}
 
 
 impl MessageChatSetTtl {
@@ -24353,8 +24406,7 @@ impl RObject for MessageCustomServiceAction {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageCustomServiceAction {}
+#[typetag::serde] impl MessageContent for MessageCustomServiceAction {}
 
 
 impl MessageCustomServiceAction {
@@ -24416,8 +24468,7 @@ impl RObject for MessageGameScore {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageGameScore {}
+#[typetag::serde] impl MessageContent for MessageGameScore {}
 
 
 impl MessageGameScore {
@@ -24495,8 +24546,7 @@ impl RObject for MessagePaymentSuccessful {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessagePaymentSuccessful {}
+#[typetag::serde] impl MessageContent for MessagePaymentSuccessful {}
 
 
 impl MessagePaymentSuccessful {
@@ -24584,8 +24634,7 @@ impl RObject for MessagePaymentSuccessfulBot {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessagePaymentSuccessfulBot {}
+#[typetag::serde] impl MessageContent for MessagePaymentSuccessfulBot {}
 
 
 impl MessagePaymentSuccessfulBot {
@@ -24697,8 +24746,7 @@ impl RObject for MessageContactRegistered {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageContactRegistered {}
+#[typetag::serde] impl MessageContent for MessageContactRegistered {}
 
 
 impl MessageContactRegistered {
@@ -24748,8 +24796,7 @@ impl RObject for MessageWebsiteConnected {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageWebsiteConnected {}
+#[typetag::serde] impl MessageContent for MessageWebsiteConnected {}
 
 
 impl MessageWebsiteConnected {
@@ -24814,8 +24861,7 @@ impl RObject for MessagePassportDataSent {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessagePassportDataSent {}
+#[typetag::serde] impl MessageContent for MessagePassportDataSent {}
 
 
 impl MessagePassportDataSent {
@@ -24875,8 +24921,7 @@ impl RObject for MessagePassportDataReceived {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessagePassportDataReceived {}
+#[typetag::serde] impl MessageContent for MessagePassportDataReceived {}
 
 
 impl MessagePassportDataReceived {
@@ -24940,8 +24985,7 @@ impl RObject for MessageUnsupported {
 }
 
 
-#[typetag::serde]
-impl MessageContent for MessageUnsupported {}
+#[typetag::serde] impl MessageContent for MessageUnsupported {}
 
 
 impl MessageUnsupported {
@@ -25072,6 +25116,15 @@ pub trait MessageForwardOrigin: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<MessageForwardOrigin> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDMessageForwardOriginType {
   MessageForwardOriginChannel,
@@ -25082,6 +25135,7 @@ pub enum TDMessageForwardOriginType {
 impl TDMessageForwardOriginType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The message was originally written by a known user. 
@@ -25105,8 +25159,7 @@ impl RObject for MessageForwardOriginUser {
 }
 
 
-#[typetag::serde]
-impl MessageForwardOrigin for MessageForwardOriginUser {}
+#[typetag::serde] impl MessageForwardOrigin for MessageForwardOriginUser {}
 
 
 impl MessageForwardOriginUser {
@@ -25164,8 +25217,7 @@ impl RObject for MessageForwardOriginHiddenUser {
 }
 
 
-#[typetag::serde]
-impl MessageForwardOrigin for MessageForwardOriginHiddenUser {}
+#[typetag::serde] impl MessageForwardOrigin for MessageForwardOriginHiddenUser {}
 
 
 impl MessageForwardOriginHiddenUser {
@@ -25227,8 +25279,7 @@ impl RObject for MessageForwardOriginChannel {
 }
 
 
-#[typetag::serde]
-impl MessageForwardOrigin for MessageForwardOriginChannel {}
+#[typetag::serde] impl MessageForwardOrigin for MessageForwardOriginChannel {}
 
 
 impl MessageForwardOriginChannel {
@@ -25290,6 +25341,15 @@ pub trait MessageSendingState: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<MessageSendingState> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDMessageSendingStateType {
   MessageSendingStateFailed,
@@ -25299,6 +25359,7 @@ pub enum TDMessageSendingStateType {
 impl TDMessageSendingStateType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The message is being sent now, but has not yet been delivered to the server. 
@@ -25320,8 +25381,7 @@ impl RObject for MessageSendingStatePending {
 }
 
 
-#[typetag::serde]
-impl MessageSendingState for MessageSendingStatePending {}
+#[typetag::serde] impl MessageSendingState for MessageSendingStatePending {}
 
 
 impl MessageSendingStatePending {
@@ -25369,8 +25429,7 @@ impl RObject for MessageSendingStateFailed {
 }
 
 
-#[typetag::serde]
-impl MessageSendingState for MessageSendingStateFailed {}
+#[typetag::serde] impl MessageSendingState for MessageSendingStateFailed {}
 
 
 impl MessageSendingStateFailed {
@@ -25547,6 +25606,15 @@ pub trait NetworkStatisticsEntry: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<NetworkStatisticsEntry> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDNetworkStatisticsEntryType {
   NetworkStatisticsEntryCall,
@@ -25556,6 +25624,7 @@ pub enum TDNetworkStatisticsEntryType {
 impl TDNetworkStatisticsEntryType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// Contains information about the total amount of data that was used to send and receive files. 
@@ -25592,8 +25661,7 @@ impl RObject for NetworkStatisticsEntryFile {
 }
 
 
-#[typetag::serde]
-impl NetworkStatisticsEntry for NetworkStatisticsEntryFile {}
+#[typetag::serde] impl NetworkStatisticsEntry for NetworkStatisticsEntryFile {}
 
 
 impl NetworkStatisticsEntryFile {
@@ -25688,8 +25756,7 @@ impl RObject for NetworkStatisticsEntryCall {
 }
 
 
-#[typetag::serde]
-impl NetworkStatisticsEntry for NetworkStatisticsEntryCall {}
+#[typetag::serde] impl NetworkStatisticsEntry for NetworkStatisticsEntryCall {}
 
 
 impl NetworkStatisticsEntryCall {
@@ -25759,6 +25826,15 @@ pub trait NetworkType: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<NetworkType> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDNetworkTypeType {
   NetworkTypeMobile,
@@ -25771,6 +25847,7 @@ pub enum TDNetworkTypeType {
 impl TDNetworkTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The network is not available. 
@@ -25792,8 +25869,7 @@ impl RObject for NetworkTypeNone {
 }
 
 
-#[typetag::serde]
-impl NetworkType for NetworkTypeNone {}
+#[typetag::serde] impl NetworkType for NetworkTypeNone {}
 
 
 impl NetworkTypeNone {
@@ -25841,8 +25917,7 @@ impl RObject for NetworkTypeMobile {
 }
 
 
-#[typetag::serde]
-impl NetworkType for NetworkTypeMobile {}
+#[typetag::serde] impl NetworkType for NetworkTypeMobile {}
 
 
 impl NetworkTypeMobile {
@@ -25890,8 +25965,7 @@ impl RObject for NetworkTypeMobileRoaming {
 }
 
 
-#[typetag::serde]
-impl NetworkType for NetworkTypeMobileRoaming {}
+#[typetag::serde] impl NetworkType for NetworkTypeMobileRoaming {}
 
 
 impl NetworkTypeMobileRoaming {
@@ -25939,8 +26013,7 @@ impl RObject for NetworkTypeWiFi {
 }
 
 
-#[typetag::serde]
-impl NetworkType for NetworkTypeWiFi {}
+#[typetag::serde] impl NetworkType for NetworkTypeWiFi {}
 
 
 impl NetworkTypeWiFi {
@@ -25988,8 +26061,7 @@ impl RObject for NetworkTypeOther {
 }
 
 
-#[typetag::serde]
-impl NetworkType for NetworkTypeOther {}
+#[typetag::serde] impl NetworkType for NetworkTypeOther {}
 
 
 impl NetworkTypeOther {
@@ -26213,6 +26285,15 @@ pub trait NotificationGroupType: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<NotificationGroupType> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDNotificationGroupTypeType {
   NotificationGroupTypeCalls,
@@ -26224,6 +26305,7 @@ pub enum TDNotificationGroupTypeType {
 impl TDNotificationGroupTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// A group containing notifications of type 
@@ -26245,8 +26327,7 @@ impl RObject for NotificationGroupTypeMessages {
 }
 
 
-#[typetag::serde]
-impl NotificationGroupType for NotificationGroupTypeMessages {}
+#[typetag::serde] impl NotificationGroupType for NotificationGroupTypeMessages {}
 
 
 impl NotificationGroupTypeMessages {
@@ -26294,8 +26375,7 @@ impl RObject for NotificationGroupTypeMentions {
 }
 
 
-#[typetag::serde]
-impl NotificationGroupType for NotificationGroupTypeMentions {}
+#[typetag::serde] impl NotificationGroupType for NotificationGroupTypeMentions {}
 
 
 impl NotificationGroupTypeMentions {
@@ -26343,8 +26423,7 @@ impl RObject for NotificationGroupTypeSecretChat {
 }
 
 
-#[typetag::serde]
-impl NotificationGroupType for NotificationGroupTypeSecretChat {}
+#[typetag::serde] impl NotificationGroupType for NotificationGroupTypeSecretChat {}
 
 
 impl NotificationGroupTypeSecretChat {
@@ -26392,8 +26471,7 @@ impl RObject for NotificationGroupTypeCalls {
 }
 
 
-#[typetag::serde]
-impl NotificationGroupType for NotificationGroupTypeCalls {}
+#[typetag::serde] impl NotificationGroupType for NotificationGroupTypeCalls {}
 
 
 impl NotificationGroupTypeCalls {
@@ -26431,6 +26509,15 @@ pub trait NotificationSettingsScope: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<NotificationSettingsScope> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDNotificationSettingsScopeType {
   NotificationSettingsScopeChannelChats,
@@ -26441,6 +26528,7 @@ pub enum TDNotificationSettingsScopeType {
 impl TDNotificationSettingsScopeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// Notification settings applied to all private and secret chats when the corresponding chat setting has a default value. 
@@ -26462,8 +26550,7 @@ impl RObject for NotificationSettingsScopePrivateChats {
 }
 
 
-#[typetag::serde]
-impl NotificationSettingsScope for NotificationSettingsScopePrivateChats {}
+#[typetag::serde] impl NotificationSettingsScope for NotificationSettingsScopePrivateChats {}
 
 
 impl NotificationSettingsScopePrivateChats {
@@ -26511,8 +26598,7 @@ impl RObject for NotificationSettingsScopeGroupChats {
 }
 
 
-#[typetag::serde]
-impl NotificationSettingsScope for NotificationSettingsScopeGroupChats {}
+#[typetag::serde] impl NotificationSettingsScope for NotificationSettingsScopeGroupChats {}
 
 
 impl NotificationSettingsScopeGroupChats {
@@ -26560,8 +26646,7 @@ impl RObject for NotificationSettingsScopeChannelChats {
 }
 
 
-#[typetag::serde]
-impl NotificationSettingsScope for NotificationSettingsScopeChannelChats {}
+#[typetag::serde] impl NotificationSettingsScope for NotificationSettingsScopeChannelChats {}
 
 
 impl NotificationSettingsScopeChannelChats {
@@ -26599,6 +26684,15 @@ pub trait NotificationType: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<NotificationType> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDNotificationTypeType {
   NotificationTypeNewCall,
@@ -26610,6 +26704,7 @@ pub enum TDNotificationTypeType {
 impl TDNotificationTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// New message was received. 
@@ -26633,8 +26728,7 @@ impl RObject for NotificationTypeNewMessage {
 }
 
 
-#[typetag::serde]
-impl NotificationType for NotificationTypeNewMessage {}
+#[typetag::serde] impl NotificationType for NotificationTypeNewMessage {}
 
 
 impl NotificationTypeNewMessage {
@@ -26690,8 +26784,7 @@ impl RObject for NotificationTypeNewSecretChat {
 }
 
 
-#[typetag::serde]
-impl NotificationType for NotificationTypeNewSecretChat {}
+#[typetag::serde] impl NotificationType for NotificationTypeNewSecretChat {}
 
 
 impl NotificationTypeNewSecretChat {
@@ -26741,8 +26834,7 @@ impl RObject for NotificationTypeNewCall {
 }
 
 
-#[typetag::serde]
-impl NotificationType for NotificationTypeNewCall {}
+#[typetag::serde] impl NotificationType for NotificationTypeNewCall {}
 
 
 impl NotificationTypeNewCall {
@@ -26811,8 +26903,7 @@ impl RObject for NotificationTypeNewPushMessage {
 }
 
 
-#[typetag::serde]
-impl NotificationType for NotificationTypeNewPushMessage {}
+#[typetag::serde] impl NotificationType for NotificationTypeNewPushMessage {}
 
 
 impl NotificationTypeNewPushMessage {
@@ -26920,6 +27011,15 @@ pub trait OptionValue: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<OptionValue> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDOptionValueType {
   OptionValueBoolean,
@@ -26931,6 +27031,7 @@ pub enum TDOptionValueType {
 impl TDOptionValueType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// Represents a boolean option. 
@@ -26954,8 +27055,7 @@ impl RObject for OptionValueBoolean {
 }
 
 
-#[typetag::serde]
-impl OptionValue for OptionValueBoolean {}
+#[typetag::serde] impl OptionValue for OptionValueBoolean {}
 
 
 impl OptionValueBoolean {
@@ -27011,8 +27111,7 @@ impl RObject for OptionValueEmpty {
 }
 
 
-#[typetag::serde]
-impl OptionValue for OptionValueEmpty {}
+#[typetag::serde] impl OptionValue for OptionValueEmpty {}
 
 
 impl OptionValueEmpty {
@@ -27062,8 +27161,7 @@ impl RObject for OptionValueInteger {
 }
 
 
-#[typetag::serde]
-impl OptionValue for OptionValueInteger {}
+#[typetag::serde] impl OptionValue for OptionValueInteger {}
 
 
 impl OptionValueInteger {
@@ -27121,8 +27219,7 @@ impl RObject for OptionValueString {
 }
 
 
-#[typetag::serde]
-impl OptionValue for OptionValueString {}
+#[typetag::serde] impl OptionValue for OptionValueString {}
 
 
 impl OptionValueString {
@@ -27254,6 +27351,15 @@ pub trait PageBlock: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<PageBlock> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDPageBlockType {
   PageBlockAnchor,
@@ -27291,6 +27397,7 @@ impl TDPageBlockType {
 }
 
 
+
 /// The title of a page. 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PageBlockTitle {
@@ -27319,8 +27426,7 @@ impl RObject for PageBlockTitle {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockTitle {}
+#[typetag::serde] impl PageBlock for PageBlockTitle {}
 
 
 impl PageBlockTitle {
@@ -27385,8 +27491,7 @@ impl RObject for PageBlockSubtitle {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockSubtitle {}
+#[typetag::serde] impl PageBlock for PageBlockSubtitle {}
 
 
 impl PageBlockSubtitle {
@@ -27453,8 +27558,7 @@ impl RObject for PageBlockAuthorDate {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockAuthorDate {}
+#[typetag::serde] impl PageBlock for PageBlockAuthorDate {}
 
 
 impl PageBlockAuthorDate {
@@ -27527,8 +27631,7 @@ impl RObject for PageBlockHeader {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockHeader {}
+#[typetag::serde] impl PageBlock for PageBlockHeader {}
 
 
 impl PageBlockHeader {
@@ -27593,8 +27696,7 @@ impl RObject for PageBlockSubheader {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockSubheader {}
+#[typetag::serde] impl PageBlock for PageBlockSubheader {}
 
 
 impl PageBlockSubheader {
@@ -27659,8 +27761,7 @@ impl RObject for PageBlockKicker {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockKicker {}
+#[typetag::serde] impl PageBlock for PageBlockKicker {}
 
 
 impl PageBlockKicker {
@@ -27725,8 +27826,7 @@ impl RObject for PageBlockParagraph {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockParagraph {}
+#[typetag::serde] impl PageBlock for PageBlockParagraph {}
 
 
 impl PageBlockParagraph {
@@ -27793,8 +27893,7 @@ impl RObject for PageBlockPreformatted {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockPreformatted {}
+#[typetag::serde] impl PageBlock for PageBlockPreformatted {}
 
 
 impl PageBlockPreformatted {
@@ -27867,8 +27966,7 @@ impl RObject for PageBlockFooter {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockFooter {}
+#[typetag::serde] impl PageBlock for PageBlockFooter {}
 
 
 impl PageBlockFooter {
@@ -27924,8 +28022,7 @@ impl RObject for PageBlockDivider {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockDivider {}
+#[typetag::serde] impl PageBlock for PageBlockDivider {}
 
 
 impl PageBlockDivider {
@@ -27975,8 +28072,7 @@ impl RObject for PageBlockAnchor {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockAnchor {}
+#[typetag::serde] impl PageBlock for PageBlockAnchor {}
 
 
 impl PageBlockAnchor {
@@ -28034,8 +28130,7 @@ impl RObject for PageBlockList {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockList {}
+#[typetag::serde] impl PageBlock for PageBlockList {}
 
 
 impl PageBlockList {
@@ -28102,8 +28197,7 @@ impl RObject for PageBlockBlockQuote {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockBlockQuote {}
+#[typetag::serde] impl PageBlock for PageBlockBlockQuote {}
 
 
 impl PageBlockBlockQuote {
@@ -28178,8 +28272,7 @@ impl RObject for PageBlockPullQuote {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockPullQuote {}
+#[typetag::serde] impl PageBlock for PageBlockPullQuote {}
 
 
 impl PageBlockPullQuote {
@@ -28249,8 +28342,7 @@ impl RObject for PageBlockAnimation {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockAnimation {}
+#[typetag::serde] impl PageBlock for PageBlockAnimation {}
 
 
 impl PageBlockAnimation {
@@ -28326,8 +28418,7 @@ impl RObject for PageBlockAudio {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockAudio {}
+#[typetag::serde] impl PageBlock for PageBlockAudio {}
 
 
 impl PageBlockAudio {
@@ -28397,8 +28488,7 @@ impl RObject for PageBlockPhoto {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockPhoto {}
+#[typetag::serde] impl PageBlock for PageBlockPhoto {}
 
 
 impl PageBlockPhoto {
@@ -28478,8 +28568,7 @@ impl RObject for PageBlockVideo {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockVideo {}
+#[typetag::serde] impl PageBlock for PageBlockVideo {}
 
 
 impl PageBlockVideo {
@@ -28568,8 +28657,7 @@ impl RObject for PageBlockCover {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockCover {}
+#[typetag::serde] impl PageBlock for PageBlockCover {}
 
 
 impl PageBlockCover {
@@ -28641,8 +28729,7 @@ impl RObject for PageBlockEmbedded {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockEmbedded {}
+#[typetag::serde] impl PageBlock for PageBlockEmbedded {}
 
 
 impl PageBlockEmbedded {
@@ -28773,8 +28860,7 @@ impl RObject for PageBlockEmbeddedPost {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockEmbeddedPost {}
+#[typetag::serde] impl PageBlock for PageBlockEmbeddedPost {}
 
 
 impl PageBlockEmbeddedPost {
@@ -28881,8 +28967,7 @@ impl RObject for PageBlockCollage {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockCollage {}
+#[typetag::serde] impl PageBlock for PageBlockCollage {}
 
 
 impl PageBlockCollage {
@@ -28957,8 +29042,7 @@ impl RObject for PageBlockSlideshow {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockSlideshow {}
+#[typetag::serde] impl PageBlock for PageBlockSlideshow {}
 
 
 impl PageBlockSlideshow {
@@ -29028,8 +29112,7 @@ impl RObject for PageBlockChatLink {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockChatLink {}
+#[typetag::serde] impl PageBlock for PageBlockChatLink {}
 
 
 impl PageBlockChatLink {
@@ -29116,8 +29199,7 @@ impl RObject for PageBlockTable {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockTable {}
+#[typetag::serde] impl PageBlock for PageBlockTable {}
 
 
 impl PageBlockTable {
@@ -29210,8 +29292,7 @@ impl RObject for PageBlockDetails {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockDetails {}
+#[typetag::serde] impl PageBlock for PageBlockDetails {}
 
 
 impl PageBlockDetails {
@@ -29294,8 +29375,7 @@ impl RObject for PageBlockRelatedArticles {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockRelatedArticles {}
+#[typetag::serde] impl PageBlock for PageBlockRelatedArticles {}
 
 
 impl PageBlockRelatedArticles {
@@ -29369,8 +29449,7 @@ impl RObject for PageBlockMap {
 }
 
 
-#[typetag::serde]
-impl PageBlock for PageBlockMap {}
+#[typetag::serde] impl PageBlock for PageBlockMap {}
 
 
 impl PageBlockMap {
@@ -29521,6 +29600,15 @@ pub trait PageBlockHorizontalAlignment: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<PageBlockHorizontalAlignment> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDPageBlockHorizontalAlignmentType {
   PageBlockHorizontalAlignmentCenter,
@@ -29531,6 +29619,7 @@ pub enum TDPageBlockHorizontalAlignmentType {
 impl TDPageBlockHorizontalAlignmentType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The content should be left-aligned. 
@@ -29552,8 +29641,7 @@ impl RObject for PageBlockHorizontalAlignmentLeft {
 }
 
 
-#[typetag::serde]
-impl PageBlockHorizontalAlignment for PageBlockHorizontalAlignmentLeft {}
+#[typetag::serde] impl PageBlockHorizontalAlignment for PageBlockHorizontalAlignmentLeft {}
 
 
 impl PageBlockHorizontalAlignmentLeft {
@@ -29601,8 +29689,7 @@ impl RObject for PageBlockHorizontalAlignmentCenter {
 }
 
 
-#[typetag::serde]
-impl PageBlockHorizontalAlignment for PageBlockHorizontalAlignmentCenter {}
+#[typetag::serde] impl PageBlockHorizontalAlignment for PageBlockHorizontalAlignmentCenter {}
 
 
 impl PageBlockHorizontalAlignmentCenter {
@@ -29650,8 +29737,7 @@ impl RObject for PageBlockHorizontalAlignmentRight {
 }
 
 
-#[typetag::serde]
-impl PageBlockHorizontalAlignment for PageBlockHorizontalAlignmentRight {}
+#[typetag::serde] impl PageBlockHorizontalAlignment for PageBlockHorizontalAlignmentRight {}
 
 
 impl PageBlockHorizontalAlignmentRight {
@@ -29981,6 +30067,15 @@ pub trait PageBlockVerticalAlignment: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<PageBlockVerticalAlignment> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDPageBlockVerticalAlignmentType {
   PageBlockVerticalAlignmentBottom,
@@ -29991,6 +30086,7 @@ pub enum TDPageBlockVerticalAlignmentType {
 impl TDPageBlockVerticalAlignmentType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The content should be top-aligned. 
@@ -30012,8 +30108,7 @@ impl RObject for PageBlockVerticalAlignmentTop {
 }
 
 
-#[typetag::serde]
-impl PageBlockVerticalAlignment for PageBlockVerticalAlignmentTop {}
+#[typetag::serde] impl PageBlockVerticalAlignment for PageBlockVerticalAlignmentTop {}
 
 
 impl PageBlockVerticalAlignmentTop {
@@ -30061,8 +30156,7 @@ impl RObject for PageBlockVerticalAlignmentMiddle {
 }
 
 
-#[typetag::serde]
-impl PageBlockVerticalAlignment for PageBlockVerticalAlignmentMiddle {}
+#[typetag::serde] impl PageBlockVerticalAlignment for PageBlockVerticalAlignmentMiddle {}
 
 
 impl PageBlockVerticalAlignmentMiddle {
@@ -30110,8 +30204,7 @@ impl RObject for PageBlockVerticalAlignmentBottom {
 }
 
 
-#[typetag::serde]
-impl PageBlockVerticalAlignment for PageBlockVerticalAlignmentBottom {}
+#[typetag::serde] impl PageBlockVerticalAlignment for PageBlockVerticalAlignmentBottom {}
 
 
 impl PageBlockVerticalAlignmentBottom {
@@ -30225,6 +30318,15 @@ pub trait PassportElement: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<PassportElement> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDPassportElementType {
   PassportElementAddress,
@@ -30245,6 +30347,7 @@ pub enum TDPassportElementType {
 impl TDPassportElementType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// A Telegram Passport element containing the user's personal details. 
@@ -30268,8 +30371,7 @@ impl RObject for PassportElementPersonalDetails {
 }
 
 
-#[typetag::serde]
-impl PassportElement for PassportElementPersonalDetails {}
+#[typetag::serde] impl PassportElement for PassportElementPersonalDetails {}
 
 
 impl PassportElementPersonalDetails {
@@ -30327,8 +30429,7 @@ impl RObject for PassportElementPassport {
 }
 
 
-#[typetag::serde]
-impl PassportElement for PassportElementPassport {}
+#[typetag::serde] impl PassportElement for PassportElementPassport {}
 
 
 impl PassportElementPassport {
@@ -30386,8 +30487,7 @@ impl RObject for PassportElementDriverLicense {
 }
 
 
-#[typetag::serde]
-impl PassportElement for PassportElementDriverLicense {}
+#[typetag::serde] impl PassportElement for PassportElementDriverLicense {}
 
 
 impl PassportElementDriverLicense {
@@ -30445,8 +30545,7 @@ impl RObject for PassportElementIdentityCard {
 }
 
 
-#[typetag::serde]
-impl PassportElement for PassportElementIdentityCard {}
+#[typetag::serde] impl PassportElement for PassportElementIdentityCard {}
 
 
 impl PassportElementIdentityCard {
@@ -30504,8 +30603,7 @@ impl RObject for PassportElementInternalPassport {
 }
 
 
-#[typetag::serde]
-impl PassportElement for PassportElementInternalPassport {}
+#[typetag::serde] impl PassportElement for PassportElementInternalPassport {}
 
 
 impl PassportElementInternalPassport {
@@ -30563,8 +30661,7 @@ impl RObject for PassportElementAddress {
 }
 
 
-#[typetag::serde]
-impl PassportElement for PassportElementAddress {}
+#[typetag::serde] impl PassportElement for PassportElementAddress {}
 
 
 impl PassportElementAddress {
@@ -30622,8 +30719,7 @@ impl RObject for PassportElementUtilityBill {
 }
 
 
-#[typetag::serde]
-impl PassportElement for PassportElementUtilityBill {}
+#[typetag::serde] impl PassportElement for PassportElementUtilityBill {}
 
 
 impl PassportElementUtilityBill {
@@ -30681,8 +30777,7 @@ impl RObject for PassportElementBankStatement {
 }
 
 
-#[typetag::serde]
-impl PassportElement for PassportElementBankStatement {}
+#[typetag::serde] impl PassportElement for PassportElementBankStatement {}
 
 
 impl PassportElementBankStatement {
@@ -30740,8 +30835,7 @@ impl RObject for PassportElementRentalAgreement {
 }
 
 
-#[typetag::serde]
-impl PassportElement for PassportElementRentalAgreement {}
+#[typetag::serde] impl PassportElement for PassportElementRentalAgreement {}
 
 
 impl PassportElementRentalAgreement {
@@ -30799,8 +30893,7 @@ impl RObject for PassportElementPassportRegistration {
 }
 
 
-#[typetag::serde]
-impl PassportElement for PassportElementPassportRegistration {}
+#[typetag::serde] impl PassportElement for PassportElementPassportRegistration {}
 
 
 impl PassportElementPassportRegistration {
@@ -30858,8 +30951,7 @@ impl RObject for PassportElementTemporaryRegistration {
 }
 
 
-#[typetag::serde]
-impl PassportElement for PassportElementTemporaryRegistration {}
+#[typetag::serde] impl PassportElement for PassportElementTemporaryRegistration {}
 
 
 impl PassportElementTemporaryRegistration {
@@ -30917,8 +31009,7 @@ impl RObject for PassportElementPhoneNumber {
 }
 
 
-#[typetag::serde]
-impl PassportElement for PassportElementPhoneNumber {}
+#[typetag::serde] impl PassportElement for PassportElementPhoneNumber {}
 
 
 impl PassportElementPhoneNumber {
@@ -30976,8 +31067,7 @@ impl RObject for PassportElementEmailAddress {
 }
 
 
-#[typetag::serde]
-impl PassportElement for PassportElementEmailAddress {}
+#[typetag::serde] impl PassportElement for PassportElementEmailAddress {}
 
 
 impl PassportElementEmailAddress {
@@ -31106,6 +31196,15 @@ pub trait PassportElementErrorSource: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<PassportElementErrorSource> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDPassportElementErrorSourceType {
   PassportElementErrorSourceDataField,
@@ -31122,6 +31221,7 @@ pub enum TDPassportElementErrorSourceType {
 impl TDPassportElementErrorSourceType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The element contains an error in an unspecified place. The error will be considered resolved when new data is added. 
@@ -31143,8 +31243,7 @@ impl RObject for PassportElementErrorSourceUnspecified {
 }
 
 
-#[typetag::serde]
-impl PassportElementErrorSource for PassportElementErrorSourceUnspecified {}
+#[typetag::serde] impl PassportElementErrorSource for PassportElementErrorSourceUnspecified {}
 
 
 impl PassportElementErrorSourceUnspecified {
@@ -31194,8 +31293,7 @@ impl RObject for PassportElementErrorSourceDataField {
 }
 
 
-#[typetag::serde]
-impl PassportElementErrorSource for PassportElementErrorSourceDataField {}
+#[typetag::serde] impl PassportElementErrorSource for PassportElementErrorSourceDataField {}
 
 
 impl PassportElementErrorSourceDataField {
@@ -31251,8 +31349,7 @@ impl RObject for PassportElementErrorSourceFrontSide {
 }
 
 
-#[typetag::serde]
-impl PassportElementErrorSource for PassportElementErrorSourceFrontSide {}
+#[typetag::serde] impl PassportElementErrorSource for PassportElementErrorSourceFrontSide {}
 
 
 impl PassportElementErrorSourceFrontSide {
@@ -31300,8 +31397,7 @@ impl RObject for PassportElementErrorSourceReverseSide {
 }
 
 
-#[typetag::serde]
-impl PassportElementErrorSource for PassportElementErrorSourceReverseSide {}
+#[typetag::serde] impl PassportElementErrorSource for PassportElementErrorSourceReverseSide {}
 
 
 impl PassportElementErrorSourceReverseSide {
@@ -31349,8 +31445,7 @@ impl RObject for PassportElementErrorSourceSelfie {
 }
 
 
-#[typetag::serde]
-impl PassportElementErrorSource for PassportElementErrorSourceSelfie {}
+#[typetag::serde] impl PassportElementErrorSource for PassportElementErrorSourceSelfie {}
 
 
 impl PassportElementErrorSourceSelfie {
@@ -31400,8 +31495,7 @@ impl RObject for PassportElementErrorSourceTranslationFile {
 }
 
 
-#[typetag::serde]
-impl PassportElementErrorSource for PassportElementErrorSourceTranslationFile {}
+#[typetag::serde] impl PassportElementErrorSource for PassportElementErrorSourceTranslationFile {}
 
 
 impl PassportElementErrorSourceTranslationFile {
@@ -31457,8 +31551,7 @@ impl RObject for PassportElementErrorSourceTranslationFiles {
 }
 
 
-#[typetag::serde]
-impl PassportElementErrorSource for PassportElementErrorSourceTranslationFiles {}
+#[typetag::serde] impl PassportElementErrorSource for PassportElementErrorSourceTranslationFiles {}
 
 
 impl PassportElementErrorSourceTranslationFiles {
@@ -31508,8 +31601,7 @@ impl RObject for PassportElementErrorSourceFile {
 }
 
 
-#[typetag::serde]
-impl PassportElementErrorSource for PassportElementErrorSourceFile {}
+#[typetag::serde] impl PassportElementErrorSource for PassportElementErrorSourceFile {}
 
 
 impl PassportElementErrorSourceFile {
@@ -31565,8 +31657,7 @@ impl RObject for PassportElementErrorSourceFiles {
 }
 
 
-#[typetag::serde]
-impl PassportElementErrorSource for PassportElementErrorSourceFiles {}
+#[typetag::serde] impl PassportElementErrorSource for PassportElementErrorSourceFiles {}
 
 
 impl PassportElementErrorSourceFiles {
@@ -31604,6 +31695,15 @@ pub trait PassportElementType: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<PassportElementType> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDPassportElementTypeType {
   PassportElementTypeAddress,
@@ -31626,6 +31726,7 @@ impl TDPassportElementTypeType {
 }
 
 
+
 /// A Telegram Passport element containing the user's personal details. 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PassportElementTypePersonalDetails {
@@ -31645,8 +31746,7 @@ impl RObject for PassportElementTypePersonalDetails {
 }
 
 
-#[typetag::serde]
-impl PassportElementType for PassportElementTypePersonalDetails {}
+#[typetag::serde] impl PassportElementType for PassportElementTypePersonalDetails {}
 
 
 impl PassportElementTypePersonalDetails {
@@ -31694,8 +31794,7 @@ impl RObject for PassportElementTypePassport {
 }
 
 
-#[typetag::serde]
-impl PassportElementType for PassportElementTypePassport {}
+#[typetag::serde] impl PassportElementType for PassportElementTypePassport {}
 
 
 impl PassportElementTypePassport {
@@ -31743,8 +31842,7 @@ impl RObject for PassportElementTypeDriverLicense {
 }
 
 
-#[typetag::serde]
-impl PassportElementType for PassportElementTypeDriverLicense {}
+#[typetag::serde] impl PassportElementType for PassportElementTypeDriverLicense {}
 
 
 impl PassportElementTypeDriverLicense {
@@ -31792,8 +31890,7 @@ impl RObject for PassportElementTypeIdentityCard {
 }
 
 
-#[typetag::serde]
-impl PassportElementType for PassportElementTypeIdentityCard {}
+#[typetag::serde] impl PassportElementType for PassportElementTypeIdentityCard {}
 
 
 impl PassportElementTypeIdentityCard {
@@ -31841,8 +31938,7 @@ impl RObject for PassportElementTypeInternalPassport {
 }
 
 
-#[typetag::serde]
-impl PassportElementType for PassportElementTypeInternalPassport {}
+#[typetag::serde] impl PassportElementType for PassportElementTypeInternalPassport {}
 
 
 impl PassportElementTypeInternalPassport {
@@ -31890,8 +31986,7 @@ impl RObject for PassportElementTypeAddress {
 }
 
 
-#[typetag::serde]
-impl PassportElementType for PassportElementTypeAddress {}
+#[typetag::serde] impl PassportElementType for PassportElementTypeAddress {}
 
 
 impl PassportElementTypeAddress {
@@ -31939,8 +32034,7 @@ impl RObject for PassportElementTypeUtilityBill {
 }
 
 
-#[typetag::serde]
-impl PassportElementType for PassportElementTypeUtilityBill {}
+#[typetag::serde] impl PassportElementType for PassportElementTypeUtilityBill {}
 
 
 impl PassportElementTypeUtilityBill {
@@ -31988,8 +32082,7 @@ impl RObject for PassportElementTypeBankStatement {
 }
 
 
-#[typetag::serde]
-impl PassportElementType for PassportElementTypeBankStatement {}
+#[typetag::serde] impl PassportElementType for PassportElementTypeBankStatement {}
 
 
 impl PassportElementTypeBankStatement {
@@ -32037,8 +32130,7 @@ impl RObject for PassportElementTypeRentalAgreement {
 }
 
 
-#[typetag::serde]
-impl PassportElementType for PassportElementTypeRentalAgreement {}
+#[typetag::serde] impl PassportElementType for PassportElementTypeRentalAgreement {}
 
 
 impl PassportElementTypeRentalAgreement {
@@ -32086,8 +32178,7 @@ impl RObject for PassportElementTypePassportRegistration {
 }
 
 
-#[typetag::serde]
-impl PassportElementType for PassportElementTypePassportRegistration {}
+#[typetag::serde] impl PassportElementType for PassportElementTypePassportRegistration {}
 
 
 impl PassportElementTypePassportRegistration {
@@ -32135,8 +32226,7 @@ impl RObject for PassportElementTypeTemporaryRegistration {
 }
 
 
-#[typetag::serde]
-impl PassportElementType for PassportElementTypeTemporaryRegistration {}
+#[typetag::serde] impl PassportElementType for PassportElementTypeTemporaryRegistration {}
 
 
 impl PassportElementTypeTemporaryRegistration {
@@ -32184,8 +32274,7 @@ impl RObject for PassportElementTypePhoneNumber {
 }
 
 
-#[typetag::serde]
-impl PassportElementType for PassportElementTypePhoneNumber {}
+#[typetag::serde] impl PassportElementType for PassportElementTypePhoneNumber {}
 
 
 impl PassportElementTypePhoneNumber {
@@ -32233,8 +32322,7 @@ impl RObject for PassportElementTypeEmailAddress {
 }
 
 
-#[typetag::serde]
-impl PassportElementType for PassportElementTypeEmailAddress {}
+#[typetag::serde] impl PassportElementType for PassportElementTypeEmailAddress {}
 
 
 impl PassportElementTypeEmailAddress {
@@ -33828,6 +33916,15 @@ pub trait ProxyType: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<ProxyType> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDProxyTypeType {
   ProxyTypeHttp,
@@ -33838,6 +33935,7 @@ pub enum TDProxyTypeType {
 impl TDProxyTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// A SOCKS5 proxy server. 
@@ -33863,8 +33961,7 @@ impl RObject for ProxyTypeSocks5 {
 }
 
 
-#[typetag::serde]
-impl ProxyType for ProxyTypeSocks5 {}
+#[typetag::serde] impl ProxyType for ProxyTypeSocks5 {}
 
 
 impl ProxyTypeSocks5 {
@@ -33934,8 +34031,7 @@ impl RObject for ProxyTypeHttp {
 }
 
 
-#[typetag::serde]
-impl ProxyType for ProxyTypeHttp {}
+#[typetag::serde] impl ProxyType for ProxyTypeHttp {}
 
 
 impl ProxyTypeHttp {
@@ -34009,8 +34105,7 @@ impl RObject for ProxyTypeMtproto {
 }
 
 
-#[typetag::serde]
-impl ProxyType for ProxyTypeMtproto {}
+#[typetag::serde] impl ProxyType for ProxyTypeMtproto {}
 
 
 impl ProxyTypeMtproto {
@@ -34122,6 +34217,15 @@ pub trait PushMessageContent: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<PushMessageContent> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDPushMessageContentType {
   PushMessageContentAnimation,
@@ -34157,6 +34261,7 @@ impl TDPushMessageContentType {
 }
 
 
+
 /// A general message with hidden content. 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PushMessageContentHidden {
@@ -34178,8 +34283,7 @@ impl RObject for PushMessageContentHidden {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentHidden {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentHidden {}
 
 
 impl PushMessageContentHidden {
@@ -34241,8 +34345,7 @@ impl RObject for PushMessageContentAnimation {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentAnimation {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentAnimation {}
 
 
 impl PushMessageContentAnimation {
@@ -34318,8 +34421,7 @@ impl RObject for PushMessageContentAudio {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentAudio {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentAudio {}
 
 
 impl PushMessageContentAudio {
@@ -34387,8 +34489,7 @@ impl RObject for PushMessageContentContact {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentContact {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentContact {}
 
 
 impl PushMessageContentContact {
@@ -34452,8 +34553,7 @@ impl RObject for PushMessageContentContactRegistered {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentContactRegistered {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentContactRegistered {}
 
 
 impl PushMessageContentContactRegistered {
@@ -34505,8 +34605,7 @@ impl RObject for PushMessageContentDocument {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentDocument {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentDocument {}
 
 
 impl PushMessageContentDocument {
@@ -34574,8 +34673,7 @@ impl RObject for PushMessageContentGame {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentGame {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentGame {}
 
 
 impl PushMessageContentGame {
@@ -34645,8 +34743,7 @@ impl RObject for PushMessageContentGameScore {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentGameScore {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentGameScore {}
 
 
 impl PushMessageContentGameScore {
@@ -34722,8 +34819,7 @@ impl RObject for PushMessageContentInvoice {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentInvoice {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentInvoice {}
 
 
 impl PushMessageContentInvoice {
@@ -34791,8 +34887,7 @@ impl RObject for PushMessageContentLocation {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentLocation {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentLocation {}
 
 
 impl PushMessageContentLocation {
@@ -34864,8 +34959,7 @@ impl RObject for PushMessageContentPhoto {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentPhoto {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentPhoto {}
 
 
 impl PushMessageContentPhoto {
@@ -34949,8 +35043,7 @@ impl RObject for PushMessageContentPoll {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentPoll {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentPoll {}
 
 
 impl PushMessageContentPoll {
@@ -35014,8 +35107,7 @@ impl RObject for PushMessageContentScreenshotTaken {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentScreenshotTaken {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentScreenshotTaken {}
 
 
 impl PushMessageContentScreenshotTaken {
@@ -35069,8 +35161,7 @@ impl RObject for PushMessageContentSticker {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentSticker {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentSticker {}
 
 
 impl PushMessageContentSticker {
@@ -35146,8 +35237,7 @@ impl RObject for PushMessageContentText {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentText {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentText {}
 
 
 impl PushMessageContentText {
@@ -35219,8 +35309,7 @@ impl RObject for PushMessageContentVideo {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentVideo {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentVideo {}
 
 
 impl PushMessageContentVideo {
@@ -35304,8 +35393,7 @@ impl RObject for PushMessageContentVideoNote {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentVideoNote {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentVideoNote {}
 
 
 impl PushMessageContentVideoNote {
@@ -35373,8 +35461,7 @@ impl RObject for PushMessageContentVoiceNote {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentVoiceNote {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentVoiceNote {}
 
 
 impl PushMessageContentVoiceNote {
@@ -35438,8 +35525,7 @@ impl RObject for PushMessageContentBasicGroupChatCreate {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentBasicGroupChatCreate {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentBasicGroupChatCreate {}
 
 
 impl PushMessageContentBasicGroupChatCreate {
@@ -35493,8 +35579,7 @@ impl RObject for PushMessageContentChatAddMembers {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentChatAddMembers {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentChatAddMembers {}
 
 
 impl PushMessageContentChatAddMembers {
@@ -35566,8 +35651,7 @@ impl RObject for PushMessageContentChatChangePhoto {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentChatChangePhoto {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentChatChangePhoto {}
 
 
 impl PushMessageContentChatChangePhoto {
@@ -35617,8 +35701,7 @@ impl RObject for PushMessageContentChatChangeTitle {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentChatChangeTitle {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentChatChangeTitle {}
 
 
 impl PushMessageContentChatChangeTitle {
@@ -35680,8 +35763,7 @@ impl RObject for PushMessageContentChatDeleteMember {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentChatDeleteMember {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentChatDeleteMember {}
 
 
 impl PushMessageContentChatDeleteMember {
@@ -35753,8 +35835,7 @@ impl RObject for PushMessageContentChatJoinByLink {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentChatJoinByLink {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentChatJoinByLink {}
 
 
 impl PushMessageContentChatJoinByLink {
@@ -35804,8 +35885,7 @@ impl RObject for PushMessageContentMessageForwards {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentMessageForwards {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentMessageForwards {}
 
 
 impl PushMessageContentMessageForwards {
@@ -35867,8 +35947,7 @@ impl RObject for PushMessageContentMediaAlbum {
 }
 
 
-#[typetag::serde]
-impl PushMessageContent for PushMessageContentMediaAlbum {}
+#[typetag::serde] impl PushMessageContent for PushMessageContentMediaAlbum {}
 
 
 impl PushMessageContentMediaAlbum {
@@ -36128,6 +36207,15 @@ pub trait ReplyMarkup: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<ReplyMarkup> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDReplyMarkupType {
   ReplyMarkupForceReply,
@@ -36139,6 +36227,7 @@ pub enum TDReplyMarkupType {
 impl TDReplyMarkupType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// Instructs clients to remove the keyboard once this message has been received. This kind of keyboard can't be received in an incoming message; instead, UpdateChatReplyMarkup with message_id == 0 will be sent. 
@@ -36162,8 +36251,7 @@ impl RObject for ReplyMarkupRemoveKeyboard {
 }
 
 
-#[typetag::serde]
-impl ReplyMarkup for ReplyMarkupRemoveKeyboard {}
+#[typetag::serde] impl ReplyMarkup for ReplyMarkupRemoveKeyboard {}
 
 
 impl ReplyMarkupRemoveKeyboard {
@@ -36221,8 +36309,7 @@ impl RObject for ReplyMarkupForceReply {
 }
 
 
-#[typetag::serde]
-impl ReplyMarkup for ReplyMarkupForceReply {}
+#[typetag::serde] impl ReplyMarkup for ReplyMarkupForceReply {}
 
 
 impl ReplyMarkupForceReply {
@@ -36286,8 +36373,7 @@ impl RObject for ReplyMarkupShowKeyboard {
 }
 
 
-#[typetag::serde]
-impl ReplyMarkup for ReplyMarkupShowKeyboard {}
+#[typetag::serde] impl ReplyMarkup for ReplyMarkupShowKeyboard {}
 
 
 impl ReplyMarkupShowKeyboard {
@@ -36369,8 +36455,7 @@ impl RObject for ReplyMarkupInlineKeyboard {
 }
 
 
-#[typetag::serde]
-impl ReplyMarkup for ReplyMarkupInlineKeyboard {}
+#[typetag::serde] impl ReplyMarkup for ReplyMarkupInlineKeyboard {}
 
 
 impl ReplyMarkupInlineKeyboard {
@@ -36416,6 +36501,15 @@ pub trait RichText: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<RichText> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDRichTextType {
   RichTextAnchor,
@@ -36440,6 +36534,7 @@ impl TDRichTextType {
 }
 
 
+
 /// A plain text. 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RichTextPlain {
@@ -36461,8 +36556,7 @@ impl RObject for RichTextPlain {
 }
 
 
-#[typetag::serde]
-impl RichText for RichTextPlain {}
+#[typetag::serde] impl RichText for RichTextPlain {}
 
 
 impl RichTextPlain {
@@ -36527,8 +36621,7 @@ impl RObject for RichTextBold {
 }
 
 
-#[typetag::serde]
-impl RichText for RichTextBold {}
+#[typetag::serde] impl RichText for RichTextBold {}
 
 
 impl RichTextBold {
@@ -36593,8 +36686,7 @@ impl RObject for RichTextItalic {
 }
 
 
-#[typetag::serde]
-impl RichText for RichTextItalic {}
+#[typetag::serde] impl RichText for RichTextItalic {}
 
 
 impl RichTextItalic {
@@ -36659,8 +36751,7 @@ impl RObject for RichTextUnderline {
 }
 
 
-#[typetag::serde]
-impl RichText for RichTextUnderline {}
+#[typetag::serde] impl RichText for RichTextUnderline {}
 
 
 impl RichTextUnderline {
@@ -36725,8 +36816,7 @@ impl RObject for RichTextStrikethrough {
 }
 
 
-#[typetag::serde]
-impl RichText for RichTextStrikethrough {}
+#[typetag::serde] impl RichText for RichTextStrikethrough {}
 
 
 impl RichTextStrikethrough {
@@ -36791,8 +36881,7 @@ impl RObject for RichTextFixed {
 }
 
 
-#[typetag::serde]
-impl RichText for RichTextFixed {}
+#[typetag::serde] impl RichText for RichTextFixed {}
 
 
 impl RichTextFixed {
@@ -36859,8 +36948,7 @@ impl RObject for RichTextUrl {
 }
 
 
-#[typetag::serde]
-impl RichText for RichTextUrl {}
+#[typetag::serde] impl RichText for RichTextUrl {}
 
 
 impl RichTextUrl {
@@ -36935,8 +37023,7 @@ impl RObject for RichTextEmailAddress {
 }
 
 
-#[typetag::serde]
-impl RichText for RichTextEmailAddress {}
+#[typetag::serde] impl RichText for RichTextEmailAddress {}
 
 
 impl RichTextEmailAddress {
@@ -37009,8 +37096,7 @@ impl RObject for RichTextSubscript {
 }
 
 
-#[typetag::serde]
-impl RichText for RichTextSubscript {}
+#[typetag::serde] impl RichText for RichTextSubscript {}
 
 
 impl RichTextSubscript {
@@ -37075,8 +37161,7 @@ impl RObject for RichTextSuperscript {
 }
 
 
-#[typetag::serde]
-impl RichText for RichTextSuperscript {}
+#[typetag::serde] impl RichText for RichTextSuperscript {}
 
 
 impl RichTextSuperscript {
@@ -37141,8 +37226,7 @@ impl RObject for RichTextMarked {
 }
 
 
-#[typetag::serde]
-impl RichText for RichTextMarked {}
+#[typetag::serde] impl RichText for RichTextMarked {}
 
 
 impl RichTextMarked {
@@ -37209,8 +37293,7 @@ impl RObject for RichTextPhoneNumber {
 }
 
 
-#[typetag::serde]
-impl RichText for RichTextPhoneNumber {}
+#[typetag::serde] impl RichText for RichTextPhoneNumber {}
 
 
 impl RichTextPhoneNumber {
@@ -37280,8 +37363,7 @@ impl RObject for RichTextIcon {
 }
 
 
-#[typetag::serde]
-impl RichText for RichTextIcon {}
+#[typetag::serde] impl RichText for RichTextIcon {}
 
 
 impl RichTextIcon {
@@ -37364,8 +37446,7 @@ impl RObject for RichTextAnchor {
 }
 
 
-#[typetag::serde]
-impl RichText for RichTextAnchor {}
+#[typetag::serde] impl RichText for RichTextAnchor {}
 
 
 impl RichTextAnchor {
@@ -37438,8 +37519,7 @@ impl RObject for RichTexts {
 }
 
 
-#[typetag::serde]
-impl RichText for RichTexts {}
+#[typetag::serde] impl RichText for RichTexts {}
 
 
 impl RichTexts {
@@ -37647,6 +37727,15 @@ pub trait SearchMessagesFilter: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<SearchMessagesFilter> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDSearchMessagesFilterType {
   SearchMessagesFilterAnimation,
@@ -37672,6 +37761,7 @@ impl TDSearchMessagesFilterType {
 }
 
 
+
 /// Returns all found messages, no filter is applied. 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SearchMessagesFilterEmpty {
@@ -37691,8 +37781,7 @@ impl RObject for SearchMessagesFilterEmpty {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterEmpty {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterEmpty {}
 
 
 impl SearchMessagesFilterEmpty {
@@ -37740,8 +37829,7 @@ impl RObject for SearchMessagesFilterAnimation {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterAnimation {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterAnimation {}
 
 
 impl SearchMessagesFilterAnimation {
@@ -37789,8 +37877,7 @@ impl RObject for SearchMessagesFilterAudio {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterAudio {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterAudio {}
 
 
 impl SearchMessagesFilterAudio {
@@ -37838,8 +37925,7 @@ impl RObject for SearchMessagesFilterDocument {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterDocument {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterDocument {}
 
 
 impl SearchMessagesFilterDocument {
@@ -37887,8 +37973,7 @@ impl RObject for SearchMessagesFilterPhoto {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterPhoto {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterPhoto {}
 
 
 impl SearchMessagesFilterPhoto {
@@ -37936,8 +38021,7 @@ impl RObject for SearchMessagesFilterVideo {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterVideo {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterVideo {}
 
 
 impl SearchMessagesFilterVideo {
@@ -37985,8 +38069,7 @@ impl RObject for SearchMessagesFilterVoiceNote {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterVoiceNote {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterVoiceNote {}
 
 
 impl SearchMessagesFilterVoiceNote {
@@ -38034,8 +38117,7 @@ impl RObject for SearchMessagesFilterPhotoAndVideo {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterPhotoAndVideo {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterPhotoAndVideo {}
 
 
 impl SearchMessagesFilterPhotoAndVideo {
@@ -38083,8 +38165,7 @@ impl RObject for SearchMessagesFilterUrl {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterUrl {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterUrl {}
 
 
 impl SearchMessagesFilterUrl {
@@ -38132,8 +38213,7 @@ impl RObject for SearchMessagesFilterChatPhoto {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterChatPhoto {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterChatPhoto {}
 
 
 impl SearchMessagesFilterChatPhoto {
@@ -38181,8 +38261,7 @@ impl RObject for SearchMessagesFilterCall {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterCall {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterCall {}
 
 
 impl SearchMessagesFilterCall {
@@ -38230,8 +38309,7 @@ impl RObject for SearchMessagesFilterMissedCall {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterMissedCall {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterMissedCall {}
 
 
 impl SearchMessagesFilterMissedCall {
@@ -38279,8 +38357,7 @@ impl RObject for SearchMessagesFilterVideoNote {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterVideoNote {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterVideoNote {}
 
 
 impl SearchMessagesFilterVideoNote {
@@ -38328,8 +38405,7 @@ impl RObject for SearchMessagesFilterVoiceAndVideoNote {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterVoiceAndVideoNote {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterVoiceAndVideoNote {}
 
 
 impl SearchMessagesFilterVoiceAndVideoNote {
@@ -38377,8 +38453,7 @@ impl RObject for SearchMessagesFilterMention {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterMention {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterMention {}
 
 
 impl SearchMessagesFilterMention {
@@ -38426,8 +38501,7 @@ impl RObject for SearchMessagesFilterUnreadMention {
 }
 
 
-#[typetag::serde]
-impl SearchMessagesFilter for SearchMessagesFilterUnreadMention {}
+#[typetag::serde] impl SearchMessagesFilter for SearchMessagesFilterUnreadMention {}
 
 
 impl SearchMessagesFilterUnreadMention {
@@ -38644,6 +38718,15 @@ pub trait SecretChatState: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<SecretChatState> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDSecretChatStateType {
   SecretChatStateClosed,
@@ -38654,6 +38737,7 @@ pub enum TDSecretChatStateType {
 impl TDSecretChatStateType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The secret chat is not yet created; waiting for the other user to get online. 
@@ -38675,8 +38759,7 @@ impl RObject for SecretChatStatePending {
 }
 
 
-#[typetag::serde]
-impl SecretChatState for SecretChatStatePending {}
+#[typetag::serde] impl SecretChatState for SecretChatStatePending {}
 
 
 impl SecretChatStatePending {
@@ -38724,8 +38807,7 @@ impl RObject for SecretChatStateReady {
 }
 
 
-#[typetag::serde]
-impl SecretChatState for SecretChatStateReady {}
+#[typetag::serde] impl SecretChatState for SecretChatStateReady {}
 
 
 impl SecretChatStateReady {
@@ -38773,8 +38855,7 @@ impl RObject for SecretChatStateClosed {
 }
 
 
-#[typetag::serde]
-impl SecretChatState for SecretChatStateClosed {}
+#[typetag::serde] impl SecretChatState for SecretChatStateClosed {}
 
 
 impl SecretChatStateClosed {
@@ -40416,6 +40497,15 @@ pub trait SupergroupMembersFilter: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<SupergroupMembersFilter> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDSupergroupMembersFilterType {
   SupergroupMembersFilterAdministrators,
@@ -40429,6 +40519,7 @@ pub enum TDSupergroupMembersFilterType {
 impl TDSupergroupMembersFilterType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// Returns recently active users in reverse chronological order. 
@@ -40450,8 +40541,7 @@ impl RObject for SupergroupMembersFilterRecent {
 }
 
 
-#[typetag::serde]
-impl SupergroupMembersFilter for SupergroupMembersFilterRecent {}
+#[typetag::serde] impl SupergroupMembersFilter for SupergroupMembersFilterRecent {}
 
 
 impl SupergroupMembersFilterRecent {
@@ -40499,8 +40589,7 @@ impl RObject for SupergroupMembersFilterAdministrators {
 }
 
 
-#[typetag::serde]
-impl SupergroupMembersFilter for SupergroupMembersFilterAdministrators {}
+#[typetag::serde] impl SupergroupMembersFilter for SupergroupMembersFilterAdministrators {}
 
 
 impl SupergroupMembersFilterAdministrators {
@@ -40550,8 +40639,7 @@ impl RObject for SupergroupMembersFilterSearch {
 }
 
 
-#[typetag::serde]
-impl SupergroupMembersFilter for SupergroupMembersFilterSearch {}
+#[typetag::serde] impl SupergroupMembersFilter for SupergroupMembersFilterSearch {}
 
 
 impl SupergroupMembersFilterSearch {
@@ -40609,8 +40697,7 @@ impl RObject for SupergroupMembersFilterRestricted {
 }
 
 
-#[typetag::serde]
-impl SupergroupMembersFilter for SupergroupMembersFilterRestricted {}
+#[typetag::serde] impl SupergroupMembersFilter for SupergroupMembersFilterRestricted {}
 
 
 impl SupergroupMembersFilterRestricted {
@@ -40668,8 +40755,7 @@ impl RObject for SupergroupMembersFilterBanned {
 }
 
 
-#[typetag::serde]
-impl SupergroupMembersFilter for SupergroupMembersFilterBanned {}
+#[typetag::serde] impl SupergroupMembersFilter for SupergroupMembersFilterBanned {}
 
 
 impl SupergroupMembersFilterBanned {
@@ -40725,8 +40811,7 @@ impl RObject for SupergroupMembersFilterBots {
 }
 
 
-#[typetag::serde]
-impl SupergroupMembersFilter for SupergroupMembersFilterBots {}
+#[typetag::serde] impl SupergroupMembersFilter for SupergroupMembersFilterBots {}
 
 
 impl SupergroupMembersFilterBots {
@@ -40837,6 +40922,15 @@ pub trait TMeUrlType: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<TMeUrlType> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDTMeUrlTypeType {
   TMeUrlTypeChatInvite,
@@ -40848,6 +40942,7 @@ pub enum TDTMeUrlTypeType {
 impl TDTMeUrlTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// A URL linking to a user. 
@@ -40871,8 +40966,7 @@ impl RObject for TMeUrlTypeUser {
 }
 
 
-#[typetag::serde]
-impl TMeUrlType for TMeUrlTypeUser {}
+#[typetag::serde] impl TMeUrlType for TMeUrlTypeUser {}
 
 
 impl TMeUrlTypeUser {
@@ -40930,8 +41024,7 @@ impl RObject for TMeUrlTypeSupergroup {
 }
 
 
-#[typetag::serde]
-impl TMeUrlType for TMeUrlTypeSupergroup {}
+#[typetag::serde] impl TMeUrlType for TMeUrlTypeSupergroup {}
 
 
 impl TMeUrlTypeSupergroup {
@@ -40989,8 +41082,7 @@ impl RObject for TMeUrlTypeChatInvite {
 }
 
 
-#[typetag::serde]
-impl TMeUrlType for TMeUrlTypeChatInvite {}
+#[typetag::serde] impl TMeUrlType for TMeUrlTypeChatInvite {}
 
 
 impl TMeUrlTypeChatInvite {
@@ -41048,8 +41140,7 @@ impl RObject for TMeUrlTypeStickerSet {
 }
 
 
-#[typetag::serde]
-impl TMeUrlType for TMeUrlTypeStickerSet {}
+#[typetag::serde] impl TMeUrlType for TMeUrlTypeStickerSet {}
 
 
 impl TMeUrlTypeStickerSet {
@@ -42076,6 +42167,15 @@ pub trait TextEntityType: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<TextEntityType> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDTextEntityTypeType {
   TextEntityTypeBold,
@@ -42099,6 +42199,7 @@ impl TDTextEntityTypeType {
 }
 
 
+
 /// A mention of a user by their username. 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TextEntityTypeMention {
@@ -42118,8 +42219,7 @@ impl RObject for TextEntityTypeMention {
 }
 
 
-#[typetag::serde]
-impl TextEntityType for TextEntityTypeMention {}
+#[typetag::serde] impl TextEntityType for TextEntityTypeMention {}
 
 
 impl TextEntityTypeMention {
@@ -42167,8 +42267,7 @@ impl RObject for TextEntityTypeHashtag {
 }
 
 
-#[typetag::serde]
-impl TextEntityType for TextEntityTypeHashtag {}
+#[typetag::serde] impl TextEntityType for TextEntityTypeHashtag {}
 
 
 impl TextEntityTypeHashtag {
@@ -42216,8 +42315,7 @@ impl RObject for TextEntityTypeCashtag {
 }
 
 
-#[typetag::serde]
-impl TextEntityType for TextEntityTypeCashtag {}
+#[typetag::serde] impl TextEntityType for TextEntityTypeCashtag {}
 
 
 impl TextEntityTypeCashtag {
@@ -42265,8 +42363,7 @@ impl RObject for TextEntityTypeBotCommand {
 }
 
 
-#[typetag::serde]
-impl TextEntityType for TextEntityTypeBotCommand {}
+#[typetag::serde] impl TextEntityType for TextEntityTypeBotCommand {}
 
 
 impl TextEntityTypeBotCommand {
@@ -42314,8 +42411,7 @@ impl RObject for TextEntityTypeUrl {
 }
 
 
-#[typetag::serde]
-impl TextEntityType for TextEntityTypeUrl {}
+#[typetag::serde] impl TextEntityType for TextEntityTypeUrl {}
 
 
 impl TextEntityTypeUrl {
@@ -42363,8 +42459,7 @@ impl RObject for TextEntityTypeEmailAddress {
 }
 
 
-#[typetag::serde]
-impl TextEntityType for TextEntityTypeEmailAddress {}
+#[typetag::serde] impl TextEntityType for TextEntityTypeEmailAddress {}
 
 
 impl TextEntityTypeEmailAddress {
@@ -42412,8 +42507,7 @@ impl RObject for TextEntityTypeBold {
 }
 
 
-#[typetag::serde]
-impl TextEntityType for TextEntityTypeBold {}
+#[typetag::serde] impl TextEntityType for TextEntityTypeBold {}
 
 
 impl TextEntityTypeBold {
@@ -42461,8 +42555,7 @@ impl RObject for TextEntityTypeItalic {
 }
 
 
-#[typetag::serde]
-impl TextEntityType for TextEntityTypeItalic {}
+#[typetag::serde] impl TextEntityType for TextEntityTypeItalic {}
 
 
 impl TextEntityTypeItalic {
@@ -42510,8 +42603,7 @@ impl RObject for TextEntityTypeCode {
 }
 
 
-#[typetag::serde]
-impl TextEntityType for TextEntityTypeCode {}
+#[typetag::serde] impl TextEntityType for TextEntityTypeCode {}
 
 
 impl TextEntityTypeCode {
@@ -42559,8 +42651,7 @@ impl RObject for TextEntityTypePre {
 }
 
 
-#[typetag::serde]
-impl TextEntityType for TextEntityTypePre {}
+#[typetag::serde] impl TextEntityType for TextEntityTypePre {}
 
 
 impl TextEntityTypePre {
@@ -42610,8 +42701,7 @@ impl RObject for TextEntityTypePreCode {
 }
 
 
-#[typetag::serde]
-impl TextEntityType for TextEntityTypePreCode {}
+#[typetag::serde] impl TextEntityType for TextEntityTypePreCode {}
 
 
 impl TextEntityTypePreCode {
@@ -42669,8 +42759,7 @@ impl RObject for TextEntityTypeTextUrl {
 }
 
 
-#[typetag::serde]
-impl TextEntityType for TextEntityTypeTextUrl {}
+#[typetag::serde] impl TextEntityType for TextEntityTypeTextUrl {}
 
 
 impl TextEntityTypeTextUrl {
@@ -42728,8 +42817,7 @@ impl RObject for TextEntityTypeMentionName {
 }
 
 
-#[typetag::serde]
-impl TextEntityType for TextEntityTypeMentionName {}
+#[typetag::serde] impl TextEntityType for TextEntityTypeMentionName {}
 
 
 impl TextEntityTypeMentionName {
@@ -42785,8 +42873,7 @@ impl RObject for TextEntityTypePhoneNumber {
 }
 
 
-#[typetag::serde]
-impl TextEntityType for TextEntityTypePhoneNumber {}
+#[typetag::serde] impl TextEntityType for TextEntityTypePhoneNumber {}
 
 
 impl TextEntityTypePhoneNumber {
@@ -42824,6 +42911,15 @@ pub trait TextParseMode: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<TextParseMode> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDTextParseModeType {
   TextParseModeHTML,
@@ -42833,6 +42929,7 @@ pub enum TDTextParseModeType {
 impl TDTextParseModeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The text should be parsed in markdown-style. 
@@ -42854,8 +42951,7 @@ impl RObject for TextParseModeMarkdown {
 }
 
 
-#[typetag::serde]
-impl TextParseMode for TextParseModeMarkdown {}
+#[typetag::serde] impl TextParseMode for TextParseModeMarkdown {}
 
 
 impl TextParseModeMarkdown {
@@ -42903,8 +42999,7 @@ impl RObject for TextParseModeHTML {
 }
 
 
-#[typetag::serde]
-impl TextParseMode for TextParseModeHTML {}
+#[typetag::serde] impl TextParseMode for TextParseModeHTML {}
 
 
 impl TextParseModeHTML {
@@ -42942,6 +43037,15 @@ pub trait TopChatCategory: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<TopChatCategory> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDTopChatCategoryType {
   TopChatCategoryBots,
@@ -42955,6 +43059,7 @@ pub enum TDTopChatCategoryType {
 impl TDTopChatCategoryType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// A category containing frequently used private chats with non-bot users. 
@@ -42976,8 +43081,7 @@ impl RObject for TopChatCategoryUsers {
 }
 
 
-#[typetag::serde]
-impl TopChatCategory for TopChatCategoryUsers {}
+#[typetag::serde] impl TopChatCategory for TopChatCategoryUsers {}
 
 
 impl TopChatCategoryUsers {
@@ -43025,8 +43129,7 @@ impl RObject for TopChatCategoryBots {
 }
 
 
-#[typetag::serde]
-impl TopChatCategory for TopChatCategoryBots {}
+#[typetag::serde] impl TopChatCategory for TopChatCategoryBots {}
 
 
 impl TopChatCategoryBots {
@@ -43074,8 +43177,7 @@ impl RObject for TopChatCategoryGroups {
 }
 
 
-#[typetag::serde]
-impl TopChatCategory for TopChatCategoryGroups {}
+#[typetag::serde] impl TopChatCategory for TopChatCategoryGroups {}
 
 
 impl TopChatCategoryGroups {
@@ -43123,8 +43225,7 @@ impl RObject for TopChatCategoryChannels {
 }
 
 
-#[typetag::serde]
-impl TopChatCategory for TopChatCategoryChannels {}
+#[typetag::serde] impl TopChatCategory for TopChatCategoryChannels {}
 
 
 impl TopChatCategoryChannels {
@@ -43172,8 +43273,7 @@ impl RObject for TopChatCategoryInlineBots {
 }
 
 
-#[typetag::serde]
-impl TopChatCategory for TopChatCategoryInlineBots {}
+#[typetag::serde] impl TopChatCategory for TopChatCategoryInlineBots {}
 
 
 impl TopChatCategoryInlineBots {
@@ -43221,8 +43321,7 @@ impl RObject for TopChatCategoryCalls {
 }
 
 
-#[typetag::serde]
-impl TopChatCategory for TopChatCategoryCalls {}
+#[typetag::serde] impl TopChatCategory for TopChatCategoryCalls {}
 
 
 impl TopChatCategoryCalls {
@@ -43258,6 +43357,15 @@ pub trait Update: Object + RObject + Debug {}
 
 
 
+
+
+
+impl Clone for Box<Update> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
@@ -43337,6 +43445,7 @@ impl TDUpdateType {
 }
 
 
+
 /// The user authorization state has changed. 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UpdateAuthorizationState {
@@ -43365,8 +43474,7 @@ impl RObject for UpdateAuthorizationState {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateAuthorizationState {}
+#[typetag::serde] impl Update for UpdateAuthorizationState {}
 
 
 impl UpdateAuthorizationState {
@@ -43400,8 +43508,7 @@ impl RObject for UpdateNewMessage {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateNewMessage {}
+#[typetag::serde] impl Update for UpdateNewMessage {}
 
 
 impl UpdateNewMessage {
@@ -43437,8 +43544,7 @@ impl RObject for UpdateMessageSendAcknowledged {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateMessageSendAcknowledged {}
+#[typetag::serde] impl Update for UpdateMessageSendAcknowledged {}
 
 
 impl UpdateMessageSendAcknowledged {
@@ -43476,8 +43582,7 @@ impl RObject for UpdateMessageSendSucceeded {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateMessageSendSucceeded {}
+#[typetag::serde] impl Update for UpdateMessageSendSucceeded {}
 
 
 impl UpdateMessageSendSucceeded {
@@ -43519,8 +43624,7 @@ impl RObject for UpdateMessageSendFailed {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateMessageSendFailed {}
+#[typetag::serde] impl Update for UpdateMessageSendFailed {}
 
 
 impl UpdateMessageSendFailed {
@@ -43571,8 +43675,7 @@ impl RObject for UpdateMessageContent {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateMessageContent {}
+#[typetag::serde] impl Update for UpdateMessageContent {}
 
 
 impl UpdateMessageContent {
@@ -43623,8 +43726,7 @@ impl RObject for UpdateMessageEdited {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateMessageEdited {}
+#[typetag::serde] impl Update for UpdateMessageEdited {}
 
 
 impl UpdateMessageEdited {
@@ -43668,8 +43770,7 @@ impl RObject for UpdateMessageViews {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateMessageViews {}
+#[typetag::serde] impl Update for UpdateMessageViews {}
 
 
 impl UpdateMessageViews {
@@ -43709,8 +43810,7 @@ impl RObject for UpdateMessageContentOpened {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateMessageContentOpened {}
+#[typetag::serde] impl Update for UpdateMessageContentOpened {}
 
 
 impl UpdateMessageContentOpened {
@@ -43750,8 +43850,7 @@ impl RObject for UpdateMessageMentionRead {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateMessageMentionRead {}
+#[typetag::serde] impl Update for UpdateMessageMentionRead {}
 
 
 impl UpdateMessageMentionRead {
@@ -43789,8 +43888,7 @@ impl RObject for UpdateNewChat {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateNewChat {}
+#[typetag::serde] impl Update for UpdateNewChat {}
 
 
 impl UpdateNewChat {
@@ -43826,8 +43924,7 @@ impl RObject for UpdateChatTitle {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatTitle {}
+#[typetag::serde] impl Update for UpdateChatTitle {}
 
 
 impl UpdateChatTitle {
@@ -43865,8 +43962,7 @@ impl RObject for UpdateChatPhoto {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatPhoto {}
+#[typetag::serde] impl Update for UpdateChatPhoto {}
 
 
 impl UpdateChatPhoto {
@@ -43906,8 +44002,7 @@ impl RObject for UpdateChatLastMessage {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatLastMessage {}
+#[typetag::serde] impl Update for UpdateChatLastMessage {}
 
 
 impl UpdateChatLastMessage {
@@ -43947,8 +44042,7 @@ impl RObject for UpdateChatOrder {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatOrder {}
+#[typetag::serde] impl Update for UpdateChatOrder {}
 
 
 impl UpdateChatOrder {
@@ -43988,8 +44082,7 @@ impl RObject for UpdateChatIsPinned {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatIsPinned {}
+#[typetag::serde] impl Update for UpdateChatIsPinned {}
 
 
 impl UpdateChatIsPinned {
@@ -44029,8 +44122,7 @@ impl RObject for UpdateChatIsMarkedAsUnread {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatIsMarkedAsUnread {}
+#[typetag::serde] impl Update for UpdateChatIsMarkedAsUnread {}
 
 
 impl UpdateChatIsMarkedAsUnread {
@@ -44070,8 +44162,7 @@ impl RObject for UpdateChatIsSponsored {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatIsSponsored {}
+#[typetag::serde] impl Update for UpdateChatIsSponsored {}
 
 
 impl UpdateChatIsSponsored {
@@ -44111,8 +44202,7 @@ impl RObject for UpdateChatDefaultDisableNotification {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatDefaultDisableNotification {}
+#[typetag::serde] impl Update for UpdateChatDefaultDisableNotification {}
 
 
 impl UpdateChatDefaultDisableNotification {
@@ -44152,8 +44242,7 @@ impl RObject for UpdateChatReadInbox {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatReadInbox {}
+#[typetag::serde] impl Update for UpdateChatReadInbox {}
 
 
 impl UpdateChatReadInbox {
@@ -44193,8 +44282,7 @@ impl RObject for UpdateChatReadOutbox {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatReadOutbox {}
+#[typetag::serde] impl Update for UpdateChatReadOutbox {}
 
 
 impl UpdateChatReadOutbox {
@@ -44232,8 +44320,7 @@ impl RObject for UpdateChatUnreadMentionCount {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatUnreadMentionCount {}
+#[typetag::serde] impl Update for UpdateChatUnreadMentionCount {}
 
 
 impl UpdateChatUnreadMentionCount {
@@ -44271,8 +44358,7 @@ impl RObject for UpdateChatNotificationSettings {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatNotificationSettings {}
+#[typetag::serde] impl Update for UpdateChatNotificationSettings {}
 
 
 impl UpdateChatNotificationSettings {
@@ -44317,8 +44403,7 @@ impl RObject for UpdateScopeNotificationSettings {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateScopeNotificationSettings {}
+#[typetag::serde] impl Update for UpdateScopeNotificationSettings {}
 
 
 impl UpdateScopeNotificationSettings {
@@ -44356,8 +44441,7 @@ impl RObject for UpdateChatPinnedMessage {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatPinnedMessage {}
+#[typetag::serde] impl Update for UpdateChatPinnedMessage {}
 
 
 impl UpdateChatPinnedMessage {
@@ -44395,8 +44479,7 @@ impl RObject for UpdateChatReplyMarkup {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatReplyMarkup {}
+#[typetag::serde] impl Update for UpdateChatReplyMarkup {}
 
 
 impl UpdateChatReplyMarkup {
@@ -44436,8 +44519,7 @@ impl RObject for UpdateChatDraftMessage {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatDraftMessage {}
+#[typetag::serde] impl Update for UpdateChatDraftMessage {}
 
 
 impl UpdateChatDraftMessage {
@@ -44477,8 +44559,7 @@ impl RObject for UpdateChatOnlineMemberCount {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateChatOnlineMemberCount {}
+#[typetag::serde] impl Update for UpdateChatOnlineMemberCount {}
 
 
 impl UpdateChatOnlineMemberCount {
@@ -44516,8 +44597,7 @@ impl RObject for UpdateNotification {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateNotification {}
+#[typetag::serde] impl Update for UpdateNotification {}
 
 
 impl UpdateNotification {
@@ -44574,8 +44654,7 @@ impl RObject for UpdateNotificationGroup {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateNotificationGroup {}
+#[typetag::serde] impl Update for UpdateNotificationGroup {}
 
 
 impl UpdateNotificationGroup {
@@ -44623,8 +44702,7 @@ impl RObject for UpdateActiveNotifications {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateActiveNotifications {}
+#[typetag::serde] impl Update for UpdateActiveNotifications {}
 
 
 impl UpdateActiveNotifications {
@@ -44660,8 +44738,7 @@ impl RObject for UpdateHavePendingNotifications {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateHavePendingNotifications {}
+#[typetag::serde] impl Update for UpdateHavePendingNotifications {}
 
 
 impl UpdateHavePendingNotifications {
@@ -44703,8 +44780,7 @@ impl RObject for UpdateDeleteMessages {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateDeleteMessages {}
+#[typetag::serde] impl Update for UpdateDeleteMessages {}
 
 
 impl UpdateDeleteMessages {
@@ -44755,8 +44831,7 @@ impl RObject for UpdateUserChatAction {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateUserChatAction {}
+#[typetag::serde] impl Update for UpdateUserChatAction {}
 
 
 impl UpdateUserChatAction {
@@ -44803,8 +44878,7 @@ impl RObject for UpdateUserStatus {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateUserStatus {}
+#[typetag::serde] impl Update for UpdateUserStatus {}
 
 
 impl UpdateUserStatus {
@@ -44840,8 +44914,7 @@ impl RObject for UpdateUser {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateUser {}
+#[typetag::serde] impl Update for UpdateUser {}
 
 
 impl UpdateUser {
@@ -44875,8 +44948,7 @@ impl RObject for UpdateBasicGroup {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateBasicGroup {}
+#[typetag::serde] impl Update for UpdateBasicGroup {}
 
 
 impl UpdateBasicGroup {
@@ -44910,8 +44982,7 @@ impl RObject for UpdateSupergroup {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateSupergroup {}
+#[typetag::serde] impl Update for UpdateSupergroup {}
 
 
 impl UpdateSupergroup {
@@ -44945,8 +45016,7 @@ impl RObject for UpdateSecretChat {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateSecretChat {}
+#[typetag::serde] impl Update for UpdateSecretChat {}
 
 
 impl UpdateSecretChat {
@@ -44982,8 +45052,7 @@ impl RObject for UpdateUserFullInfo {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateUserFullInfo {}
+#[typetag::serde] impl Update for UpdateUserFullInfo {}
 
 
 impl UpdateUserFullInfo {
@@ -45021,8 +45090,7 @@ impl RObject for UpdateBasicGroupFullInfo {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateBasicGroupFullInfo {}
+#[typetag::serde] impl Update for UpdateBasicGroupFullInfo {}
 
 
 impl UpdateBasicGroupFullInfo {
@@ -45060,8 +45128,7 @@ impl RObject for UpdateSupergroupFullInfo {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateSupergroupFullInfo {}
+#[typetag::serde] impl Update for UpdateSupergroupFullInfo {}
 
 
 impl UpdateSupergroupFullInfo {
@@ -45106,8 +45173,7 @@ impl RObject for UpdateServiceNotification {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateServiceNotification {}
+#[typetag::serde] impl Update for UpdateServiceNotification {}
 
 
 impl UpdateServiceNotification {
@@ -45143,8 +45209,7 @@ impl RObject for UpdateFile {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateFile {}
+#[typetag::serde] impl Update for UpdateFile {}
 
 
 impl UpdateFile {
@@ -45184,8 +45249,7 @@ impl RObject for UpdateFileGenerationStart {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateFileGenerationStart {}
+#[typetag::serde] impl Update for UpdateFileGenerationStart {}
 
 
 impl UpdateFileGenerationStart {
@@ -45225,8 +45289,7 @@ impl RObject for UpdateFileGenerationStop {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateFileGenerationStop {}
+#[typetag::serde] impl Update for UpdateFileGenerationStop {}
 
 
 impl UpdateFileGenerationStop {
@@ -45260,8 +45323,7 @@ impl RObject for UpdateCall {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateCall {}
+#[typetag::serde] impl Update for UpdateCall {}
 
 
 impl UpdateCall {
@@ -45304,8 +45366,7 @@ impl RObject for UpdateUserPrivacySettingRules {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateUserPrivacySettingRules {}
+#[typetag::serde] impl Update for UpdateUserPrivacySettingRules {}
 
 
 impl UpdateUserPrivacySettingRules {
@@ -45343,8 +45404,7 @@ impl RObject for UpdateUnreadMessageCount {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateUnreadMessageCount {}
+#[typetag::serde] impl Update for UpdateUnreadMessageCount {}
 
 
 impl UpdateUnreadMessageCount {
@@ -45386,8 +45446,7 @@ impl RObject for UpdateUnreadChatCount {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateUnreadChatCount {}
+#[typetag::serde] impl Update for UpdateUnreadChatCount {}
 
 
 impl UpdateUnreadChatCount {
@@ -45436,8 +45495,7 @@ impl RObject for UpdateOption {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateOption {}
+#[typetag::serde] impl Update for UpdateOption {}
 
 
 impl UpdateOption {
@@ -45475,8 +45533,7 @@ impl RObject for UpdateInstalledStickerSets {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateInstalledStickerSets {}
+#[typetag::serde] impl Update for UpdateInstalledStickerSets {}
 
 
 impl UpdateInstalledStickerSets {
@@ -45512,8 +45569,7 @@ impl RObject for UpdateTrendingStickerSets {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateTrendingStickerSets {}
+#[typetag::serde] impl Update for UpdateTrendingStickerSets {}
 
 
 impl UpdateTrendingStickerSets {
@@ -45549,8 +45605,7 @@ impl RObject for UpdateRecentStickers {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateRecentStickers {}
+#[typetag::serde] impl Update for UpdateRecentStickers {}
 
 
 impl UpdateRecentStickers {
@@ -45586,8 +45641,7 @@ impl RObject for UpdateFavoriteStickers {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateFavoriteStickers {}
+#[typetag::serde] impl Update for UpdateFavoriteStickers {}
 
 
 impl UpdateFavoriteStickers {
@@ -45621,8 +45675,7 @@ impl RObject for UpdateSavedAnimations {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateSavedAnimations {}
+#[typetag::serde] impl Update for UpdateSavedAnimations {}
 
 
 impl UpdateSavedAnimations {
@@ -45660,8 +45713,7 @@ impl RObject for UpdateLanguagePackStrings {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateLanguagePackStrings {}
+#[typetag::serde] impl Update for UpdateLanguagePackStrings {}
 
 
 impl UpdateLanguagePackStrings {
@@ -45706,8 +45758,7 @@ impl RObject for UpdateConnectionState {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateConnectionState {}
+#[typetag::serde] impl Update for UpdateConnectionState {}
 
 
 impl UpdateConnectionState {
@@ -45743,8 +45794,7 @@ impl RObject for UpdateTermsOfService {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateTermsOfService {}
+#[typetag::serde] impl Update for UpdateTermsOfService {}
 
 
 impl UpdateTermsOfService {
@@ -45788,8 +45838,7 @@ impl RObject for UpdateNewInlineQuery {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateNewInlineQuery {}
+#[typetag::serde] impl Update for UpdateNewInlineQuery {}
 
 
 impl UpdateNewInlineQuery {
@@ -45839,8 +45888,7 @@ impl RObject for UpdateNewChosenInlineResult {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateNewChosenInlineResult {}
+#[typetag::serde] impl Update for UpdateNewChosenInlineResult {}
 
 
 impl UpdateNewChosenInlineResult {
@@ -45899,8 +45947,7 @@ impl RObject for UpdateNewCallbackQuery {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateNewCallbackQuery {}
+#[typetag::serde] impl Update for UpdateNewCallbackQuery {}
 
 
 impl UpdateNewCallbackQuery {
@@ -45959,8 +46006,7 @@ impl RObject for UpdateNewInlineCallbackQuery {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateNewInlineCallbackQuery {}
+#[typetag::serde] impl Update for UpdateNewInlineCallbackQuery {}
 
 
 impl UpdateNewInlineCallbackQuery {
@@ -46008,8 +46054,7 @@ impl RObject for UpdateNewShippingQuery {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateNewShippingQuery {}
+#[typetag::serde] impl Update for UpdateNewShippingQuery {}
 
 
 impl UpdateNewShippingQuery {
@@ -46061,8 +46106,7 @@ impl RObject for UpdateNewPreCheckoutQuery {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateNewPreCheckoutQuery {}
+#[typetag::serde] impl Update for UpdateNewPreCheckoutQuery {}
 
 
 impl UpdateNewPreCheckoutQuery {
@@ -46108,8 +46152,7 @@ impl RObject for UpdateNewCustomEvent {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateNewCustomEvent {}
+#[typetag::serde] impl Update for UpdateNewCustomEvent {}
 
 
 impl UpdateNewCustomEvent {
@@ -46147,8 +46190,7 @@ impl RObject for UpdateNewCustomQuery {
 }
 
 
-#[typetag::serde]
-impl Update for UpdateNewCustomQuery {}
+#[typetag::serde] impl Update for UpdateNewCustomQuery {}
 
 
 impl UpdateNewCustomQuery {
@@ -46186,8 +46228,7 @@ impl RObject for UpdatePoll {
 }
 
 
-#[typetag::serde]
-impl Update for UpdatePoll {}
+#[typetag::serde] impl Update for UpdatePoll {}
 
 
 impl UpdatePoll {
@@ -46591,6 +46632,15 @@ pub trait UserPrivacySetting: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<UserPrivacySetting> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDUserPrivacySettingType {
   UserPrivacySettingAllowCalls,
@@ -46602,6 +46652,7 @@ pub enum TDUserPrivacySettingType {
 impl TDUserPrivacySettingType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// A privacy setting for managing whether the user's online status is visible. 
@@ -46623,8 +46674,7 @@ impl RObject for UserPrivacySettingShowStatus {
 }
 
 
-#[typetag::serde]
-impl UserPrivacySetting for UserPrivacySettingShowStatus {}
+#[typetag::serde] impl UserPrivacySetting for UserPrivacySettingShowStatus {}
 
 
 impl UserPrivacySettingShowStatus {
@@ -46672,8 +46722,7 @@ impl RObject for UserPrivacySettingAllowChatInvites {
 }
 
 
-#[typetag::serde]
-impl UserPrivacySetting for UserPrivacySettingAllowChatInvites {}
+#[typetag::serde] impl UserPrivacySetting for UserPrivacySettingAllowChatInvites {}
 
 
 impl UserPrivacySettingAllowChatInvites {
@@ -46721,8 +46770,7 @@ impl RObject for UserPrivacySettingAllowCalls {
 }
 
 
-#[typetag::serde]
-impl UserPrivacySetting for UserPrivacySettingAllowCalls {}
+#[typetag::serde] impl UserPrivacySetting for UserPrivacySettingAllowCalls {}
 
 
 impl UserPrivacySettingAllowCalls {
@@ -46770,8 +46818,7 @@ impl RObject for UserPrivacySettingAllowPeerToPeerCalls {
 }
 
 
-#[typetag::serde]
-impl UserPrivacySetting for UserPrivacySettingAllowPeerToPeerCalls {}
+#[typetag::serde] impl UserPrivacySetting for UserPrivacySettingAllowPeerToPeerCalls {}
 
 
 impl UserPrivacySettingAllowPeerToPeerCalls {
@@ -46809,6 +46856,15 @@ pub trait UserPrivacySettingRule: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<UserPrivacySettingRule> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDUserPrivacySettingRuleType {
   UserPrivacySettingRuleAllowAll,
@@ -46822,6 +46878,7 @@ pub enum TDUserPrivacySettingRuleType {
 impl TDUserPrivacySettingRuleType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// A rule to allow all users to do something. 
@@ -46843,8 +46900,7 @@ impl RObject for UserPrivacySettingRuleAllowAll {
 }
 
 
-#[typetag::serde]
-impl UserPrivacySettingRule for UserPrivacySettingRuleAllowAll {}
+#[typetag::serde] impl UserPrivacySettingRule for UserPrivacySettingRuleAllowAll {}
 
 
 impl UserPrivacySettingRuleAllowAll {
@@ -46892,8 +46948,7 @@ impl RObject for UserPrivacySettingRuleAllowContacts {
 }
 
 
-#[typetag::serde]
-impl UserPrivacySettingRule for UserPrivacySettingRuleAllowContacts {}
+#[typetag::serde] impl UserPrivacySettingRule for UserPrivacySettingRuleAllowContacts {}
 
 
 impl UserPrivacySettingRuleAllowContacts {
@@ -46943,8 +46998,7 @@ impl RObject for UserPrivacySettingRuleAllowUsers {
 }
 
 
-#[typetag::serde]
-impl UserPrivacySettingRule for UserPrivacySettingRuleAllowUsers {}
+#[typetag::serde] impl UserPrivacySettingRule for UserPrivacySettingRuleAllowUsers {}
 
 
 impl UserPrivacySettingRuleAllowUsers {
@@ -47000,8 +47054,7 @@ impl RObject for UserPrivacySettingRuleRestrictAll {
 }
 
 
-#[typetag::serde]
-impl UserPrivacySettingRule for UserPrivacySettingRuleRestrictAll {}
+#[typetag::serde] impl UserPrivacySettingRule for UserPrivacySettingRuleRestrictAll {}
 
 
 impl UserPrivacySettingRuleRestrictAll {
@@ -47049,8 +47102,7 @@ impl RObject for UserPrivacySettingRuleRestrictContacts {
 }
 
 
-#[typetag::serde]
-impl UserPrivacySettingRule for UserPrivacySettingRuleRestrictContacts {}
+#[typetag::serde] impl UserPrivacySettingRule for UserPrivacySettingRuleRestrictContacts {}
 
 
 impl UserPrivacySettingRuleRestrictContacts {
@@ -47100,8 +47152,7 @@ impl RObject for UserPrivacySettingRuleRestrictUsers {
 }
 
 
-#[typetag::serde]
-impl UserPrivacySettingRule for UserPrivacySettingRuleRestrictUsers {}
+#[typetag::serde] impl UserPrivacySettingRule for UserPrivacySettingRuleRestrictUsers {}
 
 
 impl UserPrivacySettingRuleRestrictUsers {
@@ -47352,6 +47403,15 @@ pub trait UserStatus: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<UserStatus> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDUserStatusType {
   UserStatusEmpty,
@@ -47365,6 +47425,7 @@ pub enum TDUserStatusType {
 impl TDUserStatusType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// The user status was never changed. 
@@ -47386,8 +47447,7 @@ impl RObject for UserStatusEmpty {
 }
 
 
-#[typetag::serde]
-impl UserStatus for UserStatusEmpty {}
+#[typetag::serde] impl UserStatus for UserStatusEmpty {}
 
 
 impl UserStatusEmpty {
@@ -47437,8 +47497,7 @@ impl RObject for UserStatusOnline {
 }
 
 
-#[typetag::serde]
-impl UserStatus for UserStatusOnline {}
+#[typetag::serde] impl UserStatus for UserStatusOnline {}
 
 
 impl UserStatusOnline {
@@ -47496,8 +47555,7 @@ impl RObject for UserStatusOffline {
 }
 
 
-#[typetag::serde]
-impl UserStatus for UserStatusOffline {}
+#[typetag::serde] impl UserStatus for UserStatusOffline {}
 
 
 impl UserStatusOffline {
@@ -47553,8 +47611,7 @@ impl RObject for UserStatusRecently {
 }
 
 
-#[typetag::serde]
-impl UserStatus for UserStatusRecently {}
+#[typetag::serde] impl UserStatus for UserStatusRecently {}
 
 
 impl UserStatusRecently {
@@ -47602,8 +47659,7 @@ impl RObject for UserStatusLastWeek {
 }
 
 
-#[typetag::serde]
-impl UserStatus for UserStatusLastWeek {}
+#[typetag::serde] impl UserStatus for UserStatusLastWeek {}
 
 
 impl UserStatusLastWeek {
@@ -47651,8 +47707,7 @@ impl RObject for UserStatusLastMonth {
 }
 
 
-#[typetag::serde]
-impl UserStatus for UserStatusLastMonth {}
+#[typetag::serde] impl UserStatus for UserStatusLastMonth {}
 
 
 impl UserStatusLastMonth {
@@ -47690,6 +47745,15 @@ pub trait UserType: Object + RObject + Debug {}
 
 
 
+
+impl Clone for Box<UserType> {
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
+}
+
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum TDUserTypeType {
   UserTypeBot,
@@ -47701,6 +47765,7 @@ pub enum TDUserTypeType {
 impl TDUserTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
 }
+
 
 
 /// A regular user. 
@@ -47722,8 +47787,7 @@ impl RObject for UserTypeRegular {
 }
 
 
-#[typetag::serde]
-impl UserType for UserTypeRegular {}
+#[typetag::serde] impl UserType for UserTypeRegular {}
 
 
 impl UserTypeRegular {
@@ -47771,8 +47835,7 @@ impl RObject for UserTypeDeleted {
 }
 
 
-#[typetag::serde]
-impl UserType for UserTypeDeleted {}
+#[typetag::serde] impl UserType for UserTypeDeleted {}
 
 
 impl UserTypeDeleted {
@@ -47830,8 +47893,7 @@ impl RObject for UserTypeBot {
 }
 
 
-#[typetag::serde]
-impl UserType for UserTypeBot {}
+#[typetag::serde] impl UserType for UserTypeBot {}
 
 
 impl UserTypeBot {
@@ -47919,8 +47981,7 @@ impl RObject for UserTypeUnknown {
 }
 
 
-#[typetag::serde]
-impl UserType for UserTypeUnknown {}
+#[typetag::serde] impl UserType for UserTypeUnknown {}
 
 
 impl UserTypeUnknown {
@@ -49009,7 +49070,6 @@ impl RObject for AcceptCall {
 }
 
 
-
 impl Function for AcceptCall {}
 
 
@@ -49076,7 +49136,6 @@ impl RObject for AcceptTermsOfService {
 }
 
 
-
 impl Function for AcceptTermsOfService {}
 
 
@@ -49137,7 +49196,6 @@ impl RObject for AddChatMember {
   fn td_type(&self) -> TDType { TDType::AddChatMember }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for AddChatMember {}
@@ -49216,7 +49274,6 @@ impl RObject for AddChatMembers {
 }
 
 
-
 impl Function for AddChatMembers {}
 
 
@@ -49283,7 +49340,6 @@ impl RObject for AddCustomServerLanguagePack {
 }
 
 
-
 impl Function for AddCustomServerLanguagePack {}
 
 
@@ -49347,7 +49403,6 @@ impl RObject for AddFavoriteSticker {
   fn td_type(&self) -> TDType { TDType::AddFavoriteSticker }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for AddFavoriteSticker {}
@@ -49421,7 +49476,6 @@ impl RObject for AddLocalMessage {
   fn td_type(&self) -> TDType { TDType::AddLocalMessage }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for AddLocalMessage {}
@@ -49516,7 +49570,6 @@ impl RObject for AddLogMessage {
 }
 
 
-
 impl Function for AddLogMessage {}
 
 
@@ -49590,7 +49643,6 @@ impl RObject for AddNetworkStatistics {
 }
 
 
-
 impl Function for AddNetworkStatistics {}
 
 
@@ -49660,7 +49712,6 @@ impl RObject for AddProxy {
   fn td_type(&self) -> TDType { TDType::AddProxy }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for AddProxy {}
@@ -49754,7 +49805,6 @@ impl RObject for AddRecentSticker {
 }
 
 
-
 impl Function for AddRecentSticker {}
 
 
@@ -49819,7 +49869,6 @@ impl RObject for AddRecentlyFoundChat {
   fn td_type(&self) -> TDType { TDType::AddRecentlyFoundChat }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for AddRecentlyFoundChat {}
@@ -49887,7 +49936,6 @@ impl RObject for AddSavedAnimation {
 }
 
 
-
 impl Function for AddSavedAnimation {}
 
 
@@ -49948,7 +49996,6 @@ impl RObject for AddStickerToSet {
   fn td_type(&self) -> TDType { TDType::AddStickerToSet }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for AddStickerToSet {}
@@ -50031,7 +50078,6 @@ impl RObject for AnswerCallbackQuery {
   fn td_type(&self) -> TDType { TDType::AnswerCallbackQuery }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for AnswerCallbackQuery {}
@@ -50126,7 +50172,6 @@ impl RObject for AnswerCustomQuery {
 }
 
 
-
 impl Function for AnswerCustomQuery {}
 
 
@@ -50210,7 +50255,6 @@ impl RObject for AnswerInlineQuery {
   fn td_type(&self) -> TDType { TDType::AnswerInlineQuery }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for AnswerInlineQuery {}
@@ -50321,7 +50365,6 @@ impl RObject for AnswerPreCheckoutQuery {
 }
 
 
-
 impl Function for AnswerPreCheckoutQuery {}
 
 
@@ -50390,7 +50433,6 @@ impl RObject for AnswerShippingQuery {
   fn td_type(&self) -> TDType { TDType::AnswerShippingQuery }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for AnswerShippingQuery {}
@@ -50467,7 +50509,6 @@ impl RObject for BlockUser {
 }
 
 
-
 impl Function for BlockUser {}
 
 
@@ -50526,7 +50567,6 @@ impl RObject for CancelDownloadFile {
   fn td_type(&self) -> TDType { TDType::CancelDownloadFile }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for CancelDownloadFile {}
@@ -50595,7 +50635,6 @@ impl RObject for CancelUploadFile {
 }
 
 
-
 impl Function for CancelUploadFile {}
 
 
@@ -50654,7 +50693,6 @@ impl RObject for ChangeChatReportSpamState {
   fn td_type(&self) -> TDType { TDType::ChangeChatReportSpamState }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ChangeChatReportSpamState {}
@@ -50723,7 +50761,6 @@ impl RObject for ChangeImportedContacts {
 }
 
 
-
 impl Function for ChangeImportedContacts {}
 
 
@@ -50784,7 +50821,6 @@ impl RObject for ChangePhoneNumber {
   fn td_type(&self) -> TDType { TDType::ChangePhoneNumber }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ChangePhoneNumber {}
@@ -50865,7 +50901,6 @@ impl RObject for ChangeStickerSet {
 }
 
 
-
 impl Function for ChangeStickerSet {}
 
 
@@ -50940,7 +50975,6 @@ impl RObject for CheckAuthenticationBotToken {
 }
 
 
-
 impl Function for CheckAuthenticationBotToken {}
 
 
@@ -51001,7 +51035,6 @@ impl RObject for CheckAuthenticationCode {
   fn td_type(&self) -> TDType { TDType::CheckAuthenticationCode }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for CheckAuthenticationCode {}
@@ -51078,7 +51111,6 @@ impl RObject for CheckAuthenticationPassword {
 }
 
 
-
 impl Function for CheckAuthenticationPassword {}
 
 
@@ -51135,7 +51167,6 @@ impl RObject for CheckChangePhoneNumberCode {
   fn td_type(&self) -> TDType { TDType::CheckChangePhoneNumberCode }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for CheckChangePhoneNumberCode {}
@@ -51196,7 +51227,6 @@ impl RObject for CheckChatInviteLink {
 }
 
 
-
 impl Function for CheckChatInviteLink {}
 
 
@@ -51255,7 +51285,6 @@ impl RObject for CheckChatUsername {
   fn td_type(&self) -> TDType { TDType::CheckChatUsername }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for CheckChatUsername {}
@@ -51324,7 +51353,6 @@ impl RObject for CheckDatabaseEncryptionKey {
 }
 
 
-
 impl Function for CheckDatabaseEncryptionKey {}
 
 
@@ -51381,7 +51409,6 @@ impl RObject for CheckEmailAddressVerificationCode {
   fn td_type(&self) -> TDType { TDType::CheckEmailAddressVerificationCode }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for CheckEmailAddressVerificationCode {}
@@ -51442,7 +51469,6 @@ impl RObject for CheckPhoneNumberConfirmationCode {
 }
 
 
-
 impl Function for CheckPhoneNumberConfirmationCode {}
 
 
@@ -51499,7 +51525,6 @@ impl RObject for CheckPhoneNumberVerificationCode {
   fn td_type(&self) -> TDType { TDType::CheckPhoneNumberVerificationCode }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for CheckPhoneNumberVerificationCode {}
@@ -51560,7 +51585,6 @@ impl RObject for CheckRecoveryEmailAddressCode {
 }
 
 
-
 impl Function for CheckRecoveryEmailAddressCode {}
 
 
@@ -51617,7 +51641,6 @@ impl RObject for CleanFileName {
   fn td_type(&self) -> TDType { TDType::CleanFileName }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for CleanFileName {}
@@ -51678,7 +51701,6 @@ impl RObject for ClearAllDraftMessages {
 }
 
 
-
 impl Function for ClearAllDraftMessages {}
 
 
@@ -51735,7 +51757,6 @@ impl RObject for ClearImportedContacts {
 }
 
 
-
 impl Function for ClearImportedContacts {}
 
 
@@ -51784,7 +51805,6 @@ impl RObject for ClearRecentStickers {
   fn td_type(&self) -> TDType { TDType::ClearRecentStickers }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ClearRecentStickers {}
@@ -51843,7 +51863,6 @@ impl RObject for ClearRecentlyFoundChats {
 }
 
 
-
 impl Function for ClearRecentlyFoundChats {}
 
 
@@ -51890,7 +51909,6 @@ impl RObject for Close {
   fn td_type(&self) -> TDType { TDType::Close }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for Close {}
@@ -51941,7 +51959,6 @@ impl RObject for CloseChat {
   fn td_type(&self) -> TDType { TDType::CloseChat }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for CloseChat {}
@@ -52002,7 +52019,6 @@ impl RObject for CloseSecretChat {
 }
 
 
-
 impl Function for CloseSecretChat {}
 
 
@@ -52061,7 +52077,6 @@ impl RObject for CreateBasicGroupChat {
   fn td_type(&self) -> TDType { TDType::CreateBasicGroupChat }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for CreateBasicGroupChat {}
@@ -52132,7 +52147,6 @@ impl RObject for CreateCall {
 }
 
 
-
 impl Function for CreateCall {}
 
 
@@ -52201,7 +52215,6 @@ impl RObject for CreateNewBasicGroupChat {
 }
 
 
-
 impl Function for CreateNewBasicGroupChat {}
 
 
@@ -52268,7 +52281,6 @@ impl RObject for CreateNewSecretChat {
 }
 
 
-
 impl Function for CreateNewSecretChat {}
 
 
@@ -52333,7 +52345,6 @@ impl RObject for CreateNewStickerSet {
   fn td_type(&self) -> TDType { TDType::CreateNewStickerSet }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for CreateNewStickerSet {}
@@ -52430,7 +52441,6 @@ impl RObject for CreateNewSupergroupChat {
 }
 
 
-
 impl Function for CreateNewSupergroupChat {}
 
 
@@ -52507,7 +52517,6 @@ impl RObject for CreatePrivateChat {
 }
 
 
-
 impl Function for CreatePrivateChat {}
 
 
@@ -52574,7 +52583,6 @@ impl RObject for CreateSecretChat {
 }
 
 
-
 impl Function for CreateSecretChat {}
 
 
@@ -52633,7 +52641,6 @@ impl RObject for CreateSupergroupChat {
   fn td_type(&self) -> TDType { TDType::CreateSupergroupChat }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for CreateSupergroupChat {}
@@ -52704,7 +52711,6 @@ impl RObject for CreateTemporaryPassword {
 }
 
 
-
 impl Function for CreateTemporaryPassword {}
 
 
@@ -52771,7 +52777,6 @@ impl RObject for DeleteAccount {
 }
 
 
-
 impl Function for DeleteAccount {}
 
 
@@ -52832,7 +52837,6 @@ impl RObject for DeleteChatHistory {
   fn td_type(&self) -> TDType { TDType::DeleteChatHistory }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for DeleteChatHistory {}
@@ -52911,7 +52915,6 @@ impl RObject for DeleteChatMessagesFromUser {
 }
 
 
-
 impl Function for DeleteChatMessagesFromUser {}
 
 
@@ -52980,7 +52983,6 @@ impl RObject for DeleteChatReplyMarkup {
 }
 
 
-
 impl Function for DeleteChatReplyMarkup {}
 
 
@@ -53047,7 +53049,6 @@ impl RObject for DeleteFile {
 }
 
 
-
 impl Function for DeleteFile {}
 
 
@@ -53104,7 +53105,6 @@ impl RObject for DeleteLanguagePack {
   fn td_type(&self) -> TDType { TDType::DeleteLanguagePack }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for DeleteLanguagePack {}
@@ -53167,7 +53167,6 @@ impl RObject for DeleteMessages {
   fn td_type(&self) -> TDType { TDType::DeleteMessages }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for DeleteMessages {}
@@ -53251,7 +53250,6 @@ impl RObject for DeletePassportElement {
 }
 
 
-
 impl Function for DeletePassportElement {}
 
 
@@ -53310,7 +53308,6 @@ impl RObject for DeleteProfilePhoto {
 }
 
 
-
 impl Function for DeleteProfilePhoto {}
 
 
@@ -53367,7 +53364,6 @@ impl RObject for DeleteSavedCredentials {
 }
 
 
-
 impl Function for DeleteSavedCredentials {}
 
 
@@ -53414,7 +53410,6 @@ impl RObject for DeleteSavedOrderInfo {
   fn td_type(&self) -> TDType { TDType::DeleteSavedOrderInfo }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for DeleteSavedOrderInfo {}
@@ -53465,7 +53460,6 @@ impl RObject for DeleteSupergroup {
   fn td_type(&self) -> TDType { TDType::DeleteSupergroup }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for DeleteSupergroup {}
@@ -53524,7 +53518,6 @@ impl RObject for Destroy {
 }
 
 
-
 impl Function for Destroy {}
 
 
@@ -53571,7 +53564,6 @@ impl RObject for DisableProxy {
   fn td_type(&self) -> TDType { TDType::DisableProxy }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for DisableProxy {}
@@ -53628,7 +53620,6 @@ impl RObject for DiscardCall {
   fn td_type(&self) -> TDType { TDType::DiscardCall }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for DiscardCall {}
@@ -53711,7 +53702,6 @@ impl RObject for DisconnectAllWebsites {
 }
 
 
-
 impl Function for DisconnectAllWebsites {}
 
 
@@ -53760,7 +53750,6 @@ impl RObject for DisconnectWebsite {
   fn td_type(&self) -> TDType { TDType::DisconnectWebsite }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for DisconnectWebsite {}
@@ -53827,7 +53816,6 @@ impl RObject for DownloadFile {
   fn td_type(&self) -> TDType { TDType::DownloadFile }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for DownloadFile {}
@@ -53920,7 +53908,6 @@ impl RObject for EditCustomLanguagePackInfo {
 }
 
 
-
 impl Function for EditCustomLanguagePackInfo {}
 
 
@@ -53988,7 +53975,6 @@ impl RObject for EditInlineMessageCaption {
   fn td_type(&self) -> TDType { TDType::EditInlineMessageCaption }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for EditInlineMessageCaption {}
@@ -54076,7 +54062,6 @@ impl RObject for EditInlineMessageLiveLocation {
 }
 
 
-
 impl Function for EditInlineMessageLiveLocation {}
 
 
@@ -54162,7 +54147,6 @@ impl RObject for EditInlineMessageMedia {
 }
 
 
-
 impl Function for EditInlineMessageMedia {}
 
 
@@ -54246,7 +54230,6 @@ impl RObject for EditInlineMessageReplyMarkup {
 }
 
 
-
 impl Function for EditInlineMessageReplyMarkup {}
 
 
@@ -54322,7 +54305,6 @@ impl RObject for EditInlineMessageText {
   fn td_type(&self) -> TDType { TDType::EditInlineMessageText }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for EditInlineMessageText {}
@@ -54410,7 +54392,6 @@ impl RObject for EditMessageCaption {
   fn td_type(&self) -> TDType { TDType::EditMessageCaption }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for EditMessageCaption {}
@@ -54508,7 +54489,6 @@ impl RObject for EditMessageLiveLocation {
 }
 
 
-
 impl Function for EditMessageLiveLocation {}
 
 
@@ -54604,7 +54584,6 @@ impl RObject for EditMessageMedia {
 }
 
 
-
 impl Function for EditMessageMedia {}
 
 
@@ -54698,7 +54677,6 @@ impl RObject for EditMessageReplyMarkup {
 }
 
 
-
 impl Function for EditMessageReplyMarkup {}
 
 
@@ -54784,7 +54762,6 @@ impl RObject for EditMessageText {
   fn td_type(&self) -> TDType { TDType::EditMessageText }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for EditMessageText {}
@@ -54884,7 +54861,6 @@ impl RObject for EditProxy {
 }
 
 
-
 impl Function for EditProxy {}
 
 
@@ -54975,7 +54951,6 @@ impl RObject for EnableProxy {
 }
 
 
-
 impl Function for EnableProxy {}
 
 
@@ -55034,7 +55009,6 @@ impl RObject for FinishFileGeneration {
   fn td_type(&self) -> TDType { TDType::FinishFileGeneration }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for FinishFileGeneration {}
@@ -55111,7 +55085,6 @@ impl RObject for ForwardMessages {
   fn td_type(&self) -> TDType { TDType::ForwardMessages }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ForwardMessages {}
@@ -55212,7 +55185,6 @@ impl RObject for GenerateChatInviteLink {
 }
 
 
-
 impl Function for GenerateChatInviteLink {}
 
 
@@ -55269,7 +55241,6 @@ impl RObject for GetAccountTtl {
 }
 
 
-
 impl Function for GetAccountTtl {}
 
 
@@ -55316,7 +55287,6 @@ impl RObject for GetActiveLiveLocationMessages {
   fn td_type(&self) -> TDType { TDType::GetActiveLiveLocationMessages }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetActiveLiveLocationMessages {}
@@ -55367,7 +55337,6 @@ impl RObject for GetActiveSessions {
 }
 
 
-
 impl Function for GetActiveSessions {}
 
 
@@ -55416,7 +55385,6 @@ impl RObject for GetAllPassportElements {
   fn td_type(&self) -> TDType { TDType::GetAllPassportElements }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetAllPassportElements {}
@@ -55475,7 +55443,6 @@ impl RObject for GetApplicationConfig {
 }
 
 
-
 impl Function for GetApplicationConfig {}
 
 
@@ -55528,7 +55495,6 @@ impl RObject for GetArchivedStickerSets {
   fn td_type(&self) -> TDType { TDType::GetArchivedStickerSets }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetArchivedStickerSets {}
@@ -55605,7 +55571,6 @@ impl RObject for GetAttachedStickerSets {
 }
 
 
-
 impl Function for GetAttachedStickerSets {}
 
 
@@ -55662,7 +55627,6 @@ impl RObject for GetAuthorizationState {
 }
 
 
-
 impl Function for GetAuthorizationState {}
 
 
@@ -55711,7 +55675,6 @@ impl RObject for GetBasicGroup {
   fn td_type(&self) -> TDType { TDType::GetBasicGroup }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetBasicGroup {}
@@ -55772,7 +55735,6 @@ impl RObject for GetBasicGroupFullInfo {
 }
 
 
-
 impl Function for GetBasicGroupFullInfo {}
 
 
@@ -55831,7 +55793,6 @@ impl RObject for GetBlockedUsers {
   fn td_type(&self) -> TDType { TDType::GetBlockedUsers }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetBlockedUsers {}
@@ -55911,7 +55872,6 @@ impl RObject for GetCallbackQueryAnswer {
 }
 
 
-
 impl Function for GetCallbackQueryAnswer {}
 
 
@@ -55986,7 +55946,6 @@ impl RObject for GetChat {
 }
 
 
-
 impl Function for GetChat {}
 
 
@@ -56043,7 +56002,6 @@ impl RObject for GetChatAdministrators {
   fn td_type(&self) -> TDType { TDType::GetChatAdministrators }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetChatAdministrators {}
@@ -56112,7 +56070,6 @@ impl RObject for GetChatEventLog {
   fn td_type(&self) -> TDType { TDType::GetChatEventLog }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetChatEventLog {}
@@ -56221,7 +56178,6 @@ impl RObject for GetChatHistory {
 }
 
 
-
 impl Function for GetChatHistory {}
 
 
@@ -56314,7 +56270,6 @@ impl RObject for GetChatMember {
 }
 
 
-
 impl Function for GetChatMember {}
 
 
@@ -56381,7 +56336,6 @@ impl RObject for GetChatMessageByDate {
   fn td_type(&self) -> TDType { TDType::GetChatMessageByDate }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetChatMessageByDate {}
@@ -56459,7 +56413,6 @@ impl RObject for GetChatMessageCount {
   fn td_type(&self) -> TDType { TDType::GetChatMessageCount }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetChatMessageCount {}
@@ -56545,7 +56498,6 @@ impl RObject for GetChatNotificationSettingsExceptions {
 }
 
 
-
 impl Function for GetChatNotificationSettingsExceptions {}
 
 
@@ -56612,7 +56564,6 @@ impl RObject for GetChatPinnedMessage {
 }
 
 
-
 impl Function for GetChatPinnedMessage {}
 
 
@@ -56669,7 +56620,6 @@ impl RObject for GetChatReportSpamState {
   fn td_type(&self) -> TDType { TDType::GetChatReportSpamState }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetChatReportSpamState {}
@@ -56732,7 +56682,6 @@ impl RObject for GetChatStatisticsUrl {
   fn td_type(&self) -> TDType { TDType::GetChatStatisticsUrl }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetChatStatisticsUrl {}
@@ -56813,7 +56762,6 @@ impl RObject for GetChats {
 }
 
 
-
 impl Function for GetChats {}
 
 
@@ -56886,7 +56834,6 @@ impl RObject for GetConnectedWebsites {
 }
 
 
-
 impl Function for GetConnectedWebsites {}
 
 
@@ -56933,7 +56880,6 @@ impl RObject for GetContacts {
   fn td_type(&self) -> TDType { TDType::GetContacts }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetContacts {}
@@ -56984,7 +56930,6 @@ impl RObject for GetCountryCode {
 }
 
 
-
 impl Function for GetCountryCode {}
 
 
@@ -57031,7 +56976,6 @@ impl RObject for GetCreatedPublicChats {
   fn td_type(&self) -> TDType { TDType::GetCreatedPublicChats }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetCreatedPublicChats {}
@@ -57082,7 +57026,6 @@ impl RObject for GetCurrentState {
 }
 
 
-
 impl Function for GetCurrentState {}
 
 
@@ -57129,7 +57072,6 @@ impl RObject for GetDatabaseStatistics {
   fn td_type(&self) -> TDType { TDType::GetDatabaseStatistics }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetDatabaseStatistics {}
@@ -57180,7 +57122,6 @@ impl RObject for GetDeepLinkInfo {
   fn td_type(&self) -> TDType { TDType::GetDeepLinkInfo }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetDeepLinkInfo {}
@@ -57239,7 +57180,6 @@ impl RObject for GetFavoriteStickers {
 }
 
 
-
 impl Function for GetFavoriteStickers {}
 
 
@@ -57288,7 +57228,6 @@ impl RObject for GetFile {
   fn td_type(&self) -> TDType { TDType::GetFile }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetFile {}
@@ -57349,7 +57288,6 @@ impl RObject for GetFileDownloadedPrefixSize {
   fn td_type(&self) -> TDType { TDType::GetFileDownloadedPrefixSize }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetFileDownloadedPrefixSize {}
@@ -57418,7 +57356,6 @@ impl RObject for GetFileExtension {
 }
 
 
-
 impl Function for GetFileExtension {}
 
 
@@ -57475,7 +57412,6 @@ impl RObject for GetFileMimeType {
   fn td_type(&self) -> TDType { TDType::GetFileMimeType }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetFileMimeType {}
@@ -57538,7 +57474,6 @@ impl RObject for GetGameHighScores {
   fn td_type(&self) -> TDType { TDType::GetGameHighScores }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetGameHighScores {}
@@ -57619,7 +57554,6 @@ impl RObject for GetGroupsInCommon {
 }
 
 
-
 impl Function for GetGroupsInCommon {}
 
 
@@ -57692,7 +57626,6 @@ impl RObject for GetImportedContactCount {
 }
 
 
-
 impl Function for GetImportedContactCount {}
 
 
@@ -57743,7 +57676,6 @@ impl RObject for GetInlineGameHighScores {
   fn td_type(&self) -> TDType { TDType::GetInlineGameHighScores }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetInlineGameHighScores {}
@@ -57818,7 +57750,6 @@ impl RObject for GetInlineQueryResults {
   fn td_type(&self) -> TDType { TDType::GetInlineQueryResults }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetInlineQueryResults {}
@@ -57911,7 +57842,6 @@ impl RObject for GetInstalledStickerSets {
 }
 
 
-
 impl Function for GetInstalledStickerSets {}
 
 
@@ -57968,7 +57898,6 @@ impl RObject for GetInviteText {
 }
 
 
-
 impl Function for GetInviteText {}
 
 
@@ -58017,7 +57946,6 @@ impl RObject for GetLanguagePackInfo {
   fn td_type(&self) -> TDType { TDType::GetLanguagePackInfo }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetLanguagePackInfo {}
@@ -58082,7 +58010,6 @@ impl RObject for GetLanguagePackString {
   fn td_type(&self) -> TDType { TDType::GetLanguagePackString }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetLanguagePackString {}
@@ -58169,7 +58096,6 @@ impl RObject for GetLanguagePackStrings {
 }
 
 
-
 impl Function for GetLanguagePackStrings {}
 
 
@@ -58236,7 +58162,6 @@ impl RObject for GetLocalizationTargetInfo {
 }
 
 
-
 impl Function for GetLocalizationTargetInfo {}
 
 
@@ -58293,7 +58218,6 @@ impl RObject for GetLogStream {
 }
 
 
-
 impl Function for GetLogStream {}
 
 
@@ -58342,7 +58266,6 @@ impl RObject for GetLogTagVerbosityLevel {
   fn td_type(&self) -> TDType { TDType::GetLogTagVerbosityLevel }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetLogTagVerbosityLevel {}
@@ -58401,7 +58324,6 @@ impl RObject for GetLogTags {
 }
 
 
-
 impl Function for GetLogTags {}
 
 
@@ -58448,7 +58370,6 @@ impl RObject for GetLogVerbosityLevel {
   fn td_type(&self) -> TDType { TDType::GetLogVerbosityLevel }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetLogVerbosityLevel {}
@@ -58509,7 +58430,6 @@ impl RObject for GetMapThumbnailFile {
   fn td_type(&self) -> TDType { TDType::GetMapThumbnailFile }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetMapThumbnailFile {}
@@ -58608,7 +58528,6 @@ impl RObject for GetMe {
 }
 
 
-
 impl Function for GetMe {}
 
 
@@ -58659,7 +58578,6 @@ impl RObject for GetMessage {
   fn td_type(&self) -> TDType { TDType::GetMessage }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetMessage {}
@@ -58730,7 +58648,6 @@ impl RObject for GetMessageLink {
 }
 
 
-
 impl Function for GetMessageLink {}
 
 
@@ -58797,7 +58714,6 @@ impl RObject for GetMessageLocally {
   fn td_type(&self) -> TDType { TDType::GetMessageLocally }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetMessageLocally {}
@@ -58868,7 +58784,6 @@ impl RObject for GetMessages {
 }
 
 
-
 impl Function for GetMessages {}
 
 
@@ -58935,7 +58850,6 @@ impl RObject for GetNetworkStatistics {
 }
 
 
-
 impl Function for GetNetworkStatistics {}
 
 
@@ -58992,7 +58906,6 @@ impl RObject for GetOption {
   fn td_type(&self) -> TDType { TDType::GetOption }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetOption {}
@@ -59057,7 +58970,6 @@ impl RObject for GetPassportAuthorizationForm {
   fn td_type(&self) -> TDType { TDType::GetPassportAuthorizationForm }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetPassportAuthorizationForm {}
@@ -59144,7 +59056,6 @@ impl RObject for GetPassportAuthorizationFormAvailableElements {
 }
 
 
-
 impl Function for GetPassportAuthorizationFormAvailableElements {}
 
 
@@ -59220,7 +59131,6 @@ impl RObject for GetPassportElement {
 }
 
 
-
 impl Function for GetPassportElement {}
 
 
@@ -59285,7 +59195,6 @@ impl RObject for GetPasswordState {
 }
 
 
-
 impl Function for GetPasswordState {}
 
 
@@ -59336,7 +59245,6 @@ impl RObject for GetPaymentForm {
   fn td_type(&self) -> TDType { TDType::GetPaymentForm }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetPaymentForm {}
@@ -59407,7 +59315,6 @@ impl RObject for GetPaymentReceipt {
 }
 
 
-
 impl Function for GetPaymentReceipt {}
 
 
@@ -59474,7 +59381,6 @@ impl RObject for GetPreferredCountryLanguage {
 }
 
 
-
 impl Function for GetPreferredCountryLanguage {}
 
 
@@ -59531,7 +59437,6 @@ impl RObject for GetProxies {
 }
 
 
-
 impl Function for GetProxies {}
 
 
@@ -59580,7 +59485,6 @@ impl RObject for GetProxyLink {
   fn td_type(&self) -> TDType { TDType::GetProxyLink }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetProxyLink {}
@@ -59643,7 +59547,6 @@ impl RObject for GetPublicMessageLink {
   fn td_type(&self) -> TDType { TDType::GetPublicMessageLink }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetPublicMessageLink {}
@@ -59720,7 +59623,6 @@ impl RObject for GetPushReceiverId {
 }
 
 
-
 impl Function for GetPushReceiverId {}
 
 
@@ -59777,7 +59679,6 @@ impl RObject for GetRecentInlineBots {
 }
 
 
-
 impl Function for GetRecentInlineBots {}
 
 
@@ -59826,7 +59727,6 @@ impl RObject for GetRecentStickers {
   fn td_type(&self) -> TDType { TDType::GetRecentStickers }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetRecentStickers {}
@@ -59887,7 +59787,6 @@ impl RObject for GetRecentlyVisitedTMeUrls {
 }
 
 
-
 impl Function for GetRecentlyVisitedTMeUrls {}
 
 
@@ -59944,7 +59843,6 @@ impl RObject for GetRecoveryEmailAddress {
   fn td_type(&self) -> TDType { TDType::GetRecoveryEmailAddress }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetRecoveryEmailAddress {}
@@ -60012,7 +59910,6 @@ impl RObject for GetRemoteFile {
   fn td_type(&self) -> TDType { TDType::GetRemoteFile }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetRemoteFile {}
@@ -60083,7 +59980,6 @@ impl RObject for GetRepliedMessage {
 }
 
 
-
 impl Function for GetRepliedMessage {}
 
 
@@ -60148,7 +60044,6 @@ impl RObject for GetSavedAnimations {
 }
 
 
-
 impl Function for GetSavedAnimations {}
 
 
@@ -60195,7 +60090,6 @@ impl RObject for GetSavedOrderInfo {
   fn td_type(&self) -> TDType { TDType::GetSavedOrderInfo }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetSavedOrderInfo {}
@@ -60255,7 +60149,6 @@ impl RObject for GetScopeNotificationSettings {
 }
 
 
-
 impl Function for GetScopeNotificationSettings {}
 
 
@@ -60312,7 +60205,6 @@ impl RObject for GetSecretChat {
   fn td_type(&self) -> TDType { TDType::GetSecretChat }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetSecretChat {}
@@ -60380,7 +60272,6 @@ impl RObject for GetStickerEmojis {
 }
 
 
-
 impl Function for GetStickerEmojis {}
 
 
@@ -60437,7 +60328,6 @@ impl RObject for GetStickerSet {
   fn td_type(&self) -> TDType { TDType::GetStickerSet }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetStickerSet {}
@@ -60498,7 +60388,6 @@ impl RObject for GetStickers {
   fn td_type(&self) -> TDType { TDType::GetStickers }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetStickers {}
@@ -60567,7 +60456,6 @@ impl RObject for GetStorageStatistics {
 }
 
 
-
 impl Function for GetStorageStatistics {}
 
 
@@ -60624,7 +60512,6 @@ impl RObject for GetStorageStatisticsFast {
 }
 
 
-
 impl Function for GetStorageStatisticsFast {}
 
 
@@ -60673,7 +60560,6 @@ impl RObject for GetSupergroup {
   fn td_type(&self) -> TDType { TDType::GetSupergroup }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetSupergroup {}
@@ -60732,7 +60618,6 @@ impl RObject for GetSupergroupFullInfo {
   fn td_type(&self) -> TDType { TDType::GetSupergroupFullInfo }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetSupergroupFullInfo {}
@@ -60804,7 +60689,6 @@ impl RObject for GetSupergroupMembers {
   fn td_type(&self) -> TDType { TDType::GetSupergroupMembers }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetSupergroupMembers {}
@@ -60887,7 +60771,6 @@ impl RObject for GetSupportUser {
 }
 
 
-
 impl Function for GetSupportUser {}
 
 
@@ -60934,7 +60817,6 @@ impl RObject for GetTemporaryPasswordState {
   fn td_type(&self) -> TDType { TDType::GetTemporaryPasswordState }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetTemporaryPasswordState {}
@@ -60985,7 +60867,6 @@ impl RObject for GetTextEntities {
   fn td_type(&self) -> TDType { TDType::GetTextEntities }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetTextEntities {}
@@ -61055,7 +60936,6 @@ impl RObject for GetTopChats {
 }
 
 
-
 impl Function for GetTopChats {}
 
 
@@ -61120,7 +61000,6 @@ impl RObject for GetTrendingStickerSets {
 }
 
 
-
 impl Function for GetTrendingStickerSets {}
 
 
@@ -61169,7 +61048,6 @@ impl RObject for GetUser {
   fn td_type(&self) -> TDType { TDType::GetUser }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetUser {}
@@ -61228,7 +61106,6 @@ impl RObject for GetUserFullInfo {
   fn td_type(&self) -> TDType { TDType::GetUserFullInfo }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetUserFullInfo {}
@@ -61296,7 +61173,6 @@ impl RObject for GetUserPrivacySettingRules {
 }
 
 
-
 impl Function for GetUserPrivacySettingRules {}
 
 
@@ -61357,7 +61233,6 @@ impl RObject for GetUserProfilePhotos {
   fn td_type(&self) -> TDType { TDType::GetUserProfilePhotos }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetUserProfilePhotos {}
@@ -61432,7 +61307,6 @@ impl RObject for GetWallpapers {
 }
 
 
-
 impl Function for GetWallpapers {}
 
 
@@ -61483,7 +61357,6 @@ impl RObject for GetWebPageInstantView {
   fn td_type(&self) -> TDType { TDType::GetWebPageInstantView }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for GetWebPageInstantView {}
@@ -61552,7 +61425,6 @@ impl RObject for GetWebPagePreview {
 }
 
 
-
 impl Function for GetWebPagePreview {}
 
 
@@ -61609,7 +61481,6 @@ impl RObject for ImportContacts {
   fn td_type(&self) -> TDType { TDType::ImportContacts }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ImportContacts {}
@@ -61670,7 +61541,6 @@ impl RObject for JoinChat {
 }
 
 
-
 impl Function for JoinChat {}
 
 
@@ -61727,7 +61597,6 @@ impl RObject for JoinChatByInviteLink {
   fn td_type(&self) -> TDType { TDType::JoinChatByInviteLink }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for JoinChatByInviteLink {}
@@ -61788,7 +61657,6 @@ impl RObject for LeaveChat {
 }
 
 
-
 impl Function for LeaveChat {}
 
 
@@ -61845,7 +61713,6 @@ impl RObject for LogOut {
 }
 
 
-
 impl Function for LogOut {}
 
 
@@ -61894,7 +61761,6 @@ impl RObject for OpenChat {
   fn td_type(&self) -> TDType { TDType::OpenChat }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for OpenChat {}
@@ -61955,7 +61821,6 @@ impl RObject for OpenMessageContent {
   fn td_type(&self) -> TDType { TDType::OpenMessageContent }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for OpenMessageContent {}
@@ -62043,7 +61908,6 @@ impl RObject for OptimizeStorage {
   fn td_type(&self) -> TDType { TDType::OptimizeStorage }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for OptimizeStorage {}
@@ -62169,7 +62033,6 @@ impl RObject for ParseTextEntities {
 }
 
 
-
 impl Function for ParseTextEntities {}
 
 
@@ -62238,7 +62101,6 @@ impl RObject for PinChatMessage {
   fn td_type(&self) -> TDType { TDType::PinChatMessage }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for PinChatMessage {}
@@ -62315,7 +62177,6 @@ impl RObject for PingProxy {
 }
 
 
-
 impl Function for PingProxy {}
 
 
@@ -62374,7 +62235,6 @@ impl RObject for ProcessPushNotification {
 }
 
 
-
 impl Function for ProcessPushNotification {}
 
 
@@ -62431,7 +62291,6 @@ impl RObject for ReadAllChatMentions {
   fn td_type(&self) -> TDType { TDType::ReadAllChatMentions }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ReadAllChatMentions {}
@@ -62494,7 +62353,6 @@ impl RObject for ReadFilePart {
   fn td_type(&self) -> TDType { TDType::ReadFilePart }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ReadFilePart {}
@@ -62571,7 +62429,6 @@ impl RObject for RecoverAuthenticationPassword {
 }
 
 
-
 impl Function for RecoverAuthenticationPassword {}
 
 
@@ -62628,7 +62485,6 @@ impl RObject for RecoverPassword {
   fn td_type(&self) -> TDType { TDType::RecoverPassword }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for RecoverPassword {}
@@ -62698,7 +62554,6 @@ impl RObject for RegisterDevice {
 }
 
 
-
 impl Function for RegisterDevice {}
 
 
@@ -62763,7 +62618,6 @@ impl RObject for RemoveContacts {
   fn td_type(&self) -> TDType { TDType::RemoveContacts }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for RemoveContacts {}
@@ -62831,7 +62685,6 @@ impl RObject for RemoveFavoriteSticker {
 }
 
 
-
 impl Function for RemoveFavoriteSticker {}
 
 
@@ -62890,7 +62743,6 @@ impl RObject for RemoveNotification {
   fn td_type(&self) -> TDType { TDType::RemoveNotification }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for RemoveNotification {}
@@ -62961,7 +62813,6 @@ impl RObject for RemoveNotificationGroup {
 }
 
 
-
 impl Function for RemoveNotificationGroup {}
 
 
@@ -63028,7 +62879,6 @@ impl RObject for RemoveProxy {
 }
 
 
-
 impl Function for RemoveProxy {}
 
 
@@ -63085,7 +62935,6 @@ impl RObject for RemoveRecentHashtag {
   fn td_type(&self) -> TDType { TDType::RemoveRecentHashtag }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for RemoveRecentHashtag {}
@@ -63155,7 +63004,6 @@ impl RObject for RemoveRecentSticker {
 }
 
 
-
 impl Function for RemoveRecentSticker {}
 
 
@@ -63220,7 +63068,6 @@ impl RObject for RemoveRecentlyFoundChat {
   fn td_type(&self) -> TDType { TDType::RemoveRecentlyFoundChat }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for RemoveRecentlyFoundChat {}
@@ -63288,7 +63135,6 @@ impl RObject for RemoveSavedAnimation {
 }
 
 
-
 impl Function for RemoveSavedAnimation {}
 
 
@@ -63352,7 +63198,6 @@ impl RObject for RemoveStickerFromSet {
   fn td_type(&self) -> TDType { TDType::RemoveStickerFromSet }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for RemoveStickerFromSet {}
@@ -63422,7 +63267,6 @@ impl RObject for RemoveTopChat {
 }
 
 
-
 impl Function for RemoveTopChat {}
 
 
@@ -63489,7 +63333,6 @@ impl RObject for ReorderInstalledStickerSets {
   fn td_type(&self) -> TDType { TDType::ReorderInstalledStickerSets }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ReorderInstalledStickerSets {}
@@ -63567,7 +63410,6 @@ impl RObject for ReportChat {
   fn td_type(&self) -> TDType { TDType::ReportChat }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ReportChat {}
@@ -63648,7 +63490,6 @@ impl RObject for ReportSupergroupSpam {
 }
 
 
-
 impl Function for ReportSupergroupSpam {}
 
 
@@ -63721,7 +63562,6 @@ impl RObject for RequestAuthenticationPasswordRecovery {
 }
 
 
-
 impl Function for RequestAuthenticationPasswordRecovery {}
 
 
@@ -63768,7 +63608,6 @@ impl RObject for RequestPasswordRecovery {
   fn td_type(&self) -> TDType { TDType::RequestPasswordRecovery }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for RequestPasswordRecovery {}
@@ -63819,7 +63658,6 @@ impl RObject for ResendAuthenticationCode {
 }
 
 
-
 impl Function for ResendAuthenticationCode {}
 
 
@@ -63866,7 +63704,6 @@ impl RObject for ResendChangePhoneNumberCode {
   fn td_type(&self) -> TDType { TDType::ResendChangePhoneNumberCode }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ResendChangePhoneNumberCode {}
@@ -63917,7 +63754,6 @@ impl RObject for ResendEmailAddressVerificationCode {
 }
 
 
-
 impl Function for ResendEmailAddressVerificationCode {}
 
 
@@ -63964,7 +63800,6 @@ impl RObject for ResendPhoneNumberConfirmationCode {
   fn td_type(&self) -> TDType { TDType::ResendPhoneNumberConfirmationCode }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ResendPhoneNumberConfirmationCode {}
@@ -64015,7 +63850,6 @@ impl RObject for ResendPhoneNumberVerificationCode {
 }
 
 
-
 impl Function for ResendPhoneNumberVerificationCode {}
 
 
@@ -64062,7 +63896,6 @@ impl RObject for ResendRecoveryEmailAddressCode {
   fn td_type(&self) -> TDType { TDType::ResendRecoveryEmailAddressCode }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ResendRecoveryEmailAddressCode {}
@@ -64113,7 +63946,6 @@ impl RObject for ResetAllNotificationSettings {
 }
 
 
-
 impl Function for ResetAllNotificationSettings {}
 
 
@@ -64160,7 +63992,6 @@ impl RObject for ResetNetworkStatistics {
   fn td_type(&self) -> TDType { TDType::ResetNetworkStatistics }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ResetNetworkStatistics {}
@@ -64215,7 +64046,6 @@ impl RObject for SearchCallMessages {
   fn td_type(&self) -> TDType { TDType::SearchCallMessages }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SearchCallMessages {}
@@ -64303,7 +64133,6 @@ impl RObject for SearchChatMembers {
   fn td_type(&self) -> TDType { TDType::SearchChatMembers }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SearchChatMembers {}
@@ -64405,7 +64234,6 @@ impl RObject for SearchChatMessages {
   fn td_type(&self) -> TDType { TDType::SearchChatMessages }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SearchChatMessages {}
@@ -64516,7 +64344,6 @@ impl RObject for SearchChatRecentLocationMessages {
 }
 
 
-
 impl Function for SearchChatRecentLocationMessages {}
 
 
@@ -64583,7 +64410,6 @@ impl RObject for SearchChats {
   fn td_type(&self) -> TDType { TDType::SearchChats }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SearchChats {}
@@ -64654,7 +64480,6 @@ impl RObject for SearchChatsOnServer {
 }
 
 
-
 impl Function for SearchChatsOnServer {}
 
 
@@ -64721,7 +64546,6 @@ impl RObject for SearchContacts {
   fn td_type(&self) -> TDType { TDType::SearchContacts }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SearchContacts {}
@@ -64792,7 +64616,6 @@ impl RObject for SearchHashtags {
 }
 
 
-
 impl Function for SearchHashtags {}
 
 
@@ -64861,7 +64684,6 @@ impl RObject for SearchInstalledStickerSets {
   fn td_type(&self) -> TDType { TDType::SearchInstalledStickerSets }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SearchInstalledStickerSets {}
@@ -64944,7 +64766,6 @@ impl RObject for SearchMessages {
   fn td_type(&self) -> TDType { TDType::SearchMessages }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SearchMessages {}
@@ -65037,7 +64858,6 @@ impl RObject for SearchPublicChat {
 }
 
 
-
 impl Function for SearchPublicChat {}
 
 
@@ -65094,7 +64914,6 @@ impl RObject for SearchPublicChats {
   fn td_type(&self) -> TDType { TDType::SearchPublicChats }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SearchPublicChats {}
@@ -65168,7 +64987,6 @@ impl RObject for SearchSecretMessages {
   fn td_type(&self) -> TDType { TDType::SearchSecretMessages }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SearchSecretMessages {}
@@ -65261,7 +65079,6 @@ impl RObject for SearchStickerSet {
 }
 
 
-
 impl Function for SearchStickerSet {}
 
 
@@ -65318,7 +65135,6 @@ impl RObject for SearchStickerSets {
   fn td_type(&self) -> TDType { TDType::SearchStickerSets }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SearchStickerSets {}
@@ -65379,7 +65195,6 @@ impl RObject for SearchStickers {
   fn td_type(&self) -> TDType { TDType::SearchStickers }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SearchStickers {}
@@ -65450,7 +65265,6 @@ impl RObject for SendBotStartMessage {
   fn td_type(&self) -> TDType { TDType::SendBotStartMessage }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SendBotStartMessage {}
@@ -65529,7 +65343,6 @@ impl RObject for SendCallDebugInformation {
 }
 
 
-
 impl Function for SendCallDebugInformation {}
 
 
@@ -65598,7 +65411,6 @@ impl RObject for SendCallRating {
   fn td_type(&self) -> TDType { TDType::SendCallRating }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SendCallRating {}
@@ -65684,7 +65496,6 @@ impl RObject for SendChatAction {
 }
 
 
-
 impl Function for SendChatAction {}
 
 
@@ -65751,7 +65562,6 @@ impl RObject for SendChatScreenshotTakenNotification {
 }
 
 
-
 impl Function for SendChatScreenshotTakenNotification {}
 
 
@@ -65810,7 +65620,6 @@ impl RObject for SendChatSetTtlMessage {
   fn td_type(&self) -> TDType { TDType::SendChatSetTtlMessage }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SendChatSetTtlMessage {}
@@ -65881,7 +65690,6 @@ impl RObject for SendCustomRequest {
 }
 
 
-
 impl Function for SendCustomRequest {}
 
 
@@ -65946,7 +65754,6 @@ impl RObject for SendEmailAddressVerificationCode {
   fn td_type(&self) -> TDType { TDType::SendEmailAddressVerificationCode }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SendEmailAddressVerificationCode {}
@@ -66017,7 +65824,6 @@ impl RObject for SendInlineQueryResultMessage {
   fn td_type(&self) -> TDType { TDType::SendInlineQueryResultMessage }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SendInlineQueryResultMessage {}
@@ -66143,7 +65949,6 @@ impl RObject for SendMessage {
 }
 
 
-
 impl Function for SendMessage {}
 
 
@@ -66257,7 +66062,6 @@ impl RObject for SendMessageAlbum {
 }
 
 
-
 impl Function for SendMessageAlbum {}
 
 
@@ -66357,7 +66161,6 @@ impl RObject for SendPassportAuthorizationForm {
 }
 
 
-
 impl Function for SendPassportAuthorizationForm {}
 
 
@@ -66437,7 +66240,6 @@ impl RObject for SendPaymentForm {
   fn td_type(&self) -> TDType { TDType::SendPaymentForm }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SendPaymentForm {}
@@ -66536,7 +66338,6 @@ impl RObject for SendPhoneNumberConfirmationCode {
 }
 
 
-
 impl Function for SendPhoneNumberConfirmationCode {}
 
 
@@ -66623,7 +66424,6 @@ impl RObject for SendPhoneNumberVerificationCode {
 }
 
 
-
 impl Function for SendPhoneNumberVerificationCode {}
 
 
@@ -66698,7 +66498,6 @@ impl RObject for SetAccountTtl {
 }
 
 
-
 impl Function for SetAccountTtl {}
 
 
@@ -66755,7 +66554,6 @@ impl RObject for SetAlarm {
   fn td_type(&self) -> TDType { TDType::SetAlarm }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetAlarm {}
@@ -66818,7 +66616,6 @@ impl RObject for SetAuthenticationPhoneNumber {
   fn td_type(&self) -> TDType { TDType::SetAuthenticationPhoneNumber }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetAuthenticationPhoneNumber {}
@@ -66895,7 +66692,6 @@ impl RObject for SetBio {
 }
 
 
-
 impl Function for SetBio {}
 
 
@@ -66954,7 +66750,6 @@ impl RObject for SetBotUpdatesStatus {
   fn td_type(&self) -> TDType { TDType::SetBotUpdatesStatus }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetBotUpdatesStatus {}
@@ -67025,7 +66820,6 @@ impl RObject for SetChatClientData {
 }
 
 
-
 impl Function for SetChatClientData {}
 
 
@@ -67092,7 +66886,6 @@ impl RObject for SetChatDraftMessage {
   fn td_type(&self) -> TDType { TDType::SetChatDraftMessage }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetChatDraftMessage {}
@@ -67172,7 +66965,6 @@ impl RObject for SetChatMemberStatus {
 }
 
 
-
 impl Function for SetChatMemberStatus {}
 
 
@@ -67247,7 +67039,6 @@ impl RObject for SetChatNotificationSettings {
   fn td_type(&self) -> TDType { TDType::SetChatNotificationSettings }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetChatNotificationSettings {}
@@ -67325,7 +67116,6 @@ impl RObject for SetChatPhoto {
 }
 
 
-
 impl Function for SetChatPhoto {}
 
 
@@ -67392,7 +67182,6 @@ impl RObject for SetChatTitle {
   fn td_type(&self) -> TDType { TDType::SetChatTitle }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetChatTitle {}
@@ -67463,7 +67252,6 @@ impl RObject for SetCustomLanguagePack {
 }
 
 
-
 impl Function for SetCustomLanguagePack {}
 
 
@@ -67532,7 +67320,6 @@ impl RObject for SetCustomLanguagePackString {
 }
 
 
-
 impl Function for SetCustomLanguagePackString {}
 
 
@@ -67599,7 +67386,6 @@ impl RObject for SetDatabaseEncryptionKey {
 }
 
 
-
 impl Function for SetDatabaseEncryptionKey {}
 
 
@@ -67660,7 +67446,6 @@ impl RObject for SetFileGenerationProgress {
   fn td_type(&self) -> TDType { TDType::SetFileGenerationProgress }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetFileGenerationProgress {}
@@ -67745,7 +67530,6 @@ impl RObject for SetGameScore {
   fn td_type(&self) -> TDType { TDType::SetGameScore }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetGameScore {}
@@ -67854,7 +67638,6 @@ impl RObject for SetInlineGameScore {
 }
 
 
-
 impl Function for SetInlineGameScore {}
 
 
@@ -67952,7 +67735,6 @@ impl RObject for SetLogStream {
 }
 
 
-
 impl Function for SetLogStream {}
 
 
@@ -68011,7 +67793,6 @@ impl RObject for SetLogTagVerbosityLevel {
   fn td_type(&self) -> TDType { TDType::SetLogTagVerbosityLevel }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetLogTagVerbosityLevel {}
@@ -68080,7 +67861,6 @@ impl RObject for SetLogVerbosityLevel {
 }
 
 
-
 impl Function for SetLogVerbosityLevel {}
 
 
@@ -68139,7 +67919,6 @@ impl RObject for SetName {
   fn td_type(&self) -> TDType { TDType::SetName }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetName {}
@@ -68215,7 +67994,6 @@ impl RObject for SetNetworkType {
 }
 
 
-
 impl Function for SetNetworkType {}
 
 
@@ -68281,7 +68059,6 @@ impl RObject for SetOption {
   fn td_type(&self) -> TDType { TDType::SetOption }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetOption {}
@@ -68359,7 +68136,6 @@ impl RObject for SetPassportElement {
 }
 
 
-
 impl Function for SetPassportElement {}
 
 
@@ -68426,7 +68202,6 @@ impl RObject for SetPassportElementErrors {
   fn td_type(&self) -> TDType { TDType::SetPassportElementErrors }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetPassportElementErrors {}
@@ -68501,7 +68276,6 @@ impl RObject for SetPassword {
   fn td_type(&self) -> TDType { TDType::SetPassword }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetPassword {}
@@ -68594,7 +68368,6 @@ impl RObject for SetPinnedChats {
 }
 
 
-
 impl Function for SetPinnedChats {}
 
 
@@ -68655,7 +68428,6 @@ impl RObject for SetPollAnswer {
   fn td_type(&self) -> TDType { TDType::SetPollAnswer }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetPollAnswer {}
@@ -68739,7 +68511,6 @@ impl RObject for SetProfilePhoto {
 }
 
 
-
 impl Function for SetProfilePhoto {}
 
 
@@ -68798,7 +68569,6 @@ impl RObject for SetRecoveryEmailAddress {
   fn td_type(&self) -> TDType { TDType::SetRecoveryEmailAddress }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetRecoveryEmailAddress {}
@@ -68876,7 +68646,6 @@ impl RObject for SetScopeNotificationSettings {
 }
 
 
-
 impl Function for SetScopeNotificationSettings {}
 
 
@@ -68952,7 +68721,6 @@ impl RObject for SetStickerPositionInSet {
 }
 
 
-
 impl Function for SetStickerPositionInSet {}
 
 
@@ -69019,7 +68787,6 @@ impl RObject for SetSupergroupDescription {
   fn td_type(&self) -> TDType { TDType::SetSupergroupDescription }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetSupergroupDescription {}
@@ -69090,7 +68857,6 @@ impl RObject for SetSupergroupStickerSet {
 }
 
 
-
 impl Function for SetSupergroupStickerSet {}
 
 
@@ -69159,7 +68925,6 @@ impl RObject for SetSupergroupUsername {
 }
 
 
-
 impl Function for SetSupergroupUsername {}
 
 
@@ -69224,7 +68989,6 @@ impl RObject for SetTdlibParameters {
   fn td_type(&self) -> TDType { TDType::SetTdlibParameters }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetTdlibParameters {}
@@ -69294,7 +69058,6 @@ impl RObject for SetUserPrivacySettingRules {
 }
 
 
-
 impl Function for SetUserPrivacySettingRules {}
 
 
@@ -69359,7 +69122,6 @@ impl RObject for SetUsername {
   fn td_type(&self) -> TDType { TDType::SetUsername }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for SetUsername {}
@@ -69429,7 +69191,6 @@ impl RObject for StopPoll {
   fn td_type(&self) -> TDType { TDType::StopPoll }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for StopPoll {}
@@ -69506,7 +69267,6 @@ impl RObject for SynchronizeLanguagePack {
 }
 
 
-
 impl Function for SynchronizeLanguagePack {}
 
 
@@ -69563,7 +69323,6 @@ impl RObject for TerminateAllOtherSessions {
 }
 
 
-
 impl Function for TerminateAllOtherSessions {}
 
 
@@ -69612,7 +69371,6 @@ impl RObject for TerminateSession {
   fn td_type(&self) -> TDType { TDType::TerminateSession }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for TerminateSession {}
@@ -69673,7 +69431,6 @@ impl RObject for TestCallBytes {
 }
 
 
-
 impl Function for TestCallBytes {}
 
 
@@ -69730,7 +69487,6 @@ impl RObject for TestCallEmpty {
 }
 
 
-
 impl Function for TestCallEmpty {}
 
 
@@ -69779,7 +69535,6 @@ impl RObject for TestCallString {
   fn td_type(&self) -> TDType { TDType::TestCallString }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for TestCallString {}
@@ -69840,7 +69595,6 @@ impl RObject for TestCallVectorInt {
 }
 
 
-
 impl Function for TestCallVectorInt {}
 
 
@@ -69897,7 +69651,6 @@ impl RObject for TestCallVectorIntObject {
   fn td_type(&self) -> TDType { TDType::TestCallVectorIntObject }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for TestCallVectorIntObject {}
@@ -69958,7 +69711,6 @@ impl RObject for TestCallVectorString {
 }
 
 
-
 impl Function for TestCallVectorString {}
 
 
@@ -70017,7 +69769,6 @@ impl RObject for TestCallVectorStringObject {
 }
 
 
-
 impl Function for TestCallVectorStringObject {}
 
 
@@ -70074,7 +69825,6 @@ impl RObject for TestGetDifference {
 }
 
 
-
 impl Function for TestGetDifference {}
 
 
@@ -70121,7 +69871,6 @@ impl RObject for TestNetwork {
   fn td_type(&self) -> TDType { TDType::TestNetwork }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for TestNetwork {}
@@ -70172,7 +69921,6 @@ impl RObject for TestSquareInt {
   fn td_type(&self) -> TDType { TDType::TestSquareInt }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for TestSquareInt {}
@@ -70231,7 +69979,6 @@ impl RObject for TestUseError {
 }
 
 
-
 impl Function for TestUseError {}
 
 
@@ -70278,7 +70025,6 @@ impl RObject for TestUseUpdate {
   fn td_type(&self) -> TDType { TDType::TestUseUpdate }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for TestUseUpdate {}
@@ -70331,7 +70077,6 @@ impl RObject for ToggleBasicGroupAdministrators {
   fn td_type(&self) -> TDType { TDType::ToggleBasicGroupAdministrators }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ToggleBasicGroupAdministrators {}
@@ -70402,7 +70147,6 @@ impl RObject for ToggleChatDefaultDisableNotification {
 }
 
 
-
 impl Function for ToggleChatDefaultDisableNotification {}
 
 
@@ -70469,7 +70213,6 @@ impl RObject for ToggleChatIsMarkedAsUnread {
   fn td_type(&self) -> TDType { TDType::ToggleChatIsMarkedAsUnread }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ToggleChatIsMarkedAsUnread {}
@@ -70540,7 +70283,6 @@ impl RObject for ToggleChatIsPinned {
 }
 
 
-
 impl Function for ToggleChatIsPinned {}
 
 
@@ -70607,7 +70349,6 @@ impl RObject for ToggleSupergroupInvites {
   fn td_type(&self) -> TDType { TDType::ToggleSupergroupInvites }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ToggleSupergroupInvites {}
@@ -70678,7 +70419,6 @@ impl RObject for ToggleSupergroupIsAllHistoryAvailable {
 }
 
 
-
 impl Function for ToggleSupergroupIsAllHistoryAvailable {}
 
 
@@ -70747,7 +70487,6 @@ impl RObject for ToggleSupergroupSignMessages {
 }
 
 
-
 impl Function for ToggleSupergroupSignMessages {}
 
 
@@ -70814,7 +70553,6 @@ impl RObject for UnblockUser {
 }
 
 
-
 impl Function for UnblockUser {}
 
 
@@ -70873,7 +70611,6 @@ impl RObject for UnpinChatMessage {
 }
 
 
-
 impl Function for UnpinChatMessage {}
 
 
@@ -70930,7 +70667,6 @@ impl RObject for UpgradeBasicGroupChatToSupergroupChat {
   fn td_type(&self) -> TDType { TDType::UpgradeBasicGroupChatToSupergroupChat }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for UpgradeBasicGroupChatToSupergroupChat {}
@@ -71000,7 +70736,6 @@ impl RObject for UploadFile {
   fn td_type(&self) -> TDType { TDType::UploadFile }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for UploadFile {}
@@ -71086,7 +70821,6 @@ impl RObject for UploadStickerFile {
 }
 
 
-
 impl Function for UploadStickerFile {}
 
 
@@ -71157,7 +70891,6 @@ impl RObject for ValidateOrderInfo {
   fn td_type(&self) -> TDType { TDType::ValidateOrderInfo }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for ValidateOrderInfo {}
@@ -71246,7 +70979,6 @@ impl RObject for ViewMessages {
 }
 
 
-
 impl Function for ViewMessages {}
 
 
@@ -71321,7 +71053,6 @@ impl RObject for ViewTrendingStickerSets {
 }
 
 
-
 impl Function for ViewTrendingStickerSets {}
 
 
@@ -71382,7 +71113,6 @@ impl RObject for WriteGeneratedFilePart {
   fn td_type(&self) -> TDType { TDType::WriteGeneratedFilePart }
   fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
 }
-
 
 
 impl Function for WriteGeneratedFilePart {}
