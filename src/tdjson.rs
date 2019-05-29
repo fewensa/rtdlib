@@ -13,6 +13,9 @@ pub struct Tdlib {
   instance: TdlibClient,
 }
 
+unsafe impl Send for Tdlib {}
+unsafe impl Sync for Tdlib {}
+
 #[link(name = "tdjson")]
 extern "C" {
   fn td_json_client_create() -> TdlibClient;
