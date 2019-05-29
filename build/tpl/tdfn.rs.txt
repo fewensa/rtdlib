@@ -43,6 +43,9 @@ impl {{ clz_name }} {
   {% if fields %}{% for field in fields %}
   pub fn {{field.name}}(&self) -> &Option<{{field.type}}> { &self.{{field.name}} }
   {% endfor %}{% endif %}
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<{{ clz_name }}> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 {% endif %}
 {% if has_builder_struct %}
@@ -63,6 +66,11 @@ impl {{ clz_name }}Builder {
 {% endif %}
 {% if clz_is_trait %}
 {% if clz_name != 'Object' and clz_name != 'Function' %}
+impl {{ clz_name }} {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<{{ clz_name }}>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<{{clz_name}}> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();

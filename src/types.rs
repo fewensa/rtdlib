@@ -1,6 +1,7 @@
 
 use std::fmt::Debug;
 use std::str::FromStr;
+use crate::tdkit;
 
 pub trait RObject {
  #[doc(hidden)] fn td_name(&self) -> &'static str;
@@ -1501,6 +1502,9 @@ impl AccountTtl {
   
   pub fn days(&self) -> &Option<i32> { &self.days }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AccountTtl> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -1582,6 +1586,9 @@ impl Address {
   
   pub fn postal_code(&self) -> &Option<String> { &self.postal_code }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Address> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -1693,6 +1700,9 @@ impl Animation {
   
   pub fn animation(&self) -> &Option<File> { &self.animation }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Animation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -1779,6 +1789,9 @@ impl Animations {
   
   pub fn animations(&self) -> &Option<Vec<Animation>> { &self.animations }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Animations> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -1865,6 +1878,9 @@ impl Audio {
   
   pub fn audio(&self) -> &Option<File> { &self.audio }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Audio> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -1973,6 +1989,9 @@ impl AuthenticationCodeInfo {
   
   pub fn timeout(&self) -> &Option<i32> { &self.timeout }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AuthenticationCodeInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2018,6 +2037,11 @@ pub trait AuthenticationCodeType: Object + RObject + Debug {}
 
 
 
+impl AuthenticationCodeType {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<AuthenticationCodeType>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<AuthenticationCodeType> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -2078,6 +2102,9 @@ impl AuthenticationCodeTypeTelegramMessage {
   
   pub fn length(&self) -> &Option<i32> { &self.length }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AuthenticationCodeTypeTelegramMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2136,6 +2163,9 @@ impl AuthenticationCodeTypeSms {
   
   pub fn length(&self) -> &Option<i32> { &self.length }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AuthenticationCodeTypeSms> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2194,6 +2224,9 @@ impl AuthenticationCodeTypeCall {
   
   pub fn length(&self) -> &Option<i32> { &self.length }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AuthenticationCodeTypeCall> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2252,6 +2285,9 @@ impl AuthenticationCodeTypeFlashCall {
   
   pub fn pattern(&self) -> &Option<String> { &self.pattern }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AuthenticationCodeTypeFlashCall> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2282,6 +2318,11 @@ pub trait AuthorizationState: Object + RObject + Debug {}
 
 
 
+impl AuthorizationState {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<AuthorizationState>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<AuthorizationState> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -2334,6 +2375,9 @@ impl RObject for AuthorizationStateWaitTdlibParameters {
 impl AuthorizationStateWaitTdlibParameters {
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AuthorizationStateWaitTdlibParameters> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2368,6 +2412,9 @@ impl AuthorizationStateWaitEncryptionKey {
   
   pub fn is_encrypted(&self) -> &Option<bool> { &self.is_encrypted }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AuthorizationStateWaitEncryptionKey> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2398,6 +2445,9 @@ impl RObject for AuthorizationStateWaitPhoneNumber {
 impl AuthorizationStateWaitPhoneNumber {
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AuthorizationStateWaitPhoneNumber> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2440,6 +2490,9 @@ impl AuthorizationStateWaitCode {
   
   pub fn code_info(&self) -> &Option<AuthenticationCodeInfo> { &self.code_info }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AuthorizationStateWaitCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2482,6 +2535,9 @@ impl AuthorizationStateWaitPassword {
   
   pub fn recovery_email_address_pattern(&self) -> &Option<String> { &self.recovery_email_address_pattern }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AuthorizationStateWaitPassword> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2512,6 +2568,9 @@ impl RObject for AuthorizationStateReady {
 impl AuthorizationStateReady {
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AuthorizationStateReady> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2542,6 +2601,9 @@ impl RObject for AuthorizationStateLoggingOut {
 impl AuthorizationStateLoggingOut {
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AuthorizationStateLoggingOut> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2572,6 +2634,9 @@ impl RObject for AuthorizationStateClosing {
 impl AuthorizationStateClosing {
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AuthorizationStateClosing> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2602,6 +2667,9 @@ impl RObject for AuthorizationStateClosed {
 impl AuthorizationStateClosed {
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AuthorizationStateClosed> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2675,6 +2743,9 @@ impl BasicGroup {
   
   pub fn upgraded_to_supergroup_id(&self) -> &Option<i32> { &self.upgraded_to_supergroup_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<BasicGroup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2766,6 +2837,9 @@ impl BasicGroupFullInfo {
   
   pub fn invite_link(&self) -> &Option<String> { &self.invite_link }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<BasicGroupFullInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2837,6 +2911,9 @@ impl BotCommand {
   
   pub fn description(&self) -> &Option<String> { &self.description }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<BotCommand> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2903,6 +2980,9 @@ impl BotInfo {
   
   pub fn commands(&self) -> &Option<Vec<BotCommand>> { &self.commands }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<BotInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -2986,6 +3066,9 @@ impl Call {
   
   pub fn state(&self) -> &Option<Box<CallState>> { &self.state }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Call> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -3077,6 +3160,9 @@ impl CallConnection {
   
   pub fn peer_tag(&self) -> &Option<String> { &self.peer_tag }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallConnection> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -3127,6 +3213,11 @@ pub trait CallDiscardReason: Object + RObject + Debug {}
 
 
 
+impl CallDiscardReason {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<CallDiscardReason>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<CallDiscardReason> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -3183,6 +3274,9 @@ impl CallDiscardReasonEmpty {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallDiscardReasonEmpty> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -3231,6 +3325,9 @@ impl CallDiscardReasonMissed {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallDiscardReasonMissed> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -3279,6 +3376,9 @@ impl CallDiscardReasonDeclined {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallDiscardReasonDeclined> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -3327,6 +3427,9 @@ impl CallDiscardReasonDisconnected {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallDiscardReasonDisconnected> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -3375,6 +3478,9 @@ impl CallDiscardReasonHungUp {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallDiscardReasonHungUp> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -3426,6 +3532,9 @@ impl CallId {
   
   pub fn id(&self) -> &Option<i32> { &self.id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallId> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -3497,6 +3606,9 @@ impl CallProtocol {
   
   pub fn max_layer(&self) -> &Option<i32> { &self.max_layer }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallProtocol> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -3542,6 +3654,11 @@ pub trait CallState: Object + RObject + Debug {}
 
 
 
+impl CallState {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<CallState>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<CallState> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -3609,6 +3726,9 @@ impl CallStatePending {
   
   pub fn is_received(&self) -> &Option<bool> { &self.is_received }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallStatePending> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -3667,6 +3787,9 @@ impl CallStateExchangingKeys {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallStateExchangingKeys> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -3745,6 +3868,9 @@ impl CallStateReady {
   
   pub fn allow_p2p(&self) -> &Option<bool> { &self.allow_p2p }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallStateReady> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -3823,6 +3949,9 @@ impl CallStateHangingUp {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallStateHangingUp> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -3893,6 +4022,9 @@ impl CallStateDiscarded {
   
   pub fn need_debug_information(&self) -> &Option<bool> { &self.need_debug_information }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallStateDiscarded> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -3961,6 +4093,9 @@ impl CallStateError {
   
   pub fn error(&self) -> &Option<Error> { &self.error }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallStateError> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -4027,6 +4162,9 @@ impl CallbackQueryAnswer {
   
   pub fn url(&self) -> &Option<String> { &self.url }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallbackQueryAnswer> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -4067,6 +4205,11 @@ pub trait CallbackQueryPayload: Object + RObject + Debug {}
 
 
 
+impl CallbackQueryPayload {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<CallbackQueryPayload>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<CallbackQueryPayload> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -4125,6 +4268,9 @@ impl CallbackQueryPayloadData {
   
   pub fn data(&self) -> &Option<String> { &self.data }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallbackQueryPayloadData> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -4183,6 +4329,9 @@ impl CallbackQueryPayloadGame {
   
   pub fn game_short_name(&self) -> &Option<String> { &self.game_short_name }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CallbackQueryPayloadGame> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -4351,6 +4500,9 @@ impl Chat {
   
   pub fn client_data(&self) -> &Option<String> { &self.client_data }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Chat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -4486,6 +4638,11 @@ pub trait ChatAction: Object + RObject + Debug {}
 
 
 
+impl ChatAction {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<ChatAction>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<ChatAction> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -4550,6 +4707,9 @@ impl ChatActionTyping {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatActionTyping> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -4598,6 +4758,9 @@ impl ChatActionRecordingVideo {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatActionRecordingVideo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -4651,6 +4814,9 @@ impl ChatActionUploadingVideo {
   
   pub fn progress(&self) -> &Option<i32> { &self.progress }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatActionUploadingVideo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -4704,6 +4870,9 @@ impl ChatActionRecordingVoiceNote {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatActionRecordingVoiceNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -4757,6 +4926,9 @@ impl ChatActionUploadingVoiceNote {
   
   pub fn progress(&self) -> &Option<i32> { &self.progress }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatActionUploadingVoiceNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -4815,6 +4987,9 @@ impl ChatActionUploadingPhoto {
   
   pub fn progress(&self) -> &Option<i32> { &self.progress }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatActionUploadingPhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -4873,6 +5048,9 @@ impl ChatActionUploadingDocument {
   
   pub fn progress(&self) -> &Option<i32> { &self.progress }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatActionUploadingDocument> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -4926,6 +5104,9 @@ impl ChatActionChoosingLocation {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatActionChoosingLocation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -4974,6 +5155,9 @@ impl ChatActionChoosingContact {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatActionChoosingContact> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -5022,6 +5206,9 @@ impl ChatActionStartPlayingGame {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatActionStartPlayingGame> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -5070,6 +5257,9 @@ impl ChatActionRecordingVideoNote {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatActionRecordingVideoNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -5123,6 +5313,9 @@ impl ChatActionUploadingVideoNote {
   
   pub fn progress(&self) -> &Option<i32> { &self.progress }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatActionUploadingVideoNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -5176,6 +5369,9 @@ impl ChatActionCancel {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatActionCancel> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -5249,6 +5445,9 @@ impl ChatEvent {
   
   pub fn action(&self) -> &Option<Box<ChatEventAction>> { &self.action }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEvent> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -5294,6 +5493,11 @@ pub trait ChatEventAction: Object + RObject + Debug {}
 
 
 
+impl ChatEventAction {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<ChatEventAction>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<ChatEventAction> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -5372,6 +5576,9 @@ impl ChatEventMessageEdited {
   
   pub fn new_message(&self) -> &Option<Message> { &self.new_message }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventMessageEdited> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -5435,6 +5642,9 @@ impl ChatEventMessageDeleted {
   
   pub fn message(&self) -> &Option<Message> { &self.message }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventMessageDeleted> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -5493,6 +5703,9 @@ impl ChatEventMessagePinned {
   
   pub fn message(&self) -> &Option<Message> { &self.message }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventMessagePinned> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -5546,6 +5759,9 @@ impl ChatEventMessageUnpinned {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventMessageUnpinned> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -5594,6 +5810,9 @@ impl ChatEventMemberJoined {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventMemberJoined> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -5642,6 +5861,9 @@ impl ChatEventMemberLeft {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventMemberLeft> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -5707,6 +5929,9 @@ impl ChatEventMemberInvited {
   
   pub fn status(&self) -> &Option<Box<ChatMemberStatus>> { &self.status }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventMemberInvited> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -5787,6 +6012,9 @@ impl ChatEventMemberPromoted {
   
   pub fn new_status(&self) -> &Option<Box<ChatMemberStatus>> { &self.new_status }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventMemberPromoted> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -5872,6 +6100,9 @@ impl ChatEventMemberRestricted {
   
   pub fn new_status(&self) -> &Option<Box<ChatMemberStatus>> { &self.new_status }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventMemberRestricted> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -5945,6 +6176,9 @@ impl ChatEventTitleChanged {
   
   pub fn new_title(&self) -> &Option<String> { &self.new_title }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventTitleChanged> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -6013,6 +6247,9 @@ impl ChatEventDescriptionChanged {
   
   pub fn new_description(&self) -> &Option<String> { &self.new_description }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventDescriptionChanged> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -6081,6 +6318,9 @@ impl ChatEventUsernameChanged {
   
   pub fn new_username(&self) -> &Option<String> { &self.new_username }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventUsernameChanged> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -6149,6 +6389,9 @@ impl ChatEventPhotoChanged {
   
   pub fn new_photo(&self) -> &Option<ChatPhoto> { &self.new_photo }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventPhotoChanged> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -6212,6 +6455,9 @@ impl ChatEventInvitesToggled {
   
   pub fn anyone_can_invite(&self) -> &Option<bool> { &self.anyone_can_invite }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventInvitesToggled> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -6270,6 +6516,9 @@ impl ChatEventSignMessagesToggled {
   
   pub fn sign_messages(&self) -> &Option<bool> { &self.sign_messages }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventSignMessagesToggled> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -6333,6 +6582,9 @@ impl ChatEventStickerSetChanged {
   
   pub fn new_sticker_set_id(&self) -> &Option<i64> { &self.new_sticker_set_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventStickerSetChanged> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -6396,6 +6648,9 @@ impl ChatEventIsAllHistoryAvailableToggled {
   
   pub fn is_all_history_available(&self) -> &Option<bool> { &self.is_all_history_available }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventIsAllHistoryAvailableToggled> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -6497,6 +6752,9 @@ impl ChatEventLogFilters {
   
   pub fn setting_changes(&self) -> &Option<bool> { &self.setting_changes }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEventLogFilters> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -6598,6 +6856,9 @@ impl ChatEvents {
   
   pub fn events(&self) -> &Option<Vec<ChatEvent>> { &self.events }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatEvents> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -6654,6 +6915,9 @@ impl ChatInviteLink {
   
   pub fn invite_link(&self) -> &Option<String> { &self.invite_link }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatInviteLink> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -6747,6 +7011,9 @@ impl ChatInviteLinkInfo {
   
   pub fn is_public(&self) -> &Option<bool> { &self.is_public }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatInviteLinkInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -6860,6 +7127,9 @@ impl ChatMember {
   
   pub fn bot_info(&self) -> &Option<BotInfo> { &self.bot_info }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatMember> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -6910,6 +7180,11 @@ pub trait ChatMemberStatus: Object + RObject + Debug {}
 
 
 
+impl ChatMemberStatus {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<ChatMemberStatus>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<ChatMemberStatus> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -6972,6 +7247,9 @@ impl ChatMemberStatusCreator {
   
   pub fn is_member(&self) -> &Option<bool> { &self.is_member }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatMemberStatusCreator> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -7070,6 +7348,9 @@ impl ChatMemberStatusAdministrator {
   
   pub fn can_promote_members(&self) -> &Option<bool> { &self.can_promote_members }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatMemberStatusAdministrator> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -7163,6 +7444,9 @@ impl ChatMemberStatusMember {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatMemberStatusMember> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -7241,6 +7525,9 @@ impl ChatMemberStatusRestricted {
   
   pub fn can_add_web_page_previews(&self) -> &Option<bool> { &self.can_add_web_page_previews }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatMemberStatusRestricted> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -7319,6 +7606,9 @@ impl ChatMemberStatusLeft {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatMemberStatusLeft> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -7372,6 +7662,9 @@ impl ChatMemberStatusBanned {
   
   pub fn banned_until_date(&self) -> &Option<i32> { &self.banned_until_date }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatMemberStatusBanned> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -7433,6 +7726,9 @@ impl ChatMembers {
   
   pub fn members(&self) -> &Option<Vec<ChatMember>> { &self.members }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatMembers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -7468,6 +7764,11 @@ pub trait ChatMembersFilter: Object + RObject + Debug {}
 
 
 
+impl ChatMembersFilter {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<ChatMembersFilter>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<ChatMembersFilter> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -7524,6 +7825,9 @@ impl ChatMembersFilterAdministrators {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatMembersFilterAdministrators> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -7572,6 +7876,9 @@ impl ChatMembersFilterMembers {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatMembersFilterMembers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -7620,6 +7927,9 @@ impl ChatMembersFilterRestricted {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatMembersFilterRestricted> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -7668,6 +7978,9 @@ impl ChatMembersFilterBanned {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatMembersFilterBanned> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -7716,6 +8029,9 @@ impl ChatMembersFilterBots {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatMembersFilterBots> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -7812,6 +8128,9 @@ impl ChatNotificationSettings {
   
   pub fn disable_mention_notifications(&self) -> &Option<bool> { &self.disable_mention_notifications }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatNotificationSettings> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -7918,6 +8237,9 @@ impl ChatPhoto {
   
   pub fn big(&self) -> &Option<File> { &self.big }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatPhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -7953,6 +8275,11 @@ pub trait ChatReportReason: Object + RObject + Debug {}
 
 
 
+impl ChatReportReason {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<ChatReportReason>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<ChatReportReason> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -8010,6 +8337,9 @@ impl ChatReportReasonSpam {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatReportReasonSpam> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8058,6 +8388,9 @@ impl ChatReportReasonViolence {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatReportReasonViolence> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8106,6 +8439,9 @@ impl ChatReportReasonPornography {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatReportReasonPornography> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8154,6 +8490,9 @@ impl ChatReportReasonChildAbuse {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatReportReasonChildAbuse> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8202,6 +8541,9 @@ impl ChatReportReasonCopyright {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatReportReasonCopyright> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8255,6 +8597,9 @@ impl ChatReportReasonCustom {
   
   pub fn text(&self) -> &Option<String> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatReportReasonCustom> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8311,6 +8656,9 @@ impl ChatReportSpamState {
   
   pub fn can_report_spam(&self) -> &Option<bool> { &self.can_report_spam }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatReportSpamState> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8341,6 +8689,11 @@ pub trait ChatType: Object + RObject + Debug {}
 
 
 
+impl ChatType {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<ChatType>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<ChatType> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -8401,6 +8754,9 @@ impl ChatTypePrivate {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatTypePrivate> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8459,6 +8815,9 @@ impl ChatTypeBasicGroup {
   
   pub fn basic_group_id(&self) -> &Option<i32> { &self.basic_group_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatTypeBasicGroup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8522,6 +8881,9 @@ impl ChatTypeSupergroup {
   
   pub fn is_channel(&self) -> &Option<bool> { &self.is_channel }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatTypeSupergroup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8590,6 +8952,9 @@ impl ChatTypeSecret {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChatTypeSecret> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8651,6 +9016,9 @@ impl Chats {
   
   pub fn chat_ids(&self) -> &Option<Vec<i64>> { &self.chat_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Chats> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8681,6 +9049,11 @@ pub trait CheckChatUsernameResult: Object + RObject + Debug {}
 
 
 
+impl CheckChatUsernameResult {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<CheckChatUsernameResult>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<CheckChatUsernameResult> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -8737,6 +9110,9 @@ impl CheckChatUsernameResultOk {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckChatUsernameResultOk> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8785,6 +9161,9 @@ impl CheckChatUsernameResultUsernameInvalid {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckChatUsernameResultUsernameInvalid> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8833,6 +9212,9 @@ impl CheckChatUsernameResultUsernameOccupied {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckChatUsernameResultUsernameOccupied> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8881,6 +9263,9 @@ impl CheckChatUsernameResultPublicChatsTooMuch {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckChatUsernameResultPublicChatsTooMuch> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -8929,6 +9314,9 @@ impl CheckChatUsernameResultPublicGroupsUnavailable {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckChatUsernameResultPublicGroupsUnavailable> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -9020,6 +9408,9 @@ impl ConnectedWebsite {
   
   pub fn location(&self) -> &Option<String> { &self.location }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ConnectedWebsite> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -9116,6 +9507,9 @@ impl ConnectedWebsites {
   
   pub fn websites(&self) -> &Option<Vec<ConnectedWebsite>> { &self.websites }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ConnectedWebsites> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -9146,6 +9540,11 @@ pub trait ConnectionState: Object + RObject + Debug {}
 
 
 
+impl ConnectionState {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<ConnectionState>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<ConnectionState> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -9202,6 +9601,9 @@ impl ConnectionStateWaitingForNetwork {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ConnectionStateWaitingForNetwork> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -9250,6 +9652,9 @@ impl ConnectionStateConnectingToProxy {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ConnectionStateConnectingToProxy> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -9298,6 +9703,9 @@ impl ConnectionStateConnecting {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ConnectionStateConnecting> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -9346,6 +9754,9 @@ impl ConnectionStateUpdating {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ConnectionStateUpdating> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -9394,6 +9805,9 @@ impl ConnectionStateReady {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ConnectionStateReady> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -9465,6 +9879,9 @@ impl Contact {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Contact> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -9541,6 +9958,9 @@ impl Count {
   
   pub fn count(&self) -> &Option<i32> { &self.count }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Count> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -9597,6 +10017,9 @@ impl CustomRequestResult {
   
   pub fn result(&self) -> &Option<String> { &self.result }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CustomRequestResult> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -9653,6 +10076,9 @@ impl DatabaseStatistics {
   
   pub fn statistics(&self) -> &Option<String> { &self.statistics }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DatabaseStatistics> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -9719,6 +10145,9 @@ impl Date {
   
   pub fn year(&self) -> &Option<i32> { &self.year }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Date> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -9790,6 +10219,9 @@ impl DatedFile {
   
   pub fn date(&self) -> &Option<i32> { &self.date }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DatedFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -9856,6 +10288,9 @@ impl DeepLinkInfo {
   
   pub fn need_update_application(&self) -> &Option<bool> { &self.need_update_application }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeepLinkInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -9891,6 +10326,11 @@ pub trait DeviceToken: Object + RObject + Debug {}
 
 
 
+impl DeviceToken {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<DeviceToken>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<DeviceToken> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -9963,6 +10403,9 @@ impl DeviceTokenFirebaseCloudMessaging {
   
   pub fn encrypt(&self) -> &Option<bool> { &self.encrypt }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeviceTokenFirebaseCloudMessaging> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -10031,6 +10474,9 @@ impl DeviceTokenApplePush {
   
   pub fn is_app_sandbox(&self) -> &Option<bool> { &self.is_app_sandbox }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeviceTokenApplePush> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -10104,6 +10550,9 @@ impl DeviceTokenApplePushVoIP {
   
   pub fn encrypt(&self) -> &Option<bool> { &self.encrypt }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeviceTokenApplePushVoIP> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -10172,6 +10621,9 @@ impl DeviceTokenWindowsPush {
   
   pub fn access_token(&self) -> &Option<String> { &self.access_token }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeviceTokenWindowsPush> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -10230,6 +10682,9 @@ impl DeviceTokenMicrosoftPush {
   
   pub fn channel_uri(&self) -> &Option<String> { &self.channel_uri }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeviceTokenMicrosoftPush> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -10288,6 +10743,9 @@ impl DeviceTokenMicrosoftPushVoIP {
   
   pub fn channel_uri(&self) -> &Option<String> { &self.channel_uri }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeviceTokenMicrosoftPushVoIP> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -10356,6 +10814,9 @@ impl DeviceTokenWebPush {
   
   pub fn auth_base64url(&self) -> &Option<String> { &self.auth_base64url }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeviceTokenWebPush> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -10424,6 +10885,9 @@ impl DeviceTokenSimplePush {
   
   pub fn endpoint(&self) -> &Option<String> { &self.endpoint }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeviceTokenSimplePush> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -10482,6 +10946,9 @@ impl DeviceTokenUbuntuPush {
   
   pub fn token(&self) -> &Option<String> { &self.token }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeviceTokenUbuntuPush> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -10540,6 +11007,9 @@ impl DeviceTokenBlackBerryPush {
   
   pub fn token(&self) -> &Option<String> { &self.token }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeviceTokenBlackBerryPush> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -10598,6 +11068,9 @@ impl DeviceTokenTizenPush {
   
   pub fn reg_id(&self) -> &Option<String> { &self.reg_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeviceTokenTizenPush> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -10669,6 +11142,9 @@ impl Document {
   
   pub fn document(&self) -> &Option<File> { &self.document }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Document> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -10752,6 +11228,9 @@ impl DraftMessage {
   
   pub fn input_message_text(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DraftMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -10818,6 +11297,9 @@ impl EmailAddressAuthenticationCodeInfo {
   
   pub fn length(&self) -> &Option<i32> { &self.length }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EmailAddressAuthenticationCodeInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -10889,6 +11371,9 @@ impl EncryptedCredentials {
   
   pub fn secret(&self) -> &Option<String> { &self.secret }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EncryptedCredentials> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11002,6 +11487,9 @@ impl EncryptedPassportElement {
   
   pub fn hash(&self) -> &Option<String> { &self.hash }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EncryptedPassportElement> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11103,6 +11591,9 @@ impl Error {
   
   pub fn message(&self) -> &Option<String> { &self.message }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Error> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11184,6 +11675,9 @@ impl File {
   
   pub fn remote(&self) -> &Option<RemoteFile> { &self.remote }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<File> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11260,6 +11754,9 @@ impl FilePart {
   
   pub fn data(&self) -> &Option<String> { &self.data }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FilePart> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11290,6 +11787,11 @@ pub trait FileType: Object + RObject + Debug {}
 
 
 
+impl FileType {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<FileType>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<FileType> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -11357,6 +11859,9 @@ impl FileTypeNone {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypeNone> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11405,6 +11910,9 @@ impl FileTypeAnimation {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypeAnimation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11453,6 +11961,9 @@ impl FileTypeAudio {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypeAudio> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11501,6 +12012,9 @@ impl FileTypeDocument {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypeDocument> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11549,6 +12063,9 @@ impl FileTypePhoto {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypePhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11597,6 +12114,9 @@ impl FileTypeProfilePhoto {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypeProfilePhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11645,6 +12165,9 @@ impl FileTypeSecret {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypeSecret> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11693,6 +12216,9 @@ impl FileTypeSecretThumbnail {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypeSecretThumbnail> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11741,6 +12267,9 @@ impl FileTypeSecure {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypeSecure> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11789,6 +12318,9 @@ impl FileTypeSticker {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypeSticker> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11837,6 +12369,9 @@ impl FileTypeThumbnail {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypeThumbnail> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11885,6 +12420,9 @@ impl FileTypeUnknown {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypeUnknown> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11933,6 +12471,9 @@ impl FileTypeVideo {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypeVideo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -11981,6 +12522,9 @@ impl FileTypeVideoNote {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypeVideoNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -12029,6 +12573,9 @@ impl FileTypeVoiceNote {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypeVoiceNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -12077,6 +12624,9 @@ impl FileTypeWallpaper {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FileTypeWallpaper> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -12133,6 +12683,9 @@ impl FormattedText {
   
   pub fn entities(&self) -> &Option<Vec<TextEntity>> { &self.entities }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FormattedText> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -12199,6 +12752,9 @@ impl FoundMessages {
   
   pub fn next_from_search_id(&self) -> &Option<i64> { &self.next_from_search_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FoundMessages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -12290,6 +12846,9 @@ impl Game {
   
   pub fn animation(&self) -> &Option<Animation> { &self.animation }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Game> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -12386,6 +12945,9 @@ impl GameHighScore {
   
   pub fn score(&self) -> &Option<i32> { &self.score }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GameHighScore> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -12452,6 +13014,9 @@ impl GameHighScores {
   
   pub fn scores(&self) -> &Option<Vec<GameHighScore>> { &self.scores }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GameHighScores> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -12508,6 +13073,9 @@ impl Hashtags {
   
   pub fn hashtags(&self) -> &Option<Vec<String>> { &self.hashtags }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Hashtags> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -12564,6 +13132,9 @@ impl HttpUrl {
   
   pub fn url(&self) -> &Option<String> { &self.url }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<HttpUrl> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -12645,6 +13216,9 @@ impl IdentityDocument {
   
   pub fn translation(&self) -> &Option<Vec<DatedFile>> { &self.translation }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<IdentityDocument> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -12731,6 +13305,9 @@ impl ImportedContacts {
   
   pub fn importer_count(&self) -> &Option<Vec<i32>> { &self.importer_count }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ImportedContacts> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -12804,6 +13381,9 @@ impl InlineKeyboardButton {
   
   pub fn type_(&self) -> &Option<Box<InlineKeyboardButtonType>> { &self.type_ }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineKeyboardButton> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -12839,6 +13419,11 @@ pub trait InlineKeyboardButtonType: Object + RObject + Debug {}
 
 
 
+impl InlineKeyboardButtonType {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<InlineKeyboardButtonType>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<InlineKeyboardButtonType> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -12900,6 +13485,9 @@ impl InlineKeyboardButtonTypeUrl {
   
   pub fn url(&self) -> &Option<String> { &self.url }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineKeyboardButtonTypeUrl> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -12958,6 +13546,9 @@ impl InlineKeyboardButtonTypeCallback {
   
   pub fn data(&self) -> &Option<String> { &self.data }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineKeyboardButtonTypeCallback> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -13011,6 +13602,9 @@ impl InlineKeyboardButtonTypeCallbackGame {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineKeyboardButtonTypeCallbackGame> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -13069,6 +13663,9 @@ impl InlineKeyboardButtonTypeSwitchInline {
   
   pub fn in_current_chat(&self) -> &Option<bool> { &self.in_current_chat }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineKeyboardButtonTypeSwitchInline> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -13127,6 +13724,9 @@ impl InlineKeyboardButtonTypeBuy {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineKeyboardButtonTypeBuy> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -13152,6 +13752,11 @@ pub trait InlineQueryResult: Object + RObject + Debug {}
 
 
 
+impl InlineQueryResult {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<InlineQueryResult>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<InlineQueryResult> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -13245,6 +13850,9 @@ impl InlineQueryResultArticle {
   
   pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineQueryResultArticle> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -13338,6 +13946,9 @@ impl InlineQueryResultContact {
   
   pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineQueryResultContact> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -13421,6 +14032,9 @@ impl InlineQueryResultLocation {
   
   pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineQueryResultLocation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -13504,6 +14118,9 @@ impl InlineQueryResultVenue {
   
   pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineQueryResultVenue> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -13577,6 +14194,9 @@ impl InlineQueryResultGame {
   
   pub fn game(&self) -> &Option<Game> { &self.game }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineQueryResultGame> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -13650,6 +14270,9 @@ impl InlineQueryResultAnimation {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineQueryResultAnimation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -13723,6 +14346,9 @@ impl InlineQueryResultAudio {
   
   pub fn audio(&self) -> &Option<Audio> { &self.audio }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineQueryResultAudio> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -13801,6 +14427,9 @@ impl InlineQueryResultDocument {
   
   pub fn description(&self) -> &Option<String> { &self.description }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineQueryResultDocument> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -13889,6 +14518,9 @@ impl InlineQueryResultPhoto {
   
   pub fn description(&self) -> &Option<String> { &self.description }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineQueryResultPhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -13967,6 +14599,9 @@ impl InlineQueryResultSticker {
   
   pub fn sticker(&self) -> &Option<Sticker> { &self.sticker }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineQueryResultSticker> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -14045,6 +14680,9 @@ impl InlineQueryResultVideo {
   
   pub fn description(&self) -> &Option<String> { &self.description }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineQueryResultVideo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -14128,6 +14766,9 @@ impl InlineQueryResultVoiceNote {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineQueryResultVoiceNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -14221,6 +14862,9 @@ impl InlineQueryResults {
   
   pub fn switch_pm_parameter(&self) -> &Option<String> { &self.switch_pm_parameter }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InlineQueryResults> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -14271,6 +14915,11 @@ pub trait InputCredentials: Object + RObject + Debug {}
 
 
 
+impl InputCredentials {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<InputCredentials>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<InputCredentials> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -14331,6 +14980,9 @@ impl InputCredentialsSaved {
   
   pub fn saved_credentials_id(&self) -> &Option<String> { &self.saved_credentials_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputCredentialsSaved> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -14394,6 +15046,9 @@ impl InputCredentialsNew {
   
   pub fn allow_save(&self) -> &Option<bool> { &self.allow_save }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputCredentialsNew> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -14457,6 +15112,9 @@ impl InputCredentialsAndroidPay {
   
   pub fn data(&self) -> &Option<String> { &self.data }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputCredentialsAndroidPay> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -14515,6 +15173,9 @@ impl InputCredentialsApplePay {
   
   pub fn data(&self) -> &Option<String> { &self.data }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputCredentialsApplePay> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -14545,6 +15206,11 @@ pub trait InputFile: Object + RObject + Debug {}
 
 
 
+impl InputFile {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<InputFile>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<InputFile> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -14605,6 +15271,9 @@ impl InputFileId {
   
   pub fn id(&self) -> &Option<i32> { &self.id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputFileId> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -14663,6 +15332,9 @@ impl InputFileRemote {
   
   pub fn id(&self) -> &Option<String> { &self.id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputFileRemote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -14721,6 +15393,9 @@ impl InputFileLocal {
   
   pub fn path(&self) -> &Option<String> { &self.path }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputFileLocal> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -14789,6 +15464,9 @@ impl InputFileGenerated {
   
   pub fn expected_size(&self) -> &Option<i32> { &self.expected_size }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputFileGenerated> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -14887,6 +15565,9 @@ impl InputIdentityDocument {
   
   pub fn translation(&self) -> &Option<Vec<Box<InputFile>>> { &self.translation }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputIdentityDocument> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -14942,6 +15623,11 @@ pub trait InputInlineQueryResult: Object + RObject + Debug {}
 
 
 
+impl InputInlineQueryResult {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<InputInlineQueryResult>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<InputInlineQueryResult> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -15058,6 +15744,9 @@ impl InputInlineQueryResultAnimatedGif {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputInlineQueryResultAnimatedGif> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -15203,6 +15892,9 @@ impl InputInlineQueryResultAnimatedMpeg4 {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputInlineQueryResultAnimatedMpeg4> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -15353,6 +16045,9 @@ impl InputInlineQueryResultArticle {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputInlineQueryResultArticle> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -15493,6 +16188,9 @@ impl InputInlineQueryResultAudio {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputInlineQueryResultAudio> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -15618,6 +16316,9 @@ impl InputInlineQueryResultContact {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputInlineQueryResultContact> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -15758,6 +16459,9 @@ impl InputInlineQueryResultDocument {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputInlineQueryResultDocument> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -15878,6 +16582,9 @@ impl InputInlineQueryResultGame {
   
   pub fn reply_markup(&self) -> &Option<Box<ReplyMarkup>> { &self.reply_markup }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputInlineQueryResultGame> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -15993,6 +16700,9 @@ impl InputInlineQueryResultLocation {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputInlineQueryResultLocation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -16138,6 +16848,9 @@ impl InputInlineQueryResultPhoto {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputInlineQueryResultPhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -16273,6 +16986,9 @@ impl InputInlineQueryResultSticker {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputInlineQueryResultSticker> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -16398,6 +17114,9 @@ impl InputInlineQueryResultVenue {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputInlineQueryResultVenue> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -16543,6 +17262,9 @@ impl InputInlineQueryResultVideo {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputInlineQueryResultVideo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -16683,6 +17405,9 @@ impl InputInlineQueryResultVoiceNote {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputInlineQueryResultVoiceNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -16738,6 +17463,11 @@ pub trait InputMessageContent: Object + RObject + Debug {}
 
 
 
+impl InputMessageContent {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<InputMessageContent>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<InputMessageContent> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -16820,6 +17550,9 @@ impl InputMessageText {
   
   pub fn clear_draft(&self) -> &Option<bool> { &self.clear_draft }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessageText> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -16920,6 +17653,9 @@ impl InputMessageAnimation {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessageAnimation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -17035,6 +17771,9 @@ impl InputMessageAudio {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessageAudio> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -17135,6 +17874,9 @@ impl InputMessageDocument {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessageDocument> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -17240,6 +17982,9 @@ impl InputMessagePhoto {
   
   pub fn ttl(&self) -> &Option<i32> { &self.ttl }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessagePhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -17350,6 +18095,9 @@ impl InputMessageSticker {
   
   pub fn height(&self) -> &Option<i32> { &self.height }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessageSticker> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -17470,6 +18218,9 @@ impl InputMessageVideo {
   
   pub fn ttl(&self) -> &Option<i32> { &self.ttl }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessageVideo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -17590,6 +18341,9 @@ impl InputMessageVideoNote {
   
   pub fn length(&self) -> &Option<i32> { &self.length }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessageVideoNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -17685,6 +18439,9 @@ impl InputMessageVoiceNote {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessageVoiceNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -17763,6 +18520,9 @@ impl InputMessageLocation {
   
   pub fn live_period(&self) -> &Option<i32> { &self.live_period }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessageLocation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -17826,6 +18586,9 @@ impl InputMessageVenue {
   
   pub fn venue(&self) -> &Option<Venue> { &self.venue }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessageVenue> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -17884,6 +18647,9 @@ impl InputMessageContact {
   
   pub fn contact(&self) -> &Option<Contact> { &self.contact }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessageContact> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -17947,6 +18713,9 @@ impl InputMessageGame {
   
   pub fn game_short_name(&self) -> &Option<String> { &self.game_short_name }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessageGame> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -18060,6 +18829,9 @@ impl InputMessageInvoice {
   
   pub fn start_parameter(&self) -> &Option<String> { &self.start_parameter }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessageInvoice> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -18173,6 +18945,9 @@ impl InputMessagePoll {
   
   pub fn options(&self) -> &Option<Vec<String>> { &self.options }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessagePoll> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -18246,6 +19021,9 @@ impl InputMessageForwarded {
   
   pub fn in_game_share(&self) -> &Option<bool> { &self.in_game_share }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputMessageForwarded> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -18286,6 +19064,11 @@ pub trait InputPassportElement: Object + RObject + Debug {}
 
 
 
+impl InputPassportElement {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<InputPassportElement>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<InputPassportElement> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -18355,6 +19138,9 @@ impl InputPassportElementPersonalDetails {
   
   pub fn personal_details(&self) -> &Option<PersonalDetails> { &self.personal_details }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementPersonalDetails> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -18413,6 +19199,9 @@ impl InputPassportElementPassport {
   
   pub fn passport(&self) -> &Option<InputIdentityDocument> { &self.passport }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementPassport> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -18471,6 +19260,9 @@ impl InputPassportElementDriverLicense {
   
   pub fn driver_license(&self) -> &Option<InputIdentityDocument> { &self.driver_license }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementDriverLicense> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -18529,6 +19321,9 @@ impl InputPassportElementIdentityCard {
   
   pub fn identity_card(&self) -> &Option<InputIdentityDocument> { &self.identity_card }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementIdentityCard> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -18587,6 +19382,9 @@ impl InputPassportElementInternalPassport {
   
   pub fn internal_passport(&self) -> &Option<InputIdentityDocument> { &self.internal_passport }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementInternalPassport> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -18645,6 +19443,9 @@ impl InputPassportElementAddress {
   
   pub fn address(&self) -> &Option<Address> { &self.address }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementAddress> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -18703,6 +19504,9 @@ impl InputPassportElementUtilityBill {
   
   pub fn utility_bill(&self) -> &Option<InputPersonalDocument> { &self.utility_bill }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementUtilityBill> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -18761,6 +19565,9 @@ impl InputPassportElementBankStatement {
   
   pub fn bank_statement(&self) -> &Option<InputPersonalDocument> { &self.bank_statement }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementBankStatement> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -18819,6 +19626,9 @@ impl InputPassportElementRentalAgreement {
   
   pub fn rental_agreement(&self) -> &Option<InputPersonalDocument> { &self.rental_agreement }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementRentalAgreement> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -18877,6 +19687,9 @@ impl InputPassportElementPassportRegistration {
   
   pub fn passport_registration(&self) -> &Option<InputPersonalDocument> { &self.passport_registration }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementPassportRegistration> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -18935,6 +19748,9 @@ impl InputPassportElementTemporaryRegistration {
   
   pub fn temporary_registration(&self) -> &Option<InputPersonalDocument> { &self.temporary_registration }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementTemporaryRegistration> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -18993,6 +19809,9 @@ impl InputPassportElementPhoneNumber {
   
   pub fn phone_number(&self) -> &Option<String> { &self.phone_number }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementPhoneNumber> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -19051,6 +19870,9 @@ impl InputPassportElementEmailAddress {
   
   pub fn email_address(&self) -> &Option<String> { &self.email_address }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementEmailAddress> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -19124,6 +19946,9 @@ impl InputPassportElementError {
   
   pub fn source(&self) -> &Option<Box<InputPassportElementErrorSource>> { &self.source }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementError> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -19164,6 +19989,11 @@ pub trait InputPassportElementErrorSource: Object + RObject + Debug {}
 
 
 
+impl InputPassportElementErrorSource {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<InputPassportElementErrorSource>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<InputPassportElementErrorSource> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -19229,6 +20059,9 @@ impl InputPassportElementErrorSourceUnspecified {
   
   pub fn element_hash(&self) -> &Option<String> { &self.element_hash }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementErrorSourceUnspecified> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -19292,6 +20125,9 @@ impl InputPassportElementErrorSourceDataField {
   
   pub fn data_hash(&self) -> &Option<String> { &self.data_hash }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementErrorSourceDataField> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -19355,6 +20191,9 @@ impl InputPassportElementErrorSourceFrontSide {
   
   pub fn file_hash(&self) -> &Option<String> { &self.file_hash }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementErrorSourceFrontSide> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -19413,6 +20252,9 @@ impl InputPassportElementErrorSourceReverseSide {
   
   pub fn file_hash(&self) -> &Option<String> { &self.file_hash }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementErrorSourceReverseSide> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -19471,6 +20313,9 @@ impl InputPassportElementErrorSourceSelfie {
   
   pub fn file_hash(&self) -> &Option<String> { &self.file_hash }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementErrorSourceSelfie> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -19529,6 +20374,9 @@ impl InputPassportElementErrorSourceTranslationFile {
   
   pub fn file_hash(&self) -> &Option<String> { &self.file_hash }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementErrorSourceTranslationFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -19587,6 +20435,9 @@ impl InputPassportElementErrorSourceTranslationFiles {
   
   pub fn file_hashes(&self) -> &Option<Vec<String>> { &self.file_hashes }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementErrorSourceTranslationFiles> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -19645,6 +20496,9 @@ impl InputPassportElementErrorSourceFile {
   
   pub fn file_hash(&self) -> &Option<String> { &self.file_hash }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementErrorSourceFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -19703,6 +20557,9 @@ impl InputPassportElementErrorSourceFiles {
   
   pub fn file_hashes(&self) -> &Option<Vec<String>> { &self.file_hashes }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPassportElementErrorSourceFiles> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -19771,6 +20628,9 @@ impl InputPersonalDocument {
   
   pub fn translation(&self) -> &Option<Vec<Box<InputFile>>> { &self.translation }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputPersonalDocument> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -19849,6 +20709,9 @@ impl InputSticker {
   
   pub fn mask_position(&self) -> &Option<MaskPosition> { &self.mask_position }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputSticker> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -19932,6 +20795,9 @@ impl InputThumbnail {
   
   pub fn height(&self) -> &Option<i32> { &self.height }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<InputThumbnail> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -20043,6 +20909,9 @@ impl Invoice {
   
   pub fn is_flexible(&self) -> &Option<bool> { &self.is_flexible }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Invoice> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -20156,6 +21025,9 @@ impl KeyboardButton {
   
   pub fn type_(&self) -> &Option<Box<KeyboardButtonType>> { &self.type_ }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<KeyboardButton> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -20191,6 +21063,11 @@ pub trait KeyboardButtonType: Object + RObject + Debug {}
 
 
 
+impl KeyboardButtonType {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<KeyboardButtonType>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<KeyboardButtonType> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -20245,6 +21122,9 @@ impl KeyboardButtonTypeText {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<KeyboardButtonTypeText> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -20293,6 +21173,9 @@ impl KeyboardButtonTypeRequestPhoneNumber {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<KeyboardButtonTypeRequestPhoneNumber> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -20341,6 +21224,9 @@ impl KeyboardButtonTypeRequestLocation {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<KeyboardButtonTypeRequestLocation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -20397,6 +21283,9 @@ impl LabeledPricePart {
   
   pub fn amount(&self) -> &Option<i64> { &self.amount }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LabeledPricePart> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -20518,6 +21407,9 @@ impl LanguagePackInfo {
   
   pub fn translation_url(&self) -> &Option<String> { &self.translation_url }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LanguagePackInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -20646,6 +21538,9 @@ impl LanguagePackString {
   
   pub fn value(&self) -> &Option<Box<LanguagePackStringValue>> { &self.value }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LanguagePackString> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -20681,6 +21576,11 @@ pub trait LanguagePackStringValue: Object + RObject + Debug {}
 
 
 
+impl LanguagePackStringValue {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<LanguagePackStringValue>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<LanguagePackStringValue> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -20740,6 +21640,9 @@ impl LanguagePackStringValueOrdinary {
   
   pub fn value(&self) -> &Option<String> { &self.value }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LanguagePackStringValueOrdinary> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -20823,6 +21726,9 @@ impl LanguagePackStringValuePluralized {
   
   pub fn other_value(&self) -> &Option<String> { &self.other_value }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LanguagePackStringValuePluralized> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -20901,6 +21807,9 @@ impl LanguagePackStringValueDeleted {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LanguagePackStringValueDeleted> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -20952,6 +21861,9 @@ impl LanguagePackStrings {
   
   pub fn strings(&self) -> &Option<Vec<LanguagePackString>> { &self.strings }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LanguagePackStrings> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -20982,6 +21894,11 @@ pub trait LinkState: Object + RObject + Debug {}
 
 
 
+impl LinkState {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<LinkState>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<LinkState> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -21036,6 +21953,9 @@ impl LinkStateNone {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LinkStateNone> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -21084,6 +22004,9 @@ impl LinkStateKnowsPhoneNumber {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LinkStateKnowsPhoneNumber> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -21132,6 +22055,9 @@ impl LinkStateIsContact {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LinkStateIsContact> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -21218,6 +22144,9 @@ impl LocalFile {
   
   pub fn downloaded_size(&self) -> &Option<i32> { &self.downloaded_size }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LocalFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -21309,6 +22238,9 @@ impl LocalizationTargetInfo {
   
   pub fn language_packs(&self) -> &Option<Vec<LanguagePackInfo>> { &self.language_packs }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LocalizationTargetInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -21370,6 +22302,9 @@ impl Location {
   
   pub fn longitude(&self) -> &Option<f64> { &self.longitude }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Location> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -21405,6 +22340,11 @@ pub trait LogStream: Object + RObject + Debug {}
 
 
 
+impl LogStream {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<LogStream>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<LogStream> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -21459,6 +22399,9 @@ impl LogStreamDefault {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LogStreamDefault> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -21517,6 +22460,9 @@ impl LogStreamFile {
   
   pub fn max_file_size(&self) -> &Option<i64> { &self.max_file_size }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LogStreamFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -21575,6 +22521,9 @@ impl LogStreamEmpty {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LogStreamEmpty> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -21626,6 +22575,9 @@ impl LogTags {
   
   pub fn tags(&self) -> &Option<Vec<String>> { &self.tags }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LogTags> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -21682,6 +22634,9 @@ impl LogVerbosityLevel {
   
   pub fn verbosity_level(&self) -> &Option<i32> { &self.verbosity_level }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LogVerbosityLevel> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -21712,6 +22667,11 @@ pub trait MaskPoint: Object + RObject + Debug {}
 
 
 
+impl MaskPoint {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<MaskPoint>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<MaskPoint> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -21767,6 +22727,9 @@ impl MaskPointForehead {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MaskPointForehead> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -21815,6 +22778,9 @@ impl MaskPointEyes {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MaskPointEyes> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -21863,6 +22829,9 @@ impl MaskPointMouth {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MaskPointMouth> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -21911,6 +22880,9 @@ impl MaskPointChin {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MaskPointChin> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -21984,6 +22956,9 @@ impl MaskPosition {
   
   pub fn scale(&self) -> &Option<f64> { &self.scale }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MaskPosition> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -22172,6 +23147,9 @@ impl Message {
   
   pub fn reply_markup(&self) -> &Option<Box<ReplyMarkup>> { &self.reply_markup }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Message> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -22312,6 +23290,11 @@ pub trait MessageContent: Object + RObject + Debug {}
 
 
 
+impl MessageContent {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<MessageContent>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<MessageContent> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -22413,6 +23396,9 @@ impl MessageText {
   
   pub fn web_page(&self) -> &Option<WebPage> { &self.web_page }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageText> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -22486,6 +23472,9 @@ impl MessageAnimation {
   
   pub fn is_secret(&self) -> &Option<bool> { &self.is_secret }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageAnimation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -22559,6 +23548,9 @@ impl MessageAudio {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageAudio> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -22627,6 +23619,9 @@ impl MessageDocument {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageDocument> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -22700,6 +23695,9 @@ impl MessagePhoto {
   
   pub fn is_secret(&self) -> &Option<bool> { &self.is_secret }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessagePhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -22763,6 +23761,9 @@ impl MessageExpiredPhoto {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageExpiredPhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -22816,6 +23817,9 @@ impl MessageSticker {
   
   pub fn sticker(&self) -> &Option<Sticker> { &self.sticker }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageSticker> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -22884,6 +23888,9 @@ impl MessageVideo {
   
   pub fn is_secret(&self) -> &Option<bool> { &self.is_secret }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageVideo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -22947,6 +23954,9 @@ impl MessageExpiredVideo {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageExpiredVideo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -23010,6 +24020,9 @@ impl MessageVideoNote {
   
   pub fn is_secret(&self) -> &Option<bool> { &self.is_secret }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageVideoNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -23088,6 +24101,9 @@ impl MessageVoiceNote {
   
   pub fn is_listened(&self) -> &Option<bool> { &self.is_listened }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageVoiceNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -23166,6 +24182,9 @@ impl MessageLocation {
   
   pub fn expires_in(&self) -> &Option<i32> { &self.expires_in }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageLocation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -23234,6 +24253,9 @@ impl MessageVenue {
   
   pub fn venue(&self) -> &Option<Venue> { &self.venue }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageVenue> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -23292,6 +24314,9 @@ impl MessageContact {
   
   pub fn contact(&self) -> &Option<Contact> { &self.contact }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageContact> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -23350,6 +24375,9 @@ impl MessageGame {
   
   pub fn game(&self) -> &Option<Game> { &self.game }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageGame> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -23408,6 +24436,9 @@ impl MessagePoll {
   
   pub fn poll(&self) -> &Option<Poll> { &self.poll }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessagePoll> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -23506,6 +24537,9 @@ impl MessageInvoice {
   
   pub fn receipt_message_id(&self) -> &Option<i64> { &self.receipt_message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageInvoice> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -23616,6 +24650,9 @@ impl MessageCall {
   
   pub fn duration(&self) -> &Option<i32> { &self.duration }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageCall> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -23684,6 +24721,9 @@ impl MessageBasicGroupChatCreate {
   
   pub fn member_user_ids(&self) -> &Option<Vec<i32>> { &self.member_user_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageBasicGroupChatCreate> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -23747,6 +24787,9 @@ impl MessageSupergroupChatCreate {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageSupergroupChatCreate> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -23805,6 +24848,9 @@ impl MessageChatChangeTitle {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageChatChangeTitle> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -23863,6 +24909,9 @@ impl MessageChatChangePhoto {
   
   pub fn photo(&self) -> &Option<Photo> { &self.photo }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageChatChangePhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -23916,6 +24965,9 @@ impl MessageChatDeletePhoto {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageChatDeletePhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -23969,6 +25021,9 @@ impl MessageChatAddMembers {
   
   pub fn member_user_ids(&self) -> &Option<Vec<i32>> { &self.member_user_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageChatAddMembers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24022,6 +25077,9 @@ impl MessageChatJoinByLink {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageChatJoinByLink> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24075,6 +25133,9 @@ impl MessageChatDeleteMember {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageChatDeleteMember> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24133,6 +25194,9 @@ impl MessageChatUpgradeTo {
   
   pub fn supergroup_id(&self) -> &Option<i32> { &self.supergroup_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageChatUpgradeTo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24196,6 +25260,9 @@ impl MessageChatUpgradeFrom {
   
   pub fn basic_group_id(&self) -> &Option<i32> { &self.basic_group_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageChatUpgradeFrom> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24259,6 +25326,9 @@ impl MessagePinMessage {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessagePinMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24312,6 +25382,9 @@ impl MessageScreenshotTaken {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageScreenshotTaken> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24365,6 +25438,9 @@ impl MessageChatSetTtl {
   
   pub fn ttl(&self) -> &Option<i32> { &self.ttl }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageChatSetTtl> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24423,6 +25499,9 @@ impl MessageCustomServiceAction {
   
   pub fn text(&self) -> &Option<String> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageCustomServiceAction> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24491,6 +25570,9 @@ impl MessageGameScore {
   
   pub fn score(&self) -> &Option<i32> { &self.score }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageGameScore> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24569,6 +25651,9 @@ impl MessagePaymentSuccessful {
   
   pub fn total_amount(&self) -> &Option<i64> { &self.total_amount }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessagePaymentSuccessful> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24672,6 +25757,9 @@ impl MessagePaymentSuccessfulBot {
   
   pub fn provider_payment_charge_id(&self) -> &Option<String> { &self.provider_payment_charge_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessagePaymentSuccessfulBot> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24760,6 +25848,9 @@ impl MessageContactRegistered {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageContactRegistered> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24813,6 +25904,9 @@ impl MessageWebsiteConnected {
   
   pub fn domain_name(&self) -> &Option<String> { &self.domain_name }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageWebsiteConnected> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24878,6 +25972,9 @@ impl MessagePassportDataSent {
   
   pub fn types(&self) -> &Option<Vec<Box<PassportElementType>>> { &self.types }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessagePassportDataSent> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24941,6 +26038,9 @@ impl MessagePassportDataReceived {
   
   pub fn credentials(&self) -> &Option<EncryptedCredentials> { &self.credentials }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessagePassportDataReceived> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -24999,6 +26099,9 @@ impl MessageUnsupported {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageUnsupported> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -25072,6 +26175,9 @@ impl MessageForwardInfo {
   
   pub fn from_message_id(&self) -> &Option<i64> { &self.from_message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageForwardInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -25117,6 +26223,11 @@ pub trait MessageForwardOrigin: Object + RObject + Debug {}
 
 
 
+impl MessageForwardOrigin {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<MessageForwardOrigin>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<MessageForwardOrigin> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -25176,6 +26287,9 @@ impl MessageForwardOriginUser {
   
   pub fn sender_user_id(&self) -> &Option<i32> { &self.sender_user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageForwardOriginUser> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -25234,6 +26348,9 @@ impl MessageForwardOriginHiddenUser {
   
   pub fn sender_name(&self) -> &Option<String> { &self.sender_name }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageForwardOriginHiddenUser> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -25302,6 +26419,9 @@ impl MessageForwardOriginChannel {
   
   pub fn author_signature(&self) -> &Option<String> { &self.author_signature }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageForwardOriginChannel> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -25342,6 +26462,11 @@ pub trait MessageSendingState: Object + RObject + Debug {}
 
 
 
+impl MessageSendingState {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<MessageSendingState>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<MessageSendingState> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -25395,6 +26520,9 @@ impl MessageSendingStatePending {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageSendingStatePending> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -25443,6 +26571,9 @@ impl MessageSendingStateFailed {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<MessageSendingStateFailed> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -25499,6 +26630,9 @@ impl Messages {
   
   pub fn messages(&self) -> &Option<Vec<Message>> { &self.messages }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Messages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -25572,6 +26706,9 @@ impl NetworkStatistics {
   
   pub fn entries(&self) -> &Option<Vec<Box<NetworkStatisticsEntry>>> { &self.entries }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NetworkStatistics> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -25607,6 +26744,11 @@ pub trait NetworkStatisticsEntry: Object + RObject + Debug {}
 
 
 
+impl NetworkStatisticsEntry {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<NetworkStatisticsEntry>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<NetworkStatisticsEntry> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -25687,6 +26829,9 @@ impl NetworkStatisticsEntryFile {
   
   pub fn received_bytes(&self) -> &Option<i64> { &self.received_bytes }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NetworkStatisticsEntryFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -25782,6 +26927,9 @@ impl NetworkStatisticsEntryCall {
   
   pub fn duration(&self) -> &Option<f64> { &self.duration }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NetworkStatisticsEntryCall> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -25827,6 +26975,11 @@ pub trait NetworkType: Object + RObject + Debug {}
 
 
 
+impl NetworkType {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<NetworkType>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<NetworkType> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -25883,6 +27036,9 @@ impl NetworkTypeNone {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NetworkTypeNone> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -25931,6 +27087,9 @@ impl NetworkTypeMobile {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NetworkTypeMobile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -25979,6 +27138,9 @@ impl NetworkTypeMobileRoaming {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NetworkTypeMobileRoaming> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26027,6 +27189,9 @@ impl NetworkTypeWiFi {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NetworkTypeWiFi> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26075,6 +27240,9 @@ impl NetworkTypeOther {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NetworkTypeOther> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26143,6 +27311,9 @@ impl Notification {
   
   pub fn type_(&self) -> &Option<Box<NotificationType>> { &self.type_ }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Notification> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26236,6 +27407,9 @@ impl NotificationGroup {
   
   pub fn notifications(&self) -> &Option<Vec<Notification>> { &self.notifications }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NotificationGroup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26286,6 +27460,11 @@ pub trait NotificationGroupType: Object + RObject + Debug {}
 
 
 
+impl NotificationGroupType {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<NotificationGroupType>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<NotificationGroupType> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -26341,6 +27520,9 @@ impl NotificationGroupTypeMessages {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NotificationGroupTypeMessages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26389,6 +27571,9 @@ impl NotificationGroupTypeMentions {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NotificationGroupTypeMentions> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26437,6 +27622,9 @@ impl NotificationGroupTypeSecretChat {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NotificationGroupTypeSecretChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26485,6 +27673,9 @@ impl NotificationGroupTypeCalls {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NotificationGroupTypeCalls> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26510,6 +27701,11 @@ pub trait NotificationSettingsScope: Object + RObject + Debug {}
 
 
 
+impl NotificationSettingsScope {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<NotificationSettingsScope>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<NotificationSettingsScope> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -26564,6 +27760,9 @@ impl NotificationSettingsScopePrivateChats {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NotificationSettingsScopePrivateChats> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26612,6 +27811,9 @@ impl NotificationSettingsScopeGroupChats {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NotificationSettingsScopeGroupChats> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26660,6 +27862,9 @@ impl NotificationSettingsScopeChannelChats {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NotificationSettingsScopeChannelChats> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26685,6 +27890,11 @@ pub trait NotificationType: Object + RObject + Debug {}
 
 
 
+impl NotificationType {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<NotificationType>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<NotificationType> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -26745,6 +27955,9 @@ impl NotificationTypeNewMessage {
   
   pub fn message(&self) -> &Option<Message> { &self.message }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NotificationTypeNewMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26798,6 +28011,9 @@ impl NotificationTypeNewSecretChat {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NotificationTypeNewSecretChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26851,6 +28067,9 @@ impl NotificationTypeNewCall {
   
   pub fn call_id(&self) -> &Option<i32> { &self.call_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NotificationTypeNewCall> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26926,6 +28145,9 @@ impl NotificationTypeNewPushMessage {
   
   pub fn content(&self) -> &Option<Box<PushMessageContent>> { &self.content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<NotificationTypeNewPushMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -26987,6 +28209,9 @@ impl Ok {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Ok> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -27012,6 +28237,11 @@ pub trait OptionValue: Object + RObject + Debug {}
 
 
 
+impl OptionValue {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<OptionValue>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<OptionValue> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -27072,6 +28302,9 @@ impl OptionValueBoolean {
   
   pub fn value(&self) -> &Option<bool> { &self.value }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<OptionValueBoolean> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -27125,6 +28358,9 @@ impl OptionValueEmpty {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<OptionValueEmpty> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -27178,6 +28414,9 @@ impl OptionValueInteger {
   
   pub fn value(&self) -> &Option<i32> { &self.value }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<OptionValueInteger> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -27236,6 +28475,9 @@ impl OptionValueString {
   
   pub fn value(&self) -> &Option<String> { &self.value }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<OptionValueString> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -27307,6 +28549,9 @@ impl OrderInfo {
   
   pub fn shipping_address(&self) -> &Option<Address> { &self.shipping_address }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<OrderInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -27352,6 +28597,11 @@ pub trait PageBlock: Object + RObject + Debug {}
 
 
 
+impl PageBlock {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<PageBlock>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<PageBlock> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -27443,6 +28693,9 @@ impl PageBlockTitle {
   
   pub fn title(&self) -> &Option<Box<RichText>> { &self.title }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockTitle> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -27508,6 +28761,9 @@ impl PageBlockSubtitle {
   
   pub fn subtitle(&self) -> &Option<Box<RichText>> { &self.subtitle }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockSubtitle> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -27578,6 +28834,9 @@ impl PageBlockAuthorDate {
   
   pub fn publish_date(&self) -> &Option<i32> { &self.publish_date }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockAuthorDate> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -27648,6 +28907,9 @@ impl PageBlockHeader {
   
   pub fn header(&self) -> &Option<Box<RichText>> { &self.header }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockHeader> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -27713,6 +28975,9 @@ impl PageBlockSubheader {
   
   pub fn subheader(&self) -> &Option<Box<RichText>> { &self.subheader }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockSubheader> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -27778,6 +29043,9 @@ impl PageBlockKicker {
   
   pub fn kicker(&self) -> &Option<Box<RichText>> { &self.kicker }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockKicker> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -27843,6 +29111,9 @@ impl PageBlockParagraph {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockParagraph> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -27913,6 +29184,9 @@ impl PageBlockPreformatted {
   
   pub fn language(&self) -> &Option<String> { &self.language }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockPreformatted> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -27983,6 +29257,9 @@ impl PageBlockFooter {
   
   pub fn footer(&self) -> &Option<Box<RichText>> { &self.footer }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockFooter> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -28036,6 +29313,9 @@ impl PageBlockDivider {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockDivider> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -28089,6 +29369,9 @@ impl PageBlockAnchor {
   
   pub fn name(&self) -> &Option<String> { &self.name }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockAnchor> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -28147,6 +29430,9 @@ impl PageBlockList {
   
   pub fn items(&self) -> &Option<Vec<PageBlockListItem>> { &self.items }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockList> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -28217,6 +29503,9 @@ impl PageBlockBlockQuote {
   
   pub fn credit(&self) -> &Option<Box<RichText>> { &self.credit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockBlockQuote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -28292,6 +29581,9 @@ impl PageBlockPullQuote {
   
   pub fn credit(&self) -> &Option<Box<RichText>> { &self.credit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockPullQuote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -28365,6 +29657,9 @@ impl PageBlockAnimation {
   
   pub fn need_autoplay(&self) -> &Option<bool> { &self.need_autoplay }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockAnimation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -28438,6 +29733,9 @@ impl PageBlockAudio {
   
   pub fn caption(&self) -> &Option<PageBlockCaption> { &self.caption }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockAudio> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -28511,6 +29809,9 @@ impl PageBlockPhoto {
   
   pub fn url(&self) -> &Option<String> { &self.url }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockPhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -28594,6 +29895,9 @@ impl PageBlockVideo {
   
   pub fn is_looped(&self) -> &Option<bool> { &self.is_looped }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockVideo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -28674,6 +29978,9 @@ impl PageBlockCover {
   
   pub fn cover(&self) -> &Option<Box<PageBlock>> { &self.cover }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockCover> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -28767,6 +30074,9 @@ impl PageBlockEmbedded {
   
   pub fn allow_scrolling(&self) -> &Option<bool> { &self.allow_scrolling }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockEmbedded> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -28892,6 +30202,9 @@ impl PageBlockEmbeddedPost {
   
   pub fn caption(&self) -> &Option<PageBlockCaption> { &self.caption }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockEmbeddedPost> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -28987,6 +30300,9 @@ impl PageBlockCollage {
   
   pub fn caption(&self) -> &Option<PageBlockCaption> { &self.caption }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockCollage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -29062,6 +30378,9 @@ impl PageBlockSlideshow {
   
   pub fn caption(&self) -> &Option<PageBlockCaption> { &self.caption }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockSlideshow> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -29135,6 +30454,9 @@ impl PageBlockChatLink {
   
   pub fn username(&self) -> &Option<String> { &self.username }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockChatLink> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -29225,6 +30547,9 @@ impl PageBlockTable {
   
   pub fn is_striped(&self) -> &Option<bool> { &self.is_striped }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockTable> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -29315,6 +30640,9 @@ impl PageBlockDetails {
   
   pub fn is_open(&self) -> &Option<bool> { &self.is_open }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockDetails> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -29395,6 +30723,9 @@ impl PageBlockRelatedArticles {
   
   pub fn articles(&self) -> &Option<Vec<PageBlockRelatedArticle>> { &self.articles }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockRelatedArticles> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -29478,6 +30809,9 @@ impl PageBlockMap {
   
   pub fn caption(&self) -> &Option<PageBlockCaption> { &self.caption }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockMap> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -29566,6 +30900,9 @@ impl PageBlockCaption {
   
   pub fn credit(&self) -> &Option<Box<RichText>> { &self.credit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockCaption> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -29601,6 +30938,11 @@ pub trait PageBlockHorizontalAlignment: Object + RObject + Debug {}
 
 
 
+impl PageBlockHorizontalAlignment {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<PageBlockHorizontalAlignment>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<PageBlockHorizontalAlignment> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -29655,6 +30997,9 @@ impl PageBlockHorizontalAlignmentLeft {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockHorizontalAlignmentLeft> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -29703,6 +31048,9 @@ impl PageBlockHorizontalAlignmentCenter {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockHorizontalAlignmentCenter> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -29751,6 +31099,9 @@ impl PageBlockHorizontalAlignmentRight {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockHorizontalAlignmentRight> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -29814,6 +31165,9 @@ impl PageBlockListItem {
   
   pub fn page_blocks(&self) -> &Option<Vec<Box<PageBlock>>> { &self.page_blocks }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockListItem> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -29900,6 +31254,9 @@ impl PageBlockRelatedArticle {
   
   pub fn publish_date(&self) -> &Option<i32> { &self.publish_date }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockRelatedArticle> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30013,6 +31370,9 @@ impl PageBlockTableCell {
   
   pub fn valign(&self) -> &Option<Box<PageBlockVerticalAlignment>> { &self.valign }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockTableCell> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30068,6 +31428,11 @@ pub trait PageBlockVerticalAlignment: Object + RObject + Debug {}
 
 
 
+impl PageBlockVerticalAlignment {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<PageBlockVerticalAlignment>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<PageBlockVerticalAlignment> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -30122,6 +31487,9 @@ impl PageBlockVerticalAlignmentTop {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockVerticalAlignmentTop> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30170,6 +31538,9 @@ impl PageBlockVerticalAlignmentMiddle {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockVerticalAlignmentMiddle> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30218,6 +31589,9 @@ impl PageBlockVerticalAlignmentBottom {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PageBlockVerticalAlignmentBottom> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30279,6 +31653,9 @@ impl PassportAuthorizationForm {
   
   pub fn privacy_policy_url(&self) -> &Option<String> { &self.privacy_policy_url }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportAuthorizationForm> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30319,6 +31696,11 @@ pub trait PassportElement: Object + RObject + Debug {}
 
 
 
+impl PassportElement {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<PassportElement>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<PassportElement> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -30388,6 +31770,9 @@ impl PassportElementPersonalDetails {
   
   pub fn personal_details(&self) -> &Option<PersonalDetails> { &self.personal_details }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementPersonalDetails> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30446,6 +31831,9 @@ impl PassportElementPassport {
   
   pub fn passport(&self) -> &Option<IdentityDocument> { &self.passport }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementPassport> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30504,6 +31892,9 @@ impl PassportElementDriverLicense {
   
   pub fn driver_license(&self) -> &Option<IdentityDocument> { &self.driver_license }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementDriverLicense> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30562,6 +31953,9 @@ impl PassportElementIdentityCard {
   
   pub fn identity_card(&self) -> &Option<IdentityDocument> { &self.identity_card }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementIdentityCard> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30620,6 +32014,9 @@ impl PassportElementInternalPassport {
   
   pub fn internal_passport(&self) -> &Option<IdentityDocument> { &self.internal_passport }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementInternalPassport> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30678,6 +32075,9 @@ impl PassportElementAddress {
   
   pub fn address(&self) -> &Option<Address> { &self.address }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementAddress> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30736,6 +32136,9 @@ impl PassportElementUtilityBill {
   
   pub fn utility_bill(&self) -> &Option<PersonalDocument> { &self.utility_bill }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementUtilityBill> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30794,6 +32197,9 @@ impl PassportElementBankStatement {
   
   pub fn bank_statement(&self) -> &Option<PersonalDocument> { &self.bank_statement }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementBankStatement> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30852,6 +32258,9 @@ impl PassportElementRentalAgreement {
   
   pub fn rental_agreement(&self) -> &Option<PersonalDocument> { &self.rental_agreement }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementRentalAgreement> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30910,6 +32319,9 @@ impl PassportElementPassportRegistration {
   
   pub fn passport_registration(&self) -> &Option<PersonalDocument> { &self.passport_registration }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementPassportRegistration> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -30968,6 +32380,9 @@ impl PassportElementTemporaryRegistration {
   
   pub fn temporary_registration(&self) -> &Option<PersonalDocument> { &self.temporary_registration }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementTemporaryRegistration> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31026,6 +32441,9 @@ impl PassportElementPhoneNumber {
   
   pub fn phone_number(&self) -> &Option<String> { &self.phone_number }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementPhoneNumber> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31084,6 +32502,9 @@ impl PassportElementEmailAddress {
   
   pub fn email_address(&self) -> &Option<String> { &self.email_address }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementEmailAddress> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31157,6 +32578,9 @@ impl PassportElementError {
   
   pub fn source(&self) -> &Option<Box<PassportElementErrorSource>> { &self.source }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementError> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31197,6 +32621,11 @@ pub trait PassportElementErrorSource: Object + RObject + Debug {}
 
 
 
+impl PassportElementErrorSource {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<PassportElementErrorSource>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<PassportElementErrorSource> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -31257,6 +32686,9 @@ impl PassportElementErrorSourceUnspecified {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementErrorSourceUnspecified> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31310,6 +32742,9 @@ impl PassportElementErrorSourceDataField {
   
   pub fn field_name(&self) -> &Option<String> { &self.field_name }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementErrorSourceDataField> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31363,6 +32798,9 @@ impl PassportElementErrorSourceFrontSide {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementErrorSourceFrontSide> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31411,6 +32849,9 @@ impl PassportElementErrorSourceReverseSide {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementErrorSourceReverseSide> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31459,6 +32900,9 @@ impl PassportElementErrorSourceSelfie {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementErrorSourceSelfie> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31512,6 +32956,9 @@ impl PassportElementErrorSourceTranslationFile {
   
   pub fn file_index(&self) -> &Option<i32> { &self.file_index }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementErrorSourceTranslationFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31565,6 +33012,9 @@ impl PassportElementErrorSourceTranslationFiles {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementErrorSourceTranslationFiles> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31618,6 +33068,9 @@ impl PassportElementErrorSourceFile {
   
   pub fn file_index(&self) -> &Option<i32> { &self.file_index }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementErrorSourceFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31671,6 +33124,9 @@ impl PassportElementErrorSourceFiles {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementErrorSourceFiles> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31696,6 +33152,11 @@ pub trait PassportElementType: Object + RObject + Debug {}
 
 
 
+impl PassportElementType {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<PassportElementType>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<PassportElementType> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -31760,6 +33221,9 @@ impl PassportElementTypePersonalDetails {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementTypePersonalDetails> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31808,6 +33272,9 @@ impl PassportElementTypePassport {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementTypePassport> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31856,6 +33323,9 @@ impl PassportElementTypeDriverLicense {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementTypeDriverLicense> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31904,6 +33374,9 @@ impl PassportElementTypeIdentityCard {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementTypeIdentityCard> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -31952,6 +33425,9 @@ impl PassportElementTypeInternalPassport {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementTypeInternalPassport> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32000,6 +33476,9 @@ impl PassportElementTypeAddress {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementTypeAddress> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32048,6 +33527,9 @@ impl PassportElementTypeUtilityBill {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementTypeUtilityBill> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32096,6 +33578,9 @@ impl PassportElementTypeBankStatement {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementTypeBankStatement> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32144,6 +33629,9 @@ impl PassportElementTypeRentalAgreement {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementTypeRentalAgreement> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32192,6 +33680,9 @@ impl PassportElementTypePassportRegistration {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementTypePassportRegistration> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32240,6 +33731,9 @@ impl PassportElementTypeTemporaryRegistration {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementTypeTemporaryRegistration> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32288,6 +33782,9 @@ impl PassportElementTypePhoneNumber {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementTypePhoneNumber> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32336,6 +33833,9 @@ impl PassportElementTypeEmailAddress {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementTypeEmailAddress> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32394,6 +33894,9 @@ impl PassportElements {
   
   pub fn elements(&self) -> &Option<Vec<Box<PassportElement>>> { &self.elements }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElements> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32462,6 +33965,9 @@ impl PassportElementsWithErrors {
   
   pub fn errors(&self) -> &Option<Vec<PassportElementError>> { &self.errors }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportElementsWithErrors> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32523,6 +34029,9 @@ impl PassportRequiredElement {
   
   pub fn suitable_elements(&self) -> &Option<Vec<PassportSuitableElement>> { &self.suitable_elements }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportRequiredElement> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32601,6 +34110,9 @@ impl PassportSuitableElement {
   
   pub fn is_native_name_required(&self) -> &Option<bool> { &self.is_native_name_required }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PassportSuitableElement> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32692,6 +34204,9 @@ impl PasswordState {
   
   pub fn recovery_email_address_code_info(&self) -> &Option<EmailAddressAuthenticationCodeInfo> { &self.recovery_email_address_code_info }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PasswordState> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32798,6 +34313,9 @@ impl PaymentForm {
   
   pub fn need_password(&self) -> &Option<bool> { &self.need_password }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PaymentForm> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32909,6 +34427,9 @@ impl PaymentReceipt {
   
   pub fn credentials_title(&self) -> &Option<String> { &self.credentials_title }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PaymentReceipt> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -32995,6 +34516,9 @@ impl PaymentResult {
   
   pub fn verification_url(&self) -> &Option<String> { &self.verification_url }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PaymentResult> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -33071,6 +34595,9 @@ impl PaymentsProviderStripe {
   
   pub fn need_cardholder_name(&self) -> &Option<bool> { &self.need_cardholder_name }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PaymentsProviderStripe> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -33187,6 +34714,9 @@ impl PersonalDetails {
   
   pub fn residence_country_code(&self) -> &Option<String> { &self.residence_country_code }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PersonalDetails> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -33293,6 +34823,9 @@ impl PersonalDocument {
   
   pub fn translation(&self) -> &Option<Vec<DatedFile>> { &self.translation }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PersonalDocument> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -33359,6 +34892,9 @@ impl Photo {
   
   pub fn sizes(&self) -> &Option<Vec<PhotoSize>> { &self.sizes }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Photo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -33435,6 +34971,9 @@ impl PhotoSize {
   
   pub fn height(&self) -> &Option<i32> { &self.height }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PhotoSize> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -33526,6 +35065,9 @@ impl Poll {
   
   pub fn is_closed(&self) -> &Option<bool> { &self.is_closed }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Poll> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -33622,6 +35164,9 @@ impl PollOption {
   
   pub fn is_being_chosen(&self) -> &Option<bool> { &self.is_being_chosen }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PollOption> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -33708,6 +35253,9 @@ impl ProfilePhoto {
   
   pub fn big(&self) -> &Option<File> { &self.big }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ProfilePhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -33774,6 +35322,9 @@ impl Proxies {
   
   pub fn proxies(&self) -> &Option<Vec<Proxy>> { &self.proxies }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Proxies> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -33862,6 +35413,9 @@ impl Proxy {
   
   pub fn type_(&self) -> &Option<Box<ProxyType>> { &self.type_ }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Proxy> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -33917,6 +35471,11 @@ pub trait ProxyType: Object + RObject + Debug {}
 
 
 
+impl ProxyType {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<ProxyType>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<ProxyType> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -33981,6 +35540,9 @@ impl ProxyTypeSocks5 {
   
   pub fn password(&self) -> &Option<String> { &self.password }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ProxyTypeSocks5> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -34054,6 +35616,9 @@ impl ProxyTypeHttp {
   
   pub fn http_only(&self) -> &Option<bool> { &self.http_only }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ProxyTypeHttp> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -34122,6 +35687,9 @@ impl ProxyTypeMtproto {
   
   pub fn secret(&self) -> &Option<String> { &self.secret }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ProxyTypeMtproto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -34183,6 +35751,9 @@ impl PublicMessageLink {
   
   pub fn html(&self) -> &Option<String> { &self.html }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PublicMessageLink> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -34218,6 +35789,11 @@ pub trait PushMessageContent: Object + RObject + Debug {}
 
 
 
+impl PushMessageContent {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<PushMessageContent>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<PushMessageContent> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -34300,6 +35876,9 @@ impl PushMessageContentHidden {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentHidden> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -34368,6 +35947,9 @@ impl PushMessageContentAnimation {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentAnimation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -34441,6 +36023,9 @@ impl PushMessageContentAudio {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentAudio> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -34509,6 +36094,9 @@ impl PushMessageContentContact {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentContact> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -34567,6 +36155,9 @@ impl PushMessageContentContactRegistered {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentContactRegistered> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -34625,6 +36216,9 @@ impl PushMessageContentDocument {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentDocument> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -34693,6 +36287,9 @@ impl PushMessageContentGame {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentGame> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -34766,6 +36363,9 @@ impl PushMessageContentGameScore {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentGameScore> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -34839,6 +36439,9 @@ impl PushMessageContentInvoice {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentInvoice> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -34907,6 +36510,9 @@ impl PushMessageContentLocation {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentLocation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -34985,6 +36591,9 @@ impl PushMessageContentPhoto {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentPhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -35063,6 +36672,9 @@ impl PushMessageContentPoll {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentPoll> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -35121,6 +36733,9 @@ impl PushMessageContentScreenshotTaken {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentScreenshotTaken> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -35184,6 +36799,9 @@ impl PushMessageContentSticker {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentSticker> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -35257,6 +36875,9 @@ impl PushMessageContentText {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentText> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -35335,6 +36956,9 @@ impl PushMessageContentVideo {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentVideo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -35413,6 +37037,9 @@ impl PushMessageContentVideoNote {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentVideoNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -35481,6 +37108,9 @@ impl PushMessageContentVoiceNote {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentVoiceNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -35539,6 +37169,9 @@ impl PushMessageContentBasicGroupChatCreate {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentBasicGroupChatCreate> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -35602,6 +37235,9 @@ impl PushMessageContentChatAddMembers {
   
   pub fn is_returned(&self) -> &Option<bool> { &self.is_returned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentChatAddMembers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -35665,6 +37301,9 @@ impl PushMessageContentChatChangePhoto {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentChatChangePhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -35718,6 +37357,9 @@ impl PushMessageContentChatChangeTitle {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentChatChangeTitle> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -35786,6 +37428,9 @@ impl PushMessageContentChatDeleteMember {
   
   pub fn is_left(&self) -> &Option<bool> { &self.is_left }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentChatDeleteMember> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -35849,6 +37494,9 @@ impl PushMessageContentChatJoinByLink {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentChatJoinByLink> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -35902,6 +37550,9 @@ impl PushMessageContentMessageForwards {
   
   pub fn total_count(&self) -> &Option<i32> { &self.total_count }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentMessageForwards> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -35970,6 +37621,9 @@ impl PushMessageContentMediaAlbum {
   
   pub fn has_videos(&self) -> &Option<bool> { &self.has_videos }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushMessageContentMediaAlbum> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -36036,6 +37690,9 @@ impl PushReceiverId {
   
   pub fn id(&self) -> &Option<i64> { &self.id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PushReceiverId> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -36092,6 +37749,9 @@ impl RecoveryEmailAddress {
   
   pub fn recovery_email_address(&self) -> &Option<String> { &self.recovery_email_address }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RecoveryEmailAddress> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -36163,6 +37823,9 @@ impl RemoteFile {
   
   pub fn uploaded_size(&self) -> &Option<i32> { &self.uploaded_size }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RemoteFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -36208,6 +37871,11 @@ pub trait ReplyMarkup: Object + RObject + Debug {}
 
 
 
+impl ReplyMarkup {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<ReplyMarkup>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<ReplyMarkup> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -36268,6 +37936,9 @@ impl ReplyMarkupRemoveKeyboard {
   
   pub fn is_personal(&self) -> &Option<bool> { &self.is_personal }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ReplyMarkupRemoveKeyboard> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -36326,6 +37997,9 @@ impl ReplyMarkupForceReply {
   
   pub fn is_personal(&self) -> &Option<bool> { &self.is_personal }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ReplyMarkupForceReply> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -36399,6 +38073,9 @@ impl ReplyMarkupShowKeyboard {
   
   pub fn is_personal(&self) -> &Option<bool> { &self.is_personal }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ReplyMarkupShowKeyboard> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -36472,6 +38149,9 @@ impl ReplyMarkupInlineKeyboard {
   
   pub fn rows(&self) -> &Option<Vec<Vec<InlineKeyboardButton>>> { &self.rows }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ReplyMarkupInlineKeyboard> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -36502,6 +38182,11 @@ pub trait RichText: Object + RObject + Debug {}
 
 
 
+impl RichText {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<RichText>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<RichText> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -36573,6 +38258,9 @@ impl RichTextPlain {
   
   pub fn text(&self) -> &Option<String> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RichTextPlain> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -36638,6 +38326,9 @@ impl RichTextBold {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RichTextBold> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -36703,6 +38394,9 @@ impl RichTextItalic {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RichTextItalic> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -36768,6 +38462,9 @@ impl RichTextUnderline {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RichTextUnderline> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -36833,6 +38530,9 @@ impl RichTextStrikethrough {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RichTextStrikethrough> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -36898,6 +38598,9 @@ impl RichTextFixed {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RichTextFixed> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -36968,6 +38671,9 @@ impl RichTextUrl {
   
   pub fn url(&self) -> &Option<String> { &self.url }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RichTextUrl> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -37043,6 +38749,9 @@ impl RichTextEmailAddress {
   
   pub fn email_address(&self) -> &Option<String> { &self.email_address }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RichTextEmailAddress> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -37113,6 +38822,9 @@ impl RichTextSubscript {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RichTextSubscript> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -37178,6 +38890,9 @@ impl RichTextSuperscript {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RichTextSuperscript> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -37243,6 +38958,9 @@ impl RichTextMarked {
   
   pub fn text(&self) -> &Option<Box<RichText>> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RichTextMarked> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -37313,6 +39031,9 @@ impl RichTextPhoneNumber {
   
   pub fn phone_number(&self) -> &Option<String> { &self.phone_number }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RichTextPhoneNumber> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -37386,6 +39107,9 @@ impl RichTextIcon {
   
   pub fn height(&self) -> &Option<i32> { &self.height }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RichTextIcon> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -37466,6 +39190,9 @@ impl RichTextAnchor {
   
   pub fn name(&self) -> &Option<String> { &self.name }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RichTextAnchor> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -37536,6 +39263,9 @@ impl RichTexts {
   
   pub fn texts(&self) -> &Option<Vec<Box<RichText>>> { &self.texts }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RichTexts> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -37597,6 +39327,9 @@ impl SavedCredentials {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SavedCredentials> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -37678,6 +39411,9 @@ impl ScopeNotificationSettings {
   
   pub fn disable_mention_notifications(&self) -> &Option<bool> { &self.disable_mention_notifications }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ScopeNotificationSettings> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -37728,6 +39464,11 @@ pub trait SearchMessagesFilter: Object + RObject + Debug {}
 
 
 
+impl SearchMessagesFilter {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<SearchMessagesFilter>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<SearchMessagesFilter> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -37795,6 +39536,9 @@ impl SearchMessagesFilterEmpty {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterEmpty> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -37843,6 +39587,9 @@ impl SearchMessagesFilterAnimation {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterAnimation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -37891,6 +39638,9 @@ impl SearchMessagesFilterAudio {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterAudio> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -37939,6 +39689,9 @@ impl SearchMessagesFilterDocument {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterDocument> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -37987,6 +39740,9 @@ impl SearchMessagesFilterPhoto {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterPhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38035,6 +39791,9 @@ impl SearchMessagesFilterVideo {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterVideo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38083,6 +39842,9 @@ impl SearchMessagesFilterVoiceNote {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterVoiceNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38131,6 +39893,9 @@ impl SearchMessagesFilterPhotoAndVideo {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterPhotoAndVideo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38179,6 +39944,9 @@ impl SearchMessagesFilterUrl {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterUrl> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38227,6 +39995,9 @@ impl SearchMessagesFilterChatPhoto {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterChatPhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38275,6 +40046,9 @@ impl SearchMessagesFilterCall {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterCall> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38323,6 +40097,9 @@ impl SearchMessagesFilterMissedCall {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterMissedCall> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38371,6 +40148,9 @@ impl SearchMessagesFilterVideoNote {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterVideoNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38419,6 +40199,9 @@ impl SearchMessagesFilterVoiceAndVideoNote {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterVoiceAndVideoNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38467,6 +40250,9 @@ impl SearchMessagesFilterMention {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterMention> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38515,6 +40301,9 @@ impl SearchMessagesFilterUnreadMention {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessagesFilterUnreadMention> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38566,6 +40355,9 @@ impl Seconds {
   
   pub fn seconds(&self) -> &Option<f64> { &self.seconds }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Seconds> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38659,6 +40451,9 @@ impl SecretChat {
   
   pub fn layer(&self) -> &Option<i32> { &self.layer }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SecretChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38719,6 +40514,11 @@ pub trait SecretChatState: Object + RObject + Debug {}
 
 
 
+impl SecretChatState {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<SecretChatState>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<SecretChatState> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -38773,6 +40573,9 @@ impl SecretChatStatePending {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SecretChatStatePending> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38821,6 +40624,9 @@ impl SecretChatStateReady {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SecretChatStateReady> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38869,6 +40675,9 @@ impl SecretChatStateClosed {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SecretChatStateClosed> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -38990,6 +40799,9 @@ impl Session {
   
   pub fn region(&self) -> &Option<String> { &self.region }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Session> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -39116,6 +40928,9 @@ impl Sessions {
   
   pub fn sessions(&self) -> &Option<Vec<Session>> { &self.sessions }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Sessions> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -39182,6 +40997,9 @@ impl ShippingOption {
   
   pub fn price_parts(&self) -> &Option<Vec<LabeledPricePart>> { &self.price_parts }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ShippingOption> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -39283,6 +41101,9 @@ impl Sticker {
   
   pub fn sticker(&self) -> &Option<File> { &self.sticker }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Sticker> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -39374,6 +41195,9 @@ impl StickerEmojis {
   
   pub fn emojis(&self) -> &Option<Vec<String>> { &self.emojis }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<StickerEmojis> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -39475,6 +41299,9 @@ impl StickerSet {
   
   pub fn emojis(&self) -> &Option<Vec<StickerEmojis>> { &self.emojis }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<StickerSet> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -39621,6 +41448,9 @@ impl StickerSetInfo {
   
   pub fn covers(&self) -> &Option<Vec<Sticker>> { &self.covers }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<StickerSetInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -39727,6 +41557,9 @@ impl StickerSets {
   
   pub fn sets(&self) -> &Option<Vec<StickerSetInfo>> { &self.sets }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<StickerSets> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -39788,6 +41621,9 @@ impl Stickers {
   
   pub fn stickers(&self) -> &Option<Vec<Sticker>> { &self.stickers }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Stickers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -39854,6 +41690,9 @@ impl StorageStatistics {
   
   pub fn by_chat(&self) -> &Option<Vec<StorageStatisticsByChat>> { &self.by_chat }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<StorageStatistics> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -39935,6 +41774,9 @@ impl StorageStatisticsByChat {
   
   pub fn by_file_type(&self) -> &Option<Vec<StorageStatisticsByFileType>> { &self.by_file_type }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<StorageStatisticsByChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -40023,6 +41865,9 @@ impl StorageStatisticsByFileType {
   
   pub fn count(&self) -> &Option<i32> { &self.count }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<StorageStatisticsByFileType> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -40109,6 +41954,9 @@ impl StorageStatisticsFast {
   
   pub fn log_size(&self) -> &Option<i64> { &self.log_size }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<StorageStatisticsFast> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -40237,6 +42085,9 @@ impl Supergroup {
   
   pub fn restriction_reason(&self) -> &Option<String> { &self.restriction_reason }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Supergroup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -40403,6 +42254,9 @@ impl SupergroupFullInfo {
   
   pub fn upgraded_from_max_message_id(&self) -> &Option<i64> { &self.upgraded_from_max_message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SupergroupFullInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -40498,6 +42352,11 @@ pub trait SupergroupMembersFilter: Object + RObject + Debug {}
 
 
 
+impl SupergroupMembersFilter {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<SupergroupMembersFilter>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<SupergroupMembersFilter> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -40555,6 +42414,9 @@ impl SupergroupMembersFilterRecent {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SupergroupMembersFilterRecent> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -40603,6 +42465,9 @@ impl SupergroupMembersFilterAdministrators {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SupergroupMembersFilterAdministrators> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -40656,6 +42521,9 @@ impl SupergroupMembersFilterSearch {
   
   pub fn query(&self) -> &Option<String> { &self.query }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SupergroupMembersFilterSearch> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -40714,6 +42582,9 @@ impl SupergroupMembersFilterRestricted {
   
   pub fn query(&self) -> &Option<String> { &self.query }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SupergroupMembersFilterRestricted> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -40772,6 +42643,9 @@ impl SupergroupMembersFilterBanned {
   
   pub fn query(&self) -> &Option<String> { &self.query }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SupergroupMembersFilterBanned> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -40825,6 +42699,9 @@ impl SupergroupMembersFilterBots {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SupergroupMembersFilterBots> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -40888,6 +42765,9 @@ impl TMeUrl {
   
   pub fn type_(&self) -> &Option<Box<TMeUrlType>> { &self.type_ }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TMeUrl> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -40923,6 +42803,11 @@ pub trait TMeUrlType: Object + RObject + Debug {}
 
 
 
+impl TMeUrlType {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<TMeUrlType>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<TMeUrlType> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -40983,6 +42868,9 @@ impl TMeUrlTypeUser {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TMeUrlTypeUser> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -41041,6 +42929,9 @@ impl TMeUrlTypeSupergroup {
   
   pub fn supergroup_id(&self) -> &Option<i64> { &self.supergroup_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TMeUrlTypeSupergroup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -41099,6 +42990,9 @@ impl TMeUrlTypeChatInvite {
   
   pub fn info(&self) -> &Option<ChatInviteLinkInfo> { &self.info }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TMeUrlTypeChatInvite> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -41157,6 +43051,9 @@ impl TMeUrlTypeStickerSet {
   
   pub fn sticker_set_id(&self) -> &Option<i64> { &self.sticker_set_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TMeUrlTypeStickerSet> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -41213,6 +43110,9 @@ impl TMeUrls {
   
   pub fn urls(&self) -> &Option<Vec<TMeUrl>> { &self.urls }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TMeUrls> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -41339,6 +43239,9 @@ impl TdlibParameters {
   
   pub fn ignore_file_names(&self) -> &Option<bool> { &self.ignore_file_names }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TdlibParameters> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -41470,6 +43373,9 @@ impl TemporaryPasswordState {
   
   pub fn valid_for(&self) -> &Option<i32> { &self.valid_for }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TemporaryPasswordState> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -41541,6 +43447,9 @@ impl TermsOfService {
   
   pub fn show_popup(&self) -> &Option<bool> { &self.show_popup }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TermsOfService> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -41607,6 +43516,9 @@ impl TestBytes {
   
   pub fn value(&self) -> &Option<String> { &self.value }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestBytes> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -41663,6 +43575,9 @@ impl TestInt {
   
   pub fn value(&self) -> &Option<i32> { &self.value }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestInt> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -41719,6 +43634,9 @@ impl TestString {
   
   pub fn value(&self) -> &Option<String> { &self.value }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestString> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -41775,6 +43693,9 @@ impl TestVectorInt {
   
   pub fn value(&self) -> &Option<Vec<i32>> { &self.value }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestVectorInt> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -41831,6 +43752,9 @@ impl TestVectorIntObject {
   
   pub fn value(&self) -> &Option<Vec<TestInt>> { &self.value }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestVectorIntObject> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -41887,6 +43811,9 @@ impl TestVectorString {
   
   pub fn value(&self) -> &Option<Vec<String>> { &self.value }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestVectorString> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -41943,6 +43870,9 @@ impl TestVectorStringObject {
   
   pub fn value(&self) -> &Option<Vec<TestString>> { &self.value }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestVectorStringObject> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -41999,6 +43929,9 @@ impl Text {
   
   pub fn text(&self) -> &Option<String> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Text> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42055,6 +43988,9 @@ impl TextEntities {
   
   pub fn entities(&self) -> &Option<Vec<TextEntity>> { &self.entities }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntities> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42128,6 +44064,9 @@ impl TextEntity {
   
   pub fn type_(&self) -> &Option<Box<TextEntityType>> { &self.type_ }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntity> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42168,6 +44107,11 @@ pub trait TextEntityType: Object + RObject + Debug {}
 
 
 
+impl TextEntityType {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<TextEntityType>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<TextEntityType> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -42233,6 +44177,9 @@ impl TextEntityTypeMention {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntityTypeMention> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42281,6 +44228,9 @@ impl TextEntityTypeHashtag {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntityTypeHashtag> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42329,6 +44279,9 @@ impl TextEntityTypeCashtag {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntityTypeCashtag> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42377,6 +44330,9 @@ impl TextEntityTypeBotCommand {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntityTypeBotCommand> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42425,6 +44381,9 @@ impl TextEntityTypeUrl {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntityTypeUrl> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42473,6 +44432,9 @@ impl TextEntityTypeEmailAddress {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntityTypeEmailAddress> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42521,6 +44483,9 @@ impl TextEntityTypeBold {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntityTypeBold> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42569,6 +44534,9 @@ impl TextEntityTypeItalic {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntityTypeItalic> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42617,6 +44585,9 @@ impl TextEntityTypeCode {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntityTypeCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42665,6 +44636,9 @@ impl TextEntityTypePre {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntityTypePre> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42718,6 +44692,9 @@ impl TextEntityTypePreCode {
   
   pub fn language(&self) -> &Option<String> { &self.language }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntityTypePreCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42776,6 +44753,9 @@ impl TextEntityTypeTextUrl {
   
   pub fn url(&self) -> &Option<String> { &self.url }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntityTypeTextUrl> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42834,6 +44814,9 @@ impl TextEntityTypeMentionName {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntityTypeMentionName> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42887,6 +44870,9 @@ impl TextEntityTypePhoneNumber {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextEntityTypePhoneNumber> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -42912,6 +44898,11 @@ pub trait TextParseMode: Object + RObject + Debug {}
 
 
 
+impl TextParseMode {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<TextParseMode>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<TextParseMode> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -42965,6 +44956,9 @@ impl TextParseModeMarkdown {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextParseModeMarkdown> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43013,6 +45007,9 @@ impl TextParseModeHTML {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TextParseModeHTML> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43038,6 +45035,11 @@ pub trait TopChatCategory: Object + RObject + Debug {}
 
 
 
+impl TopChatCategory {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<TopChatCategory>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<TopChatCategory> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -43095,6 +45097,9 @@ impl TopChatCategoryUsers {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TopChatCategoryUsers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43143,6 +45148,9 @@ impl TopChatCategoryBots {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TopChatCategoryBots> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43191,6 +45199,9 @@ impl TopChatCategoryGroups {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TopChatCategoryGroups> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43239,6 +45250,9 @@ impl TopChatCategoryChannels {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TopChatCategoryChannels> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43287,6 +45301,9 @@ impl TopChatCategoryInlineBots {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TopChatCategoryInlineBots> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43335,6 +45352,9 @@ impl TopChatCategoryCalls {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TopChatCategoryCalls> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43360,6 +45380,11 @@ pub trait Update: Object + RObject + Debug {}
 
 
 
+impl Update {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<Update>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<Update> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -43482,6 +45507,9 @@ impl UpdateAuthorizationState {
   
   pub fn authorization_state(&self) -> &Option<Box<AuthorizationState>> { &self.authorization_state }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateAuthorizationState> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43516,6 +45544,9 @@ impl UpdateNewMessage {
   
   pub fn message(&self) -> &Option<Message> { &self.message }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateNewMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43554,6 +45585,9 @@ impl UpdateMessageSendAcknowledged {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateMessageSendAcknowledged> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43592,6 +45626,9 @@ impl UpdateMessageSendSucceeded {
   
   pub fn old_message_id(&self) -> &Option<i64> { &self.old_message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateMessageSendSucceeded> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43638,6 +45675,9 @@ impl UpdateMessageSendFailed {
   
   pub fn error_message(&self) -> &Option<String> { &self.error_message }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateMessageSendFailed> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43687,6 +45727,9 @@ impl UpdateMessageContent {
   
   pub fn new_content(&self) -> &Option<Box<MessageContent>> { &self.new_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateMessageContent> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43740,6 +45783,9 @@ impl UpdateMessageEdited {
   
   pub fn reply_markup(&self) -> &Option<Box<ReplyMarkup>> { &self.reply_markup }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateMessageEdited> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43782,6 +45828,9 @@ impl UpdateMessageViews {
   
   pub fn views(&self) -> &Option<i32> { &self.views }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateMessageViews> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43820,6 +45869,9 @@ impl UpdateMessageContentOpened {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateMessageContentOpened> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43862,6 +45914,9 @@ impl UpdateMessageMentionRead {
   
   pub fn unread_mention_count(&self) -> &Option<i32> { &self.unread_mention_count }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateMessageMentionRead> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43896,6 +45951,9 @@ impl UpdateNewChat {
   
   pub fn chat(&self) -> &Option<Chat> { &self.chat }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateNewChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43934,6 +45992,9 @@ impl UpdateChatTitle {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatTitle> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -43972,6 +46033,9 @@ impl UpdateChatPhoto {
   
   pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatPhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44014,6 +46078,9 @@ impl UpdateChatLastMessage {
   
   pub fn order(&self) -> &Option<i64> { &self.order }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatLastMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44052,6 +46119,9 @@ impl UpdateChatOrder {
   
   pub fn order(&self) -> &Option<i64> { &self.order }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatOrder> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44094,6 +46164,9 @@ impl UpdateChatIsPinned {
   
   pub fn order(&self) -> &Option<i64> { &self.order }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatIsPinned> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44132,6 +46205,9 @@ impl UpdateChatIsMarkedAsUnread {
   
   pub fn is_marked_as_unread(&self) -> &Option<bool> { &self.is_marked_as_unread }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatIsMarkedAsUnread> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44174,6 +46250,9 @@ impl UpdateChatIsSponsored {
   
   pub fn order(&self) -> &Option<i64> { &self.order }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatIsSponsored> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44212,6 +46291,9 @@ impl UpdateChatDefaultDisableNotification {
   
   pub fn default_disable_notification(&self) -> &Option<bool> { &self.default_disable_notification }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatDefaultDisableNotification> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44254,6 +46336,9 @@ impl UpdateChatReadInbox {
   
   pub fn unread_count(&self) -> &Option<i32> { &self.unread_count }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatReadInbox> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44292,6 +46377,9 @@ impl UpdateChatReadOutbox {
   
   pub fn last_read_outbox_message_id(&self) -> &Option<i64> { &self.last_read_outbox_message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatReadOutbox> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44330,6 +46418,9 @@ impl UpdateChatUnreadMentionCount {
   
   pub fn unread_mention_count(&self) -> &Option<i32> { &self.unread_mention_count }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatUnreadMentionCount> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44368,6 +46459,9 @@ impl UpdateChatNotificationSettings {
   
   pub fn notification_settings(&self) -> &Option<ChatNotificationSettings> { &self.notification_settings }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatNotificationSettings> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44413,6 +46507,9 @@ impl UpdateScopeNotificationSettings {
   
   pub fn notification_settings(&self) -> &Option<ScopeNotificationSettings> { &self.notification_settings }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateScopeNotificationSettings> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44451,6 +46548,9 @@ impl UpdateChatPinnedMessage {
   
   pub fn pinned_message_id(&self) -> &Option<i64> { &self.pinned_message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatPinnedMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44489,6 +46589,9 @@ impl UpdateChatReplyMarkup {
   
   pub fn reply_markup_message_id(&self) -> &Option<i64> { &self.reply_markup_message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatReplyMarkup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44531,6 +46634,9 @@ impl UpdateChatDraftMessage {
   
   pub fn order(&self) -> &Option<i64> { &self.order }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatDraftMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44569,6 +46675,9 @@ impl UpdateChatOnlineMemberCount {
   
   pub fn online_member_count(&self) -> &Option<i32> { &self.online_member_count }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatOnlineMemberCount> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44607,6 +46716,9 @@ impl UpdateNotification {
   
   pub fn notification(&self) -> &Option<Notification> { &self.notification }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateNotification> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44676,6 +46788,9 @@ impl UpdateNotificationGroup {
   
   pub fn removed_notification_ids(&self) -> &Option<Vec<i32>> { &self.removed_notification_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateNotificationGroup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44710,6 +46825,9 @@ impl UpdateActiveNotifications {
   
   pub fn groups(&self) -> &Option<Vec<NotificationGroup>> { &self.groups }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateActiveNotifications> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44748,6 +46866,9 @@ impl UpdateHavePendingNotifications {
   
   pub fn have_unreceived_notifications(&self) -> &Option<bool> { &self.have_unreceived_notifications }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateHavePendingNotifications> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44794,6 +46915,9 @@ impl UpdateDeleteMessages {
   
   pub fn from_cache(&self) -> &Option<bool> { &self.from_cache }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateDeleteMessages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44843,6 +46967,9 @@ impl UpdateUserChatAction {
   
   pub fn action(&self) -> &Option<Box<ChatAction>> { &self.action }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateUserChatAction> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44888,6 +47015,9 @@ impl UpdateUserStatus {
   
   pub fn status(&self) -> &Option<Box<UserStatus>> { &self.status }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateUserStatus> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44922,6 +47052,9 @@ impl UpdateUser {
   
   pub fn user(&self) -> &Option<User> { &self.user }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateUser> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44956,6 +47089,9 @@ impl UpdateBasicGroup {
   
   pub fn basic_group(&self) -> &Option<BasicGroup> { &self.basic_group }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateBasicGroup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -44990,6 +47126,9 @@ impl UpdateSupergroup {
   
   pub fn supergroup(&self) -> &Option<Supergroup> { &self.supergroup }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateSupergroup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45024,6 +47163,9 @@ impl UpdateSecretChat {
   
   pub fn secret_chat(&self) -> &Option<SecretChat> { &self.secret_chat }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateSecretChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45062,6 +47204,9 @@ impl UpdateUserFullInfo {
   
   pub fn user_full_info(&self) -> &Option<UserFullInfo> { &self.user_full_info }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateUserFullInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45100,6 +47245,9 @@ impl UpdateBasicGroupFullInfo {
   
   pub fn basic_group_full_info(&self) -> &Option<BasicGroupFullInfo> { &self.basic_group_full_info }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateBasicGroupFullInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45138,6 +47286,9 @@ impl UpdateSupergroupFullInfo {
   
   pub fn supergroup_full_info(&self) -> &Option<SupergroupFullInfo> { &self.supergroup_full_info }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateSupergroupFullInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45183,6 +47334,9 @@ impl UpdateServiceNotification {
   
   pub fn content(&self) -> &Option<Box<MessageContent>> { &self.content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateServiceNotification> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45217,6 +47371,9 @@ impl UpdateFile {
   
   pub fn file(&self) -> &Option<File> { &self.file }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45263,6 +47420,9 @@ impl UpdateFileGenerationStart {
   
   pub fn conversion(&self) -> &Option<String> { &self.conversion }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateFileGenerationStart> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45297,6 +47457,9 @@ impl UpdateFileGenerationStop {
   
   pub fn generation_id(&self) -> &Option<i64> { &self.generation_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateFileGenerationStop> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45331,6 +47494,9 @@ impl UpdateCall {
   
   pub fn call(&self) -> &Option<Call> { &self.call }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateCall> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45376,6 +47542,9 @@ impl UpdateUserPrivacySettingRules {
   
   pub fn rules(&self) -> &Option<UserPrivacySettingRules> { &self.rules }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateUserPrivacySettingRules> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45414,6 +47583,9 @@ impl UpdateUnreadMessageCount {
   
   pub fn unread_unmuted_count(&self) -> &Option<i32> { &self.unread_unmuted_count }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateUnreadMessageCount> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45460,6 +47632,9 @@ impl UpdateUnreadChatCount {
   
   pub fn marked_as_unread_unmuted_count(&self) -> &Option<i32> { &self.marked_as_unread_unmuted_count }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateUnreadChatCount> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45505,6 +47680,9 @@ impl UpdateOption {
   
   pub fn value(&self) -> &Option<Box<OptionValue>> { &self.value }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateOption> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45543,6 +47721,9 @@ impl UpdateInstalledStickerSets {
   
   pub fn sticker_set_ids(&self) -> &Option<Vec<i64>> { &self.sticker_set_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateInstalledStickerSets> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45577,6 +47758,9 @@ impl UpdateTrendingStickerSets {
   
   pub fn sticker_sets(&self) -> &Option<StickerSets> { &self.sticker_sets }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateTrendingStickerSets> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45615,6 +47799,9 @@ impl UpdateRecentStickers {
   
   pub fn sticker_ids(&self) -> &Option<Vec<i32>> { &self.sticker_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateRecentStickers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45649,6 +47836,9 @@ impl UpdateFavoriteStickers {
   
   pub fn sticker_ids(&self) -> &Option<Vec<i32>> { &self.sticker_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateFavoriteStickers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45683,6 +47873,9 @@ impl UpdateSavedAnimations {
   
   pub fn animation_ids(&self) -> &Option<Vec<i32>> { &self.animation_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateSavedAnimations> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45725,6 +47918,9 @@ impl UpdateLanguagePackStrings {
   
   pub fn strings(&self) -> &Option<Vec<LanguagePackString>> { &self.strings }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateLanguagePackStrings> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45766,6 +47962,9 @@ impl UpdateConnectionState {
   
   pub fn state(&self) -> &Option<Box<ConnectionState>> { &self.state }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateConnectionState> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45804,6 +48003,9 @@ impl UpdateTermsOfService {
   
   pub fn terms_of_service(&self) -> &Option<TermsOfService> { &self.terms_of_service }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateTermsOfService> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45854,6 +48056,9 @@ impl UpdateNewInlineQuery {
   
   pub fn offset(&self) -> &Option<String> { &self.offset }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateNewInlineQuery> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45904,6 +48109,9 @@ impl UpdateNewChosenInlineResult {
   
   pub fn inline_message_id(&self) -> &Option<String> { &self.inline_message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateNewChosenInlineResult> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -45965,6 +48173,9 @@ impl UpdateNewCallbackQuery {
   
   pub fn payload(&self) -> &Option<Box<CallbackQueryPayload>> { &self.payload }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateNewCallbackQuery> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -46022,6 +48233,9 @@ impl UpdateNewInlineCallbackQuery {
   
   pub fn payload(&self) -> &Option<Box<CallbackQueryPayload>> { &self.payload }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateNewInlineCallbackQuery> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -46068,6 +48282,9 @@ impl UpdateNewShippingQuery {
   
   pub fn shipping_address(&self) -> &Option<Address> { &self.shipping_address }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateNewShippingQuery> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -46126,6 +48343,9 @@ impl UpdateNewPreCheckoutQuery {
   
   pub fn order_info(&self) -> &Option<OrderInfo> { &self.order_info }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateNewPreCheckoutQuery> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -46160,6 +48380,9 @@ impl UpdateNewCustomEvent {
   
   pub fn event(&self) -> &Option<String> { &self.event }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateNewCustomEvent> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -46202,6 +48425,9 @@ impl UpdateNewCustomQuery {
   
   pub fn timeout(&self) -> &Option<i32> { &self.timeout }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateNewCustomQuery> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -46236,6 +48462,9 @@ impl UpdatePoll {
   
   pub fn poll(&self) -> &Option<Poll> { &self.poll }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdatePoll> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -46284,6 +48513,9 @@ impl Updates {
   
   pub fn updates(&self) -> &Option<Vec<Box<Update>>> { &self.updates }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Updates> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -46417,6 +48649,9 @@ impl User {
   
   pub fn language_code(&self) -> &Option<String> { &self.language_code }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<User> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -46573,6 +48808,9 @@ impl UserFullInfo {
   
   pub fn bot_info(&self) -> &Option<BotInfo> { &self.bot_info }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserFullInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -46633,6 +48871,11 @@ pub trait UserPrivacySetting: Object + RObject + Debug {}
 
 
 
+impl UserPrivacySetting {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<UserPrivacySetting>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<UserPrivacySetting> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -46688,6 +48931,9 @@ impl UserPrivacySettingShowStatus {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserPrivacySettingShowStatus> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -46736,6 +48982,9 @@ impl UserPrivacySettingAllowChatInvites {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserPrivacySettingAllowChatInvites> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -46784,6 +49033,9 @@ impl UserPrivacySettingAllowCalls {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserPrivacySettingAllowCalls> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -46832,6 +49084,9 @@ impl UserPrivacySettingAllowPeerToPeerCalls {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserPrivacySettingAllowPeerToPeerCalls> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -46857,6 +49112,11 @@ pub trait UserPrivacySettingRule: Object + RObject + Debug {}
 
 
 
+impl UserPrivacySettingRule {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<UserPrivacySettingRule>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<UserPrivacySettingRule> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -46914,6 +49174,9 @@ impl UserPrivacySettingRuleAllowAll {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserPrivacySettingRuleAllowAll> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -46962,6 +49225,9 @@ impl UserPrivacySettingRuleAllowContacts {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserPrivacySettingRuleAllowContacts> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47015,6 +49281,9 @@ impl UserPrivacySettingRuleAllowUsers {
   
   pub fn user_ids(&self) -> &Option<Vec<i32>> { &self.user_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserPrivacySettingRuleAllowUsers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47068,6 +49337,9 @@ impl UserPrivacySettingRuleRestrictAll {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserPrivacySettingRuleRestrictAll> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47116,6 +49388,9 @@ impl UserPrivacySettingRuleRestrictContacts {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserPrivacySettingRuleRestrictContacts> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47169,6 +49444,9 @@ impl UserPrivacySettingRuleRestrictUsers {
   
   pub fn user_ids(&self) -> &Option<Vec<i32>> { &self.user_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserPrivacySettingRuleRestrictUsers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47232,6 +49510,9 @@ impl UserPrivacySettingRules {
   
   pub fn rules(&self) -> &Option<Vec<Box<UserPrivacySettingRule>>> { &self.rules }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserPrivacySettingRules> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47298,6 +49579,9 @@ impl UserProfilePhoto {
   
   pub fn sizes(&self) -> &Option<Vec<PhotoSize>> { &self.sizes }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserProfilePhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47369,6 +49653,9 @@ impl UserProfilePhotos {
   
   pub fn photos(&self) -> &Option<Vec<UserProfilePhoto>> { &self.photos }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserProfilePhotos> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47404,6 +49691,11 @@ pub trait UserStatus: Object + RObject + Debug {}
 
 
 
+impl UserStatus {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<UserStatus>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<UserStatus> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -47461,6 +49753,9 @@ impl UserStatusEmpty {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserStatusEmpty> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47514,6 +49809,9 @@ impl UserStatusOnline {
   
   pub fn expires(&self) -> &Option<i32> { &self.expires }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserStatusOnline> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47572,6 +49870,9 @@ impl UserStatusOffline {
   
   pub fn was_online(&self) -> &Option<i32> { &self.was_online }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserStatusOffline> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47625,6 +49926,9 @@ impl UserStatusRecently {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserStatusRecently> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47673,6 +49977,9 @@ impl UserStatusLastWeek {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserStatusLastWeek> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47721,6 +50028,9 @@ impl UserStatusLastMonth {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserStatusLastMonth> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47746,6 +50056,11 @@ pub trait UserType: Object + RObject + Debug {}
 
 
 
+impl UserType {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<UserType>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
 impl Clone for Box<UserType> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
@@ -47801,6 +50116,9 @@ impl UserTypeRegular {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserTypeRegular> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47849,6 +50167,9 @@ impl UserTypeDeleted {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserTypeDeleted> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47922,6 +50243,9 @@ impl UserTypeBot {
   
   pub fn need_location(&self) -> &Option<bool> { &self.need_location }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserTypeBot> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -47995,6 +50319,9 @@ impl UserTypeUnknown {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UserTypeUnknown> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -48051,6 +50378,9 @@ impl Users {
   
   pub fn user_ids(&self) -> &Option<Vec<i32>> { &self.user_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Users> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -48117,6 +50447,9 @@ impl ValidatedOrderInfo {
   
   pub fn shipping_options(&self) -> &Option<Vec<ShippingOption>> { &self.shipping_options }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ValidatedOrderInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -48203,6 +50536,9 @@ impl Venue {
   
   pub fn type_(&self) -> &Option<String> { &self.type_ }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Venue> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -48324,6 +50660,9 @@ impl Video {
   
   pub fn video(&self) -> &Option<File> { &self.video }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Video> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -48435,6 +50774,9 @@ impl VideoNote {
   
   pub fn video(&self) -> &Option<File> { &self.video }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<VideoNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -48521,6 +50863,9 @@ impl VoiceNote {
   
   pub fn voice(&self) -> &Option<File> { &self.voice }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<VoiceNote> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -48602,6 +50947,9 @@ impl Wallpaper {
   
   pub fn color(&self) -> &Option<i32> { &self.color }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Wallpaper> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -48668,6 +51016,9 @@ impl Wallpapers {
   
   pub fn wallpapers(&self) -> &Option<Vec<Wallpaper>> { &self.wallpapers }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Wallpapers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -48824,6 +51175,9 @@ impl WebPage {
   
   pub fn instant_view_version(&self) -> &Option<i32> { &self.instant_view_version }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<WebPage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -49007,6 +51361,9 @@ impl WebPageInstantView {
   
   pub fn is_full(&self) -> &Option<bool> { &self.is_full }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<WebPageInstantView> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -49090,6 +51447,9 @@ impl AcceptCall {
   
   pub fn protocol(&self) -> &Option<CallProtocol> { &self.protocol }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AcceptCall> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -49153,6 +51513,9 @@ impl AcceptTermsOfService {
   
   pub fn terms_of_service_id(&self) -> &Option<String> { &self.terms_of_service_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AcceptTermsOfService> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -49221,6 +51584,9 @@ impl AddChatMember {
   
   pub fn forward_limit(&self) -> &Option<i32> { &self.forward_limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AddChatMember> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -49294,6 +51660,9 @@ impl AddChatMembers {
   
   pub fn user_ids(&self) -> &Option<Vec<i32>> { &self.user_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AddChatMembers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -49357,6 +51726,9 @@ impl AddCustomServerLanguagePack {
   
   pub fn language_pack_id(&self) -> &Option<String> { &self.language_pack_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AddCustomServerLanguagePack> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -49422,6 +51794,9 @@ impl AddFavoriteSticker {
   
   pub fn sticker(&self) -> &Option<Box<InputFile>> { &self.sticker }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AddFavoriteSticker> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -49507,6 +51882,9 @@ impl AddLocalMessage {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AddLocalMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -49590,6 +51968,9 @@ impl AddLogMessage {
   
   pub fn text(&self) -> &Option<String> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AddLogMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -49660,6 +52041,9 @@ impl AddNetworkStatistics {
   
   pub fn entry(&self) -> &Option<Box<NetworkStatisticsEntry>> { &self.entry }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AddNetworkStatistics> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -49740,6 +52124,9 @@ impl AddProxy {
   
   pub fn type_(&self) -> &Option<Box<ProxyType>> { &self.type_ }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AddProxy> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -49825,6 +52212,9 @@ impl AddRecentSticker {
   
   pub fn sticker(&self) -> &Option<Box<InputFile>> { &self.sticker }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AddRecentSticker> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -49888,6 +52278,9 @@ impl AddRecentlyFoundChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AddRecentlyFoundChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -49953,6 +52346,9 @@ impl AddSavedAnimation {
   
   pub fn animation(&self) -> &Option<Box<InputFile>> { &self.animation }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AddSavedAnimation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -50021,6 +52417,9 @@ impl AddStickerToSet {
   
   pub fn sticker(&self) -> &Option<InputSticker> { &self.sticker }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AddStickerToSet> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -50109,6 +52508,9 @@ impl AnswerCallbackQuery {
   
   pub fn cache_time(&self) -> &Option<i32> { &self.cache_time }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AnswerCallbackQuery> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -50192,6 +52594,9 @@ impl AnswerCustomQuery {
   
   pub fn data(&self) -> &Option<String> { &self.data }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AnswerCustomQuery> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -50292,6 +52697,9 @@ impl AnswerInlineQuery {
   
   pub fn switch_pm_parameter(&self) -> &Option<String> { &self.switch_pm_parameter }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AnswerInlineQuery> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -50385,6 +52793,9 @@ impl AnswerPreCheckoutQuery {
   
   pub fn error_message(&self) -> &Option<String> { &self.error_message }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AnswerPreCheckoutQuery> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -50458,6 +52869,9 @@ impl AnswerShippingQuery {
   
   pub fn error_message(&self) -> &Option<String> { &self.error_message }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<AnswerShippingQuery> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -50526,6 +52940,9 @@ impl BlockUser {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<BlockUser> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -50589,6 +53006,9 @@ impl CancelDownloadFile {
   
   pub fn only_if_pending(&self) -> &Option<bool> { &self.only_if_pending }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CancelDownloadFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -50652,6 +53072,9 @@ impl CancelUploadFile {
   
   pub fn file_id(&self) -> &Option<i32> { &self.file_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CancelUploadFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -50715,6 +53138,9 @@ impl ChangeChatReportSpamState {
   
   pub fn is_spam_chat(&self) -> &Option<bool> { &self.is_spam_chat }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChangeChatReportSpamState> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -50778,6 +53204,9 @@ impl ChangeImportedContacts {
   
   pub fn contacts(&self) -> &Option<Vec<Contact>> { &self.contacts }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChangeImportedContacts> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -50846,6 +53275,9 @@ impl ChangePhoneNumber {
   
   pub fn is_current_phone_number(&self) -> &Option<bool> { &self.is_current_phone_number }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChangePhoneNumber> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -50924,6 +53356,9 @@ impl ChangeStickerSet {
   
   pub fn is_archived(&self) -> &Option<bool> { &self.is_archived }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ChangeStickerSet> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -50992,6 +53427,9 @@ impl CheckAuthenticationBotToken {
   
   pub fn token(&self) -> &Option<String> { &self.token }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckAuthenticationBotToken> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51060,6 +53498,9 @@ impl CheckAuthenticationCode {
   
   pub fn last_name(&self) -> &Option<String> { &self.last_name }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckAuthenticationCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51128,6 +53569,9 @@ impl CheckAuthenticationPassword {
   
   pub fn password(&self) -> &Option<String> { &self.password }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckAuthenticationPassword> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51186,6 +53630,9 @@ impl CheckChangePhoneNumberCode {
   
   pub fn code(&self) -> &Option<String> { &self.code }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckChangePhoneNumberCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51244,6 +53691,9 @@ impl CheckChatInviteLink {
   
   pub fn invite_link(&self) -> &Option<String> { &self.invite_link }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckChatInviteLink> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51307,6 +53757,9 @@ impl CheckChatUsername {
   
   pub fn username(&self) -> &Option<String> { &self.username }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckChatUsername> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51370,6 +53823,9 @@ impl CheckDatabaseEncryptionKey {
   
   pub fn encryption_key(&self) -> &Option<String> { &self.encryption_key }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckDatabaseEncryptionKey> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51428,6 +53884,9 @@ impl CheckEmailAddressVerificationCode {
   
   pub fn code(&self) -> &Option<String> { &self.code }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckEmailAddressVerificationCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51486,6 +53945,9 @@ impl CheckPhoneNumberConfirmationCode {
   
   pub fn code(&self) -> &Option<String> { &self.code }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckPhoneNumberConfirmationCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51544,6 +54006,9 @@ impl CheckPhoneNumberVerificationCode {
   
   pub fn code(&self) -> &Option<String> { &self.code }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckPhoneNumberVerificationCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51602,6 +54067,9 @@ impl CheckRecoveryEmailAddressCode {
   
   pub fn code(&self) -> &Option<String> { &self.code }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CheckRecoveryEmailAddressCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51660,6 +54128,9 @@ impl CleanFileName {
   
   pub fn file_name(&self) -> &Option<String> { &self.file_name }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CleanFileName> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51718,6 +54189,9 @@ impl ClearAllDraftMessages {
   
   pub fn exclude_secret_chats(&self) -> &Option<bool> { &self.exclude_secret_chats }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ClearAllDraftMessages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51771,6 +54245,9 @@ impl ClearImportedContacts {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ClearImportedContacts> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51824,6 +54301,9 @@ impl ClearRecentStickers {
   
   pub fn is_attached(&self) -> &Option<bool> { &self.is_attached }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ClearRecentStickers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51877,6 +54357,9 @@ impl ClearRecentlyFoundChats {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ClearRecentlyFoundChats> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51925,6 +54408,9 @@ impl Close {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Close> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -51978,6 +54464,9 @@ impl CloseChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CloseChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -52036,6 +54525,9 @@ impl CloseSecretChat {
   
   pub fn secret_chat_id(&self) -> &Option<i32> { &self.secret_chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CloseSecretChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -52099,6 +54591,9 @@ impl CreateBasicGroupChat {
   
   pub fn force(&self) -> &Option<bool> { &self.force }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CreateBasicGroupChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -52167,6 +54662,9 @@ impl CreateCall {
   
   pub fn protocol(&self) -> &Option<CallProtocol> { &self.protocol }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CreateCall> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -52235,6 +54733,9 @@ impl CreateNewBasicGroupChat {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CreateNewBasicGroupChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -52298,6 +54799,9 @@ impl CreateNewSecretChat {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CreateNewSecretChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -52376,6 +54880,9 @@ impl CreateNewStickerSet {
   
   pub fn stickers(&self) -> &Option<Vec<InputSticker>> { &self.stickers }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CreateNewStickerSet> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -52464,6 +54971,9 @@ impl CreateNewSupergroupChat {
   
   pub fn description(&self) -> &Option<String> { &self.description }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CreateNewSupergroupChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -52537,6 +55047,9 @@ impl CreatePrivateChat {
   
   pub fn force(&self) -> &Option<bool> { &self.force }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CreatePrivateChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -52600,6 +55113,9 @@ impl CreateSecretChat {
   
   pub fn secret_chat_id(&self) -> &Option<i32> { &self.secret_chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CreateSecretChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -52663,6 +55179,9 @@ impl CreateSupergroupChat {
   
   pub fn force(&self) -> &Option<bool> { &self.force }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CreateSupergroupChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -52731,6 +55250,9 @@ impl CreateTemporaryPassword {
   
   pub fn valid_for(&self) -> &Option<i32> { &self.valid_for }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<CreateTemporaryPassword> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -52794,6 +55316,9 @@ impl DeleteAccount {
   
   pub fn reason(&self) -> &Option<String> { &self.reason }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeleteAccount> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -52862,6 +55387,9 @@ impl DeleteChatHistory {
   
   pub fn revoke(&self) -> &Option<bool> { &self.revoke }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeleteChatHistory> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -52935,6 +55463,9 @@ impl DeleteChatMessagesFromUser {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeleteChatMessagesFromUser> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53003,6 +55534,9 @@ impl DeleteChatReplyMarkup {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeleteChatReplyMarkup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53066,6 +55600,9 @@ impl DeleteFile {
   
   pub fn file_id(&self) -> &Option<i32> { &self.file_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeleteFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53124,6 +55661,9 @@ impl DeleteLanguagePack {
   
   pub fn language_pack_id(&self) -> &Option<String> { &self.language_pack_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeleteLanguagePack> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53192,6 +55732,9 @@ impl DeleteMessages {
   
   pub fn revoke(&self) -> &Option<bool> { &self.revoke }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeleteMessages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53267,6 +55810,9 @@ impl DeletePassportElement {
   
   pub fn type_(&self) -> &Option<Box<PassportElementType>> { &self.type_ }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeletePassportElement> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53325,6 +55871,9 @@ impl DeleteProfilePhoto {
   
   pub fn profile_photo_id(&self) -> &Option<i64> { &self.profile_photo_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeleteProfilePhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53378,6 +55927,9 @@ impl DeleteSavedCredentials {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeleteSavedCredentials> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53426,6 +55978,9 @@ impl DeleteSavedOrderInfo {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeleteSavedOrderInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53479,6 +56034,9 @@ impl DeleteSupergroup {
   
   pub fn supergroup_id(&self) -> &Option<i32> { &self.supergroup_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DeleteSupergroup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53532,6 +56090,9 @@ impl Destroy {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Destroy> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53580,6 +56141,9 @@ impl DisableProxy {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DisableProxy> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53648,6 +56212,9 @@ impl DiscardCall {
   
   pub fn connection_id(&self) -> &Option<i64> { &self.connection_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DiscardCall> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53716,6 +56283,9 @@ impl DisconnectAllWebsites {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DisconnectAllWebsites> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53769,6 +56339,9 @@ impl DisconnectWebsite {
   
   pub fn website_id(&self) -> &Option<i64> { &self.website_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DisconnectWebsite> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53847,6 +56420,9 @@ impl DownloadFile {
   
   pub fn synchronous(&self) -> &Option<bool> { &self.synchronous }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<DownloadFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -53925,6 +56501,9 @@ impl EditCustomLanguagePackInfo {
   
   pub fn info(&self) -> &Option<LanguagePackInfo> { &self.info }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EditCustomLanguagePackInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -54000,6 +56579,9 @@ impl EditInlineMessageCaption {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EditInlineMessageCaption> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -54085,6 +56667,9 @@ impl EditInlineMessageLiveLocation {
   
   pub fn location(&self) -> &Option<Location> { &self.location }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EditInlineMessageLiveLocation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -54170,6 +56755,9 @@ impl EditInlineMessageMedia {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EditInlineMessageMedia> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -54250,6 +56838,9 @@ impl EditInlineMessageReplyMarkup {
   
   pub fn reply_markup(&self) -> &Option<Box<ReplyMarkup>> { &self.reply_markup }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EditInlineMessageReplyMarkup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -54330,6 +56921,9 @@ impl EditInlineMessageText {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EditInlineMessageText> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -54420,6 +57014,9 @@ impl EditMessageCaption {
   
   pub fn caption(&self) -> &Option<FormattedText> { &self.caption }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EditMessageCaption> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -54515,6 +57112,9 @@ impl EditMessageLiveLocation {
   
   pub fn location(&self) -> &Option<Location> { &self.location }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EditMessageLiveLocation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -54610,6 +57210,9 @@ impl EditMessageMedia {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EditMessageMedia> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -54700,6 +57303,9 @@ impl EditMessageReplyMarkup {
   
   pub fn reply_markup(&self) -> &Option<Box<ReplyMarkup>> { &self.reply_markup }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EditMessageReplyMarkup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -54790,6 +57396,9 @@ impl EditMessageText {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EditMessageText> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -54890,6 +57499,9 @@ impl EditProxy {
   
   pub fn type_(&self) -> &Option<Box<ProxyType>> { &self.type_ }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EditProxy> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -54968,6 +57580,9 @@ impl EnableProxy {
   
   pub fn proxy_id(&self) -> &Option<i32> { &self.proxy_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<EnableProxy> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55031,6 +57646,9 @@ impl FinishFileGeneration {
   
   pub fn error(&self) -> &Option<Error> { &self.error }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<FinishFileGeneration> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55119,6 +57737,9 @@ impl ForwardMessages {
   
   pub fn as_album(&self) -> &Option<bool> { &self.as_album }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ForwardMessages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55202,6 +57823,9 @@ impl GenerateChatInviteLink {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GenerateChatInviteLink> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55255,6 +57879,9 @@ impl GetAccountTtl {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetAccountTtl> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55303,6 +57930,9 @@ impl GetActiveLiveLocationMessages {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetActiveLiveLocationMessages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55351,6 +57981,9 @@ impl GetActiveSessions {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetActiveSessions> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55404,6 +58037,9 @@ impl GetAllPassportElements {
   
   pub fn password(&self) -> &Option<String> { &self.password }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetAllPassportElements> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55457,6 +58093,9 @@ impl GetApplicationConfig {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetApplicationConfig> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55520,6 +58159,9 @@ impl GetArchivedStickerSets {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetArchivedStickerSets> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55588,6 +58230,9 @@ impl GetAttachedStickerSets {
   
   pub fn file_id(&self) -> &Option<i32> { &self.file_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetAttachedStickerSets> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55641,6 +58286,9 @@ impl GetAuthorizationState {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetAuthorizationState> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55694,6 +58342,9 @@ impl GetBasicGroup {
   
   pub fn basic_group_id(&self) -> &Option<i32> { &self.basic_group_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetBasicGroup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55752,6 +58403,9 @@ impl GetBasicGroupFullInfo {
   
   pub fn basic_group_id(&self) -> &Option<i32> { &self.basic_group_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetBasicGroupFullInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55815,6 +58469,9 @@ impl GetBlockedUsers {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetBlockedUsers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55895,6 +58552,9 @@ impl GetCallbackQueryAnswer {
   
   pub fn payload(&self) -> &Option<Box<CallbackQueryPayload>> { &self.payload }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetCallbackQueryAnswer> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -55963,6 +58623,9 @@ impl GetChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -56021,6 +58684,9 @@ impl GetChatAdministrators {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetChatAdministrators> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -56104,6 +58770,9 @@ impl GetChatEventLog {
   
   pub fn user_ids(&self) -> &Option<Vec<i32>> { &self.user_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetChatEventLog> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -56207,6 +58876,9 @@ impl GetChatHistory {
   
   pub fn only_local(&self) -> &Option<bool> { &self.only_local }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetChatHistory> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -56290,6 +58962,9 @@ impl GetChatMember {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetChatMember> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -56358,6 +59033,9 @@ impl GetChatMessageByDate {
   
   pub fn date(&self) -> &Option<i32> { &self.date }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetChatMessageByDate> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -56438,6 +59116,9 @@ impl GetChatMessageCount {
   
   pub fn return_local(&self) -> &Option<bool> { &self.return_local }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetChatMessageCount> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -56518,6 +59199,9 @@ impl GetChatNotificationSettingsExceptions {
   
   pub fn compare_sound(&self) -> &Option<bool> { &self.compare_sound }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetChatNotificationSettingsExceptions> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -56581,6 +59265,9 @@ impl GetChatPinnedMessage {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetChatPinnedMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -56639,6 +59326,9 @@ impl GetChatReportSpamState {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetChatReportSpamState> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -56707,6 +59397,9 @@ impl GetChatStatisticsUrl {
   
   pub fn is_dark(&self) -> &Option<bool> { &self.is_dark }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetChatStatisticsUrl> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -56785,6 +59478,9 @@ impl GetChats {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetChats> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -56848,6 +59544,9 @@ impl GetConnectedWebsites {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetConnectedWebsites> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -56896,6 +59595,9 @@ impl GetContacts {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetContacts> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -56944,6 +59646,9 @@ impl GetCountryCode {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetCountryCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -56992,6 +59697,9 @@ impl GetCreatedPublicChats {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetCreatedPublicChats> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57040,6 +59748,9 @@ impl GetCurrentState {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetCurrentState> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57088,6 +59799,9 @@ impl GetDatabaseStatistics {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetDatabaseStatistics> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57141,6 +59855,9 @@ impl GetDeepLinkInfo {
   
   pub fn link(&self) -> &Option<String> { &self.link }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetDeepLinkInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57194,6 +59911,9 @@ impl GetFavoriteStickers {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetFavoriteStickers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57247,6 +59967,9 @@ impl GetFile {
   
   pub fn file_id(&self) -> &Option<i32> { &self.file_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57310,6 +60033,9 @@ impl GetFileDownloadedPrefixSize {
   
   pub fn offset(&self) -> &Option<i32> { &self.offset }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetFileDownloadedPrefixSize> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57373,6 +60099,9 @@ impl GetFileExtension {
   
   pub fn mime_type(&self) -> &Option<String> { &self.mime_type }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetFileExtension> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57431,6 +60160,9 @@ impl GetFileMimeType {
   
   pub fn file_name(&self) -> &Option<String> { &self.file_name }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetFileMimeType> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57499,6 +60231,9 @@ impl GetGameHighScores {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetGameHighScores> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57577,6 +60312,9 @@ impl GetGroupsInCommon {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetGroupsInCommon> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57640,6 +60378,9 @@ impl GetImportedContactCount {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetImportedContactCount> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57698,6 +60439,9 @@ impl GetInlineGameHighScores {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetInlineGameHighScores> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57781,6 +60525,9 @@ impl GetInlineQueryResults {
   
   pub fn offset(&self) -> &Option<String> { &self.offset }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetInlineQueryResults> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57859,6 +60606,9 @@ impl GetInstalledStickerSets {
   
   pub fn is_masks(&self) -> &Option<bool> { &self.is_masks }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetInstalledStickerSets> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57912,6 +60662,9 @@ impl GetInviteText {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetInviteText> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -57965,6 +60718,9 @@ impl GetLanguagePackInfo {
   
   pub fn language_pack_id(&self) -> &Option<String> { &self.language_pack_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetLanguagePackInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58038,6 +60794,9 @@ impl GetLanguagePackString {
   
   pub fn key(&self) -> &Option<String> { &self.key }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetLanguagePackString> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58116,6 +60875,9 @@ impl GetLanguagePackStrings {
   
   pub fn keys(&self) -> &Option<Vec<String>> { &self.keys }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetLanguagePackStrings> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58179,6 +60941,9 @@ impl GetLocalizationTargetInfo {
   
   pub fn only_local(&self) -> &Option<bool> { &self.only_local }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetLocalizationTargetInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58232,6 +60997,9 @@ impl GetLogStream {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetLogStream> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58285,6 +61053,9 @@ impl GetLogTagVerbosityLevel {
   
   pub fn tag(&self) -> &Option<String> { &self.tag }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetLogTagVerbosityLevel> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58338,6 +61109,9 @@ impl GetLogTags {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetLogTags> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58386,6 +61160,9 @@ impl GetLogVerbosityLevel {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetLogVerbosityLevel> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58464,6 +61241,9 @@ impl GetMapThumbnailFile {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetMapThumbnailFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58542,6 +61322,9 @@ impl GetMe {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetMe> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58600,6 +61383,9 @@ impl GetMessage {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58668,6 +61454,9 @@ impl GetMessageLink {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetMessageLink> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58736,6 +61525,9 @@ impl GetMessageLocally {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetMessageLocally> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58804,6 +61596,9 @@ impl GetMessages {
   
   pub fn message_ids(&self) -> &Option<Vec<i64>> { &self.message_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetMessages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58867,6 +61662,9 @@ impl GetNetworkStatistics {
   
   pub fn only_current(&self) -> &Option<bool> { &self.only_current }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetNetworkStatistics> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58925,6 +61723,9 @@ impl GetOption {
   
   pub fn name(&self) -> &Option<String> { &self.name }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetOption> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -58998,6 +61799,9 @@ impl GetPassportAuthorizationForm {
   
   pub fn nonce(&self) -> &Option<String> { &self.nonce }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetPassportAuthorizationForm> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -59076,6 +61880,9 @@ impl GetPassportAuthorizationFormAvailableElements {
   
   pub fn password(&self) -> &Option<String> { &self.password }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetPassportAuthorizationFormAvailableElements> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -59151,6 +61958,9 @@ impl GetPassportElement {
   
   pub fn password(&self) -> &Option<String> { &self.password }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetPassportElement> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -59209,6 +62019,9 @@ impl GetPasswordState {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetPasswordState> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -59267,6 +62080,9 @@ impl GetPaymentForm {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetPaymentForm> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -59335,6 +62151,9 @@ impl GetPaymentReceipt {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetPaymentReceipt> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -59398,6 +62217,9 @@ impl GetPreferredCountryLanguage {
   
   pub fn country_code(&self) -> &Option<String> { &self.country_code }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetPreferredCountryLanguage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -59451,6 +62273,9 @@ impl GetProxies {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetProxies> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -59504,6 +62329,9 @@ impl GetProxyLink {
   
   pub fn proxy_id(&self) -> &Option<i32> { &self.proxy_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetProxyLink> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -59572,6 +62400,9 @@ impl GetPublicMessageLink {
   
   pub fn for_album(&self) -> &Option<bool> { &self.for_album }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetPublicMessageLink> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -59640,6 +62471,9 @@ impl GetPushReceiverId {
   
   pub fn payload(&self) -> &Option<String> { &self.payload }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetPushReceiverId> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -59693,6 +62527,9 @@ impl GetRecentInlineBots {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetRecentInlineBots> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -59746,6 +62583,9 @@ impl GetRecentStickers {
   
   pub fn is_attached(&self) -> &Option<bool> { &self.is_attached }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetRecentStickers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -59804,6 +62644,9 @@ impl GetRecentlyVisitedTMeUrls {
   
   pub fn referrer(&self) -> &Option<String> { &self.referrer }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetRecentlyVisitedTMeUrls> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -59862,6 +62705,9 @@ impl GetRecoveryEmailAddress {
   
   pub fn password(&self) -> &Option<String> { &self.password }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetRecoveryEmailAddress> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -59932,6 +62778,9 @@ impl GetRemoteFile {
   
   pub fn file_type(&self) -> &Option<Box<FileType>> { &self.file_type }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetRemoteFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60000,6 +62849,9 @@ impl GetRepliedMessage {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetRepliedMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60058,6 +62910,9 @@ impl GetSavedAnimations {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetSavedAnimations> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60106,6 +62961,9 @@ impl GetSavedOrderInfo {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetSavedOrderInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60166,6 +63024,9 @@ impl GetScopeNotificationSettings {
   
   pub fn scope(&self) -> &Option<Box<NotificationSettingsScope>> { &self.scope }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetScopeNotificationSettings> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60224,6 +63085,9 @@ impl GetSecretChat {
   
   pub fn secret_chat_id(&self) -> &Option<i32> { &self.secret_chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetSecretChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60289,6 +63153,9 @@ impl GetStickerEmojis {
   
   pub fn sticker(&self) -> &Option<Box<InputFile>> { &self.sticker }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetStickerEmojis> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60347,6 +63214,9 @@ impl GetStickerSet {
   
   pub fn set_id(&self) -> &Option<i64> { &self.set_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetStickerSet> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60410,6 +63280,9 @@ impl GetStickers {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetStickers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60473,6 +63346,9 @@ impl GetStorageStatistics {
   
   pub fn chat_limit(&self) -> &Option<i32> { &self.chat_limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetStorageStatistics> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60526,6 +63402,9 @@ impl GetStorageStatisticsFast {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetStorageStatisticsFast> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60579,6 +63458,9 @@ impl GetSupergroup {
   
   pub fn supergroup_id(&self) -> &Option<i32> { &self.supergroup_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetSupergroup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60637,6 +63519,9 @@ impl GetSupergroupFullInfo {
   
   pub fn supergroup_id(&self) -> &Option<i32> { &self.supergroup_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetSupergroupFullInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60717,6 +63602,9 @@ impl GetSupergroupMembers {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetSupergroupMembers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60785,6 +63673,9 @@ impl GetSupportUser {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetSupportUser> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60833,6 +63724,9 @@ impl GetTemporaryPasswordState {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetTemporaryPasswordState> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60886,6 +63780,9 @@ impl GetTextEntities {
   
   pub fn text(&self) -> &Option<String> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetTextEntities> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -60956,6 +63853,9 @@ impl GetTopChats {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetTopChats> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61014,6 +63914,9 @@ impl GetTrendingStickerSets {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetTrendingStickerSets> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61067,6 +63970,9 @@ impl GetUser {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetUser> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61125,6 +64031,9 @@ impl GetUserFullInfo {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetUserFullInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61190,6 +64099,9 @@ impl GetUserPrivacySettingRules {
   
   pub fn setting(&self) -> &Option<Box<UserPrivacySetting>> { &self.setting }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetUserPrivacySettingRules> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61258,6 +64170,9 @@ impl GetUserProfilePhotos {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetUserProfilePhotos> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61321,6 +64236,9 @@ impl GetWallpapers {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetWallpapers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61379,6 +64297,9 @@ impl GetWebPageInstantView {
   
   pub fn force_full(&self) -> &Option<bool> { &self.force_full }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetWebPageInstantView> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61442,6 +64363,9 @@ impl GetWebPagePreview {
   
   pub fn text(&self) -> &Option<FormattedText> { &self.text }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<GetWebPagePreview> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61500,6 +64424,9 @@ impl ImportContacts {
   
   pub fn contacts(&self) -> &Option<Vec<Contact>> { &self.contacts }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ImportContacts> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61558,6 +64485,9 @@ impl JoinChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<JoinChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61616,6 +64546,9 @@ impl JoinChatByInviteLink {
   
   pub fn invite_link(&self) -> &Option<String> { &self.invite_link }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<JoinChatByInviteLink> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61674,6 +64607,9 @@ impl LeaveChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LeaveChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61727,6 +64663,9 @@ impl LogOut {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<LogOut> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61780,6 +64719,9 @@ impl OpenChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<OpenChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61843,6 +64785,9 @@ impl OpenMessageContent {
   
   pub fn message_id(&self) -> &Option<i64> { &self.message_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<OpenMessageContent> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -61948,6 +64893,9 @@ impl OptimizeStorage {
   
   pub fn chat_limit(&self) -> &Option<i32> { &self.chat_limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<OptimizeStorage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -62053,6 +65001,9 @@ impl ParseTextEntities {
   
   pub fn parse_mode(&self) -> &Option<Box<TextParseMode>> { &self.parse_mode }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ParseTextEntities> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -62126,6 +65077,9 @@ impl PinChatMessage {
   
   pub fn disable_notification(&self) -> &Option<bool> { &self.disable_notification }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PinChatMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -62194,6 +65148,9 @@ impl PingProxy {
   
   pub fn proxy_id(&self) -> &Option<i32> { &self.proxy_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<PingProxy> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -62252,6 +65209,9 @@ impl ProcessPushNotification {
   
   pub fn payload(&self) -> &Option<String> { &self.payload }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ProcessPushNotification> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -62310,6 +65270,9 @@ impl ReadAllChatMentions {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ReadAllChatMentions> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -62378,6 +65341,9 @@ impl ReadFilePart {
   
   pub fn count(&self) -> &Option<i32> { &self.count }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ReadFilePart> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -62446,6 +65412,9 @@ impl RecoverAuthenticationPassword {
   
   pub fn recovery_code(&self) -> &Option<String> { &self.recovery_code }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RecoverAuthenticationPassword> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -62504,6 +65473,9 @@ impl RecoverPassword {
   
   pub fn recovery_code(&self) -> &Option<String> { &self.recovery_code }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RecoverPassword> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -62574,6 +65546,9 @@ impl RegisterDevice {
   
   pub fn other_user_ids(&self) -> &Option<Vec<i32>> { &self.other_user_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RegisterDevice> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -62637,6 +65612,9 @@ impl RemoveContacts {
   
   pub fn user_ids(&self) -> &Option<Vec<i32>> { &self.user_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RemoveContacts> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -62702,6 +65680,9 @@ impl RemoveFavoriteSticker {
   
   pub fn sticker(&self) -> &Option<Box<InputFile>> { &self.sticker }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RemoveFavoriteSticker> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -62765,6 +65746,9 @@ impl RemoveNotification {
   
   pub fn notification_id(&self) -> &Option<i32> { &self.notification_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RemoveNotification> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -62833,6 +65817,9 @@ impl RemoveNotificationGroup {
   
   pub fn max_notification_id(&self) -> &Option<i32> { &self.max_notification_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RemoveNotificationGroup> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -62896,6 +65883,9 @@ impl RemoveProxy {
   
   pub fn proxy_id(&self) -> &Option<i32> { &self.proxy_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RemoveProxy> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -62954,6 +65944,9 @@ impl RemoveRecentHashtag {
   
   pub fn hashtag(&self) -> &Option<String> { &self.hashtag }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RemoveRecentHashtag> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63024,6 +66017,9 @@ impl RemoveRecentSticker {
   
   pub fn sticker(&self) -> &Option<Box<InputFile>> { &self.sticker }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RemoveRecentSticker> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63087,6 +66083,9 @@ impl RemoveRecentlyFoundChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RemoveRecentlyFoundChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63152,6 +66151,9 @@ impl RemoveSavedAnimation {
   
   pub fn animation(&self) -> &Option<Box<InputFile>> { &self.animation }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RemoveSavedAnimation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63217,6 +66219,9 @@ impl RemoveStickerFromSet {
   
   pub fn sticker(&self) -> &Option<Box<InputFile>> { &self.sticker }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RemoveStickerFromSet> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63287,6 +66292,9 @@ impl RemoveTopChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RemoveTopChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63355,6 +66363,9 @@ impl ReorderInstalledStickerSets {
   
   pub fn sticker_set_ids(&self) -> &Option<Vec<i64>> { &self.sticker_set_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ReorderInstalledStickerSets> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63435,6 +66446,9 @@ impl ReportChat {
   
   pub fn message_ids(&self) -> &Option<Vec<i64>> { &self.message_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ReportChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63513,6 +66527,9 @@ impl ReportSupergroupSpam {
   
   pub fn message_ids(&self) -> &Option<Vec<i64>> { &self.message_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ReportSupergroupSpam> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63576,6 +66593,9 @@ impl RequestAuthenticationPasswordRecovery {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RequestAuthenticationPasswordRecovery> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63624,6 +66644,9 @@ impl RequestPasswordRecovery {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<RequestPasswordRecovery> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63672,6 +66695,9 @@ impl ResendAuthenticationCode {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ResendAuthenticationCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63720,6 +66746,9 @@ impl ResendChangePhoneNumberCode {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ResendChangePhoneNumberCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63768,6 +66797,9 @@ impl ResendEmailAddressVerificationCode {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ResendEmailAddressVerificationCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63816,6 +66848,9 @@ impl ResendPhoneNumberConfirmationCode {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ResendPhoneNumberConfirmationCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63864,6 +66899,9 @@ impl ResendPhoneNumberVerificationCode {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ResendPhoneNumberVerificationCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63912,6 +66950,9 @@ impl ResendRecoveryEmailAddressCode {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ResendRecoveryEmailAddressCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -63960,6 +67001,9 @@ impl ResetAllNotificationSettings {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ResetAllNotificationSettings> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -64008,6 +67052,9 @@ impl ResetNetworkStatistics {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ResetNetworkStatistics> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -64071,6 +67118,9 @@ impl SearchCallMessages {
   
   pub fn only_missed(&self) -> &Option<bool> { &self.only_missed }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchCallMessages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -64161,6 +67211,9 @@ impl SearchChatMembers {
   
   pub fn filter(&self) -> &Option<Box<ChatMembersFilter>> { &self.filter }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchChatMembers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -64271,6 +67324,9 @@ impl SearchChatMessages {
   
   pub fn filter(&self) -> &Option<Box<SearchMessagesFilter>> { &self.filter }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchChatMessages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -64364,6 +67420,9 @@ impl SearchChatRecentLocationMessages {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchChatRecentLocationMessages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -64432,6 +67491,9 @@ impl SearchChats {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchChats> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -64500,6 +67562,9 @@ impl SearchChatsOnServer {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchChatsOnServer> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -64568,6 +67633,9 @@ impl SearchContacts {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchContacts> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -64636,6 +67704,9 @@ impl SearchHashtags {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchHashtags> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -64709,6 +67780,9 @@ impl SearchInstalledStickerSets {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchInstalledStickerSets> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -64797,6 +67871,9 @@ impl SearchMessages {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchMessages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -64875,6 +67952,9 @@ impl SearchPublicChat {
   
   pub fn username(&self) -> &Option<String> { &self.username }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchPublicChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -64933,6 +68013,9 @@ impl SearchPublicChats {
   
   pub fn query(&self) -> &Option<String> { &self.query }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchPublicChats> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -65018,6 +68101,9 @@ impl SearchSecretMessages {
   
   pub fn filter(&self) -> &Option<Box<SearchMessagesFilter>> { &self.filter }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchSecretMessages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -65096,6 +68182,9 @@ impl SearchStickerSet {
   
   pub fn name(&self) -> &Option<String> { &self.name }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchStickerSet> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -65154,6 +68243,9 @@ impl SearchStickerSets {
   
   pub fn query(&self) -> &Option<String> { &self.query }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchStickerSets> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -65217,6 +68309,9 @@ impl SearchStickers {
   
   pub fn limit(&self) -> &Option<i32> { &self.limit }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SearchStickers> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -65290,6 +68385,9 @@ impl SendBotStartMessage {
   
   pub fn parameter(&self) -> &Option<String> { &self.parameter }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SendBotStartMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -65363,6 +68461,9 @@ impl SendCallDebugInformation {
   
   pub fn debug_information(&self) -> &Option<String> { &self.debug_information }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SendCallDebugInformation> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -65436,6 +68537,9 @@ impl SendCallRating {
   
   pub fn comment(&self) -> &Option<String> { &self.comment }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SendCallRating> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -65516,6 +68620,9 @@ impl SendChatAction {
   
   pub fn action(&self) -> &Option<Box<ChatAction>> { &self.action }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SendChatAction> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -65579,6 +68686,9 @@ impl SendChatScreenshotTakenNotification {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SendChatScreenshotTakenNotification> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -65642,6 +68752,9 @@ impl SendChatSetTtlMessage {
   
   pub fn ttl(&self) -> &Option<i32> { &self.ttl }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SendChatSetTtlMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -65710,6 +68823,9 @@ impl SendCustomRequest {
   
   pub fn parameters(&self) -> &Option<String> { &self.parameters }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SendCustomRequest> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -65773,6 +68889,9 @@ impl SendEmailAddressVerificationCode {
   
   pub fn email_address(&self) -> &Option<String> { &self.email_address }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SendEmailAddressVerificationCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -65861,6 +68980,9 @@ impl SendInlineQueryResultMessage {
   
   pub fn hide_via_bot(&self) -> &Option<bool> { &self.hide_via_bot }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SendInlineQueryResultMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -65981,6 +69103,9 @@ impl SendMessage {
   
   pub fn input_message_content(&self) -> &Option<Box<InputMessageContent>> { &self.input_message_content }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SendMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -66091,6 +69216,9 @@ impl SendMessageAlbum {
   
   pub fn input_message_contents(&self) -> &Option<Vec<Box<InputMessageContent>>> { &self.input_message_contents }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SendMessageAlbum> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -66181,6 +69309,9 @@ impl SendPassportAuthorizationForm {
   
   pub fn types(&self) -> &Option<Vec<Box<PassportElementType>>> { &self.types }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SendPassportAuthorizationForm> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -66271,6 +69402,9 @@ impl SendPaymentForm {
   
   pub fn credentials(&self) -> &Option<Box<InputCredentials>> { &self.credentials }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SendPaymentForm> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -66364,6 +69498,9 @@ impl SendPhoneNumberConfirmationCode {
   
   pub fn is_current_phone_number(&self) -> &Option<bool> { &self.is_current_phone_number }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SendPhoneNumberConfirmationCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -66447,6 +69584,9 @@ impl SendPhoneNumberVerificationCode {
   
   pub fn is_current_phone_number(&self) -> &Option<bool> { &self.is_current_phone_number }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SendPhoneNumberVerificationCode> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -66515,6 +69655,9 @@ impl SetAccountTtl {
   
   pub fn ttl(&self) -> &Option<AccountTtl> { &self.ttl }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetAccountTtl> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -66573,6 +69716,9 @@ impl SetAlarm {
   
   pub fn seconds(&self) -> &Option<f64> { &self.seconds }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetAlarm> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -66641,6 +69787,9 @@ impl SetAuthenticationPhoneNumber {
   
   pub fn is_current_phone_number(&self) -> &Option<bool> { &self.is_current_phone_number }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetAuthenticationPhoneNumber> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -66709,6 +69858,9 @@ impl SetBio {
   
   pub fn bio(&self) -> &Option<String> { &self.bio }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetBio> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -66772,6 +69924,9 @@ impl SetBotUpdatesStatus {
   
   pub fn error_message(&self) -> &Option<String> { &self.error_message }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetBotUpdatesStatus> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -66840,6 +69995,9 @@ impl SetChatClientData {
   
   pub fn client_data(&self) -> &Option<String> { &self.client_data }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetChatClientData> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -66908,6 +70066,9 @@ impl SetChatDraftMessage {
   
   pub fn draft_message(&self) -> &Option<DraftMessage> { &self.draft_message }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetChatDraftMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -66988,6 +70149,9 @@ impl SetChatMemberStatus {
   
   pub fn status(&self) -> &Option<Box<ChatMemberStatus>> { &self.status }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetChatMemberStatus> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -67061,6 +70225,9 @@ impl SetChatNotificationSettings {
   
   pub fn notification_settings(&self) -> &Option<ChatNotificationSettings> { &self.notification_settings }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetChatNotificationSettings> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -67136,6 +70303,9 @@ impl SetChatPhoto {
   
   pub fn photo(&self) -> &Option<Box<InputFile>> { &self.photo }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetChatPhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -67204,6 +70374,9 @@ impl SetChatTitle {
   
   pub fn title(&self) -> &Option<String> { &self.title }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetChatTitle> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -67272,6 +70445,9 @@ impl SetCustomLanguagePack {
   
   pub fn strings(&self) -> &Option<Vec<LanguagePackString>> { &self.strings }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetCustomLanguagePack> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -67340,6 +70516,9 @@ impl SetCustomLanguagePackString {
   
   pub fn new_string(&self) -> &Option<LanguagePackString> { &self.new_string }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetCustomLanguagePackString> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -67403,6 +70582,9 @@ impl SetDatabaseEncryptionKey {
   
   pub fn new_encryption_key(&self) -> &Option<String> { &self.new_encryption_key }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetDatabaseEncryptionKey> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -67471,6 +70653,9 @@ impl SetFileGenerationProgress {
   
   pub fn local_prefix_size(&self) -> &Option<i32> { &self.local_prefix_size }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetFileGenerationProgress> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -67564,6 +70749,9 @@ impl SetGameScore {
   
   pub fn force(&self) -> &Option<bool> { &self.force }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetGameScore> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -67667,6 +70855,9 @@ impl SetInlineGameScore {
   
   pub fn force(&self) -> &Option<bool> { &self.force }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetInlineGameScore> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -67752,6 +70943,9 @@ impl SetLogStream {
   
   pub fn log_stream(&self) -> &Option<Box<LogStream>> { &self.log_stream }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetLogStream> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -67815,6 +71009,9 @@ impl SetLogTagVerbosityLevel {
   
   pub fn new_verbosity_level(&self) -> &Option<i32> { &self.new_verbosity_level }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetLogTagVerbosityLevel> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -67878,6 +71075,9 @@ impl SetLogVerbosityLevel {
   
   pub fn new_verbosity_level(&self) -> &Option<i32> { &self.new_verbosity_level }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetLogVerbosityLevel> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -67941,6 +71141,9 @@ impl SetName {
   
   pub fn last_name(&self) -> &Option<String> { &self.last_name }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetName> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -68011,6 +71214,9 @@ impl SetNetworkType {
   
   pub fn type_(&self) -> &Option<Box<NetworkType>> { &self.type_ }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetNetworkType> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -68081,6 +71287,9 @@ impl SetOption {
   
   pub fn value(&self) -> &Option<Box<OptionValue>> { &self.value }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetOption> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -68156,6 +71365,9 @@ impl SetPassportElement {
   
   pub fn password(&self) -> &Option<String> { &self.password }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetPassportElement> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -68224,6 +71436,9 @@ impl SetPassportElementErrors {
   
   pub fn errors(&self) -> &Option<Vec<InputPassportElementError>> { &self.errors }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetPassportElementErrors> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -68307,6 +71522,9 @@ impl SetPassword {
   
   pub fn new_recovery_email_address(&self) -> &Option<String> { &self.new_recovery_email_address }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetPassword> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -68385,6 +71603,9 @@ impl SetPinnedChats {
   
   pub fn chat_ids(&self) -> &Option<Vec<i64>> { &self.chat_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetPinnedChats> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -68453,6 +71674,9 @@ impl SetPollAnswer {
   
   pub fn option_ids(&self) -> &Option<Vec<i32>> { &self.option_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetPollAnswer> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -68528,6 +71752,9 @@ impl SetProfilePhoto {
   
   pub fn photo(&self) -> &Option<Box<InputFile>> { &self.photo }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetProfilePhoto> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -68591,6 +71818,9 @@ impl SetRecoveryEmailAddress {
   
   pub fn new_recovery_email_address(&self) -> &Option<String> { &self.new_recovery_email_address }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetRecoveryEmailAddress> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -68666,6 +71896,9 @@ impl SetScopeNotificationSettings {
   
   pub fn notification_settings(&self) -> &Option<ScopeNotificationSettings> { &self.notification_settings }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetScopeNotificationSettings> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -68741,6 +71974,9 @@ impl SetStickerPositionInSet {
   
   pub fn position(&self) -> &Option<i32> { &self.position }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetStickerPositionInSet> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -68809,6 +72045,9 @@ impl SetSupergroupDescription {
   
   pub fn description(&self) -> &Option<String> { &self.description }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetSupergroupDescription> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -68877,6 +72116,9 @@ impl SetSupergroupStickerSet {
   
   pub fn sticker_set_id(&self) -> &Option<i64> { &self.sticker_set_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetSupergroupStickerSet> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -68945,6 +72187,9 @@ impl SetSupergroupUsername {
   
   pub fn username(&self) -> &Option<String> { &self.username }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetSupergroupUsername> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69008,6 +72253,9 @@ impl SetTdlibParameters {
   
   pub fn parameters(&self) -> &Option<TdlibParameters> { &self.parameters }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetTdlibParameters> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69078,6 +72326,9 @@ impl SetUserPrivacySettingRules {
   
   pub fn rules(&self) -> &Option<UserPrivacySettingRules> { &self.rules }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetUserPrivacySettingRules> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69141,6 +72392,9 @@ impl SetUsername {
   
   pub fn username(&self) -> &Option<String> { &self.username }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SetUsername> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69216,6 +72470,9 @@ impl StopPoll {
   
   pub fn reply_markup(&self) -> &Option<Box<ReplyMarkup>> { &self.reply_markup }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<StopPoll> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69284,6 +72541,9 @@ impl SynchronizeLanguagePack {
   
   pub fn language_pack_id(&self) -> &Option<String> { &self.language_pack_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<SynchronizeLanguagePack> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69337,6 +72597,9 @@ impl TerminateAllOtherSessions {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TerminateAllOtherSessions> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69390,6 +72653,9 @@ impl TerminateSession {
   
   pub fn session_id(&self) -> &Option<i64> { &self.session_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TerminateSession> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69448,6 +72714,9 @@ impl TestCallBytes {
   
   pub fn x(&self) -> &Option<String> { &self.x }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestCallBytes> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69501,6 +72770,9 @@ impl TestCallEmpty {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestCallEmpty> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69554,6 +72826,9 @@ impl TestCallString {
   
   pub fn x(&self) -> &Option<String> { &self.x }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestCallString> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69612,6 +72887,9 @@ impl TestCallVectorInt {
   
   pub fn x(&self) -> &Option<Vec<i32>> { &self.x }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestCallVectorInt> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69670,6 +72948,9 @@ impl TestCallVectorIntObject {
   
   pub fn x(&self) -> &Option<Vec<TestInt>> { &self.x }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestCallVectorIntObject> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69728,6 +73009,9 @@ impl TestCallVectorString {
   
   pub fn x(&self) -> &Option<Vec<String>> { &self.x }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestCallVectorString> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69786,6 +73070,9 @@ impl TestCallVectorStringObject {
   
   pub fn x(&self) -> &Option<Vec<TestString>> { &self.x }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestCallVectorStringObject> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69839,6 +73126,9 @@ impl TestGetDifference {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestGetDifference> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69887,6 +73177,9 @@ impl TestNetwork {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestNetwork> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69940,6 +73233,9 @@ impl TestSquareInt {
   
   pub fn x(&self) -> &Option<i32> { &self.x }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestSquareInt> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -69993,6 +73289,9 @@ impl TestUseError {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestUseError> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -70041,6 +73340,9 @@ impl TestUseUpdate {
   }
   
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<TestUseUpdate> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -70099,6 +73401,9 @@ impl ToggleBasicGroupAdministrators {
   
   pub fn everyone_is_administrator(&self) -> &Option<bool> { &self.everyone_is_administrator }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ToggleBasicGroupAdministrators> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -70167,6 +73472,9 @@ impl ToggleChatDefaultDisableNotification {
   
   pub fn default_disable_notification(&self) -> &Option<bool> { &self.default_disable_notification }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ToggleChatDefaultDisableNotification> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -70235,6 +73543,9 @@ impl ToggleChatIsMarkedAsUnread {
   
   pub fn is_marked_as_unread(&self) -> &Option<bool> { &self.is_marked_as_unread }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ToggleChatIsMarkedAsUnread> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -70303,6 +73614,9 @@ impl ToggleChatIsPinned {
   
   pub fn is_pinned(&self) -> &Option<bool> { &self.is_pinned }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ToggleChatIsPinned> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -70371,6 +73685,9 @@ impl ToggleSupergroupInvites {
   
   pub fn anyone_can_invite(&self) -> &Option<bool> { &self.anyone_can_invite }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ToggleSupergroupInvites> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -70439,6 +73756,9 @@ impl ToggleSupergroupIsAllHistoryAvailable {
   
   pub fn is_all_history_available(&self) -> &Option<bool> { &self.is_all_history_available }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ToggleSupergroupIsAllHistoryAvailable> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -70507,6 +73827,9 @@ impl ToggleSupergroupSignMessages {
   
   pub fn sign_messages(&self) -> &Option<bool> { &self.sign_messages }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ToggleSupergroupSignMessages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -70570,6 +73893,9 @@ impl UnblockUser {
   
   pub fn user_id(&self) -> &Option<i32> { &self.user_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UnblockUser> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -70628,6 +73954,9 @@ impl UnpinChatMessage {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UnpinChatMessage> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -70686,6 +74015,9 @@ impl UpgradeBasicGroupChatToSupergroupChat {
   
   pub fn chat_id(&self) -> &Option<i64> { &self.chat_id }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpgradeBasicGroupChatToSupergroupChat> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -70761,6 +74093,9 @@ impl UploadFile {
   
   pub fn priority(&self) -> &Option<i32> { &self.priority }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UploadFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -70841,6 +74176,9 @@ impl UploadStickerFile {
   
   pub fn png_sticker(&self) -> &Option<Box<InputFile>> { &self.png_sticker }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<UploadStickerFile> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -70919,6 +74257,9 @@ impl ValidateOrderInfo {
   
   pub fn allow_save(&self) -> &Option<bool> { &self.allow_save }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ValidateOrderInfo> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -71002,6 +74343,9 @@ impl ViewMessages {
   
   pub fn force_read(&self) -> &Option<bool> { &self.force_read }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ViewMessages> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -71070,6 +74414,9 @@ impl ViewTrendingStickerSets {
   
   pub fn sticker_set_ids(&self) -> &Option<Vec<i64>> { &self.sticker_set_ids }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<ViewTrendingStickerSets> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
@@ -71138,6 +74485,9 @@ impl WriteGeneratedFilePart {
   
   pub fn data(&self) -> &Option<String> { &self.data }
   
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<WriteGeneratedFilePart> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
 }
 
 
