@@ -31,13 +31,13 @@ impl RObject for {{ clz_name }} {
 {% if not is_private and not clz_is_trait %}
 impl {{ clz_name }} {
   {% if has_builder_struct %}
-  pub fn builder() -> {{ clz_name }}Builder {
+  pub fn builder() -> RTD{{ clz_name }}Builder {
     let instance = Self {
       td_name: "{{origin_name}}".to_string(),
       {% if fields %}{% for field in fields %}{{field.name}}: None,
       {% endfor %}{% endif %}
     };
-    {{ clz_name }}Builder::new(instance)
+    RTD{{ clz_name }}Builder::new(instance)
   }
   {% endif %}
   {% if fields %}{% for field in fields %}
@@ -50,9 +50,9 @@ impl {{ clz_name }} {
 {% endif %}
 {% if has_builder_struct %}
 #[derive(Debug)]
-pub struct {{ clz_name }}Builder { instance: {{ clz_name }} }
+pub struct RTD{{ clz_name }}Builder { instance: {{ clz_name }} }
 
-impl {{ clz_name }}Builder {
+impl RTD{{ clz_name }}Builder {
   fn new(instance: {{ clz_name }}) -> Self { Self { instance } }
 
   pub fn build(&self) -> {{ clz_name }} { self.instance.clone() }

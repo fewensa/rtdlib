@@ -1490,13 +1490,13 @@ impl RObject for AccountTtl {
 
 impl AccountTtl {
   
-  pub fn builder() -> AccountTtlBuilder {
+  pub fn builder() -> RTDAccountTtlBuilder {
     let instance = Self {
       td_name: "accountTtl".to_string(),
       days: None,
       
     };
-    AccountTtlBuilder::new(instance)
+    RTDAccountTtlBuilder::new(instance)
   }
   
   
@@ -1509,9 +1509,9 @@ impl AccountTtl {
 
 
 #[derive(Debug)]
-pub struct AccountTtlBuilder { instance: AccountTtl }
+pub struct RTDAccountTtlBuilder { instance: AccountTtl }
 
-impl AccountTtlBuilder {
+impl RTDAccountTtlBuilder {
   fn new(instance: AccountTtl) -> Self { Self { instance } }
 
   pub fn build(&self) -> AccountTtl { self.instance.clone() }
@@ -1559,7 +1559,7 @@ impl RObject for Address {
 
 impl Address {
   
-  pub fn builder() -> AddressBuilder {
+  pub fn builder() -> RTDAddressBuilder {
     let instance = Self {
       td_name: "address".to_string(),
       country_code: None,
@@ -1570,7 +1570,7 @@ impl Address {
       postal_code: None,
       
     };
-    AddressBuilder::new(instance)
+    RTDAddressBuilder::new(instance)
   }
   
   
@@ -1593,9 +1593,9 @@ impl Address {
 
 
 #[derive(Debug)]
-pub struct AddressBuilder { instance: Address }
+pub struct RTDAddressBuilder { instance: Address }
 
-impl AddressBuilder {
+impl RTDAddressBuilder {
   fn new(instance: Address) -> Self { Self { instance } }
 
   pub fn build(&self) -> Address { self.instance.clone() }
@@ -1670,7 +1670,7 @@ impl RObject for Animation {
 
 impl Animation {
   
-  pub fn builder() -> AnimationBuilder {
+  pub fn builder() -> RTDAnimationBuilder {
     let instance = Self {
       td_name: "animation".to_string(),
       duration: None,
@@ -1682,7 +1682,7 @@ impl Animation {
       animation: None,
       
     };
-    AnimationBuilder::new(instance)
+    RTDAnimationBuilder::new(instance)
   }
   
   
@@ -1707,9 +1707,9 @@ impl Animation {
 
 
 #[derive(Debug)]
-pub struct AnimationBuilder { instance: Animation }
+pub struct RTDAnimationBuilder { instance: Animation }
 
-impl AnimationBuilder {
+impl RTDAnimationBuilder {
   fn new(instance: Animation) -> Self { Self { instance } }
 
   pub fn build(&self) -> Animation { self.instance.clone() }
@@ -1777,13 +1777,13 @@ impl RObject for Animations {
 
 impl Animations {
   
-  pub fn builder() -> AnimationsBuilder {
+  pub fn builder() -> RTDAnimationsBuilder {
     let instance = Self {
       td_name: "animations".to_string(),
       animations: None,
       
     };
-    AnimationsBuilder::new(instance)
+    RTDAnimationsBuilder::new(instance)
   }
   
   
@@ -1796,9 +1796,9 @@ impl Animations {
 
 
 #[derive(Debug)]
-pub struct AnimationsBuilder { instance: Animations }
+pub struct RTDAnimationsBuilder { instance: Animations }
 
-impl AnimationsBuilder {
+impl RTDAnimationsBuilder {
   fn new(instance: Animations) -> Self { Self { instance } }
 
   pub fn build(&self) -> Animations { self.instance.clone() }
@@ -1848,7 +1848,7 @@ impl RObject for Audio {
 
 impl Audio {
   
-  pub fn builder() -> AudioBuilder {
+  pub fn builder() -> RTDAudioBuilder {
     let instance = Self {
       td_name: "audio".to_string(),
       duration: None,
@@ -1860,7 +1860,7 @@ impl Audio {
       audio: None,
       
     };
-    AudioBuilder::new(instance)
+    RTDAudioBuilder::new(instance)
   }
   
   
@@ -1885,9 +1885,9 @@ impl Audio {
 
 
 #[derive(Debug)]
-pub struct AudioBuilder { instance: Audio }
+pub struct RTDAudioBuilder { instance: Audio }
 
-impl AudioBuilder {
+impl RTDAudioBuilder {
   fn new(instance: Audio) -> Self { Self { instance } }
 
   pub fn build(&self) -> Audio { self.instance.clone() }
@@ -1968,7 +1968,7 @@ impl RObject for AuthenticationCodeInfo {
 
 impl AuthenticationCodeInfo {
   
-  pub fn builder() -> AuthenticationCodeInfoBuilder {
+  pub fn builder() -> RTDAuthenticationCodeInfoBuilder {
     let instance = Self {
       td_name: "authenticationCodeInfo".to_string(),
       phone_number: None,
@@ -1977,7 +1977,7 @@ impl AuthenticationCodeInfo {
       timeout: None,
       
     };
-    AuthenticationCodeInfoBuilder::new(instance)
+    RTDAuthenticationCodeInfoBuilder::new(instance)
   }
   
   
@@ -1996,9 +1996,9 @@ impl AuthenticationCodeInfo {
 
 
 #[derive(Debug)]
-pub struct AuthenticationCodeInfoBuilder { instance: AuthenticationCodeInfo }
+pub struct RTDAuthenticationCodeInfoBuilder { instance: AuthenticationCodeInfo }
 
-impl AuthenticationCodeInfoBuilder {
+impl RTDAuthenticationCodeInfoBuilder {
   fn new(instance: AuthenticationCodeInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> AuthenticationCodeInfo { self.instance.clone() }
@@ -2090,13 +2090,13 @@ impl RObject for AuthenticationCodeTypeTelegramMessage {
 
 impl AuthenticationCodeTypeTelegramMessage {
   
-  pub fn builder() -> AuthenticationCodeTypeTelegramMessageBuilder {
+  pub fn builder() -> RTDAuthenticationCodeTypeTelegramMessageBuilder {
     let instance = Self {
       td_name: "authenticationCodeTypeTelegramMessage".to_string(),
       length: None,
       
     };
-    AuthenticationCodeTypeTelegramMessageBuilder::new(instance)
+    RTDAuthenticationCodeTypeTelegramMessageBuilder::new(instance)
   }
   
   
@@ -2109,9 +2109,9 @@ impl AuthenticationCodeTypeTelegramMessage {
 
 
 #[derive(Debug)]
-pub struct AuthenticationCodeTypeTelegramMessageBuilder { instance: AuthenticationCodeTypeTelegramMessage }
+pub struct RTDAuthenticationCodeTypeTelegramMessageBuilder { instance: AuthenticationCodeTypeTelegramMessage }
 
-impl AuthenticationCodeTypeTelegramMessageBuilder {
+impl RTDAuthenticationCodeTypeTelegramMessageBuilder {
   fn new(instance: AuthenticationCodeTypeTelegramMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> AuthenticationCodeTypeTelegramMessage { self.instance.clone() }
@@ -2151,13 +2151,13 @@ impl RObject for AuthenticationCodeTypeSms {
 
 impl AuthenticationCodeTypeSms {
   
-  pub fn builder() -> AuthenticationCodeTypeSmsBuilder {
+  pub fn builder() -> RTDAuthenticationCodeTypeSmsBuilder {
     let instance = Self {
       td_name: "authenticationCodeTypeSms".to_string(),
       length: None,
       
     };
-    AuthenticationCodeTypeSmsBuilder::new(instance)
+    RTDAuthenticationCodeTypeSmsBuilder::new(instance)
   }
   
   
@@ -2170,9 +2170,9 @@ impl AuthenticationCodeTypeSms {
 
 
 #[derive(Debug)]
-pub struct AuthenticationCodeTypeSmsBuilder { instance: AuthenticationCodeTypeSms }
+pub struct RTDAuthenticationCodeTypeSmsBuilder { instance: AuthenticationCodeTypeSms }
 
-impl AuthenticationCodeTypeSmsBuilder {
+impl RTDAuthenticationCodeTypeSmsBuilder {
   fn new(instance: AuthenticationCodeTypeSms) -> Self { Self { instance } }
 
   pub fn build(&self) -> AuthenticationCodeTypeSms { self.instance.clone() }
@@ -2212,13 +2212,13 @@ impl RObject for AuthenticationCodeTypeCall {
 
 impl AuthenticationCodeTypeCall {
   
-  pub fn builder() -> AuthenticationCodeTypeCallBuilder {
+  pub fn builder() -> RTDAuthenticationCodeTypeCallBuilder {
     let instance = Self {
       td_name: "authenticationCodeTypeCall".to_string(),
       length: None,
       
     };
-    AuthenticationCodeTypeCallBuilder::new(instance)
+    RTDAuthenticationCodeTypeCallBuilder::new(instance)
   }
   
   
@@ -2231,9 +2231,9 @@ impl AuthenticationCodeTypeCall {
 
 
 #[derive(Debug)]
-pub struct AuthenticationCodeTypeCallBuilder { instance: AuthenticationCodeTypeCall }
+pub struct RTDAuthenticationCodeTypeCallBuilder { instance: AuthenticationCodeTypeCall }
 
-impl AuthenticationCodeTypeCallBuilder {
+impl RTDAuthenticationCodeTypeCallBuilder {
   fn new(instance: AuthenticationCodeTypeCall) -> Self { Self { instance } }
 
   pub fn build(&self) -> AuthenticationCodeTypeCall { self.instance.clone() }
@@ -2273,13 +2273,13 @@ impl RObject for AuthenticationCodeTypeFlashCall {
 
 impl AuthenticationCodeTypeFlashCall {
   
-  pub fn builder() -> AuthenticationCodeTypeFlashCallBuilder {
+  pub fn builder() -> RTDAuthenticationCodeTypeFlashCallBuilder {
     let instance = Self {
       td_name: "authenticationCodeTypeFlashCall".to_string(),
       pattern: None,
       
     };
-    AuthenticationCodeTypeFlashCallBuilder::new(instance)
+    RTDAuthenticationCodeTypeFlashCallBuilder::new(instance)
   }
   
   
@@ -2292,9 +2292,9 @@ impl AuthenticationCodeTypeFlashCall {
 
 
 #[derive(Debug)]
-pub struct AuthenticationCodeTypeFlashCallBuilder { instance: AuthenticationCodeTypeFlashCall }
+pub struct RTDAuthenticationCodeTypeFlashCallBuilder { instance: AuthenticationCodeTypeFlashCall }
 
-impl AuthenticationCodeTypeFlashCallBuilder {
+impl RTDAuthenticationCodeTypeFlashCallBuilder {
   fn new(instance: AuthenticationCodeTypeFlashCall) -> Self { Self { instance } }
 
   pub fn build(&self) -> AuthenticationCodeTypeFlashCall { self.instance.clone() }
@@ -2716,7 +2716,7 @@ impl RObject for BasicGroup {
 
 impl BasicGroup {
   
-  pub fn builder() -> BasicGroupBuilder {
+  pub fn builder() -> RTDBasicGroupBuilder {
     let instance = Self {
       td_name: "basicGroup".to_string(),
       id: None,
@@ -2727,7 +2727,7 @@ impl BasicGroup {
       upgraded_to_supergroup_id: None,
       
     };
-    BasicGroupBuilder::new(instance)
+    RTDBasicGroupBuilder::new(instance)
   }
   
   
@@ -2750,9 +2750,9 @@ impl BasicGroup {
 
 
 #[derive(Debug)]
-pub struct BasicGroupBuilder { instance: BasicGroup }
+pub struct RTDBasicGroupBuilder { instance: BasicGroup }
 
-impl BasicGroupBuilder {
+impl RTDBasicGroupBuilder {
   fn new(instance: BasicGroup) -> Self { Self { instance } }
 
   pub fn build(&self) -> BasicGroup { self.instance.clone() }
@@ -2819,7 +2819,7 @@ impl RObject for BasicGroupFullInfo {
 
 impl BasicGroupFullInfo {
   
-  pub fn builder() -> BasicGroupFullInfoBuilder {
+  pub fn builder() -> RTDBasicGroupFullInfoBuilder {
     let instance = Self {
       td_name: "basicGroupFullInfo".to_string(),
       creator_user_id: None,
@@ -2827,7 +2827,7 @@ impl BasicGroupFullInfo {
       invite_link: None,
       
     };
-    BasicGroupFullInfoBuilder::new(instance)
+    RTDBasicGroupFullInfoBuilder::new(instance)
   }
   
   
@@ -2844,9 +2844,9 @@ impl BasicGroupFullInfo {
 
 
 #[derive(Debug)]
-pub struct BasicGroupFullInfoBuilder { instance: BasicGroupFullInfo }
+pub struct RTDBasicGroupFullInfoBuilder { instance: BasicGroupFullInfo }
 
-impl BasicGroupFullInfoBuilder {
+impl RTDBasicGroupFullInfoBuilder {
   fn new(instance: BasicGroupFullInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> BasicGroupFullInfo { self.instance.clone() }
@@ -2896,14 +2896,14 @@ impl RObject for BotCommand {
 
 impl BotCommand {
   
-  pub fn builder() -> BotCommandBuilder {
+  pub fn builder() -> RTDBotCommandBuilder {
     let instance = Self {
       td_name: "botCommand".to_string(),
       command: None,
       description: None,
       
     };
-    BotCommandBuilder::new(instance)
+    RTDBotCommandBuilder::new(instance)
   }
   
   
@@ -2918,9 +2918,9 @@ impl BotCommand {
 
 
 #[derive(Debug)]
-pub struct BotCommandBuilder { instance: BotCommand }
+pub struct RTDBotCommandBuilder { instance: BotCommand }
 
-impl BotCommandBuilder {
+impl RTDBotCommandBuilder {
   fn new(instance: BotCommand) -> Self { Self { instance } }
 
   pub fn build(&self) -> BotCommand { self.instance.clone() }
@@ -2965,14 +2965,14 @@ impl RObject for BotInfo {
 
 impl BotInfo {
   
-  pub fn builder() -> BotInfoBuilder {
+  pub fn builder() -> RTDBotInfoBuilder {
     let instance = Self {
       td_name: "botInfo".to_string(),
       description: None,
       commands: None,
       
     };
-    BotInfoBuilder::new(instance)
+    RTDBotInfoBuilder::new(instance)
   }
   
   
@@ -2987,9 +2987,9 @@ impl BotInfo {
 
 
 #[derive(Debug)]
-pub struct BotInfoBuilder { instance: BotInfo }
+pub struct RTDBotInfoBuilder { instance: BotInfo }
 
-impl BotInfoBuilder {
+impl RTDBotInfoBuilder {
   fn new(instance: BotInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> BotInfo { self.instance.clone() }
@@ -3045,7 +3045,7 @@ impl RObject for Call {
 
 impl Call {
   
-  pub fn builder() -> CallBuilder {
+  pub fn builder() -> RTDCallBuilder {
     let instance = Self {
       td_name: "call".to_string(),
       id: None,
@@ -3054,7 +3054,7 @@ impl Call {
       state: None,
       
     };
-    CallBuilder::new(instance)
+    RTDCallBuilder::new(instance)
   }
   
   
@@ -3073,9 +3073,9 @@ impl Call {
 
 
 #[derive(Debug)]
-pub struct CallBuilder { instance: Call }
+pub struct RTDCallBuilder { instance: Call }
 
-impl CallBuilder {
+impl RTDCallBuilder {
   fn new(instance: Call) -> Self { Self { instance } }
 
   pub fn build(&self) -> Call { self.instance.clone() }
@@ -3136,7 +3136,7 @@ impl RObject for CallConnection {
 
 impl CallConnection {
   
-  pub fn builder() -> CallConnectionBuilder {
+  pub fn builder() -> RTDCallConnectionBuilder {
     let instance = Self {
       td_name: "callConnection".to_string(),
       id: None,
@@ -3146,7 +3146,7 @@ impl CallConnection {
       peer_tag: None,
       
     };
-    CallConnectionBuilder::new(instance)
+    RTDCallConnectionBuilder::new(instance)
   }
   
   
@@ -3167,9 +3167,9 @@ impl CallConnection {
 
 
 #[derive(Debug)]
-pub struct CallConnectionBuilder { instance: CallConnection }
+pub struct RTDCallConnectionBuilder { instance: CallConnection }
 
-impl CallConnectionBuilder {
+impl RTDCallConnectionBuilder {
   fn new(instance: CallConnection) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallConnection { self.instance.clone() }
@@ -3265,12 +3265,12 @@ impl RObject for CallDiscardReasonEmpty {
 
 impl CallDiscardReasonEmpty {
   
-  pub fn builder() -> CallDiscardReasonEmptyBuilder {
+  pub fn builder() -> RTDCallDiscardReasonEmptyBuilder {
     let instance = Self {
       td_name: "callDiscardReasonEmpty".to_string(),
       
     };
-    CallDiscardReasonEmptyBuilder::new(instance)
+    RTDCallDiscardReasonEmptyBuilder::new(instance)
   }
   
   
@@ -3281,9 +3281,9 @@ impl CallDiscardReasonEmpty {
 
 
 #[derive(Debug)]
-pub struct CallDiscardReasonEmptyBuilder { instance: CallDiscardReasonEmpty }
+pub struct RTDCallDiscardReasonEmptyBuilder { instance: CallDiscardReasonEmpty }
 
-impl CallDiscardReasonEmptyBuilder {
+impl RTDCallDiscardReasonEmptyBuilder {
   fn new(instance: CallDiscardReasonEmpty) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallDiscardReasonEmpty { self.instance.clone() }
@@ -3316,12 +3316,12 @@ impl RObject for CallDiscardReasonMissed {
 
 impl CallDiscardReasonMissed {
   
-  pub fn builder() -> CallDiscardReasonMissedBuilder {
+  pub fn builder() -> RTDCallDiscardReasonMissedBuilder {
     let instance = Self {
       td_name: "callDiscardReasonMissed".to_string(),
       
     };
-    CallDiscardReasonMissedBuilder::new(instance)
+    RTDCallDiscardReasonMissedBuilder::new(instance)
   }
   
   
@@ -3332,9 +3332,9 @@ impl CallDiscardReasonMissed {
 
 
 #[derive(Debug)]
-pub struct CallDiscardReasonMissedBuilder { instance: CallDiscardReasonMissed }
+pub struct RTDCallDiscardReasonMissedBuilder { instance: CallDiscardReasonMissed }
 
-impl CallDiscardReasonMissedBuilder {
+impl RTDCallDiscardReasonMissedBuilder {
   fn new(instance: CallDiscardReasonMissed) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallDiscardReasonMissed { self.instance.clone() }
@@ -3367,12 +3367,12 @@ impl RObject for CallDiscardReasonDeclined {
 
 impl CallDiscardReasonDeclined {
   
-  pub fn builder() -> CallDiscardReasonDeclinedBuilder {
+  pub fn builder() -> RTDCallDiscardReasonDeclinedBuilder {
     let instance = Self {
       td_name: "callDiscardReasonDeclined".to_string(),
       
     };
-    CallDiscardReasonDeclinedBuilder::new(instance)
+    RTDCallDiscardReasonDeclinedBuilder::new(instance)
   }
   
   
@@ -3383,9 +3383,9 @@ impl CallDiscardReasonDeclined {
 
 
 #[derive(Debug)]
-pub struct CallDiscardReasonDeclinedBuilder { instance: CallDiscardReasonDeclined }
+pub struct RTDCallDiscardReasonDeclinedBuilder { instance: CallDiscardReasonDeclined }
 
-impl CallDiscardReasonDeclinedBuilder {
+impl RTDCallDiscardReasonDeclinedBuilder {
   fn new(instance: CallDiscardReasonDeclined) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallDiscardReasonDeclined { self.instance.clone() }
@@ -3418,12 +3418,12 @@ impl RObject for CallDiscardReasonDisconnected {
 
 impl CallDiscardReasonDisconnected {
   
-  pub fn builder() -> CallDiscardReasonDisconnectedBuilder {
+  pub fn builder() -> RTDCallDiscardReasonDisconnectedBuilder {
     let instance = Self {
       td_name: "callDiscardReasonDisconnected".to_string(),
       
     };
-    CallDiscardReasonDisconnectedBuilder::new(instance)
+    RTDCallDiscardReasonDisconnectedBuilder::new(instance)
   }
   
   
@@ -3434,9 +3434,9 @@ impl CallDiscardReasonDisconnected {
 
 
 #[derive(Debug)]
-pub struct CallDiscardReasonDisconnectedBuilder { instance: CallDiscardReasonDisconnected }
+pub struct RTDCallDiscardReasonDisconnectedBuilder { instance: CallDiscardReasonDisconnected }
 
-impl CallDiscardReasonDisconnectedBuilder {
+impl RTDCallDiscardReasonDisconnectedBuilder {
   fn new(instance: CallDiscardReasonDisconnected) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallDiscardReasonDisconnected { self.instance.clone() }
@@ -3469,12 +3469,12 @@ impl RObject for CallDiscardReasonHungUp {
 
 impl CallDiscardReasonHungUp {
   
-  pub fn builder() -> CallDiscardReasonHungUpBuilder {
+  pub fn builder() -> RTDCallDiscardReasonHungUpBuilder {
     let instance = Self {
       td_name: "callDiscardReasonHungUp".to_string(),
       
     };
-    CallDiscardReasonHungUpBuilder::new(instance)
+    RTDCallDiscardReasonHungUpBuilder::new(instance)
   }
   
   
@@ -3485,9 +3485,9 @@ impl CallDiscardReasonHungUp {
 
 
 #[derive(Debug)]
-pub struct CallDiscardReasonHungUpBuilder { instance: CallDiscardReasonHungUp }
+pub struct RTDCallDiscardReasonHungUpBuilder { instance: CallDiscardReasonHungUp }
 
-impl CallDiscardReasonHungUpBuilder {
+impl RTDCallDiscardReasonHungUpBuilder {
   fn new(instance: CallDiscardReasonHungUp) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallDiscardReasonHungUp { self.instance.clone() }
@@ -3520,13 +3520,13 @@ impl RObject for CallId {
 
 impl CallId {
   
-  pub fn builder() -> CallIdBuilder {
+  pub fn builder() -> RTDCallIdBuilder {
     let instance = Self {
       td_name: "callId".to_string(),
       id: None,
       
     };
-    CallIdBuilder::new(instance)
+    RTDCallIdBuilder::new(instance)
   }
   
   
@@ -3539,9 +3539,9 @@ impl CallId {
 
 
 #[derive(Debug)]
-pub struct CallIdBuilder { instance: CallId }
+pub struct RTDCallIdBuilder { instance: CallId }
 
-impl CallIdBuilder {
+impl RTDCallIdBuilder {
   fn new(instance: CallId) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallId { self.instance.clone() }
@@ -3585,7 +3585,7 @@ impl RObject for CallProtocol {
 
 impl CallProtocol {
   
-  pub fn builder() -> CallProtocolBuilder {
+  pub fn builder() -> RTDCallProtocolBuilder {
     let instance = Self {
       td_name: "callProtocol".to_string(),
       udp_p2p: None,
@@ -3594,7 +3594,7 @@ impl CallProtocol {
       max_layer: None,
       
     };
-    CallProtocolBuilder::new(instance)
+    RTDCallProtocolBuilder::new(instance)
   }
   
   
@@ -3613,9 +3613,9 @@ impl CallProtocol {
 
 
 #[derive(Debug)]
-pub struct CallProtocolBuilder { instance: CallProtocol }
+pub struct RTDCallProtocolBuilder { instance: CallProtocol }
 
-impl CallProtocolBuilder {
+impl RTDCallProtocolBuilder {
   fn new(instance: CallProtocol) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallProtocol { self.instance.clone() }
@@ -3711,14 +3711,14 @@ impl RObject for CallStatePending {
 
 impl CallStatePending {
   
-  pub fn builder() -> CallStatePendingBuilder {
+  pub fn builder() -> RTDCallStatePendingBuilder {
     let instance = Self {
       td_name: "callStatePending".to_string(),
       is_created: None,
       is_received: None,
       
     };
-    CallStatePendingBuilder::new(instance)
+    RTDCallStatePendingBuilder::new(instance)
   }
   
   
@@ -3733,9 +3733,9 @@ impl CallStatePending {
 
 
 #[derive(Debug)]
-pub struct CallStatePendingBuilder { instance: CallStatePending }
+pub struct RTDCallStatePendingBuilder { instance: CallStatePending }
 
-impl CallStatePendingBuilder {
+impl RTDCallStatePendingBuilder {
   fn new(instance: CallStatePending) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallStatePending { self.instance.clone() }
@@ -3778,12 +3778,12 @@ impl RObject for CallStateExchangingKeys {
 
 impl CallStateExchangingKeys {
   
-  pub fn builder() -> CallStateExchangingKeysBuilder {
+  pub fn builder() -> RTDCallStateExchangingKeysBuilder {
     let instance = Self {
       td_name: "callStateExchangingKeys".to_string(),
       
     };
-    CallStateExchangingKeysBuilder::new(instance)
+    RTDCallStateExchangingKeysBuilder::new(instance)
   }
   
   
@@ -3794,9 +3794,9 @@ impl CallStateExchangingKeys {
 
 
 #[derive(Debug)]
-pub struct CallStateExchangingKeysBuilder { instance: CallStateExchangingKeys }
+pub struct RTDCallStateExchangingKeysBuilder { instance: CallStateExchangingKeys }
 
-impl CallStateExchangingKeysBuilder {
+impl RTDCallStateExchangingKeysBuilder {
   fn new(instance: CallStateExchangingKeys) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallStateExchangingKeys { self.instance.clone() }
@@ -3841,7 +3841,7 @@ impl RObject for CallStateReady {
 
 impl CallStateReady {
   
-  pub fn builder() -> CallStateReadyBuilder {
+  pub fn builder() -> RTDCallStateReadyBuilder {
     let instance = Self {
       td_name: "callStateReady".to_string(),
       protocol: None,
@@ -3852,7 +3852,7 @@ impl CallStateReady {
       allow_p2p: None,
       
     };
-    CallStateReadyBuilder::new(instance)
+    RTDCallStateReadyBuilder::new(instance)
   }
   
   
@@ -3875,9 +3875,9 @@ impl CallStateReady {
 
 
 #[derive(Debug)]
-pub struct CallStateReadyBuilder { instance: CallStateReady }
+pub struct RTDCallStateReadyBuilder { instance: CallStateReady }
 
-impl CallStateReadyBuilder {
+impl RTDCallStateReadyBuilder {
   fn new(instance: CallStateReady) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallStateReady { self.instance.clone() }
@@ -3940,12 +3940,12 @@ impl RObject for CallStateHangingUp {
 
 impl CallStateHangingUp {
   
-  pub fn builder() -> CallStateHangingUpBuilder {
+  pub fn builder() -> RTDCallStateHangingUpBuilder {
     let instance = Self {
       td_name: "callStateHangingUp".to_string(),
       
     };
-    CallStateHangingUpBuilder::new(instance)
+    RTDCallStateHangingUpBuilder::new(instance)
   }
   
   
@@ -3956,9 +3956,9 @@ impl CallStateHangingUp {
 
 
 #[derive(Debug)]
-pub struct CallStateHangingUpBuilder { instance: CallStateHangingUp }
+pub struct RTDCallStateHangingUpBuilder { instance: CallStateHangingUp }
 
-impl CallStateHangingUpBuilder {
+impl RTDCallStateHangingUpBuilder {
   fn new(instance: CallStateHangingUp) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallStateHangingUp { self.instance.clone() }
@@ -4004,7 +4004,7 @@ impl RObject for CallStateDiscarded {
 
 impl CallStateDiscarded {
   
-  pub fn builder() -> CallStateDiscardedBuilder {
+  pub fn builder() -> RTDCallStateDiscardedBuilder {
     let instance = Self {
       td_name: "callStateDiscarded".to_string(),
       reason: None,
@@ -4012,7 +4012,7 @@ impl CallStateDiscarded {
       need_debug_information: None,
       
     };
-    CallStateDiscardedBuilder::new(instance)
+    RTDCallStateDiscardedBuilder::new(instance)
   }
   
   
@@ -4029,9 +4029,9 @@ impl CallStateDiscarded {
 
 
 #[derive(Debug)]
-pub struct CallStateDiscardedBuilder { instance: CallStateDiscarded }
+pub struct RTDCallStateDiscardedBuilder { instance: CallStateDiscarded }
 
-impl CallStateDiscardedBuilder {
+impl RTDCallStateDiscardedBuilder {
   fn new(instance: CallStateDiscarded) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallStateDiscarded { self.instance.clone() }
@@ -4081,13 +4081,13 @@ impl RObject for CallStateError {
 
 impl CallStateError {
   
-  pub fn builder() -> CallStateErrorBuilder {
+  pub fn builder() -> RTDCallStateErrorBuilder {
     let instance = Self {
       td_name: "callStateError".to_string(),
       error: None,
       
     };
-    CallStateErrorBuilder::new(instance)
+    RTDCallStateErrorBuilder::new(instance)
   }
   
   
@@ -4100,9 +4100,9 @@ impl CallStateError {
 
 
 #[derive(Debug)]
-pub struct CallStateErrorBuilder { instance: CallStateError }
+pub struct RTDCallStateErrorBuilder { instance: CallStateError }
 
-impl CallStateErrorBuilder {
+impl RTDCallStateErrorBuilder {
   fn new(instance: CallStateError) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallStateError { self.instance.clone() }
@@ -4144,7 +4144,7 @@ impl RObject for CallbackQueryAnswer {
 
 impl CallbackQueryAnswer {
   
-  pub fn builder() -> CallbackQueryAnswerBuilder {
+  pub fn builder() -> RTDCallbackQueryAnswerBuilder {
     let instance = Self {
       td_name: "callbackQueryAnswer".to_string(),
       text: None,
@@ -4152,7 +4152,7 @@ impl CallbackQueryAnswer {
       url: None,
       
     };
-    CallbackQueryAnswerBuilder::new(instance)
+    RTDCallbackQueryAnswerBuilder::new(instance)
   }
   
   
@@ -4169,9 +4169,9 @@ impl CallbackQueryAnswer {
 
 
 #[derive(Debug)]
-pub struct CallbackQueryAnswerBuilder { instance: CallbackQueryAnswer }
+pub struct RTDCallbackQueryAnswerBuilder { instance: CallbackQueryAnswer }
 
-impl CallbackQueryAnswerBuilder {
+impl RTDCallbackQueryAnswerBuilder {
   fn new(instance: CallbackQueryAnswer) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallbackQueryAnswer { self.instance.clone() }
@@ -4256,13 +4256,13 @@ impl RObject for CallbackQueryPayloadData {
 
 impl CallbackQueryPayloadData {
   
-  pub fn builder() -> CallbackQueryPayloadDataBuilder {
+  pub fn builder() -> RTDCallbackQueryPayloadDataBuilder {
     let instance = Self {
       td_name: "callbackQueryPayloadData".to_string(),
       data: None,
       
     };
-    CallbackQueryPayloadDataBuilder::new(instance)
+    RTDCallbackQueryPayloadDataBuilder::new(instance)
   }
   
   
@@ -4275,9 +4275,9 @@ impl CallbackQueryPayloadData {
 
 
 #[derive(Debug)]
-pub struct CallbackQueryPayloadDataBuilder { instance: CallbackQueryPayloadData }
+pub struct RTDCallbackQueryPayloadDataBuilder { instance: CallbackQueryPayloadData }
 
-impl CallbackQueryPayloadDataBuilder {
+impl RTDCallbackQueryPayloadDataBuilder {
   fn new(instance: CallbackQueryPayloadData) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallbackQueryPayloadData { self.instance.clone() }
@@ -4317,13 +4317,13 @@ impl RObject for CallbackQueryPayloadGame {
 
 impl CallbackQueryPayloadGame {
   
-  pub fn builder() -> CallbackQueryPayloadGameBuilder {
+  pub fn builder() -> RTDCallbackQueryPayloadGameBuilder {
     let instance = Self {
       td_name: "callbackQueryPayloadGame".to_string(),
       game_short_name: None,
       
     };
-    CallbackQueryPayloadGameBuilder::new(instance)
+    RTDCallbackQueryPayloadGameBuilder::new(instance)
   }
   
   
@@ -4336,9 +4336,9 @@ impl CallbackQueryPayloadGame {
 
 
 #[derive(Debug)]
-pub struct CallbackQueryPayloadGameBuilder { instance: CallbackQueryPayloadGame }
+pub struct RTDCallbackQueryPayloadGameBuilder { instance: CallbackQueryPayloadGame }
 
-impl CallbackQueryPayloadGameBuilder {
+impl RTDCallbackQueryPayloadGameBuilder {
   fn new(instance: CallbackQueryPayloadGame) -> Self { Self { instance } }
 
   pub fn build(&self) -> CallbackQueryPayloadGame { self.instance.clone() }
@@ -4425,7 +4425,7 @@ impl RObject for Chat {
 
 impl Chat {
   
-  pub fn builder() -> ChatBuilder {
+  pub fn builder() -> RTDChatBuilder {
     let instance = Self {
       td_name: "chat".to_string(),
       id: None,
@@ -4452,7 +4452,7 @@ impl Chat {
       client_data: None,
       
     };
-    ChatBuilder::new(instance)
+    RTDChatBuilder::new(instance)
   }
   
   
@@ -4507,9 +4507,9 @@ impl Chat {
 
 
 #[derive(Debug)]
-pub struct ChatBuilder { instance: Chat }
+pub struct RTDChatBuilder { instance: Chat }
 
-impl ChatBuilder {
+impl RTDChatBuilder {
   fn new(instance: Chat) -> Self { Self { instance } }
 
   pub fn build(&self) -> Chat { self.instance.clone() }
@@ -4698,12 +4698,12 @@ impl RObject for ChatActionTyping {
 
 impl ChatActionTyping {
   
-  pub fn builder() -> ChatActionTypingBuilder {
+  pub fn builder() -> RTDChatActionTypingBuilder {
     let instance = Self {
       td_name: "chatActionTyping".to_string(),
       
     };
-    ChatActionTypingBuilder::new(instance)
+    RTDChatActionTypingBuilder::new(instance)
   }
   
   
@@ -4714,9 +4714,9 @@ impl ChatActionTyping {
 
 
 #[derive(Debug)]
-pub struct ChatActionTypingBuilder { instance: ChatActionTyping }
+pub struct RTDChatActionTypingBuilder { instance: ChatActionTyping }
 
-impl ChatActionTypingBuilder {
+impl RTDChatActionTypingBuilder {
   fn new(instance: ChatActionTyping) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatActionTyping { self.instance.clone() }
@@ -4749,12 +4749,12 @@ impl RObject for ChatActionRecordingVideo {
 
 impl ChatActionRecordingVideo {
   
-  pub fn builder() -> ChatActionRecordingVideoBuilder {
+  pub fn builder() -> RTDChatActionRecordingVideoBuilder {
     let instance = Self {
       td_name: "chatActionRecordingVideo".to_string(),
       
     };
-    ChatActionRecordingVideoBuilder::new(instance)
+    RTDChatActionRecordingVideoBuilder::new(instance)
   }
   
   
@@ -4765,9 +4765,9 @@ impl ChatActionRecordingVideo {
 
 
 #[derive(Debug)]
-pub struct ChatActionRecordingVideoBuilder { instance: ChatActionRecordingVideo }
+pub struct RTDChatActionRecordingVideoBuilder { instance: ChatActionRecordingVideo }
 
-impl ChatActionRecordingVideoBuilder {
+impl RTDChatActionRecordingVideoBuilder {
   fn new(instance: ChatActionRecordingVideo) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatActionRecordingVideo { self.instance.clone() }
@@ -4802,13 +4802,13 @@ impl RObject for ChatActionUploadingVideo {
 
 impl ChatActionUploadingVideo {
   
-  pub fn builder() -> ChatActionUploadingVideoBuilder {
+  pub fn builder() -> RTDChatActionUploadingVideoBuilder {
     let instance = Self {
       td_name: "chatActionUploadingVideo".to_string(),
       progress: None,
       
     };
-    ChatActionUploadingVideoBuilder::new(instance)
+    RTDChatActionUploadingVideoBuilder::new(instance)
   }
   
   
@@ -4821,9 +4821,9 @@ impl ChatActionUploadingVideo {
 
 
 #[derive(Debug)]
-pub struct ChatActionUploadingVideoBuilder { instance: ChatActionUploadingVideo }
+pub struct RTDChatActionUploadingVideoBuilder { instance: ChatActionUploadingVideo }
 
-impl ChatActionUploadingVideoBuilder {
+impl RTDChatActionUploadingVideoBuilder {
   fn new(instance: ChatActionUploadingVideo) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatActionUploadingVideo { self.instance.clone() }
@@ -4861,12 +4861,12 @@ impl RObject for ChatActionRecordingVoiceNote {
 
 impl ChatActionRecordingVoiceNote {
   
-  pub fn builder() -> ChatActionRecordingVoiceNoteBuilder {
+  pub fn builder() -> RTDChatActionRecordingVoiceNoteBuilder {
     let instance = Self {
       td_name: "chatActionRecordingVoiceNote".to_string(),
       
     };
-    ChatActionRecordingVoiceNoteBuilder::new(instance)
+    RTDChatActionRecordingVoiceNoteBuilder::new(instance)
   }
   
   
@@ -4877,9 +4877,9 @@ impl ChatActionRecordingVoiceNote {
 
 
 #[derive(Debug)]
-pub struct ChatActionRecordingVoiceNoteBuilder { instance: ChatActionRecordingVoiceNote }
+pub struct RTDChatActionRecordingVoiceNoteBuilder { instance: ChatActionRecordingVoiceNote }
 
-impl ChatActionRecordingVoiceNoteBuilder {
+impl RTDChatActionRecordingVoiceNoteBuilder {
   fn new(instance: ChatActionRecordingVoiceNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatActionRecordingVoiceNote { self.instance.clone() }
@@ -4914,13 +4914,13 @@ impl RObject for ChatActionUploadingVoiceNote {
 
 impl ChatActionUploadingVoiceNote {
   
-  pub fn builder() -> ChatActionUploadingVoiceNoteBuilder {
+  pub fn builder() -> RTDChatActionUploadingVoiceNoteBuilder {
     let instance = Self {
       td_name: "chatActionUploadingVoiceNote".to_string(),
       progress: None,
       
     };
-    ChatActionUploadingVoiceNoteBuilder::new(instance)
+    RTDChatActionUploadingVoiceNoteBuilder::new(instance)
   }
   
   
@@ -4933,9 +4933,9 @@ impl ChatActionUploadingVoiceNote {
 
 
 #[derive(Debug)]
-pub struct ChatActionUploadingVoiceNoteBuilder { instance: ChatActionUploadingVoiceNote }
+pub struct RTDChatActionUploadingVoiceNoteBuilder { instance: ChatActionUploadingVoiceNote }
 
-impl ChatActionUploadingVoiceNoteBuilder {
+impl RTDChatActionUploadingVoiceNoteBuilder {
   fn new(instance: ChatActionUploadingVoiceNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatActionUploadingVoiceNote { self.instance.clone() }
@@ -4975,13 +4975,13 @@ impl RObject for ChatActionUploadingPhoto {
 
 impl ChatActionUploadingPhoto {
   
-  pub fn builder() -> ChatActionUploadingPhotoBuilder {
+  pub fn builder() -> RTDChatActionUploadingPhotoBuilder {
     let instance = Self {
       td_name: "chatActionUploadingPhoto".to_string(),
       progress: None,
       
     };
-    ChatActionUploadingPhotoBuilder::new(instance)
+    RTDChatActionUploadingPhotoBuilder::new(instance)
   }
   
   
@@ -4994,9 +4994,9 @@ impl ChatActionUploadingPhoto {
 
 
 #[derive(Debug)]
-pub struct ChatActionUploadingPhotoBuilder { instance: ChatActionUploadingPhoto }
+pub struct RTDChatActionUploadingPhotoBuilder { instance: ChatActionUploadingPhoto }
 
-impl ChatActionUploadingPhotoBuilder {
+impl RTDChatActionUploadingPhotoBuilder {
   fn new(instance: ChatActionUploadingPhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatActionUploadingPhoto { self.instance.clone() }
@@ -5036,13 +5036,13 @@ impl RObject for ChatActionUploadingDocument {
 
 impl ChatActionUploadingDocument {
   
-  pub fn builder() -> ChatActionUploadingDocumentBuilder {
+  pub fn builder() -> RTDChatActionUploadingDocumentBuilder {
     let instance = Self {
       td_name: "chatActionUploadingDocument".to_string(),
       progress: None,
       
     };
-    ChatActionUploadingDocumentBuilder::new(instance)
+    RTDChatActionUploadingDocumentBuilder::new(instance)
   }
   
   
@@ -5055,9 +5055,9 @@ impl ChatActionUploadingDocument {
 
 
 #[derive(Debug)]
-pub struct ChatActionUploadingDocumentBuilder { instance: ChatActionUploadingDocument }
+pub struct RTDChatActionUploadingDocumentBuilder { instance: ChatActionUploadingDocument }
 
-impl ChatActionUploadingDocumentBuilder {
+impl RTDChatActionUploadingDocumentBuilder {
   fn new(instance: ChatActionUploadingDocument) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatActionUploadingDocument { self.instance.clone() }
@@ -5095,12 +5095,12 @@ impl RObject for ChatActionChoosingLocation {
 
 impl ChatActionChoosingLocation {
   
-  pub fn builder() -> ChatActionChoosingLocationBuilder {
+  pub fn builder() -> RTDChatActionChoosingLocationBuilder {
     let instance = Self {
       td_name: "chatActionChoosingLocation".to_string(),
       
     };
-    ChatActionChoosingLocationBuilder::new(instance)
+    RTDChatActionChoosingLocationBuilder::new(instance)
   }
   
   
@@ -5111,9 +5111,9 @@ impl ChatActionChoosingLocation {
 
 
 #[derive(Debug)]
-pub struct ChatActionChoosingLocationBuilder { instance: ChatActionChoosingLocation }
+pub struct RTDChatActionChoosingLocationBuilder { instance: ChatActionChoosingLocation }
 
-impl ChatActionChoosingLocationBuilder {
+impl RTDChatActionChoosingLocationBuilder {
   fn new(instance: ChatActionChoosingLocation) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatActionChoosingLocation { self.instance.clone() }
@@ -5146,12 +5146,12 @@ impl RObject for ChatActionChoosingContact {
 
 impl ChatActionChoosingContact {
   
-  pub fn builder() -> ChatActionChoosingContactBuilder {
+  pub fn builder() -> RTDChatActionChoosingContactBuilder {
     let instance = Self {
       td_name: "chatActionChoosingContact".to_string(),
       
     };
-    ChatActionChoosingContactBuilder::new(instance)
+    RTDChatActionChoosingContactBuilder::new(instance)
   }
   
   
@@ -5162,9 +5162,9 @@ impl ChatActionChoosingContact {
 
 
 #[derive(Debug)]
-pub struct ChatActionChoosingContactBuilder { instance: ChatActionChoosingContact }
+pub struct RTDChatActionChoosingContactBuilder { instance: ChatActionChoosingContact }
 
-impl ChatActionChoosingContactBuilder {
+impl RTDChatActionChoosingContactBuilder {
   fn new(instance: ChatActionChoosingContact) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatActionChoosingContact { self.instance.clone() }
@@ -5197,12 +5197,12 @@ impl RObject for ChatActionStartPlayingGame {
 
 impl ChatActionStartPlayingGame {
   
-  pub fn builder() -> ChatActionStartPlayingGameBuilder {
+  pub fn builder() -> RTDChatActionStartPlayingGameBuilder {
     let instance = Self {
       td_name: "chatActionStartPlayingGame".to_string(),
       
     };
-    ChatActionStartPlayingGameBuilder::new(instance)
+    RTDChatActionStartPlayingGameBuilder::new(instance)
   }
   
   
@@ -5213,9 +5213,9 @@ impl ChatActionStartPlayingGame {
 
 
 #[derive(Debug)]
-pub struct ChatActionStartPlayingGameBuilder { instance: ChatActionStartPlayingGame }
+pub struct RTDChatActionStartPlayingGameBuilder { instance: ChatActionStartPlayingGame }
 
-impl ChatActionStartPlayingGameBuilder {
+impl RTDChatActionStartPlayingGameBuilder {
   fn new(instance: ChatActionStartPlayingGame) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatActionStartPlayingGame { self.instance.clone() }
@@ -5248,12 +5248,12 @@ impl RObject for ChatActionRecordingVideoNote {
 
 impl ChatActionRecordingVideoNote {
   
-  pub fn builder() -> ChatActionRecordingVideoNoteBuilder {
+  pub fn builder() -> RTDChatActionRecordingVideoNoteBuilder {
     let instance = Self {
       td_name: "chatActionRecordingVideoNote".to_string(),
       
     };
-    ChatActionRecordingVideoNoteBuilder::new(instance)
+    RTDChatActionRecordingVideoNoteBuilder::new(instance)
   }
   
   
@@ -5264,9 +5264,9 @@ impl ChatActionRecordingVideoNote {
 
 
 #[derive(Debug)]
-pub struct ChatActionRecordingVideoNoteBuilder { instance: ChatActionRecordingVideoNote }
+pub struct RTDChatActionRecordingVideoNoteBuilder { instance: ChatActionRecordingVideoNote }
 
-impl ChatActionRecordingVideoNoteBuilder {
+impl RTDChatActionRecordingVideoNoteBuilder {
   fn new(instance: ChatActionRecordingVideoNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatActionRecordingVideoNote { self.instance.clone() }
@@ -5301,13 +5301,13 @@ impl RObject for ChatActionUploadingVideoNote {
 
 impl ChatActionUploadingVideoNote {
   
-  pub fn builder() -> ChatActionUploadingVideoNoteBuilder {
+  pub fn builder() -> RTDChatActionUploadingVideoNoteBuilder {
     let instance = Self {
       td_name: "chatActionUploadingVideoNote".to_string(),
       progress: None,
       
     };
-    ChatActionUploadingVideoNoteBuilder::new(instance)
+    RTDChatActionUploadingVideoNoteBuilder::new(instance)
   }
   
   
@@ -5320,9 +5320,9 @@ impl ChatActionUploadingVideoNote {
 
 
 #[derive(Debug)]
-pub struct ChatActionUploadingVideoNoteBuilder { instance: ChatActionUploadingVideoNote }
+pub struct RTDChatActionUploadingVideoNoteBuilder { instance: ChatActionUploadingVideoNote }
 
-impl ChatActionUploadingVideoNoteBuilder {
+impl RTDChatActionUploadingVideoNoteBuilder {
   fn new(instance: ChatActionUploadingVideoNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatActionUploadingVideoNote { self.instance.clone() }
@@ -5360,12 +5360,12 @@ impl RObject for ChatActionCancel {
 
 impl ChatActionCancel {
   
-  pub fn builder() -> ChatActionCancelBuilder {
+  pub fn builder() -> RTDChatActionCancelBuilder {
     let instance = Self {
       td_name: "chatActionCancel".to_string(),
       
     };
-    ChatActionCancelBuilder::new(instance)
+    RTDChatActionCancelBuilder::new(instance)
   }
   
   
@@ -5376,9 +5376,9 @@ impl ChatActionCancel {
 
 
 #[derive(Debug)]
-pub struct ChatActionCancelBuilder { instance: ChatActionCancel }
+pub struct RTDChatActionCancelBuilder { instance: ChatActionCancel }
 
-impl ChatActionCancelBuilder {
+impl RTDChatActionCancelBuilder {
   fn new(instance: ChatActionCancel) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatActionCancel { self.instance.clone() }
@@ -5424,7 +5424,7 @@ impl RObject for ChatEvent {
 
 impl ChatEvent {
   
-  pub fn builder() -> ChatEventBuilder {
+  pub fn builder() -> RTDChatEventBuilder {
     let instance = Self {
       td_name: "chatEvent".to_string(),
       id: None,
@@ -5433,7 +5433,7 @@ impl ChatEvent {
       action: None,
       
     };
-    ChatEventBuilder::new(instance)
+    RTDChatEventBuilder::new(instance)
   }
   
   
@@ -5452,9 +5452,9 @@ impl ChatEvent {
 
 
 #[derive(Debug)]
-pub struct ChatEventBuilder { instance: ChatEvent }
+pub struct RTDChatEventBuilder { instance: ChatEvent }
 
-impl ChatEventBuilder {
+impl RTDChatEventBuilder {
   fn new(instance: ChatEvent) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEvent { self.instance.clone() }
@@ -5561,14 +5561,14 @@ impl RObject for ChatEventMessageEdited {
 
 impl ChatEventMessageEdited {
   
-  pub fn builder() -> ChatEventMessageEditedBuilder {
+  pub fn builder() -> RTDChatEventMessageEditedBuilder {
     let instance = Self {
       td_name: "chatEventMessageEdited".to_string(),
       old_message: None,
       new_message: None,
       
     };
-    ChatEventMessageEditedBuilder::new(instance)
+    RTDChatEventMessageEditedBuilder::new(instance)
   }
   
   
@@ -5583,9 +5583,9 @@ impl ChatEventMessageEdited {
 
 
 #[derive(Debug)]
-pub struct ChatEventMessageEditedBuilder { instance: ChatEventMessageEdited }
+pub struct RTDChatEventMessageEditedBuilder { instance: ChatEventMessageEdited }
 
-impl ChatEventMessageEditedBuilder {
+impl RTDChatEventMessageEditedBuilder {
   fn new(instance: ChatEventMessageEdited) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventMessageEdited { self.instance.clone() }
@@ -5630,13 +5630,13 @@ impl RObject for ChatEventMessageDeleted {
 
 impl ChatEventMessageDeleted {
   
-  pub fn builder() -> ChatEventMessageDeletedBuilder {
+  pub fn builder() -> RTDChatEventMessageDeletedBuilder {
     let instance = Self {
       td_name: "chatEventMessageDeleted".to_string(),
       message: None,
       
     };
-    ChatEventMessageDeletedBuilder::new(instance)
+    RTDChatEventMessageDeletedBuilder::new(instance)
   }
   
   
@@ -5649,9 +5649,9 @@ impl ChatEventMessageDeleted {
 
 
 #[derive(Debug)]
-pub struct ChatEventMessageDeletedBuilder { instance: ChatEventMessageDeleted }
+pub struct RTDChatEventMessageDeletedBuilder { instance: ChatEventMessageDeleted }
 
-impl ChatEventMessageDeletedBuilder {
+impl RTDChatEventMessageDeletedBuilder {
   fn new(instance: ChatEventMessageDeleted) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventMessageDeleted { self.instance.clone() }
@@ -5691,13 +5691,13 @@ impl RObject for ChatEventMessagePinned {
 
 impl ChatEventMessagePinned {
   
-  pub fn builder() -> ChatEventMessagePinnedBuilder {
+  pub fn builder() -> RTDChatEventMessagePinnedBuilder {
     let instance = Self {
       td_name: "chatEventMessagePinned".to_string(),
       message: None,
       
     };
-    ChatEventMessagePinnedBuilder::new(instance)
+    RTDChatEventMessagePinnedBuilder::new(instance)
   }
   
   
@@ -5710,9 +5710,9 @@ impl ChatEventMessagePinned {
 
 
 #[derive(Debug)]
-pub struct ChatEventMessagePinnedBuilder { instance: ChatEventMessagePinned }
+pub struct RTDChatEventMessagePinnedBuilder { instance: ChatEventMessagePinned }
 
-impl ChatEventMessagePinnedBuilder {
+impl RTDChatEventMessagePinnedBuilder {
   fn new(instance: ChatEventMessagePinned) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventMessagePinned { self.instance.clone() }
@@ -5750,12 +5750,12 @@ impl RObject for ChatEventMessageUnpinned {
 
 impl ChatEventMessageUnpinned {
   
-  pub fn builder() -> ChatEventMessageUnpinnedBuilder {
+  pub fn builder() -> RTDChatEventMessageUnpinnedBuilder {
     let instance = Self {
       td_name: "chatEventMessageUnpinned".to_string(),
       
     };
-    ChatEventMessageUnpinnedBuilder::new(instance)
+    RTDChatEventMessageUnpinnedBuilder::new(instance)
   }
   
   
@@ -5766,9 +5766,9 @@ impl ChatEventMessageUnpinned {
 
 
 #[derive(Debug)]
-pub struct ChatEventMessageUnpinnedBuilder { instance: ChatEventMessageUnpinned }
+pub struct RTDChatEventMessageUnpinnedBuilder { instance: ChatEventMessageUnpinned }
 
-impl ChatEventMessageUnpinnedBuilder {
+impl RTDChatEventMessageUnpinnedBuilder {
   fn new(instance: ChatEventMessageUnpinned) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventMessageUnpinned { self.instance.clone() }
@@ -5801,12 +5801,12 @@ impl RObject for ChatEventMemberJoined {
 
 impl ChatEventMemberJoined {
   
-  pub fn builder() -> ChatEventMemberJoinedBuilder {
+  pub fn builder() -> RTDChatEventMemberJoinedBuilder {
     let instance = Self {
       td_name: "chatEventMemberJoined".to_string(),
       
     };
-    ChatEventMemberJoinedBuilder::new(instance)
+    RTDChatEventMemberJoinedBuilder::new(instance)
   }
   
   
@@ -5817,9 +5817,9 @@ impl ChatEventMemberJoined {
 
 
 #[derive(Debug)]
-pub struct ChatEventMemberJoinedBuilder { instance: ChatEventMemberJoined }
+pub struct RTDChatEventMemberJoinedBuilder { instance: ChatEventMemberJoined }
 
-impl ChatEventMemberJoinedBuilder {
+impl RTDChatEventMemberJoinedBuilder {
   fn new(instance: ChatEventMemberJoined) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventMemberJoined { self.instance.clone() }
@@ -5852,12 +5852,12 @@ impl RObject for ChatEventMemberLeft {
 
 impl ChatEventMemberLeft {
   
-  pub fn builder() -> ChatEventMemberLeftBuilder {
+  pub fn builder() -> RTDChatEventMemberLeftBuilder {
     let instance = Self {
       td_name: "chatEventMemberLeft".to_string(),
       
     };
-    ChatEventMemberLeftBuilder::new(instance)
+    RTDChatEventMemberLeftBuilder::new(instance)
   }
   
   
@@ -5868,9 +5868,9 @@ impl ChatEventMemberLeft {
 
 
 #[derive(Debug)]
-pub struct ChatEventMemberLeftBuilder { instance: ChatEventMemberLeft }
+pub struct RTDChatEventMemberLeftBuilder { instance: ChatEventMemberLeft }
 
-impl ChatEventMemberLeftBuilder {
+impl RTDChatEventMemberLeftBuilder {
   fn new(instance: ChatEventMemberLeft) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventMemberLeft { self.instance.clone() }
@@ -5914,14 +5914,14 @@ impl RObject for ChatEventMemberInvited {
 
 impl ChatEventMemberInvited {
   
-  pub fn builder() -> ChatEventMemberInvitedBuilder {
+  pub fn builder() -> RTDChatEventMemberInvitedBuilder {
     let instance = Self {
       td_name: "chatEventMemberInvited".to_string(),
       user_id: None,
       status: None,
       
     };
-    ChatEventMemberInvitedBuilder::new(instance)
+    RTDChatEventMemberInvitedBuilder::new(instance)
   }
   
   
@@ -5936,9 +5936,9 @@ impl ChatEventMemberInvited {
 
 
 #[derive(Debug)]
-pub struct ChatEventMemberInvitedBuilder { instance: ChatEventMemberInvited }
+pub struct RTDChatEventMemberInvitedBuilder { instance: ChatEventMemberInvited }
 
-impl ChatEventMemberInvitedBuilder {
+impl RTDChatEventMemberInvitedBuilder {
   fn new(instance: ChatEventMemberInvited) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventMemberInvited { self.instance.clone() }
@@ -5994,7 +5994,7 @@ impl RObject for ChatEventMemberPromoted {
 
 impl ChatEventMemberPromoted {
   
-  pub fn builder() -> ChatEventMemberPromotedBuilder {
+  pub fn builder() -> RTDChatEventMemberPromotedBuilder {
     let instance = Self {
       td_name: "chatEventMemberPromoted".to_string(),
       user_id: None,
@@ -6002,7 +6002,7 @@ impl ChatEventMemberPromoted {
       new_status: None,
       
     };
-    ChatEventMemberPromotedBuilder::new(instance)
+    RTDChatEventMemberPromotedBuilder::new(instance)
   }
   
   
@@ -6019,9 +6019,9 @@ impl ChatEventMemberPromoted {
 
 
 #[derive(Debug)]
-pub struct ChatEventMemberPromotedBuilder { instance: ChatEventMemberPromoted }
+pub struct RTDChatEventMemberPromotedBuilder { instance: ChatEventMemberPromoted }
 
-impl ChatEventMemberPromotedBuilder {
+impl RTDChatEventMemberPromotedBuilder {
   fn new(instance: ChatEventMemberPromoted) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventMemberPromoted { self.instance.clone() }
@@ -6082,7 +6082,7 @@ impl RObject for ChatEventMemberRestricted {
 
 impl ChatEventMemberRestricted {
   
-  pub fn builder() -> ChatEventMemberRestrictedBuilder {
+  pub fn builder() -> RTDChatEventMemberRestrictedBuilder {
     let instance = Self {
       td_name: "chatEventMemberRestricted".to_string(),
       user_id: None,
@@ -6090,7 +6090,7 @@ impl ChatEventMemberRestricted {
       new_status: None,
       
     };
-    ChatEventMemberRestrictedBuilder::new(instance)
+    RTDChatEventMemberRestrictedBuilder::new(instance)
   }
   
   
@@ -6107,9 +6107,9 @@ impl ChatEventMemberRestricted {
 
 
 #[derive(Debug)]
-pub struct ChatEventMemberRestrictedBuilder { instance: ChatEventMemberRestricted }
+pub struct RTDChatEventMemberRestrictedBuilder { instance: ChatEventMemberRestricted }
 
-impl ChatEventMemberRestrictedBuilder {
+impl RTDChatEventMemberRestrictedBuilder {
   fn new(instance: ChatEventMemberRestricted) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventMemberRestricted { self.instance.clone() }
@@ -6161,14 +6161,14 @@ impl RObject for ChatEventTitleChanged {
 
 impl ChatEventTitleChanged {
   
-  pub fn builder() -> ChatEventTitleChangedBuilder {
+  pub fn builder() -> RTDChatEventTitleChangedBuilder {
     let instance = Self {
       td_name: "chatEventTitleChanged".to_string(),
       old_title: None,
       new_title: None,
       
     };
-    ChatEventTitleChangedBuilder::new(instance)
+    RTDChatEventTitleChangedBuilder::new(instance)
   }
   
   
@@ -6183,9 +6183,9 @@ impl ChatEventTitleChanged {
 
 
 #[derive(Debug)]
-pub struct ChatEventTitleChangedBuilder { instance: ChatEventTitleChanged }
+pub struct RTDChatEventTitleChangedBuilder { instance: ChatEventTitleChanged }
 
-impl ChatEventTitleChangedBuilder {
+impl RTDChatEventTitleChangedBuilder {
   fn new(instance: ChatEventTitleChanged) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventTitleChanged { self.instance.clone() }
@@ -6232,14 +6232,14 @@ impl RObject for ChatEventDescriptionChanged {
 
 impl ChatEventDescriptionChanged {
   
-  pub fn builder() -> ChatEventDescriptionChangedBuilder {
+  pub fn builder() -> RTDChatEventDescriptionChangedBuilder {
     let instance = Self {
       td_name: "chatEventDescriptionChanged".to_string(),
       old_description: None,
       new_description: None,
       
     };
-    ChatEventDescriptionChangedBuilder::new(instance)
+    RTDChatEventDescriptionChangedBuilder::new(instance)
   }
   
   
@@ -6254,9 +6254,9 @@ impl ChatEventDescriptionChanged {
 
 
 #[derive(Debug)]
-pub struct ChatEventDescriptionChangedBuilder { instance: ChatEventDescriptionChanged }
+pub struct RTDChatEventDescriptionChangedBuilder { instance: ChatEventDescriptionChanged }
 
-impl ChatEventDescriptionChangedBuilder {
+impl RTDChatEventDescriptionChangedBuilder {
   fn new(instance: ChatEventDescriptionChanged) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventDescriptionChanged { self.instance.clone() }
@@ -6303,14 +6303,14 @@ impl RObject for ChatEventUsernameChanged {
 
 impl ChatEventUsernameChanged {
   
-  pub fn builder() -> ChatEventUsernameChangedBuilder {
+  pub fn builder() -> RTDChatEventUsernameChangedBuilder {
     let instance = Self {
       td_name: "chatEventUsernameChanged".to_string(),
       old_username: None,
       new_username: None,
       
     };
-    ChatEventUsernameChangedBuilder::new(instance)
+    RTDChatEventUsernameChangedBuilder::new(instance)
   }
   
   
@@ -6325,9 +6325,9 @@ impl ChatEventUsernameChanged {
 
 
 #[derive(Debug)]
-pub struct ChatEventUsernameChangedBuilder { instance: ChatEventUsernameChanged }
+pub struct RTDChatEventUsernameChangedBuilder { instance: ChatEventUsernameChanged }
 
-impl ChatEventUsernameChangedBuilder {
+impl RTDChatEventUsernameChangedBuilder {
   fn new(instance: ChatEventUsernameChanged) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventUsernameChanged { self.instance.clone() }
@@ -6374,14 +6374,14 @@ impl RObject for ChatEventPhotoChanged {
 
 impl ChatEventPhotoChanged {
   
-  pub fn builder() -> ChatEventPhotoChangedBuilder {
+  pub fn builder() -> RTDChatEventPhotoChangedBuilder {
     let instance = Self {
       td_name: "chatEventPhotoChanged".to_string(),
       old_photo: None,
       new_photo: None,
       
     };
-    ChatEventPhotoChangedBuilder::new(instance)
+    RTDChatEventPhotoChangedBuilder::new(instance)
   }
   
   
@@ -6396,9 +6396,9 @@ impl ChatEventPhotoChanged {
 
 
 #[derive(Debug)]
-pub struct ChatEventPhotoChangedBuilder { instance: ChatEventPhotoChanged }
+pub struct RTDChatEventPhotoChangedBuilder { instance: ChatEventPhotoChanged }
 
-impl ChatEventPhotoChangedBuilder {
+impl RTDChatEventPhotoChangedBuilder {
   fn new(instance: ChatEventPhotoChanged) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventPhotoChanged { self.instance.clone() }
@@ -6443,13 +6443,13 @@ impl RObject for ChatEventInvitesToggled {
 
 impl ChatEventInvitesToggled {
   
-  pub fn builder() -> ChatEventInvitesToggledBuilder {
+  pub fn builder() -> RTDChatEventInvitesToggledBuilder {
     let instance = Self {
       td_name: "chatEventInvitesToggled".to_string(),
       anyone_can_invite: None,
       
     };
-    ChatEventInvitesToggledBuilder::new(instance)
+    RTDChatEventInvitesToggledBuilder::new(instance)
   }
   
   
@@ -6462,9 +6462,9 @@ impl ChatEventInvitesToggled {
 
 
 #[derive(Debug)]
-pub struct ChatEventInvitesToggledBuilder { instance: ChatEventInvitesToggled }
+pub struct RTDChatEventInvitesToggledBuilder { instance: ChatEventInvitesToggled }
 
-impl ChatEventInvitesToggledBuilder {
+impl RTDChatEventInvitesToggledBuilder {
   fn new(instance: ChatEventInvitesToggled) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventInvitesToggled { self.instance.clone() }
@@ -6504,13 +6504,13 @@ impl RObject for ChatEventSignMessagesToggled {
 
 impl ChatEventSignMessagesToggled {
   
-  pub fn builder() -> ChatEventSignMessagesToggledBuilder {
+  pub fn builder() -> RTDChatEventSignMessagesToggledBuilder {
     let instance = Self {
       td_name: "chatEventSignMessagesToggled".to_string(),
       sign_messages: None,
       
     };
-    ChatEventSignMessagesToggledBuilder::new(instance)
+    RTDChatEventSignMessagesToggledBuilder::new(instance)
   }
   
   
@@ -6523,9 +6523,9 @@ impl ChatEventSignMessagesToggled {
 
 
 #[derive(Debug)]
-pub struct ChatEventSignMessagesToggledBuilder { instance: ChatEventSignMessagesToggled }
+pub struct RTDChatEventSignMessagesToggledBuilder { instance: ChatEventSignMessagesToggled }
 
-impl ChatEventSignMessagesToggledBuilder {
+impl RTDChatEventSignMessagesToggledBuilder {
   fn new(instance: ChatEventSignMessagesToggled) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventSignMessagesToggled { self.instance.clone() }
@@ -6567,14 +6567,14 @@ impl RObject for ChatEventStickerSetChanged {
 
 impl ChatEventStickerSetChanged {
   
-  pub fn builder() -> ChatEventStickerSetChangedBuilder {
+  pub fn builder() -> RTDChatEventStickerSetChangedBuilder {
     let instance = Self {
       td_name: "chatEventStickerSetChanged".to_string(),
       old_sticker_set_id: None,
       new_sticker_set_id: None,
       
     };
-    ChatEventStickerSetChangedBuilder::new(instance)
+    RTDChatEventStickerSetChangedBuilder::new(instance)
   }
   
   
@@ -6589,9 +6589,9 @@ impl ChatEventStickerSetChanged {
 
 
 #[derive(Debug)]
-pub struct ChatEventStickerSetChangedBuilder { instance: ChatEventStickerSetChanged }
+pub struct RTDChatEventStickerSetChangedBuilder { instance: ChatEventStickerSetChanged }
 
-impl ChatEventStickerSetChangedBuilder {
+impl RTDChatEventStickerSetChangedBuilder {
   fn new(instance: ChatEventStickerSetChanged) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventStickerSetChanged { self.instance.clone() }
@@ -6636,13 +6636,13 @@ impl RObject for ChatEventIsAllHistoryAvailableToggled {
 
 impl ChatEventIsAllHistoryAvailableToggled {
   
-  pub fn builder() -> ChatEventIsAllHistoryAvailableToggledBuilder {
+  pub fn builder() -> RTDChatEventIsAllHistoryAvailableToggledBuilder {
     let instance = Self {
       td_name: "chatEventIsAllHistoryAvailableToggled".to_string(),
       is_all_history_available: None,
       
     };
-    ChatEventIsAllHistoryAvailableToggledBuilder::new(instance)
+    RTDChatEventIsAllHistoryAvailableToggledBuilder::new(instance)
   }
   
   
@@ -6655,9 +6655,9 @@ impl ChatEventIsAllHistoryAvailableToggled {
 
 
 #[derive(Debug)]
-pub struct ChatEventIsAllHistoryAvailableToggledBuilder { instance: ChatEventIsAllHistoryAvailableToggled }
+pub struct RTDChatEventIsAllHistoryAvailableToggledBuilder { instance: ChatEventIsAllHistoryAvailableToggled }
 
-impl ChatEventIsAllHistoryAvailableToggledBuilder {
+impl RTDChatEventIsAllHistoryAvailableToggledBuilder {
   fn new(instance: ChatEventIsAllHistoryAvailableToggled) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventIsAllHistoryAvailableToggled { self.instance.clone() }
@@ -6713,7 +6713,7 @@ impl RObject for ChatEventLogFilters {
 
 impl ChatEventLogFilters {
   
-  pub fn builder() -> ChatEventLogFiltersBuilder {
+  pub fn builder() -> RTDChatEventLogFiltersBuilder {
     let instance = Self {
       td_name: "chatEventLogFilters".to_string(),
       message_edits: None,
@@ -6728,7 +6728,7 @@ impl ChatEventLogFilters {
       setting_changes: None,
       
     };
-    ChatEventLogFiltersBuilder::new(instance)
+    RTDChatEventLogFiltersBuilder::new(instance)
   }
   
   
@@ -6759,9 +6759,9 @@ impl ChatEventLogFilters {
 
 
 #[derive(Debug)]
-pub struct ChatEventLogFiltersBuilder { instance: ChatEventLogFilters }
+pub struct RTDChatEventLogFiltersBuilder { instance: ChatEventLogFilters }
 
-impl ChatEventLogFiltersBuilder {
+impl RTDChatEventLogFiltersBuilder {
   fn new(instance: ChatEventLogFilters) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEventLogFilters { self.instance.clone() }
@@ -6844,13 +6844,13 @@ impl RObject for ChatEvents {
 
 impl ChatEvents {
   
-  pub fn builder() -> ChatEventsBuilder {
+  pub fn builder() -> RTDChatEventsBuilder {
     let instance = Self {
       td_name: "chatEvents".to_string(),
       events: None,
       
     };
-    ChatEventsBuilder::new(instance)
+    RTDChatEventsBuilder::new(instance)
   }
   
   
@@ -6863,9 +6863,9 @@ impl ChatEvents {
 
 
 #[derive(Debug)]
-pub struct ChatEventsBuilder { instance: ChatEvents }
+pub struct RTDChatEventsBuilder { instance: ChatEvents }
 
-impl ChatEventsBuilder {
+impl RTDChatEventsBuilder {
   fn new(instance: ChatEvents) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatEvents { self.instance.clone() }
@@ -6903,13 +6903,13 @@ impl RObject for ChatInviteLink {
 
 impl ChatInviteLink {
   
-  pub fn builder() -> ChatInviteLinkBuilder {
+  pub fn builder() -> RTDChatInviteLinkBuilder {
     let instance = Self {
       td_name: "chatInviteLink".to_string(),
       invite_link: None,
       
     };
-    ChatInviteLinkBuilder::new(instance)
+    RTDChatInviteLinkBuilder::new(instance)
   }
   
   
@@ -6922,9 +6922,9 @@ impl ChatInviteLink {
 
 
 #[derive(Debug)]
-pub struct ChatInviteLinkBuilder { instance: ChatInviteLink }
+pub struct RTDChatInviteLinkBuilder { instance: ChatInviteLink }
 
-impl ChatInviteLinkBuilder {
+impl RTDChatInviteLinkBuilder {
   fn new(instance: ChatInviteLink) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatInviteLink { self.instance.clone() }
@@ -6981,7 +6981,7 @@ impl RObject for ChatInviteLinkInfo {
 
 impl ChatInviteLinkInfo {
   
-  pub fn builder() -> ChatInviteLinkInfoBuilder {
+  pub fn builder() -> RTDChatInviteLinkInfoBuilder {
     let instance = Self {
       td_name: "chatInviteLinkInfo".to_string(),
       chat_id: None,
@@ -6993,7 +6993,7 @@ impl ChatInviteLinkInfo {
       is_public: None,
       
     };
-    ChatInviteLinkInfoBuilder::new(instance)
+    RTDChatInviteLinkInfoBuilder::new(instance)
   }
   
   
@@ -7018,9 +7018,9 @@ impl ChatInviteLinkInfo {
 
 
 #[derive(Debug)]
-pub struct ChatInviteLinkInfoBuilder { instance: ChatInviteLinkInfo }
+pub struct RTDChatInviteLinkInfoBuilder { instance: ChatInviteLinkInfo }
 
-impl ChatInviteLinkInfoBuilder {
+impl RTDChatInviteLinkInfoBuilder {
   fn new(instance: ChatInviteLinkInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatInviteLinkInfo { self.instance.clone() }
@@ -7103,7 +7103,7 @@ impl RObject for ChatMember {
 
 impl ChatMember {
   
-  pub fn builder() -> ChatMemberBuilder {
+  pub fn builder() -> RTDChatMemberBuilder {
     let instance = Self {
       td_name: "chatMember".to_string(),
       user_id: None,
@@ -7113,7 +7113,7 @@ impl ChatMember {
       bot_info: None,
       
     };
-    ChatMemberBuilder::new(instance)
+    RTDChatMemberBuilder::new(instance)
   }
   
   
@@ -7134,9 +7134,9 @@ impl ChatMember {
 
 
 #[derive(Debug)]
-pub struct ChatMemberBuilder { instance: ChatMember }
+pub struct RTDChatMemberBuilder { instance: ChatMember }
 
-impl ChatMemberBuilder {
+impl RTDChatMemberBuilder {
   fn new(instance: ChatMember) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatMember { self.instance.clone() }
@@ -7235,13 +7235,13 @@ impl RObject for ChatMemberStatusCreator {
 
 impl ChatMemberStatusCreator {
   
-  pub fn builder() -> ChatMemberStatusCreatorBuilder {
+  pub fn builder() -> RTDChatMemberStatusCreatorBuilder {
     let instance = Self {
       td_name: "chatMemberStatusCreator".to_string(),
       is_member: None,
       
     };
-    ChatMemberStatusCreatorBuilder::new(instance)
+    RTDChatMemberStatusCreatorBuilder::new(instance)
   }
   
   
@@ -7254,9 +7254,9 @@ impl ChatMemberStatusCreator {
 
 
 #[derive(Debug)]
-pub struct ChatMemberStatusCreatorBuilder { instance: ChatMemberStatusCreator }
+pub struct RTDChatMemberStatusCreatorBuilder { instance: ChatMemberStatusCreator }
 
-impl ChatMemberStatusCreatorBuilder {
+impl RTDChatMemberStatusCreatorBuilder {
   fn new(instance: ChatMemberStatusCreator) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatMemberStatusCreator { self.instance.clone() }
@@ -7312,7 +7312,7 @@ impl RObject for ChatMemberStatusAdministrator {
 
 impl ChatMemberStatusAdministrator {
   
-  pub fn builder() -> ChatMemberStatusAdministratorBuilder {
+  pub fn builder() -> RTDChatMemberStatusAdministratorBuilder {
     let instance = Self {
       td_name: "chatMemberStatusAdministrator".to_string(),
       can_be_edited: None,
@@ -7326,7 +7326,7 @@ impl ChatMemberStatusAdministrator {
       can_promote_members: None,
       
     };
-    ChatMemberStatusAdministratorBuilder::new(instance)
+    RTDChatMemberStatusAdministratorBuilder::new(instance)
   }
   
   
@@ -7355,9 +7355,9 @@ impl ChatMemberStatusAdministrator {
 
 
 #[derive(Debug)]
-pub struct ChatMemberStatusAdministratorBuilder { instance: ChatMemberStatusAdministrator }
+pub struct RTDChatMemberStatusAdministratorBuilder { instance: ChatMemberStatusAdministrator }
 
-impl ChatMemberStatusAdministratorBuilder {
+impl RTDChatMemberStatusAdministratorBuilder {
   fn new(instance: ChatMemberStatusAdministrator) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatMemberStatusAdministrator { self.instance.clone() }
@@ -7435,12 +7435,12 @@ impl RObject for ChatMemberStatusMember {
 
 impl ChatMemberStatusMember {
   
-  pub fn builder() -> ChatMemberStatusMemberBuilder {
+  pub fn builder() -> RTDChatMemberStatusMemberBuilder {
     let instance = Self {
       td_name: "chatMemberStatusMember".to_string(),
       
     };
-    ChatMemberStatusMemberBuilder::new(instance)
+    RTDChatMemberStatusMemberBuilder::new(instance)
   }
   
   
@@ -7451,9 +7451,9 @@ impl ChatMemberStatusMember {
 
 
 #[derive(Debug)]
-pub struct ChatMemberStatusMemberBuilder { instance: ChatMemberStatusMember }
+pub struct RTDChatMemberStatusMemberBuilder { instance: ChatMemberStatusMember }
 
-impl ChatMemberStatusMemberBuilder {
+impl RTDChatMemberStatusMemberBuilder {
   fn new(instance: ChatMemberStatusMember) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatMemberStatusMember { self.instance.clone() }
@@ -7498,7 +7498,7 @@ impl RObject for ChatMemberStatusRestricted {
 
 impl ChatMemberStatusRestricted {
   
-  pub fn builder() -> ChatMemberStatusRestrictedBuilder {
+  pub fn builder() -> RTDChatMemberStatusRestrictedBuilder {
     let instance = Self {
       td_name: "chatMemberStatusRestricted".to_string(),
       is_member: None,
@@ -7509,7 +7509,7 @@ impl ChatMemberStatusRestricted {
       can_add_web_page_previews: None,
       
     };
-    ChatMemberStatusRestrictedBuilder::new(instance)
+    RTDChatMemberStatusRestrictedBuilder::new(instance)
   }
   
   
@@ -7532,9 +7532,9 @@ impl ChatMemberStatusRestricted {
 
 
 #[derive(Debug)]
-pub struct ChatMemberStatusRestrictedBuilder { instance: ChatMemberStatusRestricted }
+pub struct RTDChatMemberStatusRestrictedBuilder { instance: ChatMemberStatusRestricted }
 
-impl ChatMemberStatusRestrictedBuilder {
+impl RTDChatMemberStatusRestrictedBuilder {
   fn new(instance: ChatMemberStatusRestricted) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatMemberStatusRestricted { self.instance.clone() }
@@ -7597,12 +7597,12 @@ impl RObject for ChatMemberStatusLeft {
 
 impl ChatMemberStatusLeft {
   
-  pub fn builder() -> ChatMemberStatusLeftBuilder {
+  pub fn builder() -> RTDChatMemberStatusLeftBuilder {
     let instance = Self {
       td_name: "chatMemberStatusLeft".to_string(),
       
     };
-    ChatMemberStatusLeftBuilder::new(instance)
+    RTDChatMemberStatusLeftBuilder::new(instance)
   }
   
   
@@ -7613,9 +7613,9 @@ impl ChatMemberStatusLeft {
 
 
 #[derive(Debug)]
-pub struct ChatMemberStatusLeftBuilder { instance: ChatMemberStatusLeft }
+pub struct RTDChatMemberStatusLeftBuilder { instance: ChatMemberStatusLeft }
 
-impl ChatMemberStatusLeftBuilder {
+impl RTDChatMemberStatusLeftBuilder {
   fn new(instance: ChatMemberStatusLeft) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatMemberStatusLeft { self.instance.clone() }
@@ -7650,13 +7650,13 @@ impl RObject for ChatMemberStatusBanned {
 
 impl ChatMemberStatusBanned {
   
-  pub fn builder() -> ChatMemberStatusBannedBuilder {
+  pub fn builder() -> RTDChatMemberStatusBannedBuilder {
     let instance = Self {
       td_name: "chatMemberStatusBanned".to_string(),
       banned_until_date: None,
       
     };
-    ChatMemberStatusBannedBuilder::new(instance)
+    RTDChatMemberStatusBannedBuilder::new(instance)
   }
   
   
@@ -7669,9 +7669,9 @@ impl ChatMemberStatusBanned {
 
 
 #[derive(Debug)]
-pub struct ChatMemberStatusBannedBuilder { instance: ChatMemberStatusBanned }
+pub struct RTDChatMemberStatusBannedBuilder { instance: ChatMemberStatusBanned }
 
-impl ChatMemberStatusBannedBuilder {
+impl RTDChatMemberStatusBannedBuilder {
   fn new(instance: ChatMemberStatusBanned) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatMemberStatusBanned { self.instance.clone() }
@@ -7711,14 +7711,14 @@ impl RObject for ChatMembers {
 
 impl ChatMembers {
   
-  pub fn builder() -> ChatMembersBuilder {
+  pub fn builder() -> RTDChatMembersBuilder {
     let instance = Self {
       td_name: "chatMembers".to_string(),
       total_count: None,
       members: None,
       
     };
-    ChatMembersBuilder::new(instance)
+    RTDChatMembersBuilder::new(instance)
   }
   
   
@@ -7733,9 +7733,9 @@ impl ChatMembers {
 
 
 #[derive(Debug)]
-pub struct ChatMembersBuilder { instance: ChatMembers }
+pub struct RTDChatMembersBuilder { instance: ChatMembers }
 
-impl ChatMembersBuilder {
+impl RTDChatMembersBuilder {
   fn new(instance: ChatMembers) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatMembers { self.instance.clone() }
@@ -7816,12 +7816,12 @@ impl RObject for ChatMembersFilterAdministrators {
 
 impl ChatMembersFilterAdministrators {
   
-  pub fn builder() -> ChatMembersFilterAdministratorsBuilder {
+  pub fn builder() -> RTDChatMembersFilterAdministratorsBuilder {
     let instance = Self {
       td_name: "chatMembersFilterAdministrators".to_string(),
       
     };
-    ChatMembersFilterAdministratorsBuilder::new(instance)
+    RTDChatMembersFilterAdministratorsBuilder::new(instance)
   }
   
   
@@ -7832,9 +7832,9 @@ impl ChatMembersFilterAdministrators {
 
 
 #[derive(Debug)]
-pub struct ChatMembersFilterAdministratorsBuilder { instance: ChatMembersFilterAdministrators }
+pub struct RTDChatMembersFilterAdministratorsBuilder { instance: ChatMembersFilterAdministrators }
 
-impl ChatMembersFilterAdministratorsBuilder {
+impl RTDChatMembersFilterAdministratorsBuilder {
   fn new(instance: ChatMembersFilterAdministrators) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatMembersFilterAdministrators { self.instance.clone() }
@@ -7867,12 +7867,12 @@ impl RObject for ChatMembersFilterMembers {
 
 impl ChatMembersFilterMembers {
   
-  pub fn builder() -> ChatMembersFilterMembersBuilder {
+  pub fn builder() -> RTDChatMembersFilterMembersBuilder {
     let instance = Self {
       td_name: "chatMembersFilterMembers".to_string(),
       
     };
-    ChatMembersFilterMembersBuilder::new(instance)
+    RTDChatMembersFilterMembersBuilder::new(instance)
   }
   
   
@@ -7883,9 +7883,9 @@ impl ChatMembersFilterMembers {
 
 
 #[derive(Debug)]
-pub struct ChatMembersFilterMembersBuilder { instance: ChatMembersFilterMembers }
+pub struct RTDChatMembersFilterMembersBuilder { instance: ChatMembersFilterMembers }
 
-impl ChatMembersFilterMembersBuilder {
+impl RTDChatMembersFilterMembersBuilder {
   fn new(instance: ChatMembersFilterMembers) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatMembersFilterMembers { self.instance.clone() }
@@ -7918,12 +7918,12 @@ impl RObject for ChatMembersFilterRestricted {
 
 impl ChatMembersFilterRestricted {
   
-  pub fn builder() -> ChatMembersFilterRestrictedBuilder {
+  pub fn builder() -> RTDChatMembersFilterRestrictedBuilder {
     let instance = Self {
       td_name: "chatMembersFilterRestricted".to_string(),
       
     };
-    ChatMembersFilterRestrictedBuilder::new(instance)
+    RTDChatMembersFilterRestrictedBuilder::new(instance)
   }
   
   
@@ -7934,9 +7934,9 @@ impl ChatMembersFilterRestricted {
 
 
 #[derive(Debug)]
-pub struct ChatMembersFilterRestrictedBuilder { instance: ChatMembersFilterRestricted }
+pub struct RTDChatMembersFilterRestrictedBuilder { instance: ChatMembersFilterRestricted }
 
-impl ChatMembersFilterRestrictedBuilder {
+impl RTDChatMembersFilterRestrictedBuilder {
   fn new(instance: ChatMembersFilterRestricted) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatMembersFilterRestricted { self.instance.clone() }
@@ -7969,12 +7969,12 @@ impl RObject for ChatMembersFilterBanned {
 
 impl ChatMembersFilterBanned {
   
-  pub fn builder() -> ChatMembersFilterBannedBuilder {
+  pub fn builder() -> RTDChatMembersFilterBannedBuilder {
     let instance = Self {
       td_name: "chatMembersFilterBanned".to_string(),
       
     };
-    ChatMembersFilterBannedBuilder::new(instance)
+    RTDChatMembersFilterBannedBuilder::new(instance)
   }
   
   
@@ -7985,9 +7985,9 @@ impl ChatMembersFilterBanned {
 
 
 #[derive(Debug)]
-pub struct ChatMembersFilterBannedBuilder { instance: ChatMembersFilterBanned }
+pub struct RTDChatMembersFilterBannedBuilder { instance: ChatMembersFilterBanned }
 
-impl ChatMembersFilterBannedBuilder {
+impl RTDChatMembersFilterBannedBuilder {
   fn new(instance: ChatMembersFilterBanned) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatMembersFilterBanned { self.instance.clone() }
@@ -8020,12 +8020,12 @@ impl RObject for ChatMembersFilterBots {
 
 impl ChatMembersFilterBots {
   
-  pub fn builder() -> ChatMembersFilterBotsBuilder {
+  pub fn builder() -> RTDChatMembersFilterBotsBuilder {
     let instance = Self {
       td_name: "chatMembersFilterBots".to_string(),
       
     };
-    ChatMembersFilterBotsBuilder::new(instance)
+    RTDChatMembersFilterBotsBuilder::new(instance)
   }
   
   
@@ -8036,9 +8036,9 @@ impl ChatMembersFilterBots {
 
 
 #[derive(Debug)]
-pub struct ChatMembersFilterBotsBuilder { instance: ChatMembersFilterBots }
+pub struct RTDChatMembersFilterBotsBuilder { instance: ChatMembersFilterBots }
 
-impl ChatMembersFilterBotsBuilder {
+impl RTDChatMembersFilterBotsBuilder {
   fn new(instance: ChatMembersFilterBots) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatMembersFilterBots { self.instance.clone() }
@@ -8089,7 +8089,7 @@ impl RObject for ChatNotificationSettings {
 
 impl ChatNotificationSettings {
   
-  pub fn builder() -> ChatNotificationSettingsBuilder {
+  pub fn builder() -> RTDChatNotificationSettingsBuilder {
     let instance = Self {
       td_name: "chatNotificationSettings".to_string(),
       use_default_mute_for: None,
@@ -8104,7 +8104,7 @@ impl ChatNotificationSettings {
       disable_mention_notifications: None,
       
     };
-    ChatNotificationSettingsBuilder::new(instance)
+    RTDChatNotificationSettingsBuilder::new(instance)
   }
   
   
@@ -8135,9 +8135,9 @@ impl ChatNotificationSettings {
 
 
 #[derive(Debug)]
-pub struct ChatNotificationSettingsBuilder { instance: ChatNotificationSettings }
+pub struct RTDChatNotificationSettingsBuilder { instance: ChatNotificationSettings }
 
-impl ChatNotificationSettingsBuilder {
+impl RTDChatNotificationSettingsBuilder {
   fn new(instance: ChatNotificationSettings) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatNotificationSettings { self.instance.clone() }
@@ -8222,14 +8222,14 @@ impl RObject for ChatPhoto {
 
 impl ChatPhoto {
   
-  pub fn builder() -> ChatPhotoBuilder {
+  pub fn builder() -> RTDChatPhotoBuilder {
     let instance = Self {
       td_name: "chatPhoto".to_string(),
       small: None,
       big: None,
       
     };
-    ChatPhotoBuilder::new(instance)
+    RTDChatPhotoBuilder::new(instance)
   }
   
   
@@ -8244,9 +8244,9 @@ impl ChatPhoto {
 
 
 #[derive(Debug)]
-pub struct ChatPhotoBuilder { instance: ChatPhoto }
+pub struct RTDChatPhotoBuilder { instance: ChatPhoto }
 
-impl ChatPhotoBuilder {
+impl RTDChatPhotoBuilder {
   fn new(instance: ChatPhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatPhoto { self.instance.clone() }
@@ -8328,12 +8328,12 @@ impl RObject for ChatReportReasonSpam {
 
 impl ChatReportReasonSpam {
   
-  pub fn builder() -> ChatReportReasonSpamBuilder {
+  pub fn builder() -> RTDChatReportReasonSpamBuilder {
     let instance = Self {
       td_name: "chatReportReasonSpam".to_string(),
       
     };
-    ChatReportReasonSpamBuilder::new(instance)
+    RTDChatReportReasonSpamBuilder::new(instance)
   }
   
   
@@ -8344,9 +8344,9 @@ impl ChatReportReasonSpam {
 
 
 #[derive(Debug)]
-pub struct ChatReportReasonSpamBuilder { instance: ChatReportReasonSpam }
+pub struct RTDChatReportReasonSpamBuilder { instance: ChatReportReasonSpam }
 
-impl ChatReportReasonSpamBuilder {
+impl RTDChatReportReasonSpamBuilder {
   fn new(instance: ChatReportReasonSpam) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatReportReasonSpam { self.instance.clone() }
@@ -8379,12 +8379,12 @@ impl RObject for ChatReportReasonViolence {
 
 impl ChatReportReasonViolence {
   
-  pub fn builder() -> ChatReportReasonViolenceBuilder {
+  pub fn builder() -> RTDChatReportReasonViolenceBuilder {
     let instance = Self {
       td_name: "chatReportReasonViolence".to_string(),
       
     };
-    ChatReportReasonViolenceBuilder::new(instance)
+    RTDChatReportReasonViolenceBuilder::new(instance)
   }
   
   
@@ -8395,9 +8395,9 @@ impl ChatReportReasonViolence {
 
 
 #[derive(Debug)]
-pub struct ChatReportReasonViolenceBuilder { instance: ChatReportReasonViolence }
+pub struct RTDChatReportReasonViolenceBuilder { instance: ChatReportReasonViolence }
 
-impl ChatReportReasonViolenceBuilder {
+impl RTDChatReportReasonViolenceBuilder {
   fn new(instance: ChatReportReasonViolence) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatReportReasonViolence { self.instance.clone() }
@@ -8430,12 +8430,12 @@ impl RObject for ChatReportReasonPornography {
 
 impl ChatReportReasonPornography {
   
-  pub fn builder() -> ChatReportReasonPornographyBuilder {
+  pub fn builder() -> RTDChatReportReasonPornographyBuilder {
     let instance = Self {
       td_name: "chatReportReasonPornography".to_string(),
       
     };
-    ChatReportReasonPornographyBuilder::new(instance)
+    RTDChatReportReasonPornographyBuilder::new(instance)
   }
   
   
@@ -8446,9 +8446,9 @@ impl ChatReportReasonPornography {
 
 
 #[derive(Debug)]
-pub struct ChatReportReasonPornographyBuilder { instance: ChatReportReasonPornography }
+pub struct RTDChatReportReasonPornographyBuilder { instance: ChatReportReasonPornography }
 
-impl ChatReportReasonPornographyBuilder {
+impl RTDChatReportReasonPornographyBuilder {
   fn new(instance: ChatReportReasonPornography) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatReportReasonPornography { self.instance.clone() }
@@ -8481,12 +8481,12 @@ impl RObject for ChatReportReasonChildAbuse {
 
 impl ChatReportReasonChildAbuse {
   
-  pub fn builder() -> ChatReportReasonChildAbuseBuilder {
+  pub fn builder() -> RTDChatReportReasonChildAbuseBuilder {
     let instance = Self {
       td_name: "chatReportReasonChildAbuse".to_string(),
       
     };
-    ChatReportReasonChildAbuseBuilder::new(instance)
+    RTDChatReportReasonChildAbuseBuilder::new(instance)
   }
   
   
@@ -8497,9 +8497,9 @@ impl ChatReportReasonChildAbuse {
 
 
 #[derive(Debug)]
-pub struct ChatReportReasonChildAbuseBuilder { instance: ChatReportReasonChildAbuse }
+pub struct RTDChatReportReasonChildAbuseBuilder { instance: ChatReportReasonChildAbuse }
 
-impl ChatReportReasonChildAbuseBuilder {
+impl RTDChatReportReasonChildAbuseBuilder {
   fn new(instance: ChatReportReasonChildAbuse) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatReportReasonChildAbuse { self.instance.clone() }
@@ -8532,12 +8532,12 @@ impl RObject for ChatReportReasonCopyright {
 
 impl ChatReportReasonCopyright {
   
-  pub fn builder() -> ChatReportReasonCopyrightBuilder {
+  pub fn builder() -> RTDChatReportReasonCopyrightBuilder {
     let instance = Self {
       td_name: "chatReportReasonCopyright".to_string(),
       
     };
-    ChatReportReasonCopyrightBuilder::new(instance)
+    RTDChatReportReasonCopyrightBuilder::new(instance)
   }
   
   
@@ -8548,9 +8548,9 @@ impl ChatReportReasonCopyright {
 
 
 #[derive(Debug)]
-pub struct ChatReportReasonCopyrightBuilder { instance: ChatReportReasonCopyright }
+pub struct RTDChatReportReasonCopyrightBuilder { instance: ChatReportReasonCopyright }
 
-impl ChatReportReasonCopyrightBuilder {
+impl RTDChatReportReasonCopyrightBuilder {
   fn new(instance: ChatReportReasonCopyright) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatReportReasonCopyright { self.instance.clone() }
@@ -8585,13 +8585,13 @@ impl RObject for ChatReportReasonCustom {
 
 impl ChatReportReasonCustom {
   
-  pub fn builder() -> ChatReportReasonCustomBuilder {
+  pub fn builder() -> RTDChatReportReasonCustomBuilder {
     let instance = Self {
       td_name: "chatReportReasonCustom".to_string(),
       text: None,
       
     };
-    ChatReportReasonCustomBuilder::new(instance)
+    RTDChatReportReasonCustomBuilder::new(instance)
   }
   
   
@@ -8604,9 +8604,9 @@ impl ChatReportReasonCustom {
 
 
 #[derive(Debug)]
-pub struct ChatReportReasonCustomBuilder { instance: ChatReportReasonCustom }
+pub struct RTDChatReportReasonCustomBuilder { instance: ChatReportReasonCustom }
 
-impl ChatReportReasonCustomBuilder {
+impl RTDChatReportReasonCustomBuilder {
   fn new(instance: ChatReportReasonCustom) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatReportReasonCustom { self.instance.clone() }
@@ -8644,13 +8644,13 @@ impl RObject for ChatReportSpamState {
 
 impl ChatReportSpamState {
   
-  pub fn builder() -> ChatReportSpamStateBuilder {
+  pub fn builder() -> RTDChatReportSpamStateBuilder {
     let instance = Self {
       td_name: "chatReportSpamState".to_string(),
       can_report_spam: None,
       
     };
-    ChatReportSpamStateBuilder::new(instance)
+    RTDChatReportSpamStateBuilder::new(instance)
   }
   
   
@@ -8663,9 +8663,9 @@ impl ChatReportSpamState {
 
 
 #[derive(Debug)]
-pub struct ChatReportSpamStateBuilder { instance: ChatReportSpamState }
+pub struct RTDChatReportSpamStateBuilder { instance: ChatReportSpamState }
 
-impl ChatReportSpamStateBuilder {
+impl RTDChatReportSpamStateBuilder {
   fn new(instance: ChatReportSpamState) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatReportSpamState { self.instance.clone() }
@@ -8742,13 +8742,13 @@ impl RObject for ChatTypePrivate {
 
 impl ChatTypePrivate {
   
-  pub fn builder() -> ChatTypePrivateBuilder {
+  pub fn builder() -> RTDChatTypePrivateBuilder {
     let instance = Self {
       td_name: "chatTypePrivate".to_string(),
       user_id: None,
       
     };
-    ChatTypePrivateBuilder::new(instance)
+    RTDChatTypePrivateBuilder::new(instance)
   }
   
   
@@ -8761,9 +8761,9 @@ impl ChatTypePrivate {
 
 
 #[derive(Debug)]
-pub struct ChatTypePrivateBuilder { instance: ChatTypePrivate }
+pub struct RTDChatTypePrivateBuilder { instance: ChatTypePrivate }
 
-impl ChatTypePrivateBuilder {
+impl RTDChatTypePrivateBuilder {
   fn new(instance: ChatTypePrivate) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatTypePrivate { self.instance.clone() }
@@ -8803,13 +8803,13 @@ impl RObject for ChatTypeBasicGroup {
 
 impl ChatTypeBasicGroup {
   
-  pub fn builder() -> ChatTypeBasicGroupBuilder {
+  pub fn builder() -> RTDChatTypeBasicGroupBuilder {
     let instance = Self {
       td_name: "chatTypeBasicGroup".to_string(),
       basic_group_id: None,
       
     };
-    ChatTypeBasicGroupBuilder::new(instance)
+    RTDChatTypeBasicGroupBuilder::new(instance)
   }
   
   
@@ -8822,9 +8822,9 @@ impl ChatTypeBasicGroup {
 
 
 #[derive(Debug)]
-pub struct ChatTypeBasicGroupBuilder { instance: ChatTypeBasicGroup }
+pub struct RTDChatTypeBasicGroupBuilder { instance: ChatTypeBasicGroup }
 
-impl ChatTypeBasicGroupBuilder {
+impl RTDChatTypeBasicGroupBuilder {
   fn new(instance: ChatTypeBasicGroup) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatTypeBasicGroup { self.instance.clone() }
@@ -8866,14 +8866,14 @@ impl RObject for ChatTypeSupergroup {
 
 impl ChatTypeSupergroup {
   
-  pub fn builder() -> ChatTypeSupergroupBuilder {
+  pub fn builder() -> RTDChatTypeSupergroupBuilder {
     let instance = Self {
       td_name: "chatTypeSupergroup".to_string(),
       supergroup_id: None,
       is_channel: None,
       
     };
-    ChatTypeSupergroupBuilder::new(instance)
+    RTDChatTypeSupergroupBuilder::new(instance)
   }
   
   
@@ -8888,9 +8888,9 @@ impl ChatTypeSupergroup {
 
 
 #[derive(Debug)]
-pub struct ChatTypeSupergroupBuilder { instance: ChatTypeSupergroup }
+pub struct RTDChatTypeSupergroupBuilder { instance: ChatTypeSupergroup }
 
-impl ChatTypeSupergroupBuilder {
+impl RTDChatTypeSupergroupBuilder {
   fn new(instance: ChatTypeSupergroup) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatTypeSupergroup { self.instance.clone() }
@@ -8937,14 +8937,14 @@ impl RObject for ChatTypeSecret {
 
 impl ChatTypeSecret {
   
-  pub fn builder() -> ChatTypeSecretBuilder {
+  pub fn builder() -> RTDChatTypeSecretBuilder {
     let instance = Self {
       td_name: "chatTypeSecret".to_string(),
       secret_chat_id: None,
       user_id: None,
       
     };
-    ChatTypeSecretBuilder::new(instance)
+    RTDChatTypeSecretBuilder::new(instance)
   }
   
   
@@ -8959,9 +8959,9 @@ impl ChatTypeSecret {
 
 
 #[derive(Debug)]
-pub struct ChatTypeSecretBuilder { instance: ChatTypeSecret }
+pub struct RTDChatTypeSecretBuilder { instance: ChatTypeSecret }
 
-impl ChatTypeSecretBuilder {
+impl RTDChatTypeSecretBuilder {
   fn new(instance: ChatTypeSecret) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChatTypeSecret { self.instance.clone() }
@@ -9004,13 +9004,13 @@ impl RObject for Chats {
 
 impl Chats {
   
-  pub fn builder() -> ChatsBuilder {
+  pub fn builder() -> RTDChatsBuilder {
     let instance = Self {
       td_name: "chats".to_string(),
       chat_ids: None,
       
     };
-    ChatsBuilder::new(instance)
+    RTDChatsBuilder::new(instance)
   }
   
   
@@ -9023,9 +9023,9 @@ impl Chats {
 
 
 #[derive(Debug)]
-pub struct ChatsBuilder { instance: Chats }
+pub struct RTDChatsBuilder { instance: Chats }
 
-impl ChatsBuilder {
+impl RTDChatsBuilder {
   fn new(instance: Chats) -> Self { Self { instance } }
 
   pub fn build(&self) -> Chats { self.instance.clone() }
@@ -9101,12 +9101,12 @@ impl RObject for CheckChatUsernameResultOk {
 
 impl CheckChatUsernameResultOk {
   
-  pub fn builder() -> CheckChatUsernameResultOkBuilder {
+  pub fn builder() -> RTDCheckChatUsernameResultOkBuilder {
     let instance = Self {
       td_name: "checkChatUsernameResultOk".to_string(),
       
     };
-    CheckChatUsernameResultOkBuilder::new(instance)
+    RTDCheckChatUsernameResultOkBuilder::new(instance)
   }
   
   
@@ -9117,9 +9117,9 @@ impl CheckChatUsernameResultOk {
 
 
 #[derive(Debug)]
-pub struct CheckChatUsernameResultOkBuilder { instance: CheckChatUsernameResultOk }
+pub struct RTDCheckChatUsernameResultOkBuilder { instance: CheckChatUsernameResultOk }
 
-impl CheckChatUsernameResultOkBuilder {
+impl RTDCheckChatUsernameResultOkBuilder {
   fn new(instance: CheckChatUsernameResultOk) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckChatUsernameResultOk { self.instance.clone() }
@@ -9152,12 +9152,12 @@ impl RObject for CheckChatUsernameResultUsernameInvalid {
 
 impl CheckChatUsernameResultUsernameInvalid {
   
-  pub fn builder() -> CheckChatUsernameResultUsernameInvalidBuilder {
+  pub fn builder() -> RTDCheckChatUsernameResultUsernameInvalidBuilder {
     let instance = Self {
       td_name: "checkChatUsernameResultUsernameInvalid".to_string(),
       
     };
-    CheckChatUsernameResultUsernameInvalidBuilder::new(instance)
+    RTDCheckChatUsernameResultUsernameInvalidBuilder::new(instance)
   }
   
   
@@ -9168,9 +9168,9 @@ impl CheckChatUsernameResultUsernameInvalid {
 
 
 #[derive(Debug)]
-pub struct CheckChatUsernameResultUsernameInvalidBuilder { instance: CheckChatUsernameResultUsernameInvalid }
+pub struct RTDCheckChatUsernameResultUsernameInvalidBuilder { instance: CheckChatUsernameResultUsernameInvalid }
 
-impl CheckChatUsernameResultUsernameInvalidBuilder {
+impl RTDCheckChatUsernameResultUsernameInvalidBuilder {
   fn new(instance: CheckChatUsernameResultUsernameInvalid) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckChatUsernameResultUsernameInvalid { self.instance.clone() }
@@ -9203,12 +9203,12 @@ impl RObject for CheckChatUsernameResultUsernameOccupied {
 
 impl CheckChatUsernameResultUsernameOccupied {
   
-  pub fn builder() -> CheckChatUsernameResultUsernameOccupiedBuilder {
+  pub fn builder() -> RTDCheckChatUsernameResultUsernameOccupiedBuilder {
     let instance = Self {
       td_name: "checkChatUsernameResultUsernameOccupied".to_string(),
       
     };
-    CheckChatUsernameResultUsernameOccupiedBuilder::new(instance)
+    RTDCheckChatUsernameResultUsernameOccupiedBuilder::new(instance)
   }
   
   
@@ -9219,9 +9219,9 @@ impl CheckChatUsernameResultUsernameOccupied {
 
 
 #[derive(Debug)]
-pub struct CheckChatUsernameResultUsernameOccupiedBuilder { instance: CheckChatUsernameResultUsernameOccupied }
+pub struct RTDCheckChatUsernameResultUsernameOccupiedBuilder { instance: CheckChatUsernameResultUsernameOccupied }
 
-impl CheckChatUsernameResultUsernameOccupiedBuilder {
+impl RTDCheckChatUsernameResultUsernameOccupiedBuilder {
   fn new(instance: CheckChatUsernameResultUsernameOccupied) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckChatUsernameResultUsernameOccupied { self.instance.clone() }
@@ -9254,12 +9254,12 @@ impl RObject for CheckChatUsernameResultPublicChatsTooMuch {
 
 impl CheckChatUsernameResultPublicChatsTooMuch {
   
-  pub fn builder() -> CheckChatUsernameResultPublicChatsTooMuchBuilder {
+  pub fn builder() -> RTDCheckChatUsernameResultPublicChatsTooMuchBuilder {
     let instance = Self {
       td_name: "checkChatUsernameResultPublicChatsTooMuch".to_string(),
       
     };
-    CheckChatUsernameResultPublicChatsTooMuchBuilder::new(instance)
+    RTDCheckChatUsernameResultPublicChatsTooMuchBuilder::new(instance)
   }
   
   
@@ -9270,9 +9270,9 @@ impl CheckChatUsernameResultPublicChatsTooMuch {
 
 
 #[derive(Debug)]
-pub struct CheckChatUsernameResultPublicChatsTooMuchBuilder { instance: CheckChatUsernameResultPublicChatsTooMuch }
+pub struct RTDCheckChatUsernameResultPublicChatsTooMuchBuilder { instance: CheckChatUsernameResultPublicChatsTooMuch }
 
-impl CheckChatUsernameResultPublicChatsTooMuchBuilder {
+impl RTDCheckChatUsernameResultPublicChatsTooMuchBuilder {
   fn new(instance: CheckChatUsernameResultPublicChatsTooMuch) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckChatUsernameResultPublicChatsTooMuch { self.instance.clone() }
@@ -9305,12 +9305,12 @@ impl RObject for CheckChatUsernameResultPublicGroupsUnavailable {
 
 impl CheckChatUsernameResultPublicGroupsUnavailable {
   
-  pub fn builder() -> CheckChatUsernameResultPublicGroupsUnavailableBuilder {
+  pub fn builder() -> RTDCheckChatUsernameResultPublicGroupsUnavailableBuilder {
     let instance = Self {
       td_name: "checkChatUsernameResultPublicGroupsUnavailable".to_string(),
       
     };
-    CheckChatUsernameResultPublicGroupsUnavailableBuilder::new(instance)
+    RTDCheckChatUsernameResultPublicGroupsUnavailableBuilder::new(instance)
   }
   
   
@@ -9321,9 +9321,9 @@ impl CheckChatUsernameResultPublicGroupsUnavailable {
 
 
 #[derive(Debug)]
-pub struct CheckChatUsernameResultPublicGroupsUnavailableBuilder { instance: CheckChatUsernameResultPublicGroupsUnavailable }
+pub struct RTDCheckChatUsernameResultPublicGroupsUnavailableBuilder { instance: CheckChatUsernameResultPublicGroupsUnavailable }
 
-impl CheckChatUsernameResultPublicGroupsUnavailableBuilder {
+impl RTDCheckChatUsernameResultPublicGroupsUnavailableBuilder {
   fn new(instance: CheckChatUsernameResultPublicGroupsUnavailable) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckChatUsernameResultPublicGroupsUnavailable { self.instance.clone() }
@@ -9372,7 +9372,7 @@ impl RObject for ConnectedWebsite {
 
 impl ConnectedWebsite {
   
-  pub fn builder() -> ConnectedWebsiteBuilder {
+  pub fn builder() -> RTDConnectedWebsiteBuilder {
     let instance = Self {
       td_name: "connectedWebsite".to_string(),
       id: None,
@@ -9386,7 +9386,7 @@ impl ConnectedWebsite {
       location: None,
       
     };
-    ConnectedWebsiteBuilder::new(instance)
+    RTDConnectedWebsiteBuilder::new(instance)
   }
   
   
@@ -9415,9 +9415,9 @@ impl ConnectedWebsite {
 
 
 #[derive(Debug)]
-pub struct ConnectedWebsiteBuilder { instance: ConnectedWebsite }
+pub struct RTDConnectedWebsiteBuilder { instance: ConnectedWebsite }
 
-impl ConnectedWebsiteBuilder {
+impl RTDConnectedWebsiteBuilder {
   fn new(instance: ConnectedWebsite) -> Self { Self { instance } }
 
   pub fn build(&self) -> ConnectedWebsite { self.instance.clone() }
@@ -9495,13 +9495,13 @@ impl RObject for ConnectedWebsites {
 
 impl ConnectedWebsites {
   
-  pub fn builder() -> ConnectedWebsitesBuilder {
+  pub fn builder() -> RTDConnectedWebsitesBuilder {
     let instance = Self {
       td_name: "connectedWebsites".to_string(),
       websites: None,
       
     };
-    ConnectedWebsitesBuilder::new(instance)
+    RTDConnectedWebsitesBuilder::new(instance)
   }
   
   
@@ -9514,9 +9514,9 @@ impl ConnectedWebsites {
 
 
 #[derive(Debug)]
-pub struct ConnectedWebsitesBuilder { instance: ConnectedWebsites }
+pub struct RTDConnectedWebsitesBuilder { instance: ConnectedWebsites }
 
-impl ConnectedWebsitesBuilder {
+impl RTDConnectedWebsitesBuilder {
   fn new(instance: ConnectedWebsites) -> Self { Self { instance } }
 
   pub fn build(&self) -> ConnectedWebsites { self.instance.clone() }
@@ -9592,12 +9592,12 @@ impl RObject for ConnectionStateWaitingForNetwork {
 
 impl ConnectionStateWaitingForNetwork {
   
-  pub fn builder() -> ConnectionStateWaitingForNetworkBuilder {
+  pub fn builder() -> RTDConnectionStateWaitingForNetworkBuilder {
     let instance = Self {
       td_name: "connectionStateWaitingForNetwork".to_string(),
       
     };
-    ConnectionStateWaitingForNetworkBuilder::new(instance)
+    RTDConnectionStateWaitingForNetworkBuilder::new(instance)
   }
   
   
@@ -9608,9 +9608,9 @@ impl ConnectionStateWaitingForNetwork {
 
 
 #[derive(Debug)]
-pub struct ConnectionStateWaitingForNetworkBuilder { instance: ConnectionStateWaitingForNetwork }
+pub struct RTDConnectionStateWaitingForNetworkBuilder { instance: ConnectionStateWaitingForNetwork }
 
-impl ConnectionStateWaitingForNetworkBuilder {
+impl RTDConnectionStateWaitingForNetworkBuilder {
   fn new(instance: ConnectionStateWaitingForNetwork) -> Self { Self { instance } }
 
   pub fn build(&self) -> ConnectionStateWaitingForNetwork { self.instance.clone() }
@@ -9643,12 +9643,12 @@ impl RObject for ConnectionStateConnectingToProxy {
 
 impl ConnectionStateConnectingToProxy {
   
-  pub fn builder() -> ConnectionStateConnectingToProxyBuilder {
+  pub fn builder() -> RTDConnectionStateConnectingToProxyBuilder {
     let instance = Self {
       td_name: "connectionStateConnectingToProxy".to_string(),
       
     };
-    ConnectionStateConnectingToProxyBuilder::new(instance)
+    RTDConnectionStateConnectingToProxyBuilder::new(instance)
   }
   
   
@@ -9659,9 +9659,9 @@ impl ConnectionStateConnectingToProxy {
 
 
 #[derive(Debug)]
-pub struct ConnectionStateConnectingToProxyBuilder { instance: ConnectionStateConnectingToProxy }
+pub struct RTDConnectionStateConnectingToProxyBuilder { instance: ConnectionStateConnectingToProxy }
 
-impl ConnectionStateConnectingToProxyBuilder {
+impl RTDConnectionStateConnectingToProxyBuilder {
   fn new(instance: ConnectionStateConnectingToProxy) -> Self { Self { instance } }
 
   pub fn build(&self) -> ConnectionStateConnectingToProxy { self.instance.clone() }
@@ -9694,12 +9694,12 @@ impl RObject for ConnectionStateConnecting {
 
 impl ConnectionStateConnecting {
   
-  pub fn builder() -> ConnectionStateConnectingBuilder {
+  pub fn builder() -> RTDConnectionStateConnectingBuilder {
     let instance = Self {
       td_name: "connectionStateConnecting".to_string(),
       
     };
-    ConnectionStateConnectingBuilder::new(instance)
+    RTDConnectionStateConnectingBuilder::new(instance)
   }
   
   
@@ -9710,9 +9710,9 @@ impl ConnectionStateConnecting {
 
 
 #[derive(Debug)]
-pub struct ConnectionStateConnectingBuilder { instance: ConnectionStateConnecting }
+pub struct RTDConnectionStateConnectingBuilder { instance: ConnectionStateConnecting }
 
-impl ConnectionStateConnectingBuilder {
+impl RTDConnectionStateConnectingBuilder {
   fn new(instance: ConnectionStateConnecting) -> Self { Self { instance } }
 
   pub fn build(&self) -> ConnectionStateConnecting { self.instance.clone() }
@@ -9745,12 +9745,12 @@ impl RObject for ConnectionStateUpdating {
 
 impl ConnectionStateUpdating {
   
-  pub fn builder() -> ConnectionStateUpdatingBuilder {
+  pub fn builder() -> RTDConnectionStateUpdatingBuilder {
     let instance = Self {
       td_name: "connectionStateUpdating".to_string(),
       
     };
-    ConnectionStateUpdatingBuilder::new(instance)
+    RTDConnectionStateUpdatingBuilder::new(instance)
   }
   
   
@@ -9761,9 +9761,9 @@ impl ConnectionStateUpdating {
 
 
 #[derive(Debug)]
-pub struct ConnectionStateUpdatingBuilder { instance: ConnectionStateUpdating }
+pub struct RTDConnectionStateUpdatingBuilder { instance: ConnectionStateUpdating }
 
-impl ConnectionStateUpdatingBuilder {
+impl RTDConnectionStateUpdatingBuilder {
   fn new(instance: ConnectionStateUpdating) -> Self { Self { instance } }
 
   pub fn build(&self) -> ConnectionStateUpdating { self.instance.clone() }
@@ -9796,12 +9796,12 @@ impl RObject for ConnectionStateReady {
 
 impl ConnectionStateReady {
   
-  pub fn builder() -> ConnectionStateReadyBuilder {
+  pub fn builder() -> RTDConnectionStateReadyBuilder {
     let instance = Self {
       td_name: "connectionStateReady".to_string(),
       
     };
-    ConnectionStateReadyBuilder::new(instance)
+    RTDConnectionStateReadyBuilder::new(instance)
   }
   
   
@@ -9812,9 +9812,9 @@ impl ConnectionStateReady {
 
 
 #[derive(Debug)]
-pub struct ConnectionStateReadyBuilder { instance: ConnectionStateReady }
+pub struct RTDConnectionStateReadyBuilder { instance: ConnectionStateReady }
 
-impl ConnectionStateReadyBuilder {
+impl RTDConnectionStateReadyBuilder {
   fn new(instance: ConnectionStateReady) -> Self { Self { instance } }
 
   pub fn build(&self) -> ConnectionStateReady { self.instance.clone() }
@@ -9855,7 +9855,7 @@ impl RObject for Contact {
 
 impl Contact {
   
-  pub fn builder() -> ContactBuilder {
+  pub fn builder() -> RTDContactBuilder {
     let instance = Self {
       td_name: "contact".to_string(),
       phone_number: None,
@@ -9865,7 +9865,7 @@ impl Contact {
       user_id: None,
       
     };
-    ContactBuilder::new(instance)
+    RTDContactBuilder::new(instance)
   }
   
   
@@ -9886,9 +9886,9 @@ impl Contact {
 
 
 #[derive(Debug)]
-pub struct ContactBuilder { instance: Contact }
+pub struct RTDContactBuilder { instance: Contact }
 
-impl ContactBuilder {
+impl RTDContactBuilder {
   fn new(instance: Contact) -> Self { Self { instance } }
 
   pub fn build(&self) -> Contact { self.instance.clone() }
@@ -9946,13 +9946,13 @@ impl RObject for Count {
 
 impl Count {
   
-  pub fn builder() -> CountBuilder {
+  pub fn builder() -> RTDCountBuilder {
     let instance = Self {
       td_name: "count".to_string(),
       count: None,
       
     };
-    CountBuilder::new(instance)
+    RTDCountBuilder::new(instance)
   }
   
   
@@ -9965,9 +9965,9 @@ impl Count {
 
 
 #[derive(Debug)]
-pub struct CountBuilder { instance: Count }
+pub struct RTDCountBuilder { instance: Count }
 
-impl CountBuilder {
+impl RTDCountBuilder {
   fn new(instance: Count) -> Self { Self { instance } }
 
   pub fn build(&self) -> Count { self.instance.clone() }
@@ -10005,13 +10005,13 @@ impl RObject for CustomRequestResult {
 
 impl CustomRequestResult {
   
-  pub fn builder() -> CustomRequestResultBuilder {
+  pub fn builder() -> RTDCustomRequestResultBuilder {
     let instance = Self {
       td_name: "customRequestResult".to_string(),
       result: None,
       
     };
-    CustomRequestResultBuilder::new(instance)
+    RTDCustomRequestResultBuilder::new(instance)
   }
   
   
@@ -10024,9 +10024,9 @@ impl CustomRequestResult {
 
 
 #[derive(Debug)]
-pub struct CustomRequestResultBuilder { instance: CustomRequestResult }
+pub struct RTDCustomRequestResultBuilder { instance: CustomRequestResult }
 
-impl CustomRequestResultBuilder {
+impl RTDCustomRequestResultBuilder {
   fn new(instance: CustomRequestResult) -> Self { Self { instance } }
 
   pub fn build(&self) -> CustomRequestResult { self.instance.clone() }
@@ -10064,13 +10064,13 @@ impl RObject for DatabaseStatistics {
 
 impl DatabaseStatistics {
   
-  pub fn builder() -> DatabaseStatisticsBuilder {
+  pub fn builder() -> RTDDatabaseStatisticsBuilder {
     let instance = Self {
       td_name: "databaseStatistics".to_string(),
       statistics: None,
       
     };
-    DatabaseStatisticsBuilder::new(instance)
+    RTDDatabaseStatisticsBuilder::new(instance)
   }
   
   
@@ -10083,9 +10083,9 @@ impl DatabaseStatistics {
 
 
 #[derive(Debug)]
-pub struct DatabaseStatisticsBuilder { instance: DatabaseStatistics }
+pub struct RTDDatabaseStatisticsBuilder { instance: DatabaseStatistics }
 
-impl DatabaseStatisticsBuilder {
+impl RTDDatabaseStatisticsBuilder {
   fn new(instance: DatabaseStatistics) -> Self { Self { instance } }
 
   pub fn build(&self) -> DatabaseStatistics { self.instance.clone() }
@@ -10127,7 +10127,7 @@ impl RObject for Date {
 
 impl Date {
   
-  pub fn builder() -> DateBuilder {
+  pub fn builder() -> RTDDateBuilder {
     let instance = Self {
       td_name: "date".to_string(),
       day: None,
@@ -10135,7 +10135,7 @@ impl Date {
       year: None,
       
     };
-    DateBuilder::new(instance)
+    RTDDateBuilder::new(instance)
   }
   
   
@@ -10152,9 +10152,9 @@ impl Date {
 
 
 #[derive(Debug)]
-pub struct DateBuilder { instance: Date }
+pub struct RTDDateBuilder { instance: Date }
 
-impl DateBuilder {
+impl RTDDateBuilder {
   fn new(instance: Date) -> Self { Self { instance } }
 
   pub fn build(&self) -> Date { self.instance.clone() }
@@ -10204,14 +10204,14 @@ impl RObject for DatedFile {
 
 impl DatedFile {
   
-  pub fn builder() -> DatedFileBuilder {
+  pub fn builder() -> RTDDatedFileBuilder {
     let instance = Self {
       td_name: "datedFile".to_string(),
       file: None,
       date: None,
       
     };
-    DatedFileBuilder::new(instance)
+    RTDDatedFileBuilder::new(instance)
   }
   
   
@@ -10226,9 +10226,9 @@ impl DatedFile {
 
 
 #[derive(Debug)]
-pub struct DatedFileBuilder { instance: DatedFile }
+pub struct RTDDatedFileBuilder { instance: DatedFile }
 
-impl DatedFileBuilder {
+impl RTDDatedFileBuilder {
   fn new(instance: DatedFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> DatedFile { self.instance.clone() }
@@ -10273,14 +10273,14 @@ impl RObject for DeepLinkInfo {
 
 impl DeepLinkInfo {
   
-  pub fn builder() -> DeepLinkInfoBuilder {
+  pub fn builder() -> RTDDeepLinkInfoBuilder {
     let instance = Self {
       td_name: "deepLinkInfo".to_string(),
       text: None,
       need_update_application: None,
       
     };
-    DeepLinkInfoBuilder::new(instance)
+    RTDDeepLinkInfoBuilder::new(instance)
   }
   
   
@@ -10295,9 +10295,9 @@ impl DeepLinkInfo {
 
 
 #[derive(Debug)]
-pub struct DeepLinkInfoBuilder { instance: DeepLinkInfo }
+pub struct RTDDeepLinkInfoBuilder { instance: DeepLinkInfo }
 
-impl DeepLinkInfoBuilder {
+impl RTDDeepLinkInfoBuilder {
   fn new(instance: DeepLinkInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeepLinkInfo { self.instance.clone() }
@@ -10388,14 +10388,14 @@ impl RObject for DeviceTokenFirebaseCloudMessaging {
 
 impl DeviceTokenFirebaseCloudMessaging {
   
-  pub fn builder() -> DeviceTokenFirebaseCloudMessagingBuilder {
+  pub fn builder() -> RTDDeviceTokenFirebaseCloudMessagingBuilder {
     let instance = Self {
       td_name: "deviceTokenFirebaseCloudMessaging".to_string(),
       token: None,
       encrypt: None,
       
     };
-    DeviceTokenFirebaseCloudMessagingBuilder::new(instance)
+    RTDDeviceTokenFirebaseCloudMessagingBuilder::new(instance)
   }
   
   
@@ -10410,9 +10410,9 @@ impl DeviceTokenFirebaseCloudMessaging {
 
 
 #[derive(Debug)]
-pub struct DeviceTokenFirebaseCloudMessagingBuilder { instance: DeviceTokenFirebaseCloudMessaging }
+pub struct RTDDeviceTokenFirebaseCloudMessagingBuilder { instance: DeviceTokenFirebaseCloudMessaging }
 
-impl DeviceTokenFirebaseCloudMessagingBuilder {
+impl RTDDeviceTokenFirebaseCloudMessagingBuilder {
   fn new(instance: DeviceTokenFirebaseCloudMessaging) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeviceTokenFirebaseCloudMessaging { self.instance.clone() }
@@ -10459,14 +10459,14 @@ impl RObject for DeviceTokenApplePush {
 
 impl DeviceTokenApplePush {
   
-  pub fn builder() -> DeviceTokenApplePushBuilder {
+  pub fn builder() -> RTDDeviceTokenApplePushBuilder {
     let instance = Self {
       td_name: "deviceTokenApplePush".to_string(),
       device_token: None,
       is_app_sandbox: None,
       
     };
-    DeviceTokenApplePushBuilder::new(instance)
+    RTDDeviceTokenApplePushBuilder::new(instance)
   }
   
   
@@ -10481,9 +10481,9 @@ impl DeviceTokenApplePush {
 
 
 #[derive(Debug)]
-pub struct DeviceTokenApplePushBuilder { instance: DeviceTokenApplePush }
+pub struct RTDDeviceTokenApplePushBuilder { instance: DeviceTokenApplePush }
 
-impl DeviceTokenApplePushBuilder {
+impl RTDDeviceTokenApplePushBuilder {
   fn new(instance: DeviceTokenApplePush) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeviceTokenApplePush { self.instance.clone() }
@@ -10532,7 +10532,7 @@ impl RObject for DeviceTokenApplePushVoIP {
 
 impl DeviceTokenApplePushVoIP {
   
-  pub fn builder() -> DeviceTokenApplePushVoIPBuilder {
+  pub fn builder() -> RTDDeviceTokenApplePushVoIPBuilder {
     let instance = Self {
       td_name: "deviceTokenApplePushVoIP".to_string(),
       device_token: None,
@@ -10540,7 +10540,7 @@ impl DeviceTokenApplePushVoIP {
       encrypt: None,
       
     };
-    DeviceTokenApplePushVoIPBuilder::new(instance)
+    RTDDeviceTokenApplePushVoIPBuilder::new(instance)
   }
   
   
@@ -10557,9 +10557,9 @@ impl DeviceTokenApplePushVoIP {
 
 
 #[derive(Debug)]
-pub struct DeviceTokenApplePushVoIPBuilder { instance: DeviceTokenApplePushVoIP }
+pub struct RTDDeviceTokenApplePushVoIPBuilder { instance: DeviceTokenApplePushVoIP }
 
-impl DeviceTokenApplePushVoIPBuilder {
+impl RTDDeviceTokenApplePushVoIPBuilder {
   fn new(instance: DeviceTokenApplePushVoIP) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeviceTokenApplePushVoIP { self.instance.clone() }
@@ -10609,13 +10609,13 @@ impl RObject for DeviceTokenWindowsPush {
 
 impl DeviceTokenWindowsPush {
   
-  pub fn builder() -> DeviceTokenWindowsPushBuilder {
+  pub fn builder() -> RTDDeviceTokenWindowsPushBuilder {
     let instance = Self {
       td_name: "deviceTokenWindowsPush".to_string(),
       access_token: None,
       
     };
-    DeviceTokenWindowsPushBuilder::new(instance)
+    RTDDeviceTokenWindowsPushBuilder::new(instance)
   }
   
   
@@ -10628,9 +10628,9 @@ impl DeviceTokenWindowsPush {
 
 
 #[derive(Debug)]
-pub struct DeviceTokenWindowsPushBuilder { instance: DeviceTokenWindowsPush }
+pub struct RTDDeviceTokenWindowsPushBuilder { instance: DeviceTokenWindowsPush }
 
-impl DeviceTokenWindowsPushBuilder {
+impl RTDDeviceTokenWindowsPushBuilder {
   fn new(instance: DeviceTokenWindowsPush) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeviceTokenWindowsPush { self.instance.clone() }
@@ -10670,13 +10670,13 @@ impl RObject for DeviceTokenMicrosoftPush {
 
 impl DeviceTokenMicrosoftPush {
   
-  pub fn builder() -> DeviceTokenMicrosoftPushBuilder {
+  pub fn builder() -> RTDDeviceTokenMicrosoftPushBuilder {
     let instance = Self {
       td_name: "deviceTokenMicrosoftPush".to_string(),
       channel_uri: None,
       
     };
-    DeviceTokenMicrosoftPushBuilder::new(instance)
+    RTDDeviceTokenMicrosoftPushBuilder::new(instance)
   }
   
   
@@ -10689,9 +10689,9 @@ impl DeviceTokenMicrosoftPush {
 
 
 #[derive(Debug)]
-pub struct DeviceTokenMicrosoftPushBuilder { instance: DeviceTokenMicrosoftPush }
+pub struct RTDDeviceTokenMicrosoftPushBuilder { instance: DeviceTokenMicrosoftPush }
 
-impl DeviceTokenMicrosoftPushBuilder {
+impl RTDDeviceTokenMicrosoftPushBuilder {
   fn new(instance: DeviceTokenMicrosoftPush) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeviceTokenMicrosoftPush { self.instance.clone() }
@@ -10731,13 +10731,13 @@ impl RObject for DeviceTokenMicrosoftPushVoIP {
 
 impl DeviceTokenMicrosoftPushVoIP {
   
-  pub fn builder() -> DeviceTokenMicrosoftPushVoIPBuilder {
+  pub fn builder() -> RTDDeviceTokenMicrosoftPushVoIPBuilder {
     let instance = Self {
       td_name: "deviceTokenMicrosoftPushVoIP".to_string(),
       channel_uri: None,
       
     };
-    DeviceTokenMicrosoftPushVoIPBuilder::new(instance)
+    RTDDeviceTokenMicrosoftPushVoIPBuilder::new(instance)
   }
   
   
@@ -10750,9 +10750,9 @@ impl DeviceTokenMicrosoftPushVoIP {
 
 
 #[derive(Debug)]
-pub struct DeviceTokenMicrosoftPushVoIPBuilder { instance: DeviceTokenMicrosoftPushVoIP }
+pub struct RTDDeviceTokenMicrosoftPushVoIPBuilder { instance: DeviceTokenMicrosoftPushVoIP }
 
-impl DeviceTokenMicrosoftPushVoIPBuilder {
+impl RTDDeviceTokenMicrosoftPushVoIPBuilder {
   fn new(instance: DeviceTokenMicrosoftPushVoIP) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeviceTokenMicrosoftPushVoIP { self.instance.clone() }
@@ -10796,7 +10796,7 @@ impl RObject for DeviceTokenWebPush {
 
 impl DeviceTokenWebPush {
   
-  pub fn builder() -> DeviceTokenWebPushBuilder {
+  pub fn builder() -> RTDDeviceTokenWebPushBuilder {
     let instance = Self {
       td_name: "deviceTokenWebPush".to_string(),
       endpoint: None,
@@ -10804,7 +10804,7 @@ impl DeviceTokenWebPush {
       auth_base64url: None,
       
     };
-    DeviceTokenWebPushBuilder::new(instance)
+    RTDDeviceTokenWebPushBuilder::new(instance)
   }
   
   
@@ -10821,9 +10821,9 @@ impl DeviceTokenWebPush {
 
 
 #[derive(Debug)]
-pub struct DeviceTokenWebPushBuilder { instance: DeviceTokenWebPush }
+pub struct RTDDeviceTokenWebPushBuilder { instance: DeviceTokenWebPush }
 
-impl DeviceTokenWebPushBuilder {
+impl RTDDeviceTokenWebPushBuilder {
   fn new(instance: DeviceTokenWebPush) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeviceTokenWebPush { self.instance.clone() }
@@ -10873,13 +10873,13 @@ impl RObject for DeviceTokenSimplePush {
 
 impl DeviceTokenSimplePush {
   
-  pub fn builder() -> DeviceTokenSimplePushBuilder {
+  pub fn builder() -> RTDDeviceTokenSimplePushBuilder {
     let instance = Self {
       td_name: "deviceTokenSimplePush".to_string(),
       endpoint: None,
       
     };
-    DeviceTokenSimplePushBuilder::new(instance)
+    RTDDeviceTokenSimplePushBuilder::new(instance)
   }
   
   
@@ -10892,9 +10892,9 @@ impl DeviceTokenSimplePush {
 
 
 #[derive(Debug)]
-pub struct DeviceTokenSimplePushBuilder { instance: DeviceTokenSimplePush }
+pub struct RTDDeviceTokenSimplePushBuilder { instance: DeviceTokenSimplePush }
 
-impl DeviceTokenSimplePushBuilder {
+impl RTDDeviceTokenSimplePushBuilder {
   fn new(instance: DeviceTokenSimplePush) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeviceTokenSimplePush { self.instance.clone() }
@@ -10934,13 +10934,13 @@ impl RObject for DeviceTokenUbuntuPush {
 
 impl DeviceTokenUbuntuPush {
   
-  pub fn builder() -> DeviceTokenUbuntuPushBuilder {
+  pub fn builder() -> RTDDeviceTokenUbuntuPushBuilder {
     let instance = Self {
       td_name: "deviceTokenUbuntuPush".to_string(),
       token: None,
       
     };
-    DeviceTokenUbuntuPushBuilder::new(instance)
+    RTDDeviceTokenUbuntuPushBuilder::new(instance)
   }
   
   
@@ -10953,9 +10953,9 @@ impl DeviceTokenUbuntuPush {
 
 
 #[derive(Debug)]
-pub struct DeviceTokenUbuntuPushBuilder { instance: DeviceTokenUbuntuPush }
+pub struct RTDDeviceTokenUbuntuPushBuilder { instance: DeviceTokenUbuntuPush }
 
-impl DeviceTokenUbuntuPushBuilder {
+impl RTDDeviceTokenUbuntuPushBuilder {
   fn new(instance: DeviceTokenUbuntuPush) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeviceTokenUbuntuPush { self.instance.clone() }
@@ -10995,13 +10995,13 @@ impl RObject for DeviceTokenBlackBerryPush {
 
 impl DeviceTokenBlackBerryPush {
   
-  pub fn builder() -> DeviceTokenBlackBerryPushBuilder {
+  pub fn builder() -> RTDDeviceTokenBlackBerryPushBuilder {
     let instance = Self {
       td_name: "deviceTokenBlackBerryPush".to_string(),
       token: None,
       
     };
-    DeviceTokenBlackBerryPushBuilder::new(instance)
+    RTDDeviceTokenBlackBerryPushBuilder::new(instance)
   }
   
   
@@ -11014,9 +11014,9 @@ impl DeviceTokenBlackBerryPush {
 
 
 #[derive(Debug)]
-pub struct DeviceTokenBlackBerryPushBuilder { instance: DeviceTokenBlackBerryPush }
+pub struct RTDDeviceTokenBlackBerryPushBuilder { instance: DeviceTokenBlackBerryPush }
 
-impl DeviceTokenBlackBerryPushBuilder {
+impl RTDDeviceTokenBlackBerryPushBuilder {
   fn new(instance: DeviceTokenBlackBerryPush) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeviceTokenBlackBerryPush { self.instance.clone() }
@@ -11056,13 +11056,13 @@ impl RObject for DeviceTokenTizenPush {
 
 impl DeviceTokenTizenPush {
   
-  pub fn builder() -> DeviceTokenTizenPushBuilder {
+  pub fn builder() -> RTDDeviceTokenTizenPushBuilder {
     let instance = Self {
       td_name: "deviceTokenTizenPush".to_string(),
       reg_id: None,
       
     };
-    DeviceTokenTizenPushBuilder::new(instance)
+    RTDDeviceTokenTizenPushBuilder::new(instance)
   }
   
   
@@ -11075,9 +11075,9 @@ impl DeviceTokenTizenPush {
 
 
 #[derive(Debug)]
-pub struct DeviceTokenTizenPushBuilder { instance: DeviceTokenTizenPush }
+pub struct RTDDeviceTokenTizenPushBuilder { instance: DeviceTokenTizenPush }
 
-impl DeviceTokenTizenPushBuilder {
+impl RTDDeviceTokenTizenPushBuilder {
   fn new(instance: DeviceTokenTizenPush) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeviceTokenTizenPush { self.instance.clone() }
@@ -11121,7 +11121,7 @@ impl RObject for Document {
 
 impl Document {
   
-  pub fn builder() -> DocumentBuilder {
+  pub fn builder() -> RTDDocumentBuilder {
     let instance = Self {
       td_name: "document".to_string(),
       file_name: None,
@@ -11130,7 +11130,7 @@ impl Document {
       document: None,
       
     };
-    DocumentBuilder::new(instance)
+    RTDDocumentBuilder::new(instance)
   }
   
   
@@ -11149,9 +11149,9 @@ impl Document {
 
 
 #[derive(Debug)]
-pub struct DocumentBuilder { instance: Document }
+pub struct RTDDocumentBuilder { instance: Document }
 
-impl DocumentBuilder {
+impl RTDDocumentBuilder {
   fn new(instance: Document) -> Self { Self { instance } }
 
   pub fn build(&self) -> Document { self.instance.clone() }
@@ -11213,14 +11213,14 @@ impl RObject for DraftMessage {
 
 impl DraftMessage {
   
-  pub fn builder() -> DraftMessageBuilder {
+  pub fn builder() -> RTDDraftMessageBuilder {
     let instance = Self {
       td_name: "draftMessage".to_string(),
       reply_to_message_id: None,
       input_message_text: None,
       
     };
-    DraftMessageBuilder::new(instance)
+    RTDDraftMessageBuilder::new(instance)
   }
   
   
@@ -11235,9 +11235,9 @@ impl DraftMessage {
 
 
 #[derive(Debug)]
-pub struct DraftMessageBuilder { instance: DraftMessage }
+pub struct RTDDraftMessageBuilder { instance: DraftMessage }
 
-impl DraftMessageBuilder {
+impl RTDDraftMessageBuilder {
   fn new(instance: DraftMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> DraftMessage { self.instance.clone() }
@@ -11282,14 +11282,14 @@ impl RObject for EmailAddressAuthenticationCodeInfo {
 
 impl EmailAddressAuthenticationCodeInfo {
   
-  pub fn builder() -> EmailAddressAuthenticationCodeInfoBuilder {
+  pub fn builder() -> RTDEmailAddressAuthenticationCodeInfoBuilder {
     let instance = Self {
       td_name: "emailAddressAuthenticationCodeInfo".to_string(),
       email_address_pattern: None,
       length: None,
       
     };
-    EmailAddressAuthenticationCodeInfoBuilder::new(instance)
+    RTDEmailAddressAuthenticationCodeInfoBuilder::new(instance)
   }
   
   
@@ -11304,9 +11304,9 @@ impl EmailAddressAuthenticationCodeInfo {
 
 
 #[derive(Debug)]
-pub struct EmailAddressAuthenticationCodeInfoBuilder { instance: EmailAddressAuthenticationCodeInfo }
+pub struct RTDEmailAddressAuthenticationCodeInfoBuilder { instance: EmailAddressAuthenticationCodeInfo }
 
-impl EmailAddressAuthenticationCodeInfoBuilder {
+impl RTDEmailAddressAuthenticationCodeInfoBuilder {
   fn new(instance: EmailAddressAuthenticationCodeInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> EmailAddressAuthenticationCodeInfo { self.instance.clone() }
@@ -11353,7 +11353,7 @@ impl RObject for EncryptedCredentials {
 
 impl EncryptedCredentials {
   
-  pub fn builder() -> EncryptedCredentialsBuilder {
+  pub fn builder() -> RTDEncryptedCredentialsBuilder {
     let instance = Self {
       td_name: "encryptedCredentials".to_string(),
       data: None,
@@ -11361,7 +11361,7 @@ impl EncryptedCredentials {
       secret: None,
       
     };
-    EncryptedCredentialsBuilder::new(instance)
+    RTDEncryptedCredentialsBuilder::new(instance)
   }
   
   
@@ -11378,9 +11378,9 @@ impl EncryptedCredentials {
 
 
 #[derive(Debug)]
-pub struct EncryptedCredentialsBuilder { instance: EncryptedCredentials }
+pub struct RTDEncryptedCredentialsBuilder { instance: EncryptedCredentials }
 
-impl EncryptedCredentialsBuilder {
+impl RTDEncryptedCredentialsBuilder {
   fn new(instance: EncryptedCredentials) -> Self { Self { instance } }
 
   pub fn build(&self) -> EncryptedCredentials { self.instance.clone() }
@@ -11451,7 +11451,7 @@ impl RObject for EncryptedPassportElement {
 
 impl EncryptedPassportElement {
   
-  pub fn builder() -> EncryptedPassportElementBuilder {
+  pub fn builder() -> RTDEncryptedPassportElementBuilder {
     let instance = Self {
       td_name: "encryptedPassportElement".to_string(),
       type_: None,
@@ -11465,7 +11465,7 @@ impl EncryptedPassportElement {
       hash: None,
       
     };
-    EncryptedPassportElementBuilder::new(instance)
+    RTDEncryptedPassportElementBuilder::new(instance)
   }
   
   
@@ -11494,9 +11494,9 @@ impl EncryptedPassportElement {
 
 
 #[derive(Debug)]
-pub struct EncryptedPassportElementBuilder { instance: EncryptedPassportElement }
+pub struct RTDEncryptedPassportElementBuilder { instance: EncryptedPassportElement }
 
-impl EncryptedPassportElementBuilder {
+impl RTDEncryptedPassportElementBuilder {
   fn new(instance: EncryptedPassportElement) -> Self { Self { instance } }
 
   pub fn build(&self) -> EncryptedPassportElement { self.instance.clone() }
@@ -11576,14 +11576,14 @@ impl RObject for Error {
 
 impl Error {
   
-  pub fn builder() -> ErrorBuilder {
+  pub fn builder() -> RTDErrorBuilder {
     let instance = Self {
       td_name: "error".to_string(),
       code: None,
       message: None,
       
     };
-    ErrorBuilder::new(instance)
+    RTDErrorBuilder::new(instance)
   }
   
   
@@ -11598,9 +11598,9 @@ impl Error {
 
 
 #[derive(Debug)]
-pub struct ErrorBuilder { instance: Error }
+pub struct RTDErrorBuilder { instance: Error }
 
-impl ErrorBuilder {
+impl RTDErrorBuilder {
   fn new(instance: Error) -> Self { Self { instance } }
 
   pub fn build(&self) -> Error { self.instance.clone() }
@@ -11651,7 +11651,7 @@ impl RObject for File {
 
 impl File {
   
-  pub fn builder() -> FileBuilder {
+  pub fn builder() -> RTDFileBuilder {
     let instance = Self {
       td_name: "file".to_string(),
       id: None,
@@ -11661,7 +11661,7 @@ impl File {
       remote: None,
       
     };
-    FileBuilder::new(instance)
+    RTDFileBuilder::new(instance)
   }
   
   
@@ -11682,9 +11682,9 @@ impl File {
 
 
 #[derive(Debug)]
-pub struct FileBuilder { instance: File }
+pub struct RTDFileBuilder { instance: File }
 
-impl FileBuilder {
+impl RTDFileBuilder {
   fn new(instance: File) -> Self { Self { instance } }
 
   pub fn build(&self) -> File { self.instance.clone() }
@@ -11742,13 +11742,13 @@ impl RObject for FilePart {
 
 impl FilePart {
   
-  pub fn builder() -> FilePartBuilder {
+  pub fn builder() -> RTDFilePartBuilder {
     let instance = Self {
       td_name: "filePart".to_string(),
       data: None,
       
     };
-    FilePartBuilder::new(instance)
+    RTDFilePartBuilder::new(instance)
   }
   
   
@@ -11761,9 +11761,9 @@ impl FilePart {
 
 
 #[derive(Debug)]
-pub struct FilePartBuilder { instance: FilePart }
+pub struct RTDFilePartBuilder { instance: FilePart }
 
-impl FilePartBuilder {
+impl RTDFilePartBuilder {
   fn new(instance: FilePart) -> Self { Self { instance } }
 
   pub fn build(&self) -> FilePart { self.instance.clone() }
@@ -11850,12 +11850,12 @@ impl RObject for FileTypeNone {
 
 impl FileTypeNone {
   
-  pub fn builder() -> FileTypeNoneBuilder {
+  pub fn builder() -> RTDFileTypeNoneBuilder {
     let instance = Self {
       td_name: "fileTypeNone".to_string(),
       
     };
-    FileTypeNoneBuilder::new(instance)
+    RTDFileTypeNoneBuilder::new(instance)
   }
   
   
@@ -11866,9 +11866,9 @@ impl FileTypeNone {
 
 
 #[derive(Debug)]
-pub struct FileTypeNoneBuilder { instance: FileTypeNone }
+pub struct RTDFileTypeNoneBuilder { instance: FileTypeNone }
 
-impl FileTypeNoneBuilder {
+impl RTDFileTypeNoneBuilder {
   fn new(instance: FileTypeNone) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypeNone { self.instance.clone() }
@@ -11901,12 +11901,12 @@ impl RObject for FileTypeAnimation {
 
 impl FileTypeAnimation {
   
-  pub fn builder() -> FileTypeAnimationBuilder {
+  pub fn builder() -> RTDFileTypeAnimationBuilder {
     let instance = Self {
       td_name: "fileTypeAnimation".to_string(),
       
     };
-    FileTypeAnimationBuilder::new(instance)
+    RTDFileTypeAnimationBuilder::new(instance)
   }
   
   
@@ -11917,9 +11917,9 @@ impl FileTypeAnimation {
 
 
 #[derive(Debug)]
-pub struct FileTypeAnimationBuilder { instance: FileTypeAnimation }
+pub struct RTDFileTypeAnimationBuilder { instance: FileTypeAnimation }
 
-impl FileTypeAnimationBuilder {
+impl RTDFileTypeAnimationBuilder {
   fn new(instance: FileTypeAnimation) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypeAnimation { self.instance.clone() }
@@ -11952,12 +11952,12 @@ impl RObject for FileTypeAudio {
 
 impl FileTypeAudio {
   
-  pub fn builder() -> FileTypeAudioBuilder {
+  pub fn builder() -> RTDFileTypeAudioBuilder {
     let instance = Self {
       td_name: "fileTypeAudio".to_string(),
       
     };
-    FileTypeAudioBuilder::new(instance)
+    RTDFileTypeAudioBuilder::new(instance)
   }
   
   
@@ -11968,9 +11968,9 @@ impl FileTypeAudio {
 
 
 #[derive(Debug)]
-pub struct FileTypeAudioBuilder { instance: FileTypeAudio }
+pub struct RTDFileTypeAudioBuilder { instance: FileTypeAudio }
 
-impl FileTypeAudioBuilder {
+impl RTDFileTypeAudioBuilder {
   fn new(instance: FileTypeAudio) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypeAudio { self.instance.clone() }
@@ -12003,12 +12003,12 @@ impl RObject for FileTypeDocument {
 
 impl FileTypeDocument {
   
-  pub fn builder() -> FileTypeDocumentBuilder {
+  pub fn builder() -> RTDFileTypeDocumentBuilder {
     let instance = Self {
       td_name: "fileTypeDocument".to_string(),
       
     };
-    FileTypeDocumentBuilder::new(instance)
+    RTDFileTypeDocumentBuilder::new(instance)
   }
   
   
@@ -12019,9 +12019,9 @@ impl FileTypeDocument {
 
 
 #[derive(Debug)]
-pub struct FileTypeDocumentBuilder { instance: FileTypeDocument }
+pub struct RTDFileTypeDocumentBuilder { instance: FileTypeDocument }
 
-impl FileTypeDocumentBuilder {
+impl RTDFileTypeDocumentBuilder {
   fn new(instance: FileTypeDocument) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypeDocument { self.instance.clone() }
@@ -12054,12 +12054,12 @@ impl RObject for FileTypePhoto {
 
 impl FileTypePhoto {
   
-  pub fn builder() -> FileTypePhotoBuilder {
+  pub fn builder() -> RTDFileTypePhotoBuilder {
     let instance = Self {
       td_name: "fileTypePhoto".to_string(),
       
     };
-    FileTypePhotoBuilder::new(instance)
+    RTDFileTypePhotoBuilder::new(instance)
   }
   
   
@@ -12070,9 +12070,9 @@ impl FileTypePhoto {
 
 
 #[derive(Debug)]
-pub struct FileTypePhotoBuilder { instance: FileTypePhoto }
+pub struct RTDFileTypePhotoBuilder { instance: FileTypePhoto }
 
-impl FileTypePhotoBuilder {
+impl RTDFileTypePhotoBuilder {
   fn new(instance: FileTypePhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypePhoto { self.instance.clone() }
@@ -12105,12 +12105,12 @@ impl RObject for FileTypeProfilePhoto {
 
 impl FileTypeProfilePhoto {
   
-  pub fn builder() -> FileTypeProfilePhotoBuilder {
+  pub fn builder() -> RTDFileTypeProfilePhotoBuilder {
     let instance = Self {
       td_name: "fileTypeProfilePhoto".to_string(),
       
     };
-    FileTypeProfilePhotoBuilder::new(instance)
+    RTDFileTypeProfilePhotoBuilder::new(instance)
   }
   
   
@@ -12121,9 +12121,9 @@ impl FileTypeProfilePhoto {
 
 
 #[derive(Debug)]
-pub struct FileTypeProfilePhotoBuilder { instance: FileTypeProfilePhoto }
+pub struct RTDFileTypeProfilePhotoBuilder { instance: FileTypeProfilePhoto }
 
-impl FileTypeProfilePhotoBuilder {
+impl RTDFileTypeProfilePhotoBuilder {
   fn new(instance: FileTypeProfilePhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypeProfilePhoto { self.instance.clone() }
@@ -12156,12 +12156,12 @@ impl RObject for FileTypeSecret {
 
 impl FileTypeSecret {
   
-  pub fn builder() -> FileTypeSecretBuilder {
+  pub fn builder() -> RTDFileTypeSecretBuilder {
     let instance = Self {
       td_name: "fileTypeSecret".to_string(),
       
     };
-    FileTypeSecretBuilder::new(instance)
+    RTDFileTypeSecretBuilder::new(instance)
   }
   
   
@@ -12172,9 +12172,9 @@ impl FileTypeSecret {
 
 
 #[derive(Debug)]
-pub struct FileTypeSecretBuilder { instance: FileTypeSecret }
+pub struct RTDFileTypeSecretBuilder { instance: FileTypeSecret }
 
-impl FileTypeSecretBuilder {
+impl RTDFileTypeSecretBuilder {
   fn new(instance: FileTypeSecret) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypeSecret { self.instance.clone() }
@@ -12207,12 +12207,12 @@ impl RObject for FileTypeSecretThumbnail {
 
 impl FileTypeSecretThumbnail {
   
-  pub fn builder() -> FileTypeSecretThumbnailBuilder {
+  pub fn builder() -> RTDFileTypeSecretThumbnailBuilder {
     let instance = Self {
       td_name: "fileTypeSecretThumbnail".to_string(),
       
     };
-    FileTypeSecretThumbnailBuilder::new(instance)
+    RTDFileTypeSecretThumbnailBuilder::new(instance)
   }
   
   
@@ -12223,9 +12223,9 @@ impl FileTypeSecretThumbnail {
 
 
 #[derive(Debug)]
-pub struct FileTypeSecretThumbnailBuilder { instance: FileTypeSecretThumbnail }
+pub struct RTDFileTypeSecretThumbnailBuilder { instance: FileTypeSecretThumbnail }
 
-impl FileTypeSecretThumbnailBuilder {
+impl RTDFileTypeSecretThumbnailBuilder {
   fn new(instance: FileTypeSecretThumbnail) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypeSecretThumbnail { self.instance.clone() }
@@ -12258,12 +12258,12 @@ impl RObject for FileTypeSecure {
 
 impl FileTypeSecure {
   
-  pub fn builder() -> FileTypeSecureBuilder {
+  pub fn builder() -> RTDFileTypeSecureBuilder {
     let instance = Self {
       td_name: "fileTypeSecure".to_string(),
       
     };
-    FileTypeSecureBuilder::new(instance)
+    RTDFileTypeSecureBuilder::new(instance)
   }
   
   
@@ -12274,9 +12274,9 @@ impl FileTypeSecure {
 
 
 #[derive(Debug)]
-pub struct FileTypeSecureBuilder { instance: FileTypeSecure }
+pub struct RTDFileTypeSecureBuilder { instance: FileTypeSecure }
 
-impl FileTypeSecureBuilder {
+impl RTDFileTypeSecureBuilder {
   fn new(instance: FileTypeSecure) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypeSecure { self.instance.clone() }
@@ -12309,12 +12309,12 @@ impl RObject for FileTypeSticker {
 
 impl FileTypeSticker {
   
-  pub fn builder() -> FileTypeStickerBuilder {
+  pub fn builder() -> RTDFileTypeStickerBuilder {
     let instance = Self {
       td_name: "fileTypeSticker".to_string(),
       
     };
-    FileTypeStickerBuilder::new(instance)
+    RTDFileTypeStickerBuilder::new(instance)
   }
   
   
@@ -12325,9 +12325,9 @@ impl FileTypeSticker {
 
 
 #[derive(Debug)]
-pub struct FileTypeStickerBuilder { instance: FileTypeSticker }
+pub struct RTDFileTypeStickerBuilder { instance: FileTypeSticker }
 
-impl FileTypeStickerBuilder {
+impl RTDFileTypeStickerBuilder {
   fn new(instance: FileTypeSticker) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypeSticker { self.instance.clone() }
@@ -12360,12 +12360,12 @@ impl RObject for FileTypeThumbnail {
 
 impl FileTypeThumbnail {
   
-  pub fn builder() -> FileTypeThumbnailBuilder {
+  pub fn builder() -> RTDFileTypeThumbnailBuilder {
     let instance = Self {
       td_name: "fileTypeThumbnail".to_string(),
       
     };
-    FileTypeThumbnailBuilder::new(instance)
+    RTDFileTypeThumbnailBuilder::new(instance)
   }
   
   
@@ -12376,9 +12376,9 @@ impl FileTypeThumbnail {
 
 
 #[derive(Debug)]
-pub struct FileTypeThumbnailBuilder { instance: FileTypeThumbnail }
+pub struct RTDFileTypeThumbnailBuilder { instance: FileTypeThumbnail }
 
-impl FileTypeThumbnailBuilder {
+impl RTDFileTypeThumbnailBuilder {
   fn new(instance: FileTypeThumbnail) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypeThumbnail { self.instance.clone() }
@@ -12411,12 +12411,12 @@ impl RObject for FileTypeUnknown {
 
 impl FileTypeUnknown {
   
-  pub fn builder() -> FileTypeUnknownBuilder {
+  pub fn builder() -> RTDFileTypeUnknownBuilder {
     let instance = Self {
       td_name: "fileTypeUnknown".to_string(),
       
     };
-    FileTypeUnknownBuilder::new(instance)
+    RTDFileTypeUnknownBuilder::new(instance)
   }
   
   
@@ -12427,9 +12427,9 @@ impl FileTypeUnknown {
 
 
 #[derive(Debug)]
-pub struct FileTypeUnknownBuilder { instance: FileTypeUnknown }
+pub struct RTDFileTypeUnknownBuilder { instance: FileTypeUnknown }
 
-impl FileTypeUnknownBuilder {
+impl RTDFileTypeUnknownBuilder {
   fn new(instance: FileTypeUnknown) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypeUnknown { self.instance.clone() }
@@ -12462,12 +12462,12 @@ impl RObject for FileTypeVideo {
 
 impl FileTypeVideo {
   
-  pub fn builder() -> FileTypeVideoBuilder {
+  pub fn builder() -> RTDFileTypeVideoBuilder {
     let instance = Self {
       td_name: "fileTypeVideo".to_string(),
       
     };
-    FileTypeVideoBuilder::new(instance)
+    RTDFileTypeVideoBuilder::new(instance)
   }
   
   
@@ -12478,9 +12478,9 @@ impl FileTypeVideo {
 
 
 #[derive(Debug)]
-pub struct FileTypeVideoBuilder { instance: FileTypeVideo }
+pub struct RTDFileTypeVideoBuilder { instance: FileTypeVideo }
 
-impl FileTypeVideoBuilder {
+impl RTDFileTypeVideoBuilder {
   fn new(instance: FileTypeVideo) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypeVideo { self.instance.clone() }
@@ -12513,12 +12513,12 @@ impl RObject for FileTypeVideoNote {
 
 impl FileTypeVideoNote {
   
-  pub fn builder() -> FileTypeVideoNoteBuilder {
+  pub fn builder() -> RTDFileTypeVideoNoteBuilder {
     let instance = Self {
       td_name: "fileTypeVideoNote".to_string(),
       
     };
-    FileTypeVideoNoteBuilder::new(instance)
+    RTDFileTypeVideoNoteBuilder::new(instance)
   }
   
   
@@ -12529,9 +12529,9 @@ impl FileTypeVideoNote {
 
 
 #[derive(Debug)]
-pub struct FileTypeVideoNoteBuilder { instance: FileTypeVideoNote }
+pub struct RTDFileTypeVideoNoteBuilder { instance: FileTypeVideoNote }
 
-impl FileTypeVideoNoteBuilder {
+impl RTDFileTypeVideoNoteBuilder {
   fn new(instance: FileTypeVideoNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypeVideoNote { self.instance.clone() }
@@ -12564,12 +12564,12 @@ impl RObject for FileTypeVoiceNote {
 
 impl FileTypeVoiceNote {
   
-  pub fn builder() -> FileTypeVoiceNoteBuilder {
+  pub fn builder() -> RTDFileTypeVoiceNoteBuilder {
     let instance = Self {
       td_name: "fileTypeVoiceNote".to_string(),
       
     };
-    FileTypeVoiceNoteBuilder::new(instance)
+    RTDFileTypeVoiceNoteBuilder::new(instance)
   }
   
   
@@ -12580,9 +12580,9 @@ impl FileTypeVoiceNote {
 
 
 #[derive(Debug)]
-pub struct FileTypeVoiceNoteBuilder { instance: FileTypeVoiceNote }
+pub struct RTDFileTypeVoiceNoteBuilder { instance: FileTypeVoiceNote }
 
-impl FileTypeVoiceNoteBuilder {
+impl RTDFileTypeVoiceNoteBuilder {
   fn new(instance: FileTypeVoiceNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypeVoiceNote { self.instance.clone() }
@@ -12615,12 +12615,12 @@ impl RObject for FileTypeWallpaper {
 
 impl FileTypeWallpaper {
   
-  pub fn builder() -> FileTypeWallpaperBuilder {
+  pub fn builder() -> RTDFileTypeWallpaperBuilder {
     let instance = Self {
       td_name: "fileTypeWallpaper".to_string(),
       
     };
-    FileTypeWallpaperBuilder::new(instance)
+    RTDFileTypeWallpaperBuilder::new(instance)
   }
   
   
@@ -12631,9 +12631,9 @@ impl FileTypeWallpaper {
 
 
 #[derive(Debug)]
-pub struct FileTypeWallpaperBuilder { instance: FileTypeWallpaper }
+pub struct RTDFileTypeWallpaperBuilder { instance: FileTypeWallpaper }
 
-impl FileTypeWallpaperBuilder {
+impl RTDFileTypeWallpaperBuilder {
   fn new(instance: FileTypeWallpaper) -> Self { Self { instance } }
 
   pub fn build(&self) -> FileTypeWallpaper { self.instance.clone() }
@@ -12668,14 +12668,14 @@ impl RObject for FormattedText {
 
 impl FormattedText {
   
-  pub fn builder() -> FormattedTextBuilder {
+  pub fn builder() -> RTDFormattedTextBuilder {
     let instance = Self {
       td_name: "formattedText".to_string(),
       text: None,
       entities: None,
       
     };
-    FormattedTextBuilder::new(instance)
+    RTDFormattedTextBuilder::new(instance)
   }
   
   
@@ -12690,9 +12690,9 @@ impl FormattedText {
 
 
 #[derive(Debug)]
-pub struct FormattedTextBuilder { instance: FormattedText }
+pub struct RTDFormattedTextBuilder { instance: FormattedText }
 
-impl FormattedTextBuilder {
+impl RTDFormattedTextBuilder {
   fn new(instance: FormattedText) -> Self { Self { instance } }
 
   pub fn build(&self) -> FormattedText { self.instance.clone() }
@@ -12737,14 +12737,14 @@ impl RObject for FoundMessages {
 
 impl FoundMessages {
   
-  pub fn builder() -> FoundMessagesBuilder {
+  pub fn builder() -> RTDFoundMessagesBuilder {
     let instance = Self {
       td_name: "foundMessages".to_string(),
       messages: None,
       next_from_search_id: None,
       
     };
-    FoundMessagesBuilder::new(instance)
+    RTDFoundMessagesBuilder::new(instance)
   }
   
   
@@ -12759,9 +12759,9 @@ impl FoundMessages {
 
 
 #[derive(Debug)]
-pub struct FoundMessagesBuilder { instance: FoundMessages }
+pub struct RTDFoundMessagesBuilder { instance: FoundMessages }
 
-impl FoundMessagesBuilder {
+impl RTDFoundMessagesBuilder {
   fn new(instance: FoundMessages) -> Self { Self { instance } }
 
   pub fn build(&self) -> FoundMessages { self.instance.clone() }
@@ -12816,7 +12816,7 @@ impl RObject for Game {
 
 impl Game {
   
-  pub fn builder() -> GameBuilder {
+  pub fn builder() -> RTDGameBuilder {
     let instance = Self {
       td_name: "game".to_string(),
       id: None,
@@ -12828,7 +12828,7 @@ impl Game {
       animation: None,
       
     };
-    GameBuilder::new(instance)
+    RTDGameBuilder::new(instance)
   }
   
   
@@ -12853,9 +12853,9 @@ impl Game {
 
 
 #[derive(Debug)]
-pub struct GameBuilder { instance: Game }
+pub struct RTDGameBuilder { instance: Game }
 
-impl GameBuilder {
+impl RTDGameBuilder {
   fn new(instance: Game) -> Self { Self { instance } }
 
   pub fn build(&self) -> Game { self.instance.clone() }
@@ -12927,7 +12927,7 @@ impl RObject for GameHighScore {
 
 impl GameHighScore {
   
-  pub fn builder() -> GameHighScoreBuilder {
+  pub fn builder() -> RTDGameHighScoreBuilder {
     let instance = Self {
       td_name: "gameHighScore".to_string(),
       position: None,
@@ -12935,7 +12935,7 @@ impl GameHighScore {
       score: None,
       
     };
-    GameHighScoreBuilder::new(instance)
+    RTDGameHighScoreBuilder::new(instance)
   }
   
   
@@ -12952,9 +12952,9 @@ impl GameHighScore {
 
 
 #[derive(Debug)]
-pub struct GameHighScoreBuilder { instance: GameHighScore }
+pub struct RTDGameHighScoreBuilder { instance: GameHighScore }
 
-impl GameHighScoreBuilder {
+impl RTDGameHighScoreBuilder {
   fn new(instance: GameHighScore) -> Self { Self { instance } }
 
   pub fn build(&self) -> GameHighScore { self.instance.clone() }
@@ -13002,13 +13002,13 @@ impl RObject for GameHighScores {
 
 impl GameHighScores {
   
-  pub fn builder() -> GameHighScoresBuilder {
+  pub fn builder() -> RTDGameHighScoresBuilder {
     let instance = Self {
       td_name: "gameHighScores".to_string(),
       scores: None,
       
     };
-    GameHighScoresBuilder::new(instance)
+    RTDGameHighScoresBuilder::new(instance)
   }
   
   
@@ -13021,9 +13021,9 @@ impl GameHighScores {
 
 
 #[derive(Debug)]
-pub struct GameHighScoresBuilder { instance: GameHighScores }
+pub struct RTDGameHighScoresBuilder { instance: GameHighScores }
 
-impl GameHighScoresBuilder {
+impl RTDGameHighScoresBuilder {
   fn new(instance: GameHighScores) -> Self { Self { instance } }
 
   pub fn build(&self) -> GameHighScores { self.instance.clone() }
@@ -13061,13 +13061,13 @@ impl RObject for Hashtags {
 
 impl Hashtags {
   
-  pub fn builder() -> HashtagsBuilder {
+  pub fn builder() -> RTDHashtagsBuilder {
     let instance = Self {
       td_name: "hashtags".to_string(),
       hashtags: None,
       
     };
-    HashtagsBuilder::new(instance)
+    RTDHashtagsBuilder::new(instance)
   }
   
   
@@ -13080,9 +13080,9 @@ impl Hashtags {
 
 
 #[derive(Debug)]
-pub struct HashtagsBuilder { instance: Hashtags }
+pub struct RTDHashtagsBuilder { instance: Hashtags }
 
-impl HashtagsBuilder {
+impl RTDHashtagsBuilder {
   fn new(instance: Hashtags) -> Self { Self { instance } }
 
   pub fn build(&self) -> Hashtags { self.instance.clone() }
@@ -13120,13 +13120,13 @@ impl RObject for HttpUrl {
 
 impl HttpUrl {
   
-  pub fn builder() -> HttpUrlBuilder {
+  pub fn builder() -> RTDHttpUrlBuilder {
     let instance = Self {
       td_name: "httpUrl".to_string(),
       url: None,
       
     };
-    HttpUrlBuilder::new(instance)
+    RTDHttpUrlBuilder::new(instance)
   }
   
   
@@ -13139,9 +13139,9 @@ impl HttpUrl {
 
 
 #[derive(Debug)]
-pub struct HttpUrlBuilder { instance: HttpUrl }
+pub struct RTDHttpUrlBuilder { instance: HttpUrl }
 
-impl HttpUrlBuilder {
+impl RTDHttpUrlBuilder {
   fn new(instance: HttpUrl) -> Self { Self { instance } }
 
   pub fn build(&self) -> HttpUrl { self.instance.clone() }
@@ -13189,7 +13189,7 @@ impl RObject for IdentityDocument {
 
 impl IdentityDocument {
   
-  pub fn builder() -> IdentityDocumentBuilder {
+  pub fn builder() -> RTDIdentityDocumentBuilder {
     let instance = Self {
       td_name: "identityDocument".to_string(),
       number: None,
@@ -13200,7 +13200,7 @@ impl IdentityDocument {
       translation: None,
       
     };
-    IdentityDocumentBuilder::new(instance)
+    RTDIdentityDocumentBuilder::new(instance)
   }
   
   
@@ -13223,9 +13223,9 @@ impl IdentityDocument {
 
 
 #[derive(Debug)]
-pub struct IdentityDocumentBuilder { instance: IdentityDocument }
+pub struct RTDIdentityDocumentBuilder { instance: IdentityDocument }
 
-impl IdentityDocumentBuilder {
+impl RTDIdentityDocumentBuilder {
   fn new(instance: IdentityDocument) -> Self { Self { instance } }
 
   pub fn build(&self) -> IdentityDocument { self.instance.clone() }
@@ -13290,14 +13290,14 @@ impl RObject for ImportedContacts {
 
 impl ImportedContacts {
   
-  pub fn builder() -> ImportedContactsBuilder {
+  pub fn builder() -> RTDImportedContactsBuilder {
     let instance = Self {
       td_name: "importedContacts".to_string(),
       user_ids: None,
       importer_count: None,
       
     };
-    ImportedContactsBuilder::new(instance)
+    RTDImportedContactsBuilder::new(instance)
   }
   
   
@@ -13312,9 +13312,9 @@ impl ImportedContacts {
 
 
 #[derive(Debug)]
-pub struct ImportedContactsBuilder { instance: ImportedContacts }
+pub struct RTDImportedContactsBuilder { instance: ImportedContacts }
 
-impl ImportedContactsBuilder {
+impl RTDImportedContactsBuilder {
   fn new(instance: ImportedContacts) -> Self { Self { instance } }
 
   pub fn build(&self) -> ImportedContacts { self.instance.clone() }
@@ -13366,14 +13366,14 @@ impl RObject for InlineKeyboardButton {
 
 impl InlineKeyboardButton {
   
-  pub fn builder() -> InlineKeyboardButtonBuilder {
+  pub fn builder() -> RTDInlineKeyboardButtonBuilder {
     let instance = Self {
       td_name: "inlineKeyboardButton".to_string(),
       text: None,
       type_: None,
       
     };
-    InlineKeyboardButtonBuilder::new(instance)
+    RTDInlineKeyboardButtonBuilder::new(instance)
   }
   
   
@@ -13388,9 +13388,9 @@ impl InlineKeyboardButton {
 
 
 #[derive(Debug)]
-pub struct InlineKeyboardButtonBuilder { instance: InlineKeyboardButton }
+pub struct RTDInlineKeyboardButtonBuilder { instance: InlineKeyboardButton }
 
-impl InlineKeyboardButtonBuilder {
+impl RTDInlineKeyboardButtonBuilder {
   fn new(instance: InlineKeyboardButton) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineKeyboardButton { self.instance.clone() }
@@ -13473,13 +13473,13 @@ impl RObject for InlineKeyboardButtonTypeUrl {
 
 impl InlineKeyboardButtonTypeUrl {
   
-  pub fn builder() -> InlineKeyboardButtonTypeUrlBuilder {
+  pub fn builder() -> RTDInlineKeyboardButtonTypeUrlBuilder {
     let instance = Self {
       td_name: "inlineKeyboardButtonTypeUrl".to_string(),
       url: None,
       
     };
-    InlineKeyboardButtonTypeUrlBuilder::new(instance)
+    RTDInlineKeyboardButtonTypeUrlBuilder::new(instance)
   }
   
   
@@ -13492,9 +13492,9 @@ impl InlineKeyboardButtonTypeUrl {
 
 
 #[derive(Debug)]
-pub struct InlineKeyboardButtonTypeUrlBuilder { instance: InlineKeyboardButtonTypeUrl }
+pub struct RTDInlineKeyboardButtonTypeUrlBuilder { instance: InlineKeyboardButtonTypeUrl }
 
-impl InlineKeyboardButtonTypeUrlBuilder {
+impl RTDInlineKeyboardButtonTypeUrlBuilder {
   fn new(instance: InlineKeyboardButtonTypeUrl) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineKeyboardButtonTypeUrl { self.instance.clone() }
@@ -13534,13 +13534,13 @@ impl RObject for InlineKeyboardButtonTypeCallback {
 
 impl InlineKeyboardButtonTypeCallback {
   
-  pub fn builder() -> InlineKeyboardButtonTypeCallbackBuilder {
+  pub fn builder() -> RTDInlineKeyboardButtonTypeCallbackBuilder {
     let instance = Self {
       td_name: "inlineKeyboardButtonTypeCallback".to_string(),
       data: None,
       
     };
-    InlineKeyboardButtonTypeCallbackBuilder::new(instance)
+    RTDInlineKeyboardButtonTypeCallbackBuilder::new(instance)
   }
   
   
@@ -13553,9 +13553,9 @@ impl InlineKeyboardButtonTypeCallback {
 
 
 #[derive(Debug)]
-pub struct InlineKeyboardButtonTypeCallbackBuilder { instance: InlineKeyboardButtonTypeCallback }
+pub struct RTDInlineKeyboardButtonTypeCallbackBuilder { instance: InlineKeyboardButtonTypeCallback }
 
-impl InlineKeyboardButtonTypeCallbackBuilder {
+impl RTDInlineKeyboardButtonTypeCallbackBuilder {
   fn new(instance: InlineKeyboardButtonTypeCallback) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineKeyboardButtonTypeCallback { self.instance.clone() }
@@ -13593,12 +13593,12 @@ impl RObject for InlineKeyboardButtonTypeCallbackGame {
 
 impl InlineKeyboardButtonTypeCallbackGame {
   
-  pub fn builder() -> InlineKeyboardButtonTypeCallbackGameBuilder {
+  pub fn builder() -> RTDInlineKeyboardButtonTypeCallbackGameBuilder {
     let instance = Self {
       td_name: "inlineKeyboardButtonTypeCallbackGame".to_string(),
       
     };
-    InlineKeyboardButtonTypeCallbackGameBuilder::new(instance)
+    RTDInlineKeyboardButtonTypeCallbackGameBuilder::new(instance)
   }
   
   
@@ -13609,9 +13609,9 @@ impl InlineKeyboardButtonTypeCallbackGame {
 
 
 #[derive(Debug)]
-pub struct InlineKeyboardButtonTypeCallbackGameBuilder { instance: InlineKeyboardButtonTypeCallbackGame }
+pub struct RTDInlineKeyboardButtonTypeCallbackGameBuilder { instance: InlineKeyboardButtonTypeCallbackGame }
 
-impl InlineKeyboardButtonTypeCallbackGameBuilder {
+impl RTDInlineKeyboardButtonTypeCallbackGameBuilder {
   fn new(instance: InlineKeyboardButtonTypeCallbackGame) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineKeyboardButtonTypeCallbackGame { self.instance.clone() }
@@ -13648,14 +13648,14 @@ impl RObject for InlineKeyboardButtonTypeSwitchInline {
 
 impl InlineKeyboardButtonTypeSwitchInline {
   
-  pub fn builder() -> InlineKeyboardButtonTypeSwitchInlineBuilder {
+  pub fn builder() -> RTDInlineKeyboardButtonTypeSwitchInlineBuilder {
     let instance = Self {
       td_name: "inlineKeyboardButtonTypeSwitchInline".to_string(),
       query: None,
       in_current_chat: None,
       
     };
-    InlineKeyboardButtonTypeSwitchInlineBuilder::new(instance)
+    RTDInlineKeyboardButtonTypeSwitchInlineBuilder::new(instance)
   }
   
   
@@ -13670,9 +13670,9 @@ impl InlineKeyboardButtonTypeSwitchInline {
 
 
 #[derive(Debug)]
-pub struct InlineKeyboardButtonTypeSwitchInlineBuilder { instance: InlineKeyboardButtonTypeSwitchInline }
+pub struct RTDInlineKeyboardButtonTypeSwitchInlineBuilder { instance: InlineKeyboardButtonTypeSwitchInline }
 
-impl InlineKeyboardButtonTypeSwitchInlineBuilder {
+impl RTDInlineKeyboardButtonTypeSwitchInlineBuilder {
   fn new(instance: InlineKeyboardButtonTypeSwitchInline) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineKeyboardButtonTypeSwitchInline { self.instance.clone() }
@@ -13715,12 +13715,12 @@ impl RObject for InlineKeyboardButtonTypeBuy {
 
 impl InlineKeyboardButtonTypeBuy {
   
-  pub fn builder() -> InlineKeyboardButtonTypeBuyBuilder {
+  pub fn builder() -> RTDInlineKeyboardButtonTypeBuyBuilder {
     let instance = Self {
       td_name: "inlineKeyboardButtonTypeBuy".to_string(),
       
     };
-    InlineKeyboardButtonTypeBuyBuilder::new(instance)
+    RTDInlineKeyboardButtonTypeBuyBuilder::new(instance)
   }
   
   
@@ -13731,9 +13731,9 @@ impl InlineKeyboardButtonTypeBuy {
 
 
 #[derive(Debug)]
-pub struct InlineKeyboardButtonTypeBuyBuilder { instance: InlineKeyboardButtonTypeBuy }
+pub struct RTDInlineKeyboardButtonTypeBuyBuilder { instance: InlineKeyboardButtonTypeBuy }
 
-impl InlineKeyboardButtonTypeBuyBuilder {
+impl RTDInlineKeyboardButtonTypeBuyBuilder {
   fn new(instance: InlineKeyboardButtonTypeBuy) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineKeyboardButtonTypeBuy { self.instance.clone() }
@@ -13823,7 +13823,7 @@ impl RObject for InlineQueryResultArticle {
 
 impl InlineQueryResultArticle {
   
-  pub fn builder() -> InlineQueryResultArticleBuilder {
+  pub fn builder() -> RTDInlineQueryResultArticleBuilder {
     let instance = Self {
       td_name: "inlineQueryResultArticle".to_string(),
       id: None,
@@ -13834,7 +13834,7 @@ impl InlineQueryResultArticle {
       thumbnail: None,
       
     };
-    InlineQueryResultArticleBuilder::new(instance)
+    RTDInlineQueryResultArticleBuilder::new(instance)
   }
   
   
@@ -13857,9 +13857,9 @@ impl InlineQueryResultArticle {
 
 
 #[derive(Debug)]
-pub struct InlineQueryResultArticleBuilder { instance: InlineQueryResultArticle }
+pub struct RTDInlineQueryResultArticleBuilder { instance: InlineQueryResultArticle }
 
-impl InlineQueryResultArticleBuilder {
+impl RTDInlineQueryResultArticleBuilder {
   fn new(instance: InlineQueryResultArticle) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineQueryResultArticle { self.instance.clone() }
@@ -13928,7 +13928,7 @@ impl RObject for InlineQueryResultContact {
 
 impl InlineQueryResultContact {
   
-  pub fn builder() -> InlineQueryResultContactBuilder {
+  pub fn builder() -> RTDInlineQueryResultContactBuilder {
     let instance = Self {
       td_name: "inlineQueryResultContact".to_string(),
       id: None,
@@ -13936,7 +13936,7 @@ impl InlineQueryResultContact {
       thumbnail: None,
       
     };
-    InlineQueryResultContactBuilder::new(instance)
+    RTDInlineQueryResultContactBuilder::new(instance)
   }
   
   
@@ -13953,9 +13953,9 @@ impl InlineQueryResultContact {
 
 
 #[derive(Debug)]
-pub struct InlineQueryResultContactBuilder { instance: InlineQueryResultContact }
+pub struct RTDInlineQueryResultContactBuilder { instance: InlineQueryResultContact }
 
-impl InlineQueryResultContactBuilder {
+impl RTDInlineQueryResultContactBuilder {
   fn new(instance: InlineQueryResultContact) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineQueryResultContact { self.instance.clone() }
@@ -14011,7 +14011,7 @@ impl RObject for InlineQueryResultLocation {
 
 impl InlineQueryResultLocation {
   
-  pub fn builder() -> InlineQueryResultLocationBuilder {
+  pub fn builder() -> RTDInlineQueryResultLocationBuilder {
     let instance = Self {
       td_name: "inlineQueryResultLocation".to_string(),
       id: None,
@@ -14020,7 +14020,7 @@ impl InlineQueryResultLocation {
       thumbnail: None,
       
     };
-    InlineQueryResultLocationBuilder::new(instance)
+    RTDInlineQueryResultLocationBuilder::new(instance)
   }
   
   
@@ -14039,9 +14039,9 @@ impl InlineQueryResultLocation {
 
 
 #[derive(Debug)]
-pub struct InlineQueryResultLocationBuilder { instance: InlineQueryResultLocation }
+pub struct RTDInlineQueryResultLocationBuilder { instance: InlineQueryResultLocation }
 
-impl InlineQueryResultLocationBuilder {
+impl RTDInlineQueryResultLocationBuilder {
   fn new(instance: InlineQueryResultLocation) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineQueryResultLocation { self.instance.clone() }
@@ -14100,7 +14100,7 @@ impl RObject for InlineQueryResultVenue {
 
 impl InlineQueryResultVenue {
   
-  pub fn builder() -> InlineQueryResultVenueBuilder {
+  pub fn builder() -> RTDInlineQueryResultVenueBuilder {
     let instance = Self {
       td_name: "inlineQueryResultVenue".to_string(),
       id: None,
@@ -14108,7 +14108,7 @@ impl InlineQueryResultVenue {
       thumbnail: None,
       
     };
-    InlineQueryResultVenueBuilder::new(instance)
+    RTDInlineQueryResultVenueBuilder::new(instance)
   }
   
   
@@ -14125,9 +14125,9 @@ impl InlineQueryResultVenue {
 
 
 #[derive(Debug)]
-pub struct InlineQueryResultVenueBuilder { instance: InlineQueryResultVenue }
+pub struct RTDInlineQueryResultVenueBuilder { instance: InlineQueryResultVenue }
 
-impl InlineQueryResultVenueBuilder {
+impl RTDInlineQueryResultVenueBuilder {
   fn new(instance: InlineQueryResultVenue) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineQueryResultVenue { self.instance.clone() }
@@ -14179,14 +14179,14 @@ impl RObject for InlineQueryResultGame {
 
 impl InlineQueryResultGame {
   
-  pub fn builder() -> InlineQueryResultGameBuilder {
+  pub fn builder() -> RTDInlineQueryResultGameBuilder {
     let instance = Self {
       td_name: "inlineQueryResultGame".to_string(),
       id: None,
       game: None,
       
     };
-    InlineQueryResultGameBuilder::new(instance)
+    RTDInlineQueryResultGameBuilder::new(instance)
   }
   
   
@@ -14201,9 +14201,9 @@ impl InlineQueryResultGame {
 
 
 #[derive(Debug)]
-pub struct InlineQueryResultGameBuilder { instance: InlineQueryResultGame }
+pub struct RTDInlineQueryResultGameBuilder { instance: InlineQueryResultGame }
 
-impl InlineQueryResultGameBuilder {
+impl RTDInlineQueryResultGameBuilder {
   fn new(instance: InlineQueryResultGame) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineQueryResultGame { self.instance.clone() }
@@ -14252,7 +14252,7 @@ impl RObject for InlineQueryResultAnimation {
 
 impl InlineQueryResultAnimation {
   
-  pub fn builder() -> InlineQueryResultAnimationBuilder {
+  pub fn builder() -> RTDInlineQueryResultAnimationBuilder {
     let instance = Self {
       td_name: "inlineQueryResultAnimation".to_string(),
       id: None,
@@ -14260,7 +14260,7 @@ impl InlineQueryResultAnimation {
       title: None,
       
     };
-    InlineQueryResultAnimationBuilder::new(instance)
+    RTDInlineQueryResultAnimationBuilder::new(instance)
   }
   
   
@@ -14277,9 +14277,9 @@ impl InlineQueryResultAnimation {
 
 
 #[derive(Debug)]
-pub struct InlineQueryResultAnimationBuilder { instance: InlineQueryResultAnimation }
+pub struct RTDInlineQueryResultAnimationBuilder { instance: InlineQueryResultAnimation }
 
-impl InlineQueryResultAnimationBuilder {
+impl RTDInlineQueryResultAnimationBuilder {
   fn new(instance: InlineQueryResultAnimation) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineQueryResultAnimation { self.instance.clone() }
@@ -14331,14 +14331,14 @@ impl RObject for InlineQueryResultAudio {
 
 impl InlineQueryResultAudio {
   
-  pub fn builder() -> InlineQueryResultAudioBuilder {
+  pub fn builder() -> RTDInlineQueryResultAudioBuilder {
     let instance = Self {
       td_name: "inlineQueryResultAudio".to_string(),
       id: None,
       audio: None,
       
     };
-    InlineQueryResultAudioBuilder::new(instance)
+    RTDInlineQueryResultAudioBuilder::new(instance)
   }
   
   
@@ -14353,9 +14353,9 @@ impl InlineQueryResultAudio {
 
 
 #[derive(Debug)]
-pub struct InlineQueryResultAudioBuilder { instance: InlineQueryResultAudio }
+pub struct RTDInlineQueryResultAudioBuilder { instance: InlineQueryResultAudio }
 
-impl InlineQueryResultAudioBuilder {
+impl RTDInlineQueryResultAudioBuilder {
   fn new(instance: InlineQueryResultAudio) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineQueryResultAudio { self.instance.clone() }
@@ -14406,7 +14406,7 @@ impl RObject for InlineQueryResultDocument {
 
 impl InlineQueryResultDocument {
   
-  pub fn builder() -> InlineQueryResultDocumentBuilder {
+  pub fn builder() -> RTDInlineQueryResultDocumentBuilder {
     let instance = Self {
       td_name: "inlineQueryResultDocument".to_string(),
       id: None,
@@ -14415,7 +14415,7 @@ impl InlineQueryResultDocument {
       description: None,
       
     };
-    InlineQueryResultDocumentBuilder::new(instance)
+    RTDInlineQueryResultDocumentBuilder::new(instance)
   }
   
   
@@ -14434,9 +14434,9 @@ impl InlineQueryResultDocument {
 
 
 #[derive(Debug)]
-pub struct InlineQueryResultDocumentBuilder { instance: InlineQueryResultDocument }
+pub struct RTDInlineQueryResultDocumentBuilder { instance: InlineQueryResultDocument }
 
-impl InlineQueryResultDocumentBuilder {
+impl RTDInlineQueryResultDocumentBuilder {
   fn new(instance: InlineQueryResultDocument) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineQueryResultDocument { self.instance.clone() }
@@ -14497,7 +14497,7 @@ impl RObject for InlineQueryResultPhoto {
 
 impl InlineQueryResultPhoto {
   
-  pub fn builder() -> InlineQueryResultPhotoBuilder {
+  pub fn builder() -> RTDInlineQueryResultPhotoBuilder {
     let instance = Self {
       td_name: "inlineQueryResultPhoto".to_string(),
       id: None,
@@ -14506,7 +14506,7 @@ impl InlineQueryResultPhoto {
       description: None,
       
     };
-    InlineQueryResultPhotoBuilder::new(instance)
+    RTDInlineQueryResultPhotoBuilder::new(instance)
   }
   
   
@@ -14525,9 +14525,9 @@ impl InlineQueryResultPhoto {
 
 
 #[derive(Debug)]
-pub struct InlineQueryResultPhotoBuilder { instance: InlineQueryResultPhoto }
+pub struct RTDInlineQueryResultPhotoBuilder { instance: InlineQueryResultPhoto }
 
-impl InlineQueryResultPhotoBuilder {
+impl RTDInlineQueryResultPhotoBuilder {
   fn new(instance: InlineQueryResultPhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineQueryResultPhoto { self.instance.clone() }
@@ -14584,14 +14584,14 @@ impl RObject for InlineQueryResultSticker {
 
 impl InlineQueryResultSticker {
   
-  pub fn builder() -> InlineQueryResultStickerBuilder {
+  pub fn builder() -> RTDInlineQueryResultStickerBuilder {
     let instance = Self {
       td_name: "inlineQueryResultSticker".to_string(),
       id: None,
       sticker: None,
       
     };
-    InlineQueryResultStickerBuilder::new(instance)
+    RTDInlineQueryResultStickerBuilder::new(instance)
   }
   
   
@@ -14606,9 +14606,9 @@ impl InlineQueryResultSticker {
 
 
 #[derive(Debug)]
-pub struct InlineQueryResultStickerBuilder { instance: InlineQueryResultSticker }
+pub struct RTDInlineQueryResultStickerBuilder { instance: InlineQueryResultSticker }
 
-impl InlineQueryResultStickerBuilder {
+impl RTDInlineQueryResultStickerBuilder {
   fn new(instance: InlineQueryResultSticker) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineQueryResultSticker { self.instance.clone() }
@@ -14659,7 +14659,7 @@ impl RObject for InlineQueryResultVideo {
 
 impl InlineQueryResultVideo {
   
-  pub fn builder() -> InlineQueryResultVideoBuilder {
+  pub fn builder() -> RTDInlineQueryResultVideoBuilder {
     let instance = Self {
       td_name: "inlineQueryResultVideo".to_string(),
       id: None,
@@ -14668,7 +14668,7 @@ impl InlineQueryResultVideo {
       description: None,
       
     };
-    InlineQueryResultVideoBuilder::new(instance)
+    RTDInlineQueryResultVideoBuilder::new(instance)
   }
   
   
@@ -14687,9 +14687,9 @@ impl InlineQueryResultVideo {
 
 
 #[derive(Debug)]
-pub struct InlineQueryResultVideoBuilder { instance: InlineQueryResultVideo }
+pub struct RTDInlineQueryResultVideoBuilder { instance: InlineQueryResultVideo }
 
-impl InlineQueryResultVideoBuilder {
+impl RTDInlineQueryResultVideoBuilder {
   fn new(instance: InlineQueryResultVideo) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineQueryResultVideo { self.instance.clone() }
@@ -14748,7 +14748,7 @@ impl RObject for InlineQueryResultVoiceNote {
 
 impl InlineQueryResultVoiceNote {
   
-  pub fn builder() -> InlineQueryResultVoiceNoteBuilder {
+  pub fn builder() -> RTDInlineQueryResultVoiceNoteBuilder {
     let instance = Self {
       td_name: "inlineQueryResultVoiceNote".to_string(),
       id: None,
@@ -14756,7 +14756,7 @@ impl InlineQueryResultVoiceNote {
       title: None,
       
     };
-    InlineQueryResultVoiceNoteBuilder::new(instance)
+    RTDInlineQueryResultVoiceNoteBuilder::new(instance)
   }
   
   
@@ -14773,9 +14773,9 @@ impl InlineQueryResultVoiceNote {
 
 
 #[derive(Debug)]
-pub struct InlineQueryResultVoiceNoteBuilder { instance: InlineQueryResultVoiceNote }
+pub struct RTDInlineQueryResultVoiceNoteBuilder { instance: InlineQueryResultVoiceNote }
 
-impl InlineQueryResultVoiceNoteBuilder {
+impl RTDInlineQueryResultVoiceNoteBuilder {
   fn new(instance: InlineQueryResultVoiceNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineQueryResultVoiceNote { self.instance.clone() }
@@ -14838,7 +14838,7 @@ impl RObject for InlineQueryResults {
 
 impl InlineQueryResults {
   
-  pub fn builder() -> InlineQueryResultsBuilder {
+  pub fn builder() -> RTDInlineQueryResultsBuilder {
     let instance = Self {
       td_name: "inlineQueryResults".to_string(),
       inline_query_id: None,
@@ -14848,7 +14848,7 @@ impl InlineQueryResults {
       switch_pm_parameter: None,
       
     };
-    InlineQueryResultsBuilder::new(instance)
+    RTDInlineQueryResultsBuilder::new(instance)
   }
   
   
@@ -14869,9 +14869,9 @@ impl InlineQueryResults {
 
 
 #[derive(Debug)]
-pub struct InlineQueryResultsBuilder { instance: InlineQueryResults }
+pub struct RTDInlineQueryResultsBuilder { instance: InlineQueryResults }
 
-impl InlineQueryResultsBuilder {
+impl RTDInlineQueryResultsBuilder {
   fn new(instance: InlineQueryResults) -> Self { Self { instance } }
 
   pub fn build(&self) -> InlineQueryResults { self.instance.clone() }
@@ -14968,13 +14968,13 @@ impl RObject for InputCredentialsSaved {
 
 impl InputCredentialsSaved {
   
-  pub fn builder() -> InputCredentialsSavedBuilder {
+  pub fn builder() -> RTDInputCredentialsSavedBuilder {
     let instance = Self {
       td_name: "inputCredentialsSaved".to_string(),
       saved_credentials_id: None,
       
     };
-    InputCredentialsSavedBuilder::new(instance)
+    RTDInputCredentialsSavedBuilder::new(instance)
   }
   
   
@@ -14987,9 +14987,9 @@ impl InputCredentialsSaved {
 
 
 #[derive(Debug)]
-pub struct InputCredentialsSavedBuilder { instance: InputCredentialsSaved }
+pub struct RTDInputCredentialsSavedBuilder { instance: InputCredentialsSaved }
 
-impl InputCredentialsSavedBuilder {
+impl RTDInputCredentialsSavedBuilder {
   fn new(instance: InputCredentialsSaved) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputCredentialsSaved { self.instance.clone() }
@@ -15031,14 +15031,14 @@ impl RObject for InputCredentialsNew {
 
 impl InputCredentialsNew {
   
-  pub fn builder() -> InputCredentialsNewBuilder {
+  pub fn builder() -> RTDInputCredentialsNewBuilder {
     let instance = Self {
       td_name: "inputCredentialsNew".to_string(),
       data: None,
       allow_save: None,
       
     };
-    InputCredentialsNewBuilder::new(instance)
+    RTDInputCredentialsNewBuilder::new(instance)
   }
   
   
@@ -15053,9 +15053,9 @@ impl InputCredentialsNew {
 
 
 #[derive(Debug)]
-pub struct InputCredentialsNewBuilder { instance: InputCredentialsNew }
+pub struct RTDInputCredentialsNewBuilder { instance: InputCredentialsNew }
 
-impl InputCredentialsNewBuilder {
+impl RTDInputCredentialsNewBuilder {
   fn new(instance: InputCredentialsNew) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputCredentialsNew { self.instance.clone() }
@@ -15100,13 +15100,13 @@ impl RObject for InputCredentialsAndroidPay {
 
 impl InputCredentialsAndroidPay {
   
-  pub fn builder() -> InputCredentialsAndroidPayBuilder {
+  pub fn builder() -> RTDInputCredentialsAndroidPayBuilder {
     let instance = Self {
       td_name: "inputCredentialsAndroidPay".to_string(),
       data: None,
       
     };
-    InputCredentialsAndroidPayBuilder::new(instance)
+    RTDInputCredentialsAndroidPayBuilder::new(instance)
   }
   
   
@@ -15119,9 +15119,9 @@ impl InputCredentialsAndroidPay {
 
 
 #[derive(Debug)]
-pub struct InputCredentialsAndroidPayBuilder { instance: InputCredentialsAndroidPay }
+pub struct RTDInputCredentialsAndroidPayBuilder { instance: InputCredentialsAndroidPay }
 
-impl InputCredentialsAndroidPayBuilder {
+impl RTDInputCredentialsAndroidPayBuilder {
   fn new(instance: InputCredentialsAndroidPay) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputCredentialsAndroidPay { self.instance.clone() }
@@ -15161,13 +15161,13 @@ impl RObject for InputCredentialsApplePay {
 
 impl InputCredentialsApplePay {
   
-  pub fn builder() -> InputCredentialsApplePayBuilder {
+  pub fn builder() -> RTDInputCredentialsApplePayBuilder {
     let instance = Self {
       td_name: "inputCredentialsApplePay".to_string(),
       data: None,
       
     };
-    InputCredentialsApplePayBuilder::new(instance)
+    RTDInputCredentialsApplePayBuilder::new(instance)
   }
   
   
@@ -15180,9 +15180,9 @@ impl InputCredentialsApplePay {
 
 
 #[derive(Debug)]
-pub struct InputCredentialsApplePayBuilder { instance: InputCredentialsApplePay }
+pub struct RTDInputCredentialsApplePayBuilder { instance: InputCredentialsApplePay }
 
-impl InputCredentialsApplePayBuilder {
+impl RTDInputCredentialsApplePayBuilder {
   fn new(instance: InputCredentialsApplePay) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputCredentialsApplePay { self.instance.clone() }
@@ -15259,13 +15259,13 @@ impl RObject for InputFileId {
 
 impl InputFileId {
   
-  pub fn builder() -> InputFileIdBuilder {
+  pub fn builder() -> RTDInputFileIdBuilder {
     let instance = Self {
       td_name: "inputFileId".to_string(),
       id: None,
       
     };
-    InputFileIdBuilder::new(instance)
+    RTDInputFileIdBuilder::new(instance)
   }
   
   
@@ -15278,9 +15278,9 @@ impl InputFileId {
 
 
 #[derive(Debug)]
-pub struct InputFileIdBuilder { instance: InputFileId }
+pub struct RTDInputFileIdBuilder { instance: InputFileId }
 
-impl InputFileIdBuilder {
+impl RTDInputFileIdBuilder {
   fn new(instance: InputFileId) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputFileId { self.instance.clone() }
@@ -15320,13 +15320,13 @@ impl RObject for InputFileRemote {
 
 impl InputFileRemote {
   
-  pub fn builder() -> InputFileRemoteBuilder {
+  pub fn builder() -> RTDInputFileRemoteBuilder {
     let instance = Self {
       td_name: "inputFileRemote".to_string(),
       id: None,
       
     };
-    InputFileRemoteBuilder::new(instance)
+    RTDInputFileRemoteBuilder::new(instance)
   }
   
   
@@ -15339,9 +15339,9 @@ impl InputFileRemote {
 
 
 #[derive(Debug)]
-pub struct InputFileRemoteBuilder { instance: InputFileRemote }
+pub struct RTDInputFileRemoteBuilder { instance: InputFileRemote }
 
-impl InputFileRemoteBuilder {
+impl RTDInputFileRemoteBuilder {
   fn new(instance: InputFileRemote) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputFileRemote { self.instance.clone() }
@@ -15381,13 +15381,13 @@ impl RObject for InputFileLocal {
 
 impl InputFileLocal {
   
-  pub fn builder() -> InputFileLocalBuilder {
+  pub fn builder() -> RTDInputFileLocalBuilder {
     let instance = Self {
       td_name: "inputFileLocal".to_string(),
       path: None,
       
     };
-    InputFileLocalBuilder::new(instance)
+    RTDInputFileLocalBuilder::new(instance)
   }
   
   
@@ -15400,9 +15400,9 @@ impl InputFileLocal {
 
 
 #[derive(Debug)]
-pub struct InputFileLocalBuilder { instance: InputFileLocal }
+pub struct RTDInputFileLocalBuilder { instance: InputFileLocal }
 
-impl InputFileLocalBuilder {
+impl RTDInputFileLocalBuilder {
   fn new(instance: InputFileLocal) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputFileLocal { self.instance.clone() }
@@ -15446,7 +15446,7 @@ impl RObject for InputFileGenerated {
 
 impl InputFileGenerated {
   
-  pub fn builder() -> InputFileGeneratedBuilder {
+  pub fn builder() -> RTDInputFileGeneratedBuilder {
     let instance = Self {
       td_name: "inputFileGenerated".to_string(),
       original_path: None,
@@ -15454,7 +15454,7 @@ impl InputFileGenerated {
       expected_size: None,
       
     };
-    InputFileGeneratedBuilder::new(instance)
+    RTDInputFileGeneratedBuilder::new(instance)
   }
   
   
@@ -15471,9 +15471,9 @@ impl InputFileGenerated {
 
 
 #[derive(Debug)]
-pub struct InputFileGeneratedBuilder { instance: InputFileGenerated }
+pub struct RTDInputFileGeneratedBuilder { instance: InputFileGenerated }
 
-impl InputFileGeneratedBuilder {
+impl RTDInputFileGeneratedBuilder {
   fn new(instance: InputFileGenerated) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputFileGenerated { self.instance.clone() }
@@ -15538,7 +15538,7 @@ impl RObject for InputIdentityDocument {
 
 impl InputIdentityDocument {
   
-  pub fn builder() -> InputIdentityDocumentBuilder {
+  pub fn builder() -> RTDInputIdentityDocumentBuilder {
     let instance = Self {
       td_name: "inputIdentityDocument".to_string(),
       number: None,
@@ -15549,7 +15549,7 @@ impl InputIdentityDocument {
       translation: None,
       
     };
-    InputIdentityDocumentBuilder::new(instance)
+    RTDInputIdentityDocumentBuilder::new(instance)
   }
   
   
@@ -15572,9 +15572,9 @@ impl InputIdentityDocument {
 
 
 #[derive(Debug)]
-pub struct InputIdentityDocumentBuilder { instance: InputIdentityDocument }
+pub struct RTDInputIdentityDocumentBuilder { instance: InputIdentityDocument }
 
-impl InputIdentityDocumentBuilder {
+impl RTDInputIdentityDocumentBuilder {
   fn new(instance: InputIdentityDocument) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputIdentityDocument { self.instance.clone() }
@@ -15708,7 +15708,7 @@ impl RObject for InputInlineQueryResultAnimatedGif {
 
 impl InputInlineQueryResultAnimatedGif {
   
-  pub fn builder() -> InputInlineQueryResultAnimatedGifBuilder {
+  pub fn builder() -> RTDInputInlineQueryResultAnimatedGifBuilder {
     let instance = Self {
       td_name: "inputInlineQueryResultAnimatedGif".to_string(),
       id: None,
@@ -15722,7 +15722,7 @@ impl InputInlineQueryResultAnimatedGif {
       input_message_content: None,
       
     };
-    InputInlineQueryResultAnimatedGifBuilder::new(instance)
+    RTDInputInlineQueryResultAnimatedGifBuilder::new(instance)
   }
   
   
@@ -15751,9 +15751,9 @@ impl InputInlineQueryResultAnimatedGif {
 
 
 #[derive(Debug)]
-pub struct InputInlineQueryResultAnimatedGifBuilder { instance: InputInlineQueryResultAnimatedGif }
+pub struct RTDInputInlineQueryResultAnimatedGifBuilder { instance: InputInlineQueryResultAnimatedGif }
 
-impl InputInlineQueryResultAnimatedGifBuilder {
+impl RTDInputInlineQueryResultAnimatedGifBuilder {
   fn new(instance: InputInlineQueryResultAnimatedGif) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputInlineQueryResultAnimatedGif { self.instance.clone() }
@@ -15856,7 +15856,7 @@ impl RObject for InputInlineQueryResultAnimatedMpeg4 {
 
 impl InputInlineQueryResultAnimatedMpeg4 {
   
-  pub fn builder() -> InputInlineQueryResultAnimatedMpeg4Builder {
+  pub fn builder() -> RTDInputInlineQueryResultAnimatedMpeg4Builder {
     let instance = Self {
       td_name: "inputInlineQueryResultAnimatedMpeg4".to_string(),
       id: None,
@@ -15870,7 +15870,7 @@ impl InputInlineQueryResultAnimatedMpeg4 {
       input_message_content: None,
       
     };
-    InputInlineQueryResultAnimatedMpeg4Builder::new(instance)
+    RTDInputInlineQueryResultAnimatedMpeg4Builder::new(instance)
   }
   
   
@@ -15899,9 +15899,9 @@ impl InputInlineQueryResultAnimatedMpeg4 {
 
 
 #[derive(Debug)]
-pub struct InputInlineQueryResultAnimatedMpeg4Builder { instance: InputInlineQueryResultAnimatedMpeg4 }
+pub struct RTDInputInlineQueryResultAnimatedMpeg4Builder { instance: InputInlineQueryResultAnimatedMpeg4 }
 
-impl InputInlineQueryResultAnimatedMpeg4Builder {
+impl RTDInputInlineQueryResultAnimatedMpeg4Builder {
   fn new(instance: InputInlineQueryResultAnimatedMpeg4) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputInlineQueryResultAnimatedMpeg4 { self.instance.clone() }
@@ -16006,7 +16006,7 @@ impl RObject for InputInlineQueryResultArticle {
 
 impl InputInlineQueryResultArticle {
   
-  pub fn builder() -> InputInlineQueryResultArticleBuilder {
+  pub fn builder() -> RTDInputInlineQueryResultArticleBuilder {
     let instance = Self {
       td_name: "inputInlineQueryResultArticle".to_string(),
       id: None,
@@ -16021,7 +16021,7 @@ impl InputInlineQueryResultArticle {
       input_message_content: None,
       
     };
-    InputInlineQueryResultArticleBuilder::new(instance)
+    RTDInputInlineQueryResultArticleBuilder::new(instance)
   }
   
   
@@ -16052,9 +16052,9 @@ impl InputInlineQueryResultArticle {
 
 
 #[derive(Debug)]
-pub struct InputInlineQueryResultArticleBuilder { instance: InputInlineQueryResultArticle }
+pub struct RTDInputInlineQueryResultArticleBuilder { instance: InputInlineQueryResultArticle }
 
-impl InputInlineQueryResultArticleBuilder {
+impl RTDInputInlineQueryResultArticleBuilder {
   fn new(instance: InputInlineQueryResultArticle) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputInlineQueryResultArticle { self.instance.clone() }
@@ -16158,7 +16158,7 @@ impl RObject for InputInlineQueryResultAudio {
 
 impl InputInlineQueryResultAudio {
   
-  pub fn builder() -> InputInlineQueryResultAudioBuilder {
+  pub fn builder() -> RTDInputInlineQueryResultAudioBuilder {
     let instance = Self {
       td_name: "inputInlineQueryResultAudio".to_string(),
       id: None,
@@ -16170,7 +16170,7 @@ impl InputInlineQueryResultAudio {
       input_message_content: None,
       
     };
-    InputInlineQueryResultAudioBuilder::new(instance)
+    RTDInputInlineQueryResultAudioBuilder::new(instance)
   }
   
   
@@ -16195,9 +16195,9 @@ impl InputInlineQueryResultAudio {
 
 
 #[derive(Debug)]
-pub struct InputInlineQueryResultAudioBuilder { instance: InputInlineQueryResultAudio }
+pub struct RTDInputInlineQueryResultAudioBuilder { instance: InputInlineQueryResultAudio }
 
-impl InputInlineQueryResultAudioBuilder {
+impl RTDInputInlineQueryResultAudioBuilder {
   fn new(instance: InputInlineQueryResultAudio) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputInlineQueryResultAudio { self.instance.clone() }
@@ -16286,7 +16286,7 @@ impl RObject for InputInlineQueryResultContact {
 
 impl InputInlineQueryResultContact {
   
-  pub fn builder() -> InputInlineQueryResultContactBuilder {
+  pub fn builder() -> RTDInputInlineQueryResultContactBuilder {
     let instance = Self {
       td_name: "inputInlineQueryResultContact".to_string(),
       id: None,
@@ -16298,7 +16298,7 @@ impl InputInlineQueryResultContact {
       input_message_content: None,
       
     };
-    InputInlineQueryResultContactBuilder::new(instance)
+    RTDInputInlineQueryResultContactBuilder::new(instance)
   }
   
   
@@ -16323,9 +16323,9 @@ impl InputInlineQueryResultContact {
 
 
 #[derive(Debug)]
-pub struct InputInlineQueryResultContactBuilder { instance: InputInlineQueryResultContact }
+pub struct RTDInputInlineQueryResultContactBuilder { instance: InputInlineQueryResultContact }
 
-impl InputInlineQueryResultContactBuilder {
+impl RTDInputInlineQueryResultContactBuilder {
   fn new(instance: InputInlineQueryResultContact) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputInlineQueryResultContact { self.instance.clone() }
@@ -16420,7 +16420,7 @@ impl RObject for InputInlineQueryResultDocument {
 
 impl InputInlineQueryResultDocument {
   
-  pub fn builder() -> InputInlineQueryResultDocumentBuilder {
+  pub fn builder() -> RTDInputInlineQueryResultDocumentBuilder {
     let instance = Self {
       td_name: "inputInlineQueryResultDocument".to_string(),
       id: None,
@@ -16435,7 +16435,7 @@ impl InputInlineQueryResultDocument {
       input_message_content: None,
       
     };
-    InputInlineQueryResultDocumentBuilder::new(instance)
+    RTDInputInlineQueryResultDocumentBuilder::new(instance)
   }
   
   
@@ -16466,9 +16466,9 @@ impl InputInlineQueryResultDocument {
 
 
 #[derive(Debug)]
-pub struct InputInlineQueryResultDocumentBuilder { instance: InputInlineQueryResultDocument }
+pub struct RTDInputInlineQueryResultDocumentBuilder { instance: InputInlineQueryResultDocument }
 
-impl InputInlineQueryResultDocumentBuilder {
+impl RTDInputInlineQueryResultDocumentBuilder {
   fn new(instance: InputInlineQueryResultDocument) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputInlineQueryResultDocument { self.instance.clone() }
@@ -16564,7 +16564,7 @@ impl RObject for InputInlineQueryResultGame {
 
 impl InputInlineQueryResultGame {
   
-  pub fn builder() -> InputInlineQueryResultGameBuilder {
+  pub fn builder() -> RTDInputInlineQueryResultGameBuilder {
     let instance = Self {
       td_name: "inputInlineQueryResultGame".to_string(),
       id: None,
@@ -16572,7 +16572,7 @@ impl InputInlineQueryResultGame {
       reply_markup: None,
       
     };
-    InputInlineQueryResultGameBuilder::new(instance)
+    RTDInputInlineQueryResultGameBuilder::new(instance)
   }
   
   
@@ -16589,9 +16589,9 @@ impl InputInlineQueryResultGame {
 
 
 #[derive(Debug)]
-pub struct InputInlineQueryResultGameBuilder { instance: InputInlineQueryResultGame }
+pub struct RTDInputInlineQueryResultGameBuilder { instance: InputInlineQueryResultGame }
 
-impl InputInlineQueryResultGameBuilder {
+impl RTDInputInlineQueryResultGameBuilder {
   fn new(instance: InputInlineQueryResultGame) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputInlineQueryResultGame { self.instance.clone() }
@@ -16664,7 +16664,7 @@ impl RObject for InputInlineQueryResultLocation {
 
 impl InputInlineQueryResultLocation {
   
-  pub fn builder() -> InputInlineQueryResultLocationBuilder {
+  pub fn builder() -> RTDInputInlineQueryResultLocationBuilder {
     let instance = Self {
       td_name: "inputInlineQueryResultLocation".to_string(),
       id: None,
@@ -16678,7 +16678,7 @@ impl InputInlineQueryResultLocation {
       input_message_content: None,
       
     };
-    InputInlineQueryResultLocationBuilder::new(instance)
+    RTDInputInlineQueryResultLocationBuilder::new(instance)
   }
   
   
@@ -16707,9 +16707,9 @@ impl InputInlineQueryResultLocation {
 
 
 #[derive(Debug)]
-pub struct InputInlineQueryResultLocationBuilder { instance: InputInlineQueryResultLocation }
+pub struct RTDInputInlineQueryResultLocationBuilder { instance: InputInlineQueryResultLocation }
 
-impl InputInlineQueryResultLocationBuilder {
+impl RTDInputInlineQueryResultLocationBuilder {
   fn new(instance: InputInlineQueryResultLocation) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputInlineQueryResultLocation { self.instance.clone() }
@@ -16812,7 +16812,7 @@ impl RObject for InputInlineQueryResultPhoto {
 
 impl InputInlineQueryResultPhoto {
   
-  pub fn builder() -> InputInlineQueryResultPhotoBuilder {
+  pub fn builder() -> RTDInputInlineQueryResultPhotoBuilder {
     let instance = Self {
       td_name: "inputInlineQueryResultPhoto".to_string(),
       id: None,
@@ -16826,7 +16826,7 @@ impl InputInlineQueryResultPhoto {
       input_message_content: None,
       
     };
-    InputInlineQueryResultPhotoBuilder::new(instance)
+    RTDInputInlineQueryResultPhotoBuilder::new(instance)
   }
   
   
@@ -16855,9 +16855,9 @@ impl InputInlineQueryResultPhoto {
 
 
 #[derive(Debug)]
-pub struct InputInlineQueryResultPhotoBuilder { instance: InputInlineQueryResultPhoto }
+pub struct RTDInputInlineQueryResultPhotoBuilder { instance: InputInlineQueryResultPhoto }
 
-impl InputInlineQueryResultPhotoBuilder {
+impl RTDInputInlineQueryResultPhotoBuilder {
   fn new(instance: InputInlineQueryResultPhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputInlineQueryResultPhoto { self.instance.clone() }
@@ -16956,7 +16956,7 @@ impl RObject for InputInlineQueryResultSticker {
 
 impl InputInlineQueryResultSticker {
   
-  pub fn builder() -> InputInlineQueryResultStickerBuilder {
+  pub fn builder() -> RTDInputInlineQueryResultStickerBuilder {
     let instance = Self {
       td_name: "inputInlineQueryResultSticker".to_string(),
       id: None,
@@ -16968,7 +16968,7 @@ impl InputInlineQueryResultSticker {
       input_message_content: None,
       
     };
-    InputInlineQueryResultStickerBuilder::new(instance)
+    RTDInputInlineQueryResultStickerBuilder::new(instance)
   }
   
   
@@ -16993,9 +16993,9 @@ impl InputInlineQueryResultSticker {
 
 
 #[derive(Debug)]
-pub struct InputInlineQueryResultStickerBuilder { instance: InputInlineQueryResultSticker }
+pub struct RTDInputInlineQueryResultStickerBuilder { instance: InputInlineQueryResultSticker }
 
-impl InputInlineQueryResultStickerBuilder {
+impl RTDInputInlineQueryResultStickerBuilder {
   fn new(instance: InputInlineQueryResultSticker) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputInlineQueryResultSticker { self.instance.clone() }
@@ -17084,7 +17084,7 @@ impl RObject for InputInlineQueryResultVenue {
 
 impl InputInlineQueryResultVenue {
   
-  pub fn builder() -> InputInlineQueryResultVenueBuilder {
+  pub fn builder() -> RTDInputInlineQueryResultVenueBuilder {
     let instance = Self {
       td_name: "inputInlineQueryResultVenue".to_string(),
       id: None,
@@ -17096,7 +17096,7 @@ impl InputInlineQueryResultVenue {
       input_message_content: None,
       
     };
-    InputInlineQueryResultVenueBuilder::new(instance)
+    RTDInputInlineQueryResultVenueBuilder::new(instance)
   }
   
   
@@ -17121,9 +17121,9 @@ impl InputInlineQueryResultVenue {
 
 
 #[derive(Debug)]
-pub struct InputInlineQueryResultVenueBuilder { instance: InputInlineQueryResultVenue }
+pub struct RTDInputInlineQueryResultVenueBuilder { instance: InputInlineQueryResultVenue }
 
-impl InputInlineQueryResultVenueBuilder {
+impl RTDInputInlineQueryResultVenueBuilder {
   fn new(instance: InputInlineQueryResultVenue) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputInlineQueryResultVenue { self.instance.clone() }
@@ -17220,7 +17220,7 @@ impl RObject for InputInlineQueryResultVideo {
 
 impl InputInlineQueryResultVideo {
   
-  pub fn builder() -> InputInlineQueryResultVideoBuilder {
+  pub fn builder() -> RTDInputInlineQueryResultVideoBuilder {
     let instance = Self {
       td_name: "inputInlineQueryResultVideo".to_string(),
       id: None,
@@ -17236,7 +17236,7 @@ impl InputInlineQueryResultVideo {
       input_message_content: None,
       
     };
-    InputInlineQueryResultVideoBuilder::new(instance)
+    RTDInputInlineQueryResultVideoBuilder::new(instance)
   }
   
   
@@ -17269,9 +17269,9 @@ impl InputInlineQueryResultVideo {
 
 
 #[derive(Debug)]
-pub struct InputInlineQueryResultVideoBuilder { instance: InputInlineQueryResultVideo }
+pub struct RTDInputInlineQueryResultVideoBuilder { instance: InputInlineQueryResultVideo }
 
-impl InputInlineQueryResultVideoBuilder {
+impl RTDInputInlineQueryResultVideoBuilder {
   fn new(instance: InputInlineQueryResultVideo) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputInlineQueryResultVideo { self.instance.clone() }
@@ -17378,7 +17378,7 @@ impl RObject for InputInlineQueryResultVoiceNote {
 
 impl InputInlineQueryResultVoiceNote {
   
-  pub fn builder() -> InputInlineQueryResultVoiceNoteBuilder {
+  pub fn builder() -> RTDInputInlineQueryResultVoiceNoteBuilder {
     let instance = Self {
       td_name: "inputInlineQueryResultVoiceNote".to_string(),
       id: None,
@@ -17389,7 +17389,7 @@ impl InputInlineQueryResultVoiceNote {
       input_message_content: None,
       
     };
-    InputInlineQueryResultVoiceNoteBuilder::new(instance)
+    RTDInputInlineQueryResultVoiceNoteBuilder::new(instance)
   }
   
   
@@ -17412,9 +17412,9 @@ impl InputInlineQueryResultVoiceNote {
 
 
 #[derive(Debug)]
-pub struct InputInlineQueryResultVoiceNoteBuilder { instance: InputInlineQueryResultVoiceNote }
+pub struct RTDInputInlineQueryResultVoiceNoteBuilder { instance: InputInlineQueryResultVoiceNote }
 
-impl InputInlineQueryResultVoiceNoteBuilder {
+impl RTDInputInlineQueryResultVoiceNoteBuilder {
   fn new(instance: InputInlineQueryResultVoiceNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputInlineQueryResultVoiceNote { self.instance.clone() }
@@ -17532,7 +17532,7 @@ impl RObject for InputMessageText {
 
 impl InputMessageText {
   
-  pub fn builder() -> InputMessageTextBuilder {
+  pub fn builder() -> RTDInputMessageTextBuilder {
     let instance = Self {
       td_name: "inputMessageText".to_string(),
       text: None,
@@ -17540,7 +17540,7 @@ impl InputMessageText {
       clear_draft: None,
       
     };
-    InputMessageTextBuilder::new(instance)
+    RTDInputMessageTextBuilder::new(instance)
   }
   
   
@@ -17557,9 +17557,9 @@ impl InputMessageText {
 
 
 #[derive(Debug)]
-pub struct InputMessageTextBuilder { instance: InputMessageText }
+pub struct RTDInputMessageTextBuilder { instance: InputMessageText }
 
-impl InputMessageTextBuilder {
+impl RTDInputMessageTextBuilder {
   fn new(instance: InputMessageText) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessageText { self.instance.clone() }
@@ -17626,7 +17626,7 @@ impl RObject for InputMessageAnimation {
 
 impl InputMessageAnimation {
   
-  pub fn builder() -> InputMessageAnimationBuilder {
+  pub fn builder() -> RTDInputMessageAnimationBuilder {
     let instance = Self {
       td_name: "inputMessageAnimation".to_string(),
       animation: None,
@@ -17637,7 +17637,7 @@ impl InputMessageAnimation {
       caption: None,
       
     };
-    InputMessageAnimationBuilder::new(instance)
+    RTDInputMessageAnimationBuilder::new(instance)
   }
   
   
@@ -17660,9 +17660,9 @@ impl InputMessageAnimation {
 
 
 #[derive(Debug)]
-pub struct InputMessageAnimationBuilder { instance: InputMessageAnimation }
+pub struct RTDInputMessageAnimationBuilder { instance: InputMessageAnimation }
 
-impl InputMessageAnimationBuilder {
+impl RTDInputMessageAnimationBuilder {
   fn new(instance: InputMessageAnimation) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessageAnimation { self.instance.clone() }
@@ -17744,7 +17744,7 @@ impl RObject for InputMessageAudio {
 
 impl InputMessageAudio {
   
-  pub fn builder() -> InputMessageAudioBuilder {
+  pub fn builder() -> RTDInputMessageAudioBuilder {
     let instance = Self {
       td_name: "inputMessageAudio".to_string(),
       audio: None,
@@ -17755,7 +17755,7 @@ impl InputMessageAudio {
       caption: None,
       
     };
-    InputMessageAudioBuilder::new(instance)
+    RTDInputMessageAudioBuilder::new(instance)
   }
   
   
@@ -17778,9 +17778,9 @@ impl InputMessageAudio {
 
 
 #[derive(Debug)]
-pub struct InputMessageAudioBuilder { instance: InputMessageAudio }
+pub struct RTDInputMessageAudioBuilder { instance: InputMessageAudio }
 
-impl InputMessageAudioBuilder {
+impl RTDInputMessageAudioBuilder {
   fn new(instance: InputMessageAudio) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessageAudio { self.instance.clone() }
@@ -17856,7 +17856,7 @@ impl RObject for InputMessageDocument {
 
 impl InputMessageDocument {
   
-  pub fn builder() -> InputMessageDocumentBuilder {
+  pub fn builder() -> RTDInputMessageDocumentBuilder {
     let instance = Self {
       td_name: "inputMessageDocument".to_string(),
       document: None,
@@ -17864,7 +17864,7 @@ impl InputMessageDocument {
       caption: None,
       
     };
-    InputMessageDocumentBuilder::new(instance)
+    RTDInputMessageDocumentBuilder::new(instance)
   }
   
   
@@ -17881,9 +17881,9 @@ impl InputMessageDocument {
 
 
 #[derive(Debug)]
-pub struct InputMessageDocumentBuilder { instance: InputMessageDocument }
+pub struct RTDInputMessageDocumentBuilder { instance: InputMessageDocument }
 
-impl InputMessageDocumentBuilder {
+impl RTDInputMessageDocumentBuilder {
   fn new(instance: InputMessageDocument) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessageDocument { self.instance.clone() }
@@ -17952,7 +17952,7 @@ impl RObject for InputMessagePhoto {
 
 impl InputMessagePhoto {
   
-  pub fn builder() -> InputMessagePhotoBuilder {
+  pub fn builder() -> RTDInputMessagePhotoBuilder {
     let instance = Self {
       td_name: "inputMessagePhoto".to_string(),
       photo: None,
@@ -17964,7 +17964,7 @@ impl InputMessagePhoto {
       ttl: None,
       
     };
-    InputMessagePhotoBuilder::new(instance)
+    RTDInputMessagePhotoBuilder::new(instance)
   }
   
   
@@ -17989,9 +17989,9 @@ impl InputMessagePhoto {
 
 
 #[derive(Debug)]
-pub struct InputMessagePhotoBuilder { instance: InputMessagePhoto }
+pub struct RTDInputMessagePhotoBuilder { instance: InputMessagePhoto }
 
-impl InputMessagePhotoBuilder {
+impl RTDInputMessagePhotoBuilder {
   fn new(instance: InputMessagePhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessagePhoto { self.instance.clone() }
@@ -18074,7 +18074,7 @@ impl RObject for InputMessageSticker {
 
 impl InputMessageSticker {
   
-  pub fn builder() -> InputMessageStickerBuilder {
+  pub fn builder() -> RTDInputMessageStickerBuilder {
     let instance = Self {
       td_name: "inputMessageSticker".to_string(),
       sticker: None,
@@ -18083,7 +18083,7 @@ impl InputMessageSticker {
       height: None,
       
     };
-    InputMessageStickerBuilder::new(instance)
+    RTDInputMessageStickerBuilder::new(instance)
   }
   
   
@@ -18102,9 +18102,9 @@ impl InputMessageSticker {
 
 
 #[derive(Debug)]
-pub struct InputMessageStickerBuilder { instance: InputMessageSticker }
+pub struct RTDInputMessageStickerBuilder { instance: InputMessageSticker }
 
-impl InputMessageStickerBuilder {
+impl RTDInputMessageStickerBuilder {
   fn new(instance: InputMessageSticker) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessageSticker { self.instance.clone() }
@@ -18182,7 +18182,7 @@ impl RObject for InputMessageVideo {
 
 impl InputMessageVideo {
   
-  pub fn builder() -> InputMessageVideoBuilder {
+  pub fn builder() -> RTDInputMessageVideoBuilder {
     let instance = Self {
       td_name: "inputMessageVideo".to_string(),
       video: None,
@@ -18196,7 +18196,7 @@ impl InputMessageVideo {
       ttl: None,
       
     };
-    InputMessageVideoBuilder::new(instance)
+    RTDInputMessageVideoBuilder::new(instance)
   }
   
   
@@ -18225,9 +18225,9 @@ impl InputMessageVideo {
 
 
 #[derive(Debug)]
-pub struct InputMessageVideoBuilder { instance: InputMessageVideo }
+pub struct RTDInputMessageVideoBuilder { instance: InputMessageVideo }
 
-impl InputMessageVideoBuilder {
+impl RTDInputMessageVideoBuilder {
   fn new(instance: InputMessageVideo) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessageVideo { self.instance.clone() }
@@ -18320,7 +18320,7 @@ impl RObject for InputMessageVideoNote {
 
 impl InputMessageVideoNote {
   
-  pub fn builder() -> InputMessageVideoNoteBuilder {
+  pub fn builder() -> RTDInputMessageVideoNoteBuilder {
     let instance = Self {
       td_name: "inputMessageVideoNote".to_string(),
       video_note: None,
@@ -18329,7 +18329,7 @@ impl InputMessageVideoNote {
       length: None,
       
     };
-    InputMessageVideoNoteBuilder::new(instance)
+    RTDInputMessageVideoNoteBuilder::new(instance)
   }
   
   
@@ -18348,9 +18348,9 @@ impl InputMessageVideoNote {
 
 
 #[derive(Debug)]
-pub struct InputMessageVideoNoteBuilder { instance: InputMessageVideoNote }
+pub struct RTDInputMessageVideoNoteBuilder { instance: InputMessageVideoNote }
 
-impl InputMessageVideoNoteBuilder {
+impl RTDInputMessageVideoNoteBuilder {
   fn new(instance: InputMessageVideoNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessageVideoNote { self.instance.clone() }
@@ -18418,7 +18418,7 @@ impl RObject for InputMessageVoiceNote {
 
 impl InputMessageVoiceNote {
   
-  pub fn builder() -> InputMessageVoiceNoteBuilder {
+  pub fn builder() -> RTDInputMessageVoiceNoteBuilder {
     let instance = Self {
       td_name: "inputMessageVoiceNote".to_string(),
       voice_note: None,
@@ -18427,7 +18427,7 @@ impl InputMessageVoiceNote {
       caption: None,
       
     };
-    InputMessageVoiceNoteBuilder::new(instance)
+    RTDInputMessageVoiceNoteBuilder::new(instance)
   }
   
   
@@ -18446,9 +18446,9 @@ impl InputMessageVoiceNote {
 
 
 #[derive(Debug)]
-pub struct InputMessageVoiceNoteBuilder { instance: InputMessageVoiceNote }
+pub struct RTDInputMessageVoiceNoteBuilder { instance: InputMessageVoiceNote }
 
-impl InputMessageVoiceNoteBuilder {
+impl RTDInputMessageVoiceNoteBuilder {
   fn new(instance: InputMessageVoiceNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessageVoiceNote { self.instance.clone() }
@@ -18505,14 +18505,14 @@ impl RObject for InputMessageLocation {
 
 impl InputMessageLocation {
   
-  pub fn builder() -> InputMessageLocationBuilder {
+  pub fn builder() -> RTDInputMessageLocationBuilder {
     let instance = Self {
       td_name: "inputMessageLocation".to_string(),
       location: None,
       live_period: None,
       
     };
-    InputMessageLocationBuilder::new(instance)
+    RTDInputMessageLocationBuilder::new(instance)
   }
   
   
@@ -18527,9 +18527,9 @@ impl InputMessageLocation {
 
 
 #[derive(Debug)]
-pub struct InputMessageLocationBuilder { instance: InputMessageLocation }
+pub struct RTDInputMessageLocationBuilder { instance: InputMessageLocation }
 
-impl InputMessageLocationBuilder {
+impl RTDInputMessageLocationBuilder {
   fn new(instance: InputMessageLocation) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessageLocation { self.instance.clone() }
@@ -18574,13 +18574,13 @@ impl RObject for InputMessageVenue {
 
 impl InputMessageVenue {
   
-  pub fn builder() -> InputMessageVenueBuilder {
+  pub fn builder() -> RTDInputMessageVenueBuilder {
     let instance = Self {
       td_name: "inputMessageVenue".to_string(),
       venue: None,
       
     };
-    InputMessageVenueBuilder::new(instance)
+    RTDInputMessageVenueBuilder::new(instance)
   }
   
   
@@ -18593,9 +18593,9 @@ impl InputMessageVenue {
 
 
 #[derive(Debug)]
-pub struct InputMessageVenueBuilder { instance: InputMessageVenue }
+pub struct RTDInputMessageVenueBuilder { instance: InputMessageVenue }
 
-impl InputMessageVenueBuilder {
+impl RTDInputMessageVenueBuilder {
   fn new(instance: InputMessageVenue) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessageVenue { self.instance.clone() }
@@ -18635,13 +18635,13 @@ impl RObject for InputMessageContact {
 
 impl InputMessageContact {
   
-  pub fn builder() -> InputMessageContactBuilder {
+  pub fn builder() -> RTDInputMessageContactBuilder {
     let instance = Self {
       td_name: "inputMessageContact".to_string(),
       contact: None,
       
     };
-    InputMessageContactBuilder::new(instance)
+    RTDInputMessageContactBuilder::new(instance)
   }
   
   
@@ -18654,9 +18654,9 @@ impl InputMessageContact {
 
 
 #[derive(Debug)]
-pub struct InputMessageContactBuilder { instance: InputMessageContact }
+pub struct RTDInputMessageContactBuilder { instance: InputMessageContact }
 
-impl InputMessageContactBuilder {
+impl RTDInputMessageContactBuilder {
   fn new(instance: InputMessageContact) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessageContact { self.instance.clone() }
@@ -18698,14 +18698,14 @@ impl RObject for InputMessageGame {
 
 impl InputMessageGame {
   
-  pub fn builder() -> InputMessageGameBuilder {
+  pub fn builder() -> RTDInputMessageGameBuilder {
     let instance = Self {
       td_name: "inputMessageGame".to_string(),
       bot_user_id: None,
       game_short_name: None,
       
     };
-    InputMessageGameBuilder::new(instance)
+    RTDInputMessageGameBuilder::new(instance)
   }
   
   
@@ -18720,9 +18720,9 @@ impl InputMessageGame {
 
 
 #[derive(Debug)]
-pub struct InputMessageGameBuilder { instance: InputMessageGame }
+pub struct RTDInputMessageGameBuilder { instance: InputMessageGame }
 
-impl InputMessageGameBuilder {
+impl RTDInputMessageGameBuilder {
   fn new(instance: InputMessageGame) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessageGame { self.instance.clone() }
@@ -18787,7 +18787,7 @@ impl RObject for InputMessageInvoice {
 
 impl InputMessageInvoice {
   
-  pub fn builder() -> InputMessageInvoiceBuilder {
+  pub fn builder() -> RTDInputMessageInvoiceBuilder {
     let instance = Self {
       td_name: "inputMessageInvoice".to_string(),
       invoice: None,
@@ -18803,7 +18803,7 @@ impl InputMessageInvoice {
       start_parameter: None,
       
     };
-    InputMessageInvoiceBuilder::new(instance)
+    RTDInputMessageInvoiceBuilder::new(instance)
   }
   
   
@@ -18836,9 +18836,9 @@ impl InputMessageInvoice {
 
 
 #[derive(Debug)]
-pub struct InputMessageInvoiceBuilder { instance: InputMessageInvoice }
+pub struct RTDInputMessageInvoiceBuilder { instance: InputMessageInvoice }
 
-impl InputMessageInvoiceBuilder {
+impl RTDInputMessageInvoiceBuilder {
   fn new(instance: InputMessageInvoice) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessageInvoice { self.instance.clone() }
@@ -18930,14 +18930,14 @@ impl RObject for InputMessagePoll {
 
 impl InputMessagePoll {
   
-  pub fn builder() -> InputMessagePollBuilder {
+  pub fn builder() -> RTDInputMessagePollBuilder {
     let instance = Self {
       td_name: "inputMessagePoll".to_string(),
       question: None,
       options: None,
       
     };
-    InputMessagePollBuilder::new(instance)
+    RTDInputMessagePollBuilder::new(instance)
   }
   
   
@@ -18952,9 +18952,9 @@ impl InputMessagePoll {
 
 
 #[derive(Debug)]
-pub struct InputMessagePollBuilder { instance: InputMessagePoll }
+pub struct RTDInputMessagePollBuilder { instance: InputMessagePoll }
 
-impl InputMessagePollBuilder {
+impl RTDInputMessagePollBuilder {
   fn new(instance: InputMessagePoll) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessagePoll { self.instance.clone() }
@@ -19003,7 +19003,7 @@ impl RObject for InputMessageForwarded {
 
 impl InputMessageForwarded {
   
-  pub fn builder() -> InputMessageForwardedBuilder {
+  pub fn builder() -> RTDInputMessageForwardedBuilder {
     let instance = Self {
       td_name: "inputMessageForwarded".to_string(),
       from_chat_id: None,
@@ -19011,7 +19011,7 @@ impl InputMessageForwarded {
       in_game_share: None,
       
     };
-    InputMessageForwardedBuilder::new(instance)
+    RTDInputMessageForwardedBuilder::new(instance)
   }
   
   
@@ -19028,9 +19028,9 @@ impl InputMessageForwarded {
 
 
 #[derive(Debug)]
-pub struct InputMessageForwardedBuilder { instance: InputMessageForwarded }
+pub struct RTDInputMessageForwardedBuilder { instance: InputMessageForwarded }
 
-impl InputMessageForwardedBuilder {
+impl RTDInputMessageForwardedBuilder {
   fn new(instance: InputMessageForwarded) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputMessageForwarded { self.instance.clone() }
@@ -19126,13 +19126,13 @@ impl RObject for InputPassportElementPersonalDetails {
 
 impl InputPassportElementPersonalDetails {
   
-  pub fn builder() -> InputPassportElementPersonalDetailsBuilder {
+  pub fn builder() -> RTDInputPassportElementPersonalDetailsBuilder {
     let instance = Self {
       td_name: "inputPassportElementPersonalDetails".to_string(),
       personal_details: None,
       
     };
-    InputPassportElementPersonalDetailsBuilder::new(instance)
+    RTDInputPassportElementPersonalDetailsBuilder::new(instance)
   }
   
   
@@ -19145,9 +19145,9 @@ impl InputPassportElementPersonalDetails {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementPersonalDetailsBuilder { instance: InputPassportElementPersonalDetails }
+pub struct RTDInputPassportElementPersonalDetailsBuilder { instance: InputPassportElementPersonalDetails }
 
-impl InputPassportElementPersonalDetailsBuilder {
+impl RTDInputPassportElementPersonalDetailsBuilder {
   fn new(instance: InputPassportElementPersonalDetails) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementPersonalDetails { self.instance.clone() }
@@ -19187,13 +19187,13 @@ impl RObject for InputPassportElementPassport {
 
 impl InputPassportElementPassport {
   
-  pub fn builder() -> InputPassportElementPassportBuilder {
+  pub fn builder() -> RTDInputPassportElementPassportBuilder {
     let instance = Self {
       td_name: "inputPassportElementPassport".to_string(),
       passport: None,
       
     };
-    InputPassportElementPassportBuilder::new(instance)
+    RTDInputPassportElementPassportBuilder::new(instance)
   }
   
   
@@ -19206,9 +19206,9 @@ impl InputPassportElementPassport {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementPassportBuilder { instance: InputPassportElementPassport }
+pub struct RTDInputPassportElementPassportBuilder { instance: InputPassportElementPassport }
 
-impl InputPassportElementPassportBuilder {
+impl RTDInputPassportElementPassportBuilder {
   fn new(instance: InputPassportElementPassport) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementPassport { self.instance.clone() }
@@ -19248,13 +19248,13 @@ impl RObject for InputPassportElementDriverLicense {
 
 impl InputPassportElementDriverLicense {
   
-  pub fn builder() -> InputPassportElementDriverLicenseBuilder {
+  pub fn builder() -> RTDInputPassportElementDriverLicenseBuilder {
     let instance = Self {
       td_name: "inputPassportElementDriverLicense".to_string(),
       driver_license: None,
       
     };
-    InputPassportElementDriverLicenseBuilder::new(instance)
+    RTDInputPassportElementDriverLicenseBuilder::new(instance)
   }
   
   
@@ -19267,9 +19267,9 @@ impl InputPassportElementDriverLicense {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementDriverLicenseBuilder { instance: InputPassportElementDriverLicense }
+pub struct RTDInputPassportElementDriverLicenseBuilder { instance: InputPassportElementDriverLicense }
 
-impl InputPassportElementDriverLicenseBuilder {
+impl RTDInputPassportElementDriverLicenseBuilder {
   fn new(instance: InputPassportElementDriverLicense) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementDriverLicense { self.instance.clone() }
@@ -19309,13 +19309,13 @@ impl RObject for InputPassportElementIdentityCard {
 
 impl InputPassportElementIdentityCard {
   
-  pub fn builder() -> InputPassportElementIdentityCardBuilder {
+  pub fn builder() -> RTDInputPassportElementIdentityCardBuilder {
     let instance = Self {
       td_name: "inputPassportElementIdentityCard".to_string(),
       identity_card: None,
       
     };
-    InputPassportElementIdentityCardBuilder::new(instance)
+    RTDInputPassportElementIdentityCardBuilder::new(instance)
   }
   
   
@@ -19328,9 +19328,9 @@ impl InputPassportElementIdentityCard {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementIdentityCardBuilder { instance: InputPassportElementIdentityCard }
+pub struct RTDInputPassportElementIdentityCardBuilder { instance: InputPassportElementIdentityCard }
 
-impl InputPassportElementIdentityCardBuilder {
+impl RTDInputPassportElementIdentityCardBuilder {
   fn new(instance: InputPassportElementIdentityCard) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementIdentityCard { self.instance.clone() }
@@ -19370,13 +19370,13 @@ impl RObject for InputPassportElementInternalPassport {
 
 impl InputPassportElementInternalPassport {
   
-  pub fn builder() -> InputPassportElementInternalPassportBuilder {
+  pub fn builder() -> RTDInputPassportElementInternalPassportBuilder {
     let instance = Self {
       td_name: "inputPassportElementInternalPassport".to_string(),
       internal_passport: None,
       
     };
-    InputPassportElementInternalPassportBuilder::new(instance)
+    RTDInputPassportElementInternalPassportBuilder::new(instance)
   }
   
   
@@ -19389,9 +19389,9 @@ impl InputPassportElementInternalPassport {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementInternalPassportBuilder { instance: InputPassportElementInternalPassport }
+pub struct RTDInputPassportElementInternalPassportBuilder { instance: InputPassportElementInternalPassport }
 
-impl InputPassportElementInternalPassportBuilder {
+impl RTDInputPassportElementInternalPassportBuilder {
   fn new(instance: InputPassportElementInternalPassport) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementInternalPassport { self.instance.clone() }
@@ -19431,13 +19431,13 @@ impl RObject for InputPassportElementAddress {
 
 impl InputPassportElementAddress {
   
-  pub fn builder() -> InputPassportElementAddressBuilder {
+  pub fn builder() -> RTDInputPassportElementAddressBuilder {
     let instance = Self {
       td_name: "inputPassportElementAddress".to_string(),
       address: None,
       
     };
-    InputPassportElementAddressBuilder::new(instance)
+    RTDInputPassportElementAddressBuilder::new(instance)
   }
   
   
@@ -19450,9 +19450,9 @@ impl InputPassportElementAddress {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementAddressBuilder { instance: InputPassportElementAddress }
+pub struct RTDInputPassportElementAddressBuilder { instance: InputPassportElementAddress }
 
-impl InputPassportElementAddressBuilder {
+impl RTDInputPassportElementAddressBuilder {
   fn new(instance: InputPassportElementAddress) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementAddress { self.instance.clone() }
@@ -19492,13 +19492,13 @@ impl RObject for InputPassportElementUtilityBill {
 
 impl InputPassportElementUtilityBill {
   
-  pub fn builder() -> InputPassportElementUtilityBillBuilder {
+  pub fn builder() -> RTDInputPassportElementUtilityBillBuilder {
     let instance = Self {
       td_name: "inputPassportElementUtilityBill".to_string(),
       utility_bill: None,
       
     };
-    InputPassportElementUtilityBillBuilder::new(instance)
+    RTDInputPassportElementUtilityBillBuilder::new(instance)
   }
   
   
@@ -19511,9 +19511,9 @@ impl InputPassportElementUtilityBill {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementUtilityBillBuilder { instance: InputPassportElementUtilityBill }
+pub struct RTDInputPassportElementUtilityBillBuilder { instance: InputPassportElementUtilityBill }
 
-impl InputPassportElementUtilityBillBuilder {
+impl RTDInputPassportElementUtilityBillBuilder {
   fn new(instance: InputPassportElementUtilityBill) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementUtilityBill { self.instance.clone() }
@@ -19553,13 +19553,13 @@ impl RObject for InputPassportElementBankStatement {
 
 impl InputPassportElementBankStatement {
   
-  pub fn builder() -> InputPassportElementBankStatementBuilder {
+  pub fn builder() -> RTDInputPassportElementBankStatementBuilder {
     let instance = Self {
       td_name: "inputPassportElementBankStatement".to_string(),
       bank_statement: None,
       
     };
-    InputPassportElementBankStatementBuilder::new(instance)
+    RTDInputPassportElementBankStatementBuilder::new(instance)
   }
   
   
@@ -19572,9 +19572,9 @@ impl InputPassportElementBankStatement {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementBankStatementBuilder { instance: InputPassportElementBankStatement }
+pub struct RTDInputPassportElementBankStatementBuilder { instance: InputPassportElementBankStatement }
 
-impl InputPassportElementBankStatementBuilder {
+impl RTDInputPassportElementBankStatementBuilder {
   fn new(instance: InputPassportElementBankStatement) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementBankStatement { self.instance.clone() }
@@ -19614,13 +19614,13 @@ impl RObject for InputPassportElementRentalAgreement {
 
 impl InputPassportElementRentalAgreement {
   
-  pub fn builder() -> InputPassportElementRentalAgreementBuilder {
+  pub fn builder() -> RTDInputPassportElementRentalAgreementBuilder {
     let instance = Self {
       td_name: "inputPassportElementRentalAgreement".to_string(),
       rental_agreement: None,
       
     };
-    InputPassportElementRentalAgreementBuilder::new(instance)
+    RTDInputPassportElementRentalAgreementBuilder::new(instance)
   }
   
   
@@ -19633,9 +19633,9 @@ impl InputPassportElementRentalAgreement {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementRentalAgreementBuilder { instance: InputPassportElementRentalAgreement }
+pub struct RTDInputPassportElementRentalAgreementBuilder { instance: InputPassportElementRentalAgreement }
 
-impl InputPassportElementRentalAgreementBuilder {
+impl RTDInputPassportElementRentalAgreementBuilder {
   fn new(instance: InputPassportElementRentalAgreement) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementRentalAgreement { self.instance.clone() }
@@ -19675,13 +19675,13 @@ impl RObject for InputPassportElementPassportRegistration {
 
 impl InputPassportElementPassportRegistration {
   
-  pub fn builder() -> InputPassportElementPassportRegistrationBuilder {
+  pub fn builder() -> RTDInputPassportElementPassportRegistrationBuilder {
     let instance = Self {
       td_name: "inputPassportElementPassportRegistration".to_string(),
       passport_registration: None,
       
     };
-    InputPassportElementPassportRegistrationBuilder::new(instance)
+    RTDInputPassportElementPassportRegistrationBuilder::new(instance)
   }
   
   
@@ -19694,9 +19694,9 @@ impl InputPassportElementPassportRegistration {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementPassportRegistrationBuilder { instance: InputPassportElementPassportRegistration }
+pub struct RTDInputPassportElementPassportRegistrationBuilder { instance: InputPassportElementPassportRegistration }
 
-impl InputPassportElementPassportRegistrationBuilder {
+impl RTDInputPassportElementPassportRegistrationBuilder {
   fn new(instance: InputPassportElementPassportRegistration) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementPassportRegistration { self.instance.clone() }
@@ -19736,13 +19736,13 @@ impl RObject for InputPassportElementTemporaryRegistration {
 
 impl InputPassportElementTemporaryRegistration {
   
-  pub fn builder() -> InputPassportElementTemporaryRegistrationBuilder {
+  pub fn builder() -> RTDInputPassportElementTemporaryRegistrationBuilder {
     let instance = Self {
       td_name: "inputPassportElementTemporaryRegistration".to_string(),
       temporary_registration: None,
       
     };
-    InputPassportElementTemporaryRegistrationBuilder::new(instance)
+    RTDInputPassportElementTemporaryRegistrationBuilder::new(instance)
   }
   
   
@@ -19755,9 +19755,9 @@ impl InputPassportElementTemporaryRegistration {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementTemporaryRegistrationBuilder { instance: InputPassportElementTemporaryRegistration }
+pub struct RTDInputPassportElementTemporaryRegistrationBuilder { instance: InputPassportElementTemporaryRegistration }
 
-impl InputPassportElementTemporaryRegistrationBuilder {
+impl RTDInputPassportElementTemporaryRegistrationBuilder {
   fn new(instance: InputPassportElementTemporaryRegistration) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementTemporaryRegistration { self.instance.clone() }
@@ -19797,13 +19797,13 @@ impl RObject for InputPassportElementPhoneNumber {
 
 impl InputPassportElementPhoneNumber {
   
-  pub fn builder() -> InputPassportElementPhoneNumberBuilder {
+  pub fn builder() -> RTDInputPassportElementPhoneNumberBuilder {
     let instance = Self {
       td_name: "inputPassportElementPhoneNumber".to_string(),
       phone_number: None,
       
     };
-    InputPassportElementPhoneNumberBuilder::new(instance)
+    RTDInputPassportElementPhoneNumberBuilder::new(instance)
   }
   
   
@@ -19816,9 +19816,9 @@ impl InputPassportElementPhoneNumber {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementPhoneNumberBuilder { instance: InputPassportElementPhoneNumber }
+pub struct RTDInputPassportElementPhoneNumberBuilder { instance: InputPassportElementPhoneNumber }
 
-impl InputPassportElementPhoneNumberBuilder {
+impl RTDInputPassportElementPhoneNumberBuilder {
   fn new(instance: InputPassportElementPhoneNumber) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementPhoneNumber { self.instance.clone() }
@@ -19858,13 +19858,13 @@ impl RObject for InputPassportElementEmailAddress {
 
 impl InputPassportElementEmailAddress {
   
-  pub fn builder() -> InputPassportElementEmailAddressBuilder {
+  pub fn builder() -> RTDInputPassportElementEmailAddressBuilder {
     let instance = Self {
       td_name: "inputPassportElementEmailAddress".to_string(),
       email_address: None,
       
     };
-    InputPassportElementEmailAddressBuilder::new(instance)
+    RTDInputPassportElementEmailAddressBuilder::new(instance)
   }
   
   
@@ -19877,9 +19877,9 @@ impl InputPassportElementEmailAddress {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementEmailAddressBuilder { instance: InputPassportElementEmailAddress }
+pub struct RTDInputPassportElementEmailAddressBuilder { instance: InputPassportElementEmailAddress }
 
-impl InputPassportElementEmailAddressBuilder {
+impl RTDInputPassportElementEmailAddressBuilder {
   fn new(instance: InputPassportElementEmailAddress) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementEmailAddress { self.instance.clone() }
@@ -19928,7 +19928,7 @@ impl RObject for InputPassportElementError {
 
 impl InputPassportElementError {
   
-  pub fn builder() -> InputPassportElementErrorBuilder {
+  pub fn builder() -> RTDInputPassportElementErrorBuilder {
     let instance = Self {
       td_name: "inputPassportElementError".to_string(),
       type_: None,
@@ -19936,7 +19936,7 @@ impl InputPassportElementError {
       source: None,
       
     };
-    InputPassportElementErrorBuilder::new(instance)
+    RTDInputPassportElementErrorBuilder::new(instance)
   }
   
   
@@ -19953,9 +19953,9 @@ impl InputPassportElementError {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementErrorBuilder { instance: InputPassportElementError }
+pub struct RTDInputPassportElementErrorBuilder { instance: InputPassportElementError }
 
-impl InputPassportElementErrorBuilder {
+impl RTDInputPassportElementErrorBuilder {
   fn new(instance: InputPassportElementError) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementError { self.instance.clone() }
@@ -20047,13 +20047,13 @@ impl RObject for InputPassportElementErrorSourceUnspecified {
 
 impl InputPassportElementErrorSourceUnspecified {
   
-  pub fn builder() -> InputPassportElementErrorSourceUnspecifiedBuilder {
+  pub fn builder() -> RTDInputPassportElementErrorSourceUnspecifiedBuilder {
     let instance = Self {
       td_name: "inputPassportElementErrorSourceUnspecified".to_string(),
       element_hash: None,
       
     };
-    InputPassportElementErrorSourceUnspecifiedBuilder::new(instance)
+    RTDInputPassportElementErrorSourceUnspecifiedBuilder::new(instance)
   }
   
   
@@ -20066,9 +20066,9 @@ impl InputPassportElementErrorSourceUnspecified {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementErrorSourceUnspecifiedBuilder { instance: InputPassportElementErrorSourceUnspecified }
+pub struct RTDInputPassportElementErrorSourceUnspecifiedBuilder { instance: InputPassportElementErrorSourceUnspecified }
 
-impl InputPassportElementErrorSourceUnspecifiedBuilder {
+impl RTDInputPassportElementErrorSourceUnspecifiedBuilder {
   fn new(instance: InputPassportElementErrorSourceUnspecified) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementErrorSourceUnspecified { self.instance.clone() }
@@ -20110,14 +20110,14 @@ impl RObject for InputPassportElementErrorSourceDataField {
 
 impl InputPassportElementErrorSourceDataField {
   
-  pub fn builder() -> InputPassportElementErrorSourceDataFieldBuilder {
+  pub fn builder() -> RTDInputPassportElementErrorSourceDataFieldBuilder {
     let instance = Self {
       td_name: "inputPassportElementErrorSourceDataField".to_string(),
       field_name: None,
       data_hash: None,
       
     };
-    InputPassportElementErrorSourceDataFieldBuilder::new(instance)
+    RTDInputPassportElementErrorSourceDataFieldBuilder::new(instance)
   }
   
   
@@ -20132,9 +20132,9 @@ impl InputPassportElementErrorSourceDataField {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementErrorSourceDataFieldBuilder { instance: InputPassportElementErrorSourceDataField }
+pub struct RTDInputPassportElementErrorSourceDataFieldBuilder { instance: InputPassportElementErrorSourceDataField }
 
-impl InputPassportElementErrorSourceDataFieldBuilder {
+impl RTDInputPassportElementErrorSourceDataFieldBuilder {
   fn new(instance: InputPassportElementErrorSourceDataField) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementErrorSourceDataField { self.instance.clone() }
@@ -20179,13 +20179,13 @@ impl RObject for InputPassportElementErrorSourceFrontSide {
 
 impl InputPassportElementErrorSourceFrontSide {
   
-  pub fn builder() -> InputPassportElementErrorSourceFrontSideBuilder {
+  pub fn builder() -> RTDInputPassportElementErrorSourceFrontSideBuilder {
     let instance = Self {
       td_name: "inputPassportElementErrorSourceFrontSide".to_string(),
       file_hash: None,
       
     };
-    InputPassportElementErrorSourceFrontSideBuilder::new(instance)
+    RTDInputPassportElementErrorSourceFrontSideBuilder::new(instance)
   }
   
   
@@ -20198,9 +20198,9 @@ impl InputPassportElementErrorSourceFrontSide {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementErrorSourceFrontSideBuilder { instance: InputPassportElementErrorSourceFrontSide }
+pub struct RTDInputPassportElementErrorSourceFrontSideBuilder { instance: InputPassportElementErrorSourceFrontSide }
 
-impl InputPassportElementErrorSourceFrontSideBuilder {
+impl RTDInputPassportElementErrorSourceFrontSideBuilder {
   fn new(instance: InputPassportElementErrorSourceFrontSide) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementErrorSourceFrontSide { self.instance.clone() }
@@ -20240,13 +20240,13 @@ impl RObject for InputPassportElementErrorSourceReverseSide {
 
 impl InputPassportElementErrorSourceReverseSide {
   
-  pub fn builder() -> InputPassportElementErrorSourceReverseSideBuilder {
+  pub fn builder() -> RTDInputPassportElementErrorSourceReverseSideBuilder {
     let instance = Self {
       td_name: "inputPassportElementErrorSourceReverseSide".to_string(),
       file_hash: None,
       
     };
-    InputPassportElementErrorSourceReverseSideBuilder::new(instance)
+    RTDInputPassportElementErrorSourceReverseSideBuilder::new(instance)
   }
   
   
@@ -20259,9 +20259,9 @@ impl InputPassportElementErrorSourceReverseSide {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementErrorSourceReverseSideBuilder { instance: InputPassportElementErrorSourceReverseSide }
+pub struct RTDInputPassportElementErrorSourceReverseSideBuilder { instance: InputPassportElementErrorSourceReverseSide }
 
-impl InputPassportElementErrorSourceReverseSideBuilder {
+impl RTDInputPassportElementErrorSourceReverseSideBuilder {
   fn new(instance: InputPassportElementErrorSourceReverseSide) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementErrorSourceReverseSide { self.instance.clone() }
@@ -20301,13 +20301,13 @@ impl RObject for InputPassportElementErrorSourceSelfie {
 
 impl InputPassportElementErrorSourceSelfie {
   
-  pub fn builder() -> InputPassportElementErrorSourceSelfieBuilder {
+  pub fn builder() -> RTDInputPassportElementErrorSourceSelfieBuilder {
     let instance = Self {
       td_name: "inputPassportElementErrorSourceSelfie".to_string(),
       file_hash: None,
       
     };
-    InputPassportElementErrorSourceSelfieBuilder::new(instance)
+    RTDInputPassportElementErrorSourceSelfieBuilder::new(instance)
   }
   
   
@@ -20320,9 +20320,9 @@ impl InputPassportElementErrorSourceSelfie {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementErrorSourceSelfieBuilder { instance: InputPassportElementErrorSourceSelfie }
+pub struct RTDInputPassportElementErrorSourceSelfieBuilder { instance: InputPassportElementErrorSourceSelfie }
 
-impl InputPassportElementErrorSourceSelfieBuilder {
+impl RTDInputPassportElementErrorSourceSelfieBuilder {
   fn new(instance: InputPassportElementErrorSourceSelfie) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementErrorSourceSelfie { self.instance.clone() }
@@ -20362,13 +20362,13 @@ impl RObject for InputPassportElementErrorSourceTranslationFile {
 
 impl InputPassportElementErrorSourceTranslationFile {
   
-  pub fn builder() -> InputPassportElementErrorSourceTranslationFileBuilder {
+  pub fn builder() -> RTDInputPassportElementErrorSourceTranslationFileBuilder {
     let instance = Self {
       td_name: "inputPassportElementErrorSourceTranslationFile".to_string(),
       file_hash: None,
       
     };
-    InputPassportElementErrorSourceTranslationFileBuilder::new(instance)
+    RTDInputPassportElementErrorSourceTranslationFileBuilder::new(instance)
   }
   
   
@@ -20381,9 +20381,9 @@ impl InputPassportElementErrorSourceTranslationFile {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementErrorSourceTranslationFileBuilder { instance: InputPassportElementErrorSourceTranslationFile }
+pub struct RTDInputPassportElementErrorSourceTranslationFileBuilder { instance: InputPassportElementErrorSourceTranslationFile }
 
-impl InputPassportElementErrorSourceTranslationFileBuilder {
+impl RTDInputPassportElementErrorSourceTranslationFileBuilder {
   fn new(instance: InputPassportElementErrorSourceTranslationFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementErrorSourceTranslationFile { self.instance.clone() }
@@ -20423,13 +20423,13 @@ impl RObject for InputPassportElementErrorSourceTranslationFiles {
 
 impl InputPassportElementErrorSourceTranslationFiles {
   
-  pub fn builder() -> InputPassportElementErrorSourceTranslationFilesBuilder {
+  pub fn builder() -> RTDInputPassportElementErrorSourceTranslationFilesBuilder {
     let instance = Self {
       td_name: "inputPassportElementErrorSourceTranslationFiles".to_string(),
       file_hashes: None,
       
     };
-    InputPassportElementErrorSourceTranslationFilesBuilder::new(instance)
+    RTDInputPassportElementErrorSourceTranslationFilesBuilder::new(instance)
   }
   
   
@@ -20442,9 +20442,9 @@ impl InputPassportElementErrorSourceTranslationFiles {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementErrorSourceTranslationFilesBuilder { instance: InputPassportElementErrorSourceTranslationFiles }
+pub struct RTDInputPassportElementErrorSourceTranslationFilesBuilder { instance: InputPassportElementErrorSourceTranslationFiles }
 
-impl InputPassportElementErrorSourceTranslationFilesBuilder {
+impl RTDInputPassportElementErrorSourceTranslationFilesBuilder {
   fn new(instance: InputPassportElementErrorSourceTranslationFiles) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementErrorSourceTranslationFiles { self.instance.clone() }
@@ -20484,13 +20484,13 @@ impl RObject for InputPassportElementErrorSourceFile {
 
 impl InputPassportElementErrorSourceFile {
   
-  pub fn builder() -> InputPassportElementErrorSourceFileBuilder {
+  pub fn builder() -> RTDInputPassportElementErrorSourceFileBuilder {
     let instance = Self {
       td_name: "inputPassportElementErrorSourceFile".to_string(),
       file_hash: None,
       
     };
-    InputPassportElementErrorSourceFileBuilder::new(instance)
+    RTDInputPassportElementErrorSourceFileBuilder::new(instance)
   }
   
   
@@ -20503,9 +20503,9 @@ impl InputPassportElementErrorSourceFile {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementErrorSourceFileBuilder { instance: InputPassportElementErrorSourceFile }
+pub struct RTDInputPassportElementErrorSourceFileBuilder { instance: InputPassportElementErrorSourceFile }
 
-impl InputPassportElementErrorSourceFileBuilder {
+impl RTDInputPassportElementErrorSourceFileBuilder {
   fn new(instance: InputPassportElementErrorSourceFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementErrorSourceFile { self.instance.clone() }
@@ -20545,13 +20545,13 @@ impl RObject for InputPassportElementErrorSourceFiles {
 
 impl InputPassportElementErrorSourceFiles {
   
-  pub fn builder() -> InputPassportElementErrorSourceFilesBuilder {
+  pub fn builder() -> RTDInputPassportElementErrorSourceFilesBuilder {
     let instance = Self {
       td_name: "inputPassportElementErrorSourceFiles".to_string(),
       file_hashes: None,
       
     };
-    InputPassportElementErrorSourceFilesBuilder::new(instance)
+    RTDInputPassportElementErrorSourceFilesBuilder::new(instance)
   }
   
   
@@ -20564,9 +20564,9 @@ impl InputPassportElementErrorSourceFiles {
 
 
 #[derive(Debug)]
-pub struct InputPassportElementErrorSourceFilesBuilder { instance: InputPassportElementErrorSourceFiles }
+pub struct RTDInputPassportElementErrorSourceFilesBuilder { instance: InputPassportElementErrorSourceFiles }
 
-impl InputPassportElementErrorSourceFilesBuilder {
+impl RTDInputPassportElementErrorSourceFilesBuilder {
   fn new(instance: InputPassportElementErrorSourceFiles) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPassportElementErrorSourceFiles { self.instance.clone() }
@@ -20613,14 +20613,14 @@ impl RObject for InputPersonalDocument {
 
 impl InputPersonalDocument {
   
-  pub fn builder() -> InputPersonalDocumentBuilder {
+  pub fn builder() -> RTDInputPersonalDocumentBuilder {
     let instance = Self {
       td_name: "inputPersonalDocument".to_string(),
       files: None,
       translation: None,
       
     };
-    InputPersonalDocumentBuilder::new(instance)
+    RTDInputPersonalDocumentBuilder::new(instance)
   }
   
   
@@ -20635,9 +20635,9 @@ impl InputPersonalDocument {
 
 
 #[derive(Debug)]
-pub struct InputPersonalDocumentBuilder { instance: InputPersonalDocument }
+pub struct RTDInputPersonalDocumentBuilder { instance: InputPersonalDocument }
 
-impl InputPersonalDocumentBuilder {
+impl RTDInputPersonalDocumentBuilder {
   fn new(instance: InputPersonalDocument) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputPersonalDocument { self.instance.clone() }
@@ -20691,7 +20691,7 @@ impl RObject for InputSticker {
 
 impl InputSticker {
   
-  pub fn builder() -> InputStickerBuilder {
+  pub fn builder() -> RTDInputStickerBuilder {
     let instance = Self {
       td_name: "inputSticker".to_string(),
       png_sticker: None,
@@ -20699,7 +20699,7 @@ impl InputSticker {
       mask_position: None,
       
     };
-    InputStickerBuilder::new(instance)
+    RTDInputStickerBuilder::new(instance)
   }
   
   
@@ -20716,9 +20716,9 @@ impl InputSticker {
 
 
 #[derive(Debug)]
-pub struct InputStickerBuilder { instance: InputSticker }
+pub struct RTDInputStickerBuilder { instance: InputSticker }
 
-impl InputStickerBuilder {
+impl RTDInputStickerBuilder {
   fn new(instance: InputSticker) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputSticker { self.instance.clone() }
@@ -20777,7 +20777,7 @@ impl RObject for InputThumbnail {
 
 impl InputThumbnail {
   
-  pub fn builder() -> InputThumbnailBuilder {
+  pub fn builder() -> RTDInputThumbnailBuilder {
     let instance = Self {
       td_name: "inputThumbnail".to_string(),
       thumbnail: None,
@@ -20785,7 +20785,7 @@ impl InputThumbnail {
       height: None,
       
     };
-    InputThumbnailBuilder::new(instance)
+    RTDInputThumbnailBuilder::new(instance)
   }
   
   
@@ -20802,9 +20802,9 @@ impl InputThumbnail {
 
 
 #[derive(Debug)]
-pub struct InputThumbnailBuilder { instance: InputThumbnail }
+pub struct RTDInputThumbnailBuilder { instance: InputThumbnail }
 
-impl InputThumbnailBuilder {
+impl RTDInputThumbnailBuilder {
   fn new(instance: InputThumbnail) -> Self { Self { instance } }
 
   pub fn build(&self) -> InputThumbnail { self.instance.clone() }
@@ -20870,7 +20870,7 @@ impl RObject for Invoice {
 
 impl Invoice {
   
-  pub fn builder() -> InvoiceBuilder {
+  pub fn builder() -> RTDInvoiceBuilder {
     let instance = Self {
       td_name: "invoice".to_string(),
       currency: None,
@@ -20885,7 +20885,7 @@ impl Invoice {
       is_flexible: None,
       
     };
-    InvoiceBuilder::new(instance)
+    RTDInvoiceBuilder::new(instance)
   }
   
   
@@ -20916,9 +20916,9 @@ impl Invoice {
 
 
 #[derive(Debug)]
-pub struct InvoiceBuilder { instance: Invoice }
+pub struct RTDInvoiceBuilder { instance: Invoice }
 
-impl InvoiceBuilder {
+impl RTDInvoiceBuilder {
   fn new(instance: Invoice) -> Self { Self { instance } }
 
   pub fn build(&self) -> Invoice { self.instance.clone() }
@@ -21010,14 +21010,14 @@ impl RObject for KeyboardButton {
 
 impl KeyboardButton {
   
-  pub fn builder() -> KeyboardButtonBuilder {
+  pub fn builder() -> RTDKeyboardButtonBuilder {
     let instance = Self {
       td_name: "keyboardButton".to_string(),
       text: None,
       type_: None,
       
     };
-    KeyboardButtonBuilder::new(instance)
+    RTDKeyboardButtonBuilder::new(instance)
   }
   
   
@@ -21032,9 +21032,9 @@ impl KeyboardButton {
 
 
 #[derive(Debug)]
-pub struct KeyboardButtonBuilder { instance: KeyboardButton }
+pub struct RTDKeyboardButtonBuilder { instance: KeyboardButton }
 
-impl KeyboardButtonBuilder {
+impl RTDKeyboardButtonBuilder {
   fn new(instance: KeyboardButton) -> Self { Self { instance } }
 
   pub fn build(&self) -> KeyboardButton { self.instance.clone() }
@@ -21113,12 +21113,12 @@ impl RObject for KeyboardButtonTypeText {
 
 impl KeyboardButtonTypeText {
   
-  pub fn builder() -> KeyboardButtonTypeTextBuilder {
+  pub fn builder() -> RTDKeyboardButtonTypeTextBuilder {
     let instance = Self {
       td_name: "keyboardButtonTypeText".to_string(),
       
     };
-    KeyboardButtonTypeTextBuilder::new(instance)
+    RTDKeyboardButtonTypeTextBuilder::new(instance)
   }
   
   
@@ -21129,9 +21129,9 @@ impl KeyboardButtonTypeText {
 
 
 #[derive(Debug)]
-pub struct KeyboardButtonTypeTextBuilder { instance: KeyboardButtonTypeText }
+pub struct RTDKeyboardButtonTypeTextBuilder { instance: KeyboardButtonTypeText }
 
-impl KeyboardButtonTypeTextBuilder {
+impl RTDKeyboardButtonTypeTextBuilder {
   fn new(instance: KeyboardButtonTypeText) -> Self { Self { instance } }
 
   pub fn build(&self) -> KeyboardButtonTypeText { self.instance.clone() }
@@ -21164,12 +21164,12 @@ impl RObject for KeyboardButtonTypeRequestPhoneNumber {
 
 impl KeyboardButtonTypeRequestPhoneNumber {
   
-  pub fn builder() -> KeyboardButtonTypeRequestPhoneNumberBuilder {
+  pub fn builder() -> RTDKeyboardButtonTypeRequestPhoneNumberBuilder {
     let instance = Self {
       td_name: "keyboardButtonTypeRequestPhoneNumber".to_string(),
       
     };
-    KeyboardButtonTypeRequestPhoneNumberBuilder::new(instance)
+    RTDKeyboardButtonTypeRequestPhoneNumberBuilder::new(instance)
   }
   
   
@@ -21180,9 +21180,9 @@ impl KeyboardButtonTypeRequestPhoneNumber {
 
 
 #[derive(Debug)]
-pub struct KeyboardButtonTypeRequestPhoneNumberBuilder { instance: KeyboardButtonTypeRequestPhoneNumber }
+pub struct RTDKeyboardButtonTypeRequestPhoneNumberBuilder { instance: KeyboardButtonTypeRequestPhoneNumber }
 
-impl KeyboardButtonTypeRequestPhoneNumberBuilder {
+impl RTDKeyboardButtonTypeRequestPhoneNumberBuilder {
   fn new(instance: KeyboardButtonTypeRequestPhoneNumber) -> Self { Self { instance } }
 
   pub fn build(&self) -> KeyboardButtonTypeRequestPhoneNumber { self.instance.clone() }
@@ -21215,12 +21215,12 @@ impl RObject for KeyboardButtonTypeRequestLocation {
 
 impl KeyboardButtonTypeRequestLocation {
   
-  pub fn builder() -> KeyboardButtonTypeRequestLocationBuilder {
+  pub fn builder() -> RTDKeyboardButtonTypeRequestLocationBuilder {
     let instance = Self {
       td_name: "keyboardButtonTypeRequestLocation".to_string(),
       
     };
-    KeyboardButtonTypeRequestLocationBuilder::new(instance)
+    RTDKeyboardButtonTypeRequestLocationBuilder::new(instance)
   }
   
   
@@ -21231,9 +21231,9 @@ impl KeyboardButtonTypeRequestLocation {
 
 
 #[derive(Debug)]
-pub struct KeyboardButtonTypeRequestLocationBuilder { instance: KeyboardButtonTypeRequestLocation }
+pub struct RTDKeyboardButtonTypeRequestLocationBuilder { instance: KeyboardButtonTypeRequestLocation }
 
-impl KeyboardButtonTypeRequestLocationBuilder {
+impl RTDKeyboardButtonTypeRequestLocationBuilder {
   fn new(instance: KeyboardButtonTypeRequestLocation) -> Self { Self { instance } }
 
   pub fn build(&self) -> KeyboardButtonTypeRequestLocation { self.instance.clone() }
@@ -21268,14 +21268,14 @@ impl RObject for LabeledPricePart {
 
 impl LabeledPricePart {
   
-  pub fn builder() -> LabeledPricePartBuilder {
+  pub fn builder() -> RTDLabeledPricePartBuilder {
     let instance = Self {
       td_name: "labeledPricePart".to_string(),
       label: None,
       amount: None,
       
     };
-    LabeledPricePartBuilder::new(instance)
+    RTDLabeledPricePartBuilder::new(instance)
   }
   
   
@@ -21290,9 +21290,9 @@ impl LabeledPricePart {
 
 
 #[derive(Debug)]
-pub struct LabeledPricePartBuilder { instance: LabeledPricePart }
+pub struct RTDLabeledPricePartBuilder { instance: LabeledPricePart }
 
-impl LabeledPricePartBuilder {
+impl RTDLabeledPricePartBuilder {
   fn new(instance: LabeledPricePart) -> Self { Self { instance } }
 
   pub fn build(&self) -> LabeledPricePart { self.instance.clone() }
@@ -21359,7 +21359,7 @@ impl RObject for LanguagePackInfo {
 
 impl LanguagePackInfo {
   
-  pub fn builder() -> LanguagePackInfoBuilder {
+  pub fn builder() -> RTDLanguagePackInfoBuilder {
     let instance = Self {
       td_name: "languagePackInfo".to_string(),
       id: None,
@@ -21377,7 +21377,7 @@ impl LanguagePackInfo {
       translation_url: None,
       
     };
-    LanguagePackInfoBuilder::new(instance)
+    RTDLanguagePackInfoBuilder::new(instance)
   }
   
   
@@ -21414,9 +21414,9 @@ impl LanguagePackInfo {
 
 
 #[derive(Debug)]
-pub struct LanguagePackInfoBuilder { instance: LanguagePackInfo }
+pub struct RTDLanguagePackInfoBuilder { instance: LanguagePackInfo }
 
-impl LanguagePackInfoBuilder {
+impl RTDLanguagePackInfoBuilder {
   fn new(instance: LanguagePackInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> LanguagePackInfo { self.instance.clone() }
@@ -21523,14 +21523,14 @@ impl RObject for LanguagePackString {
 
 impl LanguagePackString {
   
-  pub fn builder() -> LanguagePackStringBuilder {
+  pub fn builder() -> RTDLanguagePackStringBuilder {
     let instance = Self {
       td_name: "languagePackString".to_string(),
       key: None,
       value: None,
       
     };
-    LanguagePackStringBuilder::new(instance)
+    RTDLanguagePackStringBuilder::new(instance)
   }
   
   
@@ -21545,9 +21545,9 @@ impl LanguagePackString {
 
 
 #[derive(Debug)]
-pub struct LanguagePackStringBuilder { instance: LanguagePackString }
+pub struct RTDLanguagePackStringBuilder { instance: LanguagePackString }
 
-impl LanguagePackStringBuilder {
+impl RTDLanguagePackStringBuilder {
   fn new(instance: LanguagePackString) -> Self { Self { instance } }
 
   pub fn build(&self) -> LanguagePackString { self.instance.clone() }
@@ -21628,13 +21628,13 @@ impl RObject for LanguagePackStringValueOrdinary {
 
 impl LanguagePackStringValueOrdinary {
   
-  pub fn builder() -> LanguagePackStringValueOrdinaryBuilder {
+  pub fn builder() -> RTDLanguagePackStringValueOrdinaryBuilder {
     let instance = Self {
       td_name: "languagePackStringValueOrdinary".to_string(),
       value: None,
       
     };
-    LanguagePackStringValueOrdinaryBuilder::new(instance)
+    RTDLanguagePackStringValueOrdinaryBuilder::new(instance)
   }
   
   
@@ -21647,9 +21647,9 @@ impl LanguagePackStringValueOrdinary {
 
 
 #[derive(Debug)]
-pub struct LanguagePackStringValueOrdinaryBuilder { instance: LanguagePackStringValueOrdinary }
+pub struct RTDLanguagePackStringValueOrdinaryBuilder { instance: LanguagePackStringValueOrdinary }
 
-impl LanguagePackStringValueOrdinaryBuilder {
+impl RTDLanguagePackStringValueOrdinaryBuilder {
   fn new(instance: LanguagePackStringValueOrdinary) -> Self { Self { instance } }
 
   pub fn build(&self) -> LanguagePackStringValueOrdinary { self.instance.clone() }
@@ -21699,7 +21699,7 @@ impl RObject for LanguagePackStringValuePluralized {
 
 impl LanguagePackStringValuePluralized {
   
-  pub fn builder() -> LanguagePackStringValuePluralizedBuilder {
+  pub fn builder() -> RTDLanguagePackStringValuePluralizedBuilder {
     let instance = Self {
       td_name: "languagePackStringValuePluralized".to_string(),
       zero_value: None,
@@ -21710,7 +21710,7 @@ impl LanguagePackStringValuePluralized {
       other_value: None,
       
     };
-    LanguagePackStringValuePluralizedBuilder::new(instance)
+    RTDLanguagePackStringValuePluralizedBuilder::new(instance)
   }
   
   
@@ -21733,9 +21733,9 @@ impl LanguagePackStringValuePluralized {
 
 
 #[derive(Debug)]
-pub struct LanguagePackStringValuePluralizedBuilder { instance: LanguagePackStringValuePluralized }
+pub struct RTDLanguagePackStringValuePluralizedBuilder { instance: LanguagePackStringValuePluralized }
 
-impl LanguagePackStringValuePluralizedBuilder {
+impl RTDLanguagePackStringValuePluralizedBuilder {
   fn new(instance: LanguagePackStringValuePluralized) -> Self { Self { instance } }
 
   pub fn build(&self) -> LanguagePackStringValuePluralized { self.instance.clone() }
@@ -21798,12 +21798,12 @@ impl RObject for LanguagePackStringValueDeleted {
 
 impl LanguagePackStringValueDeleted {
   
-  pub fn builder() -> LanguagePackStringValueDeletedBuilder {
+  pub fn builder() -> RTDLanguagePackStringValueDeletedBuilder {
     let instance = Self {
       td_name: "languagePackStringValueDeleted".to_string(),
       
     };
-    LanguagePackStringValueDeletedBuilder::new(instance)
+    RTDLanguagePackStringValueDeletedBuilder::new(instance)
   }
   
   
@@ -21814,9 +21814,9 @@ impl LanguagePackStringValueDeleted {
 
 
 #[derive(Debug)]
-pub struct LanguagePackStringValueDeletedBuilder { instance: LanguagePackStringValueDeleted }
+pub struct RTDLanguagePackStringValueDeletedBuilder { instance: LanguagePackStringValueDeleted }
 
-impl LanguagePackStringValueDeletedBuilder {
+impl RTDLanguagePackStringValueDeletedBuilder {
   fn new(instance: LanguagePackStringValueDeleted) -> Self { Self { instance } }
 
   pub fn build(&self) -> LanguagePackStringValueDeleted { self.instance.clone() }
@@ -21849,13 +21849,13 @@ impl RObject for LanguagePackStrings {
 
 impl LanguagePackStrings {
   
-  pub fn builder() -> LanguagePackStringsBuilder {
+  pub fn builder() -> RTDLanguagePackStringsBuilder {
     let instance = Self {
       td_name: "languagePackStrings".to_string(),
       strings: None,
       
     };
-    LanguagePackStringsBuilder::new(instance)
+    RTDLanguagePackStringsBuilder::new(instance)
   }
   
   
@@ -21868,9 +21868,9 @@ impl LanguagePackStrings {
 
 
 #[derive(Debug)]
-pub struct LanguagePackStringsBuilder { instance: LanguagePackStrings }
+pub struct RTDLanguagePackStringsBuilder { instance: LanguagePackStrings }
 
-impl LanguagePackStringsBuilder {
+impl RTDLanguagePackStringsBuilder {
   fn new(instance: LanguagePackStrings) -> Self { Self { instance } }
 
   pub fn build(&self) -> LanguagePackStrings { self.instance.clone() }
@@ -21944,12 +21944,12 @@ impl RObject for LinkStateNone {
 
 impl LinkStateNone {
   
-  pub fn builder() -> LinkStateNoneBuilder {
+  pub fn builder() -> RTDLinkStateNoneBuilder {
     let instance = Self {
       td_name: "linkStateNone".to_string(),
       
     };
-    LinkStateNoneBuilder::new(instance)
+    RTDLinkStateNoneBuilder::new(instance)
   }
   
   
@@ -21960,9 +21960,9 @@ impl LinkStateNone {
 
 
 #[derive(Debug)]
-pub struct LinkStateNoneBuilder { instance: LinkStateNone }
+pub struct RTDLinkStateNoneBuilder { instance: LinkStateNone }
 
-impl LinkStateNoneBuilder {
+impl RTDLinkStateNoneBuilder {
   fn new(instance: LinkStateNone) -> Self { Self { instance } }
 
   pub fn build(&self) -> LinkStateNone { self.instance.clone() }
@@ -21995,12 +21995,12 @@ impl RObject for LinkStateKnowsPhoneNumber {
 
 impl LinkStateKnowsPhoneNumber {
   
-  pub fn builder() -> LinkStateKnowsPhoneNumberBuilder {
+  pub fn builder() -> RTDLinkStateKnowsPhoneNumberBuilder {
     let instance = Self {
       td_name: "linkStateKnowsPhoneNumber".to_string(),
       
     };
-    LinkStateKnowsPhoneNumberBuilder::new(instance)
+    RTDLinkStateKnowsPhoneNumberBuilder::new(instance)
   }
   
   
@@ -22011,9 +22011,9 @@ impl LinkStateKnowsPhoneNumber {
 
 
 #[derive(Debug)]
-pub struct LinkStateKnowsPhoneNumberBuilder { instance: LinkStateKnowsPhoneNumber }
+pub struct RTDLinkStateKnowsPhoneNumberBuilder { instance: LinkStateKnowsPhoneNumber }
 
-impl LinkStateKnowsPhoneNumberBuilder {
+impl RTDLinkStateKnowsPhoneNumberBuilder {
   fn new(instance: LinkStateKnowsPhoneNumber) -> Self { Self { instance } }
 
   pub fn build(&self) -> LinkStateKnowsPhoneNumber { self.instance.clone() }
@@ -22046,12 +22046,12 @@ impl RObject for LinkStateIsContact {
 
 impl LinkStateIsContact {
   
-  pub fn builder() -> LinkStateIsContactBuilder {
+  pub fn builder() -> RTDLinkStateIsContactBuilder {
     let instance = Self {
       td_name: "linkStateIsContact".to_string(),
       
     };
-    LinkStateIsContactBuilder::new(instance)
+    RTDLinkStateIsContactBuilder::new(instance)
   }
   
   
@@ -22062,9 +22062,9 @@ impl LinkStateIsContact {
 
 
 #[derive(Debug)]
-pub struct LinkStateIsContactBuilder { instance: LinkStateIsContact }
+pub struct RTDLinkStateIsContactBuilder { instance: LinkStateIsContact }
 
-impl LinkStateIsContactBuilder {
+impl RTDLinkStateIsContactBuilder {
   fn new(instance: LinkStateIsContact) -> Self { Self { instance } }
 
   pub fn build(&self) -> LinkStateIsContact { self.instance.clone() }
@@ -22111,7 +22111,7 @@ impl RObject for LocalFile {
 
 impl LocalFile {
   
-  pub fn builder() -> LocalFileBuilder {
+  pub fn builder() -> RTDLocalFileBuilder {
     let instance = Self {
       td_name: "localFile".to_string(),
       path: None,
@@ -22124,7 +22124,7 @@ impl LocalFile {
       downloaded_size: None,
       
     };
-    LocalFileBuilder::new(instance)
+    RTDLocalFileBuilder::new(instance)
   }
   
   
@@ -22151,9 +22151,9 @@ impl LocalFile {
 
 
 #[derive(Debug)]
-pub struct LocalFileBuilder { instance: LocalFile }
+pub struct RTDLocalFileBuilder { instance: LocalFile }
 
-impl LocalFileBuilder {
+impl RTDLocalFileBuilder {
   fn new(instance: LocalFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> LocalFile { self.instance.clone() }
@@ -22226,13 +22226,13 @@ impl RObject for LocalizationTargetInfo {
 
 impl LocalizationTargetInfo {
   
-  pub fn builder() -> LocalizationTargetInfoBuilder {
+  pub fn builder() -> RTDLocalizationTargetInfoBuilder {
     let instance = Self {
       td_name: "localizationTargetInfo".to_string(),
       language_packs: None,
       
     };
-    LocalizationTargetInfoBuilder::new(instance)
+    RTDLocalizationTargetInfoBuilder::new(instance)
   }
   
   
@@ -22245,9 +22245,9 @@ impl LocalizationTargetInfo {
 
 
 #[derive(Debug)]
-pub struct LocalizationTargetInfoBuilder { instance: LocalizationTargetInfo }
+pub struct RTDLocalizationTargetInfoBuilder { instance: LocalizationTargetInfo }
 
-impl LocalizationTargetInfoBuilder {
+impl RTDLocalizationTargetInfoBuilder {
   fn new(instance: LocalizationTargetInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> LocalizationTargetInfo { self.instance.clone() }
@@ -22287,14 +22287,14 @@ impl RObject for Location {
 
 impl Location {
   
-  pub fn builder() -> LocationBuilder {
+  pub fn builder() -> RTDLocationBuilder {
     let instance = Self {
       td_name: "location".to_string(),
       latitude: None,
       longitude: None,
       
     };
-    LocationBuilder::new(instance)
+    RTDLocationBuilder::new(instance)
   }
   
   
@@ -22309,9 +22309,9 @@ impl Location {
 
 
 #[derive(Debug)]
-pub struct LocationBuilder { instance: Location }
+pub struct RTDLocationBuilder { instance: Location }
 
-impl LocationBuilder {
+impl RTDLocationBuilder {
   fn new(instance: Location) -> Self { Self { instance } }
 
   pub fn build(&self) -> Location { self.instance.clone() }
@@ -22390,12 +22390,12 @@ impl RObject for LogStreamDefault {
 
 impl LogStreamDefault {
   
-  pub fn builder() -> LogStreamDefaultBuilder {
+  pub fn builder() -> RTDLogStreamDefaultBuilder {
     let instance = Self {
       td_name: "logStreamDefault".to_string(),
       
     };
-    LogStreamDefaultBuilder::new(instance)
+    RTDLogStreamDefaultBuilder::new(instance)
   }
   
   
@@ -22406,9 +22406,9 @@ impl LogStreamDefault {
 
 
 #[derive(Debug)]
-pub struct LogStreamDefaultBuilder { instance: LogStreamDefault }
+pub struct RTDLogStreamDefaultBuilder { instance: LogStreamDefault }
 
-impl LogStreamDefaultBuilder {
+impl RTDLogStreamDefaultBuilder {
   fn new(instance: LogStreamDefault) -> Self { Self { instance } }
 
   pub fn build(&self) -> LogStreamDefault { self.instance.clone() }
@@ -22445,14 +22445,14 @@ impl RObject for LogStreamFile {
 
 impl LogStreamFile {
   
-  pub fn builder() -> LogStreamFileBuilder {
+  pub fn builder() -> RTDLogStreamFileBuilder {
     let instance = Self {
       td_name: "logStreamFile".to_string(),
       path: None,
       max_file_size: None,
       
     };
-    LogStreamFileBuilder::new(instance)
+    RTDLogStreamFileBuilder::new(instance)
   }
   
   
@@ -22467,9 +22467,9 @@ impl LogStreamFile {
 
 
 #[derive(Debug)]
-pub struct LogStreamFileBuilder { instance: LogStreamFile }
+pub struct RTDLogStreamFileBuilder { instance: LogStreamFile }
 
-impl LogStreamFileBuilder {
+impl RTDLogStreamFileBuilder {
   fn new(instance: LogStreamFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> LogStreamFile { self.instance.clone() }
@@ -22512,12 +22512,12 @@ impl RObject for LogStreamEmpty {
 
 impl LogStreamEmpty {
   
-  pub fn builder() -> LogStreamEmptyBuilder {
+  pub fn builder() -> RTDLogStreamEmptyBuilder {
     let instance = Self {
       td_name: "logStreamEmpty".to_string(),
       
     };
-    LogStreamEmptyBuilder::new(instance)
+    RTDLogStreamEmptyBuilder::new(instance)
   }
   
   
@@ -22528,9 +22528,9 @@ impl LogStreamEmpty {
 
 
 #[derive(Debug)]
-pub struct LogStreamEmptyBuilder { instance: LogStreamEmpty }
+pub struct RTDLogStreamEmptyBuilder { instance: LogStreamEmpty }
 
-impl LogStreamEmptyBuilder {
+impl RTDLogStreamEmptyBuilder {
   fn new(instance: LogStreamEmpty) -> Self { Self { instance } }
 
   pub fn build(&self) -> LogStreamEmpty { self.instance.clone() }
@@ -22563,13 +22563,13 @@ impl RObject for LogTags {
 
 impl LogTags {
   
-  pub fn builder() -> LogTagsBuilder {
+  pub fn builder() -> RTDLogTagsBuilder {
     let instance = Self {
       td_name: "logTags".to_string(),
       tags: None,
       
     };
-    LogTagsBuilder::new(instance)
+    RTDLogTagsBuilder::new(instance)
   }
   
   
@@ -22582,9 +22582,9 @@ impl LogTags {
 
 
 #[derive(Debug)]
-pub struct LogTagsBuilder { instance: LogTags }
+pub struct RTDLogTagsBuilder { instance: LogTags }
 
-impl LogTagsBuilder {
+impl RTDLogTagsBuilder {
   fn new(instance: LogTags) -> Self { Self { instance } }
 
   pub fn build(&self) -> LogTags { self.instance.clone() }
@@ -22622,13 +22622,13 @@ impl RObject for LogVerbosityLevel {
 
 impl LogVerbosityLevel {
   
-  pub fn builder() -> LogVerbosityLevelBuilder {
+  pub fn builder() -> RTDLogVerbosityLevelBuilder {
     let instance = Self {
       td_name: "logVerbosityLevel".to_string(),
       verbosity_level: None,
       
     };
-    LogVerbosityLevelBuilder::new(instance)
+    RTDLogVerbosityLevelBuilder::new(instance)
   }
   
   
@@ -22641,9 +22641,9 @@ impl LogVerbosityLevel {
 
 
 #[derive(Debug)]
-pub struct LogVerbosityLevelBuilder { instance: LogVerbosityLevel }
+pub struct RTDLogVerbosityLevelBuilder { instance: LogVerbosityLevel }
 
-impl LogVerbosityLevelBuilder {
+impl RTDLogVerbosityLevelBuilder {
   fn new(instance: LogVerbosityLevel) -> Self { Self { instance } }
 
   pub fn build(&self) -> LogVerbosityLevel { self.instance.clone() }
@@ -22718,12 +22718,12 @@ impl RObject for MaskPointForehead {
 
 impl MaskPointForehead {
   
-  pub fn builder() -> MaskPointForeheadBuilder {
+  pub fn builder() -> RTDMaskPointForeheadBuilder {
     let instance = Self {
       td_name: "maskPointForehead".to_string(),
       
     };
-    MaskPointForeheadBuilder::new(instance)
+    RTDMaskPointForeheadBuilder::new(instance)
   }
   
   
@@ -22734,9 +22734,9 @@ impl MaskPointForehead {
 
 
 #[derive(Debug)]
-pub struct MaskPointForeheadBuilder { instance: MaskPointForehead }
+pub struct RTDMaskPointForeheadBuilder { instance: MaskPointForehead }
 
-impl MaskPointForeheadBuilder {
+impl RTDMaskPointForeheadBuilder {
   fn new(instance: MaskPointForehead) -> Self { Self { instance } }
 
   pub fn build(&self) -> MaskPointForehead { self.instance.clone() }
@@ -22769,12 +22769,12 @@ impl RObject for MaskPointEyes {
 
 impl MaskPointEyes {
   
-  pub fn builder() -> MaskPointEyesBuilder {
+  pub fn builder() -> RTDMaskPointEyesBuilder {
     let instance = Self {
       td_name: "maskPointEyes".to_string(),
       
     };
-    MaskPointEyesBuilder::new(instance)
+    RTDMaskPointEyesBuilder::new(instance)
   }
   
   
@@ -22785,9 +22785,9 @@ impl MaskPointEyes {
 
 
 #[derive(Debug)]
-pub struct MaskPointEyesBuilder { instance: MaskPointEyes }
+pub struct RTDMaskPointEyesBuilder { instance: MaskPointEyes }
 
-impl MaskPointEyesBuilder {
+impl RTDMaskPointEyesBuilder {
   fn new(instance: MaskPointEyes) -> Self { Self { instance } }
 
   pub fn build(&self) -> MaskPointEyes { self.instance.clone() }
@@ -22820,12 +22820,12 @@ impl RObject for MaskPointMouth {
 
 impl MaskPointMouth {
   
-  pub fn builder() -> MaskPointMouthBuilder {
+  pub fn builder() -> RTDMaskPointMouthBuilder {
     let instance = Self {
       td_name: "maskPointMouth".to_string(),
       
     };
-    MaskPointMouthBuilder::new(instance)
+    RTDMaskPointMouthBuilder::new(instance)
   }
   
   
@@ -22836,9 +22836,9 @@ impl MaskPointMouth {
 
 
 #[derive(Debug)]
-pub struct MaskPointMouthBuilder { instance: MaskPointMouth }
+pub struct RTDMaskPointMouthBuilder { instance: MaskPointMouth }
 
-impl MaskPointMouthBuilder {
+impl RTDMaskPointMouthBuilder {
   fn new(instance: MaskPointMouth) -> Self { Self { instance } }
 
   pub fn build(&self) -> MaskPointMouth { self.instance.clone() }
@@ -22871,12 +22871,12 @@ impl RObject for MaskPointChin {
 
 impl MaskPointChin {
   
-  pub fn builder() -> MaskPointChinBuilder {
+  pub fn builder() -> RTDMaskPointChinBuilder {
     let instance = Self {
       td_name: "maskPointChin".to_string(),
       
     };
-    MaskPointChinBuilder::new(instance)
+    RTDMaskPointChinBuilder::new(instance)
   }
   
   
@@ -22887,9 +22887,9 @@ impl MaskPointChin {
 
 
 #[derive(Debug)]
-pub struct MaskPointChinBuilder { instance: MaskPointChin }
+pub struct RTDMaskPointChinBuilder { instance: MaskPointChin }
 
-impl MaskPointChinBuilder {
+impl RTDMaskPointChinBuilder {
   fn new(instance: MaskPointChin) -> Self { Self { instance } }
 
   pub fn build(&self) -> MaskPointChin { self.instance.clone() }
@@ -22935,7 +22935,7 @@ impl RObject for MaskPosition {
 
 impl MaskPosition {
   
-  pub fn builder() -> MaskPositionBuilder {
+  pub fn builder() -> RTDMaskPositionBuilder {
     let instance = Self {
       td_name: "maskPosition".to_string(),
       point: None,
@@ -22944,7 +22944,7 @@ impl MaskPosition {
       scale: None,
       
     };
-    MaskPositionBuilder::new(instance)
+    RTDMaskPositionBuilder::new(instance)
   }
   
   
@@ -22963,9 +22963,9 @@ impl MaskPosition {
 
 
 #[derive(Debug)]
-pub struct MaskPositionBuilder { instance: MaskPosition }
+pub struct RTDMaskPositionBuilder { instance: MaskPosition }
 
-impl MaskPositionBuilder {
+impl RTDMaskPositionBuilder {
   fn new(instance: MaskPosition) -> Self { Self { instance } }
 
   pub fn build(&self) -> MaskPosition { self.instance.clone() }
@@ -23069,7 +23069,7 @@ impl RObject for Message {
 
 impl Message {
   
-  pub fn builder() -> MessageBuilder {
+  pub fn builder() -> RTDMessageBuilder {
     let instance = Self {
       td_name: "message".to_string(),
       id: None,
@@ -23097,7 +23097,7 @@ impl Message {
       reply_markup: None,
       
     };
-    MessageBuilder::new(instance)
+    RTDMessageBuilder::new(instance)
   }
   
   
@@ -23154,9 +23154,9 @@ impl Message {
 
 
 #[derive(Debug)]
-pub struct MessageBuilder { instance: Message }
+pub struct RTDMessageBuilder { instance: Message }
 
-impl MessageBuilder {
+impl RTDMessageBuilder {
   fn new(instance: Message) -> Self { Self { instance } }
 
   pub fn build(&self) -> Message { self.instance.clone() }
@@ -23381,14 +23381,14 @@ impl RObject for MessageText {
 
 impl MessageText {
   
-  pub fn builder() -> MessageTextBuilder {
+  pub fn builder() -> RTDMessageTextBuilder {
     let instance = Self {
       td_name: "messageText".to_string(),
       text: None,
       web_page: None,
       
     };
-    MessageTextBuilder::new(instance)
+    RTDMessageTextBuilder::new(instance)
   }
   
   
@@ -23403,9 +23403,9 @@ impl MessageText {
 
 
 #[derive(Debug)]
-pub struct MessageTextBuilder { instance: MessageText }
+pub struct RTDMessageTextBuilder { instance: MessageText }
 
-impl MessageTextBuilder {
+impl RTDMessageTextBuilder {
   fn new(instance: MessageText) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageText { self.instance.clone() }
@@ -23454,7 +23454,7 @@ impl RObject for MessageAnimation {
 
 impl MessageAnimation {
   
-  pub fn builder() -> MessageAnimationBuilder {
+  pub fn builder() -> RTDMessageAnimationBuilder {
     let instance = Self {
       td_name: "messageAnimation".to_string(),
       animation: None,
@@ -23462,7 +23462,7 @@ impl MessageAnimation {
       is_secret: None,
       
     };
-    MessageAnimationBuilder::new(instance)
+    RTDMessageAnimationBuilder::new(instance)
   }
   
   
@@ -23479,9 +23479,9 @@ impl MessageAnimation {
 
 
 #[derive(Debug)]
-pub struct MessageAnimationBuilder { instance: MessageAnimation }
+pub struct RTDMessageAnimationBuilder { instance: MessageAnimation }
 
-impl MessageAnimationBuilder {
+impl RTDMessageAnimationBuilder {
   fn new(instance: MessageAnimation) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageAnimation { self.instance.clone() }
@@ -23533,14 +23533,14 @@ impl RObject for MessageAudio {
 
 impl MessageAudio {
   
-  pub fn builder() -> MessageAudioBuilder {
+  pub fn builder() -> RTDMessageAudioBuilder {
     let instance = Self {
       td_name: "messageAudio".to_string(),
       audio: None,
       caption: None,
       
     };
-    MessageAudioBuilder::new(instance)
+    RTDMessageAudioBuilder::new(instance)
   }
   
   
@@ -23555,9 +23555,9 @@ impl MessageAudio {
 
 
 #[derive(Debug)]
-pub struct MessageAudioBuilder { instance: MessageAudio }
+pub struct RTDMessageAudioBuilder { instance: MessageAudio }
 
-impl MessageAudioBuilder {
+impl RTDMessageAudioBuilder {
   fn new(instance: MessageAudio) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageAudio { self.instance.clone() }
@@ -23604,14 +23604,14 @@ impl RObject for MessageDocument {
 
 impl MessageDocument {
   
-  pub fn builder() -> MessageDocumentBuilder {
+  pub fn builder() -> RTDMessageDocumentBuilder {
     let instance = Self {
       td_name: "messageDocument".to_string(),
       document: None,
       caption: None,
       
     };
-    MessageDocumentBuilder::new(instance)
+    RTDMessageDocumentBuilder::new(instance)
   }
   
   
@@ -23626,9 +23626,9 @@ impl MessageDocument {
 
 
 #[derive(Debug)]
-pub struct MessageDocumentBuilder { instance: MessageDocument }
+pub struct RTDMessageDocumentBuilder { instance: MessageDocument }
 
-impl MessageDocumentBuilder {
+impl RTDMessageDocumentBuilder {
   fn new(instance: MessageDocument) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageDocument { self.instance.clone() }
@@ -23677,7 +23677,7 @@ impl RObject for MessagePhoto {
 
 impl MessagePhoto {
   
-  pub fn builder() -> MessagePhotoBuilder {
+  pub fn builder() -> RTDMessagePhotoBuilder {
     let instance = Self {
       td_name: "messagePhoto".to_string(),
       photo: None,
@@ -23685,7 +23685,7 @@ impl MessagePhoto {
       is_secret: None,
       
     };
-    MessagePhotoBuilder::new(instance)
+    RTDMessagePhotoBuilder::new(instance)
   }
   
   
@@ -23702,9 +23702,9 @@ impl MessagePhoto {
 
 
 #[derive(Debug)]
-pub struct MessagePhotoBuilder { instance: MessagePhoto }
+pub struct RTDMessagePhotoBuilder { instance: MessagePhoto }
 
-impl MessagePhotoBuilder {
+impl RTDMessagePhotoBuilder {
   fn new(instance: MessagePhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessagePhoto { self.instance.clone() }
@@ -23752,12 +23752,12 @@ impl RObject for MessageExpiredPhoto {
 
 impl MessageExpiredPhoto {
   
-  pub fn builder() -> MessageExpiredPhotoBuilder {
+  pub fn builder() -> RTDMessageExpiredPhotoBuilder {
     let instance = Self {
       td_name: "messageExpiredPhoto".to_string(),
       
     };
-    MessageExpiredPhotoBuilder::new(instance)
+    RTDMessageExpiredPhotoBuilder::new(instance)
   }
   
   
@@ -23768,9 +23768,9 @@ impl MessageExpiredPhoto {
 
 
 #[derive(Debug)]
-pub struct MessageExpiredPhotoBuilder { instance: MessageExpiredPhoto }
+pub struct RTDMessageExpiredPhotoBuilder { instance: MessageExpiredPhoto }
 
-impl MessageExpiredPhotoBuilder {
+impl RTDMessageExpiredPhotoBuilder {
   fn new(instance: MessageExpiredPhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageExpiredPhoto { self.instance.clone() }
@@ -23805,13 +23805,13 @@ impl RObject for MessageSticker {
 
 impl MessageSticker {
   
-  pub fn builder() -> MessageStickerBuilder {
+  pub fn builder() -> RTDMessageStickerBuilder {
     let instance = Self {
       td_name: "messageSticker".to_string(),
       sticker: None,
       
     };
-    MessageStickerBuilder::new(instance)
+    RTDMessageStickerBuilder::new(instance)
   }
   
   
@@ -23824,9 +23824,9 @@ impl MessageSticker {
 
 
 #[derive(Debug)]
-pub struct MessageStickerBuilder { instance: MessageSticker }
+pub struct RTDMessageStickerBuilder { instance: MessageSticker }
 
-impl MessageStickerBuilder {
+impl RTDMessageStickerBuilder {
   fn new(instance: MessageSticker) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageSticker { self.instance.clone() }
@@ -23870,7 +23870,7 @@ impl RObject for MessageVideo {
 
 impl MessageVideo {
   
-  pub fn builder() -> MessageVideoBuilder {
+  pub fn builder() -> RTDMessageVideoBuilder {
     let instance = Self {
       td_name: "messageVideo".to_string(),
       video: None,
@@ -23878,7 +23878,7 @@ impl MessageVideo {
       is_secret: None,
       
     };
-    MessageVideoBuilder::new(instance)
+    RTDMessageVideoBuilder::new(instance)
   }
   
   
@@ -23895,9 +23895,9 @@ impl MessageVideo {
 
 
 #[derive(Debug)]
-pub struct MessageVideoBuilder { instance: MessageVideo }
+pub struct RTDMessageVideoBuilder { instance: MessageVideo }
 
-impl MessageVideoBuilder {
+impl RTDMessageVideoBuilder {
   fn new(instance: MessageVideo) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageVideo { self.instance.clone() }
@@ -23945,12 +23945,12 @@ impl RObject for MessageExpiredVideo {
 
 impl MessageExpiredVideo {
   
-  pub fn builder() -> MessageExpiredVideoBuilder {
+  pub fn builder() -> RTDMessageExpiredVideoBuilder {
     let instance = Self {
       td_name: "messageExpiredVideo".to_string(),
       
     };
-    MessageExpiredVideoBuilder::new(instance)
+    RTDMessageExpiredVideoBuilder::new(instance)
   }
   
   
@@ -23961,9 +23961,9 @@ impl MessageExpiredVideo {
 
 
 #[derive(Debug)]
-pub struct MessageExpiredVideoBuilder { instance: MessageExpiredVideo }
+pub struct RTDMessageExpiredVideoBuilder { instance: MessageExpiredVideo }
 
-impl MessageExpiredVideoBuilder {
+impl RTDMessageExpiredVideoBuilder {
   fn new(instance: MessageExpiredVideo) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageExpiredVideo { self.instance.clone() }
@@ -24002,7 +24002,7 @@ impl RObject for MessageVideoNote {
 
 impl MessageVideoNote {
   
-  pub fn builder() -> MessageVideoNoteBuilder {
+  pub fn builder() -> RTDMessageVideoNoteBuilder {
     let instance = Self {
       td_name: "messageVideoNote".to_string(),
       video_note: None,
@@ -24010,7 +24010,7 @@ impl MessageVideoNote {
       is_secret: None,
       
     };
-    MessageVideoNoteBuilder::new(instance)
+    RTDMessageVideoNoteBuilder::new(instance)
   }
   
   
@@ -24027,9 +24027,9 @@ impl MessageVideoNote {
 
 
 #[derive(Debug)]
-pub struct MessageVideoNoteBuilder { instance: MessageVideoNote }
+pub struct RTDMessageVideoNoteBuilder { instance: MessageVideoNote }
 
-impl MessageVideoNoteBuilder {
+impl RTDMessageVideoNoteBuilder {
   fn new(instance: MessageVideoNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageVideoNote { self.instance.clone() }
@@ -24083,7 +24083,7 @@ impl RObject for MessageVoiceNote {
 
 impl MessageVoiceNote {
   
-  pub fn builder() -> MessageVoiceNoteBuilder {
+  pub fn builder() -> RTDMessageVoiceNoteBuilder {
     let instance = Self {
       td_name: "messageVoiceNote".to_string(),
       voice_note: None,
@@ -24091,7 +24091,7 @@ impl MessageVoiceNote {
       is_listened: None,
       
     };
-    MessageVoiceNoteBuilder::new(instance)
+    RTDMessageVoiceNoteBuilder::new(instance)
   }
   
   
@@ -24108,9 +24108,9 @@ impl MessageVoiceNote {
 
 
 #[derive(Debug)]
-pub struct MessageVoiceNoteBuilder { instance: MessageVoiceNote }
+pub struct RTDMessageVoiceNoteBuilder { instance: MessageVoiceNote }
 
-impl MessageVoiceNoteBuilder {
+impl RTDMessageVoiceNoteBuilder {
   fn new(instance: MessageVoiceNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageVoiceNote { self.instance.clone() }
@@ -24164,7 +24164,7 @@ impl RObject for MessageLocation {
 
 impl MessageLocation {
   
-  pub fn builder() -> MessageLocationBuilder {
+  pub fn builder() -> RTDMessageLocationBuilder {
     let instance = Self {
       td_name: "messageLocation".to_string(),
       location: None,
@@ -24172,7 +24172,7 @@ impl MessageLocation {
       expires_in: None,
       
     };
-    MessageLocationBuilder::new(instance)
+    RTDMessageLocationBuilder::new(instance)
   }
   
   
@@ -24189,9 +24189,9 @@ impl MessageLocation {
 
 
 #[derive(Debug)]
-pub struct MessageLocationBuilder { instance: MessageLocation }
+pub struct RTDMessageLocationBuilder { instance: MessageLocation }
 
-impl MessageLocationBuilder {
+impl RTDMessageLocationBuilder {
   fn new(instance: MessageLocation) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageLocation { self.instance.clone() }
@@ -24241,13 +24241,13 @@ impl RObject for MessageVenue {
 
 impl MessageVenue {
   
-  pub fn builder() -> MessageVenueBuilder {
+  pub fn builder() -> RTDMessageVenueBuilder {
     let instance = Self {
       td_name: "messageVenue".to_string(),
       venue: None,
       
     };
-    MessageVenueBuilder::new(instance)
+    RTDMessageVenueBuilder::new(instance)
   }
   
   
@@ -24260,9 +24260,9 @@ impl MessageVenue {
 
 
 #[derive(Debug)]
-pub struct MessageVenueBuilder { instance: MessageVenue }
+pub struct RTDMessageVenueBuilder { instance: MessageVenue }
 
-impl MessageVenueBuilder {
+impl RTDMessageVenueBuilder {
   fn new(instance: MessageVenue) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageVenue { self.instance.clone() }
@@ -24302,13 +24302,13 @@ impl RObject for MessageContact {
 
 impl MessageContact {
   
-  pub fn builder() -> MessageContactBuilder {
+  pub fn builder() -> RTDMessageContactBuilder {
     let instance = Self {
       td_name: "messageContact".to_string(),
       contact: None,
       
     };
-    MessageContactBuilder::new(instance)
+    RTDMessageContactBuilder::new(instance)
   }
   
   
@@ -24321,9 +24321,9 @@ impl MessageContact {
 
 
 #[derive(Debug)]
-pub struct MessageContactBuilder { instance: MessageContact }
+pub struct RTDMessageContactBuilder { instance: MessageContact }
 
-impl MessageContactBuilder {
+impl RTDMessageContactBuilder {
   fn new(instance: MessageContact) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageContact { self.instance.clone() }
@@ -24363,13 +24363,13 @@ impl RObject for MessageGame {
 
 impl MessageGame {
   
-  pub fn builder() -> MessageGameBuilder {
+  pub fn builder() -> RTDMessageGameBuilder {
     let instance = Self {
       td_name: "messageGame".to_string(),
       game: None,
       
     };
-    MessageGameBuilder::new(instance)
+    RTDMessageGameBuilder::new(instance)
   }
   
   
@@ -24382,9 +24382,9 @@ impl MessageGame {
 
 
 #[derive(Debug)]
-pub struct MessageGameBuilder { instance: MessageGame }
+pub struct RTDMessageGameBuilder { instance: MessageGame }
 
-impl MessageGameBuilder {
+impl RTDMessageGameBuilder {
   fn new(instance: MessageGame) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageGame { self.instance.clone() }
@@ -24424,13 +24424,13 @@ impl RObject for MessagePoll {
 
 impl MessagePoll {
   
-  pub fn builder() -> MessagePollBuilder {
+  pub fn builder() -> RTDMessagePollBuilder {
     let instance = Self {
       td_name: "messagePoll".to_string(),
       poll: None,
       
     };
-    MessagePollBuilder::new(instance)
+    RTDMessagePollBuilder::new(instance)
   }
   
   
@@ -24443,9 +24443,9 @@ impl MessagePoll {
 
 
 #[derive(Debug)]
-pub struct MessagePollBuilder { instance: MessagePoll }
+pub struct RTDMessagePollBuilder { instance: MessagePoll }
 
-impl MessagePollBuilder {
+impl RTDMessagePollBuilder {
   fn new(instance: MessagePoll) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessagePoll { self.instance.clone() }
@@ -24501,7 +24501,7 @@ impl RObject for MessageInvoice {
 
 impl MessageInvoice {
   
-  pub fn builder() -> MessageInvoiceBuilder {
+  pub fn builder() -> RTDMessageInvoiceBuilder {
     let instance = Self {
       td_name: "messageInvoice".to_string(),
       title: None,
@@ -24515,7 +24515,7 @@ impl MessageInvoice {
       receipt_message_id: None,
       
     };
-    MessageInvoiceBuilder::new(instance)
+    RTDMessageInvoiceBuilder::new(instance)
   }
   
   
@@ -24544,9 +24544,9 @@ impl MessageInvoice {
 
 
 #[derive(Debug)]
-pub struct MessageInvoiceBuilder { instance: MessageInvoice }
+pub struct RTDMessageInvoiceBuilder { instance: MessageInvoice }
 
-impl MessageInvoiceBuilder {
+impl RTDMessageInvoiceBuilder {
   fn new(instance: MessageInvoice) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageInvoice { self.instance.clone() }
@@ -24635,14 +24635,14 @@ impl RObject for MessageCall {
 
 impl MessageCall {
   
-  pub fn builder() -> MessageCallBuilder {
+  pub fn builder() -> RTDMessageCallBuilder {
     let instance = Self {
       td_name: "messageCall".to_string(),
       discard_reason: None,
       duration: None,
       
     };
-    MessageCallBuilder::new(instance)
+    RTDMessageCallBuilder::new(instance)
   }
   
   
@@ -24657,9 +24657,9 @@ impl MessageCall {
 
 
 #[derive(Debug)]
-pub struct MessageCallBuilder { instance: MessageCall }
+pub struct RTDMessageCallBuilder { instance: MessageCall }
 
-impl MessageCallBuilder {
+impl RTDMessageCallBuilder {
   fn new(instance: MessageCall) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageCall { self.instance.clone() }
@@ -24706,14 +24706,14 @@ impl RObject for MessageBasicGroupChatCreate {
 
 impl MessageBasicGroupChatCreate {
   
-  pub fn builder() -> MessageBasicGroupChatCreateBuilder {
+  pub fn builder() -> RTDMessageBasicGroupChatCreateBuilder {
     let instance = Self {
       td_name: "messageBasicGroupChatCreate".to_string(),
       title: None,
       member_user_ids: None,
       
     };
-    MessageBasicGroupChatCreateBuilder::new(instance)
+    RTDMessageBasicGroupChatCreateBuilder::new(instance)
   }
   
   
@@ -24728,9 +24728,9 @@ impl MessageBasicGroupChatCreate {
 
 
 #[derive(Debug)]
-pub struct MessageBasicGroupChatCreateBuilder { instance: MessageBasicGroupChatCreate }
+pub struct RTDMessageBasicGroupChatCreateBuilder { instance: MessageBasicGroupChatCreate }
 
-impl MessageBasicGroupChatCreateBuilder {
+impl RTDMessageBasicGroupChatCreateBuilder {
   fn new(instance: MessageBasicGroupChatCreate) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageBasicGroupChatCreate { self.instance.clone() }
@@ -24775,13 +24775,13 @@ impl RObject for MessageSupergroupChatCreate {
 
 impl MessageSupergroupChatCreate {
   
-  pub fn builder() -> MessageSupergroupChatCreateBuilder {
+  pub fn builder() -> RTDMessageSupergroupChatCreateBuilder {
     let instance = Self {
       td_name: "messageSupergroupChatCreate".to_string(),
       title: None,
       
     };
-    MessageSupergroupChatCreateBuilder::new(instance)
+    RTDMessageSupergroupChatCreateBuilder::new(instance)
   }
   
   
@@ -24794,9 +24794,9 @@ impl MessageSupergroupChatCreate {
 
 
 #[derive(Debug)]
-pub struct MessageSupergroupChatCreateBuilder { instance: MessageSupergroupChatCreate }
+pub struct RTDMessageSupergroupChatCreateBuilder { instance: MessageSupergroupChatCreate }
 
-impl MessageSupergroupChatCreateBuilder {
+impl RTDMessageSupergroupChatCreateBuilder {
   fn new(instance: MessageSupergroupChatCreate) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageSupergroupChatCreate { self.instance.clone() }
@@ -24836,13 +24836,13 @@ impl RObject for MessageChatChangeTitle {
 
 impl MessageChatChangeTitle {
   
-  pub fn builder() -> MessageChatChangeTitleBuilder {
+  pub fn builder() -> RTDMessageChatChangeTitleBuilder {
     let instance = Self {
       td_name: "messageChatChangeTitle".to_string(),
       title: None,
       
     };
-    MessageChatChangeTitleBuilder::new(instance)
+    RTDMessageChatChangeTitleBuilder::new(instance)
   }
   
   
@@ -24855,9 +24855,9 @@ impl MessageChatChangeTitle {
 
 
 #[derive(Debug)]
-pub struct MessageChatChangeTitleBuilder { instance: MessageChatChangeTitle }
+pub struct RTDMessageChatChangeTitleBuilder { instance: MessageChatChangeTitle }
 
-impl MessageChatChangeTitleBuilder {
+impl RTDMessageChatChangeTitleBuilder {
   fn new(instance: MessageChatChangeTitle) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageChatChangeTitle { self.instance.clone() }
@@ -24897,13 +24897,13 @@ impl RObject for MessageChatChangePhoto {
 
 impl MessageChatChangePhoto {
   
-  pub fn builder() -> MessageChatChangePhotoBuilder {
+  pub fn builder() -> RTDMessageChatChangePhotoBuilder {
     let instance = Self {
       td_name: "messageChatChangePhoto".to_string(),
       photo: None,
       
     };
-    MessageChatChangePhotoBuilder::new(instance)
+    RTDMessageChatChangePhotoBuilder::new(instance)
   }
   
   
@@ -24916,9 +24916,9 @@ impl MessageChatChangePhoto {
 
 
 #[derive(Debug)]
-pub struct MessageChatChangePhotoBuilder { instance: MessageChatChangePhoto }
+pub struct RTDMessageChatChangePhotoBuilder { instance: MessageChatChangePhoto }
 
-impl MessageChatChangePhotoBuilder {
+impl RTDMessageChatChangePhotoBuilder {
   fn new(instance: MessageChatChangePhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageChatChangePhoto { self.instance.clone() }
@@ -24956,12 +24956,12 @@ impl RObject for MessageChatDeletePhoto {
 
 impl MessageChatDeletePhoto {
   
-  pub fn builder() -> MessageChatDeletePhotoBuilder {
+  pub fn builder() -> RTDMessageChatDeletePhotoBuilder {
     let instance = Self {
       td_name: "messageChatDeletePhoto".to_string(),
       
     };
-    MessageChatDeletePhotoBuilder::new(instance)
+    RTDMessageChatDeletePhotoBuilder::new(instance)
   }
   
   
@@ -24972,9 +24972,9 @@ impl MessageChatDeletePhoto {
 
 
 #[derive(Debug)]
-pub struct MessageChatDeletePhotoBuilder { instance: MessageChatDeletePhoto }
+pub struct RTDMessageChatDeletePhotoBuilder { instance: MessageChatDeletePhoto }
 
-impl MessageChatDeletePhotoBuilder {
+impl RTDMessageChatDeletePhotoBuilder {
   fn new(instance: MessageChatDeletePhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageChatDeletePhoto { self.instance.clone() }
@@ -25009,13 +25009,13 @@ impl RObject for MessageChatAddMembers {
 
 impl MessageChatAddMembers {
   
-  pub fn builder() -> MessageChatAddMembersBuilder {
+  pub fn builder() -> RTDMessageChatAddMembersBuilder {
     let instance = Self {
       td_name: "messageChatAddMembers".to_string(),
       member_user_ids: None,
       
     };
-    MessageChatAddMembersBuilder::new(instance)
+    RTDMessageChatAddMembersBuilder::new(instance)
   }
   
   
@@ -25028,9 +25028,9 @@ impl MessageChatAddMembers {
 
 
 #[derive(Debug)]
-pub struct MessageChatAddMembersBuilder { instance: MessageChatAddMembers }
+pub struct RTDMessageChatAddMembersBuilder { instance: MessageChatAddMembers }
 
-impl MessageChatAddMembersBuilder {
+impl RTDMessageChatAddMembersBuilder {
   fn new(instance: MessageChatAddMembers) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageChatAddMembers { self.instance.clone() }
@@ -25068,12 +25068,12 @@ impl RObject for MessageChatJoinByLink {
 
 impl MessageChatJoinByLink {
   
-  pub fn builder() -> MessageChatJoinByLinkBuilder {
+  pub fn builder() -> RTDMessageChatJoinByLinkBuilder {
     let instance = Self {
       td_name: "messageChatJoinByLink".to_string(),
       
     };
-    MessageChatJoinByLinkBuilder::new(instance)
+    RTDMessageChatJoinByLinkBuilder::new(instance)
   }
   
   
@@ -25084,9 +25084,9 @@ impl MessageChatJoinByLink {
 
 
 #[derive(Debug)]
-pub struct MessageChatJoinByLinkBuilder { instance: MessageChatJoinByLink }
+pub struct RTDMessageChatJoinByLinkBuilder { instance: MessageChatJoinByLink }
 
-impl MessageChatJoinByLinkBuilder {
+impl RTDMessageChatJoinByLinkBuilder {
   fn new(instance: MessageChatJoinByLink) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageChatJoinByLink { self.instance.clone() }
@@ -25121,13 +25121,13 @@ impl RObject for MessageChatDeleteMember {
 
 impl MessageChatDeleteMember {
   
-  pub fn builder() -> MessageChatDeleteMemberBuilder {
+  pub fn builder() -> RTDMessageChatDeleteMemberBuilder {
     let instance = Self {
       td_name: "messageChatDeleteMember".to_string(),
       user_id: None,
       
     };
-    MessageChatDeleteMemberBuilder::new(instance)
+    RTDMessageChatDeleteMemberBuilder::new(instance)
   }
   
   
@@ -25140,9 +25140,9 @@ impl MessageChatDeleteMember {
 
 
 #[derive(Debug)]
-pub struct MessageChatDeleteMemberBuilder { instance: MessageChatDeleteMember }
+pub struct RTDMessageChatDeleteMemberBuilder { instance: MessageChatDeleteMember }
 
-impl MessageChatDeleteMemberBuilder {
+impl RTDMessageChatDeleteMemberBuilder {
   fn new(instance: MessageChatDeleteMember) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageChatDeleteMember { self.instance.clone() }
@@ -25182,13 +25182,13 @@ impl RObject for MessageChatUpgradeTo {
 
 impl MessageChatUpgradeTo {
   
-  pub fn builder() -> MessageChatUpgradeToBuilder {
+  pub fn builder() -> RTDMessageChatUpgradeToBuilder {
     let instance = Self {
       td_name: "messageChatUpgradeTo".to_string(),
       supergroup_id: None,
       
     };
-    MessageChatUpgradeToBuilder::new(instance)
+    RTDMessageChatUpgradeToBuilder::new(instance)
   }
   
   
@@ -25201,9 +25201,9 @@ impl MessageChatUpgradeTo {
 
 
 #[derive(Debug)]
-pub struct MessageChatUpgradeToBuilder { instance: MessageChatUpgradeTo }
+pub struct RTDMessageChatUpgradeToBuilder { instance: MessageChatUpgradeTo }
 
-impl MessageChatUpgradeToBuilder {
+impl RTDMessageChatUpgradeToBuilder {
   fn new(instance: MessageChatUpgradeTo) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageChatUpgradeTo { self.instance.clone() }
@@ -25245,14 +25245,14 @@ impl RObject for MessageChatUpgradeFrom {
 
 impl MessageChatUpgradeFrom {
   
-  pub fn builder() -> MessageChatUpgradeFromBuilder {
+  pub fn builder() -> RTDMessageChatUpgradeFromBuilder {
     let instance = Self {
       td_name: "messageChatUpgradeFrom".to_string(),
       title: None,
       basic_group_id: None,
       
     };
-    MessageChatUpgradeFromBuilder::new(instance)
+    RTDMessageChatUpgradeFromBuilder::new(instance)
   }
   
   
@@ -25267,9 +25267,9 @@ impl MessageChatUpgradeFrom {
 
 
 #[derive(Debug)]
-pub struct MessageChatUpgradeFromBuilder { instance: MessageChatUpgradeFrom }
+pub struct RTDMessageChatUpgradeFromBuilder { instance: MessageChatUpgradeFrom }
 
-impl MessageChatUpgradeFromBuilder {
+impl RTDMessageChatUpgradeFromBuilder {
   fn new(instance: MessageChatUpgradeFrom) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageChatUpgradeFrom { self.instance.clone() }
@@ -25314,13 +25314,13 @@ impl RObject for MessagePinMessage {
 
 impl MessagePinMessage {
   
-  pub fn builder() -> MessagePinMessageBuilder {
+  pub fn builder() -> RTDMessagePinMessageBuilder {
     let instance = Self {
       td_name: "messagePinMessage".to_string(),
       message_id: None,
       
     };
-    MessagePinMessageBuilder::new(instance)
+    RTDMessagePinMessageBuilder::new(instance)
   }
   
   
@@ -25333,9 +25333,9 @@ impl MessagePinMessage {
 
 
 #[derive(Debug)]
-pub struct MessagePinMessageBuilder { instance: MessagePinMessage }
+pub struct RTDMessagePinMessageBuilder { instance: MessagePinMessage }
 
-impl MessagePinMessageBuilder {
+impl RTDMessagePinMessageBuilder {
   fn new(instance: MessagePinMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessagePinMessage { self.instance.clone() }
@@ -25373,12 +25373,12 @@ impl RObject for MessageScreenshotTaken {
 
 impl MessageScreenshotTaken {
   
-  pub fn builder() -> MessageScreenshotTakenBuilder {
+  pub fn builder() -> RTDMessageScreenshotTakenBuilder {
     let instance = Self {
       td_name: "messageScreenshotTaken".to_string(),
       
     };
-    MessageScreenshotTakenBuilder::new(instance)
+    RTDMessageScreenshotTakenBuilder::new(instance)
   }
   
   
@@ -25389,9 +25389,9 @@ impl MessageScreenshotTaken {
 
 
 #[derive(Debug)]
-pub struct MessageScreenshotTakenBuilder { instance: MessageScreenshotTaken }
+pub struct RTDMessageScreenshotTakenBuilder { instance: MessageScreenshotTaken }
 
-impl MessageScreenshotTakenBuilder {
+impl RTDMessageScreenshotTakenBuilder {
   fn new(instance: MessageScreenshotTaken) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageScreenshotTaken { self.instance.clone() }
@@ -25426,13 +25426,13 @@ impl RObject for MessageChatSetTtl {
 
 impl MessageChatSetTtl {
   
-  pub fn builder() -> MessageChatSetTtlBuilder {
+  pub fn builder() -> RTDMessageChatSetTtlBuilder {
     let instance = Self {
       td_name: "messageChatSetTtl".to_string(),
       ttl: None,
       
     };
-    MessageChatSetTtlBuilder::new(instance)
+    RTDMessageChatSetTtlBuilder::new(instance)
   }
   
   
@@ -25445,9 +25445,9 @@ impl MessageChatSetTtl {
 
 
 #[derive(Debug)]
-pub struct MessageChatSetTtlBuilder { instance: MessageChatSetTtl }
+pub struct RTDMessageChatSetTtlBuilder { instance: MessageChatSetTtl }
 
-impl MessageChatSetTtlBuilder {
+impl RTDMessageChatSetTtlBuilder {
   fn new(instance: MessageChatSetTtl) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageChatSetTtl { self.instance.clone() }
@@ -25487,13 +25487,13 @@ impl RObject for MessageCustomServiceAction {
 
 impl MessageCustomServiceAction {
   
-  pub fn builder() -> MessageCustomServiceActionBuilder {
+  pub fn builder() -> RTDMessageCustomServiceActionBuilder {
     let instance = Self {
       td_name: "messageCustomServiceAction".to_string(),
       text: None,
       
     };
-    MessageCustomServiceActionBuilder::new(instance)
+    RTDMessageCustomServiceActionBuilder::new(instance)
   }
   
   
@@ -25506,9 +25506,9 @@ impl MessageCustomServiceAction {
 
 
 #[derive(Debug)]
-pub struct MessageCustomServiceActionBuilder { instance: MessageCustomServiceAction }
+pub struct RTDMessageCustomServiceActionBuilder { instance: MessageCustomServiceAction }
 
-impl MessageCustomServiceActionBuilder {
+impl RTDMessageCustomServiceActionBuilder {
   fn new(instance: MessageCustomServiceAction) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageCustomServiceAction { self.instance.clone() }
@@ -25552,7 +25552,7 @@ impl RObject for MessageGameScore {
 
 impl MessageGameScore {
   
-  pub fn builder() -> MessageGameScoreBuilder {
+  pub fn builder() -> RTDMessageGameScoreBuilder {
     let instance = Self {
       td_name: "messageGameScore".to_string(),
       game_message_id: None,
@@ -25560,7 +25560,7 @@ impl MessageGameScore {
       score: None,
       
     };
-    MessageGameScoreBuilder::new(instance)
+    RTDMessageGameScoreBuilder::new(instance)
   }
   
   
@@ -25577,9 +25577,9 @@ impl MessageGameScore {
 
 
 #[derive(Debug)]
-pub struct MessageGameScoreBuilder { instance: MessageGameScore }
+pub struct RTDMessageGameScoreBuilder { instance: MessageGameScore }
 
-impl MessageGameScoreBuilder {
+impl RTDMessageGameScoreBuilder {
   fn new(instance: MessageGameScore) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageGameScore { self.instance.clone() }
@@ -25633,7 +25633,7 @@ impl RObject for MessagePaymentSuccessful {
 
 impl MessagePaymentSuccessful {
   
-  pub fn builder() -> MessagePaymentSuccessfulBuilder {
+  pub fn builder() -> RTDMessagePaymentSuccessfulBuilder {
     let instance = Self {
       td_name: "messagePaymentSuccessful".to_string(),
       invoice_message_id: None,
@@ -25641,7 +25641,7 @@ impl MessagePaymentSuccessful {
       total_amount: None,
       
     };
-    MessagePaymentSuccessfulBuilder::new(instance)
+    RTDMessagePaymentSuccessfulBuilder::new(instance)
   }
   
   
@@ -25658,9 +25658,9 @@ impl MessagePaymentSuccessful {
 
 
 #[derive(Debug)]
-pub struct MessagePaymentSuccessfulBuilder { instance: MessagePaymentSuccessful }
+pub struct RTDMessagePaymentSuccessfulBuilder { instance: MessagePaymentSuccessful }
 
-impl MessagePaymentSuccessfulBuilder {
+impl RTDMessagePaymentSuccessfulBuilder {
   fn new(instance: MessagePaymentSuccessful) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessagePaymentSuccessful { self.instance.clone() }
@@ -25724,7 +25724,7 @@ impl RObject for MessagePaymentSuccessfulBot {
 
 impl MessagePaymentSuccessfulBot {
   
-  pub fn builder() -> MessagePaymentSuccessfulBotBuilder {
+  pub fn builder() -> RTDMessagePaymentSuccessfulBotBuilder {
     let instance = Self {
       td_name: "messagePaymentSuccessfulBot".to_string(),
       invoice_message_id: None,
@@ -25737,7 +25737,7 @@ impl MessagePaymentSuccessfulBot {
       provider_payment_charge_id: None,
       
     };
-    MessagePaymentSuccessfulBotBuilder::new(instance)
+    RTDMessagePaymentSuccessfulBotBuilder::new(instance)
   }
   
   
@@ -25764,9 +25764,9 @@ impl MessagePaymentSuccessfulBot {
 
 
 #[derive(Debug)]
-pub struct MessagePaymentSuccessfulBotBuilder { instance: MessagePaymentSuccessfulBot }
+pub struct RTDMessagePaymentSuccessfulBotBuilder { instance: MessagePaymentSuccessfulBot }
 
-impl MessagePaymentSuccessfulBotBuilder {
+impl RTDMessagePaymentSuccessfulBotBuilder {
   fn new(instance: MessagePaymentSuccessfulBot) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessagePaymentSuccessfulBot { self.instance.clone() }
@@ -25839,12 +25839,12 @@ impl RObject for MessageContactRegistered {
 
 impl MessageContactRegistered {
   
-  pub fn builder() -> MessageContactRegisteredBuilder {
+  pub fn builder() -> RTDMessageContactRegisteredBuilder {
     let instance = Self {
       td_name: "messageContactRegistered".to_string(),
       
     };
-    MessageContactRegisteredBuilder::new(instance)
+    RTDMessageContactRegisteredBuilder::new(instance)
   }
   
   
@@ -25855,9 +25855,9 @@ impl MessageContactRegistered {
 
 
 #[derive(Debug)]
-pub struct MessageContactRegisteredBuilder { instance: MessageContactRegistered }
+pub struct RTDMessageContactRegisteredBuilder { instance: MessageContactRegistered }
 
-impl MessageContactRegisteredBuilder {
+impl RTDMessageContactRegisteredBuilder {
   fn new(instance: MessageContactRegistered) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageContactRegistered { self.instance.clone() }
@@ -25892,13 +25892,13 @@ impl RObject for MessageWebsiteConnected {
 
 impl MessageWebsiteConnected {
   
-  pub fn builder() -> MessageWebsiteConnectedBuilder {
+  pub fn builder() -> RTDMessageWebsiteConnectedBuilder {
     let instance = Self {
       td_name: "messageWebsiteConnected".to_string(),
       domain_name: None,
       
     };
-    MessageWebsiteConnectedBuilder::new(instance)
+    RTDMessageWebsiteConnectedBuilder::new(instance)
   }
   
   
@@ -25911,9 +25911,9 @@ impl MessageWebsiteConnected {
 
 
 #[derive(Debug)]
-pub struct MessageWebsiteConnectedBuilder { instance: MessageWebsiteConnected }
+pub struct RTDMessageWebsiteConnectedBuilder { instance: MessageWebsiteConnected }
 
-impl MessageWebsiteConnectedBuilder {
+impl RTDMessageWebsiteConnectedBuilder {
   fn new(instance: MessageWebsiteConnected) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageWebsiteConnected { self.instance.clone() }
@@ -25960,13 +25960,13 @@ impl RObject for MessagePassportDataSent {
 
 impl MessagePassportDataSent {
   
-  pub fn builder() -> MessagePassportDataSentBuilder {
+  pub fn builder() -> RTDMessagePassportDataSentBuilder {
     let instance = Self {
       td_name: "messagePassportDataSent".to_string(),
       types: None,
       
     };
-    MessagePassportDataSentBuilder::new(instance)
+    RTDMessagePassportDataSentBuilder::new(instance)
   }
   
   
@@ -25979,9 +25979,9 @@ impl MessagePassportDataSent {
 
 
 #[derive(Debug)]
-pub struct MessagePassportDataSentBuilder { instance: MessagePassportDataSent }
+pub struct RTDMessagePassportDataSentBuilder { instance: MessagePassportDataSent }
 
-impl MessagePassportDataSentBuilder {
+impl RTDMessagePassportDataSentBuilder {
   fn new(instance: MessagePassportDataSent) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessagePassportDataSent { self.instance.clone() }
@@ -26023,14 +26023,14 @@ impl RObject for MessagePassportDataReceived {
 
 impl MessagePassportDataReceived {
   
-  pub fn builder() -> MessagePassportDataReceivedBuilder {
+  pub fn builder() -> RTDMessagePassportDataReceivedBuilder {
     let instance = Self {
       td_name: "messagePassportDataReceived".to_string(),
       elements: None,
       credentials: None,
       
     };
-    MessagePassportDataReceivedBuilder::new(instance)
+    RTDMessagePassportDataReceivedBuilder::new(instance)
   }
   
   
@@ -26045,9 +26045,9 @@ impl MessagePassportDataReceived {
 
 
 #[derive(Debug)]
-pub struct MessagePassportDataReceivedBuilder { instance: MessagePassportDataReceived }
+pub struct RTDMessagePassportDataReceivedBuilder { instance: MessagePassportDataReceived }
 
-impl MessagePassportDataReceivedBuilder {
+impl RTDMessagePassportDataReceivedBuilder {
   fn new(instance: MessagePassportDataReceived) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessagePassportDataReceived { self.instance.clone() }
@@ -26090,12 +26090,12 @@ impl RObject for MessageUnsupported {
 
 impl MessageUnsupported {
   
-  pub fn builder() -> MessageUnsupportedBuilder {
+  pub fn builder() -> RTDMessageUnsupportedBuilder {
     let instance = Self {
       td_name: "messageUnsupported".to_string(),
       
     };
-    MessageUnsupportedBuilder::new(instance)
+    RTDMessageUnsupportedBuilder::new(instance)
   }
   
   
@@ -26106,9 +26106,9 @@ impl MessageUnsupported {
 
 
 #[derive(Debug)]
-pub struct MessageUnsupportedBuilder { instance: MessageUnsupported }
+pub struct RTDMessageUnsupportedBuilder { instance: MessageUnsupported }
 
-impl MessageUnsupportedBuilder {
+impl RTDMessageUnsupportedBuilder {
   fn new(instance: MessageUnsupported) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageUnsupported { self.instance.clone() }
@@ -26154,7 +26154,7 @@ impl RObject for MessageForwardInfo {
 
 impl MessageForwardInfo {
   
-  pub fn builder() -> MessageForwardInfoBuilder {
+  pub fn builder() -> RTDMessageForwardInfoBuilder {
     let instance = Self {
       td_name: "messageForwardInfo".to_string(),
       origin: None,
@@ -26163,7 +26163,7 @@ impl MessageForwardInfo {
       from_message_id: None,
       
     };
-    MessageForwardInfoBuilder::new(instance)
+    RTDMessageForwardInfoBuilder::new(instance)
   }
   
   
@@ -26182,9 +26182,9 @@ impl MessageForwardInfo {
 
 
 #[derive(Debug)]
-pub struct MessageForwardInfoBuilder { instance: MessageForwardInfo }
+pub struct RTDMessageForwardInfoBuilder { instance: MessageForwardInfo }
 
-impl MessageForwardInfoBuilder {
+impl RTDMessageForwardInfoBuilder {
   fn new(instance: MessageForwardInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageForwardInfo { self.instance.clone() }
@@ -26275,13 +26275,13 @@ impl RObject for MessageForwardOriginUser {
 
 impl MessageForwardOriginUser {
   
-  pub fn builder() -> MessageForwardOriginUserBuilder {
+  pub fn builder() -> RTDMessageForwardOriginUserBuilder {
     let instance = Self {
       td_name: "messageForwardOriginUser".to_string(),
       sender_user_id: None,
       
     };
-    MessageForwardOriginUserBuilder::new(instance)
+    RTDMessageForwardOriginUserBuilder::new(instance)
   }
   
   
@@ -26294,9 +26294,9 @@ impl MessageForwardOriginUser {
 
 
 #[derive(Debug)]
-pub struct MessageForwardOriginUserBuilder { instance: MessageForwardOriginUser }
+pub struct RTDMessageForwardOriginUserBuilder { instance: MessageForwardOriginUser }
 
-impl MessageForwardOriginUserBuilder {
+impl RTDMessageForwardOriginUserBuilder {
   fn new(instance: MessageForwardOriginUser) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageForwardOriginUser { self.instance.clone() }
@@ -26336,13 +26336,13 @@ impl RObject for MessageForwardOriginHiddenUser {
 
 impl MessageForwardOriginHiddenUser {
   
-  pub fn builder() -> MessageForwardOriginHiddenUserBuilder {
+  pub fn builder() -> RTDMessageForwardOriginHiddenUserBuilder {
     let instance = Self {
       td_name: "messageForwardOriginHiddenUser".to_string(),
       sender_name: None,
       
     };
-    MessageForwardOriginHiddenUserBuilder::new(instance)
+    RTDMessageForwardOriginHiddenUserBuilder::new(instance)
   }
   
   
@@ -26355,9 +26355,9 @@ impl MessageForwardOriginHiddenUser {
 
 
 #[derive(Debug)]
-pub struct MessageForwardOriginHiddenUserBuilder { instance: MessageForwardOriginHiddenUser }
+pub struct RTDMessageForwardOriginHiddenUserBuilder { instance: MessageForwardOriginHiddenUser }
 
-impl MessageForwardOriginHiddenUserBuilder {
+impl RTDMessageForwardOriginHiddenUserBuilder {
   fn new(instance: MessageForwardOriginHiddenUser) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageForwardOriginHiddenUser { self.instance.clone() }
@@ -26401,7 +26401,7 @@ impl RObject for MessageForwardOriginChannel {
 
 impl MessageForwardOriginChannel {
   
-  pub fn builder() -> MessageForwardOriginChannelBuilder {
+  pub fn builder() -> RTDMessageForwardOriginChannelBuilder {
     let instance = Self {
       td_name: "messageForwardOriginChannel".to_string(),
       chat_id: None,
@@ -26409,7 +26409,7 @@ impl MessageForwardOriginChannel {
       author_signature: None,
       
     };
-    MessageForwardOriginChannelBuilder::new(instance)
+    RTDMessageForwardOriginChannelBuilder::new(instance)
   }
   
   
@@ -26426,9 +26426,9 @@ impl MessageForwardOriginChannel {
 
 
 #[derive(Debug)]
-pub struct MessageForwardOriginChannelBuilder { instance: MessageForwardOriginChannel }
+pub struct RTDMessageForwardOriginChannelBuilder { instance: MessageForwardOriginChannel }
 
-impl MessageForwardOriginChannelBuilder {
+impl RTDMessageForwardOriginChannelBuilder {
   fn new(instance: MessageForwardOriginChannel) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageForwardOriginChannel { self.instance.clone() }
@@ -26511,12 +26511,12 @@ impl RObject for MessageSendingStatePending {
 
 impl MessageSendingStatePending {
   
-  pub fn builder() -> MessageSendingStatePendingBuilder {
+  pub fn builder() -> RTDMessageSendingStatePendingBuilder {
     let instance = Self {
       td_name: "messageSendingStatePending".to_string(),
       
     };
-    MessageSendingStatePendingBuilder::new(instance)
+    RTDMessageSendingStatePendingBuilder::new(instance)
   }
   
   
@@ -26527,9 +26527,9 @@ impl MessageSendingStatePending {
 
 
 #[derive(Debug)]
-pub struct MessageSendingStatePendingBuilder { instance: MessageSendingStatePending }
+pub struct RTDMessageSendingStatePendingBuilder { instance: MessageSendingStatePending }
 
-impl MessageSendingStatePendingBuilder {
+impl RTDMessageSendingStatePendingBuilder {
   fn new(instance: MessageSendingStatePending) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageSendingStatePending { self.instance.clone() }
@@ -26562,12 +26562,12 @@ impl RObject for MessageSendingStateFailed {
 
 impl MessageSendingStateFailed {
   
-  pub fn builder() -> MessageSendingStateFailedBuilder {
+  pub fn builder() -> RTDMessageSendingStateFailedBuilder {
     let instance = Self {
       td_name: "messageSendingStateFailed".to_string(),
       
     };
-    MessageSendingStateFailedBuilder::new(instance)
+    RTDMessageSendingStateFailedBuilder::new(instance)
   }
   
   
@@ -26578,9 +26578,9 @@ impl MessageSendingStateFailed {
 
 
 #[derive(Debug)]
-pub struct MessageSendingStateFailedBuilder { instance: MessageSendingStateFailed }
+pub struct RTDMessageSendingStateFailedBuilder { instance: MessageSendingStateFailed }
 
-impl MessageSendingStateFailedBuilder {
+impl RTDMessageSendingStateFailedBuilder {
   fn new(instance: MessageSendingStateFailed) -> Self { Self { instance } }
 
   pub fn build(&self) -> MessageSendingStateFailed { self.instance.clone() }
@@ -26615,14 +26615,14 @@ impl RObject for Messages {
 
 impl Messages {
   
-  pub fn builder() -> MessagesBuilder {
+  pub fn builder() -> RTDMessagesBuilder {
     let instance = Self {
       td_name: "messages".to_string(),
       total_count: None,
       messages: None,
       
     };
-    MessagesBuilder::new(instance)
+    RTDMessagesBuilder::new(instance)
   }
   
   
@@ -26637,9 +26637,9 @@ impl Messages {
 
 
 #[derive(Debug)]
-pub struct MessagesBuilder { instance: Messages }
+pub struct RTDMessagesBuilder { instance: Messages }
 
-impl MessagesBuilder {
+impl RTDMessagesBuilder {
   fn new(instance: Messages) -> Self { Self { instance } }
 
   pub fn build(&self) -> Messages { self.instance.clone() }
@@ -26691,14 +26691,14 @@ impl RObject for NetworkStatistics {
 
 impl NetworkStatistics {
   
-  pub fn builder() -> NetworkStatisticsBuilder {
+  pub fn builder() -> RTDNetworkStatisticsBuilder {
     let instance = Self {
       td_name: "networkStatistics".to_string(),
       since_date: None,
       entries: None,
       
     };
-    NetworkStatisticsBuilder::new(instance)
+    RTDNetworkStatisticsBuilder::new(instance)
   }
   
   
@@ -26713,9 +26713,9 @@ impl NetworkStatistics {
 
 
 #[derive(Debug)]
-pub struct NetworkStatisticsBuilder { instance: NetworkStatistics }
+pub struct RTDNetworkStatisticsBuilder { instance: NetworkStatistics }
 
-impl NetworkStatisticsBuilder {
+impl RTDNetworkStatisticsBuilder {
   fn new(instance: NetworkStatistics) -> Self { Self { instance } }
 
   pub fn build(&self) -> NetworkStatistics { self.instance.clone() }
@@ -26808,7 +26808,7 @@ impl RObject for NetworkStatisticsEntryFile {
 
 impl NetworkStatisticsEntryFile {
   
-  pub fn builder() -> NetworkStatisticsEntryFileBuilder {
+  pub fn builder() -> RTDNetworkStatisticsEntryFileBuilder {
     let instance = Self {
       td_name: "networkStatisticsEntryFile".to_string(),
       file_type: None,
@@ -26817,7 +26817,7 @@ impl NetworkStatisticsEntryFile {
       received_bytes: None,
       
     };
-    NetworkStatisticsEntryFileBuilder::new(instance)
+    RTDNetworkStatisticsEntryFileBuilder::new(instance)
   }
   
   
@@ -26836,9 +26836,9 @@ impl NetworkStatisticsEntryFile {
 
 
 #[derive(Debug)]
-pub struct NetworkStatisticsEntryFileBuilder { instance: NetworkStatisticsEntryFile }
+pub struct RTDNetworkStatisticsEntryFileBuilder { instance: NetworkStatisticsEntryFile }
 
-impl NetworkStatisticsEntryFileBuilder {
+impl RTDNetworkStatisticsEntryFileBuilder {
   fn new(instance: NetworkStatisticsEntryFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> NetworkStatisticsEntryFile { self.instance.clone() }
@@ -26906,7 +26906,7 @@ impl RObject for NetworkStatisticsEntryCall {
 
 impl NetworkStatisticsEntryCall {
   
-  pub fn builder() -> NetworkStatisticsEntryCallBuilder {
+  pub fn builder() -> RTDNetworkStatisticsEntryCallBuilder {
     let instance = Self {
       td_name: "networkStatisticsEntryCall".to_string(),
       network_type: None,
@@ -26915,7 +26915,7 @@ impl NetworkStatisticsEntryCall {
       duration: None,
       
     };
-    NetworkStatisticsEntryCallBuilder::new(instance)
+    RTDNetworkStatisticsEntryCallBuilder::new(instance)
   }
   
   
@@ -26934,9 +26934,9 @@ impl NetworkStatisticsEntryCall {
 
 
 #[derive(Debug)]
-pub struct NetworkStatisticsEntryCallBuilder { instance: NetworkStatisticsEntryCall }
+pub struct RTDNetworkStatisticsEntryCallBuilder { instance: NetworkStatisticsEntryCall }
 
-impl NetworkStatisticsEntryCallBuilder {
+impl RTDNetworkStatisticsEntryCallBuilder {
   fn new(instance: NetworkStatisticsEntryCall) -> Self { Self { instance } }
 
   pub fn build(&self) -> NetworkStatisticsEntryCall { self.instance.clone() }
@@ -27027,12 +27027,12 @@ impl RObject for NetworkTypeNone {
 
 impl NetworkTypeNone {
   
-  pub fn builder() -> NetworkTypeNoneBuilder {
+  pub fn builder() -> RTDNetworkTypeNoneBuilder {
     let instance = Self {
       td_name: "networkTypeNone".to_string(),
       
     };
-    NetworkTypeNoneBuilder::new(instance)
+    RTDNetworkTypeNoneBuilder::new(instance)
   }
   
   
@@ -27043,9 +27043,9 @@ impl NetworkTypeNone {
 
 
 #[derive(Debug)]
-pub struct NetworkTypeNoneBuilder { instance: NetworkTypeNone }
+pub struct RTDNetworkTypeNoneBuilder { instance: NetworkTypeNone }
 
-impl NetworkTypeNoneBuilder {
+impl RTDNetworkTypeNoneBuilder {
   fn new(instance: NetworkTypeNone) -> Self { Self { instance } }
 
   pub fn build(&self) -> NetworkTypeNone { self.instance.clone() }
@@ -27078,12 +27078,12 @@ impl RObject for NetworkTypeMobile {
 
 impl NetworkTypeMobile {
   
-  pub fn builder() -> NetworkTypeMobileBuilder {
+  pub fn builder() -> RTDNetworkTypeMobileBuilder {
     let instance = Self {
       td_name: "networkTypeMobile".to_string(),
       
     };
-    NetworkTypeMobileBuilder::new(instance)
+    RTDNetworkTypeMobileBuilder::new(instance)
   }
   
   
@@ -27094,9 +27094,9 @@ impl NetworkTypeMobile {
 
 
 #[derive(Debug)]
-pub struct NetworkTypeMobileBuilder { instance: NetworkTypeMobile }
+pub struct RTDNetworkTypeMobileBuilder { instance: NetworkTypeMobile }
 
-impl NetworkTypeMobileBuilder {
+impl RTDNetworkTypeMobileBuilder {
   fn new(instance: NetworkTypeMobile) -> Self { Self { instance } }
 
   pub fn build(&self) -> NetworkTypeMobile { self.instance.clone() }
@@ -27129,12 +27129,12 @@ impl RObject for NetworkTypeMobileRoaming {
 
 impl NetworkTypeMobileRoaming {
   
-  pub fn builder() -> NetworkTypeMobileRoamingBuilder {
+  pub fn builder() -> RTDNetworkTypeMobileRoamingBuilder {
     let instance = Self {
       td_name: "networkTypeMobileRoaming".to_string(),
       
     };
-    NetworkTypeMobileRoamingBuilder::new(instance)
+    RTDNetworkTypeMobileRoamingBuilder::new(instance)
   }
   
   
@@ -27145,9 +27145,9 @@ impl NetworkTypeMobileRoaming {
 
 
 #[derive(Debug)]
-pub struct NetworkTypeMobileRoamingBuilder { instance: NetworkTypeMobileRoaming }
+pub struct RTDNetworkTypeMobileRoamingBuilder { instance: NetworkTypeMobileRoaming }
 
-impl NetworkTypeMobileRoamingBuilder {
+impl RTDNetworkTypeMobileRoamingBuilder {
   fn new(instance: NetworkTypeMobileRoaming) -> Self { Self { instance } }
 
   pub fn build(&self) -> NetworkTypeMobileRoaming { self.instance.clone() }
@@ -27180,12 +27180,12 @@ impl RObject for NetworkTypeWiFi {
 
 impl NetworkTypeWiFi {
   
-  pub fn builder() -> NetworkTypeWiFiBuilder {
+  pub fn builder() -> RTDNetworkTypeWiFiBuilder {
     let instance = Self {
       td_name: "networkTypeWiFi".to_string(),
       
     };
-    NetworkTypeWiFiBuilder::new(instance)
+    RTDNetworkTypeWiFiBuilder::new(instance)
   }
   
   
@@ -27196,9 +27196,9 @@ impl NetworkTypeWiFi {
 
 
 #[derive(Debug)]
-pub struct NetworkTypeWiFiBuilder { instance: NetworkTypeWiFi }
+pub struct RTDNetworkTypeWiFiBuilder { instance: NetworkTypeWiFi }
 
-impl NetworkTypeWiFiBuilder {
+impl RTDNetworkTypeWiFiBuilder {
   fn new(instance: NetworkTypeWiFi) -> Self { Self { instance } }
 
   pub fn build(&self) -> NetworkTypeWiFi { self.instance.clone() }
@@ -27231,12 +27231,12 @@ impl RObject for NetworkTypeOther {
 
 impl NetworkTypeOther {
   
-  pub fn builder() -> NetworkTypeOtherBuilder {
+  pub fn builder() -> RTDNetworkTypeOtherBuilder {
     let instance = Self {
       td_name: "networkTypeOther".to_string(),
       
     };
-    NetworkTypeOtherBuilder::new(instance)
+    RTDNetworkTypeOtherBuilder::new(instance)
   }
   
   
@@ -27247,9 +27247,9 @@ impl NetworkTypeOther {
 
 
 #[derive(Debug)]
-pub struct NetworkTypeOtherBuilder { instance: NetworkTypeOther }
+pub struct RTDNetworkTypeOtherBuilder { instance: NetworkTypeOther }
 
-impl NetworkTypeOtherBuilder {
+impl RTDNetworkTypeOtherBuilder {
   fn new(instance: NetworkTypeOther) -> Self { Self { instance } }
 
   pub fn build(&self) -> NetworkTypeOther { self.instance.clone() }
@@ -27293,7 +27293,7 @@ impl RObject for Notification {
 
 impl Notification {
   
-  pub fn builder() -> NotificationBuilder {
+  pub fn builder() -> RTDNotificationBuilder {
     let instance = Self {
       td_name: "notification".to_string(),
       id: None,
@@ -27301,7 +27301,7 @@ impl Notification {
       type_: None,
       
     };
-    NotificationBuilder::new(instance)
+    RTDNotificationBuilder::new(instance)
   }
   
   
@@ -27318,9 +27318,9 @@ impl Notification {
 
 
 #[derive(Debug)]
-pub struct NotificationBuilder { instance: Notification }
+pub struct RTDNotificationBuilder { instance: Notification }
 
-impl NotificationBuilder {
+impl RTDNotificationBuilder {
   fn new(instance: Notification) -> Self { Self { instance } }
 
   pub fn build(&self) -> Notification { self.instance.clone() }
@@ -27383,7 +27383,7 @@ impl RObject for NotificationGroup {
 
 impl NotificationGroup {
   
-  pub fn builder() -> NotificationGroupBuilder {
+  pub fn builder() -> RTDNotificationGroupBuilder {
     let instance = Self {
       td_name: "notificationGroup".to_string(),
       id: None,
@@ -27393,7 +27393,7 @@ impl NotificationGroup {
       notifications: None,
       
     };
-    NotificationGroupBuilder::new(instance)
+    RTDNotificationGroupBuilder::new(instance)
   }
   
   
@@ -27414,9 +27414,9 @@ impl NotificationGroup {
 
 
 #[derive(Debug)]
-pub struct NotificationGroupBuilder { instance: NotificationGroup }
+pub struct RTDNotificationGroupBuilder { instance: NotificationGroup }
 
-impl NotificationGroupBuilder {
+impl RTDNotificationGroupBuilder {
   fn new(instance: NotificationGroup) -> Self { Self { instance } }
 
   pub fn build(&self) -> NotificationGroup { self.instance.clone() }
@@ -27511,12 +27511,12 @@ impl RObject for NotificationGroupTypeMessages {
 
 impl NotificationGroupTypeMessages {
   
-  pub fn builder() -> NotificationGroupTypeMessagesBuilder {
+  pub fn builder() -> RTDNotificationGroupTypeMessagesBuilder {
     let instance = Self {
       td_name: "notificationGroupTypeMessages".to_string(),
       
     };
-    NotificationGroupTypeMessagesBuilder::new(instance)
+    RTDNotificationGroupTypeMessagesBuilder::new(instance)
   }
   
   
@@ -27527,9 +27527,9 @@ impl NotificationGroupTypeMessages {
 
 
 #[derive(Debug)]
-pub struct NotificationGroupTypeMessagesBuilder { instance: NotificationGroupTypeMessages }
+pub struct RTDNotificationGroupTypeMessagesBuilder { instance: NotificationGroupTypeMessages }
 
-impl NotificationGroupTypeMessagesBuilder {
+impl RTDNotificationGroupTypeMessagesBuilder {
   fn new(instance: NotificationGroupTypeMessages) -> Self { Self { instance } }
 
   pub fn build(&self) -> NotificationGroupTypeMessages { self.instance.clone() }
@@ -27562,12 +27562,12 @@ impl RObject for NotificationGroupTypeMentions {
 
 impl NotificationGroupTypeMentions {
   
-  pub fn builder() -> NotificationGroupTypeMentionsBuilder {
+  pub fn builder() -> RTDNotificationGroupTypeMentionsBuilder {
     let instance = Self {
       td_name: "notificationGroupTypeMentions".to_string(),
       
     };
-    NotificationGroupTypeMentionsBuilder::new(instance)
+    RTDNotificationGroupTypeMentionsBuilder::new(instance)
   }
   
   
@@ -27578,9 +27578,9 @@ impl NotificationGroupTypeMentions {
 
 
 #[derive(Debug)]
-pub struct NotificationGroupTypeMentionsBuilder { instance: NotificationGroupTypeMentions }
+pub struct RTDNotificationGroupTypeMentionsBuilder { instance: NotificationGroupTypeMentions }
 
-impl NotificationGroupTypeMentionsBuilder {
+impl RTDNotificationGroupTypeMentionsBuilder {
   fn new(instance: NotificationGroupTypeMentions) -> Self { Self { instance } }
 
   pub fn build(&self) -> NotificationGroupTypeMentions { self.instance.clone() }
@@ -27613,12 +27613,12 @@ impl RObject for NotificationGroupTypeSecretChat {
 
 impl NotificationGroupTypeSecretChat {
   
-  pub fn builder() -> NotificationGroupTypeSecretChatBuilder {
+  pub fn builder() -> RTDNotificationGroupTypeSecretChatBuilder {
     let instance = Self {
       td_name: "notificationGroupTypeSecretChat".to_string(),
       
     };
-    NotificationGroupTypeSecretChatBuilder::new(instance)
+    RTDNotificationGroupTypeSecretChatBuilder::new(instance)
   }
   
   
@@ -27629,9 +27629,9 @@ impl NotificationGroupTypeSecretChat {
 
 
 #[derive(Debug)]
-pub struct NotificationGroupTypeSecretChatBuilder { instance: NotificationGroupTypeSecretChat }
+pub struct RTDNotificationGroupTypeSecretChatBuilder { instance: NotificationGroupTypeSecretChat }
 
-impl NotificationGroupTypeSecretChatBuilder {
+impl RTDNotificationGroupTypeSecretChatBuilder {
   fn new(instance: NotificationGroupTypeSecretChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> NotificationGroupTypeSecretChat { self.instance.clone() }
@@ -27664,12 +27664,12 @@ impl RObject for NotificationGroupTypeCalls {
 
 impl NotificationGroupTypeCalls {
   
-  pub fn builder() -> NotificationGroupTypeCallsBuilder {
+  pub fn builder() -> RTDNotificationGroupTypeCallsBuilder {
     let instance = Self {
       td_name: "notificationGroupTypeCalls".to_string(),
       
     };
-    NotificationGroupTypeCallsBuilder::new(instance)
+    RTDNotificationGroupTypeCallsBuilder::new(instance)
   }
   
   
@@ -27680,9 +27680,9 @@ impl NotificationGroupTypeCalls {
 
 
 #[derive(Debug)]
-pub struct NotificationGroupTypeCallsBuilder { instance: NotificationGroupTypeCalls }
+pub struct RTDNotificationGroupTypeCallsBuilder { instance: NotificationGroupTypeCalls }
 
-impl NotificationGroupTypeCallsBuilder {
+impl RTDNotificationGroupTypeCallsBuilder {
   fn new(instance: NotificationGroupTypeCalls) -> Self { Self { instance } }
 
   pub fn build(&self) -> NotificationGroupTypeCalls { self.instance.clone() }
@@ -27751,12 +27751,12 @@ impl RObject for NotificationSettingsScopePrivateChats {
 
 impl NotificationSettingsScopePrivateChats {
   
-  pub fn builder() -> NotificationSettingsScopePrivateChatsBuilder {
+  pub fn builder() -> RTDNotificationSettingsScopePrivateChatsBuilder {
     let instance = Self {
       td_name: "notificationSettingsScopePrivateChats".to_string(),
       
     };
-    NotificationSettingsScopePrivateChatsBuilder::new(instance)
+    RTDNotificationSettingsScopePrivateChatsBuilder::new(instance)
   }
   
   
@@ -27767,9 +27767,9 @@ impl NotificationSettingsScopePrivateChats {
 
 
 #[derive(Debug)]
-pub struct NotificationSettingsScopePrivateChatsBuilder { instance: NotificationSettingsScopePrivateChats }
+pub struct RTDNotificationSettingsScopePrivateChatsBuilder { instance: NotificationSettingsScopePrivateChats }
 
-impl NotificationSettingsScopePrivateChatsBuilder {
+impl RTDNotificationSettingsScopePrivateChatsBuilder {
   fn new(instance: NotificationSettingsScopePrivateChats) -> Self { Self { instance } }
 
   pub fn build(&self) -> NotificationSettingsScopePrivateChats { self.instance.clone() }
@@ -27802,12 +27802,12 @@ impl RObject for NotificationSettingsScopeGroupChats {
 
 impl NotificationSettingsScopeGroupChats {
   
-  pub fn builder() -> NotificationSettingsScopeGroupChatsBuilder {
+  pub fn builder() -> RTDNotificationSettingsScopeGroupChatsBuilder {
     let instance = Self {
       td_name: "notificationSettingsScopeGroupChats".to_string(),
       
     };
-    NotificationSettingsScopeGroupChatsBuilder::new(instance)
+    RTDNotificationSettingsScopeGroupChatsBuilder::new(instance)
   }
   
   
@@ -27818,9 +27818,9 @@ impl NotificationSettingsScopeGroupChats {
 
 
 #[derive(Debug)]
-pub struct NotificationSettingsScopeGroupChatsBuilder { instance: NotificationSettingsScopeGroupChats }
+pub struct RTDNotificationSettingsScopeGroupChatsBuilder { instance: NotificationSettingsScopeGroupChats }
 
-impl NotificationSettingsScopeGroupChatsBuilder {
+impl RTDNotificationSettingsScopeGroupChatsBuilder {
   fn new(instance: NotificationSettingsScopeGroupChats) -> Self { Self { instance } }
 
   pub fn build(&self) -> NotificationSettingsScopeGroupChats { self.instance.clone() }
@@ -27853,12 +27853,12 @@ impl RObject for NotificationSettingsScopeChannelChats {
 
 impl NotificationSettingsScopeChannelChats {
   
-  pub fn builder() -> NotificationSettingsScopeChannelChatsBuilder {
+  pub fn builder() -> RTDNotificationSettingsScopeChannelChatsBuilder {
     let instance = Self {
       td_name: "notificationSettingsScopeChannelChats".to_string(),
       
     };
-    NotificationSettingsScopeChannelChatsBuilder::new(instance)
+    RTDNotificationSettingsScopeChannelChatsBuilder::new(instance)
   }
   
   
@@ -27869,9 +27869,9 @@ impl NotificationSettingsScopeChannelChats {
 
 
 #[derive(Debug)]
-pub struct NotificationSettingsScopeChannelChatsBuilder { instance: NotificationSettingsScopeChannelChats }
+pub struct RTDNotificationSettingsScopeChannelChatsBuilder { instance: NotificationSettingsScopeChannelChats }
 
-impl NotificationSettingsScopeChannelChatsBuilder {
+impl RTDNotificationSettingsScopeChannelChatsBuilder {
   fn new(instance: NotificationSettingsScopeChannelChats) -> Self { Self { instance } }
 
   pub fn build(&self) -> NotificationSettingsScopeChannelChats { self.instance.clone() }
@@ -27943,13 +27943,13 @@ impl RObject for NotificationTypeNewMessage {
 
 impl NotificationTypeNewMessage {
   
-  pub fn builder() -> NotificationTypeNewMessageBuilder {
+  pub fn builder() -> RTDNotificationTypeNewMessageBuilder {
     let instance = Self {
       td_name: "notificationTypeNewMessage".to_string(),
       message: None,
       
     };
-    NotificationTypeNewMessageBuilder::new(instance)
+    RTDNotificationTypeNewMessageBuilder::new(instance)
   }
   
   
@@ -27962,9 +27962,9 @@ impl NotificationTypeNewMessage {
 
 
 #[derive(Debug)]
-pub struct NotificationTypeNewMessageBuilder { instance: NotificationTypeNewMessage }
+pub struct RTDNotificationTypeNewMessageBuilder { instance: NotificationTypeNewMessage }
 
-impl NotificationTypeNewMessageBuilder {
+impl RTDNotificationTypeNewMessageBuilder {
   fn new(instance: NotificationTypeNewMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> NotificationTypeNewMessage { self.instance.clone() }
@@ -28002,12 +28002,12 @@ impl RObject for NotificationTypeNewSecretChat {
 
 impl NotificationTypeNewSecretChat {
   
-  pub fn builder() -> NotificationTypeNewSecretChatBuilder {
+  pub fn builder() -> RTDNotificationTypeNewSecretChatBuilder {
     let instance = Self {
       td_name: "notificationTypeNewSecretChat".to_string(),
       
     };
-    NotificationTypeNewSecretChatBuilder::new(instance)
+    RTDNotificationTypeNewSecretChatBuilder::new(instance)
   }
   
   
@@ -28018,9 +28018,9 @@ impl NotificationTypeNewSecretChat {
 
 
 #[derive(Debug)]
-pub struct NotificationTypeNewSecretChatBuilder { instance: NotificationTypeNewSecretChat }
+pub struct RTDNotificationTypeNewSecretChatBuilder { instance: NotificationTypeNewSecretChat }
 
-impl NotificationTypeNewSecretChatBuilder {
+impl RTDNotificationTypeNewSecretChatBuilder {
   fn new(instance: NotificationTypeNewSecretChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> NotificationTypeNewSecretChat { self.instance.clone() }
@@ -28055,13 +28055,13 @@ impl RObject for NotificationTypeNewCall {
 
 impl NotificationTypeNewCall {
   
-  pub fn builder() -> NotificationTypeNewCallBuilder {
+  pub fn builder() -> RTDNotificationTypeNewCallBuilder {
     let instance = Self {
       td_name: "notificationTypeNewCall".to_string(),
       call_id: None,
       
     };
-    NotificationTypeNewCallBuilder::new(instance)
+    RTDNotificationTypeNewCallBuilder::new(instance)
   }
   
   
@@ -28074,9 +28074,9 @@ impl NotificationTypeNewCall {
 
 
 #[derive(Debug)]
-pub struct NotificationTypeNewCallBuilder { instance: NotificationTypeNewCall }
+pub struct RTDNotificationTypeNewCallBuilder { instance: NotificationTypeNewCall }
 
-impl NotificationTypeNewCallBuilder {
+impl RTDNotificationTypeNewCallBuilder {
   fn new(instance: NotificationTypeNewCall) -> Self { Self { instance } }
 
   pub fn build(&self) -> NotificationTypeNewCall { self.instance.clone() }
@@ -28127,7 +28127,7 @@ impl RObject for NotificationTypeNewPushMessage {
 
 impl NotificationTypeNewPushMessage {
   
-  pub fn builder() -> NotificationTypeNewPushMessageBuilder {
+  pub fn builder() -> RTDNotificationTypeNewPushMessageBuilder {
     let instance = Self {
       td_name: "notificationTypeNewPushMessage".to_string(),
       message_id: None,
@@ -28135,7 +28135,7 @@ impl NotificationTypeNewPushMessage {
       content: None,
       
     };
-    NotificationTypeNewPushMessageBuilder::new(instance)
+    RTDNotificationTypeNewPushMessageBuilder::new(instance)
   }
   
   
@@ -28152,9 +28152,9 @@ impl NotificationTypeNewPushMessage {
 
 
 #[derive(Debug)]
-pub struct NotificationTypeNewPushMessageBuilder { instance: NotificationTypeNewPushMessage }
+pub struct RTDNotificationTypeNewPushMessageBuilder { instance: NotificationTypeNewPushMessage }
 
-impl NotificationTypeNewPushMessageBuilder {
+impl RTDNotificationTypeNewPushMessageBuilder {
   fn new(instance: NotificationTypeNewPushMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> NotificationTypeNewPushMessage { self.instance.clone() }
@@ -28200,12 +28200,12 @@ impl RObject for Ok {
 
 impl Ok {
   
-  pub fn builder() -> OkBuilder {
+  pub fn builder() -> RTDOkBuilder {
     let instance = Self {
       td_name: "ok".to_string(),
       
     };
-    OkBuilder::new(instance)
+    RTDOkBuilder::new(instance)
   }
   
   
@@ -28216,9 +28216,9 @@ impl Ok {
 
 
 #[derive(Debug)]
-pub struct OkBuilder { instance: Ok }
+pub struct RTDOkBuilder { instance: Ok }
 
-impl OkBuilder {
+impl RTDOkBuilder {
   fn new(instance: Ok) -> Self { Self { instance } }
 
   pub fn build(&self) -> Ok { self.instance.clone() }
@@ -28290,13 +28290,13 @@ impl RObject for OptionValueBoolean {
 
 impl OptionValueBoolean {
   
-  pub fn builder() -> OptionValueBooleanBuilder {
+  pub fn builder() -> RTDOptionValueBooleanBuilder {
     let instance = Self {
       td_name: "optionValueBoolean".to_string(),
       value: None,
       
     };
-    OptionValueBooleanBuilder::new(instance)
+    RTDOptionValueBooleanBuilder::new(instance)
   }
   
   
@@ -28309,9 +28309,9 @@ impl OptionValueBoolean {
 
 
 #[derive(Debug)]
-pub struct OptionValueBooleanBuilder { instance: OptionValueBoolean }
+pub struct RTDOptionValueBooleanBuilder { instance: OptionValueBoolean }
 
-impl OptionValueBooleanBuilder {
+impl RTDOptionValueBooleanBuilder {
   fn new(instance: OptionValueBoolean) -> Self { Self { instance } }
 
   pub fn build(&self) -> OptionValueBoolean { self.instance.clone() }
@@ -28349,12 +28349,12 @@ impl RObject for OptionValueEmpty {
 
 impl OptionValueEmpty {
   
-  pub fn builder() -> OptionValueEmptyBuilder {
+  pub fn builder() -> RTDOptionValueEmptyBuilder {
     let instance = Self {
       td_name: "optionValueEmpty".to_string(),
       
     };
-    OptionValueEmptyBuilder::new(instance)
+    RTDOptionValueEmptyBuilder::new(instance)
   }
   
   
@@ -28365,9 +28365,9 @@ impl OptionValueEmpty {
 
 
 #[derive(Debug)]
-pub struct OptionValueEmptyBuilder { instance: OptionValueEmpty }
+pub struct RTDOptionValueEmptyBuilder { instance: OptionValueEmpty }
 
-impl OptionValueEmptyBuilder {
+impl RTDOptionValueEmptyBuilder {
   fn new(instance: OptionValueEmpty) -> Self { Self { instance } }
 
   pub fn build(&self) -> OptionValueEmpty { self.instance.clone() }
@@ -28402,13 +28402,13 @@ impl RObject for OptionValueInteger {
 
 impl OptionValueInteger {
   
-  pub fn builder() -> OptionValueIntegerBuilder {
+  pub fn builder() -> RTDOptionValueIntegerBuilder {
     let instance = Self {
       td_name: "optionValueInteger".to_string(),
       value: None,
       
     };
-    OptionValueIntegerBuilder::new(instance)
+    RTDOptionValueIntegerBuilder::new(instance)
   }
   
   
@@ -28421,9 +28421,9 @@ impl OptionValueInteger {
 
 
 #[derive(Debug)]
-pub struct OptionValueIntegerBuilder { instance: OptionValueInteger }
+pub struct RTDOptionValueIntegerBuilder { instance: OptionValueInteger }
 
-impl OptionValueIntegerBuilder {
+impl RTDOptionValueIntegerBuilder {
   fn new(instance: OptionValueInteger) -> Self { Self { instance } }
 
   pub fn build(&self) -> OptionValueInteger { self.instance.clone() }
@@ -28463,13 +28463,13 @@ impl RObject for OptionValueString {
 
 impl OptionValueString {
   
-  pub fn builder() -> OptionValueStringBuilder {
+  pub fn builder() -> RTDOptionValueStringBuilder {
     let instance = Self {
       td_name: "optionValueString".to_string(),
       value: None,
       
     };
-    OptionValueStringBuilder::new(instance)
+    RTDOptionValueStringBuilder::new(instance)
   }
   
   
@@ -28482,9 +28482,9 @@ impl OptionValueString {
 
 
 #[derive(Debug)]
-pub struct OptionValueStringBuilder { instance: OptionValueString }
+pub struct RTDOptionValueStringBuilder { instance: OptionValueString }
 
-impl OptionValueStringBuilder {
+impl RTDOptionValueStringBuilder {
   fn new(instance: OptionValueString) -> Self { Self { instance } }
 
   pub fn build(&self) -> OptionValueString { self.instance.clone() }
@@ -28528,7 +28528,7 @@ impl RObject for OrderInfo {
 
 impl OrderInfo {
   
-  pub fn builder() -> OrderInfoBuilder {
+  pub fn builder() -> RTDOrderInfoBuilder {
     let instance = Self {
       td_name: "orderInfo".to_string(),
       name: None,
@@ -28537,7 +28537,7 @@ impl OrderInfo {
       shipping_address: None,
       
     };
-    OrderInfoBuilder::new(instance)
+    RTDOrderInfoBuilder::new(instance)
   }
   
   
@@ -28556,9 +28556,9 @@ impl OrderInfo {
 
 
 #[derive(Debug)]
-pub struct OrderInfoBuilder { instance: OrderInfo }
+pub struct RTDOrderInfoBuilder { instance: OrderInfo }
 
-impl OrderInfoBuilder {
+impl RTDOrderInfoBuilder {
   fn new(instance: OrderInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> OrderInfo { self.instance.clone() }
@@ -28681,13 +28681,13 @@ impl RObject for PageBlockTitle {
 
 impl PageBlockTitle {
   
-  pub fn builder() -> PageBlockTitleBuilder {
+  pub fn builder() -> RTDPageBlockTitleBuilder {
     let instance = Self {
       td_name: "pageBlockTitle".to_string(),
       title: None,
       
     };
-    PageBlockTitleBuilder::new(instance)
+    RTDPageBlockTitleBuilder::new(instance)
   }
   
   
@@ -28700,9 +28700,9 @@ impl PageBlockTitle {
 
 
 #[derive(Debug)]
-pub struct PageBlockTitleBuilder { instance: PageBlockTitle }
+pub struct RTDPageBlockTitleBuilder { instance: PageBlockTitle }
 
-impl PageBlockTitleBuilder {
+impl RTDPageBlockTitleBuilder {
   fn new(instance: PageBlockTitle) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockTitle { self.instance.clone() }
@@ -28749,13 +28749,13 @@ impl RObject for PageBlockSubtitle {
 
 impl PageBlockSubtitle {
   
-  pub fn builder() -> PageBlockSubtitleBuilder {
+  pub fn builder() -> RTDPageBlockSubtitleBuilder {
     let instance = Self {
       td_name: "pageBlockSubtitle".to_string(),
       subtitle: None,
       
     };
-    PageBlockSubtitleBuilder::new(instance)
+    RTDPageBlockSubtitleBuilder::new(instance)
   }
   
   
@@ -28768,9 +28768,9 @@ impl PageBlockSubtitle {
 
 
 #[derive(Debug)]
-pub struct PageBlockSubtitleBuilder { instance: PageBlockSubtitle }
+pub struct RTDPageBlockSubtitleBuilder { instance: PageBlockSubtitle }
 
-impl PageBlockSubtitleBuilder {
+impl RTDPageBlockSubtitleBuilder {
   fn new(instance: PageBlockSubtitle) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockSubtitle { self.instance.clone() }
@@ -28819,14 +28819,14 @@ impl RObject for PageBlockAuthorDate {
 
 impl PageBlockAuthorDate {
   
-  pub fn builder() -> PageBlockAuthorDateBuilder {
+  pub fn builder() -> RTDPageBlockAuthorDateBuilder {
     let instance = Self {
       td_name: "pageBlockAuthorDate".to_string(),
       author: None,
       publish_date: None,
       
     };
-    PageBlockAuthorDateBuilder::new(instance)
+    RTDPageBlockAuthorDateBuilder::new(instance)
   }
   
   
@@ -28841,9 +28841,9 @@ impl PageBlockAuthorDate {
 
 
 #[derive(Debug)]
-pub struct PageBlockAuthorDateBuilder { instance: PageBlockAuthorDate }
+pub struct RTDPageBlockAuthorDateBuilder { instance: PageBlockAuthorDate }
 
-impl PageBlockAuthorDateBuilder {
+impl RTDPageBlockAuthorDateBuilder {
   fn new(instance: PageBlockAuthorDate) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockAuthorDate { self.instance.clone() }
@@ -28895,13 +28895,13 @@ impl RObject for PageBlockHeader {
 
 impl PageBlockHeader {
   
-  pub fn builder() -> PageBlockHeaderBuilder {
+  pub fn builder() -> RTDPageBlockHeaderBuilder {
     let instance = Self {
       td_name: "pageBlockHeader".to_string(),
       header: None,
       
     };
-    PageBlockHeaderBuilder::new(instance)
+    RTDPageBlockHeaderBuilder::new(instance)
   }
   
   
@@ -28914,9 +28914,9 @@ impl PageBlockHeader {
 
 
 #[derive(Debug)]
-pub struct PageBlockHeaderBuilder { instance: PageBlockHeader }
+pub struct RTDPageBlockHeaderBuilder { instance: PageBlockHeader }
 
-impl PageBlockHeaderBuilder {
+impl RTDPageBlockHeaderBuilder {
   fn new(instance: PageBlockHeader) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockHeader { self.instance.clone() }
@@ -28963,13 +28963,13 @@ impl RObject for PageBlockSubheader {
 
 impl PageBlockSubheader {
   
-  pub fn builder() -> PageBlockSubheaderBuilder {
+  pub fn builder() -> RTDPageBlockSubheaderBuilder {
     let instance = Self {
       td_name: "pageBlockSubheader".to_string(),
       subheader: None,
       
     };
-    PageBlockSubheaderBuilder::new(instance)
+    RTDPageBlockSubheaderBuilder::new(instance)
   }
   
   
@@ -28982,9 +28982,9 @@ impl PageBlockSubheader {
 
 
 #[derive(Debug)]
-pub struct PageBlockSubheaderBuilder { instance: PageBlockSubheader }
+pub struct RTDPageBlockSubheaderBuilder { instance: PageBlockSubheader }
 
-impl PageBlockSubheaderBuilder {
+impl RTDPageBlockSubheaderBuilder {
   fn new(instance: PageBlockSubheader) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockSubheader { self.instance.clone() }
@@ -29031,13 +29031,13 @@ impl RObject for PageBlockKicker {
 
 impl PageBlockKicker {
   
-  pub fn builder() -> PageBlockKickerBuilder {
+  pub fn builder() -> RTDPageBlockKickerBuilder {
     let instance = Self {
       td_name: "pageBlockKicker".to_string(),
       kicker: None,
       
     };
-    PageBlockKickerBuilder::new(instance)
+    RTDPageBlockKickerBuilder::new(instance)
   }
   
   
@@ -29050,9 +29050,9 @@ impl PageBlockKicker {
 
 
 #[derive(Debug)]
-pub struct PageBlockKickerBuilder { instance: PageBlockKicker }
+pub struct RTDPageBlockKickerBuilder { instance: PageBlockKicker }
 
-impl PageBlockKickerBuilder {
+impl RTDPageBlockKickerBuilder {
   fn new(instance: PageBlockKicker) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockKicker { self.instance.clone() }
@@ -29099,13 +29099,13 @@ impl RObject for PageBlockParagraph {
 
 impl PageBlockParagraph {
   
-  pub fn builder() -> PageBlockParagraphBuilder {
+  pub fn builder() -> RTDPageBlockParagraphBuilder {
     let instance = Self {
       td_name: "pageBlockParagraph".to_string(),
       text: None,
       
     };
-    PageBlockParagraphBuilder::new(instance)
+    RTDPageBlockParagraphBuilder::new(instance)
   }
   
   
@@ -29118,9 +29118,9 @@ impl PageBlockParagraph {
 
 
 #[derive(Debug)]
-pub struct PageBlockParagraphBuilder { instance: PageBlockParagraph }
+pub struct RTDPageBlockParagraphBuilder { instance: PageBlockParagraph }
 
-impl PageBlockParagraphBuilder {
+impl RTDPageBlockParagraphBuilder {
   fn new(instance: PageBlockParagraph) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockParagraph { self.instance.clone() }
@@ -29169,14 +29169,14 @@ impl RObject for PageBlockPreformatted {
 
 impl PageBlockPreformatted {
   
-  pub fn builder() -> PageBlockPreformattedBuilder {
+  pub fn builder() -> RTDPageBlockPreformattedBuilder {
     let instance = Self {
       td_name: "pageBlockPreformatted".to_string(),
       text: None,
       language: None,
       
     };
-    PageBlockPreformattedBuilder::new(instance)
+    RTDPageBlockPreformattedBuilder::new(instance)
   }
   
   
@@ -29191,9 +29191,9 @@ impl PageBlockPreformatted {
 
 
 #[derive(Debug)]
-pub struct PageBlockPreformattedBuilder { instance: PageBlockPreformatted }
+pub struct RTDPageBlockPreformattedBuilder { instance: PageBlockPreformatted }
 
-impl PageBlockPreformattedBuilder {
+impl RTDPageBlockPreformattedBuilder {
   fn new(instance: PageBlockPreformatted) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockPreformatted { self.instance.clone() }
@@ -29245,13 +29245,13 @@ impl RObject for PageBlockFooter {
 
 impl PageBlockFooter {
   
-  pub fn builder() -> PageBlockFooterBuilder {
+  pub fn builder() -> RTDPageBlockFooterBuilder {
     let instance = Self {
       td_name: "pageBlockFooter".to_string(),
       footer: None,
       
     };
-    PageBlockFooterBuilder::new(instance)
+    RTDPageBlockFooterBuilder::new(instance)
   }
   
   
@@ -29264,9 +29264,9 @@ impl PageBlockFooter {
 
 
 #[derive(Debug)]
-pub struct PageBlockFooterBuilder { instance: PageBlockFooter }
+pub struct RTDPageBlockFooterBuilder { instance: PageBlockFooter }
 
-impl PageBlockFooterBuilder {
+impl RTDPageBlockFooterBuilder {
   fn new(instance: PageBlockFooter) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockFooter { self.instance.clone() }
@@ -29304,12 +29304,12 @@ impl RObject for PageBlockDivider {
 
 impl PageBlockDivider {
   
-  pub fn builder() -> PageBlockDividerBuilder {
+  pub fn builder() -> RTDPageBlockDividerBuilder {
     let instance = Self {
       td_name: "pageBlockDivider".to_string(),
       
     };
-    PageBlockDividerBuilder::new(instance)
+    RTDPageBlockDividerBuilder::new(instance)
   }
   
   
@@ -29320,9 +29320,9 @@ impl PageBlockDivider {
 
 
 #[derive(Debug)]
-pub struct PageBlockDividerBuilder { instance: PageBlockDivider }
+pub struct RTDPageBlockDividerBuilder { instance: PageBlockDivider }
 
-impl PageBlockDividerBuilder {
+impl RTDPageBlockDividerBuilder {
   fn new(instance: PageBlockDivider) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockDivider { self.instance.clone() }
@@ -29357,13 +29357,13 @@ impl RObject for PageBlockAnchor {
 
 impl PageBlockAnchor {
   
-  pub fn builder() -> PageBlockAnchorBuilder {
+  pub fn builder() -> RTDPageBlockAnchorBuilder {
     let instance = Self {
       td_name: "pageBlockAnchor".to_string(),
       name: None,
       
     };
-    PageBlockAnchorBuilder::new(instance)
+    RTDPageBlockAnchorBuilder::new(instance)
   }
   
   
@@ -29376,9 +29376,9 @@ impl PageBlockAnchor {
 
 
 #[derive(Debug)]
-pub struct PageBlockAnchorBuilder { instance: PageBlockAnchor }
+pub struct RTDPageBlockAnchorBuilder { instance: PageBlockAnchor }
 
-impl PageBlockAnchorBuilder {
+impl RTDPageBlockAnchorBuilder {
   fn new(instance: PageBlockAnchor) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockAnchor { self.instance.clone() }
@@ -29418,13 +29418,13 @@ impl RObject for PageBlockList {
 
 impl PageBlockList {
   
-  pub fn builder() -> PageBlockListBuilder {
+  pub fn builder() -> RTDPageBlockListBuilder {
     let instance = Self {
       td_name: "pageBlockList".to_string(),
       items: None,
       
     };
-    PageBlockListBuilder::new(instance)
+    RTDPageBlockListBuilder::new(instance)
   }
   
   
@@ -29437,9 +29437,9 @@ impl PageBlockList {
 
 
 #[derive(Debug)]
-pub struct PageBlockListBuilder { instance: PageBlockList }
+pub struct RTDPageBlockListBuilder { instance: PageBlockList }
 
-impl PageBlockListBuilder {
+impl RTDPageBlockListBuilder {
   fn new(instance: PageBlockList) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockList { self.instance.clone() }
@@ -29488,14 +29488,14 @@ impl RObject for PageBlockBlockQuote {
 
 impl PageBlockBlockQuote {
   
-  pub fn builder() -> PageBlockBlockQuoteBuilder {
+  pub fn builder() -> RTDPageBlockBlockQuoteBuilder {
     let instance = Self {
       td_name: "pageBlockBlockQuote".to_string(),
       text: None,
       credit: None,
       
     };
-    PageBlockBlockQuoteBuilder::new(instance)
+    RTDPageBlockBlockQuoteBuilder::new(instance)
   }
   
   
@@ -29510,9 +29510,9 @@ impl PageBlockBlockQuote {
 
 
 #[derive(Debug)]
-pub struct PageBlockBlockQuoteBuilder { instance: PageBlockBlockQuote }
+pub struct RTDPageBlockBlockQuoteBuilder { instance: PageBlockBlockQuote }
 
-impl PageBlockBlockQuoteBuilder {
+impl RTDPageBlockBlockQuoteBuilder {
   fn new(instance: PageBlockBlockQuote) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockBlockQuote { self.instance.clone() }
@@ -29566,14 +29566,14 @@ impl RObject for PageBlockPullQuote {
 
 impl PageBlockPullQuote {
   
-  pub fn builder() -> PageBlockPullQuoteBuilder {
+  pub fn builder() -> RTDPageBlockPullQuoteBuilder {
     let instance = Self {
       td_name: "pageBlockPullQuote".to_string(),
       text: None,
       credit: None,
       
     };
-    PageBlockPullQuoteBuilder::new(instance)
+    RTDPageBlockPullQuoteBuilder::new(instance)
   }
   
   
@@ -29588,9 +29588,9 @@ impl PageBlockPullQuote {
 
 
 #[derive(Debug)]
-pub struct PageBlockPullQuoteBuilder { instance: PageBlockPullQuote }
+pub struct RTDPageBlockPullQuoteBuilder { instance: PageBlockPullQuote }
 
-impl PageBlockPullQuoteBuilder {
+impl RTDPageBlockPullQuoteBuilder {
   fn new(instance: PageBlockPullQuote) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockPullQuote { self.instance.clone() }
@@ -29639,7 +29639,7 @@ impl RObject for PageBlockAnimation {
 
 impl PageBlockAnimation {
   
-  pub fn builder() -> PageBlockAnimationBuilder {
+  pub fn builder() -> RTDPageBlockAnimationBuilder {
     let instance = Self {
       td_name: "pageBlockAnimation".to_string(),
       animation: None,
@@ -29647,7 +29647,7 @@ impl PageBlockAnimation {
       need_autoplay: None,
       
     };
-    PageBlockAnimationBuilder::new(instance)
+    RTDPageBlockAnimationBuilder::new(instance)
   }
   
   
@@ -29664,9 +29664,9 @@ impl PageBlockAnimation {
 
 
 #[derive(Debug)]
-pub struct PageBlockAnimationBuilder { instance: PageBlockAnimation }
+pub struct RTDPageBlockAnimationBuilder { instance: PageBlockAnimation }
 
-impl PageBlockAnimationBuilder {
+impl RTDPageBlockAnimationBuilder {
   fn new(instance: PageBlockAnimation) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockAnimation { self.instance.clone() }
@@ -29718,14 +29718,14 @@ impl RObject for PageBlockAudio {
 
 impl PageBlockAudio {
   
-  pub fn builder() -> PageBlockAudioBuilder {
+  pub fn builder() -> RTDPageBlockAudioBuilder {
     let instance = Self {
       td_name: "pageBlockAudio".to_string(),
       audio: None,
       caption: None,
       
     };
-    PageBlockAudioBuilder::new(instance)
+    RTDPageBlockAudioBuilder::new(instance)
   }
   
   
@@ -29740,9 +29740,9 @@ impl PageBlockAudio {
 
 
 #[derive(Debug)]
-pub struct PageBlockAudioBuilder { instance: PageBlockAudio }
+pub struct RTDPageBlockAudioBuilder { instance: PageBlockAudio }
 
-impl PageBlockAudioBuilder {
+impl RTDPageBlockAudioBuilder {
   fn new(instance: PageBlockAudio) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockAudio { self.instance.clone() }
@@ -29791,7 +29791,7 @@ impl RObject for PageBlockPhoto {
 
 impl PageBlockPhoto {
   
-  pub fn builder() -> PageBlockPhotoBuilder {
+  pub fn builder() -> RTDPageBlockPhotoBuilder {
     let instance = Self {
       td_name: "pageBlockPhoto".to_string(),
       photo: None,
@@ -29799,7 +29799,7 @@ impl PageBlockPhoto {
       url: None,
       
     };
-    PageBlockPhotoBuilder::new(instance)
+    RTDPageBlockPhotoBuilder::new(instance)
   }
   
   
@@ -29816,9 +29816,9 @@ impl PageBlockPhoto {
 
 
 #[derive(Debug)]
-pub struct PageBlockPhotoBuilder { instance: PageBlockPhoto }
+pub struct RTDPageBlockPhotoBuilder { instance: PageBlockPhoto }
 
-impl PageBlockPhotoBuilder {
+impl RTDPageBlockPhotoBuilder {
   fn new(instance: PageBlockPhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockPhoto { self.instance.clone() }
@@ -29874,7 +29874,7 @@ impl RObject for PageBlockVideo {
 
 impl PageBlockVideo {
   
-  pub fn builder() -> PageBlockVideoBuilder {
+  pub fn builder() -> RTDPageBlockVideoBuilder {
     let instance = Self {
       td_name: "pageBlockVideo".to_string(),
       video: None,
@@ -29883,7 +29883,7 @@ impl PageBlockVideo {
       is_looped: None,
       
     };
-    PageBlockVideoBuilder::new(instance)
+    RTDPageBlockVideoBuilder::new(instance)
   }
   
   
@@ -29902,9 +29902,9 @@ impl PageBlockVideo {
 
 
 #[derive(Debug)]
-pub struct PageBlockVideoBuilder { instance: PageBlockVideo }
+pub struct RTDPageBlockVideoBuilder { instance: PageBlockVideo }
 
-impl PageBlockVideoBuilder {
+impl RTDPageBlockVideoBuilder {
   fn new(instance: PageBlockVideo) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockVideo { self.instance.clone() }
@@ -29966,13 +29966,13 @@ impl RObject for PageBlockCover {
 
 impl PageBlockCover {
   
-  pub fn builder() -> PageBlockCoverBuilder {
+  pub fn builder() -> RTDPageBlockCoverBuilder {
     let instance = Self {
       td_name: "pageBlockCover".to_string(),
       cover: None,
       
     };
-    PageBlockCoverBuilder::new(instance)
+    RTDPageBlockCoverBuilder::new(instance)
   }
   
   
@@ -29985,9 +29985,9 @@ impl PageBlockCover {
 
 
 #[derive(Debug)]
-pub struct PageBlockCoverBuilder { instance: PageBlockCover }
+pub struct RTDPageBlockCoverBuilder { instance: PageBlockCover }
 
-impl PageBlockCoverBuilder {
+impl RTDPageBlockCoverBuilder {
   fn new(instance: PageBlockCover) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockCover { self.instance.clone() }
@@ -30041,7 +30041,7 @@ impl RObject for PageBlockEmbedded {
 
 impl PageBlockEmbedded {
   
-  pub fn builder() -> PageBlockEmbeddedBuilder {
+  pub fn builder() -> RTDPageBlockEmbeddedBuilder {
     let instance = Self {
       td_name: "pageBlockEmbedded".to_string(),
       url: None,
@@ -30054,7 +30054,7 @@ impl PageBlockEmbedded {
       allow_scrolling: None,
       
     };
-    PageBlockEmbeddedBuilder::new(instance)
+    RTDPageBlockEmbeddedBuilder::new(instance)
   }
   
   
@@ -30081,9 +30081,9 @@ impl PageBlockEmbedded {
 
 
 #[derive(Debug)]
-pub struct PageBlockEmbeddedBuilder { instance: PageBlockEmbedded }
+pub struct RTDPageBlockEmbeddedBuilder { instance: PageBlockEmbedded }
 
-impl PageBlockEmbeddedBuilder {
+impl RTDPageBlockEmbeddedBuilder {
   fn new(instance: PageBlockEmbedded) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockEmbedded { self.instance.clone() }
@@ -30175,7 +30175,7 @@ impl RObject for PageBlockEmbeddedPost {
 
 impl PageBlockEmbeddedPost {
   
-  pub fn builder() -> PageBlockEmbeddedPostBuilder {
+  pub fn builder() -> RTDPageBlockEmbeddedPostBuilder {
     let instance = Self {
       td_name: "pageBlockEmbeddedPost".to_string(),
       url: None,
@@ -30186,7 +30186,7 @@ impl PageBlockEmbeddedPost {
       caption: None,
       
     };
-    PageBlockEmbeddedPostBuilder::new(instance)
+    RTDPageBlockEmbeddedPostBuilder::new(instance)
   }
   
   
@@ -30209,9 +30209,9 @@ impl PageBlockEmbeddedPost {
 
 
 #[derive(Debug)]
-pub struct PageBlockEmbeddedPostBuilder { instance: PageBlockEmbeddedPost }
+pub struct RTDPageBlockEmbeddedPostBuilder { instance: PageBlockEmbeddedPost }
 
-impl PageBlockEmbeddedPostBuilder {
+impl RTDPageBlockEmbeddedPostBuilder {
   fn new(instance: PageBlockEmbeddedPost) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockEmbeddedPost { self.instance.clone() }
@@ -30285,14 +30285,14 @@ impl RObject for PageBlockCollage {
 
 impl PageBlockCollage {
   
-  pub fn builder() -> PageBlockCollageBuilder {
+  pub fn builder() -> RTDPageBlockCollageBuilder {
     let instance = Self {
       td_name: "pageBlockCollage".to_string(),
       page_blocks: None,
       caption: None,
       
     };
-    PageBlockCollageBuilder::new(instance)
+    RTDPageBlockCollageBuilder::new(instance)
   }
   
   
@@ -30307,9 +30307,9 @@ impl PageBlockCollage {
 
 
 #[derive(Debug)]
-pub struct PageBlockCollageBuilder { instance: PageBlockCollage }
+pub struct RTDPageBlockCollageBuilder { instance: PageBlockCollage }
 
-impl PageBlockCollageBuilder {
+impl RTDPageBlockCollageBuilder {
   fn new(instance: PageBlockCollage) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockCollage { self.instance.clone() }
@@ -30363,14 +30363,14 @@ impl RObject for PageBlockSlideshow {
 
 impl PageBlockSlideshow {
   
-  pub fn builder() -> PageBlockSlideshowBuilder {
+  pub fn builder() -> RTDPageBlockSlideshowBuilder {
     let instance = Self {
       td_name: "pageBlockSlideshow".to_string(),
       page_blocks: None,
       caption: None,
       
     };
-    PageBlockSlideshowBuilder::new(instance)
+    RTDPageBlockSlideshowBuilder::new(instance)
   }
   
   
@@ -30385,9 +30385,9 @@ impl PageBlockSlideshow {
 
 
 #[derive(Debug)]
-pub struct PageBlockSlideshowBuilder { instance: PageBlockSlideshow }
+pub struct RTDPageBlockSlideshowBuilder { instance: PageBlockSlideshow }
 
-impl PageBlockSlideshowBuilder {
+impl RTDPageBlockSlideshowBuilder {
   fn new(instance: PageBlockSlideshow) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockSlideshow { self.instance.clone() }
@@ -30436,7 +30436,7 @@ impl RObject for PageBlockChatLink {
 
 impl PageBlockChatLink {
   
-  pub fn builder() -> PageBlockChatLinkBuilder {
+  pub fn builder() -> RTDPageBlockChatLinkBuilder {
     let instance = Self {
       td_name: "pageBlockChatLink".to_string(),
       title: None,
@@ -30444,7 +30444,7 @@ impl PageBlockChatLink {
       username: None,
       
     };
-    PageBlockChatLinkBuilder::new(instance)
+    RTDPageBlockChatLinkBuilder::new(instance)
   }
   
   
@@ -30461,9 +30461,9 @@ impl PageBlockChatLink {
 
 
 #[derive(Debug)]
-pub struct PageBlockChatLinkBuilder { instance: PageBlockChatLink }
+pub struct RTDPageBlockChatLinkBuilder { instance: PageBlockChatLink }
 
-impl PageBlockChatLinkBuilder {
+impl RTDPageBlockChatLinkBuilder {
   fn new(instance: PageBlockChatLink) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockChatLink { self.instance.clone() }
@@ -30526,7 +30526,7 @@ impl RObject for PageBlockTable {
 
 impl PageBlockTable {
   
-  pub fn builder() -> PageBlockTableBuilder {
+  pub fn builder() -> RTDPageBlockTableBuilder {
     let instance = Self {
       td_name: "pageBlockTable".to_string(),
       caption: None,
@@ -30535,7 +30535,7 @@ impl PageBlockTable {
       is_striped: None,
       
     };
-    PageBlockTableBuilder::new(instance)
+    RTDPageBlockTableBuilder::new(instance)
   }
   
   
@@ -30554,9 +30554,9 @@ impl PageBlockTable {
 
 
 #[derive(Debug)]
-pub struct PageBlockTableBuilder { instance: PageBlockTable }
+pub struct RTDPageBlockTableBuilder { instance: PageBlockTable }
 
-impl PageBlockTableBuilder {
+impl RTDPageBlockTableBuilder {
   fn new(instance: PageBlockTable) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockTable { self.instance.clone() }
@@ -30622,7 +30622,7 @@ impl RObject for PageBlockDetails {
 
 impl PageBlockDetails {
   
-  pub fn builder() -> PageBlockDetailsBuilder {
+  pub fn builder() -> RTDPageBlockDetailsBuilder {
     let instance = Self {
       td_name: "pageBlockDetails".to_string(),
       header: None,
@@ -30630,7 +30630,7 @@ impl PageBlockDetails {
       is_open: None,
       
     };
-    PageBlockDetailsBuilder::new(instance)
+    RTDPageBlockDetailsBuilder::new(instance)
   }
   
   
@@ -30647,9 +30647,9 @@ impl PageBlockDetails {
 
 
 #[derive(Debug)]
-pub struct PageBlockDetailsBuilder { instance: PageBlockDetails }
+pub struct RTDPageBlockDetailsBuilder { instance: PageBlockDetails }
 
-impl PageBlockDetailsBuilder {
+impl RTDPageBlockDetailsBuilder {
   fn new(instance: PageBlockDetails) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockDetails { self.instance.clone() }
@@ -30708,14 +30708,14 @@ impl RObject for PageBlockRelatedArticles {
 
 impl PageBlockRelatedArticles {
   
-  pub fn builder() -> PageBlockRelatedArticlesBuilder {
+  pub fn builder() -> RTDPageBlockRelatedArticlesBuilder {
     let instance = Self {
       td_name: "pageBlockRelatedArticles".to_string(),
       header: None,
       articles: None,
       
     };
-    PageBlockRelatedArticlesBuilder::new(instance)
+    RTDPageBlockRelatedArticlesBuilder::new(instance)
   }
   
   
@@ -30730,9 +30730,9 @@ impl PageBlockRelatedArticles {
 
 
 #[derive(Debug)]
-pub struct PageBlockRelatedArticlesBuilder { instance: PageBlockRelatedArticles }
+pub struct RTDPageBlockRelatedArticlesBuilder { instance: PageBlockRelatedArticles }
 
-impl PageBlockRelatedArticlesBuilder {
+impl RTDPageBlockRelatedArticlesBuilder {
   fn new(instance: PageBlockRelatedArticles) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockRelatedArticles { self.instance.clone() }
@@ -30785,7 +30785,7 @@ impl RObject for PageBlockMap {
 
 impl PageBlockMap {
   
-  pub fn builder() -> PageBlockMapBuilder {
+  pub fn builder() -> RTDPageBlockMapBuilder {
     let instance = Self {
       td_name: "pageBlockMap".to_string(),
       location: None,
@@ -30795,7 +30795,7 @@ impl PageBlockMap {
       caption: None,
       
     };
-    PageBlockMapBuilder::new(instance)
+    RTDPageBlockMapBuilder::new(instance)
   }
   
   
@@ -30816,9 +30816,9 @@ impl PageBlockMap {
 
 
 #[derive(Debug)]
-pub struct PageBlockMapBuilder { instance: PageBlockMap }
+pub struct RTDPageBlockMapBuilder { instance: PageBlockMap }
 
-impl PageBlockMapBuilder {
+impl RTDPageBlockMapBuilder {
   fn new(instance: PageBlockMap) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockMap { self.instance.clone() }
@@ -30885,14 +30885,14 @@ impl RObject for PageBlockCaption {
 
 impl PageBlockCaption {
   
-  pub fn builder() -> PageBlockCaptionBuilder {
+  pub fn builder() -> RTDPageBlockCaptionBuilder {
     let instance = Self {
       td_name: "pageBlockCaption".to_string(),
       text: None,
       credit: None,
       
     };
-    PageBlockCaptionBuilder::new(instance)
+    RTDPageBlockCaptionBuilder::new(instance)
   }
   
   
@@ -30907,9 +30907,9 @@ impl PageBlockCaption {
 
 
 #[derive(Debug)]
-pub struct PageBlockCaptionBuilder { instance: PageBlockCaption }
+pub struct RTDPageBlockCaptionBuilder { instance: PageBlockCaption }
 
-impl PageBlockCaptionBuilder {
+impl RTDPageBlockCaptionBuilder {
   fn new(instance: PageBlockCaption) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockCaption { self.instance.clone() }
@@ -30988,12 +30988,12 @@ impl RObject for PageBlockHorizontalAlignmentLeft {
 
 impl PageBlockHorizontalAlignmentLeft {
   
-  pub fn builder() -> PageBlockHorizontalAlignmentLeftBuilder {
+  pub fn builder() -> RTDPageBlockHorizontalAlignmentLeftBuilder {
     let instance = Self {
       td_name: "pageBlockHorizontalAlignmentLeft".to_string(),
       
     };
-    PageBlockHorizontalAlignmentLeftBuilder::new(instance)
+    RTDPageBlockHorizontalAlignmentLeftBuilder::new(instance)
   }
   
   
@@ -31004,9 +31004,9 @@ impl PageBlockHorizontalAlignmentLeft {
 
 
 #[derive(Debug)]
-pub struct PageBlockHorizontalAlignmentLeftBuilder { instance: PageBlockHorizontalAlignmentLeft }
+pub struct RTDPageBlockHorizontalAlignmentLeftBuilder { instance: PageBlockHorizontalAlignmentLeft }
 
-impl PageBlockHorizontalAlignmentLeftBuilder {
+impl RTDPageBlockHorizontalAlignmentLeftBuilder {
   fn new(instance: PageBlockHorizontalAlignmentLeft) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockHorizontalAlignmentLeft { self.instance.clone() }
@@ -31039,12 +31039,12 @@ impl RObject for PageBlockHorizontalAlignmentCenter {
 
 impl PageBlockHorizontalAlignmentCenter {
   
-  pub fn builder() -> PageBlockHorizontalAlignmentCenterBuilder {
+  pub fn builder() -> RTDPageBlockHorizontalAlignmentCenterBuilder {
     let instance = Self {
       td_name: "pageBlockHorizontalAlignmentCenter".to_string(),
       
     };
-    PageBlockHorizontalAlignmentCenterBuilder::new(instance)
+    RTDPageBlockHorizontalAlignmentCenterBuilder::new(instance)
   }
   
   
@@ -31055,9 +31055,9 @@ impl PageBlockHorizontalAlignmentCenter {
 
 
 #[derive(Debug)]
-pub struct PageBlockHorizontalAlignmentCenterBuilder { instance: PageBlockHorizontalAlignmentCenter }
+pub struct RTDPageBlockHorizontalAlignmentCenterBuilder { instance: PageBlockHorizontalAlignmentCenter }
 
-impl PageBlockHorizontalAlignmentCenterBuilder {
+impl RTDPageBlockHorizontalAlignmentCenterBuilder {
   fn new(instance: PageBlockHorizontalAlignmentCenter) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockHorizontalAlignmentCenter { self.instance.clone() }
@@ -31090,12 +31090,12 @@ impl RObject for PageBlockHorizontalAlignmentRight {
 
 impl PageBlockHorizontalAlignmentRight {
   
-  pub fn builder() -> PageBlockHorizontalAlignmentRightBuilder {
+  pub fn builder() -> RTDPageBlockHorizontalAlignmentRightBuilder {
     let instance = Self {
       td_name: "pageBlockHorizontalAlignmentRight".to_string(),
       
     };
-    PageBlockHorizontalAlignmentRightBuilder::new(instance)
+    RTDPageBlockHorizontalAlignmentRightBuilder::new(instance)
   }
   
   
@@ -31106,9 +31106,9 @@ impl PageBlockHorizontalAlignmentRight {
 
 
 #[derive(Debug)]
-pub struct PageBlockHorizontalAlignmentRightBuilder { instance: PageBlockHorizontalAlignmentRight }
+pub struct RTDPageBlockHorizontalAlignmentRightBuilder { instance: PageBlockHorizontalAlignmentRight }
 
-impl PageBlockHorizontalAlignmentRightBuilder {
+impl RTDPageBlockHorizontalAlignmentRightBuilder {
   fn new(instance: PageBlockHorizontalAlignmentRight) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockHorizontalAlignmentRight { self.instance.clone() }
@@ -31150,14 +31150,14 @@ impl RObject for PageBlockListItem {
 
 impl PageBlockListItem {
   
-  pub fn builder() -> PageBlockListItemBuilder {
+  pub fn builder() -> RTDPageBlockListItemBuilder {
     let instance = Self {
       td_name: "pageBlockListItem".to_string(),
       label: None,
       page_blocks: None,
       
     };
-    PageBlockListItemBuilder::new(instance)
+    RTDPageBlockListItemBuilder::new(instance)
   }
   
   
@@ -31172,9 +31172,9 @@ impl PageBlockListItem {
 
 
 #[derive(Debug)]
-pub struct PageBlockListItemBuilder { instance: PageBlockListItem }
+pub struct RTDPageBlockListItemBuilder { instance: PageBlockListItem }
 
-impl PageBlockListItemBuilder {
+impl RTDPageBlockListItemBuilder {
   fn new(instance: PageBlockListItem) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockListItem { self.instance.clone() }
@@ -31227,7 +31227,7 @@ impl RObject for PageBlockRelatedArticle {
 
 impl PageBlockRelatedArticle {
   
-  pub fn builder() -> PageBlockRelatedArticleBuilder {
+  pub fn builder() -> RTDPageBlockRelatedArticleBuilder {
     let instance = Self {
       td_name: "pageBlockRelatedArticle".to_string(),
       url: None,
@@ -31238,7 +31238,7 @@ impl PageBlockRelatedArticle {
       publish_date: None,
       
     };
-    PageBlockRelatedArticleBuilder::new(instance)
+    RTDPageBlockRelatedArticleBuilder::new(instance)
   }
   
   
@@ -31261,9 +31261,9 @@ impl PageBlockRelatedArticle {
 
 
 #[derive(Debug)]
-pub struct PageBlockRelatedArticleBuilder { instance: PageBlockRelatedArticle }
+pub struct RTDPageBlockRelatedArticleBuilder { instance: PageBlockRelatedArticle }
 
-impl PageBlockRelatedArticleBuilder {
+impl RTDPageBlockRelatedArticleBuilder {
   fn new(instance: PageBlockRelatedArticle) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockRelatedArticle { self.instance.clone() }
@@ -31343,7 +31343,7 @@ impl RObject for PageBlockTableCell {
 
 impl PageBlockTableCell {
   
-  pub fn builder() -> PageBlockTableCellBuilder {
+  pub fn builder() -> RTDPageBlockTableCellBuilder {
     let instance = Self {
       td_name: "pageBlockTableCell".to_string(),
       text: None,
@@ -31354,7 +31354,7 @@ impl PageBlockTableCell {
       valign: None,
       
     };
-    PageBlockTableCellBuilder::new(instance)
+    RTDPageBlockTableCellBuilder::new(instance)
   }
   
   
@@ -31377,9 +31377,9 @@ impl PageBlockTableCell {
 
 
 #[derive(Debug)]
-pub struct PageBlockTableCellBuilder { instance: PageBlockTableCell }
+pub struct RTDPageBlockTableCellBuilder { instance: PageBlockTableCell }
 
-impl PageBlockTableCellBuilder {
+impl RTDPageBlockTableCellBuilder {
   fn new(instance: PageBlockTableCell) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockTableCell { self.instance.clone() }
@@ -31478,12 +31478,12 @@ impl RObject for PageBlockVerticalAlignmentTop {
 
 impl PageBlockVerticalAlignmentTop {
   
-  pub fn builder() -> PageBlockVerticalAlignmentTopBuilder {
+  pub fn builder() -> RTDPageBlockVerticalAlignmentTopBuilder {
     let instance = Self {
       td_name: "pageBlockVerticalAlignmentTop".to_string(),
       
     };
-    PageBlockVerticalAlignmentTopBuilder::new(instance)
+    RTDPageBlockVerticalAlignmentTopBuilder::new(instance)
   }
   
   
@@ -31494,9 +31494,9 @@ impl PageBlockVerticalAlignmentTop {
 
 
 #[derive(Debug)]
-pub struct PageBlockVerticalAlignmentTopBuilder { instance: PageBlockVerticalAlignmentTop }
+pub struct RTDPageBlockVerticalAlignmentTopBuilder { instance: PageBlockVerticalAlignmentTop }
 
-impl PageBlockVerticalAlignmentTopBuilder {
+impl RTDPageBlockVerticalAlignmentTopBuilder {
   fn new(instance: PageBlockVerticalAlignmentTop) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockVerticalAlignmentTop { self.instance.clone() }
@@ -31529,12 +31529,12 @@ impl RObject for PageBlockVerticalAlignmentMiddle {
 
 impl PageBlockVerticalAlignmentMiddle {
   
-  pub fn builder() -> PageBlockVerticalAlignmentMiddleBuilder {
+  pub fn builder() -> RTDPageBlockVerticalAlignmentMiddleBuilder {
     let instance = Self {
       td_name: "pageBlockVerticalAlignmentMiddle".to_string(),
       
     };
-    PageBlockVerticalAlignmentMiddleBuilder::new(instance)
+    RTDPageBlockVerticalAlignmentMiddleBuilder::new(instance)
   }
   
   
@@ -31545,9 +31545,9 @@ impl PageBlockVerticalAlignmentMiddle {
 
 
 #[derive(Debug)]
-pub struct PageBlockVerticalAlignmentMiddleBuilder { instance: PageBlockVerticalAlignmentMiddle }
+pub struct RTDPageBlockVerticalAlignmentMiddleBuilder { instance: PageBlockVerticalAlignmentMiddle }
 
-impl PageBlockVerticalAlignmentMiddleBuilder {
+impl RTDPageBlockVerticalAlignmentMiddleBuilder {
   fn new(instance: PageBlockVerticalAlignmentMiddle) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockVerticalAlignmentMiddle { self.instance.clone() }
@@ -31580,12 +31580,12 @@ impl RObject for PageBlockVerticalAlignmentBottom {
 
 impl PageBlockVerticalAlignmentBottom {
   
-  pub fn builder() -> PageBlockVerticalAlignmentBottomBuilder {
+  pub fn builder() -> RTDPageBlockVerticalAlignmentBottomBuilder {
     let instance = Self {
       td_name: "pageBlockVerticalAlignmentBottom".to_string(),
       
     };
-    PageBlockVerticalAlignmentBottomBuilder::new(instance)
+    RTDPageBlockVerticalAlignmentBottomBuilder::new(instance)
   }
   
   
@@ -31596,9 +31596,9 @@ impl PageBlockVerticalAlignmentBottom {
 
 
 #[derive(Debug)]
-pub struct PageBlockVerticalAlignmentBottomBuilder { instance: PageBlockVerticalAlignmentBottom }
+pub struct RTDPageBlockVerticalAlignmentBottomBuilder { instance: PageBlockVerticalAlignmentBottom }
 
-impl PageBlockVerticalAlignmentBottomBuilder {
+impl RTDPageBlockVerticalAlignmentBottomBuilder {
   fn new(instance: PageBlockVerticalAlignmentBottom) -> Self { Self { instance } }
 
   pub fn build(&self) -> PageBlockVerticalAlignmentBottom { self.instance.clone() }
@@ -31635,7 +31635,7 @@ impl RObject for PassportAuthorizationForm {
 
 impl PassportAuthorizationForm {
   
-  pub fn builder() -> PassportAuthorizationFormBuilder {
+  pub fn builder() -> RTDPassportAuthorizationFormBuilder {
     let instance = Self {
       td_name: "passportAuthorizationForm".to_string(),
       id: None,
@@ -31643,7 +31643,7 @@ impl PassportAuthorizationForm {
       privacy_policy_url: None,
       
     };
-    PassportAuthorizationFormBuilder::new(instance)
+    RTDPassportAuthorizationFormBuilder::new(instance)
   }
   
   
@@ -31660,9 +31660,9 @@ impl PassportAuthorizationForm {
 
 
 #[derive(Debug)]
-pub struct PassportAuthorizationFormBuilder { instance: PassportAuthorizationForm }
+pub struct RTDPassportAuthorizationFormBuilder { instance: PassportAuthorizationForm }
 
-impl PassportAuthorizationFormBuilder {
+impl RTDPassportAuthorizationFormBuilder {
   fn new(instance: PassportAuthorizationForm) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportAuthorizationForm { self.instance.clone() }
@@ -31758,13 +31758,13 @@ impl RObject for PassportElementPersonalDetails {
 
 impl PassportElementPersonalDetails {
   
-  pub fn builder() -> PassportElementPersonalDetailsBuilder {
+  pub fn builder() -> RTDPassportElementPersonalDetailsBuilder {
     let instance = Self {
       td_name: "passportElementPersonalDetails".to_string(),
       personal_details: None,
       
     };
-    PassportElementPersonalDetailsBuilder::new(instance)
+    RTDPassportElementPersonalDetailsBuilder::new(instance)
   }
   
   
@@ -31777,9 +31777,9 @@ impl PassportElementPersonalDetails {
 
 
 #[derive(Debug)]
-pub struct PassportElementPersonalDetailsBuilder { instance: PassportElementPersonalDetails }
+pub struct RTDPassportElementPersonalDetailsBuilder { instance: PassportElementPersonalDetails }
 
-impl PassportElementPersonalDetailsBuilder {
+impl RTDPassportElementPersonalDetailsBuilder {
   fn new(instance: PassportElementPersonalDetails) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementPersonalDetails { self.instance.clone() }
@@ -31819,13 +31819,13 @@ impl RObject for PassportElementPassport {
 
 impl PassportElementPassport {
   
-  pub fn builder() -> PassportElementPassportBuilder {
+  pub fn builder() -> RTDPassportElementPassportBuilder {
     let instance = Self {
       td_name: "passportElementPassport".to_string(),
       passport: None,
       
     };
-    PassportElementPassportBuilder::new(instance)
+    RTDPassportElementPassportBuilder::new(instance)
   }
   
   
@@ -31838,9 +31838,9 @@ impl PassportElementPassport {
 
 
 #[derive(Debug)]
-pub struct PassportElementPassportBuilder { instance: PassportElementPassport }
+pub struct RTDPassportElementPassportBuilder { instance: PassportElementPassport }
 
-impl PassportElementPassportBuilder {
+impl RTDPassportElementPassportBuilder {
   fn new(instance: PassportElementPassport) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementPassport { self.instance.clone() }
@@ -31880,13 +31880,13 @@ impl RObject for PassportElementDriverLicense {
 
 impl PassportElementDriverLicense {
   
-  pub fn builder() -> PassportElementDriverLicenseBuilder {
+  pub fn builder() -> RTDPassportElementDriverLicenseBuilder {
     let instance = Self {
       td_name: "passportElementDriverLicense".to_string(),
       driver_license: None,
       
     };
-    PassportElementDriverLicenseBuilder::new(instance)
+    RTDPassportElementDriverLicenseBuilder::new(instance)
   }
   
   
@@ -31899,9 +31899,9 @@ impl PassportElementDriverLicense {
 
 
 #[derive(Debug)]
-pub struct PassportElementDriverLicenseBuilder { instance: PassportElementDriverLicense }
+pub struct RTDPassportElementDriverLicenseBuilder { instance: PassportElementDriverLicense }
 
-impl PassportElementDriverLicenseBuilder {
+impl RTDPassportElementDriverLicenseBuilder {
   fn new(instance: PassportElementDriverLicense) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementDriverLicense { self.instance.clone() }
@@ -31941,13 +31941,13 @@ impl RObject for PassportElementIdentityCard {
 
 impl PassportElementIdentityCard {
   
-  pub fn builder() -> PassportElementIdentityCardBuilder {
+  pub fn builder() -> RTDPassportElementIdentityCardBuilder {
     let instance = Self {
       td_name: "passportElementIdentityCard".to_string(),
       identity_card: None,
       
     };
-    PassportElementIdentityCardBuilder::new(instance)
+    RTDPassportElementIdentityCardBuilder::new(instance)
   }
   
   
@@ -31960,9 +31960,9 @@ impl PassportElementIdentityCard {
 
 
 #[derive(Debug)]
-pub struct PassportElementIdentityCardBuilder { instance: PassportElementIdentityCard }
+pub struct RTDPassportElementIdentityCardBuilder { instance: PassportElementIdentityCard }
 
-impl PassportElementIdentityCardBuilder {
+impl RTDPassportElementIdentityCardBuilder {
   fn new(instance: PassportElementIdentityCard) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementIdentityCard { self.instance.clone() }
@@ -32002,13 +32002,13 @@ impl RObject for PassportElementInternalPassport {
 
 impl PassportElementInternalPassport {
   
-  pub fn builder() -> PassportElementInternalPassportBuilder {
+  pub fn builder() -> RTDPassportElementInternalPassportBuilder {
     let instance = Self {
       td_name: "passportElementInternalPassport".to_string(),
       internal_passport: None,
       
     };
-    PassportElementInternalPassportBuilder::new(instance)
+    RTDPassportElementInternalPassportBuilder::new(instance)
   }
   
   
@@ -32021,9 +32021,9 @@ impl PassportElementInternalPassport {
 
 
 #[derive(Debug)]
-pub struct PassportElementInternalPassportBuilder { instance: PassportElementInternalPassport }
+pub struct RTDPassportElementInternalPassportBuilder { instance: PassportElementInternalPassport }
 
-impl PassportElementInternalPassportBuilder {
+impl RTDPassportElementInternalPassportBuilder {
   fn new(instance: PassportElementInternalPassport) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementInternalPassport { self.instance.clone() }
@@ -32063,13 +32063,13 @@ impl RObject for PassportElementAddress {
 
 impl PassportElementAddress {
   
-  pub fn builder() -> PassportElementAddressBuilder {
+  pub fn builder() -> RTDPassportElementAddressBuilder {
     let instance = Self {
       td_name: "passportElementAddress".to_string(),
       address: None,
       
     };
-    PassportElementAddressBuilder::new(instance)
+    RTDPassportElementAddressBuilder::new(instance)
   }
   
   
@@ -32082,9 +32082,9 @@ impl PassportElementAddress {
 
 
 #[derive(Debug)]
-pub struct PassportElementAddressBuilder { instance: PassportElementAddress }
+pub struct RTDPassportElementAddressBuilder { instance: PassportElementAddress }
 
-impl PassportElementAddressBuilder {
+impl RTDPassportElementAddressBuilder {
   fn new(instance: PassportElementAddress) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementAddress { self.instance.clone() }
@@ -32124,13 +32124,13 @@ impl RObject for PassportElementUtilityBill {
 
 impl PassportElementUtilityBill {
   
-  pub fn builder() -> PassportElementUtilityBillBuilder {
+  pub fn builder() -> RTDPassportElementUtilityBillBuilder {
     let instance = Self {
       td_name: "passportElementUtilityBill".to_string(),
       utility_bill: None,
       
     };
-    PassportElementUtilityBillBuilder::new(instance)
+    RTDPassportElementUtilityBillBuilder::new(instance)
   }
   
   
@@ -32143,9 +32143,9 @@ impl PassportElementUtilityBill {
 
 
 #[derive(Debug)]
-pub struct PassportElementUtilityBillBuilder { instance: PassportElementUtilityBill }
+pub struct RTDPassportElementUtilityBillBuilder { instance: PassportElementUtilityBill }
 
-impl PassportElementUtilityBillBuilder {
+impl RTDPassportElementUtilityBillBuilder {
   fn new(instance: PassportElementUtilityBill) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementUtilityBill { self.instance.clone() }
@@ -32185,13 +32185,13 @@ impl RObject for PassportElementBankStatement {
 
 impl PassportElementBankStatement {
   
-  pub fn builder() -> PassportElementBankStatementBuilder {
+  pub fn builder() -> RTDPassportElementBankStatementBuilder {
     let instance = Self {
       td_name: "passportElementBankStatement".to_string(),
       bank_statement: None,
       
     };
-    PassportElementBankStatementBuilder::new(instance)
+    RTDPassportElementBankStatementBuilder::new(instance)
   }
   
   
@@ -32204,9 +32204,9 @@ impl PassportElementBankStatement {
 
 
 #[derive(Debug)]
-pub struct PassportElementBankStatementBuilder { instance: PassportElementBankStatement }
+pub struct RTDPassportElementBankStatementBuilder { instance: PassportElementBankStatement }
 
-impl PassportElementBankStatementBuilder {
+impl RTDPassportElementBankStatementBuilder {
   fn new(instance: PassportElementBankStatement) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementBankStatement { self.instance.clone() }
@@ -32246,13 +32246,13 @@ impl RObject for PassportElementRentalAgreement {
 
 impl PassportElementRentalAgreement {
   
-  pub fn builder() -> PassportElementRentalAgreementBuilder {
+  pub fn builder() -> RTDPassportElementRentalAgreementBuilder {
     let instance = Self {
       td_name: "passportElementRentalAgreement".to_string(),
       rental_agreement: None,
       
     };
-    PassportElementRentalAgreementBuilder::new(instance)
+    RTDPassportElementRentalAgreementBuilder::new(instance)
   }
   
   
@@ -32265,9 +32265,9 @@ impl PassportElementRentalAgreement {
 
 
 #[derive(Debug)]
-pub struct PassportElementRentalAgreementBuilder { instance: PassportElementRentalAgreement }
+pub struct RTDPassportElementRentalAgreementBuilder { instance: PassportElementRentalAgreement }
 
-impl PassportElementRentalAgreementBuilder {
+impl RTDPassportElementRentalAgreementBuilder {
   fn new(instance: PassportElementRentalAgreement) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementRentalAgreement { self.instance.clone() }
@@ -32307,13 +32307,13 @@ impl RObject for PassportElementPassportRegistration {
 
 impl PassportElementPassportRegistration {
   
-  pub fn builder() -> PassportElementPassportRegistrationBuilder {
+  pub fn builder() -> RTDPassportElementPassportRegistrationBuilder {
     let instance = Self {
       td_name: "passportElementPassportRegistration".to_string(),
       passport_registration: None,
       
     };
-    PassportElementPassportRegistrationBuilder::new(instance)
+    RTDPassportElementPassportRegistrationBuilder::new(instance)
   }
   
   
@@ -32326,9 +32326,9 @@ impl PassportElementPassportRegistration {
 
 
 #[derive(Debug)]
-pub struct PassportElementPassportRegistrationBuilder { instance: PassportElementPassportRegistration }
+pub struct RTDPassportElementPassportRegistrationBuilder { instance: PassportElementPassportRegistration }
 
-impl PassportElementPassportRegistrationBuilder {
+impl RTDPassportElementPassportRegistrationBuilder {
   fn new(instance: PassportElementPassportRegistration) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementPassportRegistration { self.instance.clone() }
@@ -32368,13 +32368,13 @@ impl RObject for PassportElementTemporaryRegistration {
 
 impl PassportElementTemporaryRegistration {
   
-  pub fn builder() -> PassportElementTemporaryRegistrationBuilder {
+  pub fn builder() -> RTDPassportElementTemporaryRegistrationBuilder {
     let instance = Self {
       td_name: "passportElementTemporaryRegistration".to_string(),
       temporary_registration: None,
       
     };
-    PassportElementTemporaryRegistrationBuilder::new(instance)
+    RTDPassportElementTemporaryRegistrationBuilder::new(instance)
   }
   
   
@@ -32387,9 +32387,9 @@ impl PassportElementTemporaryRegistration {
 
 
 #[derive(Debug)]
-pub struct PassportElementTemporaryRegistrationBuilder { instance: PassportElementTemporaryRegistration }
+pub struct RTDPassportElementTemporaryRegistrationBuilder { instance: PassportElementTemporaryRegistration }
 
-impl PassportElementTemporaryRegistrationBuilder {
+impl RTDPassportElementTemporaryRegistrationBuilder {
   fn new(instance: PassportElementTemporaryRegistration) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementTemporaryRegistration { self.instance.clone() }
@@ -32429,13 +32429,13 @@ impl RObject for PassportElementPhoneNumber {
 
 impl PassportElementPhoneNumber {
   
-  pub fn builder() -> PassportElementPhoneNumberBuilder {
+  pub fn builder() -> RTDPassportElementPhoneNumberBuilder {
     let instance = Self {
       td_name: "passportElementPhoneNumber".to_string(),
       phone_number: None,
       
     };
-    PassportElementPhoneNumberBuilder::new(instance)
+    RTDPassportElementPhoneNumberBuilder::new(instance)
   }
   
   
@@ -32448,9 +32448,9 @@ impl PassportElementPhoneNumber {
 
 
 #[derive(Debug)]
-pub struct PassportElementPhoneNumberBuilder { instance: PassportElementPhoneNumber }
+pub struct RTDPassportElementPhoneNumberBuilder { instance: PassportElementPhoneNumber }
 
-impl PassportElementPhoneNumberBuilder {
+impl RTDPassportElementPhoneNumberBuilder {
   fn new(instance: PassportElementPhoneNumber) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementPhoneNumber { self.instance.clone() }
@@ -32490,13 +32490,13 @@ impl RObject for PassportElementEmailAddress {
 
 impl PassportElementEmailAddress {
   
-  pub fn builder() -> PassportElementEmailAddressBuilder {
+  pub fn builder() -> RTDPassportElementEmailAddressBuilder {
     let instance = Self {
       td_name: "passportElementEmailAddress".to_string(),
       email_address: None,
       
     };
-    PassportElementEmailAddressBuilder::new(instance)
+    RTDPassportElementEmailAddressBuilder::new(instance)
   }
   
   
@@ -32509,9 +32509,9 @@ impl PassportElementEmailAddress {
 
 
 #[derive(Debug)]
-pub struct PassportElementEmailAddressBuilder { instance: PassportElementEmailAddress }
+pub struct RTDPassportElementEmailAddressBuilder { instance: PassportElementEmailAddress }
 
-impl PassportElementEmailAddressBuilder {
+impl RTDPassportElementEmailAddressBuilder {
   fn new(instance: PassportElementEmailAddress) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementEmailAddress { self.instance.clone() }
@@ -32560,7 +32560,7 @@ impl RObject for PassportElementError {
 
 impl PassportElementError {
   
-  pub fn builder() -> PassportElementErrorBuilder {
+  pub fn builder() -> RTDPassportElementErrorBuilder {
     let instance = Self {
       td_name: "passportElementError".to_string(),
       type_: None,
@@ -32568,7 +32568,7 @@ impl PassportElementError {
       source: None,
       
     };
-    PassportElementErrorBuilder::new(instance)
+    RTDPassportElementErrorBuilder::new(instance)
   }
   
   
@@ -32585,9 +32585,9 @@ impl PassportElementError {
 
 
 #[derive(Debug)]
-pub struct PassportElementErrorBuilder { instance: PassportElementError }
+pub struct RTDPassportElementErrorBuilder { instance: PassportElementError }
 
-impl PassportElementErrorBuilder {
+impl RTDPassportElementErrorBuilder {
   fn new(instance: PassportElementError) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementError { self.instance.clone() }
@@ -32677,12 +32677,12 @@ impl RObject for PassportElementErrorSourceUnspecified {
 
 impl PassportElementErrorSourceUnspecified {
   
-  pub fn builder() -> PassportElementErrorSourceUnspecifiedBuilder {
+  pub fn builder() -> RTDPassportElementErrorSourceUnspecifiedBuilder {
     let instance = Self {
       td_name: "passportElementErrorSourceUnspecified".to_string(),
       
     };
-    PassportElementErrorSourceUnspecifiedBuilder::new(instance)
+    RTDPassportElementErrorSourceUnspecifiedBuilder::new(instance)
   }
   
   
@@ -32693,9 +32693,9 @@ impl PassportElementErrorSourceUnspecified {
 
 
 #[derive(Debug)]
-pub struct PassportElementErrorSourceUnspecifiedBuilder { instance: PassportElementErrorSourceUnspecified }
+pub struct RTDPassportElementErrorSourceUnspecifiedBuilder { instance: PassportElementErrorSourceUnspecified }
 
-impl PassportElementErrorSourceUnspecifiedBuilder {
+impl RTDPassportElementErrorSourceUnspecifiedBuilder {
   fn new(instance: PassportElementErrorSourceUnspecified) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementErrorSourceUnspecified { self.instance.clone() }
@@ -32730,13 +32730,13 @@ impl RObject for PassportElementErrorSourceDataField {
 
 impl PassportElementErrorSourceDataField {
   
-  pub fn builder() -> PassportElementErrorSourceDataFieldBuilder {
+  pub fn builder() -> RTDPassportElementErrorSourceDataFieldBuilder {
     let instance = Self {
       td_name: "passportElementErrorSourceDataField".to_string(),
       field_name: None,
       
     };
-    PassportElementErrorSourceDataFieldBuilder::new(instance)
+    RTDPassportElementErrorSourceDataFieldBuilder::new(instance)
   }
   
   
@@ -32749,9 +32749,9 @@ impl PassportElementErrorSourceDataField {
 
 
 #[derive(Debug)]
-pub struct PassportElementErrorSourceDataFieldBuilder { instance: PassportElementErrorSourceDataField }
+pub struct RTDPassportElementErrorSourceDataFieldBuilder { instance: PassportElementErrorSourceDataField }
 
-impl PassportElementErrorSourceDataFieldBuilder {
+impl RTDPassportElementErrorSourceDataFieldBuilder {
   fn new(instance: PassportElementErrorSourceDataField) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementErrorSourceDataField { self.instance.clone() }
@@ -32789,12 +32789,12 @@ impl RObject for PassportElementErrorSourceFrontSide {
 
 impl PassportElementErrorSourceFrontSide {
   
-  pub fn builder() -> PassportElementErrorSourceFrontSideBuilder {
+  pub fn builder() -> RTDPassportElementErrorSourceFrontSideBuilder {
     let instance = Self {
       td_name: "passportElementErrorSourceFrontSide".to_string(),
       
     };
-    PassportElementErrorSourceFrontSideBuilder::new(instance)
+    RTDPassportElementErrorSourceFrontSideBuilder::new(instance)
   }
   
   
@@ -32805,9 +32805,9 @@ impl PassportElementErrorSourceFrontSide {
 
 
 #[derive(Debug)]
-pub struct PassportElementErrorSourceFrontSideBuilder { instance: PassportElementErrorSourceFrontSide }
+pub struct RTDPassportElementErrorSourceFrontSideBuilder { instance: PassportElementErrorSourceFrontSide }
 
-impl PassportElementErrorSourceFrontSideBuilder {
+impl RTDPassportElementErrorSourceFrontSideBuilder {
   fn new(instance: PassportElementErrorSourceFrontSide) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementErrorSourceFrontSide { self.instance.clone() }
@@ -32840,12 +32840,12 @@ impl RObject for PassportElementErrorSourceReverseSide {
 
 impl PassportElementErrorSourceReverseSide {
   
-  pub fn builder() -> PassportElementErrorSourceReverseSideBuilder {
+  pub fn builder() -> RTDPassportElementErrorSourceReverseSideBuilder {
     let instance = Self {
       td_name: "passportElementErrorSourceReverseSide".to_string(),
       
     };
-    PassportElementErrorSourceReverseSideBuilder::new(instance)
+    RTDPassportElementErrorSourceReverseSideBuilder::new(instance)
   }
   
   
@@ -32856,9 +32856,9 @@ impl PassportElementErrorSourceReverseSide {
 
 
 #[derive(Debug)]
-pub struct PassportElementErrorSourceReverseSideBuilder { instance: PassportElementErrorSourceReverseSide }
+pub struct RTDPassportElementErrorSourceReverseSideBuilder { instance: PassportElementErrorSourceReverseSide }
 
-impl PassportElementErrorSourceReverseSideBuilder {
+impl RTDPassportElementErrorSourceReverseSideBuilder {
   fn new(instance: PassportElementErrorSourceReverseSide) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementErrorSourceReverseSide { self.instance.clone() }
@@ -32891,12 +32891,12 @@ impl RObject for PassportElementErrorSourceSelfie {
 
 impl PassportElementErrorSourceSelfie {
   
-  pub fn builder() -> PassportElementErrorSourceSelfieBuilder {
+  pub fn builder() -> RTDPassportElementErrorSourceSelfieBuilder {
     let instance = Self {
       td_name: "passportElementErrorSourceSelfie".to_string(),
       
     };
-    PassportElementErrorSourceSelfieBuilder::new(instance)
+    RTDPassportElementErrorSourceSelfieBuilder::new(instance)
   }
   
   
@@ -32907,9 +32907,9 @@ impl PassportElementErrorSourceSelfie {
 
 
 #[derive(Debug)]
-pub struct PassportElementErrorSourceSelfieBuilder { instance: PassportElementErrorSourceSelfie }
+pub struct RTDPassportElementErrorSourceSelfieBuilder { instance: PassportElementErrorSourceSelfie }
 
-impl PassportElementErrorSourceSelfieBuilder {
+impl RTDPassportElementErrorSourceSelfieBuilder {
   fn new(instance: PassportElementErrorSourceSelfie) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementErrorSourceSelfie { self.instance.clone() }
@@ -32944,13 +32944,13 @@ impl RObject for PassportElementErrorSourceTranslationFile {
 
 impl PassportElementErrorSourceTranslationFile {
   
-  pub fn builder() -> PassportElementErrorSourceTranslationFileBuilder {
+  pub fn builder() -> RTDPassportElementErrorSourceTranslationFileBuilder {
     let instance = Self {
       td_name: "passportElementErrorSourceTranslationFile".to_string(),
       file_index: None,
       
     };
-    PassportElementErrorSourceTranslationFileBuilder::new(instance)
+    RTDPassportElementErrorSourceTranslationFileBuilder::new(instance)
   }
   
   
@@ -32963,9 +32963,9 @@ impl PassportElementErrorSourceTranslationFile {
 
 
 #[derive(Debug)]
-pub struct PassportElementErrorSourceTranslationFileBuilder { instance: PassportElementErrorSourceTranslationFile }
+pub struct RTDPassportElementErrorSourceTranslationFileBuilder { instance: PassportElementErrorSourceTranslationFile }
 
-impl PassportElementErrorSourceTranslationFileBuilder {
+impl RTDPassportElementErrorSourceTranslationFileBuilder {
   fn new(instance: PassportElementErrorSourceTranslationFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementErrorSourceTranslationFile { self.instance.clone() }
@@ -33003,12 +33003,12 @@ impl RObject for PassportElementErrorSourceTranslationFiles {
 
 impl PassportElementErrorSourceTranslationFiles {
   
-  pub fn builder() -> PassportElementErrorSourceTranslationFilesBuilder {
+  pub fn builder() -> RTDPassportElementErrorSourceTranslationFilesBuilder {
     let instance = Self {
       td_name: "passportElementErrorSourceTranslationFiles".to_string(),
       
     };
-    PassportElementErrorSourceTranslationFilesBuilder::new(instance)
+    RTDPassportElementErrorSourceTranslationFilesBuilder::new(instance)
   }
   
   
@@ -33019,9 +33019,9 @@ impl PassportElementErrorSourceTranslationFiles {
 
 
 #[derive(Debug)]
-pub struct PassportElementErrorSourceTranslationFilesBuilder { instance: PassportElementErrorSourceTranslationFiles }
+pub struct RTDPassportElementErrorSourceTranslationFilesBuilder { instance: PassportElementErrorSourceTranslationFiles }
 
-impl PassportElementErrorSourceTranslationFilesBuilder {
+impl RTDPassportElementErrorSourceTranslationFilesBuilder {
   fn new(instance: PassportElementErrorSourceTranslationFiles) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementErrorSourceTranslationFiles { self.instance.clone() }
@@ -33056,13 +33056,13 @@ impl RObject for PassportElementErrorSourceFile {
 
 impl PassportElementErrorSourceFile {
   
-  pub fn builder() -> PassportElementErrorSourceFileBuilder {
+  pub fn builder() -> RTDPassportElementErrorSourceFileBuilder {
     let instance = Self {
       td_name: "passportElementErrorSourceFile".to_string(),
       file_index: None,
       
     };
-    PassportElementErrorSourceFileBuilder::new(instance)
+    RTDPassportElementErrorSourceFileBuilder::new(instance)
   }
   
   
@@ -33075,9 +33075,9 @@ impl PassportElementErrorSourceFile {
 
 
 #[derive(Debug)]
-pub struct PassportElementErrorSourceFileBuilder { instance: PassportElementErrorSourceFile }
+pub struct RTDPassportElementErrorSourceFileBuilder { instance: PassportElementErrorSourceFile }
 
-impl PassportElementErrorSourceFileBuilder {
+impl RTDPassportElementErrorSourceFileBuilder {
   fn new(instance: PassportElementErrorSourceFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementErrorSourceFile { self.instance.clone() }
@@ -33115,12 +33115,12 @@ impl RObject for PassportElementErrorSourceFiles {
 
 impl PassportElementErrorSourceFiles {
   
-  pub fn builder() -> PassportElementErrorSourceFilesBuilder {
+  pub fn builder() -> RTDPassportElementErrorSourceFilesBuilder {
     let instance = Self {
       td_name: "passportElementErrorSourceFiles".to_string(),
       
     };
-    PassportElementErrorSourceFilesBuilder::new(instance)
+    RTDPassportElementErrorSourceFilesBuilder::new(instance)
   }
   
   
@@ -33131,9 +33131,9 @@ impl PassportElementErrorSourceFiles {
 
 
 #[derive(Debug)]
-pub struct PassportElementErrorSourceFilesBuilder { instance: PassportElementErrorSourceFiles }
+pub struct RTDPassportElementErrorSourceFilesBuilder { instance: PassportElementErrorSourceFiles }
 
-impl PassportElementErrorSourceFilesBuilder {
+impl RTDPassportElementErrorSourceFilesBuilder {
   fn new(instance: PassportElementErrorSourceFiles) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementErrorSourceFiles { self.instance.clone() }
@@ -33212,12 +33212,12 @@ impl RObject for PassportElementTypePersonalDetails {
 
 impl PassportElementTypePersonalDetails {
   
-  pub fn builder() -> PassportElementTypePersonalDetailsBuilder {
+  pub fn builder() -> RTDPassportElementTypePersonalDetailsBuilder {
     let instance = Self {
       td_name: "passportElementTypePersonalDetails".to_string(),
       
     };
-    PassportElementTypePersonalDetailsBuilder::new(instance)
+    RTDPassportElementTypePersonalDetailsBuilder::new(instance)
   }
   
   
@@ -33228,9 +33228,9 @@ impl PassportElementTypePersonalDetails {
 
 
 #[derive(Debug)]
-pub struct PassportElementTypePersonalDetailsBuilder { instance: PassportElementTypePersonalDetails }
+pub struct RTDPassportElementTypePersonalDetailsBuilder { instance: PassportElementTypePersonalDetails }
 
-impl PassportElementTypePersonalDetailsBuilder {
+impl RTDPassportElementTypePersonalDetailsBuilder {
   fn new(instance: PassportElementTypePersonalDetails) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementTypePersonalDetails { self.instance.clone() }
@@ -33263,12 +33263,12 @@ impl RObject for PassportElementTypePassport {
 
 impl PassportElementTypePassport {
   
-  pub fn builder() -> PassportElementTypePassportBuilder {
+  pub fn builder() -> RTDPassportElementTypePassportBuilder {
     let instance = Self {
       td_name: "passportElementTypePassport".to_string(),
       
     };
-    PassportElementTypePassportBuilder::new(instance)
+    RTDPassportElementTypePassportBuilder::new(instance)
   }
   
   
@@ -33279,9 +33279,9 @@ impl PassportElementTypePassport {
 
 
 #[derive(Debug)]
-pub struct PassportElementTypePassportBuilder { instance: PassportElementTypePassport }
+pub struct RTDPassportElementTypePassportBuilder { instance: PassportElementTypePassport }
 
-impl PassportElementTypePassportBuilder {
+impl RTDPassportElementTypePassportBuilder {
   fn new(instance: PassportElementTypePassport) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementTypePassport { self.instance.clone() }
@@ -33314,12 +33314,12 @@ impl RObject for PassportElementTypeDriverLicense {
 
 impl PassportElementTypeDriverLicense {
   
-  pub fn builder() -> PassportElementTypeDriverLicenseBuilder {
+  pub fn builder() -> RTDPassportElementTypeDriverLicenseBuilder {
     let instance = Self {
       td_name: "passportElementTypeDriverLicense".to_string(),
       
     };
-    PassportElementTypeDriverLicenseBuilder::new(instance)
+    RTDPassportElementTypeDriverLicenseBuilder::new(instance)
   }
   
   
@@ -33330,9 +33330,9 @@ impl PassportElementTypeDriverLicense {
 
 
 #[derive(Debug)]
-pub struct PassportElementTypeDriverLicenseBuilder { instance: PassportElementTypeDriverLicense }
+pub struct RTDPassportElementTypeDriverLicenseBuilder { instance: PassportElementTypeDriverLicense }
 
-impl PassportElementTypeDriverLicenseBuilder {
+impl RTDPassportElementTypeDriverLicenseBuilder {
   fn new(instance: PassportElementTypeDriverLicense) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementTypeDriverLicense { self.instance.clone() }
@@ -33365,12 +33365,12 @@ impl RObject for PassportElementTypeIdentityCard {
 
 impl PassportElementTypeIdentityCard {
   
-  pub fn builder() -> PassportElementTypeIdentityCardBuilder {
+  pub fn builder() -> RTDPassportElementTypeIdentityCardBuilder {
     let instance = Self {
       td_name: "passportElementTypeIdentityCard".to_string(),
       
     };
-    PassportElementTypeIdentityCardBuilder::new(instance)
+    RTDPassportElementTypeIdentityCardBuilder::new(instance)
   }
   
   
@@ -33381,9 +33381,9 @@ impl PassportElementTypeIdentityCard {
 
 
 #[derive(Debug)]
-pub struct PassportElementTypeIdentityCardBuilder { instance: PassportElementTypeIdentityCard }
+pub struct RTDPassportElementTypeIdentityCardBuilder { instance: PassportElementTypeIdentityCard }
 
-impl PassportElementTypeIdentityCardBuilder {
+impl RTDPassportElementTypeIdentityCardBuilder {
   fn new(instance: PassportElementTypeIdentityCard) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementTypeIdentityCard { self.instance.clone() }
@@ -33416,12 +33416,12 @@ impl RObject for PassportElementTypeInternalPassport {
 
 impl PassportElementTypeInternalPassport {
   
-  pub fn builder() -> PassportElementTypeInternalPassportBuilder {
+  pub fn builder() -> RTDPassportElementTypeInternalPassportBuilder {
     let instance = Self {
       td_name: "passportElementTypeInternalPassport".to_string(),
       
     };
-    PassportElementTypeInternalPassportBuilder::new(instance)
+    RTDPassportElementTypeInternalPassportBuilder::new(instance)
   }
   
   
@@ -33432,9 +33432,9 @@ impl PassportElementTypeInternalPassport {
 
 
 #[derive(Debug)]
-pub struct PassportElementTypeInternalPassportBuilder { instance: PassportElementTypeInternalPassport }
+pub struct RTDPassportElementTypeInternalPassportBuilder { instance: PassportElementTypeInternalPassport }
 
-impl PassportElementTypeInternalPassportBuilder {
+impl RTDPassportElementTypeInternalPassportBuilder {
   fn new(instance: PassportElementTypeInternalPassport) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementTypeInternalPassport { self.instance.clone() }
@@ -33467,12 +33467,12 @@ impl RObject for PassportElementTypeAddress {
 
 impl PassportElementTypeAddress {
   
-  pub fn builder() -> PassportElementTypeAddressBuilder {
+  pub fn builder() -> RTDPassportElementTypeAddressBuilder {
     let instance = Self {
       td_name: "passportElementTypeAddress".to_string(),
       
     };
-    PassportElementTypeAddressBuilder::new(instance)
+    RTDPassportElementTypeAddressBuilder::new(instance)
   }
   
   
@@ -33483,9 +33483,9 @@ impl PassportElementTypeAddress {
 
 
 #[derive(Debug)]
-pub struct PassportElementTypeAddressBuilder { instance: PassportElementTypeAddress }
+pub struct RTDPassportElementTypeAddressBuilder { instance: PassportElementTypeAddress }
 
-impl PassportElementTypeAddressBuilder {
+impl RTDPassportElementTypeAddressBuilder {
   fn new(instance: PassportElementTypeAddress) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementTypeAddress { self.instance.clone() }
@@ -33518,12 +33518,12 @@ impl RObject for PassportElementTypeUtilityBill {
 
 impl PassportElementTypeUtilityBill {
   
-  pub fn builder() -> PassportElementTypeUtilityBillBuilder {
+  pub fn builder() -> RTDPassportElementTypeUtilityBillBuilder {
     let instance = Self {
       td_name: "passportElementTypeUtilityBill".to_string(),
       
     };
-    PassportElementTypeUtilityBillBuilder::new(instance)
+    RTDPassportElementTypeUtilityBillBuilder::new(instance)
   }
   
   
@@ -33534,9 +33534,9 @@ impl PassportElementTypeUtilityBill {
 
 
 #[derive(Debug)]
-pub struct PassportElementTypeUtilityBillBuilder { instance: PassportElementTypeUtilityBill }
+pub struct RTDPassportElementTypeUtilityBillBuilder { instance: PassportElementTypeUtilityBill }
 
-impl PassportElementTypeUtilityBillBuilder {
+impl RTDPassportElementTypeUtilityBillBuilder {
   fn new(instance: PassportElementTypeUtilityBill) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementTypeUtilityBill { self.instance.clone() }
@@ -33569,12 +33569,12 @@ impl RObject for PassportElementTypeBankStatement {
 
 impl PassportElementTypeBankStatement {
   
-  pub fn builder() -> PassportElementTypeBankStatementBuilder {
+  pub fn builder() -> RTDPassportElementTypeBankStatementBuilder {
     let instance = Self {
       td_name: "passportElementTypeBankStatement".to_string(),
       
     };
-    PassportElementTypeBankStatementBuilder::new(instance)
+    RTDPassportElementTypeBankStatementBuilder::new(instance)
   }
   
   
@@ -33585,9 +33585,9 @@ impl PassportElementTypeBankStatement {
 
 
 #[derive(Debug)]
-pub struct PassportElementTypeBankStatementBuilder { instance: PassportElementTypeBankStatement }
+pub struct RTDPassportElementTypeBankStatementBuilder { instance: PassportElementTypeBankStatement }
 
-impl PassportElementTypeBankStatementBuilder {
+impl RTDPassportElementTypeBankStatementBuilder {
   fn new(instance: PassportElementTypeBankStatement) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementTypeBankStatement { self.instance.clone() }
@@ -33620,12 +33620,12 @@ impl RObject for PassportElementTypeRentalAgreement {
 
 impl PassportElementTypeRentalAgreement {
   
-  pub fn builder() -> PassportElementTypeRentalAgreementBuilder {
+  pub fn builder() -> RTDPassportElementTypeRentalAgreementBuilder {
     let instance = Self {
       td_name: "passportElementTypeRentalAgreement".to_string(),
       
     };
-    PassportElementTypeRentalAgreementBuilder::new(instance)
+    RTDPassportElementTypeRentalAgreementBuilder::new(instance)
   }
   
   
@@ -33636,9 +33636,9 @@ impl PassportElementTypeRentalAgreement {
 
 
 #[derive(Debug)]
-pub struct PassportElementTypeRentalAgreementBuilder { instance: PassportElementTypeRentalAgreement }
+pub struct RTDPassportElementTypeRentalAgreementBuilder { instance: PassportElementTypeRentalAgreement }
 
-impl PassportElementTypeRentalAgreementBuilder {
+impl RTDPassportElementTypeRentalAgreementBuilder {
   fn new(instance: PassportElementTypeRentalAgreement) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementTypeRentalAgreement { self.instance.clone() }
@@ -33671,12 +33671,12 @@ impl RObject for PassportElementTypePassportRegistration {
 
 impl PassportElementTypePassportRegistration {
   
-  pub fn builder() -> PassportElementTypePassportRegistrationBuilder {
+  pub fn builder() -> RTDPassportElementTypePassportRegistrationBuilder {
     let instance = Self {
       td_name: "passportElementTypePassportRegistration".to_string(),
       
     };
-    PassportElementTypePassportRegistrationBuilder::new(instance)
+    RTDPassportElementTypePassportRegistrationBuilder::new(instance)
   }
   
   
@@ -33687,9 +33687,9 @@ impl PassportElementTypePassportRegistration {
 
 
 #[derive(Debug)]
-pub struct PassportElementTypePassportRegistrationBuilder { instance: PassportElementTypePassportRegistration }
+pub struct RTDPassportElementTypePassportRegistrationBuilder { instance: PassportElementTypePassportRegistration }
 
-impl PassportElementTypePassportRegistrationBuilder {
+impl RTDPassportElementTypePassportRegistrationBuilder {
   fn new(instance: PassportElementTypePassportRegistration) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementTypePassportRegistration { self.instance.clone() }
@@ -33722,12 +33722,12 @@ impl RObject for PassportElementTypeTemporaryRegistration {
 
 impl PassportElementTypeTemporaryRegistration {
   
-  pub fn builder() -> PassportElementTypeTemporaryRegistrationBuilder {
+  pub fn builder() -> RTDPassportElementTypeTemporaryRegistrationBuilder {
     let instance = Self {
       td_name: "passportElementTypeTemporaryRegistration".to_string(),
       
     };
-    PassportElementTypeTemporaryRegistrationBuilder::new(instance)
+    RTDPassportElementTypeTemporaryRegistrationBuilder::new(instance)
   }
   
   
@@ -33738,9 +33738,9 @@ impl PassportElementTypeTemporaryRegistration {
 
 
 #[derive(Debug)]
-pub struct PassportElementTypeTemporaryRegistrationBuilder { instance: PassportElementTypeTemporaryRegistration }
+pub struct RTDPassportElementTypeTemporaryRegistrationBuilder { instance: PassportElementTypeTemporaryRegistration }
 
-impl PassportElementTypeTemporaryRegistrationBuilder {
+impl RTDPassportElementTypeTemporaryRegistrationBuilder {
   fn new(instance: PassportElementTypeTemporaryRegistration) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementTypeTemporaryRegistration { self.instance.clone() }
@@ -33773,12 +33773,12 @@ impl RObject for PassportElementTypePhoneNumber {
 
 impl PassportElementTypePhoneNumber {
   
-  pub fn builder() -> PassportElementTypePhoneNumberBuilder {
+  pub fn builder() -> RTDPassportElementTypePhoneNumberBuilder {
     let instance = Self {
       td_name: "passportElementTypePhoneNumber".to_string(),
       
     };
-    PassportElementTypePhoneNumberBuilder::new(instance)
+    RTDPassportElementTypePhoneNumberBuilder::new(instance)
   }
   
   
@@ -33789,9 +33789,9 @@ impl PassportElementTypePhoneNumber {
 
 
 #[derive(Debug)]
-pub struct PassportElementTypePhoneNumberBuilder { instance: PassportElementTypePhoneNumber }
+pub struct RTDPassportElementTypePhoneNumberBuilder { instance: PassportElementTypePhoneNumber }
 
-impl PassportElementTypePhoneNumberBuilder {
+impl RTDPassportElementTypePhoneNumberBuilder {
   fn new(instance: PassportElementTypePhoneNumber) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementTypePhoneNumber { self.instance.clone() }
@@ -33824,12 +33824,12 @@ impl RObject for PassportElementTypeEmailAddress {
 
 impl PassportElementTypeEmailAddress {
   
-  pub fn builder() -> PassportElementTypeEmailAddressBuilder {
+  pub fn builder() -> RTDPassportElementTypeEmailAddressBuilder {
     let instance = Self {
       td_name: "passportElementTypeEmailAddress".to_string(),
       
     };
-    PassportElementTypeEmailAddressBuilder::new(instance)
+    RTDPassportElementTypeEmailAddressBuilder::new(instance)
   }
   
   
@@ -33840,9 +33840,9 @@ impl PassportElementTypeEmailAddress {
 
 
 #[derive(Debug)]
-pub struct PassportElementTypeEmailAddressBuilder { instance: PassportElementTypeEmailAddress }
+pub struct RTDPassportElementTypeEmailAddressBuilder { instance: PassportElementTypeEmailAddress }
 
-impl PassportElementTypeEmailAddressBuilder {
+impl RTDPassportElementTypeEmailAddressBuilder {
   fn new(instance: PassportElementTypeEmailAddress) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementTypeEmailAddress { self.instance.clone() }
@@ -33882,13 +33882,13 @@ impl RObject for PassportElements {
 
 impl PassportElements {
   
-  pub fn builder() -> PassportElementsBuilder {
+  pub fn builder() -> RTDPassportElementsBuilder {
     let instance = Self {
       td_name: "passportElements".to_string(),
       elements: None,
       
     };
-    PassportElementsBuilder::new(instance)
+    RTDPassportElementsBuilder::new(instance)
   }
   
   
@@ -33901,9 +33901,9 @@ impl PassportElements {
 
 
 #[derive(Debug)]
-pub struct PassportElementsBuilder { instance: PassportElements }
+pub struct RTDPassportElementsBuilder { instance: PassportElements }
 
-impl PassportElementsBuilder {
+impl RTDPassportElementsBuilder {
   fn new(instance: PassportElements) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElements { self.instance.clone() }
@@ -33950,14 +33950,14 @@ impl RObject for PassportElementsWithErrors {
 
 impl PassportElementsWithErrors {
   
-  pub fn builder() -> PassportElementsWithErrorsBuilder {
+  pub fn builder() -> RTDPassportElementsWithErrorsBuilder {
     let instance = Self {
       td_name: "passportElementsWithErrors".to_string(),
       elements: None,
       errors: None,
       
     };
-    PassportElementsWithErrorsBuilder::new(instance)
+    RTDPassportElementsWithErrorsBuilder::new(instance)
   }
   
   
@@ -33972,9 +33972,9 @@ impl PassportElementsWithErrors {
 
 
 #[derive(Debug)]
-pub struct PassportElementsWithErrorsBuilder { instance: PassportElementsWithErrors }
+pub struct RTDPassportElementsWithErrorsBuilder { instance: PassportElementsWithErrors }
 
-impl PassportElementsWithErrorsBuilder {
+impl RTDPassportElementsWithErrorsBuilder {
   fn new(instance: PassportElementsWithErrors) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportElementsWithErrors { self.instance.clone() }
@@ -34017,13 +34017,13 @@ impl RObject for PassportRequiredElement {
 
 impl PassportRequiredElement {
   
-  pub fn builder() -> PassportRequiredElementBuilder {
+  pub fn builder() -> RTDPassportRequiredElementBuilder {
     let instance = Self {
       td_name: "passportRequiredElement".to_string(),
       suitable_elements: None,
       
     };
-    PassportRequiredElementBuilder::new(instance)
+    RTDPassportRequiredElementBuilder::new(instance)
   }
   
   
@@ -34036,9 +34036,9 @@ impl PassportRequiredElement {
 
 
 #[derive(Debug)]
-pub struct PassportRequiredElementBuilder { instance: PassportRequiredElement }
+pub struct RTDPassportRequiredElementBuilder { instance: PassportRequiredElement }
 
-impl PassportRequiredElementBuilder {
+impl RTDPassportRequiredElementBuilder {
   fn new(instance: PassportRequiredElement) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportRequiredElement { self.instance.clone() }
@@ -34089,7 +34089,7 @@ impl RObject for PassportSuitableElement {
 
 impl PassportSuitableElement {
   
-  pub fn builder() -> PassportSuitableElementBuilder {
+  pub fn builder() -> RTDPassportSuitableElementBuilder {
     let instance = Self {
       td_name: "passportSuitableElement".to_string(),
       type_: None,
@@ -34098,7 +34098,7 @@ impl PassportSuitableElement {
       is_native_name_required: None,
       
     };
-    PassportSuitableElementBuilder::new(instance)
+    RTDPassportSuitableElementBuilder::new(instance)
   }
   
   
@@ -34117,9 +34117,9 @@ impl PassportSuitableElement {
 
 
 #[derive(Debug)]
-pub struct PassportSuitableElementBuilder { instance: PassportSuitableElement }
+pub struct RTDPassportSuitableElementBuilder { instance: PassportSuitableElement }
 
-impl PassportSuitableElementBuilder {
+impl RTDPassportSuitableElementBuilder {
   fn new(instance: PassportSuitableElement) -> Self { Self { instance } }
 
   pub fn build(&self) -> PassportSuitableElement { self.instance.clone() }
@@ -34180,7 +34180,7 @@ impl RObject for PasswordState {
 
 impl PasswordState {
   
-  pub fn builder() -> PasswordStateBuilder {
+  pub fn builder() -> RTDPasswordStateBuilder {
     let instance = Self {
       td_name: "passwordState".to_string(),
       has_password: None,
@@ -34190,7 +34190,7 @@ impl PasswordState {
       recovery_email_address_code_info: None,
       
     };
-    PasswordStateBuilder::new(instance)
+    RTDPasswordStateBuilder::new(instance)
   }
   
   
@@ -34211,9 +34211,9 @@ impl PasswordState {
 
 
 #[derive(Debug)]
-pub struct PasswordStateBuilder { instance: PasswordState }
+pub struct RTDPasswordStateBuilder { instance: PasswordState }
 
-impl PasswordStateBuilder {
+impl RTDPasswordStateBuilder {
   fn new(instance: PasswordState) -> Self { Self { instance } }
 
   pub fn build(&self) -> PasswordState { self.instance.clone() }
@@ -34283,7 +34283,7 @@ impl RObject for PaymentForm {
 
 impl PaymentForm {
   
-  pub fn builder() -> PaymentFormBuilder {
+  pub fn builder() -> RTDPaymentFormBuilder {
     let instance = Self {
       td_name: "paymentForm".to_string(),
       invoice: None,
@@ -34295,7 +34295,7 @@ impl PaymentForm {
       need_password: None,
       
     };
-    PaymentFormBuilder::new(instance)
+    RTDPaymentFormBuilder::new(instance)
   }
   
   
@@ -34320,9 +34320,9 @@ impl PaymentForm {
 
 
 #[derive(Debug)]
-pub struct PaymentFormBuilder { instance: PaymentForm }
+pub struct RTDPaymentFormBuilder { instance: PaymentForm }
 
-impl PaymentFormBuilder {
+impl RTDPaymentFormBuilder {
   fn new(instance: PaymentForm) -> Self { Self { instance } }
 
   pub fn build(&self) -> PaymentForm { self.instance.clone() }
@@ -34400,7 +34400,7 @@ impl RObject for PaymentReceipt {
 
 impl PaymentReceipt {
   
-  pub fn builder() -> PaymentReceiptBuilder {
+  pub fn builder() -> RTDPaymentReceiptBuilder {
     let instance = Self {
       td_name: "paymentReceipt".to_string(),
       date: None,
@@ -34411,7 +34411,7 @@ impl PaymentReceipt {
       credentials_title: None,
       
     };
-    PaymentReceiptBuilder::new(instance)
+    RTDPaymentReceiptBuilder::new(instance)
   }
   
   
@@ -34434,9 +34434,9 @@ impl PaymentReceipt {
 
 
 #[derive(Debug)]
-pub struct PaymentReceiptBuilder { instance: PaymentReceipt }
+pub struct RTDPaymentReceiptBuilder { instance: PaymentReceipt }
 
-impl PaymentReceiptBuilder {
+impl RTDPaymentReceiptBuilder {
   fn new(instance: PaymentReceipt) -> Self { Self { instance } }
 
   pub fn build(&self) -> PaymentReceipt { self.instance.clone() }
@@ -34501,14 +34501,14 @@ impl RObject for PaymentResult {
 
 impl PaymentResult {
   
-  pub fn builder() -> PaymentResultBuilder {
+  pub fn builder() -> RTDPaymentResultBuilder {
     let instance = Self {
       td_name: "paymentResult".to_string(),
       success: None,
       verification_url: None,
       
     };
-    PaymentResultBuilder::new(instance)
+    RTDPaymentResultBuilder::new(instance)
   }
   
   
@@ -34523,9 +34523,9 @@ impl PaymentResult {
 
 
 #[derive(Debug)]
-pub struct PaymentResultBuilder { instance: PaymentResult }
+pub struct RTDPaymentResultBuilder { instance: PaymentResult }
 
-impl PaymentResultBuilder {
+impl RTDPaymentResultBuilder {
   fn new(instance: PaymentResult) -> Self { Self { instance } }
 
   pub fn build(&self) -> PaymentResult { self.instance.clone() }
@@ -34574,7 +34574,7 @@ impl RObject for PaymentsProviderStripe {
 
 impl PaymentsProviderStripe {
   
-  pub fn builder() -> PaymentsProviderStripeBuilder {
+  pub fn builder() -> RTDPaymentsProviderStripeBuilder {
     let instance = Self {
       td_name: "paymentsProviderStripe".to_string(),
       publishable_key: None,
@@ -34583,7 +34583,7 @@ impl PaymentsProviderStripe {
       need_cardholder_name: None,
       
     };
-    PaymentsProviderStripeBuilder::new(instance)
+    RTDPaymentsProviderStripeBuilder::new(instance)
   }
   
   
@@ -34602,9 +34602,9 @@ impl PaymentsProviderStripe {
 
 
 #[derive(Debug)]
-pub struct PaymentsProviderStripeBuilder { instance: PaymentsProviderStripe }
+pub struct RTDPaymentsProviderStripeBuilder { instance: PaymentsProviderStripe }
 
-impl PaymentsProviderStripeBuilder {
+impl RTDPaymentsProviderStripeBuilder {
   fn new(instance: PaymentsProviderStripe) -> Self { Self { instance } }
 
   pub fn build(&self) -> PaymentsProviderStripe { self.instance.clone() }
@@ -34675,7 +34675,7 @@ impl RObject for PersonalDetails {
 
 impl PersonalDetails {
   
-  pub fn builder() -> PersonalDetailsBuilder {
+  pub fn builder() -> RTDPersonalDetailsBuilder {
     let instance = Self {
       td_name: "personalDetails".to_string(),
       first_name: None,
@@ -34690,7 +34690,7 @@ impl PersonalDetails {
       residence_country_code: None,
       
     };
-    PersonalDetailsBuilder::new(instance)
+    RTDPersonalDetailsBuilder::new(instance)
   }
   
   
@@ -34721,9 +34721,9 @@ impl PersonalDetails {
 
 
 #[derive(Debug)]
-pub struct PersonalDetailsBuilder { instance: PersonalDetails }
+pub struct RTDPersonalDetailsBuilder { instance: PersonalDetails }
 
-impl PersonalDetailsBuilder {
+impl RTDPersonalDetailsBuilder {
   fn new(instance: PersonalDetails) -> Self { Self { instance } }
 
   pub fn build(&self) -> PersonalDetails { self.instance.clone() }
@@ -34808,14 +34808,14 @@ impl RObject for PersonalDocument {
 
 impl PersonalDocument {
   
-  pub fn builder() -> PersonalDocumentBuilder {
+  pub fn builder() -> RTDPersonalDocumentBuilder {
     let instance = Self {
       td_name: "personalDocument".to_string(),
       files: None,
       translation: None,
       
     };
-    PersonalDocumentBuilder::new(instance)
+    RTDPersonalDocumentBuilder::new(instance)
   }
   
   
@@ -34830,9 +34830,9 @@ impl PersonalDocument {
 
 
 #[derive(Debug)]
-pub struct PersonalDocumentBuilder { instance: PersonalDocument }
+pub struct RTDPersonalDocumentBuilder { instance: PersonalDocument }
 
-impl PersonalDocumentBuilder {
+impl RTDPersonalDocumentBuilder {
   fn new(instance: PersonalDocument) -> Self { Self { instance } }
 
   pub fn build(&self) -> PersonalDocument { self.instance.clone() }
@@ -34877,14 +34877,14 @@ impl RObject for Photo {
 
 impl Photo {
   
-  pub fn builder() -> PhotoBuilder {
+  pub fn builder() -> RTDPhotoBuilder {
     let instance = Self {
       td_name: "photo".to_string(),
       has_stickers: None,
       sizes: None,
       
     };
-    PhotoBuilder::new(instance)
+    RTDPhotoBuilder::new(instance)
   }
   
   
@@ -34899,9 +34899,9 @@ impl Photo {
 
 
 #[derive(Debug)]
-pub struct PhotoBuilder { instance: Photo }
+pub struct RTDPhotoBuilder { instance: Photo }
 
-impl PhotoBuilder {
+impl RTDPhotoBuilder {
   fn new(instance: Photo) -> Self { Self { instance } }
 
   pub fn build(&self) -> Photo { self.instance.clone() }
@@ -34950,7 +34950,7 @@ impl RObject for PhotoSize {
 
 impl PhotoSize {
   
-  pub fn builder() -> PhotoSizeBuilder {
+  pub fn builder() -> RTDPhotoSizeBuilder {
     let instance = Self {
       td_name: "photoSize".to_string(),
       type_: None,
@@ -34959,7 +34959,7 @@ impl PhotoSize {
       height: None,
       
     };
-    PhotoSizeBuilder::new(instance)
+    RTDPhotoSizeBuilder::new(instance)
   }
   
   
@@ -34978,9 +34978,9 @@ impl PhotoSize {
 
 
 #[derive(Debug)]
-pub struct PhotoSizeBuilder { instance: PhotoSize }
+pub struct RTDPhotoSizeBuilder { instance: PhotoSize }
 
-impl PhotoSizeBuilder {
+impl RTDPhotoSizeBuilder {
   fn new(instance: PhotoSize) -> Self { Self { instance } }
 
   pub fn build(&self) -> PhotoSize { self.instance.clone() }
@@ -35041,7 +35041,7 @@ impl RObject for Poll {
 
 impl Poll {
   
-  pub fn builder() -> PollBuilder {
+  pub fn builder() -> RTDPollBuilder {
     let instance = Self {
       td_name: "poll".to_string(),
       id: None,
@@ -35051,7 +35051,7 @@ impl Poll {
       is_closed: None,
       
     };
-    PollBuilder::new(instance)
+    RTDPollBuilder::new(instance)
   }
   
   
@@ -35072,9 +35072,9 @@ impl Poll {
 
 
 #[derive(Debug)]
-pub struct PollBuilder { instance: Poll }
+pub struct RTDPollBuilder { instance: Poll }
 
-impl PollBuilder {
+impl RTDPollBuilder {
   fn new(instance: Poll) -> Self { Self { instance } }
 
   pub fn build(&self) -> Poll { self.instance.clone() }
@@ -35140,7 +35140,7 @@ impl RObject for PollOption {
 
 impl PollOption {
   
-  pub fn builder() -> PollOptionBuilder {
+  pub fn builder() -> RTDPollOptionBuilder {
     let instance = Self {
       td_name: "pollOption".to_string(),
       text: None,
@@ -35150,7 +35150,7 @@ impl PollOption {
       is_being_chosen: None,
       
     };
-    PollOptionBuilder::new(instance)
+    RTDPollOptionBuilder::new(instance)
   }
   
   
@@ -35171,9 +35171,9 @@ impl PollOption {
 
 
 #[derive(Debug)]
-pub struct PollOptionBuilder { instance: PollOption }
+pub struct RTDPollOptionBuilder { instance: PollOption }
 
-impl PollOptionBuilder {
+impl RTDPollOptionBuilder {
   fn new(instance: PollOption) -> Self { Self { instance } }
 
   pub fn build(&self) -> PollOption { self.instance.clone() }
@@ -35235,7 +35235,7 @@ impl RObject for ProfilePhoto {
 
 impl ProfilePhoto {
   
-  pub fn builder() -> ProfilePhotoBuilder {
+  pub fn builder() -> RTDProfilePhotoBuilder {
     let instance = Self {
       td_name: "profilePhoto".to_string(),
       id: None,
@@ -35243,7 +35243,7 @@ impl ProfilePhoto {
       big: None,
       
     };
-    ProfilePhotoBuilder::new(instance)
+    RTDProfilePhotoBuilder::new(instance)
   }
   
   
@@ -35260,9 +35260,9 @@ impl ProfilePhoto {
 
 
 #[derive(Debug)]
-pub struct ProfilePhotoBuilder { instance: ProfilePhoto }
+pub struct RTDProfilePhotoBuilder { instance: ProfilePhoto }
 
-impl ProfilePhotoBuilder {
+impl RTDProfilePhotoBuilder {
   fn new(instance: ProfilePhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> ProfilePhoto { self.instance.clone() }
@@ -35310,13 +35310,13 @@ impl RObject for Proxies {
 
 impl Proxies {
   
-  pub fn builder() -> ProxiesBuilder {
+  pub fn builder() -> RTDProxiesBuilder {
     let instance = Self {
       td_name: "proxies".to_string(),
       proxies: None,
       
     };
-    ProxiesBuilder::new(instance)
+    RTDProxiesBuilder::new(instance)
   }
   
   
@@ -35329,9 +35329,9 @@ impl Proxies {
 
 
 #[derive(Debug)]
-pub struct ProxiesBuilder { instance: Proxies }
+pub struct RTDProxiesBuilder { instance: Proxies }
 
-impl ProxiesBuilder {
+impl RTDProxiesBuilder {
   fn new(instance: Proxies) -> Self { Self { instance } }
 
   pub fn build(&self) -> Proxies { self.instance.clone() }
@@ -35386,7 +35386,7 @@ impl RObject for Proxy {
 
 impl Proxy {
   
-  pub fn builder() -> ProxyBuilder {
+  pub fn builder() -> RTDProxyBuilder {
     let instance = Self {
       td_name: "proxy".to_string(),
       id: None,
@@ -35397,7 +35397,7 @@ impl Proxy {
       type_: None,
       
     };
-    ProxyBuilder::new(instance)
+    RTDProxyBuilder::new(instance)
   }
   
   
@@ -35420,9 +35420,9 @@ impl Proxy {
 
 
 #[derive(Debug)]
-pub struct ProxyBuilder { instance: Proxy }
+pub struct RTDProxyBuilder { instance: Proxy }
 
-impl ProxyBuilder {
+impl RTDProxyBuilder {
   fn new(instance: Proxy) -> Self { Self { instance } }
 
   pub fn build(&self) -> Proxy { self.instance.clone() }
@@ -35525,14 +35525,14 @@ impl RObject for ProxyTypeSocks5 {
 
 impl ProxyTypeSocks5 {
   
-  pub fn builder() -> ProxyTypeSocks5Builder {
+  pub fn builder() -> RTDProxyTypeSocks5Builder {
     let instance = Self {
       td_name: "proxyTypeSocks5".to_string(),
       username: None,
       password: None,
       
     };
-    ProxyTypeSocks5Builder::new(instance)
+    RTDProxyTypeSocks5Builder::new(instance)
   }
   
   
@@ -35547,9 +35547,9 @@ impl ProxyTypeSocks5 {
 
 
 #[derive(Debug)]
-pub struct ProxyTypeSocks5Builder { instance: ProxyTypeSocks5 }
+pub struct RTDProxyTypeSocks5Builder { instance: ProxyTypeSocks5 }
 
-impl ProxyTypeSocks5Builder {
+impl RTDProxyTypeSocks5Builder {
   fn new(instance: ProxyTypeSocks5) -> Self { Self { instance } }
 
   pub fn build(&self) -> ProxyTypeSocks5 { self.instance.clone() }
@@ -35598,7 +35598,7 @@ impl RObject for ProxyTypeHttp {
 
 impl ProxyTypeHttp {
   
-  pub fn builder() -> ProxyTypeHttpBuilder {
+  pub fn builder() -> RTDProxyTypeHttpBuilder {
     let instance = Self {
       td_name: "proxyTypeHttp".to_string(),
       username: None,
@@ -35606,7 +35606,7 @@ impl ProxyTypeHttp {
       http_only: None,
       
     };
-    ProxyTypeHttpBuilder::new(instance)
+    RTDProxyTypeHttpBuilder::new(instance)
   }
   
   
@@ -35623,9 +35623,9 @@ impl ProxyTypeHttp {
 
 
 #[derive(Debug)]
-pub struct ProxyTypeHttpBuilder { instance: ProxyTypeHttp }
+pub struct RTDProxyTypeHttpBuilder { instance: ProxyTypeHttp }
 
-impl ProxyTypeHttpBuilder {
+impl RTDProxyTypeHttpBuilder {
   fn new(instance: ProxyTypeHttp) -> Self { Self { instance } }
 
   pub fn build(&self) -> ProxyTypeHttp { self.instance.clone() }
@@ -35675,13 +35675,13 @@ impl RObject for ProxyTypeMtproto {
 
 impl ProxyTypeMtproto {
   
-  pub fn builder() -> ProxyTypeMtprotoBuilder {
+  pub fn builder() -> RTDProxyTypeMtprotoBuilder {
     let instance = Self {
       td_name: "proxyTypeMtproto".to_string(),
       secret: None,
       
     };
-    ProxyTypeMtprotoBuilder::new(instance)
+    RTDProxyTypeMtprotoBuilder::new(instance)
   }
   
   
@@ -35694,9 +35694,9 @@ impl ProxyTypeMtproto {
 
 
 #[derive(Debug)]
-pub struct ProxyTypeMtprotoBuilder { instance: ProxyTypeMtproto }
+pub struct RTDProxyTypeMtprotoBuilder { instance: ProxyTypeMtproto }
 
-impl ProxyTypeMtprotoBuilder {
+impl RTDProxyTypeMtprotoBuilder {
   fn new(instance: ProxyTypeMtproto) -> Self { Self { instance } }
 
   pub fn build(&self) -> ProxyTypeMtproto { self.instance.clone() }
@@ -35736,14 +35736,14 @@ impl RObject for PublicMessageLink {
 
 impl PublicMessageLink {
   
-  pub fn builder() -> PublicMessageLinkBuilder {
+  pub fn builder() -> RTDPublicMessageLinkBuilder {
     let instance = Self {
       td_name: "publicMessageLink".to_string(),
       link: None,
       html: None,
       
     };
-    PublicMessageLinkBuilder::new(instance)
+    RTDPublicMessageLinkBuilder::new(instance)
   }
   
   
@@ -35758,9 +35758,9 @@ impl PublicMessageLink {
 
 
 #[derive(Debug)]
-pub struct PublicMessageLinkBuilder { instance: PublicMessageLink }
+pub struct RTDPublicMessageLinkBuilder { instance: PublicMessageLink }
 
-impl PublicMessageLinkBuilder {
+impl RTDPublicMessageLinkBuilder {
   fn new(instance: PublicMessageLink) -> Self { Self { instance } }
 
   pub fn build(&self) -> PublicMessageLink { self.instance.clone() }
@@ -35864,13 +35864,13 @@ impl RObject for PushMessageContentHidden {
 
 impl PushMessageContentHidden {
   
-  pub fn builder() -> PushMessageContentHiddenBuilder {
+  pub fn builder() -> RTDPushMessageContentHiddenBuilder {
     let instance = Self {
       td_name: "pushMessageContentHidden".to_string(),
       is_pinned: None,
       
     };
-    PushMessageContentHiddenBuilder::new(instance)
+    RTDPushMessageContentHiddenBuilder::new(instance)
   }
   
   
@@ -35883,9 +35883,9 @@ impl PushMessageContentHidden {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentHiddenBuilder { instance: PushMessageContentHidden }
+pub struct RTDPushMessageContentHiddenBuilder { instance: PushMessageContentHidden }
 
-impl PushMessageContentHiddenBuilder {
+impl RTDPushMessageContentHiddenBuilder {
   fn new(instance: PushMessageContentHidden) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentHidden { self.instance.clone() }
@@ -35929,7 +35929,7 @@ impl RObject for PushMessageContentAnimation {
 
 impl PushMessageContentAnimation {
   
-  pub fn builder() -> PushMessageContentAnimationBuilder {
+  pub fn builder() -> RTDPushMessageContentAnimationBuilder {
     let instance = Self {
       td_name: "pushMessageContentAnimation".to_string(),
       animation: None,
@@ -35937,7 +35937,7 @@ impl PushMessageContentAnimation {
       is_pinned: None,
       
     };
-    PushMessageContentAnimationBuilder::new(instance)
+    RTDPushMessageContentAnimationBuilder::new(instance)
   }
   
   
@@ -35954,9 +35954,9 @@ impl PushMessageContentAnimation {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentAnimationBuilder { instance: PushMessageContentAnimation }
+pub struct RTDPushMessageContentAnimationBuilder { instance: PushMessageContentAnimation }
 
-impl PushMessageContentAnimationBuilder {
+impl RTDPushMessageContentAnimationBuilder {
   fn new(instance: PushMessageContentAnimation) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentAnimation { self.instance.clone() }
@@ -36008,14 +36008,14 @@ impl RObject for PushMessageContentAudio {
 
 impl PushMessageContentAudio {
   
-  pub fn builder() -> PushMessageContentAudioBuilder {
+  pub fn builder() -> RTDPushMessageContentAudioBuilder {
     let instance = Self {
       td_name: "pushMessageContentAudio".to_string(),
       audio: None,
       is_pinned: None,
       
     };
-    PushMessageContentAudioBuilder::new(instance)
+    RTDPushMessageContentAudioBuilder::new(instance)
   }
   
   
@@ -36030,9 +36030,9 @@ impl PushMessageContentAudio {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentAudioBuilder { instance: PushMessageContentAudio }
+pub struct RTDPushMessageContentAudioBuilder { instance: PushMessageContentAudio }
 
-impl PushMessageContentAudioBuilder {
+impl RTDPushMessageContentAudioBuilder {
   fn new(instance: PushMessageContentAudio) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentAudio { self.instance.clone() }
@@ -36079,14 +36079,14 @@ impl RObject for PushMessageContentContact {
 
 impl PushMessageContentContact {
   
-  pub fn builder() -> PushMessageContentContactBuilder {
+  pub fn builder() -> RTDPushMessageContentContactBuilder {
     let instance = Self {
       td_name: "pushMessageContentContact".to_string(),
       name: None,
       is_pinned: None,
       
     };
-    PushMessageContentContactBuilder::new(instance)
+    RTDPushMessageContentContactBuilder::new(instance)
   }
   
   
@@ -36101,9 +36101,9 @@ impl PushMessageContentContact {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentContactBuilder { instance: PushMessageContentContact }
+pub struct RTDPushMessageContentContactBuilder { instance: PushMessageContentContact }
 
-impl PushMessageContentContactBuilder {
+impl RTDPushMessageContentContactBuilder {
   fn new(instance: PushMessageContentContact) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentContact { self.instance.clone() }
@@ -36146,12 +36146,12 @@ impl RObject for PushMessageContentContactRegistered {
 
 impl PushMessageContentContactRegistered {
   
-  pub fn builder() -> PushMessageContentContactRegisteredBuilder {
+  pub fn builder() -> RTDPushMessageContentContactRegisteredBuilder {
     let instance = Self {
       td_name: "pushMessageContentContactRegistered".to_string(),
       
     };
-    PushMessageContentContactRegisteredBuilder::new(instance)
+    RTDPushMessageContentContactRegisteredBuilder::new(instance)
   }
   
   
@@ -36162,9 +36162,9 @@ impl PushMessageContentContactRegistered {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentContactRegisteredBuilder { instance: PushMessageContentContactRegistered }
+pub struct RTDPushMessageContentContactRegisteredBuilder { instance: PushMessageContentContactRegistered }
 
-impl PushMessageContentContactRegisteredBuilder {
+impl RTDPushMessageContentContactRegisteredBuilder {
   fn new(instance: PushMessageContentContactRegistered) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentContactRegistered { self.instance.clone() }
@@ -36201,14 +36201,14 @@ impl RObject for PushMessageContentDocument {
 
 impl PushMessageContentDocument {
   
-  pub fn builder() -> PushMessageContentDocumentBuilder {
+  pub fn builder() -> RTDPushMessageContentDocumentBuilder {
     let instance = Self {
       td_name: "pushMessageContentDocument".to_string(),
       document: None,
       is_pinned: None,
       
     };
-    PushMessageContentDocumentBuilder::new(instance)
+    RTDPushMessageContentDocumentBuilder::new(instance)
   }
   
   
@@ -36223,9 +36223,9 @@ impl PushMessageContentDocument {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentDocumentBuilder { instance: PushMessageContentDocument }
+pub struct RTDPushMessageContentDocumentBuilder { instance: PushMessageContentDocument }
 
-impl PushMessageContentDocumentBuilder {
+impl RTDPushMessageContentDocumentBuilder {
   fn new(instance: PushMessageContentDocument) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentDocument { self.instance.clone() }
@@ -36272,14 +36272,14 @@ impl RObject for PushMessageContentGame {
 
 impl PushMessageContentGame {
   
-  pub fn builder() -> PushMessageContentGameBuilder {
+  pub fn builder() -> RTDPushMessageContentGameBuilder {
     let instance = Self {
       td_name: "pushMessageContentGame".to_string(),
       title: None,
       is_pinned: None,
       
     };
-    PushMessageContentGameBuilder::new(instance)
+    RTDPushMessageContentGameBuilder::new(instance)
   }
   
   
@@ -36294,9 +36294,9 @@ impl PushMessageContentGame {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentGameBuilder { instance: PushMessageContentGame }
+pub struct RTDPushMessageContentGameBuilder { instance: PushMessageContentGame }
 
-impl PushMessageContentGameBuilder {
+impl RTDPushMessageContentGameBuilder {
   fn new(instance: PushMessageContentGame) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentGame { self.instance.clone() }
@@ -36345,7 +36345,7 @@ impl RObject for PushMessageContentGameScore {
 
 impl PushMessageContentGameScore {
   
-  pub fn builder() -> PushMessageContentGameScoreBuilder {
+  pub fn builder() -> RTDPushMessageContentGameScoreBuilder {
     let instance = Self {
       td_name: "pushMessageContentGameScore".to_string(),
       title: None,
@@ -36353,7 +36353,7 @@ impl PushMessageContentGameScore {
       is_pinned: None,
       
     };
-    PushMessageContentGameScoreBuilder::new(instance)
+    RTDPushMessageContentGameScoreBuilder::new(instance)
   }
   
   
@@ -36370,9 +36370,9 @@ impl PushMessageContentGameScore {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentGameScoreBuilder { instance: PushMessageContentGameScore }
+pub struct RTDPushMessageContentGameScoreBuilder { instance: PushMessageContentGameScore }
 
-impl PushMessageContentGameScoreBuilder {
+impl RTDPushMessageContentGameScoreBuilder {
   fn new(instance: PushMessageContentGameScore) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentGameScore { self.instance.clone() }
@@ -36424,14 +36424,14 @@ impl RObject for PushMessageContentInvoice {
 
 impl PushMessageContentInvoice {
   
-  pub fn builder() -> PushMessageContentInvoiceBuilder {
+  pub fn builder() -> RTDPushMessageContentInvoiceBuilder {
     let instance = Self {
       td_name: "pushMessageContentInvoice".to_string(),
       price: None,
       is_pinned: None,
       
     };
-    PushMessageContentInvoiceBuilder::new(instance)
+    RTDPushMessageContentInvoiceBuilder::new(instance)
   }
   
   
@@ -36446,9 +36446,9 @@ impl PushMessageContentInvoice {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentInvoiceBuilder { instance: PushMessageContentInvoice }
+pub struct RTDPushMessageContentInvoiceBuilder { instance: PushMessageContentInvoice }
 
-impl PushMessageContentInvoiceBuilder {
+impl RTDPushMessageContentInvoiceBuilder {
   fn new(instance: PushMessageContentInvoice) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentInvoice { self.instance.clone() }
@@ -36495,14 +36495,14 @@ impl RObject for PushMessageContentLocation {
 
 impl PushMessageContentLocation {
   
-  pub fn builder() -> PushMessageContentLocationBuilder {
+  pub fn builder() -> RTDPushMessageContentLocationBuilder {
     let instance = Self {
       td_name: "pushMessageContentLocation".to_string(),
       is_live: None,
       is_pinned: None,
       
     };
-    PushMessageContentLocationBuilder::new(instance)
+    RTDPushMessageContentLocationBuilder::new(instance)
   }
   
   
@@ -36517,9 +36517,9 @@ impl PushMessageContentLocation {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentLocationBuilder { instance: PushMessageContentLocation }
+pub struct RTDPushMessageContentLocationBuilder { instance: PushMessageContentLocation }
 
-impl PushMessageContentLocationBuilder {
+impl RTDPushMessageContentLocationBuilder {
   fn new(instance: PushMessageContentLocation) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentLocation { self.instance.clone() }
@@ -36570,7 +36570,7 @@ impl RObject for PushMessageContentPhoto {
 
 impl PushMessageContentPhoto {
   
-  pub fn builder() -> PushMessageContentPhotoBuilder {
+  pub fn builder() -> RTDPushMessageContentPhotoBuilder {
     let instance = Self {
       td_name: "pushMessageContentPhoto".to_string(),
       photo: None,
@@ -36579,7 +36579,7 @@ impl PushMessageContentPhoto {
       is_pinned: None,
       
     };
-    PushMessageContentPhotoBuilder::new(instance)
+    RTDPushMessageContentPhotoBuilder::new(instance)
   }
   
   
@@ -36598,9 +36598,9 @@ impl PushMessageContentPhoto {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentPhotoBuilder { instance: PushMessageContentPhoto }
+pub struct RTDPushMessageContentPhotoBuilder { instance: PushMessageContentPhoto }
 
-impl PushMessageContentPhotoBuilder {
+impl RTDPushMessageContentPhotoBuilder {
   fn new(instance: PushMessageContentPhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentPhoto { self.instance.clone() }
@@ -36657,14 +36657,14 @@ impl RObject for PushMessageContentPoll {
 
 impl PushMessageContentPoll {
   
-  pub fn builder() -> PushMessageContentPollBuilder {
+  pub fn builder() -> RTDPushMessageContentPollBuilder {
     let instance = Self {
       td_name: "pushMessageContentPoll".to_string(),
       question: None,
       is_pinned: None,
       
     };
-    PushMessageContentPollBuilder::new(instance)
+    RTDPushMessageContentPollBuilder::new(instance)
   }
   
   
@@ -36679,9 +36679,9 @@ impl PushMessageContentPoll {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentPollBuilder { instance: PushMessageContentPoll }
+pub struct RTDPushMessageContentPollBuilder { instance: PushMessageContentPoll }
 
-impl PushMessageContentPollBuilder {
+impl RTDPushMessageContentPollBuilder {
   fn new(instance: PushMessageContentPoll) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentPoll { self.instance.clone() }
@@ -36724,12 +36724,12 @@ impl RObject for PushMessageContentScreenshotTaken {
 
 impl PushMessageContentScreenshotTaken {
   
-  pub fn builder() -> PushMessageContentScreenshotTakenBuilder {
+  pub fn builder() -> RTDPushMessageContentScreenshotTakenBuilder {
     let instance = Self {
       td_name: "pushMessageContentScreenshotTaken".to_string(),
       
     };
-    PushMessageContentScreenshotTakenBuilder::new(instance)
+    RTDPushMessageContentScreenshotTakenBuilder::new(instance)
   }
   
   
@@ -36740,9 +36740,9 @@ impl PushMessageContentScreenshotTaken {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentScreenshotTakenBuilder { instance: PushMessageContentScreenshotTaken }
+pub struct RTDPushMessageContentScreenshotTakenBuilder { instance: PushMessageContentScreenshotTaken }
 
-impl PushMessageContentScreenshotTakenBuilder {
+impl RTDPushMessageContentScreenshotTakenBuilder {
   fn new(instance: PushMessageContentScreenshotTaken) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentScreenshotTaken { self.instance.clone() }
@@ -36781,7 +36781,7 @@ impl RObject for PushMessageContentSticker {
 
 impl PushMessageContentSticker {
   
-  pub fn builder() -> PushMessageContentStickerBuilder {
+  pub fn builder() -> RTDPushMessageContentStickerBuilder {
     let instance = Self {
       td_name: "pushMessageContentSticker".to_string(),
       sticker: None,
@@ -36789,7 +36789,7 @@ impl PushMessageContentSticker {
       is_pinned: None,
       
     };
-    PushMessageContentStickerBuilder::new(instance)
+    RTDPushMessageContentStickerBuilder::new(instance)
   }
   
   
@@ -36806,9 +36806,9 @@ impl PushMessageContentSticker {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentStickerBuilder { instance: PushMessageContentSticker }
+pub struct RTDPushMessageContentStickerBuilder { instance: PushMessageContentSticker }
 
-impl PushMessageContentStickerBuilder {
+impl RTDPushMessageContentStickerBuilder {
   fn new(instance: PushMessageContentSticker) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentSticker { self.instance.clone() }
@@ -36860,14 +36860,14 @@ impl RObject for PushMessageContentText {
 
 impl PushMessageContentText {
   
-  pub fn builder() -> PushMessageContentTextBuilder {
+  pub fn builder() -> RTDPushMessageContentTextBuilder {
     let instance = Self {
       td_name: "pushMessageContentText".to_string(),
       text: None,
       is_pinned: None,
       
     };
-    PushMessageContentTextBuilder::new(instance)
+    RTDPushMessageContentTextBuilder::new(instance)
   }
   
   
@@ -36882,9 +36882,9 @@ impl PushMessageContentText {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentTextBuilder { instance: PushMessageContentText }
+pub struct RTDPushMessageContentTextBuilder { instance: PushMessageContentText }
 
-impl PushMessageContentTextBuilder {
+impl RTDPushMessageContentTextBuilder {
   fn new(instance: PushMessageContentText) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentText { self.instance.clone() }
@@ -36935,7 +36935,7 @@ impl RObject for PushMessageContentVideo {
 
 impl PushMessageContentVideo {
   
-  pub fn builder() -> PushMessageContentVideoBuilder {
+  pub fn builder() -> RTDPushMessageContentVideoBuilder {
     let instance = Self {
       td_name: "pushMessageContentVideo".to_string(),
       video: None,
@@ -36944,7 +36944,7 @@ impl PushMessageContentVideo {
       is_pinned: None,
       
     };
-    PushMessageContentVideoBuilder::new(instance)
+    RTDPushMessageContentVideoBuilder::new(instance)
   }
   
   
@@ -36963,9 +36963,9 @@ impl PushMessageContentVideo {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentVideoBuilder { instance: PushMessageContentVideo }
+pub struct RTDPushMessageContentVideoBuilder { instance: PushMessageContentVideo }
 
-impl PushMessageContentVideoBuilder {
+impl RTDPushMessageContentVideoBuilder {
   fn new(instance: PushMessageContentVideo) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentVideo { self.instance.clone() }
@@ -37022,14 +37022,14 @@ impl RObject for PushMessageContentVideoNote {
 
 impl PushMessageContentVideoNote {
   
-  pub fn builder() -> PushMessageContentVideoNoteBuilder {
+  pub fn builder() -> RTDPushMessageContentVideoNoteBuilder {
     let instance = Self {
       td_name: "pushMessageContentVideoNote".to_string(),
       video_note: None,
       is_pinned: None,
       
     };
-    PushMessageContentVideoNoteBuilder::new(instance)
+    RTDPushMessageContentVideoNoteBuilder::new(instance)
   }
   
   
@@ -37044,9 +37044,9 @@ impl PushMessageContentVideoNote {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentVideoNoteBuilder { instance: PushMessageContentVideoNote }
+pub struct RTDPushMessageContentVideoNoteBuilder { instance: PushMessageContentVideoNote }
 
-impl PushMessageContentVideoNoteBuilder {
+impl RTDPushMessageContentVideoNoteBuilder {
   fn new(instance: PushMessageContentVideoNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentVideoNote { self.instance.clone() }
@@ -37093,14 +37093,14 @@ impl RObject for PushMessageContentVoiceNote {
 
 impl PushMessageContentVoiceNote {
   
-  pub fn builder() -> PushMessageContentVoiceNoteBuilder {
+  pub fn builder() -> RTDPushMessageContentVoiceNoteBuilder {
     let instance = Self {
       td_name: "pushMessageContentVoiceNote".to_string(),
       voice_note: None,
       is_pinned: None,
       
     };
-    PushMessageContentVoiceNoteBuilder::new(instance)
+    RTDPushMessageContentVoiceNoteBuilder::new(instance)
   }
   
   
@@ -37115,9 +37115,9 @@ impl PushMessageContentVoiceNote {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentVoiceNoteBuilder { instance: PushMessageContentVoiceNote }
+pub struct RTDPushMessageContentVoiceNoteBuilder { instance: PushMessageContentVoiceNote }
 
-impl PushMessageContentVoiceNoteBuilder {
+impl RTDPushMessageContentVoiceNoteBuilder {
   fn new(instance: PushMessageContentVoiceNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentVoiceNote { self.instance.clone() }
@@ -37160,12 +37160,12 @@ impl RObject for PushMessageContentBasicGroupChatCreate {
 
 impl PushMessageContentBasicGroupChatCreate {
   
-  pub fn builder() -> PushMessageContentBasicGroupChatCreateBuilder {
+  pub fn builder() -> RTDPushMessageContentBasicGroupChatCreateBuilder {
     let instance = Self {
       td_name: "pushMessageContentBasicGroupChatCreate".to_string(),
       
     };
-    PushMessageContentBasicGroupChatCreateBuilder::new(instance)
+    RTDPushMessageContentBasicGroupChatCreateBuilder::new(instance)
   }
   
   
@@ -37176,9 +37176,9 @@ impl PushMessageContentBasicGroupChatCreate {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentBasicGroupChatCreateBuilder { instance: PushMessageContentBasicGroupChatCreate }
+pub struct RTDPushMessageContentBasicGroupChatCreateBuilder { instance: PushMessageContentBasicGroupChatCreate }
 
-impl PushMessageContentBasicGroupChatCreateBuilder {
+impl RTDPushMessageContentBasicGroupChatCreateBuilder {
   fn new(instance: PushMessageContentBasicGroupChatCreate) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentBasicGroupChatCreate { self.instance.clone() }
@@ -37217,7 +37217,7 @@ impl RObject for PushMessageContentChatAddMembers {
 
 impl PushMessageContentChatAddMembers {
   
-  pub fn builder() -> PushMessageContentChatAddMembersBuilder {
+  pub fn builder() -> RTDPushMessageContentChatAddMembersBuilder {
     let instance = Self {
       td_name: "pushMessageContentChatAddMembers".to_string(),
       member_name: None,
@@ -37225,7 +37225,7 @@ impl PushMessageContentChatAddMembers {
       is_returned: None,
       
     };
-    PushMessageContentChatAddMembersBuilder::new(instance)
+    RTDPushMessageContentChatAddMembersBuilder::new(instance)
   }
   
   
@@ -37242,9 +37242,9 @@ impl PushMessageContentChatAddMembers {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentChatAddMembersBuilder { instance: PushMessageContentChatAddMembers }
+pub struct RTDPushMessageContentChatAddMembersBuilder { instance: PushMessageContentChatAddMembers }
 
-impl PushMessageContentChatAddMembersBuilder {
+impl RTDPushMessageContentChatAddMembersBuilder {
   fn new(instance: PushMessageContentChatAddMembers) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentChatAddMembers { self.instance.clone() }
@@ -37292,12 +37292,12 @@ impl RObject for PushMessageContentChatChangePhoto {
 
 impl PushMessageContentChatChangePhoto {
   
-  pub fn builder() -> PushMessageContentChatChangePhotoBuilder {
+  pub fn builder() -> RTDPushMessageContentChatChangePhotoBuilder {
     let instance = Self {
       td_name: "pushMessageContentChatChangePhoto".to_string(),
       
     };
-    PushMessageContentChatChangePhotoBuilder::new(instance)
+    RTDPushMessageContentChatChangePhotoBuilder::new(instance)
   }
   
   
@@ -37308,9 +37308,9 @@ impl PushMessageContentChatChangePhoto {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentChatChangePhotoBuilder { instance: PushMessageContentChatChangePhoto }
+pub struct RTDPushMessageContentChatChangePhotoBuilder { instance: PushMessageContentChatChangePhoto }
 
-impl PushMessageContentChatChangePhotoBuilder {
+impl RTDPushMessageContentChatChangePhotoBuilder {
   fn new(instance: PushMessageContentChatChangePhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentChatChangePhoto { self.instance.clone() }
@@ -37345,13 +37345,13 @@ impl RObject for PushMessageContentChatChangeTitle {
 
 impl PushMessageContentChatChangeTitle {
   
-  pub fn builder() -> PushMessageContentChatChangeTitleBuilder {
+  pub fn builder() -> RTDPushMessageContentChatChangeTitleBuilder {
     let instance = Self {
       td_name: "pushMessageContentChatChangeTitle".to_string(),
       title: None,
       
     };
-    PushMessageContentChatChangeTitleBuilder::new(instance)
+    RTDPushMessageContentChatChangeTitleBuilder::new(instance)
   }
   
   
@@ -37364,9 +37364,9 @@ impl PushMessageContentChatChangeTitle {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentChatChangeTitleBuilder { instance: PushMessageContentChatChangeTitle }
+pub struct RTDPushMessageContentChatChangeTitleBuilder { instance: PushMessageContentChatChangeTitle }
 
-impl PushMessageContentChatChangeTitleBuilder {
+impl RTDPushMessageContentChatChangeTitleBuilder {
   fn new(instance: PushMessageContentChatChangeTitle) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentChatChangeTitle { self.instance.clone() }
@@ -37410,7 +37410,7 @@ impl RObject for PushMessageContentChatDeleteMember {
 
 impl PushMessageContentChatDeleteMember {
   
-  pub fn builder() -> PushMessageContentChatDeleteMemberBuilder {
+  pub fn builder() -> RTDPushMessageContentChatDeleteMemberBuilder {
     let instance = Self {
       td_name: "pushMessageContentChatDeleteMember".to_string(),
       member_name: None,
@@ -37418,7 +37418,7 @@ impl PushMessageContentChatDeleteMember {
       is_left: None,
       
     };
-    PushMessageContentChatDeleteMemberBuilder::new(instance)
+    RTDPushMessageContentChatDeleteMemberBuilder::new(instance)
   }
   
   
@@ -37435,9 +37435,9 @@ impl PushMessageContentChatDeleteMember {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentChatDeleteMemberBuilder { instance: PushMessageContentChatDeleteMember }
+pub struct RTDPushMessageContentChatDeleteMemberBuilder { instance: PushMessageContentChatDeleteMember }
 
-impl PushMessageContentChatDeleteMemberBuilder {
+impl RTDPushMessageContentChatDeleteMemberBuilder {
   fn new(instance: PushMessageContentChatDeleteMember) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentChatDeleteMember { self.instance.clone() }
@@ -37485,12 +37485,12 @@ impl RObject for PushMessageContentChatJoinByLink {
 
 impl PushMessageContentChatJoinByLink {
   
-  pub fn builder() -> PushMessageContentChatJoinByLinkBuilder {
+  pub fn builder() -> RTDPushMessageContentChatJoinByLinkBuilder {
     let instance = Self {
       td_name: "pushMessageContentChatJoinByLink".to_string(),
       
     };
-    PushMessageContentChatJoinByLinkBuilder::new(instance)
+    RTDPushMessageContentChatJoinByLinkBuilder::new(instance)
   }
   
   
@@ -37501,9 +37501,9 @@ impl PushMessageContentChatJoinByLink {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentChatJoinByLinkBuilder { instance: PushMessageContentChatJoinByLink }
+pub struct RTDPushMessageContentChatJoinByLinkBuilder { instance: PushMessageContentChatJoinByLink }
 
-impl PushMessageContentChatJoinByLinkBuilder {
+impl RTDPushMessageContentChatJoinByLinkBuilder {
   fn new(instance: PushMessageContentChatJoinByLink) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentChatJoinByLink { self.instance.clone() }
@@ -37538,13 +37538,13 @@ impl RObject for PushMessageContentMessageForwards {
 
 impl PushMessageContentMessageForwards {
   
-  pub fn builder() -> PushMessageContentMessageForwardsBuilder {
+  pub fn builder() -> RTDPushMessageContentMessageForwardsBuilder {
     let instance = Self {
       td_name: "pushMessageContentMessageForwards".to_string(),
       total_count: None,
       
     };
-    PushMessageContentMessageForwardsBuilder::new(instance)
+    RTDPushMessageContentMessageForwardsBuilder::new(instance)
   }
   
   
@@ -37557,9 +37557,9 @@ impl PushMessageContentMessageForwards {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentMessageForwardsBuilder { instance: PushMessageContentMessageForwards }
+pub struct RTDPushMessageContentMessageForwardsBuilder { instance: PushMessageContentMessageForwards }
 
-impl PushMessageContentMessageForwardsBuilder {
+impl RTDPushMessageContentMessageForwardsBuilder {
   fn new(instance: PushMessageContentMessageForwards) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentMessageForwards { self.instance.clone() }
@@ -37603,7 +37603,7 @@ impl RObject for PushMessageContentMediaAlbum {
 
 impl PushMessageContentMediaAlbum {
   
-  pub fn builder() -> PushMessageContentMediaAlbumBuilder {
+  pub fn builder() -> RTDPushMessageContentMediaAlbumBuilder {
     let instance = Self {
       td_name: "pushMessageContentMediaAlbum".to_string(),
       total_count: None,
@@ -37611,7 +37611,7 @@ impl PushMessageContentMediaAlbum {
       has_videos: None,
       
     };
-    PushMessageContentMediaAlbumBuilder::new(instance)
+    RTDPushMessageContentMediaAlbumBuilder::new(instance)
   }
   
   
@@ -37628,9 +37628,9 @@ impl PushMessageContentMediaAlbum {
 
 
 #[derive(Debug)]
-pub struct PushMessageContentMediaAlbumBuilder { instance: PushMessageContentMediaAlbum }
+pub struct RTDPushMessageContentMediaAlbumBuilder { instance: PushMessageContentMediaAlbum }
 
-impl PushMessageContentMediaAlbumBuilder {
+impl RTDPushMessageContentMediaAlbumBuilder {
   fn new(instance: PushMessageContentMediaAlbum) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushMessageContentMediaAlbum { self.instance.clone() }
@@ -37678,13 +37678,13 @@ impl RObject for PushReceiverId {
 
 impl PushReceiverId {
   
-  pub fn builder() -> PushReceiverIdBuilder {
+  pub fn builder() -> RTDPushReceiverIdBuilder {
     let instance = Self {
       td_name: "pushReceiverId".to_string(),
       id: None,
       
     };
-    PushReceiverIdBuilder::new(instance)
+    RTDPushReceiverIdBuilder::new(instance)
   }
   
   
@@ -37697,9 +37697,9 @@ impl PushReceiverId {
 
 
 #[derive(Debug)]
-pub struct PushReceiverIdBuilder { instance: PushReceiverId }
+pub struct RTDPushReceiverIdBuilder { instance: PushReceiverId }
 
-impl PushReceiverIdBuilder {
+impl RTDPushReceiverIdBuilder {
   fn new(instance: PushReceiverId) -> Self { Self { instance } }
 
   pub fn build(&self) -> PushReceiverId { self.instance.clone() }
@@ -37737,13 +37737,13 @@ impl RObject for RecoveryEmailAddress {
 
 impl RecoveryEmailAddress {
   
-  pub fn builder() -> RecoveryEmailAddressBuilder {
+  pub fn builder() -> RTDRecoveryEmailAddressBuilder {
     let instance = Self {
       td_name: "recoveryEmailAddress".to_string(),
       recovery_email_address: None,
       
     };
-    RecoveryEmailAddressBuilder::new(instance)
+    RTDRecoveryEmailAddressBuilder::new(instance)
   }
   
   
@@ -37756,9 +37756,9 @@ impl RecoveryEmailAddress {
 
 
 #[derive(Debug)]
-pub struct RecoveryEmailAddressBuilder { instance: RecoveryEmailAddress }
+pub struct RTDRecoveryEmailAddressBuilder { instance: RecoveryEmailAddress }
 
-impl RecoveryEmailAddressBuilder {
+impl RTDRecoveryEmailAddressBuilder {
   fn new(instance: RecoveryEmailAddress) -> Self { Self { instance } }
 
   pub fn build(&self) -> RecoveryEmailAddress { self.instance.clone() }
@@ -37802,7 +37802,7 @@ impl RObject for RemoteFile {
 
 impl RemoteFile {
   
-  pub fn builder() -> RemoteFileBuilder {
+  pub fn builder() -> RTDRemoteFileBuilder {
     let instance = Self {
       td_name: "remoteFile".to_string(),
       id: None,
@@ -37811,7 +37811,7 @@ impl RemoteFile {
       uploaded_size: None,
       
     };
-    RemoteFileBuilder::new(instance)
+    RTDRemoteFileBuilder::new(instance)
   }
   
   
@@ -37830,9 +37830,9 @@ impl RemoteFile {
 
 
 #[derive(Debug)]
-pub struct RemoteFileBuilder { instance: RemoteFile }
+pub struct RTDRemoteFileBuilder { instance: RemoteFile }
 
-impl RemoteFileBuilder {
+impl RTDRemoteFileBuilder {
   fn new(instance: RemoteFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> RemoteFile { self.instance.clone() }
@@ -37924,13 +37924,13 @@ impl RObject for ReplyMarkupRemoveKeyboard {
 
 impl ReplyMarkupRemoveKeyboard {
   
-  pub fn builder() -> ReplyMarkupRemoveKeyboardBuilder {
+  pub fn builder() -> RTDReplyMarkupRemoveKeyboardBuilder {
     let instance = Self {
       td_name: "replyMarkupRemoveKeyboard".to_string(),
       is_personal: None,
       
     };
-    ReplyMarkupRemoveKeyboardBuilder::new(instance)
+    RTDReplyMarkupRemoveKeyboardBuilder::new(instance)
   }
   
   
@@ -37943,9 +37943,9 @@ impl ReplyMarkupRemoveKeyboard {
 
 
 #[derive(Debug)]
-pub struct ReplyMarkupRemoveKeyboardBuilder { instance: ReplyMarkupRemoveKeyboard }
+pub struct RTDReplyMarkupRemoveKeyboardBuilder { instance: ReplyMarkupRemoveKeyboard }
 
-impl ReplyMarkupRemoveKeyboardBuilder {
+impl RTDReplyMarkupRemoveKeyboardBuilder {
   fn new(instance: ReplyMarkupRemoveKeyboard) -> Self { Self { instance } }
 
   pub fn build(&self) -> ReplyMarkupRemoveKeyboard { self.instance.clone() }
@@ -37985,13 +37985,13 @@ impl RObject for ReplyMarkupForceReply {
 
 impl ReplyMarkupForceReply {
   
-  pub fn builder() -> ReplyMarkupForceReplyBuilder {
+  pub fn builder() -> RTDReplyMarkupForceReplyBuilder {
     let instance = Self {
       td_name: "replyMarkupForceReply".to_string(),
       is_personal: None,
       
     };
-    ReplyMarkupForceReplyBuilder::new(instance)
+    RTDReplyMarkupForceReplyBuilder::new(instance)
   }
   
   
@@ -38004,9 +38004,9 @@ impl ReplyMarkupForceReply {
 
 
 #[derive(Debug)]
-pub struct ReplyMarkupForceReplyBuilder { instance: ReplyMarkupForceReply }
+pub struct RTDReplyMarkupForceReplyBuilder { instance: ReplyMarkupForceReply }
 
-impl ReplyMarkupForceReplyBuilder {
+impl RTDReplyMarkupForceReplyBuilder {
   fn new(instance: ReplyMarkupForceReply) -> Self { Self { instance } }
 
   pub fn build(&self) -> ReplyMarkupForceReply { self.instance.clone() }
@@ -38052,7 +38052,7 @@ impl RObject for ReplyMarkupShowKeyboard {
 
 impl ReplyMarkupShowKeyboard {
   
-  pub fn builder() -> ReplyMarkupShowKeyboardBuilder {
+  pub fn builder() -> RTDReplyMarkupShowKeyboardBuilder {
     let instance = Self {
       td_name: "replyMarkupShowKeyboard".to_string(),
       rows: None,
@@ -38061,7 +38061,7 @@ impl ReplyMarkupShowKeyboard {
       is_personal: None,
       
     };
-    ReplyMarkupShowKeyboardBuilder::new(instance)
+    RTDReplyMarkupShowKeyboardBuilder::new(instance)
   }
   
   
@@ -38080,9 +38080,9 @@ impl ReplyMarkupShowKeyboard {
 
 
 #[derive(Debug)]
-pub struct ReplyMarkupShowKeyboardBuilder { instance: ReplyMarkupShowKeyboard }
+pub struct RTDReplyMarkupShowKeyboardBuilder { instance: ReplyMarkupShowKeyboard }
 
-impl ReplyMarkupShowKeyboardBuilder {
+impl RTDReplyMarkupShowKeyboardBuilder {
   fn new(instance: ReplyMarkupShowKeyboard) -> Self { Self { instance } }
 
   pub fn build(&self) -> ReplyMarkupShowKeyboard { self.instance.clone() }
@@ -38137,13 +38137,13 @@ impl RObject for ReplyMarkupInlineKeyboard {
 
 impl ReplyMarkupInlineKeyboard {
   
-  pub fn builder() -> ReplyMarkupInlineKeyboardBuilder {
+  pub fn builder() -> RTDReplyMarkupInlineKeyboardBuilder {
     let instance = Self {
       td_name: "replyMarkupInlineKeyboard".to_string(),
       rows: None,
       
     };
-    ReplyMarkupInlineKeyboardBuilder::new(instance)
+    RTDReplyMarkupInlineKeyboardBuilder::new(instance)
   }
   
   
@@ -38156,9 +38156,9 @@ impl ReplyMarkupInlineKeyboard {
 
 
 #[derive(Debug)]
-pub struct ReplyMarkupInlineKeyboardBuilder { instance: ReplyMarkupInlineKeyboard }
+pub struct RTDReplyMarkupInlineKeyboardBuilder { instance: ReplyMarkupInlineKeyboard }
 
-impl ReplyMarkupInlineKeyboardBuilder {
+impl RTDReplyMarkupInlineKeyboardBuilder {
   fn new(instance: ReplyMarkupInlineKeyboard) -> Self { Self { instance } }
 
   pub fn build(&self) -> ReplyMarkupInlineKeyboard { self.instance.clone() }
@@ -38246,13 +38246,13 @@ impl RObject for RichTextPlain {
 
 impl RichTextPlain {
   
-  pub fn builder() -> RichTextPlainBuilder {
+  pub fn builder() -> RTDRichTextPlainBuilder {
     let instance = Self {
       td_name: "richTextPlain".to_string(),
       text: None,
       
     };
-    RichTextPlainBuilder::new(instance)
+    RTDRichTextPlainBuilder::new(instance)
   }
   
   
@@ -38265,9 +38265,9 @@ impl RichTextPlain {
 
 
 #[derive(Debug)]
-pub struct RichTextPlainBuilder { instance: RichTextPlain }
+pub struct RTDRichTextPlainBuilder { instance: RichTextPlain }
 
-impl RichTextPlainBuilder {
+impl RTDRichTextPlainBuilder {
   fn new(instance: RichTextPlain) -> Self { Self { instance } }
 
   pub fn build(&self) -> RichTextPlain { self.instance.clone() }
@@ -38314,13 +38314,13 @@ impl RObject for RichTextBold {
 
 impl RichTextBold {
   
-  pub fn builder() -> RichTextBoldBuilder {
+  pub fn builder() -> RTDRichTextBoldBuilder {
     let instance = Self {
       td_name: "richTextBold".to_string(),
       text: None,
       
     };
-    RichTextBoldBuilder::new(instance)
+    RTDRichTextBoldBuilder::new(instance)
   }
   
   
@@ -38333,9 +38333,9 @@ impl RichTextBold {
 
 
 #[derive(Debug)]
-pub struct RichTextBoldBuilder { instance: RichTextBold }
+pub struct RTDRichTextBoldBuilder { instance: RichTextBold }
 
-impl RichTextBoldBuilder {
+impl RTDRichTextBoldBuilder {
   fn new(instance: RichTextBold) -> Self { Self { instance } }
 
   pub fn build(&self) -> RichTextBold { self.instance.clone() }
@@ -38382,13 +38382,13 @@ impl RObject for RichTextItalic {
 
 impl RichTextItalic {
   
-  pub fn builder() -> RichTextItalicBuilder {
+  pub fn builder() -> RTDRichTextItalicBuilder {
     let instance = Self {
       td_name: "richTextItalic".to_string(),
       text: None,
       
     };
-    RichTextItalicBuilder::new(instance)
+    RTDRichTextItalicBuilder::new(instance)
   }
   
   
@@ -38401,9 +38401,9 @@ impl RichTextItalic {
 
 
 #[derive(Debug)]
-pub struct RichTextItalicBuilder { instance: RichTextItalic }
+pub struct RTDRichTextItalicBuilder { instance: RichTextItalic }
 
-impl RichTextItalicBuilder {
+impl RTDRichTextItalicBuilder {
   fn new(instance: RichTextItalic) -> Self { Self { instance } }
 
   pub fn build(&self) -> RichTextItalic { self.instance.clone() }
@@ -38450,13 +38450,13 @@ impl RObject for RichTextUnderline {
 
 impl RichTextUnderline {
   
-  pub fn builder() -> RichTextUnderlineBuilder {
+  pub fn builder() -> RTDRichTextUnderlineBuilder {
     let instance = Self {
       td_name: "richTextUnderline".to_string(),
       text: None,
       
     };
-    RichTextUnderlineBuilder::new(instance)
+    RTDRichTextUnderlineBuilder::new(instance)
   }
   
   
@@ -38469,9 +38469,9 @@ impl RichTextUnderline {
 
 
 #[derive(Debug)]
-pub struct RichTextUnderlineBuilder { instance: RichTextUnderline }
+pub struct RTDRichTextUnderlineBuilder { instance: RichTextUnderline }
 
-impl RichTextUnderlineBuilder {
+impl RTDRichTextUnderlineBuilder {
   fn new(instance: RichTextUnderline) -> Self { Self { instance } }
 
   pub fn build(&self) -> RichTextUnderline { self.instance.clone() }
@@ -38518,13 +38518,13 @@ impl RObject for RichTextStrikethrough {
 
 impl RichTextStrikethrough {
   
-  pub fn builder() -> RichTextStrikethroughBuilder {
+  pub fn builder() -> RTDRichTextStrikethroughBuilder {
     let instance = Self {
       td_name: "richTextStrikethrough".to_string(),
       text: None,
       
     };
-    RichTextStrikethroughBuilder::new(instance)
+    RTDRichTextStrikethroughBuilder::new(instance)
   }
   
   
@@ -38537,9 +38537,9 @@ impl RichTextStrikethrough {
 
 
 #[derive(Debug)]
-pub struct RichTextStrikethroughBuilder { instance: RichTextStrikethrough }
+pub struct RTDRichTextStrikethroughBuilder { instance: RichTextStrikethrough }
 
-impl RichTextStrikethroughBuilder {
+impl RTDRichTextStrikethroughBuilder {
   fn new(instance: RichTextStrikethrough) -> Self { Self { instance } }
 
   pub fn build(&self) -> RichTextStrikethrough { self.instance.clone() }
@@ -38586,13 +38586,13 @@ impl RObject for RichTextFixed {
 
 impl RichTextFixed {
   
-  pub fn builder() -> RichTextFixedBuilder {
+  pub fn builder() -> RTDRichTextFixedBuilder {
     let instance = Self {
       td_name: "richTextFixed".to_string(),
       text: None,
       
     };
-    RichTextFixedBuilder::new(instance)
+    RTDRichTextFixedBuilder::new(instance)
   }
   
   
@@ -38605,9 +38605,9 @@ impl RichTextFixed {
 
 
 #[derive(Debug)]
-pub struct RichTextFixedBuilder { instance: RichTextFixed }
+pub struct RTDRichTextFixedBuilder { instance: RichTextFixed }
 
-impl RichTextFixedBuilder {
+impl RTDRichTextFixedBuilder {
   fn new(instance: RichTextFixed) -> Self { Self { instance } }
 
   pub fn build(&self) -> RichTextFixed { self.instance.clone() }
@@ -38656,14 +38656,14 @@ impl RObject for RichTextUrl {
 
 impl RichTextUrl {
   
-  pub fn builder() -> RichTextUrlBuilder {
+  pub fn builder() -> RTDRichTextUrlBuilder {
     let instance = Self {
       td_name: "richTextUrl".to_string(),
       text: None,
       url: None,
       
     };
-    RichTextUrlBuilder::new(instance)
+    RTDRichTextUrlBuilder::new(instance)
   }
   
   
@@ -38678,9 +38678,9 @@ impl RichTextUrl {
 
 
 #[derive(Debug)]
-pub struct RichTextUrlBuilder { instance: RichTextUrl }
+pub struct RTDRichTextUrlBuilder { instance: RichTextUrl }
 
-impl RichTextUrlBuilder {
+impl RTDRichTextUrlBuilder {
   fn new(instance: RichTextUrl) -> Self { Self { instance } }
 
   pub fn build(&self) -> RichTextUrl { self.instance.clone() }
@@ -38734,14 +38734,14 @@ impl RObject for RichTextEmailAddress {
 
 impl RichTextEmailAddress {
   
-  pub fn builder() -> RichTextEmailAddressBuilder {
+  pub fn builder() -> RTDRichTextEmailAddressBuilder {
     let instance = Self {
       td_name: "richTextEmailAddress".to_string(),
       text: None,
       email_address: None,
       
     };
-    RichTextEmailAddressBuilder::new(instance)
+    RTDRichTextEmailAddressBuilder::new(instance)
   }
   
   
@@ -38756,9 +38756,9 @@ impl RichTextEmailAddress {
 
 
 #[derive(Debug)]
-pub struct RichTextEmailAddressBuilder { instance: RichTextEmailAddress }
+pub struct RTDRichTextEmailAddressBuilder { instance: RichTextEmailAddress }
 
-impl RichTextEmailAddressBuilder {
+impl RTDRichTextEmailAddressBuilder {
   fn new(instance: RichTextEmailAddress) -> Self { Self { instance } }
 
   pub fn build(&self) -> RichTextEmailAddress { self.instance.clone() }
@@ -38810,13 +38810,13 @@ impl RObject for RichTextSubscript {
 
 impl RichTextSubscript {
   
-  pub fn builder() -> RichTextSubscriptBuilder {
+  pub fn builder() -> RTDRichTextSubscriptBuilder {
     let instance = Self {
       td_name: "richTextSubscript".to_string(),
       text: None,
       
     };
-    RichTextSubscriptBuilder::new(instance)
+    RTDRichTextSubscriptBuilder::new(instance)
   }
   
   
@@ -38829,9 +38829,9 @@ impl RichTextSubscript {
 
 
 #[derive(Debug)]
-pub struct RichTextSubscriptBuilder { instance: RichTextSubscript }
+pub struct RTDRichTextSubscriptBuilder { instance: RichTextSubscript }
 
-impl RichTextSubscriptBuilder {
+impl RTDRichTextSubscriptBuilder {
   fn new(instance: RichTextSubscript) -> Self { Self { instance } }
 
   pub fn build(&self) -> RichTextSubscript { self.instance.clone() }
@@ -38878,13 +38878,13 @@ impl RObject for RichTextSuperscript {
 
 impl RichTextSuperscript {
   
-  pub fn builder() -> RichTextSuperscriptBuilder {
+  pub fn builder() -> RTDRichTextSuperscriptBuilder {
     let instance = Self {
       td_name: "richTextSuperscript".to_string(),
       text: None,
       
     };
-    RichTextSuperscriptBuilder::new(instance)
+    RTDRichTextSuperscriptBuilder::new(instance)
   }
   
   
@@ -38897,9 +38897,9 @@ impl RichTextSuperscript {
 
 
 #[derive(Debug)]
-pub struct RichTextSuperscriptBuilder { instance: RichTextSuperscript }
+pub struct RTDRichTextSuperscriptBuilder { instance: RichTextSuperscript }
 
-impl RichTextSuperscriptBuilder {
+impl RTDRichTextSuperscriptBuilder {
   fn new(instance: RichTextSuperscript) -> Self { Self { instance } }
 
   pub fn build(&self) -> RichTextSuperscript { self.instance.clone() }
@@ -38946,13 +38946,13 @@ impl RObject for RichTextMarked {
 
 impl RichTextMarked {
   
-  pub fn builder() -> RichTextMarkedBuilder {
+  pub fn builder() -> RTDRichTextMarkedBuilder {
     let instance = Self {
       td_name: "richTextMarked".to_string(),
       text: None,
       
     };
-    RichTextMarkedBuilder::new(instance)
+    RTDRichTextMarkedBuilder::new(instance)
   }
   
   
@@ -38965,9 +38965,9 @@ impl RichTextMarked {
 
 
 #[derive(Debug)]
-pub struct RichTextMarkedBuilder { instance: RichTextMarked }
+pub struct RTDRichTextMarkedBuilder { instance: RichTextMarked }
 
-impl RichTextMarkedBuilder {
+impl RTDRichTextMarkedBuilder {
   fn new(instance: RichTextMarked) -> Self { Self { instance } }
 
   pub fn build(&self) -> RichTextMarked { self.instance.clone() }
@@ -39016,14 +39016,14 @@ impl RObject for RichTextPhoneNumber {
 
 impl RichTextPhoneNumber {
   
-  pub fn builder() -> RichTextPhoneNumberBuilder {
+  pub fn builder() -> RTDRichTextPhoneNumberBuilder {
     let instance = Self {
       td_name: "richTextPhoneNumber".to_string(),
       text: None,
       phone_number: None,
       
     };
-    RichTextPhoneNumberBuilder::new(instance)
+    RTDRichTextPhoneNumberBuilder::new(instance)
   }
   
   
@@ -39038,9 +39038,9 @@ impl RichTextPhoneNumber {
 
 
 #[derive(Debug)]
-pub struct RichTextPhoneNumberBuilder { instance: RichTextPhoneNumber }
+pub struct RTDRichTextPhoneNumberBuilder { instance: RichTextPhoneNumber }
 
-impl RichTextPhoneNumberBuilder {
+impl RTDRichTextPhoneNumberBuilder {
   fn new(instance: RichTextPhoneNumber) -> Self { Self { instance } }
 
   pub fn build(&self) -> RichTextPhoneNumber { self.instance.clone() }
@@ -39089,7 +39089,7 @@ impl RObject for RichTextIcon {
 
 impl RichTextIcon {
   
-  pub fn builder() -> RichTextIconBuilder {
+  pub fn builder() -> RTDRichTextIconBuilder {
     let instance = Self {
       td_name: "richTextIcon".to_string(),
       document: None,
@@ -39097,7 +39097,7 @@ impl RichTextIcon {
       height: None,
       
     };
-    RichTextIconBuilder::new(instance)
+    RTDRichTextIconBuilder::new(instance)
   }
   
   
@@ -39114,9 +39114,9 @@ impl RichTextIcon {
 
 
 #[derive(Debug)]
-pub struct RichTextIconBuilder { instance: RichTextIcon }
+pub struct RTDRichTextIconBuilder { instance: RichTextIcon }
 
-impl RichTextIconBuilder {
+impl RTDRichTextIconBuilder {
   fn new(instance: RichTextIcon) -> Self { Self { instance } }
 
   pub fn build(&self) -> RichTextIcon { self.instance.clone() }
@@ -39175,14 +39175,14 @@ impl RObject for RichTextAnchor {
 
 impl RichTextAnchor {
   
-  pub fn builder() -> RichTextAnchorBuilder {
+  pub fn builder() -> RTDRichTextAnchorBuilder {
     let instance = Self {
       td_name: "richTextAnchor".to_string(),
       text: None,
       name: None,
       
     };
-    RichTextAnchorBuilder::new(instance)
+    RTDRichTextAnchorBuilder::new(instance)
   }
   
   
@@ -39197,9 +39197,9 @@ impl RichTextAnchor {
 
 
 #[derive(Debug)]
-pub struct RichTextAnchorBuilder { instance: RichTextAnchor }
+pub struct RTDRichTextAnchorBuilder { instance: RichTextAnchor }
 
-impl RichTextAnchorBuilder {
+impl RTDRichTextAnchorBuilder {
   fn new(instance: RichTextAnchor) -> Self { Self { instance } }
 
   pub fn build(&self) -> RichTextAnchor { self.instance.clone() }
@@ -39251,13 +39251,13 @@ impl RObject for RichTexts {
 
 impl RichTexts {
   
-  pub fn builder() -> RichTextsBuilder {
+  pub fn builder() -> RTDRichTextsBuilder {
     let instance = Self {
       td_name: "richTexts".to_string(),
       texts: None,
       
     };
-    RichTextsBuilder::new(instance)
+    RTDRichTextsBuilder::new(instance)
   }
   
   
@@ -39270,9 +39270,9 @@ impl RichTexts {
 
 
 #[derive(Debug)]
-pub struct RichTextsBuilder { instance: RichTexts }
+pub struct RTDRichTextsBuilder { instance: RichTexts }
 
-impl RichTextsBuilder {
+impl RTDRichTextsBuilder {
   fn new(instance: RichTexts) -> Self { Self { instance } }
 
   pub fn build(&self) -> RichTexts { self.instance.clone() }
@@ -39312,14 +39312,14 @@ impl RObject for SavedCredentials {
 
 impl SavedCredentials {
   
-  pub fn builder() -> SavedCredentialsBuilder {
+  pub fn builder() -> RTDSavedCredentialsBuilder {
     let instance = Self {
       td_name: "savedCredentials".to_string(),
       id: None,
       title: None,
       
     };
-    SavedCredentialsBuilder::new(instance)
+    RTDSavedCredentialsBuilder::new(instance)
   }
   
   
@@ -39334,9 +39334,9 @@ impl SavedCredentials {
 
 
 #[derive(Debug)]
-pub struct SavedCredentialsBuilder { instance: SavedCredentials }
+pub struct RTDSavedCredentialsBuilder { instance: SavedCredentials }
 
-impl SavedCredentialsBuilder {
+impl RTDSavedCredentialsBuilder {
   fn new(instance: SavedCredentials) -> Self { Self { instance } }
 
   pub fn build(&self) -> SavedCredentials { self.instance.clone() }
@@ -39387,7 +39387,7 @@ impl RObject for ScopeNotificationSettings {
 
 impl ScopeNotificationSettings {
   
-  pub fn builder() -> ScopeNotificationSettingsBuilder {
+  pub fn builder() -> RTDScopeNotificationSettingsBuilder {
     let instance = Self {
       td_name: "scopeNotificationSettings".to_string(),
       mute_for: None,
@@ -39397,7 +39397,7 @@ impl ScopeNotificationSettings {
       disable_mention_notifications: None,
       
     };
-    ScopeNotificationSettingsBuilder::new(instance)
+    RTDScopeNotificationSettingsBuilder::new(instance)
   }
   
   
@@ -39418,9 +39418,9 @@ impl ScopeNotificationSettings {
 
 
 #[derive(Debug)]
-pub struct ScopeNotificationSettingsBuilder { instance: ScopeNotificationSettings }
+pub struct RTDScopeNotificationSettingsBuilder { instance: ScopeNotificationSettings }
 
-impl ScopeNotificationSettingsBuilder {
+impl RTDScopeNotificationSettingsBuilder {
   fn new(instance: ScopeNotificationSettings) -> Self { Self { instance } }
 
   pub fn build(&self) -> ScopeNotificationSettings { self.instance.clone() }
@@ -39527,12 +39527,12 @@ impl RObject for SearchMessagesFilterEmpty {
 
 impl SearchMessagesFilterEmpty {
   
-  pub fn builder() -> SearchMessagesFilterEmptyBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterEmptyBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterEmpty".to_string(),
       
     };
-    SearchMessagesFilterEmptyBuilder::new(instance)
+    RTDSearchMessagesFilterEmptyBuilder::new(instance)
   }
   
   
@@ -39543,9 +39543,9 @@ impl SearchMessagesFilterEmpty {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterEmptyBuilder { instance: SearchMessagesFilterEmpty }
+pub struct RTDSearchMessagesFilterEmptyBuilder { instance: SearchMessagesFilterEmpty }
 
-impl SearchMessagesFilterEmptyBuilder {
+impl RTDSearchMessagesFilterEmptyBuilder {
   fn new(instance: SearchMessagesFilterEmpty) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterEmpty { self.instance.clone() }
@@ -39578,12 +39578,12 @@ impl RObject for SearchMessagesFilterAnimation {
 
 impl SearchMessagesFilterAnimation {
   
-  pub fn builder() -> SearchMessagesFilterAnimationBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterAnimationBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterAnimation".to_string(),
       
     };
-    SearchMessagesFilterAnimationBuilder::new(instance)
+    RTDSearchMessagesFilterAnimationBuilder::new(instance)
   }
   
   
@@ -39594,9 +39594,9 @@ impl SearchMessagesFilterAnimation {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterAnimationBuilder { instance: SearchMessagesFilterAnimation }
+pub struct RTDSearchMessagesFilterAnimationBuilder { instance: SearchMessagesFilterAnimation }
 
-impl SearchMessagesFilterAnimationBuilder {
+impl RTDSearchMessagesFilterAnimationBuilder {
   fn new(instance: SearchMessagesFilterAnimation) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterAnimation { self.instance.clone() }
@@ -39629,12 +39629,12 @@ impl RObject for SearchMessagesFilterAudio {
 
 impl SearchMessagesFilterAudio {
   
-  pub fn builder() -> SearchMessagesFilterAudioBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterAudioBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterAudio".to_string(),
       
     };
-    SearchMessagesFilterAudioBuilder::new(instance)
+    RTDSearchMessagesFilterAudioBuilder::new(instance)
   }
   
   
@@ -39645,9 +39645,9 @@ impl SearchMessagesFilterAudio {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterAudioBuilder { instance: SearchMessagesFilterAudio }
+pub struct RTDSearchMessagesFilterAudioBuilder { instance: SearchMessagesFilterAudio }
 
-impl SearchMessagesFilterAudioBuilder {
+impl RTDSearchMessagesFilterAudioBuilder {
   fn new(instance: SearchMessagesFilterAudio) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterAudio { self.instance.clone() }
@@ -39680,12 +39680,12 @@ impl RObject for SearchMessagesFilterDocument {
 
 impl SearchMessagesFilterDocument {
   
-  pub fn builder() -> SearchMessagesFilterDocumentBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterDocumentBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterDocument".to_string(),
       
     };
-    SearchMessagesFilterDocumentBuilder::new(instance)
+    RTDSearchMessagesFilterDocumentBuilder::new(instance)
   }
   
   
@@ -39696,9 +39696,9 @@ impl SearchMessagesFilterDocument {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterDocumentBuilder { instance: SearchMessagesFilterDocument }
+pub struct RTDSearchMessagesFilterDocumentBuilder { instance: SearchMessagesFilterDocument }
 
-impl SearchMessagesFilterDocumentBuilder {
+impl RTDSearchMessagesFilterDocumentBuilder {
   fn new(instance: SearchMessagesFilterDocument) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterDocument { self.instance.clone() }
@@ -39731,12 +39731,12 @@ impl RObject for SearchMessagesFilterPhoto {
 
 impl SearchMessagesFilterPhoto {
   
-  pub fn builder() -> SearchMessagesFilterPhotoBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterPhotoBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterPhoto".to_string(),
       
     };
-    SearchMessagesFilterPhotoBuilder::new(instance)
+    RTDSearchMessagesFilterPhotoBuilder::new(instance)
   }
   
   
@@ -39747,9 +39747,9 @@ impl SearchMessagesFilterPhoto {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterPhotoBuilder { instance: SearchMessagesFilterPhoto }
+pub struct RTDSearchMessagesFilterPhotoBuilder { instance: SearchMessagesFilterPhoto }
 
-impl SearchMessagesFilterPhotoBuilder {
+impl RTDSearchMessagesFilterPhotoBuilder {
   fn new(instance: SearchMessagesFilterPhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterPhoto { self.instance.clone() }
@@ -39782,12 +39782,12 @@ impl RObject for SearchMessagesFilterVideo {
 
 impl SearchMessagesFilterVideo {
   
-  pub fn builder() -> SearchMessagesFilterVideoBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterVideoBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterVideo".to_string(),
       
     };
-    SearchMessagesFilterVideoBuilder::new(instance)
+    RTDSearchMessagesFilterVideoBuilder::new(instance)
   }
   
   
@@ -39798,9 +39798,9 @@ impl SearchMessagesFilterVideo {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterVideoBuilder { instance: SearchMessagesFilterVideo }
+pub struct RTDSearchMessagesFilterVideoBuilder { instance: SearchMessagesFilterVideo }
 
-impl SearchMessagesFilterVideoBuilder {
+impl RTDSearchMessagesFilterVideoBuilder {
   fn new(instance: SearchMessagesFilterVideo) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterVideo { self.instance.clone() }
@@ -39833,12 +39833,12 @@ impl RObject for SearchMessagesFilterVoiceNote {
 
 impl SearchMessagesFilterVoiceNote {
   
-  pub fn builder() -> SearchMessagesFilterVoiceNoteBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterVoiceNoteBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterVoiceNote".to_string(),
       
     };
-    SearchMessagesFilterVoiceNoteBuilder::new(instance)
+    RTDSearchMessagesFilterVoiceNoteBuilder::new(instance)
   }
   
   
@@ -39849,9 +39849,9 @@ impl SearchMessagesFilterVoiceNote {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterVoiceNoteBuilder { instance: SearchMessagesFilterVoiceNote }
+pub struct RTDSearchMessagesFilterVoiceNoteBuilder { instance: SearchMessagesFilterVoiceNote }
 
-impl SearchMessagesFilterVoiceNoteBuilder {
+impl RTDSearchMessagesFilterVoiceNoteBuilder {
   fn new(instance: SearchMessagesFilterVoiceNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterVoiceNote { self.instance.clone() }
@@ -39884,12 +39884,12 @@ impl RObject for SearchMessagesFilterPhotoAndVideo {
 
 impl SearchMessagesFilterPhotoAndVideo {
   
-  pub fn builder() -> SearchMessagesFilterPhotoAndVideoBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterPhotoAndVideoBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterPhotoAndVideo".to_string(),
       
     };
-    SearchMessagesFilterPhotoAndVideoBuilder::new(instance)
+    RTDSearchMessagesFilterPhotoAndVideoBuilder::new(instance)
   }
   
   
@@ -39900,9 +39900,9 @@ impl SearchMessagesFilterPhotoAndVideo {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterPhotoAndVideoBuilder { instance: SearchMessagesFilterPhotoAndVideo }
+pub struct RTDSearchMessagesFilterPhotoAndVideoBuilder { instance: SearchMessagesFilterPhotoAndVideo }
 
-impl SearchMessagesFilterPhotoAndVideoBuilder {
+impl RTDSearchMessagesFilterPhotoAndVideoBuilder {
   fn new(instance: SearchMessagesFilterPhotoAndVideo) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterPhotoAndVideo { self.instance.clone() }
@@ -39935,12 +39935,12 @@ impl RObject for SearchMessagesFilterUrl {
 
 impl SearchMessagesFilterUrl {
   
-  pub fn builder() -> SearchMessagesFilterUrlBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterUrlBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterUrl".to_string(),
       
     };
-    SearchMessagesFilterUrlBuilder::new(instance)
+    RTDSearchMessagesFilterUrlBuilder::new(instance)
   }
   
   
@@ -39951,9 +39951,9 @@ impl SearchMessagesFilterUrl {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterUrlBuilder { instance: SearchMessagesFilterUrl }
+pub struct RTDSearchMessagesFilterUrlBuilder { instance: SearchMessagesFilterUrl }
 
-impl SearchMessagesFilterUrlBuilder {
+impl RTDSearchMessagesFilterUrlBuilder {
   fn new(instance: SearchMessagesFilterUrl) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterUrl { self.instance.clone() }
@@ -39986,12 +39986,12 @@ impl RObject for SearchMessagesFilterChatPhoto {
 
 impl SearchMessagesFilterChatPhoto {
   
-  pub fn builder() -> SearchMessagesFilterChatPhotoBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterChatPhotoBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterChatPhoto".to_string(),
       
     };
-    SearchMessagesFilterChatPhotoBuilder::new(instance)
+    RTDSearchMessagesFilterChatPhotoBuilder::new(instance)
   }
   
   
@@ -40002,9 +40002,9 @@ impl SearchMessagesFilterChatPhoto {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterChatPhotoBuilder { instance: SearchMessagesFilterChatPhoto }
+pub struct RTDSearchMessagesFilterChatPhotoBuilder { instance: SearchMessagesFilterChatPhoto }
 
-impl SearchMessagesFilterChatPhotoBuilder {
+impl RTDSearchMessagesFilterChatPhotoBuilder {
   fn new(instance: SearchMessagesFilterChatPhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterChatPhoto { self.instance.clone() }
@@ -40037,12 +40037,12 @@ impl RObject for SearchMessagesFilterCall {
 
 impl SearchMessagesFilterCall {
   
-  pub fn builder() -> SearchMessagesFilterCallBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterCallBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterCall".to_string(),
       
     };
-    SearchMessagesFilterCallBuilder::new(instance)
+    RTDSearchMessagesFilterCallBuilder::new(instance)
   }
   
   
@@ -40053,9 +40053,9 @@ impl SearchMessagesFilterCall {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterCallBuilder { instance: SearchMessagesFilterCall }
+pub struct RTDSearchMessagesFilterCallBuilder { instance: SearchMessagesFilterCall }
 
-impl SearchMessagesFilterCallBuilder {
+impl RTDSearchMessagesFilterCallBuilder {
   fn new(instance: SearchMessagesFilterCall) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterCall { self.instance.clone() }
@@ -40088,12 +40088,12 @@ impl RObject for SearchMessagesFilterMissedCall {
 
 impl SearchMessagesFilterMissedCall {
   
-  pub fn builder() -> SearchMessagesFilterMissedCallBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterMissedCallBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterMissedCall".to_string(),
       
     };
-    SearchMessagesFilterMissedCallBuilder::new(instance)
+    RTDSearchMessagesFilterMissedCallBuilder::new(instance)
   }
   
   
@@ -40104,9 +40104,9 @@ impl SearchMessagesFilterMissedCall {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterMissedCallBuilder { instance: SearchMessagesFilterMissedCall }
+pub struct RTDSearchMessagesFilterMissedCallBuilder { instance: SearchMessagesFilterMissedCall }
 
-impl SearchMessagesFilterMissedCallBuilder {
+impl RTDSearchMessagesFilterMissedCallBuilder {
   fn new(instance: SearchMessagesFilterMissedCall) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterMissedCall { self.instance.clone() }
@@ -40139,12 +40139,12 @@ impl RObject for SearchMessagesFilterVideoNote {
 
 impl SearchMessagesFilterVideoNote {
   
-  pub fn builder() -> SearchMessagesFilterVideoNoteBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterVideoNoteBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterVideoNote".to_string(),
       
     };
-    SearchMessagesFilterVideoNoteBuilder::new(instance)
+    RTDSearchMessagesFilterVideoNoteBuilder::new(instance)
   }
   
   
@@ -40155,9 +40155,9 @@ impl SearchMessagesFilterVideoNote {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterVideoNoteBuilder { instance: SearchMessagesFilterVideoNote }
+pub struct RTDSearchMessagesFilterVideoNoteBuilder { instance: SearchMessagesFilterVideoNote }
 
-impl SearchMessagesFilterVideoNoteBuilder {
+impl RTDSearchMessagesFilterVideoNoteBuilder {
   fn new(instance: SearchMessagesFilterVideoNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterVideoNote { self.instance.clone() }
@@ -40190,12 +40190,12 @@ impl RObject for SearchMessagesFilterVoiceAndVideoNote {
 
 impl SearchMessagesFilterVoiceAndVideoNote {
   
-  pub fn builder() -> SearchMessagesFilterVoiceAndVideoNoteBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterVoiceAndVideoNoteBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterVoiceAndVideoNote".to_string(),
       
     };
-    SearchMessagesFilterVoiceAndVideoNoteBuilder::new(instance)
+    RTDSearchMessagesFilterVoiceAndVideoNoteBuilder::new(instance)
   }
   
   
@@ -40206,9 +40206,9 @@ impl SearchMessagesFilterVoiceAndVideoNote {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterVoiceAndVideoNoteBuilder { instance: SearchMessagesFilterVoiceAndVideoNote }
+pub struct RTDSearchMessagesFilterVoiceAndVideoNoteBuilder { instance: SearchMessagesFilterVoiceAndVideoNote }
 
-impl SearchMessagesFilterVoiceAndVideoNoteBuilder {
+impl RTDSearchMessagesFilterVoiceAndVideoNoteBuilder {
   fn new(instance: SearchMessagesFilterVoiceAndVideoNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterVoiceAndVideoNote { self.instance.clone() }
@@ -40241,12 +40241,12 @@ impl RObject for SearchMessagesFilterMention {
 
 impl SearchMessagesFilterMention {
   
-  pub fn builder() -> SearchMessagesFilterMentionBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterMentionBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterMention".to_string(),
       
     };
-    SearchMessagesFilterMentionBuilder::new(instance)
+    RTDSearchMessagesFilterMentionBuilder::new(instance)
   }
   
   
@@ -40257,9 +40257,9 @@ impl SearchMessagesFilterMention {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterMentionBuilder { instance: SearchMessagesFilterMention }
+pub struct RTDSearchMessagesFilterMentionBuilder { instance: SearchMessagesFilterMention }
 
-impl SearchMessagesFilterMentionBuilder {
+impl RTDSearchMessagesFilterMentionBuilder {
   fn new(instance: SearchMessagesFilterMention) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterMention { self.instance.clone() }
@@ -40292,12 +40292,12 @@ impl RObject for SearchMessagesFilterUnreadMention {
 
 impl SearchMessagesFilterUnreadMention {
   
-  pub fn builder() -> SearchMessagesFilterUnreadMentionBuilder {
+  pub fn builder() -> RTDSearchMessagesFilterUnreadMentionBuilder {
     let instance = Self {
       td_name: "searchMessagesFilterUnreadMention".to_string(),
       
     };
-    SearchMessagesFilterUnreadMentionBuilder::new(instance)
+    RTDSearchMessagesFilterUnreadMentionBuilder::new(instance)
   }
   
   
@@ -40308,9 +40308,9 @@ impl SearchMessagesFilterUnreadMention {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesFilterUnreadMentionBuilder { instance: SearchMessagesFilterUnreadMention }
+pub struct RTDSearchMessagesFilterUnreadMentionBuilder { instance: SearchMessagesFilterUnreadMention }
 
-impl SearchMessagesFilterUnreadMentionBuilder {
+impl RTDSearchMessagesFilterUnreadMentionBuilder {
   fn new(instance: SearchMessagesFilterUnreadMention) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessagesFilterUnreadMention { self.instance.clone() }
@@ -40343,13 +40343,13 @@ impl RObject for Seconds {
 
 impl Seconds {
   
-  pub fn builder() -> SecondsBuilder {
+  pub fn builder() -> RTDSecondsBuilder {
     let instance = Self {
       td_name: "seconds".to_string(),
       seconds: None,
       
     };
-    SecondsBuilder::new(instance)
+    RTDSecondsBuilder::new(instance)
   }
   
   
@@ -40362,9 +40362,9 @@ impl Seconds {
 
 
 #[derive(Debug)]
-pub struct SecondsBuilder { instance: Seconds }
+pub struct RTDSecondsBuilder { instance: Seconds }
 
-impl SecondsBuilder {
+impl RTDSecondsBuilder {
   fn new(instance: Seconds) -> Self { Self { instance } }
 
   pub fn build(&self) -> Seconds { self.instance.clone() }
@@ -40421,7 +40421,7 @@ impl RObject for SecretChat {
 
 impl SecretChat {
   
-  pub fn builder() -> SecretChatBuilder {
+  pub fn builder() -> RTDSecretChatBuilder {
     let instance = Self {
       td_name: "secretChat".to_string(),
       id: None,
@@ -40433,7 +40433,7 @@ impl SecretChat {
       layer: None,
       
     };
-    SecretChatBuilder::new(instance)
+    RTDSecretChatBuilder::new(instance)
   }
   
   
@@ -40458,9 +40458,9 @@ impl SecretChat {
 
 
 #[derive(Debug)]
-pub struct SecretChatBuilder { instance: SecretChat }
+pub struct RTDSecretChatBuilder { instance: SecretChat }
 
-impl SecretChatBuilder {
+impl RTDSecretChatBuilder {
   fn new(instance: SecretChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> SecretChat { self.instance.clone() }
@@ -40564,12 +40564,12 @@ impl RObject for SecretChatStatePending {
 
 impl SecretChatStatePending {
   
-  pub fn builder() -> SecretChatStatePendingBuilder {
+  pub fn builder() -> RTDSecretChatStatePendingBuilder {
     let instance = Self {
       td_name: "secretChatStatePending".to_string(),
       
     };
-    SecretChatStatePendingBuilder::new(instance)
+    RTDSecretChatStatePendingBuilder::new(instance)
   }
   
   
@@ -40580,9 +40580,9 @@ impl SecretChatStatePending {
 
 
 #[derive(Debug)]
-pub struct SecretChatStatePendingBuilder { instance: SecretChatStatePending }
+pub struct RTDSecretChatStatePendingBuilder { instance: SecretChatStatePending }
 
-impl SecretChatStatePendingBuilder {
+impl RTDSecretChatStatePendingBuilder {
   fn new(instance: SecretChatStatePending) -> Self { Self { instance } }
 
   pub fn build(&self) -> SecretChatStatePending { self.instance.clone() }
@@ -40615,12 +40615,12 @@ impl RObject for SecretChatStateReady {
 
 impl SecretChatStateReady {
   
-  pub fn builder() -> SecretChatStateReadyBuilder {
+  pub fn builder() -> RTDSecretChatStateReadyBuilder {
     let instance = Self {
       td_name: "secretChatStateReady".to_string(),
       
     };
-    SecretChatStateReadyBuilder::new(instance)
+    RTDSecretChatStateReadyBuilder::new(instance)
   }
   
   
@@ -40631,9 +40631,9 @@ impl SecretChatStateReady {
 
 
 #[derive(Debug)]
-pub struct SecretChatStateReadyBuilder { instance: SecretChatStateReady }
+pub struct RTDSecretChatStateReadyBuilder { instance: SecretChatStateReady }
 
-impl SecretChatStateReadyBuilder {
+impl RTDSecretChatStateReadyBuilder {
   fn new(instance: SecretChatStateReady) -> Self { Self { instance } }
 
   pub fn build(&self) -> SecretChatStateReady { self.instance.clone() }
@@ -40666,12 +40666,12 @@ impl RObject for SecretChatStateClosed {
 
 impl SecretChatStateClosed {
   
-  pub fn builder() -> SecretChatStateClosedBuilder {
+  pub fn builder() -> RTDSecretChatStateClosedBuilder {
     let instance = Self {
       td_name: "secretChatStateClosed".to_string(),
       
     };
-    SecretChatStateClosedBuilder::new(instance)
+    RTDSecretChatStateClosedBuilder::new(instance)
   }
   
   
@@ -40682,9 +40682,9 @@ impl SecretChatStateClosed {
 
 
 #[derive(Debug)]
-pub struct SecretChatStateClosedBuilder { instance: SecretChatStateClosed }
+pub struct RTDSecretChatStateClosedBuilder { instance: SecretChatStateClosed }
 
-impl SecretChatStateClosedBuilder {
+impl RTDSecretChatStateClosedBuilder {
   fn new(instance: SecretChatStateClosed) -> Self { Self { instance } }
 
   pub fn build(&self) -> SecretChatStateClosed { self.instance.clone() }
@@ -40745,7 +40745,7 @@ impl RObject for Session {
 
 impl Session {
   
-  pub fn builder() -> SessionBuilder {
+  pub fn builder() -> RTDSessionBuilder {
     let instance = Self {
       td_name: "session".to_string(),
       id: None,
@@ -40765,7 +40765,7 @@ impl Session {
       region: None,
       
     };
-    SessionBuilder::new(instance)
+    RTDSessionBuilder::new(instance)
   }
   
   
@@ -40806,9 +40806,9 @@ impl Session {
 
 
 #[derive(Debug)]
-pub struct SessionBuilder { instance: Session }
+pub struct RTDSessionBuilder { instance: Session }
 
-impl SessionBuilder {
+impl RTDSessionBuilder {
   fn new(instance: Session) -> Self { Self { instance } }
 
   pub fn build(&self) -> Session { self.instance.clone() }
@@ -40916,13 +40916,13 @@ impl RObject for Sessions {
 
 impl Sessions {
   
-  pub fn builder() -> SessionsBuilder {
+  pub fn builder() -> RTDSessionsBuilder {
     let instance = Self {
       td_name: "sessions".to_string(),
       sessions: None,
       
     };
-    SessionsBuilder::new(instance)
+    RTDSessionsBuilder::new(instance)
   }
   
   
@@ -40935,9 +40935,9 @@ impl Sessions {
 
 
 #[derive(Debug)]
-pub struct SessionsBuilder { instance: Sessions }
+pub struct RTDSessionsBuilder { instance: Sessions }
 
-impl SessionsBuilder {
+impl RTDSessionsBuilder {
   fn new(instance: Sessions) -> Self { Self { instance } }
 
   pub fn build(&self) -> Sessions { self.instance.clone() }
@@ -40979,7 +40979,7 @@ impl RObject for ShippingOption {
 
 impl ShippingOption {
   
-  pub fn builder() -> ShippingOptionBuilder {
+  pub fn builder() -> RTDShippingOptionBuilder {
     let instance = Self {
       td_name: "shippingOption".to_string(),
       id: None,
@@ -40987,7 +40987,7 @@ impl ShippingOption {
       price_parts: None,
       
     };
-    ShippingOptionBuilder::new(instance)
+    RTDShippingOptionBuilder::new(instance)
   }
   
   
@@ -41004,9 +41004,9 @@ impl ShippingOption {
 
 
 #[derive(Debug)]
-pub struct ShippingOptionBuilder { instance: ShippingOption }
+pub struct RTDShippingOptionBuilder { instance: ShippingOption }
 
-impl ShippingOptionBuilder {
+impl RTDShippingOptionBuilder {
   fn new(instance: ShippingOption) -> Self { Self { instance } }
 
   pub fn build(&self) -> ShippingOption { self.instance.clone() }
@@ -41068,7 +41068,7 @@ impl RObject for Sticker {
 
 impl Sticker {
   
-  pub fn builder() -> StickerBuilder {
+  pub fn builder() -> RTDStickerBuilder {
     let instance = Self {
       td_name: "sticker".to_string(),
       set_id: None,
@@ -41081,7 +41081,7 @@ impl Sticker {
       sticker: None,
       
     };
-    StickerBuilder::new(instance)
+    RTDStickerBuilder::new(instance)
   }
   
   
@@ -41108,9 +41108,9 @@ impl Sticker {
 
 
 #[derive(Debug)]
-pub struct StickerBuilder { instance: Sticker }
+pub struct RTDStickerBuilder { instance: Sticker }
 
-impl StickerBuilder {
+impl RTDStickerBuilder {
   fn new(instance: Sticker) -> Self { Self { instance } }
 
   pub fn build(&self) -> Sticker { self.instance.clone() }
@@ -41183,13 +41183,13 @@ impl RObject for StickerEmojis {
 
 impl StickerEmojis {
   
-  pub fn builder() -> StickerEmojisBuilder {
+  pub fn builder() -> RTDStickerEmojisBuilder {
     let instance = Self {
       td_name: "stickerEmojis".to_string(),
       emojis: None,
       
     };
-    StickerEmojisBuilder::new(instance)
+    RTDStickerEmojisBuilder::new(instance)
   }
   
   
@@ -41202,9 +41202,9 @@ impl StickerEmojis {
 
 
 #[derive(Debug)]
-pub struct StickerEmojisBuilder { instance: StickerEmojis }
+pub struct RTDStickerEmojisBuilder { instance: StickerEmojis }
 
-impl StickerEmojisBuilder {
+impl RTDStickerEmojisBuilder {
   fn new(instance: StickerEmojis) -> Self { Self { instance } }
 
   pub fn build(&self) -> StickerEmojis { self.instance.clone() }
@@ -41260,7 +41260,7 @@ impl RObject for StickerSet {
 
 impl StickerSet {
   
-  pub fn builder() -> StickerSetBuilder {
+  pub fn builder() -> RTDStickerSetBuilder {
     let instance = Self {
       td_name: "stickerSet".to_string(),
       id: None,
@@ -41275,7 +41275,7 @@ impl StickerSet {
       emojis: None,
       
     };
-    StickerSetBuilder::new(instance)
+    RTDStickerSetBuilder::new(instance)
   }
   
   
@@ -41306,9 +41306,9 @@ impl StickerSet {
 
 
 #[derive(Debug)]
-pub struct StickerSetBuilder { instance: StickerSet }
+pub struct RTDStickerSetBuilder { instance: StickerSet }
 
-impl StickerSetBuilder {
+impl RTDStickerSetBuilder {
   fn new(instance: StickerSet) -> Self { Self { instance } }
 
   pub fn build(&self) -> StickerSet { self.instance.clone() }
@@ -41409,7 +41409,7 @@ impl RObject for StickerSetInfo {
 
 impl StickerSetInfo {
   
-  pub fn builder() -> StickerSetInfoBuilder {
+  pub fn builder() -> RTDStickerSetInfoBuilder {
     let instance = Self {
       td_name: "stickerSetInfo".to_string(),
       id: None,
@@ -41424,7 +41424,7 @@ impl StickerSetInfo {
       covers: None,
       
     };
-    StickerSetInfoBuilder::new(instance)
+    RTDStickerSetInfoBuilder::new(instance)
   }
   
   
@@ -41455,9 +41455,9 @@ impl StickerSetInfo {
 
 
 #[derive(Debug)]
-pub struct StickerSetInfoBuilder { instance: StickerSetInfo }
+pub struct RTDStickerSetInfoBuilder { instance: StickerSetInfo }
 
-impl StickerSetInfoBuilder {
+impl RTDStickerSetInfoBuilder {
   fn new(instance: StickerSetInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> StickerSetInfo { self.instance.clone() }
@@ -41542,14 +41542,14 @@ impl RObject for StickerSets {
 
 impl StickerSets {
   
-  pub fn builder() -> StickerSetsBuilder {
+  pub fn builder() -> RTDStickerSetsBuilder {
     let instance = Self {
       td_name: "stickerSets".to_string(),
       total_count: None,
       sets: None,
       
     };
-    StickerSetsBuilder::new(instance)
+    RTDStickerSetsBuilder::new(instance)
   }
   
   
@@ -41564,9 +41564,9 @@ impl StickerSets {
 
 
 #[derive(Debug)]
-pub struct StickerSetsBuilder { instance: StickerSets }
+pub struct RTDStickerSetsBuilder { instance: StickerSets }
 
-impl StickerSetsBuilder {
+impl RTDStickerSetsBuilder {
   fn new(instance: StickerSets) -> Self { Self { instance } }
 
   pub fn build(&self) -> StickerSets { self.instance.clone() }
@@ -41609,13 +41609,13 @@ impl RObject for Stickers {
 
 impl Stickers {
   
-  pub fn builder() -> StickersBuilder {
+  pub fn builder() -> RTDStickersBuilder {
     let instance = Self {
       td_name: "stickers".to_string(),
       stickers: None,
       
     };
-    StickersBuilder::new(instance)
+    RTDStickersBuilder::new(instance)
   }
   
   
@@ -41628,9 +41628,9 @@ impl Stickers {
 
 
 #[derive(Debug)]
-pub struct StickersBuilder { instance: Stickers }
+pub struct RTDStickersBuilder { instance: Stickers }
 
-impl StickersBuilder {
+impl RTDStickersBuilder {
   fn new(instance: Stickers) -> Self { Self { instance } }
 
   pub fn build(&self) -> Stickers { self.instance.clone() }
@@ -41672,7 +41672,7 @@ impl RObject for StorageStatistics {
 
 impl StorageStatistics {
   
-  pub fn builder() -> StorageStatisticsBuilder {
+  pub fn builder() -> RTDStorageStatisticsBuilder {
     let instance = Self {
       td_name: "storageStatistics".to_string(),
       size: None,
@@ -41680,7 +41680,7 @@ impl StorageStatistics {
       by_chat: None,
       
     };
-    StorageStatisticsBuilder::new(instance)
+    RTDStorageStatisticsBuilder::new(instance)
   }
   
   
@@ -41697,9 +41697,9 @@ impl StorageStatistics {
 
 
 #[derive(Debug)]
-pub struct StorageStatisticsBuilder { instance: StorageStatistics }
+pub struct RTDStorageStatisticsBuilder { instance: StorageStatistics }
 
-impl StorageStatisticsBuilder {
+impl RTDStorageStatisticsBuilder {
   fn new(instance: StorageStatistics) -> Self { Self { instance } }
 
   pub fn build(&self) -> StorageStatistics { self.instance.clone() }
@@ -41753,7 +41753,7 @@ impl RObject for StorageStatisticsByChat {
 
 impl StorageStatisticsByChat {
   
-  pub fn builder() -> StorageStatisticsByChatBuilder {
+  pub fn builder() -> RTDStorageStatisticsByChatBuilder {
     let instance = Self {
       td_name: "storageStatisticsByChat".to_string(),
       chat_id: None,
@@ -41762,7 +41762,7 @@ impl StorageStatisticsByChat {
       by_file_type: None,
       
     };
-    StorageStatisticsByChatBuilder::new(instance)
+    RTDStorageStatisticsByChatBuilder::new(instance)
   }
   
   
@@ -41781,9 +41781,9 @@ impl StorageStatisticsByChat {
 
 
 #[derive(Debug)]
-pub struct StorageStatisticsByChatBuilder { instance: StorageStatisticsByChat }
+pub struct RTDStorageStatisticsByChatBuilder { instance: StorageStatisticsByChat }
 
-impl StorageStatisticsByChatBuilder {
+impl RTDStorageStatisticsByChatBuilder {
   fn new(instance: StorageStatisticsByChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> StorageStatisticsByChat { self.instance.clone() }
@@ -41847,7 +41847,7 @@ impl RObject for StorageStatisticsByFileType {
 
 impl StorageStatisticsByFileType {
   
-  pub fn builder() -> StorageStatisticsByFileTypeBuilder {
+  pub fn builder() -> RTDStorageStatisticsByFileTypeBuilder {
     let instance = Self {
       td_name: "storageStatisticsByFileType".to_string(),
       file_type: None,
@@ -41855,7 +41855,7 @@ impl StorageStatisticsByFileType {
       count: None,
       
     };
-    StorageStatisticsByFileTypeBuilder::new(instance)
+    RTDStorageStatisticsByFileTypeBuilder::new(instance)
   }
   
   
@@ -41872,9 +41872,9 @@ impl StorageStatisticsByFileType {
 
 
 #[derive(Debug)]
-pub struct StorageStatisticsByFileTypeBuilder { instance: StorageStatisticsByFileType }
+pub struct RTDStorageStatisticsByFileTypeBuilder { instance: StorageStatisticsByFileType }
 
-impl StorageStatisticsByFileTypeBuilder {
+impl RTDStorageStatisticsByFileTypeBuilder {
   fn new(instance: StorageStatisticsByFileType) -> Self { Self { instance } }
 
   pub fn build(&self) -> StorageStatisticsByFileType { self.instance.clone() }
@@ -41930,7 +41930,7 @@ impl RObject for StorageStatisticsFast {
 
 impl StorageStatisticsFast {
   
-  pub fn builder() -> StorageStatisticsFastBuilder {
+  pub fn builder() -> RTDStorageStatisticsFastBuilder {
     let instance = Self {
       td_name: "storageStatisticsFast".to_string(),
       files_size: None,
@@ -41940,7 +41940,7 @@ impl StorageStatisticsFast {
       log_size: None,
       
     };
-    StorageStatisticsFastBuilder::new(instance)
+    RTDStorageStatisticsFastBuilder::new(instance)
   }
   
   
@@ -41961,9 +41961,9 @@ impl StorageStatisticsFast {
 
 
 #[derive(Debug)]
-pub struct StorageStatisticsFastBuilder { instance: StorageStatisticsFast }
+pub struct RTDStorageStatisticsFastBuilder { instance: StorageStatisticsFast }
 
-impl StorageStatisticsFastBuilder {
+impl RTDStorageStatisticsFastBuilder {
   fn new(instance: StorageStatisticsFast) -> Self { Self { instance } }
 
   pub fn build(&self) -> StorageStatisticsFast { self.instance.clone() }
@@ -42046,7 +42046,7 @@ impl RObject for Supergroup {
 
 impl Supergroup {
   
-  pub fn builder() -> SupergroupBuilder {
+  pub fn builder() -> RTDSupergroupBuilder {
     let instance = Self {
       td_name: "supergroup".to_string(),
       id: None,
@@ -42061,7 +42061,7 @@ impl Supergroup {
       restriction_reason: None,
       
     };
-    SupergroupBuilder::new(instance)
+    RTDSupergroupBuilder::new(instance)
   }
   
   
@@ -42092,9 +42092,9 @@ impl Supergroup {
 
 
 #[derive(Debug)]
-pub struct SupergroupBuilder { instance: Supergroup }
+pub struct RTDSupergroupBuilder { instance: Supergroup }
 
-impl SupergroupBuilder {
+impl RTDSupergroupBuilder {
   fn new(instance: Supergroup) -> Self { Self { instance } }
 
   pub fn build(&self) -> Supergroup { self.instance.clone() }
@@ -42203,7 +42203,7 @@ impl RObject for SupergroupFullInfo {
 
 impl SupergroupFullInfo {
   
-  pub fn builder() -> SupergroupFullInfoBuilder {
+  pub fn builder() -> RTDSupergroupFullInfoBuilder {
     let instance = Self {
       td_name: "supergroupFullInfo".to_string(),
       description: None,
@@ -42222,7 +42222,7 @@ impl SupergroupFullInfo {
       upgraded_from_max_message_id: None,
       
     };
-    SupergroupFullInfoBuilder::new(instance)
+    RTDSupergroupFullInfoBuilder::new(instance)
   }
   
   
@@ -42261,9 +42261,9 @@ impl SupergroupFullInfo {
 
 
 #[derive(Debug)]
-pub struct SupergroupFullInfoBuilder { instance: SupergroupFullInfo }
+pub struct RTDSupergroupFullInfoBuilder { instance: SupergroupFullInfo }
 
-impl SupergroupFullInfoBuilder {
+impl RTDSupergroupFullInfoBuilder {
   fn new(instance: SupergroupFullInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> SupergroupFullInfo { self.instance.clone() }
@@ -42405,12 +42405,12 @@ impl RObject for SupergroupMembersFilterRecent {
 
 impl SupergroupMembersFilterRecent {
   
-  pub fn builder() -> SupergroupMembersFilterRecentBuilder {
+  pub fn builder() -> RTDSupergroupMembersFilterRecentBuilder {
     let instance = Self {
       td_name: "supergroupMembersFilterRecent".to_string(),
       
     };
-    SupergroupMembersFilterRecentBuilder::new(instance)
+    RTDSupergroupMembersFilterRecentBuilder::new(instance)
   }
   
   
@@ -42421,9 +42421,9 @@ impl SupergroupMembersFilterRecent {
 
 
 #[derive(Debug)]
-pub struct SupergroupMembersFilterRecentBuilder { instance: SupergroupMembersFilterRecent }
+pub struct RTDSupergroupMembersFilterRecentBuilder { instance: SupergroupMembersFilterRecent }
 
-impl SupergroupMembersFilterRecentBuilder {
+impl RTDSupergroupMembersFilterRecentBuilder {
   fn new(instance: SupergroupMembersFilterRecent) -> Self { Self { instance } }
 
   pub fn build(&self) -> SupergroupMembersFilterRecent { self.instance.clone() }
@@ -42456,12 +42456,12 @@ impl RObject for SupergroupMembersFilterAdministrators {
 
 impl SupergroupMembersFilterAdministrators {
   
-  pub fn builder() -> SupergroupMembersFilterAdministratorsBuilder {
+  pub fn builder() -> RTDSupergroupMembersFilterAdministratorsBuilder {
     let instance = Self {
       td_name: "supergroupMembersFilterAdministrators".to_string(),
       
     };
-    SupergroupMembersFilterAdministratorsBuilder::new(instance)
+    RTDSupergroupMembersFilterAdministratorsBuilder::new(instance)
   }
   
   
@@ -42472,9 +42472,9 @@ impl SupergroupMembersFilterAdministrators {
 
 
 #[derive(Debug)]
-pub struct SupergroupMembersFilterAdministratorsBuilder { instance: SupergroupMembersFilterAdministrators }
+pub struct RTDSupergroupMembersFilterAdministratorsBuilder { instance: SupergroupMembersFilterAdministrators }
 
-impl SupergroupMembersFilterAdministratorsBuilder {
+impl RTDSupergroupMembersFilterAdministratorsBuilder {
   fn new(instance: SupergroupMembersFilterAdministrators) -> Self { Self { instance } }
 
   pub fn build(&self) -> SupergroupMembersFilterAdministrators { self.instance.clone() }
@@ -42509,13 +42509,13 @@ impl RObject for SupergroupMembersFilterSearch {
 
 impl SupergroupMembersFilterSearch {
   
-  pub fn builder() -> SupergroupMembersFilterSearchBuilder {
+  pub fn builder() -> RTDSupergroupMembersFilterSearchBuilder {
     let instance = Self {
       td_name: "supergroupMembersFilterSearch".to_string(),
       query: None,
       
     };
-    SupergroupMembersFilterSearchBuilder::new(instance)
+    RTDSupergroupMembersFilterSearchBuilder::new(instance)
   }
   
   
@@ -42528,9 +42528,9 @@ impl SupergroupMembersFilterSearch {
 
 
 #[derive(Debug)]
-pub struct SupergroupMembersFilterSearchBuilder { instance: SupergroupMembersFilterSearch }
+pub struct RTDSupergroupMembersFilterSearchBuilder { instance: SupergroupMembersFilterSearch }
 
-impl SupergroupMembersFilterSearchBuilder {
+impl RTDSupergroupMembersFilterSearchBuilder {
   fn new(instance: SupergroupMembersFilterSearch) -> Self { Self { instance } }
 
   pub fn build(&self) -> SupergroupMembersFilterSearch { self.instance.clone() }
@@ -42570,13 +42570,13 @@ impl RObject for SupergroupMembersFilterRestricted {
 
 impl SupergroupMembersFilterRestricted {
   
-  pub fn builder() -> SupergroupMembersFilterRestrictedBuilder {
+  pub fn builder() -> RTDSupergroupMembersFilterRestrictedBuilder {
     let instance = Self {
       td_name: "supergroupMembersFilterRestricted".to_string(),
       query: None,
       
     };
-    SupergroupMembersFilterRestrictedBuilder::new(instance)
+    RTDSupergroupMembersFilterRestrictedBuilder::new(instance)
   }
   
   
@@ -42589,9 +42589,9 @@ impl SupergroupMembersFilterRestricted {
 
 
 #[derive(Debug)]
-pub struct SupergroupMembersFilterRestrictedBuilder { instance: SupergroupMembersFilterRestricted }
+pub struct RTDSupergroupMembersFilterRestrictedBuilder { instance: SupergroupMembersFilterRestricted }
 
-impl SupergroupMembersFilterRestrictedBuilder {
+impl RTDSupergroupMembersFilterRestrictedBuilder {
   fn new(instance: SupergroupMembersFilterRestricted) -> Self { Self { instance } }
 
   pub fn build(&self) -> SupergroupMembersFilterRestricted { self.instance.clone() }
@@ -42631,13 +42631,13 @@ impl RObject for SupergroupMembersFilterBanned {
 
 impl SupergroupMembersFilterBanned {
   
-  pub fn builder() -> SupergroupMembersFilterBannedBuilder {
+  pub fn builder() -> RTDSupergroupMembersFilterBannedBuilder {
     let instance = Self {
       td_name: "supergroupMembersFilterBanned".to_string(),
       query: None,
       
     };
-    SupergroupMembersFilterBannedBuilder::new(instance)
+    RTDSupergroupMembersFilterBannedBuilder::new(instance)
   }
   
   
@@ -42650,9 +42650,9 @@ impl SupergroupMembersFilterBanned {
 
 
 #[derive(Debug)]
-pub struct SupergroupMembersFilterBannedBuilder { instance: SupergroupMembersFilterBanned }
+pub struct RTDSupergroupMembersFilterBannedBuilder { instance: SupergroupMembersFilterBanned }
 
-impl SupergroupMembersFilterBannedBuilder {
+impl RTDSupergroupMembersFilterBannedBuilder {
   fn new(instance: SupergroupMembersFilterBanned) -> Self { Self { instance } }
 
   pub fn build(&self) -> SupergroupMembersFilterBanned { self.instance.clone() }
@@ -42690,12 +42690,12 @@ impl RObject for SupergroupMembersFilterBots {
 
 impl SupergroupMembersFilterBots {
   
-  pub fn builder() -> SupergroupMembersFilterBotsBuilder {
+  pub fn builder() -> RTDSupergroupMembersFilterBotsBuilder {
     let instance = Self {
       td_name: "supergroupMembersFilterBots".to_string(),
       
     };
-    SupergroupMembersFilterBotsBuilder::new(instance)
+    RTDSupergroupMembersFilterBotsBuilder::new(instance)
   }
   
   
@@ -42706,9 +42706,9 @@ impl SupergroupMembersFilterBots {
 
 
 #[derive(Debug)]
-pub struct SupergroupMembersFilterBotsBuilder { instance: SupergroupMembersFilterBots }
+pub struct RTDSupergroupMembersFilterBotsBuilder { instance: SupergroupMembersFilterBots }
 
-impl SupergroupMembersFilterBotsBuilder {
+impl RTDSupergroupMembersFilterBotsBuilder {
   fn new(instance: SupergroupMembersFilterBots) -> Self { Self { instance } }
 
   pub fn build(&self) -> SupergroupMembersFilterBots { self.instance.clone() }
@@ -42750,14 +42750,14 @@ impl RObject for TMeUrl {
 
 impl TMeUrl {
   
-  pub fn builder() -> TMeUrlBuilder {
+  pub fn builder() -> RTDTMeUrlBuilder {
     let instance = Self {
       td_name: "tMeUrl".to_string(),
       url: None,
       type_: None,
       
     };
-    TMeUrlBuilder::new(instance)
+    RTDTMeUrlBuilder::new(instance)
   }
   
   
@@ -42772,9 +42772,9 @@ impl TMeUrl {
 
 
 #[derive(Debug)]
-pub struct TMeUrlBuilder { instance: TMeUrl }
+pub struct RTDTMeUrlBuilder { instance: TMeUrl }
 
-impl TMeUrlBuilder {
+impl RTDTMeUrlBuilder {
   fn new(instance: TMeUrl) -> Self { Self { instance } }
 
   pub fn build(&self) -> TMeUrl { self.instance.clone() }
@@ -42856,13 +42856,13 @@ impl RObject for TMeUrlTypeUser {
 
 impl TMeUrlTypeUser {
   
-  pub fn builder() -> TMeUrlTypeUserBuilder {
+  pub fn builder() -> RTDTMeUrlTypeUserBuilder {
     let instance = Self {
       td_name: "tMeUrlTypeUser".to_string(),
       user_id: None,
       
     };
-    TMeUrlTypeUserBuilder::new(instance)
+    RTDTMeUrlTypeUserBuilder::new(instance)
   }
   
   
@@ -42875,9 +42875,9 @@ impl TMeUrlTypeUser {
 
 
 #[derive(Debug)]
-pub struct TMeUrlTypeUserBuilder { instance: TMeUrlTypeUser }
+pub struct RTDTMeUrlTypeUserBuilder { instance: TMeUrlTypeUser }
 
-impl TMeUrlTypeUserBuilder {
+impl RTDTMeUrlTypeUserBuilder {
   fn new(instance: TMeUrlTypeUser) -> Self { Self { instance } }
 
   pub fn build(&self) -> TMeUrlTypeUser { self.instance.clone() }
@@ -42917,13 +42917,13 @@ impl RObject for TMeUrlTypeSupergroup {
 
 impl TMeUrlTypeSupergroup {
   
-  pub fn builder() -> TMeUrlTypeSupergroupBuilder {
+  pub fn builder() -> RTDTMeUrlTypeSupergroupBuilder {
     let instance = Self {
       td_name: "tMeUrlTypeSupergroup".to_string(),
       supergroup_id: None,
       
     };
-    TMeUrlTypeSupergroupBuilder::new(instance)
+    RTDTMeUrlTypeSupergroupBuilder::new(instance)
   }
   
   
@@ -42936,9 +42936,9 @@ impl TMeUrlTypeSupergroup {
 
 
 #[derive(Debug)]
-pub struct TMeUrlTypeSupergroupBuilder { instance: TMeUrlTypeSupergroup }
+pub struct RTDTMeUrlTypeSupergroupBuilder { instance: TMeUrlTypeSupergroup }
 
-impl TMeUrlTypeSupergroupBuilder {
+impl RTDTMeUrlTypeSupergroupBuilder {
   fn new(instance: TMeUrlTypeSupergroup) -> Self { Self { instance } }
 
   pub fn build(&self) -> TMeUrlTypeSupergroup { self.instance.clone() }
@@ -42978,13 +42978,13 @@ impl RObject for TMeUrlTypeChatInvite {
 
 impl TMeUrlTypeChatInvite {
   
-  pub fn builder() -> TMeUrlTypeChatInviteBuilder {
+  pub fn builder() -> RTDTMeUrlTypeChatInviteBuilder {
     let instance = Self {
       td_name: "tMeUrlTypeChatInvite".to_string(),
       info: None,
       
     };
-    TMeUrlTypeChatInviteBuilder::new(instance)
+    RTDTMeUrlTypeChatInviteBuilder::new(instance)
   }
   
   
@@ -42997,9 +42997,9 @@ impl TMeUrlTypeChatInvite {
 
 
 #[derive(Debug)]
-pub struct TMeUrlTypeChatInviteBuilder { instance: TMeUrlTypeChatInvite }
+pub struct RTDTMeUrlTypeChatInviteBuilder { instance: TMeUrlTypeChatInvite }
 
-impl TMeUrlTypeChatInviteBuilder {
+impl RTDTMeUrlTypeChatInviteBuilder {
   fn new(instance: TMeUrlTypeChatInvite) -> Self { Self { instance } }
 
   pub fn build(&self) -> TMeUrlTypeChatInvite { self.instance.clone() }
@@ -43039,13 +43039,13 @@ impl RObject for TMeUrlTypeStickerSet {
 
 impl TMeUrlTypeStickerSet {
   
-  pub fn builder() -> TMeUrlTypeStickerSetBuilder {
+  pub fn builder() -> RTDTMeUrlTypeStickerSetBuilder {
     let instance = Self {
       td_name: "tMeUrlTypeStickerSet".to_string(),
       sticker_set_id: None,
       
     };
-    TMeUrlTypeStickerSetBuilder::new(instance)
+    RTDTMeUrlTypeStickerSetBuilder::new(instance)
   }
   
   
@@ -43058,9 +43058,9 @@ impl TMeUrlTypeStickerSet {
 
 
 #[derive(Debug)]
-pub struct TMeUrlTypeStickerSetBuilder { instance: TMeUrlTypeStickerSet }
+pub struct RTDTMeUrlTypeStickerSetBuilder { instance: TMeUrlTypeStickerSet }
 
-impl TMeUrlTypeStickerSetBuilder {
+impl RTDTMeUrlTypeStickerSetBuilder {
   fn new(instance: TMeUrlTypeStickerSet) -> Self { Self { instance } }
 
   pub fn build(&self) -> TMeUrlTypeStickerSet { self.instance.clone() }
@@ -43098,13 +43098,13 @@ impl RObject for TMeUrls {
 
 impl TMeUrls {
   
-  pub fn builder() -> TMeUrlsBuilder {
+  pub fn builder() -> RTDTMeUrlsBuilder {
     let instance = Self {
       td_name: "tMeUrls".to_string(),
       urls: None,
       
     };
-    TMeUrlsBuilder::new(instance)
+    RTDTMeUrlsBuilder::new(instance)
   }
   
   
@@ -43117,9 +43117,9 @@ impl TMeUrls {
 
 
 #[derive(Debug)]
-pub struct TMeUrlsBuilder { instance: TMeUrls }
+pub struct RTDTMeUrlsBuilder { instance: TMeUrls }
 
-impl TMeUrlsBuilder {
+impl RTDTMeUrlsBuilder {
   fn new(instance: TMeUrls) -> Self { Self { instance } }
 
   pub fn build(&self) -> TMeUrls { self.instance.clone() }
@@ -43185,7 +43185,7 @@ impl RObject for TdlibParameters {
 
 impl TdlibParameters {
   
-  pub fn builder() -> TdlibParametersBuilder {
+  pub fn builder() -> RTDTdlibParametersBuilder {
     let instance = Self {
       td_name: "tdlibParameters".to_string(),
       use_test_dc: None,
@@ -43205,7 +43205,7 @@ impl TdlibParameters {
       ignore_file_names: None,
       
     };
-    TdlibParametersBuilder::new(instance)
+    RTDTdlibParametersBuilder::new(instance)
   }
   
   
@@ -43246,9 +43246,9 @@ impl TdlibParameters {
 
 
 #[derive(Debug)]
-pub struct TdlibParametersBuilder { instance: TdlibParameters }
+pub struct RTDTdlibParametersBuilder { instance: TdlibParameters }
 
-impl TdlibParametersBuilder {
+impl RTDTdlibParametersBuilder {
   fn new(instance: TdlibParameters) -> Self { Self { instance } }
 
   pub fn build(&self) -> TdlibParameters { self.instance.clone() }
@@ -43358,14 +43358,14 @@ impl RObject for TemporaryPasswordState {
 
 impl TemporaryPasswordState {
   
-  pub fn builder() -> TemporaryPasswordStateBuilder {
+  pub fn builder() -> RTDTemporaryPasswordStateBuilder {
     let instance = Self {
       td_name: "temporaryPasswordState".to_string(),
       has_password: None,
       valid_for: None,
       
     };
-    TemporaryPasswordStateBuilder::new(instance)
+    RTDTemporaryPasswordStateBuilder::new(instance)
   }
   
   
@@ -43380,9 +43380,9 @@ impl TemporaryPasswordState {
 
 
 #[derive(Debug)]
-pub struct TemporaryPasswordStateBuilder { instance: TemporaryPasswordState }
+pub struct RTDTemporaryPasswordStateBuilder { instance: TemporaryPasswordState }
 
-impl TemporaryPasswordStateBuilder {
+impl RTDTemporaryPasswordStateBuilder {
   fn new(instance: TemporaryPasswordState) -> Self { Self { instance } }
 
   pub fn build(&self) -> TemporaryPasswordState { self.instance.clone() }
@@ -43429,7 +43429,7 @@ impl RObject for TermsOfService {
 
 impl TermsOfService {
   
-  pub fn builder() -> TermsOfServiceBuilder {
+  pub fn builder() -> RTDTermsOfServiceBuilder {
     let instance = Self {
       td_name: "termsOfService".to_string(),
       text: None,
@@ -43437,7 +43437,7 @@ impl TermsOfService {
       show_popup: None,
       
     };
-    TermsOfServiceBuilder::new(instance)
+    RTDTermsOfServiceBuilder::new(instance)
   }
   
   
@@ -43454,9 +43454,9 @@ impl TermsOfService {
 
 
 #[derive(Debug)]
-pub struct TermsOfServiceBuilder { instance: TermsOfService }
+pub struct RTDTermsOfServiceBuilder { instance: TermsOfService }
 
-impl TermsOfServiceBuilder {
+impl RTDTermsOfServiceBuilder {
   fn new(instance: TermsOfService) -> Self { Self { instance } }
 
   pub fn build(&self) -> TermsOfService { self.instance.clone() }
@@ -43504,13 +43504,13 @@ impl RObject for TestBytes {
 
 impl TestBytes {
   
-  pub fn builder() -> TestBytesBuilder {
+  pub fn builder() -> RTDTestBytesBuilder {
     let instance = Self {
       td_name: "testBytes".to_string(),
       value: None,
       
     };
-    TestBytesBuilder::new(instance)
+    RTDTestBytesBuilder::new(instance)
   }
   
   
@@ -43523,9 +43523,9 @@ impl TestBytes {
 
 
 #[derive(Debug)]
-pub struct TestBytesBuilder { instance: TestBytes }
+pub struct RTDTestBytesBuilder { instance: TestBytes }
 
-impl TestBytesBuilder {
+impl RTDTestBytesBuilder {
   fn new(instance: TestBytes) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestBytes { self.instance.clone() }
@@ -43563,13 +43563,13 @@ impl RObject for TestInt {
 
 impl TestInt {
   
-  pub fn builder() -> TestIntBuilder {
+  pub fn builder() -> RTDTestIntBuilder {
     let instance = Self {
       td_name: "testInt".to_string(),
       value: None,
       
     };
-    TestIntBuilder::new(instance)
+    RTDTestIntBuilder::new(instance)
   }
   
   
@@ -43582,9 +43582,9 @@ impl TestInt {
 
 
 #[derive(Debug)]
-pub struct TestIntBuilder { instance: TestInt }
+pub struct RTDTestIntBuilder { instance: TestInt }
 
-impl TestIntBuilder {
+impl RTDTestIntBuilder {
   fn new(instance: TestInt) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestInt { self.instance.clone() }
@@ -43622,13 +43622,13 @@ impl RObject for TestString {
 
 impl TestString {
   
-  pub fn builder() -> TestStringBuilder {
+  pub fn builder() -> RTDTestStringBuilder {
     let instance = Self {
       td_name: "testString".to_string(),
       value: None,
       
     };
-    TestStringBuilder::new(instance)
+    RTDTestStringBuilder::new(instance)
   }
   
   
@@ -43641,9 +43641,9 @@ impl TestString {
 
 
 #[derive(Debug)]
-pub struct TestStringBuilder { instance: TestString }
+pub struct RTDTestStringBuilder { instance: TestString }
 
-impl TestStringBuilder {
+impl RTDTestStringBuilder {
   fn new(instance: TestString) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestString { self.instance.clone() }
@@ -43681,13 +43681,13 @@ impl RObject for TestVectorInt {
 
 impl TestVectorInt {
   
-  pub fn builder() -> TestVectorIntBuilder {
+  pub fn builder() -> RTDTestVectorIntBuilder {
     let instance = Self {
       td_name: "testVectorInt".to_string(),
       value: None,
       
     };
-    TestVectorIntBuilder::new(instance)
+    RTDTestVectorIntBuilder::new(instance)
   }
   
   
@@ -43700,9 +43700,9 @@ impl TestVectorInt {
 
 
 #[derive(Debug)]
-pub struct TestVectorIntBuilder { instance: TestVectorInt }
+pub struct RTDTestVectorIntBuilder { instance: TestVectorInt }
 
-impl TestVectorIntBuilder {
+impl RTDTestVectorIntBuilder {
   fn new(instance: TestVectorInt) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestVectorInt { self.instance.clone() }
@@ -43740,13 +43740,13 @@ impl RObject for TestVectorIntObject {
 
 impl TestVectorIntObject {
   
-  pub fn builder() -> TestVectorIntObjectBuilder {
+  pub fn builder() -> RTDTestVectorIntObjectBuilder {
     let instance = Self {
       td_name: "testVectorIntObject".to_string(),
       value: None,
       
     };
-    TestVectorIntObjectBuilder::new(instance)
+    RTDTestVectorIntObjectBuilder::new(instance)
   }
   
   
@@ -43759,9 +43759,9 @@ impl TestVectorIntObject {
 
 
 #[derive(Debug)]
-pub struct TestVectorIntObjectBuilder { instance: TestVectorIntObject }
+pub struct RTDTestVectorIntObjectBuilder { instance: TestVectorIntObject }
 
-impl TestVectorIntObjectBuilder {
+impl RTDTestVectorIntObjectBuilder {
   fn new(instance: TestVectorIntObject) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestVectorIntObject { self.instance.clone() }
@@ -43799,13 +43799,13 @@ impl RObject for TestVectorString {
 
 impl TestVectorString {
   
-  pub fn builder() -> TestVectorStringBuilder {
+  pub fn builder() -> RTDTestVectorStringBuilder {
     let instance = Self {
       td_name: "testVectorString".to_string(),
       value: None,
       
     };
-    TestVectorStringBuilder::new(instance)
+    RTDTestVectorStringBuilder::new(instance)
   }
   
   
@@ -43818,9 +43818,9 @@ impl TestVectorString {
 
 
 #[derive(Debug)]
-pub struct TestVectorStringBuilder { instance: TestVectorString }
+pub struct RTDTestVectorStringBuilder { instance: TestVectorString }
 
-impl TestVectorStringBuilder {
+impl RTDTestVectorStringBuilder {
   fn new(instance: TestVectorString) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestVectorString { self.instance.clone() }
@@ -43858,13 +43858,13 @@ impl RObject for TestVectorStringObject {
 
 impl TestVectorStringObject {
   
-  pub fn builder() -> TestVectorStringObjectBuilder {
+  pub fn builder() -> RTDTestVectorStringObjectBuilder {
     let instance = Self {
       td_name: "testVectorStringObject".to_string(),
       value: None,
       
     };
-    TestVectorStringObjectBuilder::new(instance)
+    RTDTestVectorStringObjectBuilder::new(instance)
   }
   
   
@@ -43877,9 +43877,9 @@ impl TestVectorStringObject {
 
 
 #[derive(Debug)]
-pub struct TestVectorStringObjectBuilder { instance: TestVectorStringObject }
+pub struct RTDTestVectorStringObjectBuilder { instance: TestVectorStringObject }
 
-impl TestVectorStringObjectBuilder {
+impl RTDTestVectorStringObjectBuilder {
   fn new(instance: TestVectorStringObject) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestVectorStringObject { self.instance.clone() }
@@ -43917,13 +43917,13 @@ impl RObject for Text {
 
 impl Text {
   
-  pub fn builder() -> TextBuilder {
+  pub fn builder() -> RTDTextBuilder {
     let instance = Self {
       td_name: "text".to_string(),
       text: None,
       
     };
-    TextBuilder::new(instance)
+    RTDTextBuilder::new(instance)
   }
   
   
@@ -43936,9 +43936,9 @@ impl Text {
 
 
 #[derive(Debug)]
-pub struct TextBuilder { instance: Text }
+pub struct RTDTextBuilder { instance: Text }
 
-impl TextBuilder {
+impl RTDTextBuilder {
   fn new(instance: Text) -> Self { Self { instance } }
 
   pub fn build(&self) -> Text { self.instance.clone() }
@@ -43976,13 +43976,13 @@ impl RObject for TextEntities {
 
 impl TextEntities {
   
-  pub fn builder() -> TextEntitiesBuilder {
+  pub fn builder() -> RTDTextEntitiesBuilder {
     let instance = Self {
       td_name: "textEntities".to_string(),
       entities: None,
       
     };
-    TextEntitiesBuilder::new(instance)
+    RTDTextEntitiesBuilder::new(instance)
   }
   
   
@@ -43995,9 +43995,9 @@ impl TextEntities {
 
 
 #[derive(Debug)]
-pub struct TextEntitiesBuilder { instance: TextEntities }
+pub struct RTDTextEntitiesBuilder { instance: TextEntities }
 
-impl TextEntitiesBuilder {
+impl RTDTextEntitiesBuilder {
   fn new(instance: TextEntities) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntities { self.instance.clone() }
@@ -44046,7 +44046,7 @@ impl RObject for TextEntity {
 
 impl TextEntity {
   
-  pub fn builder() -> TextEntityBuilder {
+  pub fn builder() -> RTDTextEntityBuilder {
     let instance = Self {
       td_name: "textEntity".to_string(),
       offset: None,
@@ -44054,7 +44054,7 @@ impl TextEntity {
       type_: None,
       
     };
-    TextEntityBuilder::new(instance)
+    RTDTextEntityBuilder::new(instance)
   }
   
   
@@ -44071,9 +44071,9 @@ impl TextEntity {
 
 
 #[derive(Debug)]
-pub struct TextEntityBuilder { instance: TextEntity }
+pub struct RTDTextEntityBuilder { instance: TextEntity }
 
-impl TextEntityBuilder {
+impl RTDTextEntityBuilder {
   fn new(instance: TextEntity) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntity { self.instance.clone() }
@@ -44168,12 +44168,12 @@ impl RObject for TextEntityTypeMention {
 
 impl TextEntityTypeMention {
   
-  pub fn builder() -> TextEntityTypeMentionBuilder {
+  pub fn builder() -> RTDTextEntityTypeMentionBuilder {
     let instance = Self {
       td_name: "textEntityTypeMention".to_string(),
       
     };
-    TextEntityTypeMentionBuilder::new(instance)
+    RTDTextEntityTypeMentionBuilder::new(instance)
   }
   
   
@@ -44184,9 +44184,9 @@ impl TextEntityTypeMention {
 
 
 #[derive(Debug)]
-pub struct TextEntityTypeMentionBuilder { instance: TextEntityTypeMention }
+pub struct RTDTextEntityTypeMentionBuilder { instance: TextEntityTypeMention }
 
-impl TextEntityTypeMentionBuilder {
+impl RTDTextEntityTypeMentionBuilder {
   fn new(instance: TextEntityTypeMention) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntityTypeMention { self.instance.clone() }
@@ -44219,12 +44219,12 @@ impl RObject for TextEntityTypeHashtag {
 
 impl TextEntityTypeHashtag {
   
-  pub fn builder() -> TextEntityTypeHashtagBuilder {
+  pub fn builder() -> RTDTextEntityTypeHashtagBuilder {
     let instance = Self {
       td_name: "textEntityTypeHashtag".to_string(),
       
     };
-    TextEntityTypeHashtagBuilder::new(instance)
+    RTDTextEntityTypeHashtagBuilder::new(instance)
   }
   
   
@@ -44235,9 +44235,9 @@ impl TextEntityTypeHashtag {
 
 
 #[derive(Debug)]
-pub struct TextEntityTypeHashtagBuilder { instance: TextEntityTypeHashtag }
+pub struct RTDTextEntityTypeHashtagBuilder { instance: TextEntityTypeHashtag }
 
-impl TextEntityTypeHashtagBuilder {
+impl RTDTextEntityTypeHashtagBuilder {
   fn new(instance: TextEntityTypeHashtag) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntityTypeHashtag { self.instance.clone() }
@@ -44270,12 +44270,12 @@ impl RObject for TextEntityTypeCashtag {
 
 impl TextEntityTypeCashtag {
   
-  pub fn builder() -> TextEntityTypeCashtagBuilder {
+  pub fn builder() -> RTDTextEntityTypeCashtagBuilder {
     let instance = Self {
       td_name: "textEntityTypeCashtag".to_string(),
       
     };
-    TextEntityTypeCashtagBuilder::new(instance)
+    RTDTextEntityTypeCashtagBuilder::new(instance)
   }
   
   
@@ -44286,9 +44286,9 @@ impl TextEntityTypeCashtag {
 
 
 #[derive(Debug)]
-pub struct TextEntityTypeCashtagBuilder { instance: TextEntityTypeCashtag }
+pub struct RTDTextEntityTypeCashtagBuilder { instance: TextEntityTypeCashtag }
 
-impl TextEntityTypeCashtagBuilder {
+impl RTDTextEntityTypeCashtagBuilder {
   fn new(instance: TextEntityTypeCashtag) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntityTypeCashtag { self.instance.clone() }
@@ -44321,12 +44321,12 @@ impl RObject for TextEntityTypeBotCommand {
 
 impl TextEntityTypeBotCommand {
   
-  pub fn builder() -> TextEntityTypeBotCommandBuilder {
+  pub fn builder() -> RTDTextEntityTypeBotCommandBuilder {
     let instance = Self {
       td_name: "textEntityTypeBotCommand".to_string(),
       
     };
-    TextEntityTypeBotCommandBuilder::new(instance)
+    RTDTextEntityTypeBotCommandBuilder::new(instance)
   }
   
   
@@ -44337,9 +44337,9 @@ impl TextEntityTypeBotCommand {
 
 
 #[derive(Debug)]
-pub struct TextEntityTypeBotCommandBuilder { instance: TextEntityTypeBotCommand }
+pub struct RTDTextEntityTypeBotCommandBuilder { instance: TextEntityTypeBotCommand }
 
-impl TextEntityTypeBotCommandBuilder {
+impl RTDTextEntityTypeBotCommandBuilder {
   fn new(instance: TextEntityTypeBotCommand) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntityTypeBotCommand { self.instance.clone() }
@@ -44372,12 +44372,12 @@ impl RObject for TextEntityTypeUrl {
 
 impl TextEntityTypeUrl {
   
-  pub fn builder() -> TextEntityTypeUrlBuilder {
+  pub fn builder() -> RTDTextEntityTypeUrlBuilder {
     let instance = Self {
       td_name: "textEntityTypeUrl".to_string(),
       
     };
-    TextEntityTypeUrlBuilder::new(instance)
+    RTDTextEntityTypeUrlBuilder::new(instance)
   }
   
   
@@ -44388,9 +44388,9 @@ impl TextEntityTypeUrl {
 
 
 #[derive(Debug)]
-pub struct TextEntityTypeUrlBuilder { instance: TextEntityTypeUrl }
+pub struct RTDTextEntityTypeUrlBuilder { instance: TextEntityTypeUrl }
 
-impl TextEntityTypeUrlBuilder {
+impl RTDTextEntityTypeUrlBuilder {
   fn new(instance: TextEntityTypeUrl) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntityTypeUrl { self.instance.clone() }
@@ -44423,12 +44423,12 @@ impl RObject for TextEntityTypeEmailAddress {
 
 impl TextEntityTypeEmailAddress {
   
-  pub fn builder() -> TextEntityTypeEmailAddressBuilder {
+  pub fn builder() -> RTDTextEntityTypeEmailAddressBuilder {
     let instance = Self {
       td_name: "textEntityTypeEmailAddress".to_string(),
       
     };
-    TextEntityTypeEmailAddressBuilder::new(instance)
+    RTDTextEntityTypeEmailAddressBuilder::new(instance)
   }
   
   
@@ -44439,9 +44439,9 @@ impl TextEntityTypeEmailAddress {
 
 
 #[derive(Debug)]
-pub struct TextEntityTypeEmailAddressBuilder { instance: TextEntityTypeEmailAddress }
+pub struct RTDTextEntityTypeEmailAddressBuilder { instance: TextEntityTypeEmailAddress }
 
-impl TextEntityTypeEmailAddressBuilder {
+impl RTDTextEntityTypeEmailAddressBuilder {
   fn new(instance: TextEntityTypeEmailAddress) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntityTypeEmailAddress { self.instance.clone() }
@@ -44474,12 +44474,12 @@ impl RObject for TextEntityTypeBold {
 
 impl TextEntityTypeBold {
   
-  pub fn builder() -> TextEntityTypeBoldBuilder {
+  pub fn builder() -> RTDTextEntityTypeBoldBuilder {
     let instance = Self {
       td_name: "textEntityTypeBold".to_string(),
       
     };
-    TextEntityTypeBoldBuilder::new(instance)
+    RTDTextEntityTypeBoldBuilder::new(instance)
   }
   
   
@@ -44490,9 +44490,9 @@ impl TextEntityTypeBold {
 
 
 #[derive(Debug)]
-pub struct TextEntityTypeBoldBuilder { instance: TextEntityTypeBold }
+pub struct RTDTextEntityTypeBoldBuilder { instance: TextEntityTypeBold }
 
-impl TextEntityTypeBoldBuilder {
+impl RTDTextEntityTypeBoldBuilder {
   fn new(instance: TextEntityTypeBold) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntityTypeBold { self.instance.clone() }
@@ -44525,12 +44525,12 @@ impl RObject for TextEntityTypeItalic {
 
 impl TextEntityTypeItalic {
   
-  pub fn builder() -> TextEntityTypeItalicBuilder {
+  pub fn builder() -> RTDTextEntityTypeItalicBuilder {
     let instance = Self {
       td_name: "textEntityTypeItalic".to_string(),
       
     };
-    TextEntityTypeItalicBuilder::new(instance)
+    RTDTextEntityTypeItalicBuilder::new(instance)
   }
   
   
@@ -44541,9 +44541,9 @@ impl TextEntityTypeItalic {
 
 
 #[derive(Debug)]
-pub struct TextEntityTypeItalicBuilder { instance: TextEntityTypeItalic }
+pub struct RTDTextEntityTypeItalicBuilder { instance: TextEntityTypeItalic }
 
-impl TextEntityTypeItalicBuilder {
+impl RTDTextEntityTypeItalicBuilder {
   fn new(instance: TextEntityTypeItalic) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntityTypeItalic { self.instance.clone() }
@@ -44576,12 +44576,12 @@ impl RObject for TextEntityTypeCode {
 
 impl TextEntityTypeCode {
   
-  pub fn builder() -> TextEntityTypeCodeBuilder {
+  pub fn builder() -> RTDTextEntityTypeCodeBuilder {
     let instance = Self {
       td_name: "textEntityTypeCode".to_string(),
       
     };
-    TextEntityTypeCodeBuilder::new(instance)
+    RTDTextEntityTypeCodeBuilder::new(instance)
   }
   
   
@@ -44592,9 +44592,9 @@ impl TextEntityTypeCode {
 
 
 #[derive(Debug)]
-pub struct TextEntityTypeCodeBuilder { instance: TextEntityTypeCode }
+pub struct RTDTextEntityTypeCodeBuilder { instance: TextEntityTypeCode }
 
-impl TextEntityTypeCodeBuilder {
+impl RTDTextEntityTypeCodeBuilder {
   fn new(instance: TextEntityTypeCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntityTypeCode { self.instance.clone() }
@@ -44627,12 +44627,12 @@ impl RObject for TextEntityTypePre {
 
 impl TextEntityTypePre {
   
-  pub fn builder() -> TextEntityTypePreBuilder {
+  pub fn builder() -> RTDTextEntityTypePreBuilder {
     let instance = Self {
       td_name: "textEntityTypePre".to_string(),
       
     };
-    TextEntityTypePreBuilder::new(instance)
+    RTDTextEntityTypePreBuilder::new(instance)
   }
   
   
@@ -44643,9 +44643,9 @@ impl TextEntityTypePre {
 
 
 #[derive(Debug)]
-pub struct TextEntityTypePreBuilder { instance: TextEntityTypePre }
+pub struct RTDTextEntityTypePreBuilder { instance: TextEntityTypePre }
 
-impl TextEntityTypePreBuilder {
+impl RTDTextEntityTypePreBuilder {
   fn new(instance: TextEntityTypePre) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntityTypePre { self.instance.clone() }
@@ -44680,13 +44680,13 @@ impl RObject for TextEntityTypePreCode {
 
 impl TextEntityTypePreCode {
   
-  pub fn builder() -> TextEntityTypePreCodeBuilder {
+  pub fn builder() -> RTDTextEntityTypePreCodeBuilder {
     let instance = Self {
       td_name: "textEntityTypePreCode".to_string(),
       language: None,
       
     };
-    TextEntityTypePreCodeBuilder::new(instance)
+    RTDTextEntityTypePreCodeBuilder::new(instance)
   }
   
   
@@ -44699,9 +44699,9 @@ impl TextEntityTypePreCode {
 
 
 #[derive(Debug)]
-pub struct TextEntityTypePreCodeBuilder { instance: TextEntityTypePreCode }
+pub struct RTDTextEntityTypePreCodeBuilder { instance: TextEntityTypePreCode }
 
-impl TextEntityTypePreCodeBuilder {
+impl RTDTextEntityTypePreCodeBuilder {
   fn new(instance: TextEntityTypePreCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntityTypePreCode { self.instance.clone() }
@@ -44741,13 +44741,13 @@ impl RObject for TextEntityTypeTextUrl {
 
 impl TextEntityTypeTextUrl {
   
-  pub fn builder() -> TextEntityTypeTextUrlBuilder {
+  pub fn builder() -> RTDTextEntityTypeTextUrlBuilder {
     let instance = Self {
       td_name: "textEntityTypeTextUrl".to_string(),
       url: None,
       
     };
-    TextEntityTypeTextUrlBuilder::new(instance)
+    RTDTextEntityTypeTextUrlBuilder::new(instance)
   }
   
   
@@ -44760,9 +44760,9 @@ impl TextEntityTypeTextUrl {
 
 
 #[derive(Debug)]
-pub struct TextEntityTypeTextUrlBuilder { instance: TextEntityTypeTextUrl }
+pub struct RTDTextEntityTypeTextUrlBuilder { instance: TextEntityTypeTextUrl }
 
-impl TextEntityTypeTextUrlBuilder {
+impl RTDTextEntityTypeTextUrlBuilder {
   fn new(instance: TextEntityTypeTextUrl) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntityTypeTextUrl { self.instance.clone() }
@@ -44802,13 +44802,13 @@ impl RObject for TextEntityTypeMentionName {
 
 impl TextEntityTypeMentionName {
   
-  pub fn builder() -> TextEntityTypeMentionNameBuilder {
+  pub fn builder() -> RTDTextEntityTypeMentionNameBuilder {
     let instance = Self {
       td_name: "textEntityTypeMentionName".to_string(),
       user_id: None,
       
     };
-    TextEntityTypeMentionNameBuilder::new(instance)
+    RTDTextEntityTypeMentionNameBuilder::new(instance)
   }
   
   
@@ -44821,9 +44821,9 @@ impl TextEntityTypeMentionName {
 
 
 #[derive(Debug)]
-pub struct TextEntityTypeMentionNameBuilder { instance: TextEntityTypeMentionName }
+pub struct RTDTextEntityTypeMentionNameBuilder { instance: TextEntityTypeMentionName }
 
-impl TextEntityTypeMentionNameBuilder {
+impl RTDTextEntityTypeMentionNameBuilder {
   fn new(instance: TextEntityTypeMentionName) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntityTypeMentionName { self.instance.clone() }
@@ -44861,12 +44861,12 @@ impl RObject for TextEntityTypePhoneNumber {
 
 impl TextEntityTypePhoneNumber {
   
-  pub fn builder() -> TextEntityTypePhoneNumberBuilder {
+  pub fn builder() -> RTDTextEntityTypePhoneNumberBuilder {
     let instance = Self {
       td_name: "textEntityTypePhoneNumber".to_string(),
       
     };
-    TextEntityTypePhoneNumberBuilder::new(instance)
+    RTDTextEntityTypePhoneNumberBuilder::new(instance)
   }
   
   
@@ -44877,9 +44877,9 @@ impl TextEntityTypePhoneNumber {
 
 
 #[derive(Debug)]
-pub struct TextEntityTypePhoneNumberBuilder { instance: TextEntityTypePhoneNumber }
+pub struct RTDTextEntityTypePhoneNumberBuilder { instance: TextEntityTypePhoneNumber }
 
-impl TextEntityTypePhoneNumberBuilder {
+impl RTDTextEntityTypePhoneNumberBuilder {
   fn new(instance: TextEntityTypePhoneNumber) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextEntityTypePhoneNumber { self.instance.clone() }
@@ -44947,12 +44947,12 @@ impl RObject for TextParseModeMarkdown {
 
 impl TextParseModeMarkdown {
   
-  pub fn builder() -> TextParseModeMarkdownBuilder {
+  pub fn builder() -> RTDTextParseModeMarkdownBuilder {
     let instance = Self {
       td_name: "textParseModeMarkdown".to_string(),
       
     };
-    TextParseModeMarkdownBuilder::new(instance)
+    RTDTextParseModeMarkdownBuilder::new(instance)
   }
   
   
@@ -44963,9 +44963,9 @@ impl TextParseModeMarkdown {
 
 
 #[derive(Debug)]
-pub struct TextParseModeMarkdownBuilder { instance: TextParseModeMarkdown }
+pub struct RTDTextParseModeMarkdownBuilder { instance: TextParseModeMarkdown }
 
-impl TextParseModeMarkdownBuilder {
+impl RTDTextParseModeMarkdownBuilder {
   fn new(instance: TextParseModeMarkdown) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextParseModeMarkdown { self.instance.clone() }
@@ -44998,12 +44998,12 @@ impl RObject for TextParseModeHTML {
 
 impl TextParseModeHTML {
   
-  pub fn builder() -> TextParseModeHTMLBuilder {
+  pub fn builder() -> RTDTextParseModeHTMLBuilder {
     let instance = Self {
       td_name: "textParseModeHTML".to_string(),
       
     };
-    TextParseModeHTMLBuilder::new(instance)
+    RTDTextParseModeHTMLBuilder::new(instance)
   }
   
   
@@ -45014,9 +45014,9 @@ impl TextParseModeHTML {
 
 
 #[derive(Debug)]
-pub struct TextParseModeHTMLBuilder { instance: TextParseModeHTML }
+pub struct RTDTextParseModeHTMLBuilder { instance: TextParseModeHTML }
 
-impl TextParseModeHTMLBuilder {
+impl RTDTextParseModeHTMLBuilder {
   fn new(instance: TextParseModeHTML) -> Self { Self { instance } }
 
   pub fn build(&self) -> TextParseModeHTML { self.instance.clone() }
@@ -45088,12 +45088,12 @@ impl RObject for TopChatCategoryUsers {
 
 impl TopChatCategoryUsers {
   
-  pub fn builder() -> TopChatCategoryUsersBuilder {
+  pub fn builder() -> RTDTopChatCategoryUsersBuilder {
     let instance = Self {
       td_name: "topChatCategoryUsers".to_string(),
       
     };
-    TopChatCategoryUsersBuilder::new(instance)
+    RTDTopChatCategoryUsersBuilder::new(instance)
   }
   
   
@@ -45104,9 +45104,9 @@ impl TopChatCategoryUsers {
 
 
 #[derive(Debug)]
-pub struct TopChatCategoryUsersBuilder { instance: TopChatCategoryUsers }
+pub struct RTDTopChatCategoryUsersBuilder { instance: TopChatCategoryUsers }
 
-impl TopChatCategoryUsersBuilder {
+impl RTDTopChatCategoryUsersBuilder {
   fn new(instance: TopChatCategoryUsers) -> Self { Self { instance } }
 
   pub fn build(&self) -> TopChatCategoryUsers { self.instance.clone() }
@@ -45139,12 +45139,12 @@ impl RObject for TopChatCategoryBots {
 
 impl TopChatCategoryBots {
   
-  pub fn builder() -> TopChatCategoryBotsBuilder {
+  pub fn builder() -> RTDTopChatCategoryBotsBuilder {
     let instance = Self {
       td_name: "topChatCategoryBots".to_string(),
       
     };
-    TopChatCategoryBotsBuilder::new(instance)
+    RTDTopChatCategoryBotsBuilder::new(instance)
   }
   
   
@@ -45155,9 +45155,9 @@ impl TopChatCategoryBots {
 
 
 #[derive(Debug)]
-pub struct TopChatCategoryBotsBuilder { instance: TopChatCategoryBots }
+pub struct RTDTopChatCategoryBotsBuilder { instance: TopChatCategoryBots }
 
-impl TopChatCategoryBotsBuilder {
+impl RTDTopChatCategoryBotsBuilder {
   fn new(instance: TopChatCategoryBots) -> Self { Self { instance } }
 
   pub fn build(&self) -> TopChatCategoryBots { self.instance.clone() }
@@ -45190,12 +45190,12 @@ impl RObject for TopChatCategoryGroups {
 
 impl TopChatCategoryGroups {
   
-  pub fn builder() -> TopChatCategoryGroupsBuilder {
+  pub fn builder() -> RTDTopChatCategoryGroupsBuilder {
     let instance = Self {
       td_name: "topChatCategoryGroups".to_string(),
       
     };
-    TopChatCategoryGroupsBuilder::new(instance)
+    RTDTopChatCategoryGroupsBuilder::new(instance)
   }
   
   
@@ -45206,9 +45206,9 @@ impl TopChatCategoryGroups {
 
 
 #[derive(Debug)]
-pub struct TopChatCategoryGroupsBuilder { instance: TopChatCategoryGroups }
+pub struct RTDTopChatCategoryGroupsBuilder { instance: TopChatCategoryGroups }
 
-impl TopChatCategoryGroupsBuilder {
+impl RTDTopChatCategoryGroupsBuilder {
   fn new(instance: TopChatCategoryGroups) -> Self { Self { instance } }
 
   pub fn build(&self) -> TopChatCategoryGroups { self.instance.clone() }
@@ -45241,12 +45241,12 @@ impl RObject for TopChatCategoryChannels {
 
 impl TopChatCategoryChannels {
   
-  pub fn builder() -> TopChatCategoryChannelsBuilder {
+  pub fn builder() -> RTDTopChatCategoryChannelsBuilder {
     let instance = Self {
       td_name: "topChatCategoryChannels".to_string(),
       
     };
-    TopChatCategoryChannelsBuilder::new(instance)
+    RTDTopChatCategoryChannelsBuilder::new(instance)
   }
   
   
@@ -45257,9 +45257,9 @@ impl TopChatCategoryChannels {
 
 
 #[derive(Debug)]
-pub struct TopChatCategoryChannelsBuilder { instance: TopChatCategoryChannels }
+pub struct RTDTopChatCategoryChannelsBuilder { instance: TopChatCategoryChannels }
 
-impl TopChatCategoryChannelsBuilder {
+impl RTDTopChatCategoryChannelsBuilder {
   fn new(instance: TopChatCategoryChannels) -> Self { Self { instance } }
 
   pub fn build(&self) -> TopChatCategoryChannels { self.instance.clone() }
@@ -45292,12 +45292,12 @@ impl RObject for TopChatCategoryInlineBots {
 
 impl TopChatCategoryInlineBots {
   
-  pub fn builder() -> TopChatCategoryInlineBotsBuilder {
+  pub fn builder() -> RTDTopChatCategoryInlineBotsBuilder {
     let instance = Self {
       td_name: "topChatCategoryInlineBots".to_string(),
       
     };
-    TopChatCategoryInlineBotsBuilder::new(instance)
+    RTDTopChatCategoryInlineBotsBuilder::new(instance)
   }
   
   
@@ -45308,9 +45308,9 @@ impl TopChatCategoryInlineBots {
 
 
 #[derive(Debug)]
-pub struct TopChatCategoryInlineBotsBuilder { instance: TopChatCategoryInlineBots }
+pub struct RTDTopChatCategoryInlineBotsBuilder { instance: TopChatCategoryInlineBots }
 
-impl TopChatCategoryInlineBotsBuilder {
+impl RTDTopChatCategoryInlineBotsBuilder {
   fn new(instance: TopChatCategoryInlineBots) -> Self { Self { instance } }
 
   pub fn build(&self) -> TopChatCategoryInlineBots { self.instance.clone() }
@@ -45343,12 +45343,12 @@ impl RObject for TopChatCategoryCalls {
 
 impl TopChatCategoryCalls {
   
-  pub fn builder() -> TopChatCategoryCallsBuilder {
+  pub fn builder() -> RTDTopChatCategoryCallsBuilder {
     let instance = Self {
       td_name: "topChatCategoryCalls".to_string(),
       
     };
-    TopChatCategoryCallsBuilder::new(instance)
+    RTDTopChatCategoryCallsBuilder::new(instance)
   }
   
   
@@ -45359,9 +45359,9 @@ impl TopChatCategoryCalls {
 
 
 #[derive(Debug)]
-pub struct TopChatCategoryCallsBuilder { instance: TopChatCategoryCalls }
+pub struct RTDTopChatCategoryCallsBuilder { instance: TopChatCategoryCalls }
 
-impl TopChatCategoryCallsBuilder {
+impl RTDTopChatCategoryCallsBuilder {
   fn new(instance: TopChatCategoryCalls) -> Self { Self { instance } }
 
   pub fn build(&self) -> TopChatCategoryCalls { self.instance.clone() }
@@ -48501,13 +48501,13 @@ impl RObject for Updates {
 
 impl Updates {
   
-  pub fn builder() -> UpdatesBuilder {
+  pub fn builder() -> RTDUpdatesBuilder {
     let instance = Self {
       td_name: "updates".to_string(),
       updates: None,
       
     };
-    UpdatesBuilder::new(instance)
+    RTDUpdatesBuilder::new(instance)
   }
   
   
@@ -48520,9 +48520,9 @@ impl Updates {
 
 
 #[derive(Debug)]
-pub struct UpdatesBuilder { instance: Updates }
+pub struct RTDUpdatesBuilder { instance: Updates }
 
-impl UpdatesBuilder {
+impl RTDUpdatesBuilder {
   fn new(instance: Updates) -> Self { Self { instance } }
 
   pub fn build(&self) -> Updates { self.instance.clone() }
@@ -48595,7 +48595,7 @@ impl RObject for User {
 
 impl User {
   
-  pub fn builder() -> UserBuilder {
+  pub fn builder() -> RTDUserBuilder {
     let instance = Self {
       td_name: "user".to_string(),
       id: None,
@@ -48615,7 +48615,7 @@ impl User {
       language_code: None,
       
     };
-    UserBuilder::new(instance)
+    RTDUserBuilder::new(instance)
   }
   
   
@@ -48656,9 +48656,9 @@ impl User {
 
 
 #[derive(Debug)]
-pub struct UserBuilder { instance: User }
+pub struct RTDUserBuilder { instance: User }
 
-impl UserBuilder {
+impl RTDUserBuilder {
   fn new(instance: User) -> Self { Self { instance } }
 
   pub fn build(&self) -> User { self.instance.clone() }
@@ -48778,7 +48778,7 @@ impl RObject for UserFullInfo {
 
 impl UserFullInfo {
   
-  pub fn builder() -> UserFullInfoBuilder {
+  pub fn builder() -> RTDUserFullInfoBuilder {
     let instance = Self {
       td_name: "userFullInfo".to_string(),
       is_blocked: None,
@@ -48790,7 +48790,7 @@ impl UserFullInfo {
       bot_info: None,
       
     };
-    UserFullInfoBuilder::new(instance)
+    RTDUserFullInfoBuilder::new(instance)
   }
   
   
@@ -48815,9 +48815,9 @@ impl UserFullInfo {
 
 
 #[derive(Debug)]
-pub struct UserFullInfoBuilder { instance: UserFullInfo }
+pub struct RTDUserFullInfoBuilder { instance: UserFullInfo }
 
-impl UserFullInfoBuilder {
+impl RTDUserFullInfoBuilder {
   fn new(instance: UserFullInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserFullInfo { self.instance.clone() }
@@ -48922,12 +48922,12 @@ impl RObject for UserPrivacySettingShowStatus {
 
 impl UserPrivacySettingShowStatus {
   
-  pub fn builder() -> UserPrivacySettingShowStatusBuilder {
+  pub fn builder() -> RTDUserPrivacySettingShowStatusBuilder {
     let instance = Self {
       td_name: "userPrivacySettingShowStatus".to_string(),
       
     };
-    UserPrivacySettingShowStatusBuilder::new(instance)
+    RTDUserPrivacySettingShowStatusBuilder::new(instance)
   }
   
   
@@ -48938,9 +48938,9 @@ impl UserPrivacySettingShowStatus {
 
 
 #[derive(Debug)]
-pub struct UserPrivacySettingShowStatusBuilder { instance: UserPrivacySettingShowStatus }
+pub struct RTDUserPrivacySettingShowStatusBuilder { instance: UserPrivacySettingShowStatus }
 
-impl UserPrivacySettingShowStatusBuilder {
+impl RTDUserPrivacySettingShowStatusBuilder {
   fn new(instance: UserPrivacySettingShowStatus) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserPrivacySettingShowStatus { self.instance.clone() }
@@ -48973,12 +48973,12 @@ impl RObject for UserPrivacySettingAllowChatInvites {
 
 impl UserPrivacySettingAllowChatInvites {
   
-  pub fn builder() -> UserPrivacySettingAllowChatInvitesBuilder {
+  pub fn builder() -> RTDUserPrivacySettingAllowChatInvitesBuilder {
     let instance = Self {
       td_name: "userPrivacySettingAllowChatInvites".to_string(),
       
     };
-    UserPrivacySettingAllowChatInvitesBuilder::new(instance)
+    RTDUserPrivacySettingAllowChatInvitesBuilder::new(instance)
   }
   
   
@@ -48989,9 +48989,9 @@ impl UserPrivacySettingAllowChatInvites {
 
 
 #[derive(Debug)]
-pub struct UserPrivacySettingAllowChatInvitesBuilder { instance: UserPrivacySettingAllowChatInvites }
+pub struct RTDUserPrivacySettingAllowChatInvitesBuilder { instance: UserPrivacySettingAllowChatInvites }
 
-impl UserPrivacySettingAllowChatInvitesBuilder {
+impl RTDUserPrivacySettingAllowChatInvitesBuilder {
   fn new(instance: UserPrivacySettingAllowChatInvites) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserPrivacySettingAllowChatInvites { self.instance.clone() }
@@ -49024,12 +49024,12 @@ impl RObject for UserPrivacySettingAllowCalls {
 
 impl UserPrivacySettingAllowCalls {
   
-  pub fn builder() -> UserPrivacySettingAllowCallsBuilder {
+  pub fn builder() -> RTDUserPrivacySettingAllowCallsBuilder {
     let instance = Self {
       td_name: "userPrivacySettingAllowCalls".to_string(),
       
     };
-    UserPrivacySettingAllowCallsBuilder::new(instance)
+    RTDUserPrivacySettingAllowCallsBuilder::new(instance)
   }
   
   
@@ -49040,9 +49040,9 @@ impl UserPrivacySettingAllowCalls {
 
 
 #[derive(Debug)]
-pub struct UserPrivacySettingAllowCallsBuilder { instance: UserPrivacySettingAllowCalls }
+pub struct RTDUserPrivacySettingAllowCallsBuilder { instance: UserPrivacySettingAllowCalls }
 
-impl UserPrivacySettingAllowCallsBuilder {
+impl RTDUserPrivacySettingAllowCallsBuilder {
   fn new(instance: UserPrivacySettingAllowCalls) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserPrivacySettingAllowCalls { self.instance.clone() }
@@ -49075,12 +49075,12 @@ impl RObject for UserPrivacySettingAllowPeerToPeerCalls {
 
 impl UserPrivacySettingAllowPeerToPeerCalls {
   
-  pub fn builder() -> UserPrivacySettingAllowPeerToPeerCallsBuilder {
+  pub fn builder() -> RTDUserPrivacySettingAllowPeerToPeerCallsBuilder {
     let instance = Self {
       td_name: "userPrivacySettingAllowPeerToPeerCalls".to_string(),
       
     };
-    UserPrivacySettingAllowPeerToPeerCallsBuilder::new(instance)
+    RTDUserPrivacySettingAllowPeerToPeerCallsBuilder::new(instance)
   }
   
   
@@ -49091,9 +49091,9 @@ impl UserPrivacySettingAllowPeerToPeerCalls {
 
 
 #[derive(Debug)]
-pub struct UserPrivacySettingAllowPeerToPeerCallsBuilder { instance: UserPrivacySettingAllowPeerToPeerCalls }
+pub struct RTDUserPrivacySettingAllowPeerToPeerCallsBuilder { instance: UserPrivacySettingAllowPeerToPeerCalls }
 
-impl UserPrivacySettingAllowPeerToPeerCallsBuilder {
+impl RTDUserPrivacySettingAllowPeerToPeerCallsBuilder {
   fn new(instance: UserPrivacySettingAllowPeerToPeerCalls) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserPrivacySettingAllowPeerToPeerCalls { self.instance.clone() }
@@ -49165,12 +49165,12 @@ impl RObject for UserPrivacySettingRuleAllowAll {
 
 impl UserPrivacySettingRuleAllowAll {
   
-  pub fn builder() -> UserPrivacySettingRuleAllowAllBuilder {
+  pub fn builder() -> RTDUserPrivacySettingRuleAllowAllBuilder {
     let instance = Self {
       td_name: "userPrivacySettingRuleAllowAll".to_string(),
       
     };
-    UserPrivacySettingRuleAllowAllBuilder::new(instance)
+    RTDUserPrivacySettingRuleAllowAllBuilder::new(instance)
   }
   
   
@@ -49181,9 +49181,9 @@ impl UserPrivacySettingRuleAllowAll {
 
 
 #[derive(Debug)]
-pub struct UserPrivacySettingRuleAllowAllBuilder { instance: UserPrivacySettingRuleAllowAll }
+pub struct RTDUserPrivacySettingRuleAllowAllBuilder { instance: UserPrivacySettingRuleAllowAll }
 
-impl UserPrivacySettingRuleAllowAllBuilder {
+impl RTDUserPrivacySettingRuleAllowAllBuilder {
   fn new(instance: UserPrivacySettingRuleAllowAll) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserPrivacySettingRuleAllowAll { self.instance.clone() }
@@ -49216,12 +49216,12 @@ impl RObject for UserPrivacySettingRuleAllowContacts {
 
 impl UserPrivacySettingRuleAllowContacts {
   
-  pub fn builder() -> UserPrivacySettingRuleAllowContactsBuilder {
+  pub fn builder() -> RTDUserPrivacySettingRuleAllowContactsBuilder {
     let instance = Self {
       td_name: "userPrivacySettingRuleAllowContacts".to_string(),
       
     };
-    UserPrivacySettingRuleAllowContactsBuilder::new(instance)
+    RTDUserPrivacySettingRuleAllowContactsBuilder::new(instance)
   }
   
   
@@ -49232,9 +49232,9 @@ impl UserPrivacySettingRuleAllowContacts {
 
 
 #[derive(Debug)]
-pub struct UserPrivacySettingRuleAllowContactsBuilder { instance: UserPrivacySettingRuleAllowContacts }
+pub struct RTDUserPrivacySettingRuleAllowContactsBuilder { instance: UserPrivacySettingRuleAllowContacts }
 
-impl UserPrivacySettingRuleAllowContactsBuilder {
+impl RTDUserPrivacySettingRuleAllowContactsBuilder {
   fn new(instance: UserPrivacySettingRuleAllowContacts) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserPrivacySettingRuleAllowContacts { self.instance.clone() }
@@ -49269,13 +49269,13 @@ impl RObject for UserPrivacySettingRuleAllowUsers {
 
 impl UserPrivacySettingRuleAllowUsers {
   
-  pub fn builder() -> UserPrivacySettingRuleAllowUsersBuilder {
+  pub fn builder() -> RTDUserPrivacySettingRuleAllowUsersBuilder {
     let instance = Self {
       td_name: "userPrivacySettingRuleAllowUsers".to_string(),
       user_ids: None,
       
     };
-    UserPrivacySettingRuleAllowUsersBuilder::new(instance)
+    RTDUserPrivacySettingRuleAllowUsersBuilder::new(instance)
   }
   
   
@@ -49288,9 +49288,9 @@ impl UserPrivacySettingRuleAllowUsers {
 
 
 #[derive(Debug)]
-pub struct UserPrivacySettingRuleAllowUsersBuilder { instance: UserPrivacySettingRuleAllowUsers }
+pub struct RTDUserPrivacySettingRuleAllowUsersBuilder { instance: UserPrivacySettingRuleAllowUsers }
 
-impl UserPrivacySettingRuleAllowUsersBuilder {
+impl RTDUserPrivacySettingRuleAllowUsersBuilder {
   fn new(instance: UserPrivacySettingRuleAllowUsers) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserPrivacySettingRuleAllowUsers { self.instance.clone() }
@@ -49328,12 +49328,12 @@ impl RObject for UserPrivacySettingRuleRestrictAll {
 
 impl UserPrivacySettingRuleRestrictAll {
   
-  pub fn builder() -> UserPrivacySettingRuleRestrictAllBuilder {
+  pub fn builder() -> RTDUserPrivacySettingRuleRestrictAllBuilder {
     let instance = Self {
       td_name: "userPrivacySettingRuleRestrictAll".to_string(),
       
     };
-    UserPrivacySettingRuleRestrictAllBuilder::new(instance)
+    RTDUserPrivacySettingRuleRestrictAllBuilder::new(instance)
   }
   
   
@@ -49344,9 +49344,9 @@ impl UserPrivacySettingRuleRestrictAll {
 
 
 #[derive(Debug)]
-pub struct UserPrivacySettingRuleRestrictAllBuilder { instance: UserPrivacySettingRuleRestrictAll }
+pub struct RTDUserPrivacySettingRuleRestrictAllBuilder { instance: UserPrivacySettingRuleRestrictAll }
 
-impl UserPrivacySettingRuleRestrictAllBuilder {
+impl RTDUserPrivacySettingRuleRestrictAllBuilder {
   fn new(instance: UserPrivacySettingRuleRestrictAll) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserPrivacySettingRuleRestrictAll { self.instance.clone() }
@@ -49379,12 +49379,12 @@ impl RObject for UserPrivacySettingRuleRestrictContacts {
 
 impl UserPrivacySettingRuleRestrictContacts {
   
-  pub fn builder() -> UserPrivacySettingRuleRestrictContactsBuilder {
+  pub fn builder() -> RTDUserPrivacySettingRuleRestrictContactsBuilder {
     let instance = Self {
       td_name: "userPrivacySettingRuleRestrictContacts".to_string(),
       
     };
-    UserPrivacySettingRuleRestrictContactsBuilder::new(instance)
+    RTDUserPrivacySettingRuleRestrictContactsBuilder::new(instance)
   }
   
   
@@ -49395,9 +49395,9 @@ impl UserPrivacySettingRuleRestrictContacts {
 
 
 #[derive(Debug)]
-pub struct UserPrivacySettingRuleRestrictContactsBuilder { instance: UserPrivacySettingRuleRestrictContacts }
+pub struct RTDUserPrivacySettingRuleRestrictContactsBuilder { instance: UserPrivacySettingRuleRestrictContacts }
 
-impl UserPrivacySettingRuleRestrictContactsBuilder {
+impl RTDUserPrivacySettingRuleRestrictContactsBuilder {
   fn new(instance: UserPrivacySettingRuleRestrictContacts) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserPrivacySettingRuleRestrictContacts { self.instance.clone() }
@@ -49432,13 +49432,13 @@ impl RObject for UserPrivacySettingRuleRestrictUsers {
 
 impl UserPrivacySettingRuleRestrictUsers {
   
-  pub fn builder() -> UserPrivacySettingRuleRestrictUsersBuilder {
+  pub fn builder() -> RTDUserPrivacySettingRuleRestrictUsersBuilder {
     let instance = Self {
       td_name: "userPrivacySettingRuleRestrictUsers".to_string(),
       user_ids: None,
       
     };
-    UserPrivacySettingRuleRestrictUsersBuilder::new(instance)
+    RTDUserPrivacySettingRuleRestrictUsersBuilder::new(instance)
   }
   
   
@@ -49451,9 +49451,9 @@ impl UserPrivacySettingRuleRestrictUsers {
 
 
 #[derive(Debug)]
-pub struct UserPrivacySettingRuleRestrictUsersBuilder { instance: UserPrivacySettingRuleRestrictUsers }
+pub struct RTDUserPrivacySettingRuleRestrictUsersBuilder { instance: UserPrivacySettingRuleRestrictUsers }
 
-impl UserPrivacySettingRuleRestrictUsersBuilder {
+impl RTDUserPrivacySettingRuleRestrictUsersBuilder {
   fn new(instance: UserPrivacySettingRuleRestrictUsers) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserPrivacySettingRuleRestrictUsers { self.instance.clone() }
@@ -49498,13 +49498,13 @@ impl RObject for UserPrivacySettingRules {
 
 impl UserPrivacySettingRules {
   
-  pub fn builder() -> UserPrivacySettingRulesBuilder {
+  pub fn builder() -> RTDUserPrivacySettingRulesBuilder {
     let instance = Self {
       td_name: "userPrivacySettingRules".to_string(),
       rules: None,
       
     };
-    UserPrivacySettingRulesBuilder::new(instance)
+    RTDUserPrivacySettingRulesBuilder::new(instance)
   }
   
   
@@ -49517,9 +49517,9 @@ impl UserPrivacySettingRules {
 
 
 #[derive(Debug)]
-pub struct UserPrivacySettingRulesBuilder { instance: UserPrivacySettingRules }
+pub struct RTDUserPrivacySettingRulesBuilder { instance: UserPrivacySettingRules }
 
-impl UserPrivacySettingRulesBuilder {
+impl RTDUserPrivacySettingRulesBuilder {
   fn new(instance: UserPrivacySettingRules) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserPrivacySettingRules { self.instance.clone() }
@@ -49561,7 +49561,7 @@ impl RObject for UserProfilePhoto {
 
 impl UserProfilePhoto {
   
-  pub fn builder() -> UserProfilePhotoBuilder {
+  pub fn builder() -> RTDUserProfilePhotoBuilder {
     let instance = Self {
       td_name: "userProfilePhoto".to_string(),
       id: None,
@@ -49569,7 +49569,7 @@ impl UserProfilePhoto {
       sizes: None,
       
     };
-    UserProfilePhotoBuilder::new(instance)
+    RTDUserProfilePhotoBuilder::new(instance)
   }
   
   
@@ -49586,9 +49586,9 @@ impl UserProfilePhoto {
 
 
 #[derive(Debug)]
-pub struct UserProfilePhotoBuilder { instance: UserProfilePhoto }
+pub struct RTDUserProfilePhotoBuilder { instance: UserProfilePhoto }
 
-impl UserProfilePhotoBuilder {
+impl RTDUserProfilePhotoBuilder {
   fn new(instance: UserProfilePhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserProfilePhoto { self.instance.clone() }
@@ -49638,14 +49638,14 @@ impl RObject for UserProfilePhotos {
 
 impl UserProfilePhotos {
   
-  pub fn builder() -> UserProfilePhotosBuilder {
+  pub fn builder() -> RTDUserProfilePhotosBuilder {
     let instance = Self {
       td_name: "userProfilePhotos".to_string(),
       total_count: None,
       photos: None,
       
     };
-    UserProfilePhotosBuilder::new(instance)
+    RTDUserProfilePhotosBuilder::new(instance)
   }
   
   
@@ -49660,9 +49660,9 @@ impl UserProfilePhotos {
 
 
 #[derive(Debug)]
-pub struct UserProfilePhotosBuilder { instance: UserProfilePhotos }
+pub struct RTDUserProfilePhotosBuilder { instance: UserProfilePhotos }
 
-impl UserProfilePhotosBuilder {
+impl RTDUserProfilePhotosBuilder {
   fn new(instance: UserProfilePhotos) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserProfilePhotos { self.instance.clone() }
@@ -49744,12 +49744,12 @@ impl RObject for UserStatusEmpty {
 
 impl UserStatusEmpty {
   
-  pub fn builder() -> UserStatusEmptyBuilder {
+  pub fn builder() -> RTDUserStatusEmptyBuilder {
     let instance = Self {
       td_name: "userStatusEmpty".to_string(),
       
     };
-    UserStatusEmptyBuilder::new(instance)
+    RTDUserStatusEmptyBuilder::new(instance)
   }
   
   
@@ -49760,9 +49760,9 @@ impl UserStatusEmpty {
 
 
 #[derive(Debug)]
-pub struct UserStatusEmptyBuilder { instance: UserStatusEmpty }
+pub struct RTDUserStatusEmptyBuilder { instance: UserStatusEmpty }
 
-impl UserStatusEmptyBuilder {
+impl RTDUserStatusEmptyBuilder {
   fn new(instance: UserStatusEmpty) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserStatusEmpty { self.instance.clone() }
@@ -49797,13 +49797,13 @@ impl RObject for UserStatusOnline {
 
 impl UserStatusOnline {
   
-  pub fn builder() -> UserStatusOnlineBuilder {
+  pub fn builder() -> RTDUserStatusOnlineBuilder {
     let instance = Self {
       td_name: "userStatusOnline".to_string(),
       expires: None,
       
     };
-    UserStatusOnlineBuilder::new(instance)
+    RTDUserStatusOnlineBuilder::new(instance)
   }
   
   
@@ -49816,9 +49816,9 @@ impl UserStatusOnline {
 
 
 #[derive(Debug)]
-pub struct UserStatusOnlineBuilder { instance: UserStatusOnline }
+pub struct RTDUserStatusOnlineBuilder { instance: UserStatusOnline }
 
-impl UserStatusOnlineBuilder {
+impl RTDUserStatusOnlineBuilder {
   fn new(instance: UserStatusOnline) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserStatusOnline { self.instance.clone() }
@@ -49858,13 +49858,13 @@ impl RObject for UserStatusOffline {
 
 impl UserStatusOffline {
   
-  pub fn builder() -> UserStatusOfflineBuilder {
+  pub fn builder() -> RTDUserStatusOfflineBuilder {
     let instance = Self {
       td_name: "userStatusOffline".to_string(),
       was_online: None,
       
     };
-    UserStatusOfflineBuilder::new(instance)
+    RTDUserStatusOfflineBuilder::new(instance)
   }
   
   
@@ -49877,9 +49877,9 @@ impl UserStatusOffline {
 
 
 #[derive(Debug)]
-pub struct UserStatusOfflineBuilder { instance: UserStatusOffline }
+pub struct RTDUserStatusOfflineBuilder { instance: UserStatusOffline }
 
-impl UserStatusOfflineBuilder {
+impl RTDUserStatusOfflineBuilder {
   fn new(instance: UserStatusOffline) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserStatusOffline { self.instance.clone() }
@@ -49917,12 +49917,12 @@ impl RObject for UserStatusRecently {
 
 impl UserStatusRecently {
   
-  pub fn builder() -> UserStatusRecentlyBuilder {
+  pub fn builder() -> RTDUserStatusRecentlyBuilder {
     let instance = Self {
       td_name: "userStatusRecently".to_string(),
       
     };
-    UserStatusRecentlyBuilder::new(instance)
+    RTDUserStatusRecentlyBuilder::new(instance)
   }
   
   
@@ -49933,9 +49933,9 @@ impl UserStatusRecently {
 
 
 #[derive(Debug)]
-pub struct UserStatusRecentlyBuilder { instance: UserStatusRecently }
+pub struct RTDUserStatusRecentlyBuilder { instance: UserStatusRecently }
 
-impl UserStatusRecentlyBuilder {
+impl RTDUserStatusRecentlyBuilder {
   fn new(instance: UserStatusRecently) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserStatusRecently { self.instance.clone() }
@@ -49968,12 +49968,12 @@ impl RObject for UserStatusLastWeek {
 
 impl UserStatusLastWeek {
   
-  pub fn builder() -> UserStatusLastWeekBuilder {
+  pub fn builder() -> RTDUserStatusLastWeekBuilder {
     let instance = Self {
       td_name: "userStatusLastWeek".to_string(),
       
     };
-    UserStatusLastWeekBuilder::new(instance)
+    RTDUserStatusLastWeekBuilder::new(instance)
   }
   
   
@@ -49984,9 +49984,9 @@ impl UserStatusLastWeek {
 
 
 #[derive(Debug)]
-pub struct UserStatusLastWeekBuilder { instance: UserStatusLastWeek }
+pub struct RTDUserStatusLastWeekBuilder { instance: UserStatusLastWeek }
 
-impl UserStatusLastWeekBuilder {
+impl RTDUserStatusLastWeekBuilder {
   fn new(instance: UserStatusLastWeek) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserStatusLastWeek { self.instance.clone() }
@@ -50019,12 +50019,12 @@ impl RObject for UserStatusLastMonth {
 
 impl UserStatusLastMonth {
   
-  pub fn builder() -> UserStatusLastMonthBuilder {
+  pub fn builder() -> RTDUserStatusLastMonthBuilder {
     let instance = Self {
       td_name: "userStatusLastMonth".to_string(),
       
     };
-    UserStatusLastMonthBuilder::new(instance)
+    RTDUserStatusLastMonthBuilder::new(instance)
   }
   
   
@@ -50035,9 +50035,9 @@ impl UserStatusLastMonth {
 
 
 #[derive(Debug)]
-pub struct UserStatusLastMonthBuilder { instance: UserStatusLastMonth }
+pub struct RTDUserStatusLastMonthBuilder { instance: UserStatusLastMonth }
 
-impl UserStatusLastMonthBuilder {
+impl RTDUserStatusLastMonthBuilder {
   fn new(instance: UserStatusLastMonth) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserStatusLastMonth { self.instance.clone() }
@@ -50107,12 +50107,12 @@ impl RObject for UserTypeRegular {
 
 impl UserTypeRegular {
   
-  pub fn builder() -> UserTypeRegularBuilder {
+  pub fn builder() -> RTDUserTypeRegularBuilder {
     let instance = Self {
       td_name: "userTypeRegular".to_string(),
       
     };
-    UserTypeRegularBuilder::new(instance)
+    RTDUserTypeRegularBuilder::new(instance)
   }
   
   
@@ -50123,9 +50123,9 @@ impl UserTypeRegular {
 
 
 #[derive(Debug)]
-pub struct UserTypeRegularBuilder { instance: UserTypeRegular }
+pub struct RTDUserTypeRegularBuilder { instance: UserTypeRegular }
 
-impl UserTypeRegularBuilder {
+impl RTDUserTypeRegularBuilder {
   fn new(instance: UserTypeRegular) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserTypeRegular { self.instance.clone() }
@@ -50158,12 +50158,12 @@ impl RObject for UserTypeDeleted {
 
 impl UserTypeDeleted {
   
-  pub fn builder() -> UserTypeDeletedBuilder {
+  pub fn builder() -> RTDUserTypeDeletedBuilder {
     let instance = Self {
       td_name: "userTypeDeleted".to_string(),
       
     };
-    UserTypeDeletedBuilder::new(instance)
+    RTDUserTypeDeletedBuilder::new(instance)
   }
   
   
@@ -50174,9 +50174,9 @@ impl UserTypeDeleted {
 
 
 #[derive(Debug)]
-pub struct UserTypeDeletedBuilder { instance: UserTypeDeleted }
+pub struct RTDUserTypeDeletedBuilder { instance: UserTypeDeleted }
 
-impl UserTypeDeletedBuilder {
+impl RTDUserTypeDeletedBuilder {
   fn new(instance: UserTypeDeleted) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserTypeDeleted { self.instance.clone() }
@@ -50219,7 +50219,7 @@ impl RObject for UserTypeBot {
 
 impl UserTypeBot {
   
-  pub fn builder() -> UserTypeBotBuilder {
+  pub fn builder() -> RTDUserTypeBotBuilder {
     let instance = Self {
       td_name: "userTypeBot".to_string(),
       can_join_groups: None,
@@ -50229,7 +50229,7 @@ impl UserTypeBot {
       need_location: None,
       
     };
-    UserTypeBotBuilder::new(instance)
+    RTDUserTypeBotBuilder::new(instance)
   }
   
   
@@ -50250,9 +50250,9 @@ impl UserTypeBot {
 
 
 #[derive(Debug)]
-pub struct UserTypeBotBuilder { instance: UserTypeBot }
+pub struct RTDUserTypeBotBuilder { instance: UserTypeBot }
 
-impl UserTypeBotBuilder {
+impl RTDUserTypeBotBuilder {
   fn new(instance: UserTypeBot) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserTypeBot { self.instance.clone() }
@@ -50310,12 +50310,12 @@ impl RObject for UserTypeUnknown {
 
 impl UserTypeUnknown {
   
-  pub fn builder() -> UserTypeUnknownBuilder {
+  pub fn builder() -> RTDUserTypeUnknownBuilder {
     let instance = Self {
       td_name: "userTypeUnknown".to_string(),
       
     };
-    UserTypeUnknownBuilder::new(instance)
+    RTDUserTypeUnknownBuilder::new(instance)
   }
   
   
@@ -50326,9 +50326,9 @@ impl UserTypeUnknown {
 
 
 #[derive(Debug)]
-pub struct UserTypeUnknownBuilder { instance: UserTypeUnknown }
+pub struct RTDUserTypeUnknownBuilder { instance: UserTypeUnknown }
 
-impl UserTypeUnknownBuilder {
+impl RTDUserTypeUnknownBuilder {
   fn new(instance: UserTypeUnknown) -> Self { Self { instance } }
 
   pub fn build(&self) -> UserTypeUnknown { self.instance.clone() }
@@ -50363,14 +50363,14 @@ impl RObject for Users {
 
 impl Users {
   
-  pub fn builder() -> UsersBuilder {
+  pub fn builder() -> RTDUsersBuilder {
     let instance = Self {
       td_name: "users".to_string(),
       total_count: None,
       user_ids: None,
       
     };
-    UsersBuilder::new(instance)
+    RTDUsersBuilder::new(instance)
   }
   
   
@@ -50385,9 +50385,9 @@ impl Users {
 
 
 #[derive(Debug)]
-pub struct UsersBuilder { instance: Users }
+pub struct RTDUsersBuilder { instance: Users }
 
-impl UsersBuilder {
+impl RTDUsersBuilder {
   fn new(instance: Users) -> Self { Self { instance } }
 
   pub fn build(&self) -> Users { self.instance.clone() }
@@ -50432,14 +50432,14 @@ impl RObject for ValidatedOrderInfo {
 
 impl ValidatedOrderInfo {
   
-  pub fn builder() -> ValidatedOrderInfoBuilder {
+  pub fn builder() -> RTDValidatedOrderInfoBuilder {
     let instance = Self {
       td_name: "validatedOrderInfo".to_string(),
       order_info_id: None,
       shipping_options: None,
       
     };
-    ValidatedOrderInfoBuilder::new(instance)
+    RTDValidatedOrderInfoBuilder::new(instance)
   }
   
   
@@ -50454,9 +50454,9 @@ impl ValidatedOrderInfo {
 
 
 #[derive(Debug)]
-pub struct ValidatedOrderInfoBuilder { instance: ValidatedOrderInfo }
+pub struct RTDValidatedOrderInfoBuilder { instance: ValidatedOrderInfo }
 
-impl ValidatedOrderInfoBuilder {
+impl RTDValidatedOrderInfoBuilder {
   fn new(instance: ValidatedOrderInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> ValidatedOrderInfo { self.instance.clone() }
@@ -50509,7 +50509,7 @@ impl RObject for Venue {
 
 impl Venue {
   
-  pub fn builder() -> VenueBuilder {
+  pub fn builder() -> RTDVenueBuilder {
     let instance = Self {
       td_name: "venue".to_string(),
       location: None,
@@ -50520,7 +50520,7 @@ impl Venue {
       type_: None,
       
     };
-    VenueBuilder::new(instance)
+    RTDVenueBuilder::new(instance)
   }
   
   
@@ -50543,9 +50543,9 @@ impl Venue {
 
 
 #[derive(Debug)]
-pub struct VenueBuilder { instance: Venue }
+pub struct RTDVenueBuilder { instance: Venue }
 
-impl VenueBuilder {
+impl RTDVenueBuilder {
   fn new(instance: Venue) -> Self { Self { instance } }
 
   pub fn build(&self) -> Venue { self.instance.clone() }
@@ -50624,7 +50624,7 @@ impl RObject for Video {
 
 impl Video {
   
-  pub fn builder() -> VideoBuilder {
+  pub fn builder() -> RTDVideoBuilder {
     let instance = Self {
       td_name: "video".to_string(),
       duration: None,
@@ -50638,7 +50638,7 @@ impl Video {
       video: None,
       
     };
-    VideoBuilder::new(instance)
+    RTDVideoBuilder::new(instance)
   }
   
   
@@ -50667,9 +50667,9 @@ impl Video {
 
 
 #[derive(Debug)]
-pub struct VideoBuilder { instance: Video }
+pub struct RTDVideoBuilder { instance: Video }
 
-impl VideoBuilder {
+impl RTDVideoBuilder {
   fn new(instance: Video) -> Self { Self { instance } }
 
   pub fn build(&self) -> Video { self.instance.clone() }
@@ -50753,7 +50753,7 @@ impl RObject for VideoNote {
 
 impl VideoNote {
   
-  pub fn builder() -> VideoNoteBuilder {
+  pub fn builder() -> RTDVideoNoteBuilder {
     let instance = Self {
       td_name: "videoNote".to_string(),
       duration: None,
@@ -50762,7 +50762,7 @@ impl VideoNote {
       video: None,
       
     };
-    VideoNoteBuilder::new(instance)
+    RTDVideoNoteBuilder::new(instance)
   }
   
   
@@ -50781,9 +50781,9 @@ impl VideoNote {
 
 
 #[derive(Debug)]
-pub struct VideoNoteBuilder { instance: VideoNote }
+pub struct RTDVideoNoteBuilder { instance: VideoNote }
 
-impl VideoNoteBuilder {
+impl RTDVideoNoteBuilder {
   fn new(instance: VideoNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> VideoNote { self.instance.clone() }
@@ -50842,7 +50842,7 @@ impl RObject for VoiceNote {
 
 impl VoiceNote {
   
-  pub fn builder() -> VoiceNoteBuilder {
+  pub fn builder() -> RTDVoiceNoteBuilder {
     let instance = Self {
       td_name: "voiceNote".to_string(),
       duration: None,
@@ -50851,7 +50851,7 @@ impl VoiceNote {
       voice: None,
       
     };
-    VoiceNoteBuilder::new(instance)
+    RTDVoiceNoteBuilder::new(instance)
   }
   
   
@@ -50870,9 +50870,9 @@ impl VoiceNote {
 
 
 #[derive(Debug)]
-pub struct VoiceNoteBuilder { instance: VoiceNote }
+pub struct RTDVoiceNoteBuilder { instance: VoiceNote }
 
-impl VoiceNoteBuilder {
+impl RTDVoiceNoteBuilder {
   fn new(instance: VoiceNote) -> Self { Self { instance } }
 
   pub fn build(&self) -> VoiceNote { self.instance.clone() }
@@ -50929,7 +50929,7 @@ impl RObject for Wallpaper {
 
 impl Wallpaper {
   
-  pub fn builder() -> WallpaperBuilder {
+  pub fn builder() -> RTDWallpaperBuilder {
     let instance = Self {
       td_name: "wallpaper".to_string(),
       id: None,
@@ -50937,7 +50937,7 @@ impl Wallpaper {
       color: None,
       
     };
-    WallpaperBuilder::new(instance)
+    RTDWallpaperBuilder::new(instance)
   }
   
   
@@ -50954,9 +50954,9 @@ impl Wallpaper {
 
 
 #[derive(Debug)]
-pub struct WallpaperBuilder { instance: Wallpaper }
+pub struct RTDWallpaperBuilder { instance: Wallpaper }
 
-impl WallpaperBuilder {
+impl RTDWallpaperBuilder {
   fn new(instance: Wallpaper) -> Self { Self { instance } }
 
   pub fn build(&self) -> Wallpaper { self.instance.clone() }
@@ -51004,13 +51004,13 @@ impl RObject for Wallpapers {
 
 impl Wallpapers {
   
-  pub fn builder() -> WallpapersBuilder {
+  pub fn builder() -> RTDWallpapersBuilder {
     let instance = Self {
       td_name: "wallpapers".to_string(),
       wallpapers: None,
       
     };
-    WallpapersBuilder::new(instance)
+    RTDWallpapersBuilder::new(instance)
   }
   
   
@@ -51023,9 +51023,9 @@ impl Wallpapers {
 
 
 #[derive(Debug)]
-pub struct WallpapersBuilder { instance: Wallpapers }
+pub struct RTDWallpapersBuilder { instance: Wallpapers }
 
-impl WallpapersBuilder {
+impl RTDWallpapersBuilder {
   fn new(instance: Wallpapers) -> Self { Self { instance } }
 
   pub fn build(&self) -> Wallpapers { self.instance.clone() }
@@ -51103,7 +51103,7 @@ impl RObject for WebPage {
 
 impl WebPage {
   
-  pub fn builder() -> WebPageBuilder {
+  pub fn builder() -> RTDWebPageBuilder {
     let instance = Self {
       td_name: "webPage".to_string(),
       url: None,
@@ -51129,7 +51129,7 @@ impl WebPage {
       instant_view_version: None,
       
     };
-    WebPageBuilder::new(instance)
+    RTDWebPageBuilder::new(instance)
   }
   
   
@@ -51182,9 +51182,9 @@ impl WebPage {
 
 
 #[derive(Debug)]
-pub struct WebPageBuilder { instance: WebPage }
+pub struct RTDWebPageBuilder { instance: WebPage }
 
-impl WebPageBuilder {
+impl RTDWebPageBuilder {
   fn new(instance: WebPage) -> Self { Self { instance } }
 
   pub fn build(&self) -> WebPage { self.instance.clone() }
@@ -51337,7 +51337,7 @@ impl RObject for WebPageInstantView {
 
 impl WebPageInstantView {
   
-  pub fn builder() -> WebPageInstantViewBuilder {
+  pub fn builder() -> RTDWebPageInstantViewBuilder {
     let instance = Self {
       td_name: "webPageInstantView".to_string(),
       page_blocks: None,
@@ -51347,7 +51347,7 @@ impl WebPageInstantView {
       is_full: None,
       
     };
-    WebPageInstantViewBuilder::new(instance)
+    RTDWebPageInstantViewBuilder::new(instance)
   }
   
   
@@ -51368,9 +51368,9 @@ impl WebPageInstantView {
 
 
 #[derive(Debug)]
-pub struct WebPageInstantViewBuilder { instance: WebPageInstantView }
+pub struct RTDWebPageInstantViewBuilder { instance: WebPageInstantView }
 
-impl WebPageInstantViewBuilder {
+impl RTDWebPageInstantViewBuilder {
   fn new(instance: WebPageInstantView) -> Self { Self { instance } }
 
   pub fn build(&self) -> WebPageInstantView { self.instance.clone() }
@@ -51432,14 +51432,14 @@ impl Function for AcceptCall {}
 
 impl AcceptCall {
   
-  pub fn builder() -> AcceptCallBuilder {
+  pub fn builder() -> RTDAcceptCallBuilder {
     let instance = Self {
       td_name: "acceptCall".to_string(),
       call_id: None,
       protocol: None,
       
     };
-    AcceptCallBuilder::new(instance)
+    RTDAcceptCallBuilder::new(instance)
   }
   
   
@@ -51454,9 +51454,9 @@ impl AcceptCall {
 
 
 #[derive(Debug)]
-pub struct AcceptCallBuilder { instance: AcceptCall }
+pub struct RTDAcceptCallBuilder { instance: AcceptCall }
 
-impl AcceptCallBuilder {
+impl RTDAcceptCallBuilder {
   fn new(instance: AcceptCall) -> Self { Self { instance } }
 
   pub fn build(&self) -> AcceptCall { self.instance.clone() }
@@ -51501,13 +51501,13 @@ impl Function for AcceptTermsOfService {}
 
 impl AcceptTermsOfService {
   
-  pub fn builder() -> AcceptTermsOfServiceBuilder {
+  pub fn builder() -> RTDAcceptTermsOfServiceBuilder {
     let instance = Self {
       td_name: "acceptTermsOfService".to_string(),
       terms_of_service_id: None,
       
     };
-    AcceptTermsOfServiceBuilder::new(instance)
+    RTDAcceptTermsOfServiceBuilder::new(instance)
   }
   
   
@@ -51520,9 +51520,9 @@ impl AcceptTermsOfService {
 
 
 #[derive(Debug)]
-pub struct AcceptTermsOfServiceBuilder { instance: AcceptTermsOfService }
+pub struct RTDAcceptTermsOfServiceBuilder { instance: AcceptTermsOfService }
 
-impl AcceptTermsOfServiceBuilder {
+impl RTDAcceptTermsOfServiceBuilder {
   fn new(instance: AcceptTermsOfService) -> Self { Self { instance } }
 
   pub fn build(&self) -> AcceptTermsOfService { self.instance.clone() }
@@ -51566,7 +51566,7 @@ impl Function for AddChatMember {}
 
 impl AddChatMember {
   
-  pub fn builder() -> AddChatMemberBuilder {
+  pub fn builder() -> RTDAddChatMemberBuilder {
     let instance = Self {
       td_name: "addChatMember".to_string(),
       chat_id: None,
@@ -51574,7 +51574,7 @@ impl AddChatMember {
       forward_limit: None,
       
     };
-    AddChatMemberBuilder::new(instance)
+    RTDAddChatMemberBuilder::new(instance)
   }
   
   
@@ -51591,9 +51591,9 @@ impl AddChatMember {
 
 
 #[derive(Debug)]
-pub struct AddChatMemberBuilder { instance: AddChatMember }
+pub struct RTDAddChatMemberBuilder { instance: AddChatMember }
 
-impl AddChatMemberBuilder {
+impl RTDAddChatMemberBuilder {
   fn new(instance: AddChatMember) -> Self { Self { instance } }
 
   pub fn build(&self) -> AddChatMember { self.instance.clone() }
@@ -51645,14 +51645,14 @@ impl Function for AddChatMembers {}
 
 impl AddChatMembers {
   
-  pub fn builder() -> AddChatMembersBuilder {
+  pub fn builder() -> RTDAddChatMembersBuilder {
     let instance = Self {
       td_name: "addChatMembers".to_string(),
       chat_id: None,
       user_ids: None,
       
     };
-    AddChatMembersBuilder::new(instance)
+    RTDAddChatMembersBuilder::new(instance)
   }
   
   
@@ -51667,9 +51667,9 @@ impl AddChatMembers {
 
 
 #[derive(Debug)]
-pub struct AddChatMembersBuilder { instance: AddChatMembers }
+pub struct RTDAddChatMembersBuilder { instance: AddChatMembers }
 
-impl AddChatMembersBuilder {
+impl RTDAddChatMembersBuilder {
   fn new(instance: AddChatMembers) -> Self { Self { instance } }
 
   pub fn build(&self) -> AddChatMembers { self.instance.clone() }
@@ -51714,13 +51714,13 @@ impl Function for AddCustomServerLanguagePack {}
 
 impl AddCustomServerLanguagePack {
   
-  pub fn builder() -> AddCustomServerLanguagePackBuilder {
+  pub fn builder() -> RTDAddCustomServerLanguagePackBuilder {
     let instance = Self {
       td_name: "addCustomServerLanguagePack".to_string(),
       language_pack_id: None,
       
     };
-    AddCustomServerLanguagePackBuilder::new(instance)
+    RTDAddCustomServerLanguagePackBuilder::new(instance)
   }
   
   
@@ -51733,9 +51733,9 @@ impl AddCustomServerLanguagePack {
 
 
 #[derive(Debug)]
-pub struct AddCustomServerLanguagePackBuilder { instance: AddCustomServerLanguagePack }
+pub struct RTDAddCustomServerLanguagePackBuilder { instance: AddCustomServerLanguagePack }
 
-impl AddCustomServerLanguagePackBuilder {
+impl RTDAddCustomServerLanguagePackBuilder {
   fn new(instance: AddCustomServerLanguagePack) -> Self { Self { instance } }
 
   pub fn build(&self) -> AddCustomServerLanguagePack { self.instance.clone() }
@@ -51782,13 +51782,13 @@ impl Function for AddFavoriteSticker {}
 
 impl AddFavoriteSticker {
   
-  pub fn builder() -> AddFavoriteStickerBuilder {
+  pub fn builder() -> RTDAddFavoriteStickerBuilder {
     let instance = Self {
       td_name: "addFavoriteSticker".to_string(),
       sticker: None,
       
     };
-    AddFavoriteStickerBuilder::new(instance)
+    RTDAddFavoriteStickerBuilder::new(instance)
   }
   
   
@@ -51801,9 +51801,9 @@ impl AddFavoriteSticker {
 
 
 #[derive(Debug)]
-pub struct AddFavoriteStickerBuilder { instance: AddFavoriteSticker }
+pub struct RTDAddFavoriteStickerBuilder { instance: AddFavoriteSticker }
 
-impl AddFavoriteStickerBuilder {
+impl RTDAddFavoriteStickerBuilder {
   fn new(instance: AddFavoriteSticker) -> Self { Self { instance } }
 
   pub fn build(&self) -> AddFavoriteSticker { self.instance.clone() }
@@ -51858,7 +51858,7 @@ impl Function for AddLocalMessage {}
 
 impl AddLocalMessage {
   
-  pub fn builder() -> AddLocalMessageBuilder {
+  pub fn builder() -> RTDAddLocalMessageBuilder {
     let instance = Self {
       td_name: "addLocalMessage".to_string(),
       chat_id: None,
@@ -51868,7 +51868,7 @@ impl AddLocalMessage {
       input_message_content: None,
       
     };
-    AddLocalMessageBuilder::new(instance)
+    RTDAddLocalMessageBuilder::new(instance)
   }
   
   
@@ -51889,9 +51889,9 @@ impl AddLocalMessage {
 
 
 #[derive(Debug)]
-pub struct AddLocalMessageBuilder { instance: AddLocalMessage }
+pub struct RTDAddLocalMessageBuilder { instance: AddLocalMessage }
 
-impl AddLocalMessageBuilder {
+impl RTDAddLocalMessageBuilder {
   fn new(instance: AddLocalMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> AddLocalMessage { self.instance.clone() }
@@ -51953,14 +51953,14 @@ impl Function for AddLogMessage {}
 
 impl AddLogMessage {
   
-  pub fn builder() -> AddLogMessageBuilder {
+  pub fn builder() -> RTDAddLogMessageBuilder {
     let instance = Self {
       td_name: "addLogMessage".to_string(),
       verbosity_level: None,
       text: None,
       
     };
-    AddLogMessageBuilder::new(instance)
+    RTDAddLogMessageBuilder::new(instance)
   }
   
   
@@ -51975,9 +51975,9 @@ impl AddLogMessage {
 
 
 #[derive(Debug)]
-pub struct AddLogMessageBuilder { instance: AddLogMessage }
+pub struct RTDAddLogMessageBuilder { instance: AddLogMessage }
 
-impl AddLogMessageBuilder {
+impl RTDAddLogMessageBuilder {
   fn new(instance: AddLogMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> AddLogMessage { self.instance.clone() }
@@ -52029,13 +52029,13 @@ impl Function for AddNetworkStatistics {}
 
 impl AddNetworkStatistics {
   
-  pub fn builder() -> AddNetworkStatisticsBuilder {
+  pub fn builder() -> RTDAddNetworkStatisticsBuilder {
     let instance = Self {
       td_name: "addNetworkStatistics".to_string(),
       entry: None,
       
     };
-    AddNetworkStatisticsBuilder::new(instance)
+    RTDAddNetworkStatisticsBuilder::new(instance)
   }
   
   
@@ -52048,9 +52048,9 @@ impl AddNetworkStatistics {
 
 
 #[derive(Debug)]
-pub struct AddNetworkStatisticsBuilder { instance: AddNetworkStatistics }
+pub struct RTDAddNetworkStatisticsBuilder { instance: AddNetworkStatistics }
 
-impl AddNetworkStatisticsBuilder {
+impl RTDAddNetworkStatisticsBuilder {
   fn new(instance: AddNetworkStatistics) -> Self { Self { instance } }
 
   pub fn build(&self) -> AddNetworkStatistics { self.instance.clone() }
@@ -52103,7 +52103,7 @@ impl Function for AddProxy {}
 
 impl AddProxy {
   
-  pub fn builder() -> AddProxyBuilder {
+  pub fn builder() -> RTDAddProxyBuilder {
     let instance = Self {
       td_name: "addProxy".to_string(),
       server: None,
@@ -52112,7 +52112,7 @@ impl AddProxy {
       type_: None,
       
     };
-    AddProxyBuilder::new(instance)
+    RTDAddProxyBuilder::new(instance)
   }
   
   
@@ -52131,9 +52131,9 @@ impl AddProxy {
 
 
 #[derive(Debug)]
-pub struct AddProxyBuilder { instance: AddProxy }
+pub struct RTDAddProxyBuilder { instance: AddProxy }
 
-impl AddProxyBuilder {
+impl RTDAddProxyBuilder {
   fn new(instance: AddProxy) -> Self { Self { instance } }
 
   pub fn build(&self) -> AddProxy { self.instance.clone() }
@@ -52197,14 +52197,14 @@ impl Function for AddRecentSticker {}
 
 impl AddRecentSticker {
   
-  pub fn builder() -> AddRecentStickerBuilder {
+  pub fn builder() -> RTDAddRecentStickerBuilder {
     let instance = Self {
       td_name: "addRecentSticker".to_string(),
       is_attached: None,
       sticker: None,
       
     };
-    AddRecentStickerBuilder::new(instance)
+    RTDAddRecentStickerBuilder::new(instance)
   }
   
   
@@ -52219,9 +52219,9 @@ impl AddRecentSticker {
 
 
 #[derive(Debug)]
-pub struct AddRecentStickerBuilder { instance: AddRecentSticker }
+pub struct RTDAddRecentStickerBuilder { instance: AddRecentSticker }
 
-impl AddRecentStickerBuilder {
+impl RTDAddRecentStickerBuilder {
   fn new(instance: AddRecentSticker) -> Self { Self { instance } }
 
   pub fn build(&self) -> AddRecentSticker { self.instance.clone() }
@@ -52266,13 +52266,13 @@ impl Function for AddRecentlyFoundChat {}
 
 impl AddRecentlyFoundChat {
   
-  pub fn builder() -> AddRecentlyFoundChatBuilder {
+  pub fn builder() -> RTDAddRecentlyFoundChatBuilder {
     let instance = Self {
       td_name: "addRecentlyFoundChat".to_string(),
       chat_id: None,
       
     };
-    AddRecentlyFoundChatBuilder::new(instance)
+    RTDAddRecentlyFoundChatBuilder::new(instance)
   }
   
   
@@ -52285,9 +52285,9 @@ impl AddRecentlyFoundChat {
 
 
 #[derive(Debug)]
-pub struct AddRecentlyFoundChatBuilder { instance: AddRecentlyFoundChat }
+pub struct RTDAddRecentlyFoundChatBuilder { instance: AddRecentlyFoundChat }
 
-impl AddRecentlyFoundChatBuilder {
+impl RTDAddRecentlyFoundChatBuilder {
   fn new(instance: AddRecentlyFoundChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> AddRecentlyFoundChat { self.instance.clone() }
@@ -52334,13 +52334,13 @@ impl Function for AddSavedAnimation {}
 
 impl AddSavedAnimation {
   
-  pub fn builder() -> AddSavedAnimationBuilder {
+  pub fn builder() -> RTDAddSavedAnimationBuilder {
     let instance = Self {
       td_name: "addSavedAnimation".to_string(),
       animation: None,
       
     };
-    AddSavedAnimationBuilder::new(instance)
+    RTDAddSavedAnimationBuilder::new(instance)
   }
   
   
@@ -52353,9 +52353,9 @@ impl AddSavedAnimation {
 
 
 #[derive(Debug)]
-pub struct AddSavedAnimationBuilder { instance: AddSavedAnimation }
+pub struct RTDAddSavedAnimationBuilder { instance: AddSavedAnimation }
 
-impl AddSavedAnimationBuilder {
+impl RTDAddSavedAnimationBuilder {
   fn new(instance: AddSavedAnimation) -> Self { Self { instance } }
 
   pub fn build(&self) -> AddSavedAnimation { self.instance.clone() }
@@ -52399,7 +52399,7 @@ impl Function for AddStickerToSet {}
 
 impl AddStickerToSet {
   
-  pub fn builder() -> AddStickerToSetBuilder {
+  pub fn builder() -> RTDAddStickerToSetBuilder {
     let instance = Self {
       td_name: "addStickerToSet".to_string(),
       user_id: None,
@@ -52407,7 +52407,7 @@ impl AddStickerToSet {
       sticker: None,
       
     };
-    AddStickerToSetBuilder::new(instance)
+    RTDAddStickerToSetBuilder::new(instance)
   }
   
   
@@ -52424,9 +52424,9 @@ impl AddStickerToSet {
 
 
 #[derive(Debug)]
-pub struct AddStickerToSetBuilder { instance: AddStickerToSet }
+pub struct RTDAddStickerToSetBuilder { instance: AddStickerToSet }
 
-impl AddStickerToSetBuilder {
+impl RTDAddStickerToSetBuilder {
   fn new(instance: AddStickerToSet) -> Self { Self { instance } }
 
   pub fn build(&self) -> AddStickerToSet { self.instance.clone() }
@@ -52484,7 +52484,7 @@ impl Function for AnswerCallbackQuery {}
 
 impl AnswerCallbackQuery {
   
-  pub fn builder() -> AnswerCallbackQueryBuilder {
+  pub fn builder() -> RTDAnswerCallbackQueryBuilder {
     let instance = Self {
       td_name: "answerCallbackQuery".to_string(),
       callback_query_id: None,
@@ -52494,7 +52494,7 @@ impl AnswerCallbackQuery {
       cache_time: None,
       
     };
-    AnswerCallbackQueryBuilder::new(instance)
+    RTDAnswerCallbackQueryBuilder::new(instance)
   }
   
   
@@ -52515,9 +52515,9 @@ impl AnswerCallbackQuery {
 
 
 #[derive(Debug)]
-pub struct AnswerCallbackQueryBuilder { instance: AnswerCallbackQuery }
+pub struct RTDAnswerCallbackQueryBuilder { instance: AnswerCallbackQuery }
 
-impl AnswerCallbackQueryBuilder {
+impl RTDAnswerCallbackQueryBuilder {
   fn new(instance: AnswerCallbackQuery) -> Self { Self { instance } }
 
   pub fn build(&self) -> AnswerCallbackQuery { self.instance.clone() }
@@ -52579,14 +52579,14 @@ impl Function for AnswerCustomQuery {}
 
 impl AnswerCustomQuery {
   
-  pub fn builder() -> AnswerCustomQueryBuilder {
+  pub fn builder() -> RTDAnswerCustomQueryBuilder {
     let instance = Self {
       td_name: "answerCustomQuery".to_string(),
       custom_query_id: None,
       data: None,
       
     };
-    AnswerCustomQueryBuilder::new(instance)
+    RTDAnswerCustomQueryBuilder::new(instance)
   }
   
   
@@ -52601,9 +52601,9 @@ impl AnswerCustomQuery {
 
 
 #[derive(Debug)]
-pub struct AnswerCustomQueryBuilder { instance: AnswerCustomQuery }
+pub struct RTDAnswerCustomQueryBuilder { instance: AnswerCustomQuery }
 
-impl AnswerCustomQueryBuilder {
+impl RTDAnswerCustomQueryBuilder {
   fn new(instance: AnswerCustomQuery) -> Self { Self { instance } }
 
   pub fn build(&self) -> AnswerCustomQuery { self.instance.clone() }
@@ -52667,7 +52667,7 @@ impl Function for AnswerInlineQuery {}
 
 impl AnswerInlineQuery {
   
-  pub fn builder() -> AnswerInlineQueryBuilder {
+  pub fn builder() -> RTDAnswerInlineQueryBuilder {
     let instance = Self {
       td_name: "answerInlineQuery".to_string(),
       inline_query_id: None,
@@ -52679,7 +52679,7 @@ impl AnswerInlineQuery {
       switch_pm_parameter: None,
       
     };
-    AnswerInlineQueryBuilder::new(instance)
+    RTDAnswerInlineQueryBuilder::new(instance)
   }
   
   
@@ -52704,9 +52704,9 @@ impl AnswerInlineQuery {
 
 
 #[derive(Debug)]
-pub struct AnswerInlineQueryBuilder { instance: AnswerInlineQuery }
+pub struct RTDAnswerInlineQueryBuilder { instance: AnswerInlineQuery }
 
-impl AnswerInlineQueryBuilder {
+impl RTDAnswerInlineQueryBuilder {
   fn new(instance: AnswerInlineQuery) -> Self { Self { instance } }
 
   pub fn build(&self) -> AnswerInlineQuery { self.instance.clone() }
@@ -52778,14 +52778,14 @@ impl Function for AnswerPreCheckoutQuery {}
 
 impl AnswerPreCheckoutQuery {
   
-  pub fn builder() -> AnswerPreCheckoutQueryBuilder {
+  pub fn builder() -> RTDAnswerPreCheckoutQueryBuilder {
     let instance = Self {
       td_name: "answerPreCheckoutQuery".to_string(),
       pre_checkout_query_id: None,
       error_message: None,
       
     };
-    AnswerPreCheckoutQueryBuilder::new(instance)
+    RTDAnswerPreCheckoutQueryBuilder::new(instance)
   }
   
   
@@ -52800,9 +52800,9 @@ impl AnswerPreCheckoutQuery {
 
 
 #[derive(Debug)]
-pub struct AnswerPreCheckoutQueryBuilder { instance: AnswerPreCheckoutQuery }
+pub struct RTDAnswerPreCheckoutQueryBuilder { instance: AnswerPreCheckoutQuery }
 
-impl AnswerPreCheckoutQueryBuilder {
+impl RTDAnswerPreCheckoutQueryBuilder {
   fn new(instance: AnswerPreCheckoutQuery) -> Self { Self { instance } }
 
   pub fn build(&self) -> AnswerPreCheckoutQuery { self.instance.clone() }
@@ -52851,7 +52851,7 @@ impl Function for AnswerShippingQuery {}
 
 impl AnswerShippingQuery {
   
-  pub fn builder() -> AnswerShippingQueryBuilder {
+  pub fn builder() -> RTDAnswerShippingQueryBuilder {
     let instance = Self {
       td_name: "answerShippingQuery".to_string(),
       shipping_query_id: None,
@@ -52859,7 +52859,7 @@ impl AnswerShippingQuery {
       error_message: None,
       
     };
-    AnswerShippingQueryBuilder::new(instance)
+    RTDAnswerShippingQueryBuilder::new(instance)
   }
   
   
@@ -52876,9 +52876,9 @@ impl AnswerShippingQuery {
 
 
 #[derive(Debug)]
-pub struct AnswerShippingQueryBuilder { instance: AnswerShippingQuery }
+pub struct RTDAnswerShippingQueryBuilder { instance: AnswerShippingQuery }
 
-impl AnswerShippingQueryBuilder {
+impl RTDAnswerShippingQueryBuilder {
   fn new(instance: AnswerShippingQuery) -> Self { Self { instance } }
 
   pub fn build(&self) -> AnswerShippingQuery { self.instance.clone() }
@@ -52928,13 +52928,13 @@ impl Function for BlockUser {}
 
 impl BlockUser {
   
-  pub fn builder() -> BlockUserBuilder {
+  pub fn builder() -> RTDBlockUserBuilder {
     let instance = Self {
       td_name: "blockUser".to_string(),
       user_id: None,
       
     };
-    BlockUserBuilder::new(instance)
+    RTDBlockUserBuilder::new(instance)
   }
   
   
@@ -52947,9 +52947,9 @@ impl BlockUser {
 
 
 #[derive(Debug)]
-pub struct BlockUserBuilder { instance: BlockUser }
+pub struct RTDBlockUserBuilder { instance: BlockUser }
 
-impl BlockUserBuilder {
+impl RTDBlockUserBuilder {
   fn new(instance: BlockUser) -> Self { Self { instance } }
 
   pub fn build(&self) -> BlockUser { self.instance.clone() }
@@ -52991,14 +52991,14 @@ impl Function for CancelDownloadFile {}
 
 impl CancelDownloadFile {
   
-  pub fn builder() -> CancelDownloadFileBuilder {
+  pub fn builder() -> RTDCancelDownloadFileBuilder {
     let instance = Self {
       td_name: "cancelDownloadFile".to_string(),
       file_id: None,
       only_if_pending: None,
       
     };
-    CancelDownloadFileBuilder::new(instance)
+    RTDCancelDownloadFileBuilder::new(instance)
   }
   
   
@@ -53013,9 +53013,9 @@ impl CancelDownloadFile {
 
 
 #[derive(Debug)]
-pub struct CancelDownloadFileBuilder { instance: CancelDownloadFile }
+pub struct RTDCancelDownloadFileBuilder { instance: CancelDownloadFile }
 
-impl CancelDownloadFileBuilder {
+impl RTDCancelDownloadFileBuilder {
   fn new(instance: CancelDownloadFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> CancelDownloadFile { self.instance.clone() }
@@ -53060,13 +53060,13 @@ impl Function for CancelUploadFile {}
 
 impl CancelUploadFile {
   
-  pub fn builder() -> CancelUploadFileBuilder {
+  pub fn builder() -> RTDCancelUploadFileBuilder {
     let instance = Self {
       td_name: "cancelUploadFile".to_string(),
       file_id: None,
       
     };
-    CancelUploadFileBuilder::new(instance)
+    RTDCancelUploadFileBuilder::new(instance)
   }
   
   
@@ -53079,9 +53079,9 @@ impl CancelUploadFile {
 
 
 #[derive(Debug)]
-pub struct CancelUploadFileBuilder { instance: CancelUploadFile }
+pub struct RTDCancelUploadFileBuilder { instance: CancelUploadFile }
 
-impl CancelUploadFileBuilder {
+impl RTDCancelUploadFileBuilder {
   fn new(instance: CancelUploadFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> CancelUploadFile { self.instance.clone() }
@@ -53123,14 +53123,14 @@ impl Function for ChangeChatReportSpamState {}
 
 impl ChangeChatReportSpamState {
   
-  pub fn builder() -> ChangeChatReportSpamStateBuilder {
+  pub fn builder() -> RTDChangeChatReportSpamStateBuilder {
     let instance = Self {
       td_name: "changeChatReportSpamState".to_string(),
       chat_id: None,
       is_spam_chat: None,
       
     };
-    ChangeChatReportSpamStateBuilder::new(instance)
+    RTDChangeChatReportSpamStateBuilder::new(instance)
   }
   
   
@@ -53145,9 +53145,9 @@ impl ChangeChatReportSpamState {
 
 
 #[derive(Debug)]
-pub struct ChangeChatReportSpamStateBuilder { instance: ChangeChatReportSpamState }
+pub struct RTDChangeChatReportSpamStateBuilder { instance: ChangeChatReportSpamState }
 
-impl ChangeChatReportSpamStateBuilder {
+impl RTDChangeChatReportSpamStateBuilder {
   fn new(instance: ChangeChatReportSpamState) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChangeChatReportSpamState { self.instance.clone() }
@@ -53192,13 +53192,13 @@ impl Function for ChangeImportedContacts {}
 
 impl ChangeImportedContacts {
   
-  pub fn builder() -> ChangeImportedContactsBuilder {
+  pub fn builder() -> RTDChangeImportedContactsBuilder {
     let instance = Self {
       td_name: "changeImportedContacts".to_string(),
       contacts: None,
       
     };
-    ChangeImportedContactsBuilder::new(instance)
+    RTDChangeImportedContactsBuilder::new(instance)
   }
   
   
@@ -53211,9 +53211,9 @@ impl ChangeImportedContacts {
 
 
 #[derive(Debug)]
-pub struct ChangeImportedContactsBuilder { instance: ChangeImportedContacts }
+pub struct RTDChangeImportedContactsBuilder { instance: ChangeImportedContacts }
 
-impl ChangeImportedContactsBuilder {
+impl RTDChangeImportedContactsBuilder {
   fn new(instance: ChangeImportedContacts) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChangeImportedContacts { self.instance.clone() }
@@ -53257,7 +53257,7 @@ impl Function for ChangePhoneNumber {}
 
 impl ChangePhoneNumber {
   
-  pub fn builder() -> ChangePhoneNumberBuilder {
+  pub fn builder() -> RTDChangePhoneNumberBuilder {
     let instance = Self {
       td_name: "changePhoneNumber".to_string(),
       phone_number: None,
@@ -53265,7 +53265,7 @@ impl ChangePhoneNumber {
       is_current_phone_number: None,
       
     };
-    ChangePhoneNumberBuilder::new(instance)
+    RTDChangePhoneNumberBuilder::new(instance)
   }
   
   
@@ -53282,9 +53282,9 @@ impl ChangePhoneNumber {
 
 
 #[derive(Debug)]
-pub struct ChangePhoneNumberBuilder { instance: ChangePhoneNumber }
+pub struct RTDChangePhoneNumberBuilder { instance: ChangePhoneNumber }
 
-impl ChangePhoneNumberBuilder {
+impl RTDChangePhoneNumberBuilder {
   fn new(instance: ChangePhoneNumber) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChangePhoneNumber { self.instance.clone() }
@@ -53338,7 +53338,7 @@ impl Function for ChangeStickerSet {}
 
 impl ChangeStickerSet {
   
-  pub fn builder() -> ChangeStickerSetBuilder {
+  pub fn builder() -> RTDChangeStickerSetBuilder {
     let instance = Self {
       td_name: "changeStickerSet".to_string(),
       set_id: None,
@@ -53346,7 +53346,7 @@ impl ChangeStickerSet {
       is_archived: None,
       
     };
-    ChangeStickerSetBuilder::new(instance)
+    RTDChangeStickerSetBuilder::new(instance)
   }
   
   
@@ -53363,9 +53363,9 @@ impl ChangeStickerSet {
 
 
 #[derive(Debug)]
-pub struct ChangeStickerSetBuilder { instance: ChangeStickerSet }
+pub struct RTDChangeStickerSetBuilder { instance: ChangeStickerSet }
 
-impl ChangeStickerSetBuilder {
+impl RTDChangeStickerSetBuilder {
   fn new(instance: ChangeStickerSet) -> Self { Self { instance } }
 
   pub fn build(&self) -> ChangeStickerSet { self.instance.clone() }
@@ -53415,13 +53415,13 @@ impl Function for CheckAuthenticationBotToken {}
 
 impl CheckAuthenticationBotToken {
   
-  pub fn builder() -> CheckAuthenticationBotTokenBuilder {
+  pub fn builder() -> RTDCheckAuthenticationBotTokenBuilder {
     let instance = Self {
       td_name: "checkAuthenticationBotToken".to_string(),
       token: None,
       
     };
-    CheckAuthenticationBotTokenBuilder::new(instance)
+    RTDCheckAuthenticationBotTokenBuilder::new(instance)
   }
   
   
@@ -53434,9 +53434,9 @@ impl CheckAuthenticationBotToken {
 
 
 #[derive(Debug)]
-pub struct CheckAuthenticationBotTokenBuilder { instance: CheckAuthenticationBotToken }
+pub struct RTDCheckAuthenticationBotTokenBuilder { instance: CheckAuthenticationBotToken }
 
-impl CheckAuthenticationBotTokenBuilder {
+impl RTDCheckAuthenticationBotTokenBuilder {
   fn new(instance: CheckAuthenticationBotToken) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckAuthenticationBotToken { self.instance.clone() }
@@ -53480,7 +53480,7 @@ impl Function for CheckAuthenticationCode {}
 
 impl CheckAuthenticationCode {
   
-  pub fn builder() -> CheckAuthenticationCodeBuilder {
+  pub fn builder() -> RTDCheckAuthenticationCodeBuilder {
     let instance = Self {
       td_name: "checkAuthenticationCode".to_string(),
       code: None,
@@ -53488,7 +53488,7 @@ impl CheckAuthenticationCode {
       last_name: None,
       
     };
-    CheckAuthenticationCodeBuilder::new(instance)
+    RTDCheckAuthenticationCodeBuilder::new(instance)
   }
   
   
@@ -53505,9 +53505,9 @@ impl CheckAuthenticationCode {
 
 
 #[derive(Debug)]
-pub struct CheckAuthenticationCodeBuilder { instance: CheckAuthenticationCode }
+pub struct RTDCheckAuthenticationCodeBuilder { instance: CheckAuthenticationCode }
 
-impl CheckAuthenticationCodeBuilder {
+impl RTDCheckAuthenticationCodeBuilder {
   fn new(instance: CheckAuthenticationCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckAuthenticationCode { self.instance.clone() }
@@ -53557,13 +53557,13 @@ impl Function for CheckAuthenticationPassword {}
 
 impl CheckAuthenticationPassword {
   
-  pub fn builder() -> CheckAuthenticationPasswordBuilder {
+  pub fn builder() -> RTDCheckAuthenticationPasswordBuilder {
     let instance = Self {
       td_name: "checkAuthenticationPassword".to_string(),
       password: None,
       
     };
-    CheckAuthenticationPasswordBuilder::new(instance)
+    RTDCheckAuthenticationPasswordBuilder::new(instance)
   }
   
   
@@ -53576,9 +53576,9 @@ impl CheckAuthenticationPassword {
 
 
 #[derive(Debug)]
-pub struct CheckAuthenticationPasswordBuilder { instance: CheckAuthenticationPassword }
+pub struct RTDCheckAuthenticationPasswordBuilder { instance: CheckAuthenticationPassword }
 
-impl CheckAuthenticationPasswordBuilder {
+impl RTDCheckAuthenticationPasswordBuilder {
   fn new(instance: CheckAuthenticationPassword) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckAuthenticationPassword { self.instance.clone() }
@@ -53618,13 +53618,13 @@ impl Function for CheckChangePhoneNumberCode {}
 
 impl CheckChangePhoneNumberCode {
   
-  pub fn builder() -> CheckChangePhoneNumberCodeBuilder {
+  pub fn builder() -> RTDCheckChangePhoneNumberCodeBuilder {
     let instance = Self {
       td_name: "checkChangePhoneNumberCode".to_string(),
       code: None,
       
     };
-    CheckChangePhoneNumberCodeBuilder::new(instance)
+    RTDCheckChangePhoneNumberCodeBuilder::new(instance)
   }
   
   
@@ -53637,9 +53637,9 @@ impl CheckChangePhoneNumberCode {
 
 
 #[derive(Debug)]
-pub struct CheckChangePhoneNumberCodeBuilder { instance: CheckChangePhoneNumberCode }
+pub struct RTDCheckChangePhoneNumberCodeBuilder { instance: CheckChangePhoneNumberCode }
 
-impl CheckChangePhoneNumberCodeBuilder {
+impl RTDCheckChangePhoneNumberCodeBuilder {
   fn new(instance: CheckChangePhoneNumberCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckChangePhoneNumberCode { self.instance.clone() }
@@ -53679,13 +53679,13 @@ impl Function for CheckChatInviteLink {}
 
 impl CheckChatInviteLink {
   
-  pub fn builder() -> CheckChatInviteLinkBuilder {
+  pub fn builder() -> RTDCheckChatInviteLinkBuilder {
     let instance = Self {
       td_name: "checkChatInviteLink".to_string(),
       invite_link: None,
       
     };
-    CheckChatInviteLinkBuilder::new(instance)
+    RTDCheckChatInviteLinkBuilder::new(instance)
   }
   
   
@@ -53698,9 +53698,9 @@ impl CheckChatInviteLink {
 
 
 #[derive(Debug)]
-pub struct CheckChatInviteLinkBuilder { instance: CheckChatInviteLink }
+pub struct RTDCheckChatInviteLinkBuilder { instance: CheckChatInviteLink }
 
-impl CheckChatInviteLinkBuilder {
+impl RTDCheckChatInviteLinkBuilder {
   fn new(instance: CheckChatInviteLink) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckChatInviteLink { self.instance.clone() }
@@ -53742,14 +53742,14 @@ impl Function for CheckChatUsername {}
 
 impl CheckChatUsername {
   
-  pub fn builder() -> CheckChatUsernameBuilder {
+  pub fn builder() -> RTDCheckChatUsernameBuilder {
     let instance = Self {
       td_name: "checkChatUsername".to_string(),
       chat_id: None,
       username: None,
       
     };
-    CheckChatUsernameBuilder::new(instance)
+    RTDCheckChatUsernameBuilder::new(instance)
   }
   
   
@@ -53764,9 +53764,9 @@ impl CheckChatUsername {
 
 
 #[derive(Debug)]
-pub struct CheckChatUsernameBuilder { instance: CheckChatUsername }
+pub struct RTDCheckChatUsernameBuilder { instance: CheckChatUsername }
 
-impl CheckChatUsernameBuilder {
+impl RTDCheckChatUsernameBuilder {
   fn new(instance: CheckChatUsername) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckChatUsername { self.instance.clone() }
@@ -53811,13 +53811,13 @@ impl Function for CheckDatabaseEncryptionKey {}
 
 impl CheckDatabaseEncryptionKey {
   
-  pub fn builder() -> CheckDatabaseEncryptionKeyBuilder {
+  pub fn builder() -> RTDCheckDatabaseEncryptionKeyBuilder {
     let instance = Self {
       td_name: "checkDatabaseEncryptionKey".to_string(),
       encryption_key: None,
       
     };
-    CheckDatabaseEncryptionKeyBuilder::new(instance)
+    RTDCheckDatabaseEncryptionKeyBuilder::new(instance)
   }
   
   
@@ -53830,9 +53830,9 @@ impl CheckDatabaseEncryptionKey {
 
 
 #[derive(Debug)]
-pub struct CheckDatabaseEncryptionKeyBuilder { instance: CheckDatabaseEncryptionKey }
+pub struct RTDCheckDatabaseEncryptionKeyBuilder { instance: CheckDatabaseEncryptionKey }
 
-impl CheckDatabaseEncryptionKeyBuilder {
+impl RTDCheckDatabaseEncryptionKeyBuilder {
   fn new(instance: CheckDatabaseEncryptionKey) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckDatabaseEncryptionKey { self.instance.clone() }
@@ -53872,13 +53872,13 @@ impl Function for CheckEmailAddressVerificationCode {}
 
 impl CheckEmailAddressVerificationCode {
   
-  pub fn builder() -> CheckEmailAddressVerificationCodeBuilder {
+  pub fn builder() -> RTDCheckEmailAddressVerificationCodeBuilder {
     let instance = Self {
       td_name: "checkEmailAddressVerificationCode".to_string(),
       code: None,
       
     };
-    CheckEmailAddressVerificationCodeBuilder::new(instance)
+    RTDCheckEmailAddressVerificationCodeBuilder::new(instance)
   }
   
   
@@ -53891,9 +53891,9 @@ impl CheckEmailAddressVerificationCode {
 
 
 #[derive(Debug)]
-pub struct CheckEmailAddressVerificationCodeBuilder { instance: CheckEmailAddressVerificationCode }
+pub struct RTDCheckEmailAddressVerificationCodeBuilder { instance: CheckEmailAddressVerificationCode }
 
-impl CheckEmailAddressVerificationCodeBuilder {
+impl RTDCheckEmailAddressVerificationCodeBuilder {
   fn new(instance: CheckEmailAddressVerificationCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckEmailAddressVerificationCode { self.instance.clone() }
@@ -53933,13 +53933,13 @@ impl Function for CheckPhoneNumberConfirmationCode {}
 
 impl CheckPhoneNumberConfirmationCode {
   
-  pub fn builder() -> CheckPhoneNumberConfirmationCodeBuilder {
+  pub fn builder() -> RTDCheckPhoneNumberConfirmationCodeBuilder {
     let instance = Self {
       td_name: "checkPhoneNumberConfirmationCode".to_string(),
       code: None,
       
     };
-    CheckPhoneNumberConfirmationCodeBuilder::new(instance)
+    RTDCheckPhoneNumberConfirmationCodeBuilder::new(instance)
   }
   
   
@@ -53952,9 +53952,9 @@ impl CheckPhoneNumberConfirmationCode {
 
 
 #[derive(Debug)]
-pub struct CheckPhoneNumberConfirmationCodeBuilder { instance: CheckPhoneNumberConfirmationCode }
+pub struct RTDCheckPhoneNumberConfirmationCodeBuilder { instance: CheckPhoneNumberConfirmationCode }
 
-impl CheckPhoneNumberConfirmationCodeBuilder {
+impl RTDCheckPhoneNumberConfirmationCodeBuilder {
   fn new(instance: CheckPhoneNumberConfirmationCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckPhoneNumberConfirmationCode { self.instance.clone() }
@@ -53994,13 +53994,13 @@ impl Function for CheckPhoneNumberVerificationCode {}
 
 impl CheckPhoneNumberVerificationCode {
   
-  pub fn builder() -> CheckPhoneNumberVerificationCodeBuilder {
+  pub fn builder() -> RTDCheckPhoneNumberVerificationCodeBuilder {
     let instance = Self {
       td_name: "checkPhoneNumberVerificationCode".to_string(),
       code: None,
       
     };
-    CheckPhoneNumberVerificationCodeBuilder::new(instance)
+    RTDCheckPhoneNumberVerificationCodeBuilder::new(instance)
   }
   
   
@@ -54013,9 +54013,9 @@ impl CheckPhoneNumberVerificationCode {
 
 
 #[derive(Debug)]
-pub struct CheckPhoneNumberVerificationCodeBuilder { instance: CheckPhoneNumberVerificationCode }
+pub struct RTDCheckPhoneNumberVerificationCodeBuilder { instance: CheckPhoneNumberVerificationCode }
 
-impl CheckPhoneNumberVerificationCodeBuilder {
+impl RTDCheckPhoneNumberVerificationCodeBuilder {
   fn new(instance: CheckPhoneNumberVerificationCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckPhoneNumberVerificationCode { self.instance.clone() }
@@ -54055,13 +54055,13 @@ impl Function for CheckRecoveryEmailAddressCode {}
 
 impl CheckRecoveryEmailAddressCode {
   
-  pub fn builder() -> CheckRecoveryEmailAddressCodeBuilder {
+  pub fn builder() -> RTDCheckRecoveryEmailAddressCodeBuilder {
     let instance = Self {
       td_name: "checkRecoveryEmailAddressCode".to_string(),
       code: None,
       
     };
-    CheckRecoveryEmailAddressCodeBuilder::new(instance)
+    RTDCheckRecoveryEmailAddressCodeBuilder::new(instance)
   }
   
   
@@ -54074,9 +54074,9 @@ impl CheckRecoveryEmailAddressCode {
 
 
 #[derive(Debug)]
-pub struct CheckRecoveryEmailAddressCodeBuilder { instance: CheckRecoveryEmailAddressCode }
+pub struct RTDCheckRecoveryEmailAddressCodeBuilder { instance: CheckRecoveryEmailAddressCode }
 
-impl CheckRecoveryEmailAddressCodeBuilder {
+impl RTDCheckRecoveryEmailAddressCodeBuilder {
   fn new(instance: CheckRecoveryEmailAddressCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> CheckRecoveryEmailAddressCode { self.instance.clone() }
@@ -54116,13 +54116,13 @@ impl Function for CleanFileName {}
 
 impl CleanFileName {
   
-  pub fn builder() -> CleanFileNameBuilder {
+  pub fn builder() -> RTDCleanFileNameBuilder {
     let instance = Self {
       td_name: "cleanFileName".to_string(),
       file_name: None,
       
     };
-    CleanFileNameBuilder::new(instance)
+    RTDCleanFileNameBuilder::new(instance)
   }
   
   
@@ -54135,9 +54135,9 @@ impl CleanFileName {
 
 
 #[derive(Debug)]
-pub struct CleanFileNameBuilder { instance: CleanFileName }
+pub struct RTDCleanFileNameBuilder { instance: CleanFileName }
 
-impl CleanFileNameBuilder {
+impl RTDCleanFileNameBuilder {
   fn new(instance: CleanFileName) -> Self { Self { instance } }
 
   pub fn build(&self) -> CleanFileName { self.instance.clone() }
@@ -54177,13 +54177,13 @@ impl Function for ClearAllDraftMessages {}
 
 impl ClearAllDraftMessages {
   
-  pub fn builder() -> ClearAllDraftMessagesBuilder {
+  pub fn builder() -> RTDClearAllDraftMessagesBuilder {
     let instance = Self {
       td_name: "clearAllDraftMessages".to_string(),
       exclude_secret_chats: None,
       
     };
-    ClearAllDraftMessagesBuilder::new(instance)
+    RTDClearAllDraftMessagesBuilder::new(instance)
   }
   
   
@@ -54196,9 +54196,9 @@ impl ClearAllDraftMessages {
 
 
 #[derive(Debug)]
-pub struct ClearAllDraftMessagesBuilder { instance: ClearAllDraftMessages }
+pub struct RTDClearAllDraftMessagesBuilder { instance: ClearAllDraftMessages }
 
-impl ClearAllDraftMessagesBuilder {
+impl RTDClearAllDraftMessagesBuilder {
   fn new(instance: ClearAllDraftMessages) -> Self { Self { instance } }
 
   pub fn build(&self) -> ClearAllDraftMessages { self.instance.clone() }
@@ -54236,12 +54236,12 @@ impl Function for ClearImportedContacts {}
 
 impl ClearImportedContacts {
   
-  pub fn builder() -> ClearImportedContactsBuilder {
+  pub fn builder() -> RTDClearImportedContactsBuilder {
     let instance = Self {
       td_name: "clearImportedContacts".to_string(),
       
     };
-    ClearImportedContactsBuilder::new(instance)
+    RTDClearImportedContactsBuilder::new(instance)
   }
   
   
@@ -54252,9 +54252,9 @@ impl ClearImportedContacts {
 
 
 #[derive(Debug)]
-pub struct ClearImportedContactsBuilder { instance: ClearImportedContacts }
+pub struct RTDClearImportedContactsBuilder { instance: ClearImportedContacts }
 
-impl ClearImportedContactsBuilder {
+impl RTDClearImportedContactsBuilder {
   fn new(instance: ClearImportedContacts) -> Self { Self { instance } }
 
   pub fn build(&self) -> ClearImportedContacts { self.instance.clone() }
@@ -54289,13 +54289,13 @@ impl Function for ClearRecentStickers {}
 
 impl ClearRecentStickers {
   
-  pub fn builder() -> ClearRecentStickersBuilder {
+  pub fn builder() -> RTDClearRecentStickersBuilder {
     let instance = Self {
       td_name: "clearRecentStickers".to_string(),
       is_attached: None,
       
     };
-    ClearRecentStickersBuilder::new(instance)
+    RTDClearRecentStickersBuilder::new(instance)
   }
   
   
@@ -54308,9 +54308,9 @@ impl ClearRecentStickers {
 
 
 #[derive(Debug)]
-pub struct ClearRecentStickersBuilder { instance: ClearRecentStickers }
+pub struct RTDClearRecentStickersBuilder { instance: ClearRecentStickers }
 
-impl ClearRecentStickersBuilder {
+impl RTDClearRecentStickersBuilder {
   fn new(instance: ClearRecentStickers) -> Self { Self { instance } }
 
   pub fn build(&self) -> ClearRecentStickers { self.instance.clone() }
@@ -54348,12 +54348,12 @@ impl Function for ClearRecentlyFoundChats {}
 
 impl ClearRecentlyFoundChats {
   
-  pub fn builder() -> ClearRecentlyFoundChatsBuilder {
+  pub fn builder() -> RTDClearRecentlyFoundChatsBuilder {
     let instance = Self {
       td_name: "clearRecentlyFoundChats".to_string(),
       
     };
-    ClearRecentlyFoundChatsBuilder::new(instance)
+    RTDClearRecentlyFoundChatsBuilder::new(instance)
   }
   
   
@@ -54364,9 +54364,9 @@ impl ClearRecentlyFoundChats {
 
 
 #[derive(Debug)]
-pub struct ClearRecentlyFoundChatsBuilder { instance: ClearRecentlyFoundChats }
+pub struct RTDClearRecentlyFoundChatsBuilder { instance: ClearRecentlyFoundChats }
 
-impl ClearRecentlyFoundChatsBuilder {
+impl RTDClearRecentlyFoundChatsBuilder {
   fn new(instance: ClearRecentlyFoundChats) -> Self { Self { instance } }
 
   pub fn build(&self) -> ClearRecentlyFoundChats { self.instance.clone() }
@@ -54399,12 +54399,12 @@ impl Function for Close {}
 
 impl Close {
   
-  pub fn builder() -> CloseBuilder {
+  pub fn builder() -> RTDCloseBuilder {
     let instance = Self {
       td_name: "close".to_string(),
       
     };
-    CloseBuilder::new(instance)
+    RTDCloseBuilder::new(instance)
   }
   
   
@@ -54415,9 +54415,9 @@ impl Close {
 
 
 #[derive(Debug)]
-pub struct CloseBuilder { instance: Close }
+pub struct RTDCloseBuilder { instance: Close }
 
-impl CloseBuilder {
+impl RTDCloseBuilder {
   fn new(instance: Close) -> Self { Self { instance } }
 
   pub fn build(&self) -> Close { self.instance.clone() }
@@ -54452,13 +54452,13 @@ impl Function for CloseChat {}
 
 impl CloseChat {
   
-  pub fn builder() -> CloseChatBuilder {
+  pub fn builder() -> RTDCloseChatBuilder {
     let instance = Self {
       td_name: "closeChat".to_string(),
       chat_id: None,
       
     };
-    CloseChatBuilder::new(instance)
+    RTDCloseChatBuilder::new(instance)
   }
   
   
@@ -54471,9 +54471,9 @@ impl CloseChat {
 
 
 #[derive(Debug)]
-pub struct CloseChatBuilder { instance: CloseChat }
+pub struct RTDCloseChatBuilder { instance: CloseChat }
 
-impl CloseChatBuilder {
+impl RTDCloseChatBuilder {
   fn new(instance: CloseChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> CloseChat { self.instance.clone() }
@@ -54513,13 +54513,13 @@ impl Function for CloseSecretChat {}
 
 impl CloseSecretChat {
   
-  pub fn builder() -> CloseSecretChatBuilder {
+  pub fn builder() -> RTDCloseSecretChatBuilder {
     let instance = Self {
       td_name: "closeSecretChat".to_string(),
       secret_chat_id: None,
       
     };
-    CloseSecretChatBuilder::new(instance)
+    RTDCloseSecretChatBuilder::new(instance)
   }
   
   
@@ -54532,9 +54532,9 @@ impl CloseSecretChat {
 
 
 #[derive(Debug)]
-pub struct CloseSecretChatBuilder { instance: CloseSecretChat }
+pub struct RTDCloseSecretChatBuilder { instance: CloseSecretChat }
 
-impl CloseSecretChatBuilder {
+impl RTDCloseSecretChatBuilder {
   fn new(instance: CloseSecretChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> CloseSecretChat { self.instance.clone() }
@@ -54576,14 +54576,14 @@ impl Function for CreateBasicGroupChat {}
 
 impl CreateBasicGroupChat {
   
-  pub fn builder() -> CreateBasicGroupChatBuilder {
+  pub fn builder() -> RTDCreateBasicGroupChatBuilder {
     let instance = Self {
       td_name: "createBasicGroupChat".to_string(),
       basic_group_id: None,
       force: None,
       
     };
-    CreateBasicGroupChatBuilder::new(instance)
+    RTDCreateBasicGroupChatBuilder::new(instance)
   }
   
   
@@ -54598,9 +54598,9 @@ impl CreateBasicGroupChat {
 
 
 #[derive(Debug)]
-pub struct CreateBasicGroupChatBuilder { instance: CreateBasicGroupChat }
+pub struct RTDCreateBasicGroupChatBuilder { instance: CreateBasicGroupChat }
 
-impl CreateBasicGroupChatBuilder {
+impl RTDCreateBasicGroupChatBuilder {
   fn new(instance: CreateBasicGroupChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> CreateBasicGroupChat { self.instance.clone() }
@@ -54647,14 +54647,14 @@ impl Function for CreateCall {}
 
 impl CreateCall {
   
-  pub fn builder() -> CreateCallBuilder {
+  pub fn builder() -> RTDCreateCallBuilder {
     let instance = Self {
       td_name: "createCall".to_string(),
       user_id: None,
       protocol: None,
       
     };
-    CreateCallBuilder::new(instance)
+    RTDCreateCallBuilder::new(instance)
   }
   
   
@@ -54669,9 +54669,9 @@ impl CreateCall {
 
 
 #[derive(Debug)]
-pub struct CreateCallBuilder { instance: CreateCall }
+pub struct RTDCreateCallBuilder { instance: CreateCall }
 
-impl CreateCallBuilder {
+impl RTDCreateCallBuilder {
   fn new(instance: CreateCall) -> Self { Self { instance } }
 
   pub fn build(&self) -> CreateCall { self.instance.clone() }
@@ -54718,14 +54718,14 @@ impl Function for CreateNewBasicGroupChat {}
 
 impl CreateNewBasicGroupChat {
   
-  pub fn builder() -> CreateNewBasicGroupChatBuilder {
+  pub fn builder() -> RTDCreateNewBasicGroupChatBuilder {
     let instance = Self {
       td_name: "createNewBasicGroupChat".to_string(),
       user_ids: None,
       title: None,
       
     };
-    CreateNewBasicGroupChatBuilder::new(instance)
+    RTDCreateNewBasicGroupChatBuilder::new(instance)
   }
   
   
@@ -54740,9 +54740,9 @@ impl CreateNewBasicGroupChat {
 
 
 #[derive(Debug)]
-pub struct CreateNewBasicGroupChatBuilder { instance: CreateNewBasicGroupChat }
+pub struct RTDCreateNewBasicGroupChatBuilder { instance: CreateNewBasicGroupChat }
 
-impl CreateNewBasicGroupChatBuilder {
+impl RTDCreateNewBasicGroupChatBuilder {
   fn new(instance: CreateNewBasicGroupChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> CreateNewBasicGroupChat { self.instance.clone() }
@@ -54787,13 +54787,13 @@ impl Function for CreateNewSecretChat {}
 
 impl CreateNewSecretChat {
   
-  pub fn builder() -> CreateNewSecretChatBuilder {
+  pub fn builder() -> RTDCreateNewSecretChatBuilder {
     let instance = Self {
       td_name: "createNewSecretChat".to_string(),
       user_id: None,
       
     };
-    CreateNewSecretChatBuilder::new(instance)
+    RTDCreateNewSecretChatBuilder::new(instance)
   }
   
   
@@ -54806,9 +54806,9 @@ impl CreateNewSecretChat {
 
 
 #[derive(Debug)]
-pub struct CreateNewSecretChatBuilder { instance: CreateNewSecretChat }
+pub struct RTDCreateNewSecretChatBuilder { instance: CreateNewSecretChat }
 
-impl CreateNewSecretChatBuilder {
+impl RTDCreateNewSecretChatBuilder {
   fn new(instance: CreateNewSecretChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> CreateNewSecretChat { self.instance.clone() }
@@ -54856,7 +54856,7 @@ impl Function for CreateNewStickerSet {}
 
 impl CreateNewStickerSet {
   
-  pub fn builder() -> CreateNewStickerSetBuilder {
+  pub fn builder() -> RTDCreateNewStickerSetBuilder {
     let instance = Self {
       td_name: "createNewStickerSet".to_string(),
       user_id: None,
@@ -54866,7 +54866,7 @@ impl CreateNewStickerSet {
       stickers: None,
       
     };
-    CreateNewStickerSetBuilder::new(instance)
+    RTDCreateNewStickerSetBuilder::new(instance)
   }
   
   
@@ -54887,9 +54887,9 @@ impl CreateNewStickerSet {
 
 
 #[derive(Debug)]
-pub struct CreateNewStickerSetBuilder { instance: CreateNewStickerSet }
+pub struct RTDCreateNewStickerSetBuilder { instance: CreateNewStickerSet }
 
-impl CreateNewStickerSetBuilder {
+impl RTDCreateNewStickerSetBuilder {
   fn new(instance: CreateNewStickerSet) -> Self { Self { instance } }
 
   pub fn build(&self) -> CreateNewStickerSet { self.instance.clone() }
@@ -54953,7 +54953,7 @@ impl Function for CreateNewSupergroupChat {}
 
 impl CreateNewSupergroupChat {
   
-  pub fn builder() -> CreateNewSupergroupChatBuilder {
+  pub fn builder() -> RTDCreateNewSupergroupChatBuilder {
     let instance = Self {
       td_name: "createNewSupergroupChat".to_string(),
       title: None,
@@ -54961,7 +54961,7 @@ impl CreateNewSupergroupChat {
       description: None,
       
     };
-    CreateNewSupergroupChatBuilder::new(instance)
+    RTDCreateNewSupergroupChatBuilder::new(instance)
   }
   
   
@@ -54978,9 +54978,9 @@ impl CreateNewSupergroupChat {
 
 
 #[derive(Debug)]
-pub struct CreateNewSupergroupChatBuilder { instance: CreateNewSupergroupChat }
+pub struct RTDCreateNewSupergroupChatBuilder { instance: CreateNewSupergroupChat }
 
-impl CreateNewSupergroupChatBuilder {
+impl RTDCreateNewSupergroupChatBuilder {
   fn new(instance: CreateNewSupergroupChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> CreateNewSupergroupChat { self.instance.clone() }
@@ -55032,14 +55032,14 @@ impl Function for CreatePrivateChat {}
 
 impl CreatePrivateChat {
   
-  pub fn builder() -> CreatePrivateChatBuilder {
+  pub fn builder() -> RTDCreatePrivateChatBuilder {
     let instance = Self {
       td_name: "createPrivateChat".to_string(),
       user_id: None,
       force: None,
       
     };
-    CreatePrivateChatBuilder::new(instance)
+    RTDCreatePrivateChatBuilder::new(instance)
   }
   
   
@@ -55054,9 +55054,9 @@ impl CreatePrivateChat {
 
 
 #[derive(Debug)]
-pub struct CreatePrivateChatBuilder { instance: CreatePrivateChat }
+pub struct RTDCreatePrivateChatBuilder { instance: CreatePrivateChat }
 
-impl CreatePrivateChatBuilder {
+impl RTDCreatePrivateChatBuilder {
   fn new(instance: CreatePrivateChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> CreatePrivateChat { self.instance.clone() }
@@ -55101,13 +55101,13 @@ impl Function for CreateSecretChat {}
 
 impl CreateSecretChat {
   
-  pub fn builder() -> CreateSecretChatBuilder {
+  pub fn builder() -> RTDCreateSecretChatBuilder {
     let instance = Self {
       td_name: "createSecretChat".to_string(),
       secret_chat_id: None,
       
     };
-    CreateSecretChatBuilder::new(instance)
+    RTDCreateSecretChatBuilder::new(instance)
   }
   
   
@@ -55120,9 +55120,9 @@ impl CreateSecretChat {
 
 
 #[derive(Debug)]
-pub struct CreateSecretChatBuilder { instance: CreateSecretChat }
+pub struct RTDCreateSecretChatBuilder { instance: CreateSecretChat }
 
-impl CreateSecretChatBuilder {
+impl RTDCreateSecretChatBuilder {
   fn new(instance: CreateSecretChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> CreateSecretChat { self.instance.clone() }
@@ -55164,14 +55164,14 @@ impl Function for CreateSupergroupChat {}
 
 impl CreateSupergroupChat {
   
-  pub fn builder() -> CreateSupergroupChatBuilder {
+  pub fn builder() -> RTDCreateSupergroupChatBuilder {
     let instance = Self {
       td_name: "createSupergroupChat".to_string(),
       supergroup_id: None,
       force: None,
       
     };
-    CreateSupergroupChatBuilder::new(instance)
+    RTDCreateSupergroupChatBuilder::new(instance)
   }
   
   
@@ -55186,9 +55186,9 @@ impl CreateSupergroupChat {
 
 
 #[derive(Debug)]
-pub struct CreateSupergroupChatBuilder { instance: CreateSupergroupChat }
+pub struct RTDCreateSupergroupChatBuilder { instance: CreateSupergroupChat }
 
-impl CreateSupergroupChatBuilder {
+impl RTDCreateSupergroupChatBuilder {
   fn new(instance: CreateSupergroupChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> CreateSupergroupChat { self.instance.clone() }
@@ -55235,14 +55235,14 @@ impl Function for CreateTemporaryPassword {}
 
 impl CreateTemporaryPassword {
   
-  pub fn builder() -> CreateTemporaryPasswordBuilder {
+  pub fn builder() -> RTDCreateTemporaryPasswordBuilder {
     let instance = Self {
       td_name: "createTemporaryPassword".to_string(),
       password: None,
       valid_for: None,
       
     };
-    CreateTemporaryPasswordBuilder::new(instance)
+    RTDCreateTemporaryPasswordBuilder::new(instance)
   }
   
   
@@ -55257,9 +55257,9 @@ impl CreateTemporaryPassword {
 
 
 #[derive(Debug)]
-pub struct CreateTemporaryPasswordBuilder { instance: CreateTemporaryPassword }
+pub struct RTDCreateTemporaryPasswordBuilder { instance: CreateTemporaryPassword }
 
-impl CreateTemporaryPasswordBuilder {
+impl RTDCreateTemporaryPasswordBuilder {
   fn new(instance: CreateTemporaryPassword) -> Self { Self { instance } }
 
   pub fn build(&self) -> CreateTemporaryPassword { self.instance.clone() }
@@ -55304,13 +55304,13 @@ impl Function for DeleteAccount {}
 
 impl DeleteAccount {
   
-  pub fn builder() -> DeleteAccountBuilder {
+  pub fn builder() -> RTDDeleteAccountBuilder {
     let instance = Self {
       td_name: "deleteAccount".to_string(),
       reason: None,
       
     };
-    DeleteAccountBuilder::new(instance)
+    RTDDeleteAccountBuilder::new(instance)
   }
   
   
@@ -55323,9 +55323,9 @@ impl DeleteAccount {
 
 
 #[derive(Debug)]
-pub struct DeleteAccountBuilder { instance: DeleteAccount }
+pub struct RTDDeleteAccountBuilder { instance: DeleteAccount }
 
-impl DeleteAccountBuilder {
+impl RTDDeleteAccountBuilder {
   fn new(instance: DeleteAccount) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeleteAccount { self.instance.clone() }
@@ -55369,7 +55369,7 @@ impl Function for DeleteChatHistory {}
 
 impl DeleteChatHistory {
   
-  pub fn builder() -> DeleteChatHistoryBuilder {
+  pub fn builder() -> RTDDeleteChatHistoryBuilder {
     let instance = Self {
       td_name: "deleteChatHistory".to_string(),
       chat_id: None,
@@ -55377,7 +55377,7 @@ impl DeleteChatHistory {
       revoke: None,
       
     };
-    DeleteChatHistoryBuilder::new(instance)
+    RTDDeleteChatHistoryBuilder::new(instance)
   }
   
   
@@ -55394,9 +55394,9 @@ impl DeleteChatHistory {
 
 
 #[derive(Debug)]
-pub struct DeleteChatHistoryBuilder { instance: DeleteChatHistory }
+pub struct RTDDeleteChatHistoryBuilder { instance: DeleteChatHistory }
 
-impl DeleteChatHistoryBuilder {
+impl RTDDeleteChatHistoryBuilder {
   fn new(instance: DeleteChatHistory) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeleteChatHistory { self.instance.clone() }
@@ -55448,14 +55448,14 @@ impl Function for DeleteChatMessagesFromUser {}
 
 impl DeleteChatMessagesFromUser {
   
-  pub fn builder() -> DeleteChatMessagesFromUserBuilder {
+  pub fn builder() -> RTDDeleteChatMessagesFromUserBuilder {
     let instance = Self {
       td_name: "deleteChatMessagesFromUser".to_string(),
       chat_id: None,
       user_id: None,
       
     };
-    DeleteChatMessagesFromUserBuilder::new(instance)
+    RTDDeleteChatMessagesFromUserBuilder::new(instance)
   }
   
   
@@ -55470,9 +55470,9 @@ impl DeleteChatMessagesFromUser {
 
 
 #[derive(Debug)]
-pub struct DeleteChatMessagesFromUserBuilder { instance: DeleteChatMessagesFromUser }
+pub struct RTDDeleteChatMessagesFromUserBuilder { instance: DeleteChatMessagesFromUser }
 
-impl DeleteChatMessagesFromUserBuilder {
+impl RTDDeleteChatMessagesFromUserBuilder {
   fn new(instance: DeleteChatMessagesFromUser) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeleteChatMessagesFromUser { self.instance.clone() }
@@ -55519,14 +55519,14 @@ impl Function for DeleteChatReplyMarkup {}
 
 impl DeleteChatReplyMarkup {
   
-  pub fn builder() -> DeleteChatReplyMarkupBuilder {
+  pub fn builder() -> RTDDeleteChatReplyMarkupBuilder {
     let instance = Self {
       td_name: "deleteChatReplyMarkup".to_string(),
       chat_id: None,
       message_id: None,
       
     };
-    DeleteChatReplyMarkupBuilder::new(instance)
+    RTDDeleteChatReplyMarkupBuilder::new(instance)
   }
   
   
@@ -55541,9 +55541,9 @@ impl DeleteChatReplyMarkup {
 
 
 #[derive(Debug)]
-pub struct DeleteChatReplyMarkupBuilder { instance: DeleteChatReplyMarkup }
+pub struct RTDDeleteChatReplyMarkupBuilder { instance: DeleteChatReplyMarkup }
 
-impl DeleteChatReplyMarkupBuilder {
+impl RTDDeleteChatReplyMarkupBuilder {
   fn new(instance: DeleteChatReplyMarkup) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeleteChatReplyMarkup { self.instance.clone() }
@@ -55588,13 +55588,13 @@ impl Function for DeleteFile {}
 
 impl DeleteFile {
   
-  pub fn builder() -> DeleteFileBuilder {
+  pub fn builder() -> RTDDeleteFileBuilder {
     let instance = Self {
       td_name: "deleteFile".to_string(),
       file_id: None,
       
     };
-    DeleteFileBuilder::new(instance)
+    RTDDeleteFileBuilder::new(instance)
   }
   
   
@@ -55607,9 +55607,9 @@ impl DeleteFile {
 
 
 #[derive(Debug)]
-pub struct DeleteFileBuilder { instance: DeleteFile }
+pub struct RTDDeleteFileBuilder { instance: DeleteFile }
 
-impl DeleteFileBuilder {
+impl RTDDeleteFileBuilder {
   fn new(instance: DeleteFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeleteFile { self.instance.clone() }
@@ -55649,13 +55649,13 @@ impl Function for DeleteLanguagePack {}
 
 impl DeleteLanguagePack {
   
-  pub fn builder() -> DeleteLanguagePackBuilder {
+  pub fn builder() -> RTDDeleteLanguagePackBuilder {
     let instance = Self {
       td_name: "deleteLanguagePack".to_string(),
       language_pack_id: None,
       
     };
-    DeleteLanguagePackBuilder::new(instance)
+    RTDDeleteLanguagePackBuilder::new(instance)
   }
   
   
@@ -55668,9 +55668,9 @@ impl DeleteLanguagePack {
 
 
 #[derive(Debug)]
-pub struct DeleteLanguagePackBuilder { instance: DeleteLanguagePack }
+pub struct RTDDeleteLanguagePackBuilder { instance: DeleteLanguagePack }
 
-impl DeleteLanguagePackBuilder {
+impl RTDDeleteLanguagePackBuilder {
   fn new(instance: DeleteLanguagePack) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeleteLanguagePack { self.instance.clone() }
@@ -55714,7 +55714,7 @@ impl Function for DeleteMessages {}
 
 impl DeleteMessages {
   
-  pub fn builder() -> DeleteMessagesBuilder {
+  pub fn builder() -> RTDDeleteMessagesBuilder {
     let instance = Self {
       td_name: "deleteMessages".to_string(),
       chat_id: None,
@@ -55722,7 +55722,7 @@ impl DeleteMessages {
       revoke: None,
       
     };
-    DeleteMessagesBuilder::new(instance)
+    RTDDeleteMessagesBuilder::new(instance)
   }
   
   
@@ -55739,9 +55739,9 @@ impl DeleteMessages {
 
 
 #[derive(Debug)]
-pub struct DeleteMessagesBuilder { instance: DeleteMessages }
+pub struct RTDDeleteMessagesBuilder { instance: DeleteMessages }
 
-impl DeleteMessagesBuilder {
+impl RTDDeleteMessagesBuilder {
   fn new(instance: DeleteMessages) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeleteMessages { self.instance.clone() }
@@ -55798,13 +55798,13 @@ impl Function for DeletePassportElement {}
 
 impl DeletePassportElement {
   
-  pub fn builder() -> DeletePassportElementBuilder {
+  pub fn builder() -> RTDDeletePassportElementBuilder {
     let instance = Self {
       td_name: "deletePassportElement".to_string(),
       type_: None,
       
     };
-    DeletePassportElementBuilder::new(instance)
+    RTDDeletePassportElementBuilder::new(instance)
   }
   
   
@@ -55817,9 +55817,9 @@ impl DeletePassportElement {
 
 
 #[derive(Debug)]
-pub struct DeletePassportElementBuilder { instance: DeletePassportElement }
+pub struct RTDDeletePassportElementBuilder { instance: DeletePassportElement }
 
-impl DeletePassportElementBuilder {
+impl RTDDeletePassportElementBuilder {
   fn new(instance: DeletePassportElement) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeletePassportElement { self.instance.clone() }
@@ -55859,13 +55859,13 @@ impl Function for DeleteProfilePhoto {}
 
 impl DeleteProfilePhoto {
   
-  pub fn builder() -> DeleteProfilePhotoBuilder {
+  pub fn builder() -> RTDDeleteProfilePhotoBuilder {
     let instance = Self {
       td_name: "deleteProfilePhoto".to_string(),
       profile_photo_id: None,
       
     };
-    DeleteProfilePhotoBuilder::new(instance)
+    RTDDeleteProfilePhotoBuilder::new(instance)
   }
   
   
@@ -55878,9 +55878,9 @@ impl DeleteProfilePhoto {
 
 
 #[derive(Debug)]
-pub struct DeleteProfilePhotoBuilder { instance: DeleteProfilePhoto }
+pub struct RTDDeleteProfilePhotoBuilder { instance: DeleteProfilePhoto }
 
-impl DeleteProfilePhotoBuilder {
+impl RTDDeleteProfilePhotoBuilder {
   fn new(instance: DeleteProfilePhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeleteProfilePhoto { self.instance.clone() }
@@ -55918,12 +55918,12 @@ impl Function for DeleteSavedCredentials {}
 
 impl DeleteSavedCredentials {
   
-  pub fn builder() -> DeleteSavedCredentialsBuilder {
+  pub fn builder() -> RTDDeleteSavedCredentialsBuilder {
     let instance = Self {
       td_name: "deleteSavedCredentials".to_string(),
       
     };
-    DeleteSavedCredentialsBuilder::new(instance)
+    RTDDeleteSavedCredentialsBuilder::new(instance)
   }
   
   
@@ -55934,9 +55934,9 @@ impl DeleteSavedCredentials {
 
 
 #[derive(Debug)]
-pub struct DeleteSavedCredentialsBuilder { instance: DeleteSavedCredentials }
+pub struct RTDDeleteSavedCredentialsBuilder { instance: DeleteSavedCredentials }
 
-impl DeleteSavedCredentialsBuilder {
+impl RTDDeleteSavedCredentialsBuilder {
   fn new(instance: DeleteSavedCredentials) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeleteSavedCredentials { self.instance.clone() }
@@ -55969,12 +55969,12 @@ impl Function for DeleteSavedOrderInfo {}
 
 impl DeleteSavedOrderInfo {
   
-  pub fn builder() -> DeleteSavedOrderInfoBuilder {
+  pub fn builder() -> RTDDeleteSavedOrderInfoBuilder {
     let instance = Self {
       td_name: "deleteSavedOrderInfo".to_string(),
       
     };
-    DeleteSavedOrderInfoBuilder::new(instance)
+    RTDDeleteSavedOrderInfoBuilder::new(instance)
   }
   
   
@@ -55985,9 +55985,9 @@ impl DeleteSavedOrderInfo {
 
 
 #[derive(Debug)]
-pub struct DeleteSavedOrderInfoBuilder { instance: DeleteSavedOrderInfo }
+pub struct RTDDeleteSavedOrderInfoBuilder { instance: DeleteSavedOrderInfo }
 
-impl DeleteSavedOrderInfoBuilder {
+impl RTDDeleteSavedOrderInfoBuilder {
   fn new(instance: DeleteSavedOrderInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeleteSavedOrderInfo { self.instance.clone() }
@@ -56022,13 +56022,13 @@ impl Function for DeleteSupergroup {}
 
 impl DeleteSupergroup {
   
-  pub fn builder() -> DeleteSupergroupBuilder {
+  pub fn builder() -> RTDDeleteSupergroupBuilder {
     let instance = Self {
       td_name: "deleteSupergroup".to_string(),
       supergroup_id: None,
       
     };
-    DeleteSupergroupBuilder::new(instance)
+    RTDDeleteSupergroupBuilder::new(instance)
   }
   
   
@@ -56041,9 +56041,9 @@ impl DeleteSupergroup {
 
 
 #[derive(Debug)]
-pub struct DeleteSupergroupBuilder { instance: DeleteSupergroup }
+pub struct RTDDeleteSupergroupBuilder { instance: DeleteSupergroup }
 
-impl DeleteSupergroupBuilder {
+impl RTDDeleteSupergroupBuilder {
   fn new(instance: DeleteSupergroup) -> Self { Self { instance } }
 
   pub fn build(&self) -> DeleteSupergroup { self.instance.clone() }
@@ -56081,12 +56081,12 @@ impl Function for Destroy {}
 
 impl Destroy {
   
-  pub fn builder() -> DestroyBuilder {
+  pub fn builder() -> RTDDestroyBuilder {
     let instance = Self {
       td_name: "destroy".to_string(),
       
     };
-    DestroyBuilder::new(instance)
+    RTDDestroyBuilder::new(instance)
   }
   
   
@@ -56097,9 +56097,9 @@ impl Destroy {
 
 
 #[derive(Debug)]
-pub struct DestroyBuilder { instance: Destroy }
+pub struct RTDDestroyBuilder { instance: Destroy }
 
-impl DestroyBuilder {
+impl RTDDestroyBuilder {
   fn new(instance: Destroy) -> Self { Self { instance } }
 
   pub fn build(&self) -> Destroy { self.instance.clone() }
@@ -56132,12 +56132,12 @@ impl Function for DisableProxy {}
 
 impl DisableProxy {
   
-  pub fn builder() -> DisableProxyBuilder {
+  pub fn builder() -> RTDDisableProxyBuilder {
     let instance = Self {
       td_name: "disableProxy".to_string(),
       
     };
-    DisableProxyBuilder::new(instance)
+    RTDDisableProxyBuilder::new(instance)
   }
   
   
@@ -56148,9 +56148,9 @@ impl DisableProxy {
 
 
 #[derive(Debug)]
-pub struct DisableProxyBuilder { instance: DisableProxy }
+pub struct RTDDisableProxyBuilder { instance: DisableProxy }
 
-impl DisableProxyBuilder {
+impl RTDDisableProxyBuilder {
   fn new(instance: DisableProxy) -> Self { Self { instance } }
 
   pub fn build(&self) -> DisableProxy { self.instance.clone() }
@@ -56191,7 +56191,7 @@ impl Function for DiscardCall {}
 
 impl DiscardCall {
   
-  pub fn builder() -> DiscardCallBuilder {
+  pub fn builder() -> RTDDiscardCallBuilder {
     let instance = Self {
       td_name: "discardCall".to_string(),
       call_id: None,
@@ -56200,7 +56200,7 @@ impl DiscardCall {
       connection_id: None,
       
     };
-    DiscardCallBuilder::new(instance)
+    RTDDiscardCallBuilder::new(instance)
   }
   
   
@@ -56219,9 +56219,9 @@ impl DiscardCall {
 
 
 #[derive(Debug)]
-pub struct DiscardCallBuilder { instance: DiscardCall }
+pub struct RTDDiscardCallBuilder { instance: DiscardCall }
 
-impl DiscardCallBuilder {
+impl RTDDiscardCallBuilder {
   fn new(instance: DiscardCall) -> Self { Self { instance } }
 
   pub fn build(&self) -> DiscardCall { self.instance.clone() }
@@ -56274,12 +56274,12 @@ impl Function for DisconnectAllWebsites {}
 
 impl DisconnectAllWebsites {
   
-  pub fn builder() -> DisconnectAllWebsitesBuilder {
+  pub fn builder() -> RTDDisconnectAllWebsitesBuilder {
     let instance = Self {
       td_name: "disconnectAllWebsites".to_string(),
       
     };
-    DisconnectAllWebsitesBuilder::new(instance)
+    RTDDisconnectAllWebsitesBuilder::new(instance)
   }
   
   
@@ -56290,9 +56290,9 @@ impl DisconnectAllWebsites {
 
 
 #[derive(Debug)]
-pub struct DisconnectAllWebsitesBuilder { instance: DisconnectAllWebsites }
+pub struct RTDDisconnectAllWebsitesBuilder { instance: DisconnectAllWebsites }
 
-impl DisconnectAllWebsitesBuilder {
+impl RTDDisconnectAllWebsitesBuilder {
   fn new(instance: DisconnectAllWebsites) -> Self { Self { instance } }
 
   pub fn build(&self) -> DisconnectAllWebsites { self.instance.clone() }
@@ -56327,13 +56327,13 @@ impl Function for DisconnectWebsite {}
 
 impl DisconnectWebsite {
   
-  pub fn builder() -> DisconnectWebsiteBuilder {
+  pub fn builder() -> RTDDisconnectWebsiteBuilder {
     let instance = Self {
       td_name: "disconnectWebsite".to_string(),
       website_id: None,
       
     };
-    DisconnectWebsiteBuilder::new(instance)
+    RTDDisconnectWebsiteBuilder::new(instance)
   }
   
   
@@ -56346,9 +56346,9 @@ impl DisconnectWebsite {
 
 
 #[derive(Debug)]
-pub struct DisconnectWebsiteBuilder { instance: DisconnectWebsite }
+pub struct RTDDisconnectWebsiteBuilder { instance: DisconnectWebsite }
 
-impl DisconnectWebsiteBuilder {
+impl RTDDisconnectWebsiteBuilder {
   fn new(instance: DisconnectWebsite) -> Self { Self { instance } }
 
   pub fn build(&self) -> DisconnectWebsite { self.instance.clone() }
@@ -56396,7 +56396,7 @@ impl Function for DownloadFile {}
 
 impl DownloadFile {
   
-  pub fn builder() -> DownloadFileBuilder {
+  pub fn builder() -> RTDDownloadFileBuilder {
     let instance = Self {
       td_name: "downloadFile".to_string(),
       file_id: None,
@@ -56406,7 +56406,7 @@ impl DownloadFile {
       synchronous: None,
       
     };
-    DownloadFileBuilder::new(instance)
+    RTDDownloadFileBuilder::new(instance)
   }
   
   
@@ -56427,9 +56427,9 @@ impl DownloadFile {
 
 
 #[derive(Debug)]
-pub struct DownloadFileBuilder { instance: DownloadFile }
+pub struct RTDDownloadFileBuilder { instance: DownloadFile }
 
-impl DownloadFileBuilder {
+impl RTDDownloadFileBuilder {
   fn new(instance: DownloadFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> DownloadFile { self.instance.clone() }
@@ -56489,13 +56489,13 @@ impl Function for EditCustomLanguagePackInfo {}
 
 impl EditCustomLanguagePackInfo {
   
-  pub fn builder() -> EditCustomLanguagePackInfoBuilder {
+  pub fn builder() -> RTDEditCustomLanguagePackInfoBuilder {
     let instance = Self {
       td_name: "editCustomLanguagePackInfo".to_string(),
       info: None,
       
     };
-    EditCustomLanguagePackInfoBuilder::new(instance)
+    RTDEditCustomLanguagePackInfoBuilder::new(instance)
   }
   
   
@@ -56508,9 +56508,9 @@ impl EditCustomLanguagePackInfo {
 
 
 #[derive(Debug)]
-pub struct EditCustomLanguagePackInfoBuilder { instance: EditCustomLanguagePackInfo }
+pub struct RTDEditCustomLanguagePackInfoBuilder { instance: EditCustomLanguagePackInfo }
 
-impl EditCustomLanguagePackInfoBuilder {
+impl RTDEditCustomLanguagePackInfoBuilder {
   fn new(instance: EditCustomLanguagePackInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> EditCustomLanguagePackInfo { self.instance.clone() }
@@ -56561,7 +56561,7 @@ impl Function for EditInlineMessageCaption {}
 
 impl EditInlineMessageCaption {
   
-  pub fn builder() -> EditInlineMessageCaptionBuilder {
+  pub fn builder() -> RTDEditInlineMessageCaptionBuilder {
     let instance = Self {
       td_name: "editInlineMessageCaption".to_string(),
       inline_message_id: None,
@@ -56569,7 +56569,7 @@ impl EditInlineMessageCaption {
       caption: None,
       
     };
-    EditInlineMessageCaptionBuilder::new(instance)
+    RTDEditInlineMessageCaptionBuilder::new(instance)
   }
   
   
@@ -56586,9 +56586,9 @@ impl EditInlineMessageCaption {
 
 
 #[derive(Debug)]
-pub struct EditInlineMessageCaptionBuilder { instance: EditInlineMessageCaption }
+pub struct RTDEditInlineMessageCaptionBuilder { instance: EditInlineMessageCaption }
 
-impl EditInlineMessageCaptionBuilder {
+impl RTDEditInlineMessageCaptionBuilder {
   fn new(instance: EditInlineMessageCaption) -> Self { Self { instance } }
 
   pub fn build(&self) -> EditInlineMessageCaption { self.instance.clone() }
@@ -56649,7 +56649,7 @@ impl Function for EditInlineMessageLiveLocation {}
 
 impl EditInlineMessageLiveLocation {
   
-  pub fn builder() -> EditInlineMessageLiveLocationBuilder {
+  pub fn builder() -> RTDEditInlineMessageLiveLocationBuilder {
     let instance = Self {
       td_name: "editInlineMessageLiveLocation".to_string(),
       inline_message_id: None,
@@ -56657,7 +56657,7 @@ impl EditInlineMessageLiveLocation {
       location: None,
       
     };
-    EditInlineMessageLiveLocationBuilder::new(instance)
+    RTDEditInlineMessageLiveLocationBuilder::new(instance)
   }
   
   
@@ -56674,9 +56674,9 @@ impl EditInlineMessageLiveLocation {
 
 
 #[derive(Debug)]
-pub struct EditInlineMessageLiveLocationBuilder { instance: EditInlineMessageLiveLocation }
+pub struct RTDEditInlineMessageLiveLocationBuilder { instance: EditInlineMessageLiveLocation }
 
-impl EditInlineMessageLiveLocationBuilder {
+impl RTDEditInlineMessageLiveLocationBuilder {
   fn new(instance: EditInlineMessageLiveLocation) -> Self { Self { instance } }
 
   pub fn build(&self) -> EditInlineMessageLiveLocation { self.instance.clone() }
@@ -56737,7 +56737,7 @@ impl Function for EditInlineMessageMedia {}
 
 impl EditInlineMessageMedia {
   
-  pub fn builder() -> EditInlineMessageMediaBuilder {
+  pub fn builder() -> RTDEditInlineMessageMediaBuilder {
     let instance = Self {
       td_name: "editInlineMessageMedia".to_string(),
       inline_message_id: None,
@@ -56745,7 +56745,7 @@ impl EditInlineMessageMedia {
       input_message_content: None,
       
     };
-    EditInlineMessageMediaBuilder::new(instance)
+    RTDEditInlineMessageMediaBuilder::new(instance)
   }
   
   
@@ -56762,9 +56762,9 @@ impl EditInlineMessageMedia {
 
 
 #[derive(Debug)]
-pub struct EditInlineMessageMediaBuilder { instance: EditInlineMessageMedia }
+pub struct RTDEditInlineMessageMediaBuilder { instance: EditInlineMessageMedia }
 
-impl EditInlineMessageMediaBuilder {
+impl RTDEditInlineMessageMediaBuilder {
   fn new(instance: EditInlineMessageMedia) -> Self { Self { instance } }
 
   pub fn build(&self) -> EditInlineMessageMedia { self.instance.clone() }
@@ -56823,14 +56823,14 @@ impl Function for EditInlineMessageReplyMarkup {}
 
 impl EditInlineMessageReplyMarkup {
   
-  pub fn builder() -> EditInlineMessageReplyMarkupBuilder {
+  pub fn builder() -> RTDEditInlineMessageReplyMarkupBuilder {
     let instance = Self {
       td_name: "editInlineMessageReplyMarkup".to_string(),
       inline_message_id: None,
       reply_markup: None,
       
     };
-    EditInlineMessageReplyMarkupBuilder::new(instance)
+    RTDEditInlineMessageReplyMarkupBuilder::new(instance)
   }
   
   
@@ -56845,9 +56845,9 @@ impl EditInlineMessageReplyMarkup {
 
 
 #[derive(Debug)]
-pub struct EditInlineMessageReplyMarkupBuilder { instance: EditInlineMessageReplyMarkup }
+pub struct RTDEditInlineMessageReplyMarkupBuilder { instance: EditInlineMessageReplyMarkup }
 
-impl EditInlineMessageReplyMarkupBuilder {
+impl RTDEditInlineMessageReplyMarkupBuilder {
   fn new(instance: EditInlineMessageReplyMarkup) -> Self { Self { instance } }
 
   pub fn build(&self) -> EditInlineMessageReplyMarkup { self.instance.clone() }
@@ -56903,7 +56903,7 @@ impl Function for EditInlineMessageText {}
 
 impl EditInlineMessageText {
   
-  pub fn builder() -> EditInlineMessageTextBuilder {
+  pub fn builder() -> RTDEditInlineMessageTextBuilder {
     let instance = Self {
       td_name: "editInlineMessageText".to_string(),
       inline_message_id: None,
@@ -56911,7 +56911,7 @@ impl EditInlineMessageText {
       input_message_content: None,
       
     };
-    EditInlineMessageTextBuilder::new(instance)
+    RTDEditInlineMessageTextBuilder::new(instance)
   }
   
   
@@ -56928,9 +56928,9 @@ impl EditInlineMessageText {
 
 
 #[derive(Debug)]
-pub struct EditInlineMessageTextBuilder { instance: EditInlineMessageText }
+pub struct RTDEditInlineMessageTextBuilder { instance: EditInlineMessageText }
 
-impl EditInlineMessageTextBuilder {
+impl RTDEditInlineMessageTextBuilder {
   fn new(instance: EditInlineMessageText) -> Self { Self { instance } }
 
   pub fn build(&self) -> EditInlineMessageText { self.instance.clone() }
@@ -56993,7 +56993,7 @@ impl Function for EditMessageCaption {}
 
 impl EditMessageCaption {
   
-  pub fn builder() -> EditMessageCaptionBuilder {
+  pub fn builder() -> RTDEditMessageCaptionBuilder {
     let instance = Self {
       td_name: "editMessageCaption".to_string(),
       chat_id: None,
@@ -57002,7 +57002,7 @@ impl EditMessageCaption {
       caption: None,
       
     };
-    EditMessageCaptionBuilder::new(instance)
+    RTDEditMessageCaptionBuilder::new(instance)
   }
   
   
@@ -57021,9 +57021,9 @@ impl EditMessageCaption {
 
 
 #[derive(Debug)]
-pub struct EditMessageCaptionBuilder { instance: EditMessageCaption }
+pub struct RTDEditMessageCaptionBuilder { instance: EditMessageCaption }
 
-impl EditMessageCaptionBuilder {
+impl RTDEditMessageCaptionBuilder {
   fn new(instance: EditMessageCaption) -> Self { Self { instance } }
 
   pub fn build(&self) -> EditMessageCaption { self.instance.clone() }
@@ -57091,7 +57091,7 @@ impl Function for EditMessageLiveLocation {}
 
 impl EditMessageLiveLocation {
   
-  pub fn builder() -> EditMessageLiveLocationBuilder {
+  pub fn builder() -> RTDEditMessageLiveLocationBuilder {
     let instance = Self {
       td_name: "editMessageLiveLocation".to_string(),
       chat_id: None,
@@ -57100,7 +57100,7 @@ impl EditMessageLiveLocation {
       location: None,
       
     };
-    EditMessageLiveLocationBuilder::new(instance)
+    RTDEditMessageLiveLocationBuilder::new(instance)
   }
   
   
@@ -57119,9 +57119,9 @@ impl EditMessageLiveLocation {
 
 
 #[derive(Debug)]
-pub struct EditMessageLiveLocationBuilder { instance: EditMessageLiveLocation }
+pub struct RTDEditMessageLiveLocationBuilder { instance: EditMessageLiveLocation }
 
-impl EditMessageLiveLocationBuilder {
+impl RTDEditMessageLiveLocationBuilder {
   fn new(instance: EditMessageLiveLocation) -> Self { Self { instance } }
 
   pub fn build(&self) -> EditMessageLiveLocation { self.instance.clone() }
@@ -57189,7 +57189,7 @@ impl Function for EditMessageMedia {}
 
 impl EditMessageMedia {
   
-  pub fn builder() -> EditMessageMediaBuilder {
+  pub fn builder() -> RTDEditMessageMediaBuilder {
     let instance = Self {
       td_name: "editMessageMedia".to_string(),
       chat_id: None,
@@ -57198,7 +57198,7 @@ impl EditMessageMedia {
       input_message_content: None,
       
     };
-    EditMessageMediaBuilder::new(instance)
+    RTDEditMessageMediaBuilder::new(instance)
   }
   
   
@@ -57217,9 +57217,9 @@ impl EditMessageMedia {
 
 
 #[derive(Debug)]
-pub struct EditMessageMediaBuilder { instance: EditMessageMedia }
+pub struct RTDEditMessageMediaBuilder { instance: EditMessageMedia }
 
-impl EditMessageMediaBuilder {
+impl RTDEditMessageMediaBuilder {
   fn new(instance: EditMessageMedia) -> Self { Self { instance } }
 
   pub fn build(&self) -> EditMessageMedia { self.instance.clone() }
@@ -57285,7 +57285,7 @@ impl Function for EditMessageReplyMarkup {}
 
 impl EditMessageReplyMarkup {
   
-  pub fn builder() -> EditMessageReplyMarkupBuilder {
+  pub fn builder() -> RTDEditMessageReplyMarkupBuilder {
     let instance = Self {
       td_name: "editMessageReplyMarkup".to_string(),
       chat_id: None,
@@ -57293,7 +57293,7 @@ impl EditMessageReplyMarkup {
       reply_markup: None,
       
     };
-    EditMessageReplyMarkupBuilder::new(instance)
+    RTDEditMessageReplyMarkupBuilder::new(instance)
   }
   
   
@@ -57310,9 +57310,9 @@ impl EditMessageReplyMarkup {
 
 
 #[derive(Debug)]
-pub struct EditMessageReplyMarkupBuilder { instance: EditMessageReplyMarkup }
+pub struct RTDEditMessageReplyMarkupBuilder { instance: EditMessageReplyMarkup }
 
-impl EditMessageReplyMarkupBuilder {
+impl RTDEditMessageReplyMarkupBuilder {
   fn new(instance: EditMessageReplyMarkup) -> Self { Self { instance } }
 
   pub fn build(&self) -> EditMessageReplyMarkup { self.instance.clone() }
@@ -57375,7 +57375,7 @@ impl Function for EditMessageText {}
 
 impl EditMessageText {
   
-  pub fn builder() -> EditMessageTextBuilder {
+  pub fn builder() -> RTDEditMessageTextBuilder {
     let instance = Self {
       td_name: "editMessageText".to_string(),
       chat_id: None,
@@ -57384,7 +57384,7 @@ impl EditMessageText {
       input_message_content: None,
       
     };
-    EditMessageTextBuilder::new(instance)
+    RTDEditMessageTextBuilder::new(instance)
   }
   
   
@@ -57403,9 +57403,9 @@ impl EditMessageText {
 
 
 #[derive(Debug)]
-pub struct EditMessageTextBuilder { instance: EditMessageText }
+pub struct RTDEditMessageTextBuilder { instance: EditMessageText }
 
-impl EditMessageTextBuilder {
+impl RTDEditMessageTextBuilder {
   fn new(instance: EditMessageText) -> Self { Self { instance } }
 
   pub fn build(&self) -> EditMessageText { self.instance.clone() }
@@ -57475,7 +57475,7 @@ impl Function for EditProxy {}
 
 impl EditProxy {
   
-  pub fn builder() -> EditProxyBuilder {
+  pub fn builder() -> RTDEditProxyBuilder {
     let instance = Self {
       td_name: "editProxy".to_string(),
       proxy_id: None,
@@ -57485,7 +57485,7 @@ impl EditProxy {
       type_: None,
       
     };
-    EditProxyBuilder::new(instance)
+    RTDEditProxyBuilder::new(instance)
   }
   
   
@@ -57506,9 +57506,9 @@ impl EditProxy {
 
 
 #[derive(Debug)]
-pub struct EditProxyBuilder { instance: EditProxy }
+pub struct RTDEditProxyBuilder { instance: EditProxy }
 
-impl EditProxyBuilder {
+impl RTDEditProxyBuilder {
   fn new(instance: EditProxy) -> Self { Self { instance } }
 
   pub fn build(&self) -> EditProxy { self.instance.clone() }
@@ -57568,13 +57568,13 @@ impl Function for EnableProxy {}
 
 impl EnableProxy {
   
-  pub fn builder() -> EnableProxyBuilder {
+  pub fn builder() -> RTDEnableProxyBuilder {
     let instance = Self {
       td_name: "enableProxy".to_string(),
       proxy_id: None,
       
     };
-    EnableProxyBuilder::new(instance)
+    RTDEnableProxyBuilder::new(instance)
   }
   
   
@@ -57587,9 +57587,9 @@ impl EnableProxy {
 
 
 #[derive(Debug)]
-pub struct EnableProxyBuilder { instance: EnableProxy }
+pub struct RTDEnableProxyBuilder { instance: EnableProxy }
 
-impl EnableProxyBuilder {
+impl RTDEnableProxyBuilder {
   fn new(instance: EnableProxy) -> Self { Self { instance } }
 
   pub fn build(&self) -> EnableProxy { self.instance.clone() }
@@ -57631,14 +57631,14 @@ impl Function for FinishFileGeneration {}
 
 impl FinishFileGeneration {
   
-  pub fn builder() -> FinishFileGenerationBuilder {
+  pub fn builder() -> RTDFinishFileGenerationBuilder {
     let instance = Self {
       td_name: "finishFileGeneration".to_string(),
       generation_id: None,
       error: None,
       
     };
-    FinishFileGenerationBuilder::new(instance)
+    RTDFinishFileGenerationBuilder::new(instance)
   }
   
   
@@ -57653,9 +57653,9 @@ impl FinishFileGeneration {
 
 
 #[derive(Debug)]
-pub struct FinishFileGenerationBuilder { instance: FinishFileGeneration }
+pub struct RTDFinishFileGenerationBuilder { instance: FinishFileGeneration }
 
-impl FinishFileGenerationBuilder {
+impl RTDFinishFileGenerationBuilder {
   fn new(instance: FinishFileGeneration) -> Self { Self { instance } }
 
   pub fn build(&self) -> FinishFileGeneration { self.instance.clone() }
@@ -57710,7 +57710,7 @@ impl Function for ForwardMessages {}
 
 impl ForwardMessages {
   
-  pub fn builder() -> ForwardMessagesBuilder {
+  pub fn builder() -> RTDForwardMessagesBuilder {
     let instance = Self {
       td_name: "forwardMessages".to_string(),
       chat_id: None,
@@ -57721,7 +57721,7 @@ impl ForwardMessages {
       as_album: None,
       
     };
-    ForwardMessagesBuilder::new(instance)
+    RTDForwardMessagesBuilder::new(instance)
   }
   
   
@@ -57744,9 +57744,9 @@ impl ForwardMessages {
 
 
 #[derive(Debug)]
-pub struct ForwardMessagesBuilder { instance: ForwardMessages }
+pub struct RTDForwardMessagesBuilder { instance: ForwardMessages }
 
-impl ForwardMessagesBuilder {
+impl RTDForwardMessagesBuilder {
   fn new(instance: ForwardMessages) -> Self { Self { instance } }
 
   pub fn build(&self) -> ForwardMessages { self.instance.clone() }
@@ -57811,13 +57811,13 @@ impl Function for GenerateChatInviteLink {}
 
 impl GenerateChatInviteLink {
   
-  pub fn builder() -> GenerateChatInviteLinkBuilder {
+  pub fn builder() -> RTDGenerateChatInviteLinkBuilder {
     let instance = Self {
       td_name: "generateChatInviteLink".to_string(),
       chat_id: None,
       
     };
-    GenerateChatInviteLinkBuilder::new(instance)
+    RTDGenerateChatInviteLinkBuilder::new(instance)
   }
   
   
@@ -57830,9 +57830,9 @@ impl GenerateChatInviteLink {
 
 
 #[derive(Debug)]
-pub struct GenerateChatInviteLinkBuilder { instance: GenerateChatInviteLink }
+pub struct RTDGenerateChatInviteLinkBuilder { instance: GenerateChatInviteLink }
 
-impl GenerateChatInviteLinkBuilder {
+impl RTDGenerateChatInviteLinkBuilder {
   fn new(instance: GenerateChatInviteLink) -> Self { Self { instance } }
 
   pub fn build(&self) -> GenerateChatInviteLink { self.instance.clone() }
@@ -57870,12 +57870,12 @@ impl Function for GetAccountTtl {}
 
 impl GetAccountTtl {
   
-  pub fn builder() -> GetAccountTtlBuilder {
+  pub fn builder() -> RTDGetAccountTtlBuilder {
     let instance = Self {
       td_name: "getAccountTtl".to_string(),
       
     };
-    GetAccountTtlBuilder::new(instance)
+    RTDGetAccountTtlBuilder::new(instance)
   }
   
   
@@ -57886,9 +57886,9 @@ impl GetAccountTtl {
 
 
 #[derive(Debug)]
-pub struct GetAccountTtlBuilder { instance: GetAccountTtl }
+pub struct RTDGetAccountTtlBuilder { instance: GetAccountTtl }
 
-impl GetAccountTtlBuilder {
+impl RTDGetAccountTtlBuilder {
   fn new(instance: GetAccountTtl) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetAccountTtl { self.instance.clone() }
@@ -57921,12 +57921,12 @@ impl Function for GetActiveLiveLocationMessages {}
 
 impl GetActiveLiveLocationMessages {
   
-  pub fn builder() -> GetActiveLiveLocationMessagesBuilder {
+  pub fn builder() -> RTDGetActiveLiveLocationMessagesBuilder {
     let instance = Self {
       td_name: "getActiveLiveLocationMessages".to_string(),
       
     };
-    GetActiveLiveLocationMessagesBuilder::new(instance)
+    RTDGetActiveLiveLocationMessagesBuilder::new(instance)
   }
   
   
@@ -57937,9 +57937,9 @@ impl GetActiveLiveLocationMessages {
 
 
 #[derive(Debug)]
-pub struct GetActiveLiveLocationMessagesBuilder { instance: GetActiveLiveLocationMessages }
+pub struct RTDGetActiveLiveLocationMessagesBuilder { instance: GetActiveLiveLocationMessages }
 
-impl GetActiveLiveLocationMessagesBuilder {
+impl RTDGetActiveLiveLocationMessagesBuilder {
   fn new(instance: GetActiveLiveLocationMessages) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetActiveLiveLocationMessages { self.instance.clone() }
@@ -57972,12 +57972,12 @@ impl Function for GetActiveSessions {}
 
 impl GetActiveSessions {
   
-  pub fn builder() -> GetActiveSessionsBuilder {
+  pub fn builder() -> RTDGetActiveSessionsBuilder {
     let instance = Self {
       td_name: "getActiveSessions".to_string(),
       
     };
-    GetActiveSessionsBuilder::new(instance)
+    RTDGetActiveSessionsBuilder::new(instance)
   }
   
   
@@ -57988,9 +57988,9 @@ impl GetActiveSessions {
 
 
 #[derive(Debug)]
-pub struct GetActiveSessionsBuilder { instance: GetActiveSessions }
+pub struct RTDGetActiveSessionsBuilder { instance: GetActiveSessions }
 
-impl GetActiveSessionsBuilder {
+impl RTDGetActiveSessionsBuilder {
   fn new(instance: GetActiveSessions) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetActiveSessions { self.instance.clone() }
@@ -58025,13 +58025,13 @@ impl Function for GetAllPassportElements {}
 
 impl GetAllPassportElements {
   
-  pub fn builder() -> GetAllPassportElementsBuilder {
+  pub fn builder() -> RTDGetAllPassportElementsBuilder {
     let instance = Self {
       td_name: "getAllPassportElements".to_string(),
       password: None,
       
     };
-    GetAllPassportElementsBuilder::new(instance)
+    RTDGetAllPassportElementsBuilder::new(instance)
   }
   
   
@@ -58044,9 +58044,9 @@ impl GetAllPassportElements {
 
 
 #[derive(Debug)]
-pub struct GetAllPassportElementsBuilder { instance: GetAllPassportElements }
+pub struct RTDGetAllPassportElementsBuilder { instance: GetAllPassportElements }
 
-impl GetAllPassportElementsBuilder {
+impl RTDGetAllPassportElementsBuilder {
   fn new(instance: GetAllPassportElements) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetAllPassportElements { self.instance.clone() }
@@ -58084,12 +58084,12 @@ impl Function for GetApplicationConfig {}
 
 impl GetApplicationConfig {
   
-  pub fn builder() -> GetApplicationConfigBuilder {
+  pub fn builder() -> RTDGetApplicationConfigBuilder {
     let instance = Self {
       td_name: "getApplicationConfig".to_string(),
       
     };
-    GetApplicationConfigBuilder::new(instance)
+    RTDGetApplicationConfigBuilder::new(instance)
   }
   
   
@@ -58100,9 +58100,9 @@ impl GetApplicationConfig {
 
 
 #[derive(Debug)]
-pub struct GetApplicationConfigBuilder { instance: GetApplicationConfig }
+pub struct RTDGetApplicationConfigBuilder { instance: GetApplicationConfig }
 
-impl GetApplicationConfigBuilder {
+impl RTDGetApplicationConfigBuilder {
   fn new(instance: GetApplicationConfig) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetApplicationConfig { self.instance.clone() }
@@ -58141,7 +58141,7 @@ impl Function for GetArchivedStickerSets {}
 
 impl GetArchivedStickerSets {
   
-  pub fn builder() -> GetArchivedStickerSetsBuilder {
+  pub fn builder() -> RTDGetArchivedStickerSetsBuilder {
     let instance = Self {
       td_name: "getArchivedStickerSets".to_string(),
       is_masks: None,
@@ -58149,7 +58149,7 @@ impl GetArchivedStickerSets {
       limit: None,
       
     };
-    GetArchivedStickerSetsBuilder::new(instance)
+    RTDGetArchivedStickerSetsBuilder::new(instance)
   }
   
   
@@ -58166,9 +58166,9 @@ impl GetArchivedStickerSets {
 
 
 #[derive(Debug)]
-pub struct GetArchivedStickerSetsBuilder { instance: GetArchivedStickerSets }
+pub struct RTDGetArchivedStickerSetsBuilder { instance: GetArchivedStickerSets }
 
-impl GetArchivedStickerSetsBuilder {
+impl RTDGetArchivedStickerSetsBuilder {
   fn new(instance: GetArchivedStickerSets) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetArchivedStickerSets { self.instance.clone() }
@@ -58218,13 +58218,13 @@ impl Function for GetAttachedStickerSets {}
 
 impl GetAttachedStickerSets {
   
-  pub fn builder() -> GetAttachedStickerSetsBuilder {
+  pub fn builder() -> RTDGetAttachedStickerSetsBuilder {
     let instance = Self {
       td_name: "getAttachedStickerSets".to_string(),
       file_id: None,
       
     };
-    GetAttachedStickerSetsBuilder::new(instance)
+    RTDGetAttachedStickerSetsBuilder::new(instance)
   }
   
   
@@ -58237,9 +58237,9 @@ impl GetAttachedStickerSets {
 
 
 #[derive(Debug)]
-pub struct GetAttachedStickerSetsBuilder { instance: GetAttachedStickerSets }
+pub struct RTDGetAttachedStickerSetsBuilder { instance: GetAttachedStickerSets }
 
-impl GetAttachedStickerSetsBuilder {
+impl RTDGetAttachedStickerSetsBuilder {
   fn new(instance: GetAttachedStickerSets) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetAttachedStickerSets { self.instance.clone() }
@@ -58277,12 +58277,12 @@ impl Function for GetAuthorizationState {}
 
 impl GetAuthorizationState {
   
-  pub fn builder() -> GetAuthorizationStateBuilder {
+  pub fn builder() -> RTDGetAuthorizationStateBuilder {
     let instance = Self {
       td_name: "getAuthorizationState".to_string(),
       
     };
-    GetAuthorizationStateBuilder::new(instance)
+    RTDGetAuthorizationStateBuilder::new(instance)
   }
   
   
@@ -58293,9 +58293,9 @@ impl GetAuthorizationState {
 
 
 #[derive(Debug)]
-pub struct GetAuthorizationStateBuilder { instance: GetAuthorizationState }
+pub struct RTDGetAuthorizationStateBuilder { instance: GetAuthorizationState }
 
-impl GetAuthorizationStateBuilder {
+impl RTDGetAuthorizationStateBuilder {
   fn new(instance: GetAuthorizationState) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetAuthorizationState { self.instance.clone() }
@@ -58330,13 +58330,13 @@ impl Function for GetBasicGroup {}
 
 impl GetBasicGroup {
   
-  pub fn builder() -> GetBasicGroupBuilder {
+  pub fn builder() -> RTDGetBasicGroupBuilder {
     let instance = Self {
       td_name: "getBasicGroup".to_string(),
       basic_group_id: None,
       
     };
-    GetBasicGroupBuilder::new(instance)
+    RTDGetBasicGroupBuilder::new(instance)
   }
   
   
@@ -58349,9 +58349,9 @@ impl GetBasicGroup {
 
 
 #[derive(Debug)]
-pub struct GetBasicGroupBuilder { instance: GetBasicGroup }
+pub struct RTDGetBasicGroupBuilder { instance: GetBasicGroup }
 
-impl GetBasicGroupBuilder {
+impl RTDGetBasicGroupBuilder {
   fn new(instance: GetBasicGroup) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetBasicGroup { self.instance.clone() }
@@ -58391,13 +58391,13 @@ impl Function for GetBasicGroupFullInfo {}
 
 impl GetBasicGroupFullInfo {
   
-  pub fn builder() -> GetBasicGroupFullInfoBuilder {
+  pub fn builder() -> RTDGetBasicGroupFullInfoBuilder {
     let instance = Self {
       td_name: "getBasicGroupFullInfo".to_string(),
       basic_group_id: None,
       
     };
-    GetBasicGroupFullInfoBuilder::new(instance)
+    RTDGetBasicGroupFullInfoBuilder::new(instance)
   }
   
   
@@ -58410,9 +58410,9 @@ impl GetBasicGroupFullInfo {
 
 
 #[derive(Debug)]
-pub struct GetBasicGroupFullInfoBuilder { instance: GetBasicGroupFullInfo }
+pub struct RTDGetBasicGroupFullInfoBuilder { instance: GetBasicGroupFullInfo }
 
-impl GetBasicGroupFullInfoBuilder {
+impl RTDGetBasicGroupFullInfoBuilder {
   fn new(instance: GetBasicGroupFullInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetBasicGroupFullInfo { self.instance.clone() }
@@ -58454,14 +58454,14 @@ impl Function for GetBlockedUsers {}
 
 impl GetBlockedUsers {
   
-  pub fn builder() -> GetBlockedUsersBuilder {
+  pub fn builder() -> RTDGetBlockedUsersBuilder {
     let instance = Self {
       td_name: "getBlockedUsers".to_string(),
       offset: None,
       limit: None,
       
     };
-    GetBlockedUsersBuilder::new(instance)
+    RTDGetBlockedUsersBuilder::new(instance)
   }
   
   
@@ -58476,9 +58476,9 @@ impl GetBlockedUsers {
 
 
 #[derive(Debug)]
-pub struct GetBlockedUsersBuilder { instance: GetBlockedUsers }
+pub struct RTDGetBlockedUsersBuilder { instance: GetBlockedUsers }
 
-impl GetBlockedUsersBuilder {
+impl RTDGetBlockedUsersBuilder {
   fn new(instance: GetBlockedUsers) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetBlockedUsers { self.instance.clone() }
@@ -58534,7 +58534,7 @@ impl Function for GetCallbackQueryAnswer {}
 
 impl GetCallbackQueryAnswer {
   
-  pub fn builder() -> GetCallbackQueryAnswerBuilder {
+  pub fn builder() -> RTDGetCallbackQueryAnswerBuilder {
     let instance = Self {
       td_name: "getCallbackQueryAnswer".to_string(),
       chat_id: None,
@@ -58542,7 +58542,7 @@ impl GetCallbackQueryAnswer {
       payload: None,
       
     };
-    GetCallbackQueryAnswerBuilder::new(instance)
+    RTDGetCallbackQueryAnswerBuilder::new(instance)
   }
   
   
@@ -58559,9 +58559,9 @@ impl GetCallbackQueryAnswer {
 
 
 #[derive(Debug)]
-pub struct GetCallbackQueryAnswerBuilder { instance: GetCallbackQueryAnswer }
+pub struct RTDGetCallbackQueryAnswerBuilder { instance: GetCallbackQueryAnswer }
 
-impl GetCallbackQueryAnswerBuilder {
+impl RTDGetCallbackQueryAnswerBuilder {
   fn new(instance: GetCallbackQueryAnswer) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetCallbackQueryAnswer { self.instance.clone() }
@@ -58611,13 +58611,13 @@ impl Function for GetChat {}
 
 impl GetChat {
   
-  pub fn builder() -> GetChatBuilder {
+  pub fn builder() -> RTDGetChatBuilder {
     let instance = Self {
       td_name: "getChat".to_string(),
       chat_id: None,
       
     };
-    GetChatBuilder::new(instance)
+    RTDGetChatBuilder::new(instance)
   }
   
   
@@ -58630,9 +58630,9 @@ impl GetChat {
 
 
 #[derive(Debug)]
-pub struct GetChatBuilder { instance: GetChat }
+pub struct RTDGetChatBuilder { instance: GetChat }
 
-impl GetChatBuilder {
+impl RTDGetChatBuilder {
   fn new(instance: GetChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetChat { self.instance.clone() }
@@ -58672,13 +58672,13 @@ impl Function for GetChatAdministrators {}
 
 impl GetChatAdministrators {
   
-  pub fn builder() -> GetChatAdministratorsBuilder {
+  pub fn builder() -> RTDGetChatAdministratorsBuilder {
     let instance = Self {
       td_name: "getChatAdministrators".to_string(),
       chat_id: None,
       
     };
-    GetChatAdministratorsBuilder::new(instance)
+    RTDGetChatAdministratorsBuilder::new(instance)
   }
   
   
@@ -58691,9 +58691,9 @@ impl GetChatAdministrators {
 
 
 #[derive(Debug)]
-pub struct GetChatAdministratorsBuilder { instance: GetChatAdministrators }
+pub struct RTDGetChatAdministratorsBuilder { instance: GetChatAdministrators }
 
-impl GetChatAdministratorsBuilder {
+impl RTDGetChatAdministratorsBuilder {
   fn new(instance: GetChatAdministrators) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetChatAdministrators { self.instance.clone() }
@@ -58743,7 +58743,7 @@ impl Function for GetChatEventLog {}
 
 impl GetChatEventLog {
   
-  pub fn builder() -> GetChatEventLogBuilder {
+  pub fn builder() -> RTDGetChatEventLogBuilder {
     let instance = Self {
       td_name: "getChatEventLog".to_string(),
       chat_id: None,
@@ -58754,7 +58754,7 @@ impl GetChatEventLog {
       user_ids: None,
       
     };
-    GetChatEventLogBuilder::new(instance)
+    RTDGetChatEventLogBuilder::new(instance)
   }
   
   
@@ -58777,9 +58777,9 @@ impl GetChatEventLog {
 
 
 #[derive(Debug)]
-pub struct GetChatEventLogBuilder { instance: GetChatEventLog }
+pub struct RTDGetChatEventLogBuilder { instance: GetChatEventLog }
 
-impl GetChatEventLogBuilder {
+impl RTDGetChatEventLogBuilder {
   fn new(instance: GetChatEventLog) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetChatEventLog { self.instance.clone() }
@@ -58852,7 +58852,7 @@ impl Function for GetChatHistory {}
 
 impl GetChatHistory {
   
-  pub fn builder() -> GetChatHistoryBuilder {
+  pub fn builder() -> RTDGetChatHistoryBuilder {
     let instance = Self {
       td_name: "getChatHistory".to_string(),
       chat_id: None,
@@ -58862,7 +58862,7 @@ impl GetChatHistory {
       only_local: None,
       
     };
-    GetChatHistoryBuilder::new(instance)
+    RTDGetChatHistoryBuilder::new(instance)
   }
   
   
@@ -58883,9 +58883,9 @@ impl GetChatHistory {
 
 
 #[derive(Debug)]
-pub struct GetChatHistoryBuilder { instance: GetChatHistory }
+pub struct RTDGetChatHistoryBuilder { instance: GetChatHistory }
 
-impl GetChatHistoryBuilder {
+impl RTDGetChatHistoryBuilder {
   fn new(instance: GetChatHistory) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetChatHistory { self.instance.clone() }
@@ -58947,14 +58947,14 @@ impl Function for GetChatMember {}
 
 impl GetChatMember {
   
-  pub fn builder() -> GetChatMemberBuilder {
+  pub fn builder() -> RTDGetChatMemberBuilder {
     let instance = Self {
       td_name: "getChatMember".to_string(),
       chat_id: None,
       user_id: None,
       
     };
-    GetChatMemberBuilder::new(instance)
+    RTDGetChatMemberBuilder::new(instance)
   }
   
   
@@ -58969,9 +58969,9 @@ impl GetChatMember {
 
 
 #[derive(Debug)]
-pub struct GetChatMemberBuilder { instance: GetChatMember }
+pub struct RTDGetChatMemberBuilder { instance: GetChatMember }
 
-impl GetChatMemberBuilder {
+impl RTDGetChatMemberBuilder {
   fn new(instance: GetChatMember) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetChatMember { self.instance.clone() }
@@ -59018,14 +59018,14 @@ impl Function for GetChatMessageByDate {}
 
 impl GetChatMessageByDate {
   
-  pub fn builder() -> GetChatMessageByDateBuilder {
+  pub fn builder() -> RTDGetChatMessageByDateBuilder {
     let instance = Self {
       td_name: "getChatMessageByDate".to_string(),
       chat_id: None,
       date: None,
       
     };
-    GetChatMessageByDateBuilder::new(instance)
+    RTDGetChatMessageByDateBuilder::new(instance)
   }
   
   
@@ -59040,9 +59040,9 @@ impl GetChatMessageByDate {
 
 
 #[derive(Debug)]
-pub struct GetChatMessageByDateBuilder { instance: GetChatMessageByDate }
+pub struct RTDGetChatMessageByDateBuilder { instance: GetChatMessageByDate }
 
-impl GetChatMessageByDateBuilder {
+impl RTDGetChatMessageByDateBuilder {
   fn new(instance: GetChatMessageByDate) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetChatMessageByDate { self.instance.clone() }
@@ -59098,7 +59098,7 @@ impl Function for GetChatMessageCount {}
 
 impl GetChatMessageCount {
   
-  pub fn builder() -> GetChatMessageCountBuilder {
+  pub fn builder() -> RTDGetChatMessageCountBuilder {
     let instance = Self {
       td_name: "getChatMessageCount".to_string(),
       chat_id: None,
@@ -59106,7 +59106,7 @@ impl GetChatMessageCount {
       return_local: None,
       
     };
-    GetChatMessageCountBuilder::new(instance)
+    RTDGetChatMessageCountBuilder::new(instance)
   }
   
   
@@ -59123,9 +59123,9 @@ impl GetChatMessageCount {
 
 
 #[derive(Debug)]
-pub struct GetChatMessageCountBuilder { instance: GetChatMessageCount }
+pub struct RTDGetChatMessageCountBuilder { instance: GetChatMessageCount }
 
-impl GetChatMessageCountBuilder {
+impl RTDGetChatMessageCountBuilder {
   fn new(instance: GetChatMessageCount) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetChatMessageCount { self.instance.clone() }
@@ -59184,14 +59184,14 @@ impl Function for GetChatNotificationSettingsExceptions {}
 
 impl GetChatNotificationSettingsExceptions {
   
-  pub fn builder() -> GetChatNotificationSettingsExceptionsBuilder {
+  pub fn builder() -> RTDGetChatNotificationSettingsExceptionsBuilder {
     let instance = Self {
       td_name: "getChatNotificationSettingsExceptions".to_string(),
       scope: None,
       compare_sound: None,
       
     };
-    GetChatNotificationSettingsExceptionsBuilder::new(instance)
+    RTDGetChatNotificationSettingsExceptionsBuilder::new(instance)
   }
   
   
@@ -59206,9 +59206,9 @@ impl GetChatNotificationSettingsExceptions {
 
 
 #[derive(Debug)]
-pub struct GetChatNotificationSettingsExceptionsBuilder { instance: GetChatNotificationSettingsExceptions }
+pub struct RTDGetChatNotificationSettingsExceptionsBuilder { instance: GetChatNotificationSettingsExceptions }
 
-impl GetChatNotificationSettingsExceptionsBuilder {
+impl RTDGetChatNotificationSettingsExceptionsBuilder {
   fn new(instance: GetChatNotificationSettingsExceptions) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetChatNotificationSettingsExceptions { self.instance.clone() }
@@ -59253,13 +59253,13 @@ impl Function for GetChatPinnedMessage {}
 
 impl GetChatPinnedMessage {
   
-  pub fn builder() -> GetChatPinnedMessageBuilder {
+  pub fn builder() -> RTDGetChatPinnedMessageBuilder {
     let instance = Self {
       td_name: "getChatPinnedMessage".to_string(),
       chat_id: None,
       
     };
-    GetChatPinnedMessageBuilder::new(instance)
+    RTDGetChatPinnedMessageBuilder::new(instance)
   }
   
   
@@ -59272,9 +59272,9 @@ impl GetChatPinnedMessage {
 
 
 #[derive(Debug)]
-pub struct GetChatPinnedMessageBuilder { instance: GetChatPinnedMessage }
+pub struct RTDGetChatPinnedMessageBuilder { instance: GetChatPinnedMessage }
 
-impl GetChatPinnedMessageBuilder {
+impl RTDGetChatPinnedMessageBuilder {
   fn new(instance: GetChatPinnedMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetChatPinnedMessage { self.instance.clone() }
@@ -59314,13 +59314,13 @@ impl Function for GetChatReportSpamState {}
 
 impl GetChatReportSpamState {
   
-  pub fn builder() -> GetChatReportSpamStateBuilder {
+  pub fn builder() -> RTDGetChatReportSpamStateBuilder {
     let instance = Self {
       td_name: "getChatReportSpamState".to_string(),
       chat_id: None,
       
     };
-    GetChatReportSpamStateBuilder::new(instance)
+    RTDGetChatReportSpamStateBuilder::new(instance)
   }
   
   
@@ -59333,9 +59333,9 @@ impl GetChatReportSpamState {
 
 
 #[derive(Debug)]
-pub struct GetChatReportSpamStateBuilder { instance: GetChatReportSpamState }
+pub struct RTDGetChatReportSpamStateBuilder { instance: GetChatReportSpamState }
 
-impl GetChatReportSpamStateBuilder {
+impl RTDGetChatReportSpamStateBuilder {
   fn new(instance: GetChatReportSpamState) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetChatReportSpamState { self.instance.clone() }
@@ -59379,7 +59379,7 @@ impl Function for GetChatStatisticsUrl {}
 
 impl GetChatStatisticsUrl {
   
-  pub fn builder() -> GetChatStatisticsUrlBuilder {
+  pub fn builder() -> RTDGetChatStatisticsUrlBuilder {
     let instance = Self {
       td_name: "getChatStatisticsUrl".to_string(),
       chat_id: None,
@@ -59387,7 +59387,7 @@ impl GetChatStatisticsUrl {
       is_dark: None,
       
     };
-    GetChatStatisticsUrlBuilder::new(instance)
+    RTDGetChatStatisticsUrlBuilder::new(instance)
   }
   
   
@@ -59404,9 +59404,9 @@ impl GetChatStatisticsUrl {
 
 
 #[derive(Debug)]
-pub struct GetChatStatisticsUrlBuilder { instance: GetChatStatisticsUrl }
+pub struct RTDGetChatStatisticsUrlBuilder { instance: GetChatStatisticsUrl }
 
-impl GetChatStatisticsUrlBuilder {
+impl RTDGetChatStatisticsUrlBuilder {
   fn new(instance: GetChatStatisticsUrl) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetChatStatisticsUrl { self.instance.clone() }
@@ -59460,7 +59460,7 @@ impl Function for GetChats {}
 
 impl GetChats {
   
-  pub fn builder() -> GetChatsBuilder {
+  pub fn builder() -> RTDGetChatsBuilder {
     let instance = Self {
       td_name: "getChats".to_string(),
       offset_order: None,
@@ -59468,7 +59468,7 @@ impl GetChats {
       limit: None,
       
     };
-    GetChatsBuilder::new(instance)
+    RTDGetChatsBuilder::new(instance)
   }
   
   
@@ -59485,9 +59485,9 @@ impl GetChats {
 
 
 #[derive(Debug)]
-pub struct GetChatsBuilder { instance: GetChats }
+pub struct RTDGetChatsBuilder { instance: GetChats }
 
-impl GetChatsBuilder {
+impl RTDGetChatsBuilder {
   fn new(instance: GetChats) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetChats { self.instance.clone() }
@@ -59535,12 +59535,12 @@ impl Function for GetConnectedWebsites {}
 
 impl GetConnectedWebsites {
   
-  pub fn builder() -> GetConnectedWebsitesBuilder {
+  pub fn builder() -> RTDGetConnectedWebsitesBuilder {
     let instance = Self {
       td_name: "getConnectedWebsites".to_string(),
       
     };
-    GetConnectedWebsitesBuilder::new(instance)
+    RTDGetConnectedWebsitesBuilder::new(instance)
   }
   
   
@@ -59551,9 +59551,9 @@ impl GetConnectedWebsites {
 
 
 #[derive(Debug)]
-pub struct GetConnectedWebsitesBuilder { instance: GetConnectedWebsites }
+pub struct RTDGetConnectedWebsitesBuilder { instance: GetConnectedWebsites }
 
-impl GetConnectedWebsitesBuilder {
+impl RTDGetConnectedWebsitesBuilder {
   fn new(instance: GetConnectedWebsites) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetConnectedWebsites { self.instance.clone() }
@@ -59586,12 +59586,12 @@ impl Function for GetContacts {}
 
 impl GetContacts {
   
-  pub fn builder() -> GetContactsBuilder {
+  pub fn builder() -> RTDGetContactsBuilder {
     let instance = Self {
       td_name: "getContacts".to_string(),
       
     };
-    GetContactsBuilder::new(instance)
+    RTDGetContactsBuilder::new(instance)
   }
   
   
@@ -59602,9 +59602,9 @@ impl GetContacts {
 
 
 #[derive(Debug)]
-pub struct GetContactsBuilder { instance: GetContacts }
+pub struct RTDGetContactsBuilder { instance: GetContacts }
 
-impl GetContactsBuilder {
+impl RTDGetContactsBuilder {
   fn new(instance: GetContacts) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetContacts { self.instance.clone() }
@@ -59637,12 +59637,12 @@ impl Function for GetCountryCode {}
 
 impl GetCountryCode {
   
-  pub fn builder() -> GetCountryCodeBuilder {
+  pub fn builder() -> RTDGetCountryCodeBuilder {
     let instance = Self {
       td_name: "getCountryCode".to_string(),
       
     };
-    GetCountryCodeBuilder::new(instance)
+    RTDGetCountryCodeBuilder::new(instance)
   }
   
   
@@ -59653,9 +59653,9 @@ impl GetCountryCode {
 
 
 #[derive(Debug)]
-pub struct GetCountryCodeBuilder { instance: GetCountryCode }
+pub struct RTDGetCountryCodeBuilder { instance: GetCountryCode }
 
-impl GetCountryCodeBuilder {
+impl RTDGetCountryCodeBuilder {
   fn new(instance: GetCountryCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetCountryCode { self.instance.clone() }
@@ -59688,12 +59688,12 @@ impl Function for GetCreatedPublicChats {}
 
 impl GetCreatedPublicChats {
   
-  pub fn builder() -> GetCreatedPublicChatsBuilder {
+  pub fn builder() -> RTDGetCreatedPublicChatsBuilder {
     let instance = Self {
       td_name: "getCreatedPublicChats".to_string(),
       
     };
-    GetCreatedPublicChatsBuilder::new(instance)
+    RTDGetCreatedPublicChatsBuilder::new(instance)
   }
   
   
@@ -59704,9 +59704,9 @@ impl GetCreatedPublicChats {
 
 
 #[derive(Debug)]
-pub struct GetCreatedPublicChatsBuilder { instance: GetCreatedPublicChats }
+pub struct RTDGetCreatedPublicChatsBuilder { instance: GetCreatedPublicChats }
 
-impl GetCreatedPublicChatsBuilder {
+impl RTDGetCreatedPublicChatsBuilder {
   fn new(instance: GetCreatedPublicChats) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetCreatedPublicChats { self.instance.clone() }
@@ -59739,12 +59739,12 @@ impl Function for GetCurrentState {}
 
 impl GetCurrentState {
   
-  pub fn builder() -> GetCurrentStateBuilder {
+  pub fn builder() -> RTDGetCurrentStateBuilder {
     let instance = Self {
       td_name: "getCurrentState".to_string(),
       
     };
-    GetCurrentStateBuilder::new(instance)
+    RTDGetCurrentStateBuilder::new(instance)
   }
   
   
@@ -59755,9 +59755,9 @@ impl GetCurrentState {
 
 
 #[derive(Debug)]
-pub struct GetCurrentStateBuilder { instance: GetCurrentState }
+pub struct RTDGetCurrentStateBuilder { instance: GetCurrentState }
 
-impl GetCurrentStateBuilder {
+impl RTDGetCurrentStateBuilder {
   fn new(instance: GetCurrentState) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetCurrentState { self.instance.clone() }
@@ -59790,12 +59790,12 @@ impl Function for GetDatabaseStatistics {}
 
 impl GetDatabaseStatistics {
   
-  pub fn builder() -> GetDatabaseStatisticsBuilder {
+  pub fn builder() -> RTDGetDatabaseStatisticsBuilder {
     let instance = Self {
       td_name: "getDatabaseStatistics".to_string(),
       
     };
-    GetDatabaseStatisticsBuilder::new(instance)
+    RTDGetDatabaseStatisticsBuilder::new(instance)
   }
   
   
@@ -59806,9 +59806,9 @@ impl GetDatabaseStatistics {
 
 
 #[derive(Debug)]
-pub struct GetDatabaseStatisticsBuilder { instance: GetDatabaseStatistics }
+pub struct RTDGetDatabaseStatisticsBuilder { instance: GetDatabaseStatistics }
 
-impl GetDatabaseStatisticsBuilder {
+impl RTDGetDatabaseStatisticsBuilder {
   fn new(instance: GetDatabaseStatistics) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetDatabaseStatistics { self.instance.clone() }
@@ -59843,13 +59843,13 @@ impl Function for GetDeepLinkInfo {}
 
 impl GetDeepLinkInfo {
   
-  pub fn builder() -> GetDeepLinkInfoBuilder {
+  pub fn builder() -> RTDGetDeepLinkInfoBuilder {
     let instance = Self {
       td_name: "getDeepLinkInfo".to_string(),
       link: None,
       
     };
-    GetDeepLinkInfoBuilder::new(instance)
+    RTDGetDeepLinkInfoBuilder::new(instance)
   }
   
   
@@ -59862,9 +59862,9 @@ impl GetDeepLinkInfo {
 
 
 #[derive(Debug)]
-pub struct GetDeepLinkInfoBuilder { instance: GetDeepLinkInfo }
+pub struct RTDGetDeepLinkInfoBuilder { instance: GetDeepLinkInfo }
 
-impl GetDeepLinkInfoBuilder {
+impl RTDGetDeepLinkInfoBuilder {
   fn new(instance: GetDeepLinkInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetDeepLinkInfo { self.instance.clone() }
@@ -59902,12 +59902,12 @@ impl Function for GetFavoriteStickers {}
 
 impl GetFavoriteStickers {
   
-  pub fn builder() -> GetFavoriteStickersBuilder {
+  pub fn builder() -> RTDGetFavoriteStickersBuilder {
     let instance = Self {
       td_name: "getFavoriteStickers".to_string(),
       
     };
-    GetFavoriteStickersBuilder::new(instance)
+    RTDGetFavoriteStickersBuilder::new(instance)
   }
   
   
@@ -59918,9 +59918,9 @@ impl GetFavoriteStickers {
 
 
 #[derive(Debug)]
-pub struct GetFavoriteStickersBuilder { instance: GetFavoriteStickers }
+pub struct RTDGetFavoriteStickersBuilder { instance: GetFavoriteStickers }
 
-impl GetFavoriteStickersBuilder {
+impl RTDGetFavoriteStickersBuilder {
   fn new(instance: GetFavoriteStickers) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetFavoriteStickers { self.instance.clone() }
@@ -59955,13 +59955,13 @@ impl Function for GetFile {}
 
 impl GetFile {
   
-  pub fn builder() -> GetFileBuilder {
+  pub fn builder() -> RTDGetFileBuilder {
     let instance = Self {
       td_name: "getFile".to_string(),
       file_id: None,
       
     };
-    GetFileBuilder::new(instance)
+    RTDGetFileBuilder::new(instance)
   }
   
   
@@ -59974,9 +59974,9 @@ impl GetFile {
 
 
 #[derive(Debug)]
-pub struct GetFileBuilder { instance: GetFile }
+pub struct RTDGetFileBuilder { instance: GetFile }
 
-impl GetFileBuilder {
+impl RTDGetFileBuilder {
   fn new(instance: GetFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetFile { self.instance.clone() }
@@ -60018,14 +60018,14 @@ impl Function for GetFileDownloadedPrefixSize {}
 
 impl GetFileDownloadedPrefixSize {
   
-  pub fn builder() -> GetFileDownloadedPrefixSizeBuilder {
+  pub fn builder() -> RTDGetFileDownloadedPrefixSizeBuilder {
     let instance = Self {
       td_name: "getFileDownloadedPrefixSize".to_string(),
       file_id: None,
       offset: None,
       
     };
-    GetFileDownloadedPrefixSizeBuilder::new(instance)
+    RTDGetFileDownloadedPrefixSizeBuilder::new(instance)
   }
   
   
@@ -60040,9 +60040,9 @@ impl GetFileDownloadedPrefixSize {
 
 
 #[derive(Debug)]
-pub struct GetFileDownloadedPrefixSizeBuilder { instance: GetFileDownloadedPrefixSize }
+pub struct RTDGetFileDownloadedPrefixSizeBuilder { instance: GetFileDownloadedPrefixSize }
 
-impl GetFileDownloadedPrefixSizeBuilder {
+impl RTDGetFileDownloadedPrefixSizeBuilder {
   fn new(instance: GetFileDownloadedPrefixSize) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetFileDownloadedPrefixSize { self.instance.clone() }
@@ -60087,13 +60087,13 @@ impl Function for GetFileExtension {}
 
 impl GetFileExtension {
   
-  pub fn builder() -> GetFileExtensionBuilder {
+  pub fn builder() -> RTDGetFileExtensionBuilder {
     let instance = Self {
       td_name: "getFileExtension".to_string(),
       mime_type: None,
       
     };
-    GetFileExtensionBuilder::new(instance)
+    RTDGetFileExtensionBuilder::new(instance)
   }
   
   
@@ -60106,9 +60106,9 @@ impl GetFileExtension {
 
 
 #[derive(Debug)]
-pub struct GetFileExtensionBuilder { instance: GetFileExtension }
+pub struct RTDGetFileExtensionBuilder { instance: GetFileExtension }
 
-impl GetFileExtensionBuilder {
+impl RTDGetFileExtensionBuilder {
   fn new(instance: GetFileExtension) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetFileExtension { self.instance.clone() }
@@ -60148,13 +60148,13 @@ impl Function for GetFileMimeType {}
 
 impl GetFileMimeType {
   
-  pub fn builder() -> GetFileMimeTypeBuilder {
+  pub fn builder() -> RTDGetFileMimeTypeBuilder {
     let instance = Self {
       td_name: "getFileMimeType".to_string(),
       file_name: None,
       
     };
-    GetFileMimeTypeBuilder::new(instance)
+    RTDGetFileMimeTypeBuilder::new(instance)
   }
   
   
@@ -60167,9 +60167,9 @@ impl GetFileMimeType {
 
 
 #[derive(Debug)]
-pub struct GetFileMimeTypeBuilder { instance: GetFileMimeType }
+pub struct RTDGetFileMimeTypeBuilder { instance: GetFileMimeType }
 
-impl GetFileMimeTypeBuilder {
+impl RTDGetFileMimeTypeBuilder {
   fn new(instance: GetFileMimeType) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetFileMimeType { self.instance.clone() }
@@ -60213,7 +60213,7 @@ impl Function for GetGameHighScores {}
 
 impl GetGameHighScores {
   
-  pub fn builder() -> GetGameHighScoresBuilder {
+  pub fn builder() -> RTDGetGameHighScoresBuilder {
     let instance = Self {
       td_name: "getGameHighScores".to_string(),
       chat_id: None,
@@ -60221,7 +60221,7 @@ impl GetGameHighScores {
       user_id: None,
       
     };
-    GetGameHighScoresBuilder::new(instance)
+    RTDGetGameHighScoresBuilder::new(instance)
   }
   
   
@@ -60238,9 +60238,9 @@ impl GetGameHighScores {
 
 
 #[derive(Debug)]
-pub struct GetGameHighScoresBuilder { instance: GetGameHighScores }
+pub struct RTDGetGameHighScoresBuilder { instance: GetGameHighScores }
 
-impl GetGameHighScoresBuilder {
+impl RTDGetGameHighScoresBuilder {
   fn new(instance: GetGameHighScores) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetGameHighScores { self.instance.clone() }
@@ -60294,7 +60294,7 @@ impl Function for GetGroupsInCommon {}
 
 impl GetGroupsInCommon {
   
-  pub fn builder() -> GetGroupsInCommonBuilder {
+  pub fn builder() -> RTDGetGroupsInCommonBuilder {
     let instance = Self {
       td_name: "getGroupsInCommon".to_string(),
       user_id: None,
@@ -60302,7 +60302,7 @@ impl GetGroupsInCommon {
       limit: None,
       
     };
-    GetGroupsInCommonBuilder::new(instance)
+    RTDGetGroupsInCommonBuilder::new(instance)
   }
   
   
@@ -60319,9 +60319,9 @@ impl GetGroupsInCommon {
 
 
 #[derive(Debug)]
-pub struct GetGroupsInCommonBuilder { instance: GetGroupsInCommon }
+pub struct RTDGetGroupsInCommonBuilder { instance: GetGroupsInCommon }
 
-impl GetGroupsInCommonBuilder {
+impl RTDGetGroupsInCommonBuilder {
   fn new(instance: GetGroupsInCommon) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetGroupsInCommon { self.instance.clone() }
@@ -60369,12 +60369,12 @@ impl Function for GetImportedContactCount {}
 
 impl GetImportedContactCount {
   
-  pub fn builder() -> GetImportedContactCountBuilder {
+  pub fn builder() -> RTDGetImportedContactCountBuilder {
     let instance = Self {
       td_name: "getImportedContactCount".to_string(),
       
     };
-    GetImportedContactCountBuilder::new(instance)
+    RTDGetImportedContactCountBuilder::new(instance)
   }
   
   
@@ -60385,9 +60385,9 @@ impl GetImportedContactCount {
 
 
 #[derive(Debug)]
-pub struct GetImportedContactCountBuilder { instance: GetImportedContactCount }
+pub struct RTDGetImportedContactCountBuilder { instance: GetImportedContactCount }
 
-impl GetImportedContactCountBuilder {
+impl RTDGetImportedContactCountBuilder {
   fn new(instance: GetImportedContactCount) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetImportedContactCount { self.instance.clone() }
@@ -60424,14 +60424,14 @@ impl Function for GetInlineGameHighScores {}
 
 impl GetInlineGameHighScores {
   
-  pub fn builder() -> GetInlineGameHighScoresBuilder {
+  pub fn builder() -> RTDGetInlineGameHighScoresBuilder {
     let instance = Self {
       td_name: "getInlineGameHighScores".to_string(),
       inline_message_id: None,
       user_id: None,
       
     };
-    GetInlineGameHighScoresBuilder::new(instance)
+    RTDGetInlineGameHighScoresBuilder::new(instance)
   }
   
   
@@ -60446,9 +60446,9 @@ impl GetInlineGameHighScores {
 
 
 #[derive(Debug)]
-pub struct GetInlineGameHighScoresBuilder { instance: GetInlineGameHighScores }
+pub struct RTDGetInlineGameHighScoresBuilder { instance: GetInlineGameHighScores }
 
-impl GetInlineGameHighScoresBuilder {
+impl RTDGetInlineGameHighScoresBuilder {
   fn new(instance: GetInlineGameHighScores) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetInlineGameHighScores { self.instance.clone() }
@@ -60501,7 +60501,7 @@ impl Function for GetInlineQueryResults {}
 
 impl GetInlineQueryResults {
   
-  pub fn builder() -> GetInlineQueryResultsBuilder {
+  pub fn builder() -> RTDGetInlineQueryResultsBuilder {
     let instance = Self {
       td_name: "getInlineQueryResults".to_string(),
       bot_user_id: None,
@@ -60511,7 +60511,7 @@ impl GetInlineQueryResults {
       offset: None,
       
     };
-    GetInlineQueryResultsBuilder::new(instance)
+    RTDGetInlineQueryResultsBuilder::new(instance)
   }
   
   
@@ -60532,9 +60532,9 @@ impl GetInlineQueryResults {
 
 
 #[derive(Debug)]
-pub struct GetInlineQueryResultsBuilder { instance: GetInlineQueryResults }
+pub struct RTDGetInlineQueryResultsBuilder { instance: GetInlineQueryResults }
 
-impl GetInlineQueryResultsBuilder {
+impl RTDGetInlineQueryResultsBuilder {
   fn new(instance: GetInlineQueryResults) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetInlineQueryResults { self.instance.clone() }
@@ -60594,13 +60594,13 @@ impl Function for GetInstalledStickerSets {}
 
 impl GetInstalledStickerSets {
   
-  pub fn builder() -> GetInstalledStickerSetsBuilder {
+  pub fn builder() -> RTDGetInstalledStickerSetsBuilder {
     let instance = Self {
       td_name: "getInstalledStickerSets".to_string(),
       is_masks: None,
       
     };
-    GetInstalledStickerSetsBuilder::new(instance)
+    RTDGetInstalledStickerSetsBuilder::new(instance)
   }
   
   
@@ -60613,9 +60613,9 @@ impl GetInstalledStickerSets {
 
 
 #[derive(Debug)]
-pub struct GetInstalledStickerSetsBuilder { instance: GetInstalledStickerSets }
+pub struct RTDGetInstalledStickerSetsBuilder { instance: GetInstalledStickerSets }
 
-impl GetInstalledStickerSetsBuilder {
+impl RTDGetInstalledStickerSetsBuilder {
   fn new(instance: GetInstalledStickerSets) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetInstalledStickerSets { self.instance.clone() }
@@ -60653,12 +60653,12 @@ impl Function for GetInviteText {}
 
 impl GetInviteText {
   
-  pub fn builder() -> GetInviteTextBuilder {
+  pub fn builder() -> RTDGetInviteTextBuilder {
     let instance = Self {
       td_name: "getInviteText".to_string(),
       
     };
-    GetInviteTextBuilder::new(instance)
+    RTDGetInviteTextBuilder::new(instance)
   }
   
   
@@ -60669,9 +60669,9 @@ impl GetInviteText {
 
 
 #[derive(Debug)]
-pub struct GetInviteTextBuilder { instance: GetInviteText }
+pub struct RTDGetInviteTextBuilder { instance: GetInviteText }
 
-impl GetInviteTextBuilder {
+impl RTDGetInviteTextBuilder {
   fn new(instance: GetInviteText) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetInviteText { self.instance.clone() }
@@ -60706,13 +60706,13 @@ impl Function for GetLanguagePackInfo {}
 
 impl GetLanguagePackInfo {
   
-  pub fn builder() -> GetLanguagePackInfoBuilder {
+  pub fn builder() -> RTDGetLanguagePackInfoBuilder {
     let instance = Self {
       td_name: "getLanguagePackInfo".to_string(),
       language_pack_id: None,
       
     };
-    GetLanguagePackInfoBuilder::new(instance)
+    RTDGetLanguagePackInfoBuilder::new(instance)
   }
   
   
@@ -60725,9 +60725,9 @@ impl GetLanguagePackInfo {
 
 
 #[derive(Debug)]
-pub struct GetLanguagePackInfoBuilder { instance: GetLanguagePackInfo }
+pub struct RTDGetLanguagePackInfoBuilder { instance: GetLanguagePackInfo }
 
-impl GetLanguagePackInfoBuilder {
+impl RTDGetLanguagePackInfoBuilder {
   fn new(instance: GetLanguagePackInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetLanguagePackInfo { self.instance.clone() }
@@ -60773,7 +60773,7 @@ impl Function for GetLanguagePackString {}
 
 impl GetLanguagePackString {
   
-  pub fn builder() -> GetLanguagePackStringBuilder {
+  pub fn builder() -> RTDGetLanguagePackStringBuilder {
     let instance = Self {
       td_name: "getLanguagePackString".to_string(),
       language_pack_database_path: None,
@@ -60782,7 +60782,7 @@ impl GetLanguagePackString {
       key: None,
       
     };
-    GetLanguagePackStringBuilder::new(instance)
+    RTDGetLanguagePackStringBuilder::new(instance)
   }
   
   
@@ -60801,9 +60801,9 @@ impl GetLanguagePackString {
 
 
 #[derive(Debug)]
-pub struct GetLanguagePackStringBuilder { instance: GetLanguagePackString }
+pub struct RTDGetLanguagePackStringBuilder { instance: GetLanguagePackString }
 
-impl GetLanguagePackStringBuilder {
+impl RTDGetLanguagePackStringBuilder {
   fn new(instance: GetLanguagePackString) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetLanguagePackString { self.instance.clone() }
@@ -60860,14 +60860,14 @@ impl Function for GetLanguagePackStrings {}
 
 impl GetLanguagePackStrings {
   
-  pub fn builder() -> GetLanguagePackStringsBuilder {
+  pub fn builder() -> RTDGetLanguagePackStringsBuilder {
     let instance = Self {
       td_name: "getLanguagePackStrings".to_string(),
       language_pack_id: None,
       keys: None,
       
     };
-    GetLanguagePackStringsBuilder::new(instance)
+    RTDGetLanguagePackStringsBuilder::new(instance)
   }
   
   
@@ -60882,9 +60882,9 @@ impl GetLanguagePackStrings {
 
 
 #[derive(Debug)]
-pub struct GetLanguagePackStringsBuilder { instance: GetLanguagePackStrings }
+pub struct RTDGetLanguagePackStringsBuilder { instance: GetLanguagePackStrings }
 
-impl GetLanguagePackStringsBuilder {
+impl RTDGetLanguagePackStringsBuilder {
   fn new(instance: GetLanguagePackStrings) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetLanguagePackStrings { self.instance.clone() }
@@ -60929,13 +60929,13 @@ impl Function for GetLocalizationTargetInfo {}
 
 impl GetLocalizationTargetInfo {
   
-  pub fn builder() -> GetLocalizationTargetInfoBuilder {
+  pub fn builder() -> RTDGetLocalizationTargetInfoBuilder {
     let instance = Self {
       td_name: "getLocalizationTargetInfo".to_string(),
       only_local: None,
       
     };
-    GetLocalizationTargetInfoBuilder::new(instance)
+    RTDGetLocalizationTargetInfoBuilder::new(instance)
   }
   
   
@@ -60948,9 +60948,9 @@ impl GetLocalizationTargetInfo {
 
 
 #[derive(Debug)]
-pub struct GetLocalizationTargetInfoBuilder { instance: GetLocalizationTargetInfo }
+pub struct RTDGetLocalizationTargetInfoBuilder { instance: GetLocalizationTargetInfo }
 
-impl GetLocalizationTargetInfoBuilder {
+impl RTDGetLocalizationTargetInfoBuilder {
   fn new(instance: GetLocalizationTargetInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetLocalizationTargetInfo { self.instance.clone() }
@@ -60988,12 +60988,12 @@ impl Function for GetLogStream {}
 
 impl GetLogStream {
   
-  pub fn builder() -> GetLogStreamBuilder {
+  pub fn builder() -> RTDGetLogStreamBuilder {
     let instance = Self {
       td_name: "getLogStream".to_string(),
       
     };
-    GetLogStreamBuilder::new(instance)
+    RTDGetLogStreamBuilder::new(instance)
   }
   
   
@@ -61004,9 +61004,9 @@ impl GetLogStream {
 
 
 #[derive(Debug)]
-pub struct GetLogStreamBuilder { instance: GetLogStream }
+pub struct RTDGetLogStreamBuilder { instance: GetLogStream }
 
-impl GetLogStreamBuilder {
+impl RTDGetLogStreamBuilder {
   fn new(instance: GetLogStream) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetLogStream { self.instance.clone() }
@@ -61041,13 +61041,13 @@ impl Function for GetLogTagVerbosityLevel {}
 
 impl GetLogTagVerbosityLevel {
   
-  pub fn builder() -> GetLogTagVerbosityLevelBuilder {
+  pub fn builder() -> RTDGetLogTagVerbosityLevelBuilder {
     let instance = Self {
       td_name: "getLogTagVerbosityLevel".to_string(),
       tag: None,
       
     };
-    GetLogTagVerbosityLevelBuilder::new(instance)
+    RTDGetLogTagVerbosityLevelBuilder::new(instance)
   }
   
   
@@ -61060,9 +61060,9 @@ impl GetLogTagVerbosityLevel {
 
 
 #[derive(Debug)]
-pub struct GetLogTagVerbosityLevelBuilder { instance: GetLogTagVerbosityLevel }
+pub struct RTDGetLogTagVerbosityLevelBuilder { instance: GetLogTagVerbosityLevel }
 
-impl GetLogTagVerbosityLevelBuilder {
+impl RTDGetLogTagVerbosityLevelBuilder {
   fn new(instance: GetLogTagVerbosityLevel) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetLogTagVerbosityLevel { self.instance.clone() }
@@ -61100,12 +61100,12 @@ impl Function for GetLogTags {}
 
 impl GetLogTags {
   
-  pub fn builder() -> GetLogTagsBuilder {
+  pub fn builder() -> RTDGetLogTagsBuilder {
     let instance = Self {
       td_name: "getLogTags".to_string(),
       
     };
-    GetLogTagsBuilder::new(instance)
+    RTDGetLogTagsBuilder::new(instance)
   }
   
   
@@ -61116,9 +61116,9 @@ impl GetLogTags {
 
 
 #[derive(Debug)]
-pub struct GetLogTagsBuilder { instance: GetLogTags }
+pub struct RTDGetLogTagsBuilder { instance: GetLogTags }
 
-impl GetLogTagsBuilder {
+impl RTDGetLogTagsBuilder {
   fn new(instance: GetLogTags) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetLogTags { self.instance.clone() }
@@ -61151,12 +61151,12 @@ impl Function for GetLogVerbosityLevel {}
 
 impl GetLogVerbosityLevel {
   
-  pub fn builder() -> GetLogVerbosityLevelBuilder {
+  pub fn builder() -> RTDGetLogVerbosityLevelBuilder {
     let instance = Self {
       td_name: "getLogVerbosityLevel".to_string(),
       
     };
-    GetLogVerbosityLevelBuilder::new(instance)
+    RTDGetLogVerbosityLevelBuilder::new(instance)
   }
   
   
@@ -61167,9 +61167,9 @@ impl GetLogVerbosityLevel {
 
 
 #[derive(Debug)]
-pub struct GetLogVerbosityLevelBuilder { instance: GetLogVerbosityLevel }
+pub struct RTDGetLogVerbosityLevelBuilder { instance: GetLogVerbosityLevel }
 
-impl GetLogVerbosityLevelBuilder {
+impl RTDGetLogVerbosityLevelBuilder {
   fn new(instance: GetLogVerbosityLevel) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetLogVerbosityLevel { self.instance.clone() }
@@ -61214,7 +61214,7 @@ impl Function for GetMapThumbnailFile {}
 
 impl GetMapThumbnailFile {
   
-  pub fn builder() -> GetMapThumbnailFileBuilder {
+  pub fn builder() -> RTDGetMapThumbnailFileBuilder {
     let instance = Self {
       td_name: "getMapThumbnailFile".to_string(),
       location: None,
@@ -61225,7 +61225,7 @@ impl GetMapThumbnailFile {
       chat_id: None,
       
     };
-    GetMapThumbnailFileBuilder::new(instance)
+    RTDGetMapThumbnailFileBuilder::new(instance)
   }
   
   
@@ -61248,9 +61248,9 @@ impl GetMapThumbnailFile {
 
 
 #[derive(Debug)]
-pub struct GetMapThumbnailFileBuilder { instance: GetMapThumbnailFile }
+pub struct RTDGetMapThumbnailFileBuilder { instance: GetMapThumbnailFile }
 
-impl GetMapThumbnailFileBuilder {
+impl RTDGetMapThumbnailFileBuilder {
   fn new(instance: GetMapThumbnailFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetMapThumbnailFile { self.instance.clone() }
@@ -61313,12 +61313,12 @@ impl Function for GetMe {}
 
 impl GetMe {
   
-  pub fn builder() -> GetMeBuilder {
+  pub fn builder() -> RTDGetMeBuilder {
     let instance = Self {
       td_name: "getMe".to_string(),
       
     };
-    GetMeBuilder::new(instance)
+    RTDGetMeBuilder::new(instance)
   }
   
   
@@ -61329,9 +61329,9 @@ impl GetMe {
 
 
 #[derive(Debug)]
-pub struct GetMeBuilder { instance: GetMe }
+pub struct RTDGetMeBuilder { instance: GetMe }
 
-impl GetMeBuilder {
+impl RTDGetMeBuilder {
   fn new(instance: GetMe) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetMe { self.instance.clone() }
@@ -61368,14 +61368,14 @@ impl Function for GetMessage {}
 
 impl GetMessage {
   
-  pub fn builder() -> GetMessageBuilder {
+  pub fn builder() -> RTDGetMessageBuilder {
     let instance = Self {
       td_name: "getMessage".to_string(),
       chat_id: None,
       message_id: None,
       
     };
-    GetMessageBuilder::new(instance)
+    RTDGetMessageBuilder::new(instance)
   }
   
   
@@ -61390,9 +61390,9 @@ impl GetMessage {
 
 
 #[derive(Debug)]
-pub struct GetMessageBuilder { instance: GetMessage }
+pub struct RTDGetMessageBuilder { instance: GetMessage }
 
-impl GetMessageBuilder {
+impl RTDGetMessageBuilder {
   fn new(instance: GetMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetMessage { self.instance.clone() }
@@ -61439,14 +61439,14 @@ impl Function for GetMessageLink {}
 
 impl GetMessageLink {
   
-  pub fn builder() -> GetMessageLinkBuilder {
+  pub fn builder() -> RTDGetMessageLinkBuilder {
     let instance = Self {
       td_name: "getMessageLink".to_string(),
       chat_id: None,
       message_id: None,
       
     };
-    GetMessageLinkBuilder::new(instance)
+    RTDGetMessageLinkBuilder::new(instance)
   }
   
   
@@ -61461,9 +61461,9 @@ impl GetMessageLink {
 
 
 #[derive(Debug)]
-pub struct GetMessageLinkBuilder { instance: GetMessageLink }
+pub struct RTDGetMessageLinkBuilder { instance: GetMessageLink }
 
-impl GetMessageLinkBuilder {
+impl RTDGetMessageLinkBuilder {
   fn new(instance: GetMessageLink) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetMessageLink { self.instance.clone() }
@@ -61510,14 +61510,14 @@ impl Function for GetMessageLocally {}
 
 impl GetMessageLocally {
   
-  pub fn builder() -> GetMessageLocallyBuilder {
+  pub fn builder() -> RTDGetMessageLocallyBuilder {
     let instance = Self {
       td_name: "getMessageLocally".to_string(),
       chat_id: None,
       message_id: None,
       
     };
-    GetMessageLocallyBuilder::new(instance)
+    RTDGetMessageLocallyBuilder::new(instance)
   }
   
   
@@ -61532,9 +61532,9 @@ impl GetMessageLocally {
 
 
 #[derive(Debug)]
-pub struct GetMessageLocallyBuilder { instance: GetMessageLocally }
+pub struct RTDGetMessageLocallyBuilder { instance: GetMessageLocally }
 
-impl GetMessageLocallyBuilder {
+impl RTDGetMessageLocallyBuilder {
   fn new(instance: GetMessageLocally) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetMessageLocally { self.instance.clone() }
@@ -61581,14 +61581,14 @@ impl Function for GetMessages {}
 
 impl GetMessages {
   
-  pub fn builder() -> GetMessagesBuilder {
+  pub fn builder() -> RTDGetMessagesBuilder {
     let instance = Self {
       td_name: "getMessages".to_string(),
       chat_id: None,
       message_ids: None,
       
     };
-    GetMessagesBuilder::new(instance)
+    RTDGetMessagesBuilder::new(instance)
   }
   
   
@@ -61603,9 +61603,9 @@ impl GetMessages {
 
 
 #[derive(Debug)]
-pub struct GetMessagesBuilder { instance: GetMessages }
+pub struct RTDGetMessagesBuilder { instance: GetMessages }
 
-impl GetMessagesBuilder {
+impl RTDGetMessagesBuilder {
   fn new(instance: GetMessages) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetMessages { self.instance.clone() }
@@ -61650,13 +61650,13 @@ impl Function for GetNetworkStatistics {}
 
 impl GetNetworkStatistics {
   
-  pub fn builder() -> GetNetworkStatisticsBuilder {
+  pub fn builder() -> RTDGetNetworkStatisticsBuilder {
     let instance = Self {
       td_name: "getNetworkStatistics".to_string(),
       only_current: None,
       
     };
-    GetNetworkStatisticsBuilder::new(instance)
+    RTDGetNetworkStatisticsBuilder::new(instance)
   }
   
   
@@ -61669,9 +61669,9 @@ impl GetNetworkStatistics {
 
 
 #[derive(Debug)]
-pub struct GetNetworkStatisticsBuilder { instance: GetNetworkStatistics }
+pub struct RTDGetNetworkStatisticsBuilder { instance: GetNetworkStatistics }
 
-impl GetNetworkStatisticsBuilder {
+impl RTDGetNetworkStatisticsBuilder {
   fn new(instance: GetNetworkStatistics) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetNetworkStatistics { self.instance.clone() }
@@ -61711,13 +61711,13 @@ impl Function for GetOption {}
 
 impl GetOption {
   
-  pub fn builder() -> GetOptionBuilder {
+  pub fn builder() -> RTDGetOptionBuilder {
     let instance = Self {
       td_name: "getOption".to_string(),
       name: None,
       
     };
-    GetOptionBuilder::new(instance)
+    RTDGetOptionBuilder::new(instance)
   }
   
   
@@ -61730,9 +61730,9 @@ impl GetOption {
 
 
 #[derive(Debug)]
-pub struct GetOptionBuilder { instance: GetOption }
+pub struct RTDGetOptionBuilder { instance: GetOption }
 
-impl GetOptionBuilder {
+impl RTDGetOptionBuilder {
   fn new(instance: GetOption) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetOption { self.instance.clone() }
@@ -61778,7 +61778,7 @@ impl Function for GetPassportAuthorizationForm {}
 
 impl GetPassportAuthorizationForm {
   
-  pub fn builder() -> GetPassportAuthorizationFormBuilder {
+  pub fn builder() -> RTDGetPassportAuthorizationFormBuilder {
     let instance = Self {
       td_name: "getPassportAuthorizationForm".to_string(),
       bot_user_id: None,
@@ -61787,7 +61787,7 @@ impl GetPassportAuthorizationForm {
       nonce: None,
       
     };
-    GetPassportAuthorizationFormBuilder::new(instance)
+    RTDGetPassportAuthorizationFormBuilder::new(instance)
   }
   
   
@@ -61806,9 +61806,9 @@ impl GetPassportAuthorizationForm {
 
 
 #[derive(Debug)]
-pub struct GetPassportAuthorizationFormBuilder { instance: GetPassportAuthorizationForm }
+pub struct RTDGetPassportAuthorizationFormBuilder { instance: GetPassportAuthorizationForm }
 
-impl GetPassportAuthorizationFormBuilder {
+impl RTDGetPassportAuthorizationFormBuilder {
   fn new(instance: GetPassportAuthorizationForm) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetPassportAuthorizationForm { self.instance.clone() }
@@ -61865,14 +61865,14 @@ impl Function for GetPassportAuthorizationFormAvailableElements {}
 
 impl GetPassportAuthorizationFormAvailableElements {
   
-  pub fn builder() -> GetPassportAuthorizationFormAvailableElementsBuilder {
+  pub fn builder() -> RTDGetPassportAuthorizationFormAvailableElementsBuilder {
     let instance = Self {
       td_name: "getPassportAuthorizationFormAvailableElements".to_string(),
       autorization_form_id: None,
       password: None,
       
     };
-    GetPassportAuthorizationFormAvailableElementsBuilder::new(instance)
+    RTDGetPassportAuthorizationFormAvailableElementsBuilder::new(instance)
   }
   
   
@@ -61887,9 +61887,9 @@ impl GetPassportAuthorizationFormAvailableElements {
 
 
 #[derive(Debug)]
-pub struct GetPassportAuthorizationFormAvailableElementsBuilder { instance: GetPassportAuthorizationFormAvailableElements }
+pub struct RTDGetPassportAuthorizationFormAvailableElementsBuilder { instance: GetPassportAuthorizationFormAvailableElements }
 
-impl GetPassportAuthorizationFormAvailableElementsBuilder {
+impl RTDGetPassportAuthorizationFormAvailableElementsBuilder {
   fn new(instance: GetPassportAuthorizationFormAvailableElements) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetPassportAuthorizationFormAvailableElements { self.instance.clone() }
@@ -61943,14 +61943,14 @@ impl Function for GetPassportElement {}
 
 impl GetPassportElement {
   
-  pub fn builder() -> GetPassportElementBuilder {
+  pub fn builder() -> RTDGetPassportElementBuilder {
     let instance = Self {
       td_name: "getPassportElement".to_string(),
       type_: None,
       password: None,
       
     };
-    GetPassportElementBuilder::new(instance)
+    RTDGetPassportElementBuilder::new(instance)
   }
   
   
@@ -61965,9 +61965,9 @@ impl GetPassportElement {
 
 
 #[derive(Debug)]
-pub struct GetPassportElementBuilder { instance: GetPassportElement }
+pub struct RTDGetPassportElementBuilder { instance: GetPassportElement }
 
-impl GetPassportElementBuilder {
+impl RTDGetPassportElementBuilder {
   fn new(instance: GetPassportElement) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetPassportElement { self.instance.clone() }
@@ -62010,12 +62010,12 @@ impl Function for GetPasswordState {}
 
 impl GetPasswordState {
   
-  pub fn builder() -> GetPasswordStateBuilder {
+  pub fn builder() -> RTDGetPasswordStateBuilder {
     let instance = Self {
       td_name: "getPasswordState".to_string(),
       
     };
-    GetPasswordStateBuilder::new(instance)
+    RTDGetPasswordStateBuilder::new(instance)
   }
   
   
@@ -62026,9 +62026,9 @@ impl GetPasswordState {
 
 
 #[derive(Debug)]
-pub struct GetPasswordStateBuilder { instance: GetPasswordState }
+pub struct RTDGetPasswordStateBuilder { instance: GetPasswordState }
 
-impl GetPasswordStateBuilder {
+impl RTDGetPasswordStateBuilder {
   fn new(instance: GetPasswordState) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetPasswordState { self.instance.clone() }
@@ -62065,14 +62065,14 @@ impl Function for GetPaymentForm {}
 
 impl GetPaymentForm {
   
-  pub fn builder() -> GetPaymentFormBuilder {
+  pub fn builder() -> RTDGetPaymentFormBuilder {
     let instance = Self {
       td_name: "getPaymentForm".to_string(),
       chat_id: None,
       message_id: None,
       
     };
-    GetPaymentFormBuilder::new(instance)
+    RTDGetPaymentFormBuilder::new(instance)
   }
   
   
@@ -62087,9 +62087,9 @@ impl GetPaymentForm {
 
 
 #[derive(Debug)]
-pub struct GetPaymentFormBuilder { instance: GetPaymentForm }
+pub struct RTDGetPaymentFormBuilder { instance: GetPaymentForm }
 
-impl GetPaymentFormBuilder {
+impl RTDGetPaymentFormBuilder {
   fn new(instance: GetPaymentForm) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetPaymentForm { self.instance.clone() }
@@ -62136,14 +62136,14 @@ impl Function for GetPaymentReceipt {}
 
 impl GetPaymentReceipt {
   
-  pub fn builder() -> GetPaymentReceiptBuilder {
+  pub fn builder() -> RTDGetPaymentReceiptBuilder {
     let instance = Self {
       td_name: "getPaymentReceipt".to_string(),
       chat_id: None,
       message_id: None,
       
     };
-    GetPaymentReceiptBuilder::new(instance)
+    RTDGetPaymentReceiptBuilder::new(instance)
   }
   
   
@@ -62158,9 +62158,9 @@ impl GetPaymentReceipt {
 
 
 #[derive(Debug)]
-pub struct GetPaymentReceiptBuilder { instance: GetPaymentReceipt }
+pub struct RTDGetPaymentReceiptBuilder { instance: GetPaymentReceipt }
 
-impl GetPaymentReceiptBuilder {
+impl RTDGetPaymentReceiptBuilder {
   fn new(instance: GetPaymentReceipt) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetPaymentReceipt { self.instance.clone() }
@@ -62205,13 +62205,13 @@ impl Function for GetPreferredCountryLanguage {}
 
 impl GetPreferredCountryLanguage {
   
-  pub fn builder() -> GetPreferredCountryLanguageBuilder {
+  pub fn builder() -> RTDGetPreferredCountryLanguageBuilder {
     let instance = Self {
       td_name: "getPreferredCountryLanguage".to_string(),
       country_code: None,
       
     };
-    GetPreferredCountryLanguageBuilder::new(instance)
+    RTDGetPreferredCountryLanguageBuilder::new(instance)
   }
   
   
@@ -62224,9 +62224,9 @@ impl GetPreferredCountryLanguage {
 
 
 #[derive(Debug)]
-pub struct GetPreferredCountryLanguageBuilder { instance: GetPreferredCountryLanguage }
+pub struct RTDGetPreferredCountryLanguageBuilder { instance: GetPreferredCountryLanguage }
 
-impl GetPreferredCountryLanguageBuilder {
+impl RTDGetPreferredCountryLanguageBuilder {
   fn new(instance: GetPreferredCountryLanguage) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetPreferredCountryLanguage { self.instance.clone() }
@@ -62264,12 +62264,12 @@ impl Function for GetProxies {}
 
 impl GetProxies {
   
-  pub fn builder() -> GetProxiesBuilder {
+  pub fn builder() -> RTDGetProxiesBuilder {
     let instance = Self {
       td_name: "getProxies".to_string(),
       
     };
-    GetProxiesBuilder::new(instance)
+    RTDGetProxiesBuilder::new(instance)
   }
   
   
@@ -62280,9 +62280,9 @@ impl GetProxies {
 
 
 #[derive(Debug)]
-pub struct GetProxiesBuilder { instance: GetProxies }
+pub struct RTDGetProxiesBuilder { instance: GetProxies }
 
-impl GetProxiesBuilder {
+impl RTDGetProxiesBuilder {
   fn new(instance: GetProxies) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetProxies { self.instance.clone() }
@@ -62317,13 +62317,13 @@ impl Function for GetProxyLink {}
 
 impl GetProxyLink {
   
-  pub fn builder() -> GetProxyLinkBuilder {
+  pub fn builder() -> RTDGetProxyLinkBuilder {
     let instance = Self {
       td_name: "getProxyLink".to_string(),
       proxy_id: None,
       
     };
-    GetProxyLinkBuilder::new(instance)
+    RTDGetProxyLinkBuilder::new(instance)
   }
   
   
@@ -62336,9 +62336,9 @@ impl GetProxyLink {
 
 
 #[derive(Debug)]
-pub struct GetProxyLinkBuilder { instance: GetProxyLink }
+pub struct RTDGetProxyLinkBuilder { instance: GetProxyLink }
 
-impl GetProxyLinkBuilder {
+impl RTDGetProxyLinkBuilder {
   fn new(instance: GetProxyLink) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetProxyLink { self.instance.clone() }
@@ -62382,7 +62382,7 @@ impl Function for GetPublicMessageLink {}
 
 impl GetPublicMessageLink {
   
-  pub fn builder() -> GetPublicMessageLinkBuilder {
+  pub fn builder() -> RTDGetPublicMessageLinkBuilder {
     let instance = Self {
       td_name: "getPublicMessageLink".to_string(),
       chat_id: None,
@@ -62390,7 +62390,7 @@ impl GetPublicMessageLink {
       for_album: None,
       
     };
-    GetPublicMessageLinkBuilder::new(instance)
+    RTDGetPublicMessageLinkBuilder::new(instance)
   }
   
   
@@ -62407,9 +62407,9 @@ impl GetPublicMessageLink {
 
 
 #[derive(Debug)]
-pub struct GetPublicMessageLinkBuilder { instance: GetPublicMessageLink }
+pub struct RTDGetPublicMessageLinkBuilder { instance: GetPublicMessageLink }
 
-impl GetPublicMessageLinkBuilder {
+impl RTDGetPublicMessageLinkBuilder {
   fn new(instance: GetPublicMessageLink) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetPublicMessageLink { self.instance.clone() }
@@ -62459,13 +62459,13 @@ impl Function for GetPushReceiverId {}
 
 impl GetPushReceiverId {
   
-  pub fn builder() -> GetPushReceiverIdBuilder {
+  pub fn builder() -> RTDGetPushReceiverIdBuilder {
     let instance = Self {
       td_name: "getPushReceiverId".to_string(),
       payload: None,
       
     };
-    GetPushReceiverIdBuilder::new(instance)
+    RTDGetPushReceiverIdBuilder::new(instance)
   }
   
   
@@ -62478,9 +62478,9 @@ impl GetPushReceiverId {
 
 
 #[derive(Debug)]
-pub struct GetPushReceiverIdBuilder { instance: GetPushReceiverId }
+pub struct RTDGetPushReceiverIdBuilder { instance: GetPushReceiverId }
 
-impl GetPushReceiverIdBuilder {
+impl RTDGetPushReceiverIdBuilder {
   fn new(instance: GetPushReceiverId) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetPushReceiverId { self.instance.clone() }
@@ -62518,12 +62518,12 @@ impl Function for GetRecentInlineBots {}
 
 impl GetRecentInlineBots {
   
-  pub fn builder() -> GetRecentInlineBotsBuilder {
+  pub fn builder() -> RTDGetRecentInlineBotsBuilder {
     let instance = Self {
       td_name: "getRecentInlineBots".to_string(),
       
     };
-    GetRecentInlineBotsBuilder::new(instance)
+    RTDGetRecentInlineBotsBuilder::new(instance)
   }
   
   
@@ -62534,9 +62534,9 @@ impl GetRecentInlineBots {
 
 
 #[derive(Debug)]
-pub struct GetRecentInlineBotsBuilder { instance: GetRecentInlineBots }
+pub struct RTDGetRecentInlineBotsBuilder { instance: GetRecentInlineBots }
 
-impl GetRecentInlineBotsBuilder {
+impl RTDGetRecentInlineBotsBuilder {
   fn new(instance: GetRecentInlineBots) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetRecentInlineBots { self.instance.clone() }
@@ -62571,13 +62571,13 @@ impl Function for GetRecentStickers {}
 
 impl GetRecentStickers {
   
-  pub fn builder() -> GetRecentStickersBuilder {
+  pub fn builder() -> RTDGetRecentStickersBuilder {
     let instance = Self {
       td_name: "getRecentStickers".to_string(),
       is_attached: None,
       
     };
-    GetRecentStickersBuilder::new(instance)
+    RTDGetRecentStickersBuilder::new(instance)
   }
   
   
@@ -62590,9 +62590,9 @@ impl GetRecentStickers {
 
 
 #[derive(Debug)]
-pub struct GetRecentStickersBuilder { instance: GetRecentStickers }
+pub struct RTDGetRecentStickersBuilder { instance: GetRecentStickers }
 
-impl GetRecentStickersBuilder {
+impl RTDGetRecentStickersBuilder {
   fn new(instance: GetRecentStickers) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetRecentStickers { self.instance.clone() }
@@ -62632,13 +62632,13 @@ impl Function for GetRecentlyVisitedTMeUrls {}
 
 impl GetRecentlyVisitedTMeUrls {
   
-  pub fn builder() -> GetRecentlyVisitedTMeUrlsBuilder {
+  pub fn builder() -> RTDGetRecentlyVisitedTMeUrlsBuilder {
     let instance = Self {
       td_name: "getRecentlyVisitedTMeUrls".to_string(),
       referrer: None,
       
     };
-    GetRecentlyVisitedTMeUrlsBuilder::new(instance)
+    RTDGetRecentlyVisitedTMeUrlsBuilder::new(instance)
   }
   
   
@@ -62651,9 +62651,9 @@ impl GetRecentlyVisitedTMeUrls {
 
 
 #[derive(Debug)]
-pub struct GetRecentlyVisitedTMeUrlsBuilder { instance: GetRecentlyVisitedTMeUrls }
+pub struct RTDGetRecentlyVisitedTMeUrlsBuilder { instance: GetRecentlyVisitedTMeUrls }
 
-impl GetRecentlyVisitedTMeUrlsBuilder {
+impl RTDGetRecentlyVisitedTMeUrlsBuilder {
   fn new(instance: GetRecentlyVisitedTMeUrls) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetRecentlyVisitedTMeUrls { self.instance.clone() }
@@ -62693,13 +62693,13 @@ impl Function for GetRecoveryEmailAddress {}
 
 impl GetRecoveryEmailAddress {
   
-  pub fn builder() -> GetRecoveryEmailAddressBuilder {
+  pub fn builder() -> RTDGetRecoveryEmailAddressBuilder {
     let instance = Self {
       td_name: "getRecoveryEmailAddress".to_string(),
       password: None,
       
     };
-    GetRecoveryEmailAddressBuilder::new(instance)
+    RTDGetRecoveryEmailAddressBuilder::new(instance)
   }
   
   
@@ -62712,9 +62712,9 @@ impl GetRecoveryEmailAddress {
 
 
 #[derive(Debug)]
-pub struct GetRecoveryEmailAddressBuilder { instance: GetRecoveryEmailAddress }
+pub struct RTDGetRecoveryEmailAddressBuilder { instance: GetRecoveryEmailAddress }
 
-impl GetRecoveryEmailAddressBuilder {
+impl RTDGetRecoveryEmailAddressBuilder {
   fn new(instance: GetRecoveryEmailAddress) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetRecoveryEmailAddress { self.instance.clone() }
@@ -62763,14 +62763,14 @@ impl Function for GetRemoteFile {}
 
 impl GetRemoteFile {
   
-  pub fn builder() -> GetRemoteFileBuilder {
+  pub fn builder() -> RTDGetRemoteFileBuilder {
     let instance = Self {
       td_name: "getRemoteFile".to_string(),
       remote_file_id: None,
       file_type: None,
       
     };
-    GetRemoteFileBuilder::new(instance)
+    RTDGetRemoteFileBuilder::new(instance)
   }
   
   
@@ -62785,9 +62785,9 @@ impl GetRemoteFile {
 
 
 #[derive(Debug)]
-pub struct GetRemoteFileBuilder { instance: GetRemoteFile }
+pub struct RTDGetRemoteFileBuilder { instance: GetRemoteFile }
 
-impl GetRemoteFileBuilder {
+impl RTDGetRemoteFileBuilder {
   fn new(instance: GetRemoteFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetRemoteFile { self.instance.clone() }
@@ -62834,14 +62834,14 @@ impl Function for GetRepliedMessage {}
 
 impl GetRepliedMessage {
   
-  pub fn builder() -> GetRepliedMessageBuilder {
+  pub fn builder() -> RTDGetRepliedMessageBuilder {
     let instance = Self {
       td_name: "getRepliedMessage".to_string(),
       chat_id: None,
       message_id: None,
       
     };
-    GetRepliedMessageBuilder::new(instance)
+    RTDGetRepliedMessageBuilder::new(instance)
   }
   
   
@@ -62856,9 +62856,9 @@ impl GetRepliedMessage {
 
 
 #[derive(Debug)]
-pub struct GetRepliedMessageBuilder { instance: GetRepliedMessage }
+pub struct RTDGetRepliedMessageBuilder { instance: GetRepliedMessage }
 
-impl GetRepliedMessageBuilder {
+impl RTDGetRepliedMessageBuilder {
   fn new(instance: GetRepliedMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetRepliedMessage { self.instance.clone() }
@@ -62901,12 +62901,12 @@ impl Function for GetSavedAnimations {}
 
 impl GetSavedAnimations {
   
-  pub fn builder() -> GetSavedAnimationsBuilder {
+  pub fn builder() -> RTDGetSavedAnimationsBuilder {
     let instance = Self {
       td_name: "getSavedAnimations".to_string(),
       
     };
-    GetSavedAnimationsBuilder::new(instance)
+    RTDGetSavedAnimationsBuilder::new(instance)
   }
   
   
@@ -62917,9 +62917,9 @@ impl GetSavedAnimations {
 
 
 #[derive(Debug)]
-pub struct GetSavedAnimationsBuilder { instance: GetSavedAnimations }
+pub struct RTDGetSavedAnimationsBuilder { instance: GetSavedAnimations }
 
-impl GetSavedAnimationsBuilder {
+impl RTDGetSavedAnimationsBuilder {
   fn new(instance: GetSavedAnimations) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetSavedAnimations { self.instance.clone() }
@@ -62952,12 +62952,12 @@ impl Function for GetSavedOrderInfo {}
 
 impl GetSavedOrderInfo {
   
-  pub fn builder() -> GetSavedOrderInfoBuilder {
+  pub fn builder() -> RTDGetSavedOrderInfoBuilder {
     let instance = Self {
       td_name: "getSavedOrderInfo".to_string(),
       
     };
-    GetSavedOrderInfoBuilder::new(instance)
+    RTDGetSavedOrderInfoBuilder::new(instance)
   }
   
   
@@ -62968,9 +62968,9 @@ impl GetSavedOrderInfo {
 
 
 #[derive(Debug)]
-pub struct GetSavedOrderInfoBuilder { instance: GetSavedOrderInfo }
+pub struct RTDGetSavedOrderInfoBuilder { instance: GetSavedOrderInfo }
 
-impl GetSavedOrderInfoBuilder {
+impl RTDGetSavedOrderInfoBuilder {
   fn new(instance: GetSavedOrderInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetSavedOrderInfo { self.instance.clone() }
@@ -63012,13 +63012,13 @@ impl Function for GetScopeNotificationSettings {}
 
 impl GetScopeNotificationSettings {
   
-  pub fn builder() -> GetScopeNotificationSettingsBuilder {
+  pub fn builder() -> RTDGetScopeNotificationSettingsBuilder {
     let instance = Self {
       td_name: "getScopeNotificationSettings".to_string(),
       scope: None,
       
     };
-    GetScopeNotificationSettingsBuilder::new(instance)
+    RTDGetScopeNotificationSettingsBuilder::new(instance)
   }
   
   
@@ -63031,9 +63031,9 @@ impl GetScopeNotificationSettings {
 
 
 #[derive(Debug)]
-pub struct GetScopeNotificationSettingsBuilder { instance: GetScopeNotificationSettings }
+pub struct RTDGetScopeNotificationSettingsBuilder { instance: GetScopeNotificationSettings }
 
-impl GetScopeNotificationSettingsBuilder {
+impl RTDGetScopeNotificationSettingsBuilder {
   fn new(instance: GetScopeNotificationSettings) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetScopeNotificationSettings { self.instance.clone() }
@@ -63073,13 +63073,13 @@ impl Function for GetSecretChat {}
 
 impl GetSecretChat {
   
-  pub fn builder() -> GetSecretChatBuilder {
+  pub fn builder() -> RTDGetSecretChatBuilder {
     let instance = Self {
       td_name: "getSecretChat".to_string(),
       secret_chat_id: None,
       
     };
-    GetSecretChatBuilder::new(instance)
+    RTDGetSecretChatBuilder::new(instance)
   }
   
   
@@ -63092,9 +63092,9 @@ impl GetSecretChat {
 
 
 #[derive(Debug)]
-pub struct GetSecretChatBuilder { instance: GetSecretChat }
+pub struct RTDGetSecretChatBuilder { instance: GetSecretChat }
 
-impl GetSecretChatBuilder {
+impl RTDGetSecretChatBuilder {
   fn new(instance: GetSecretChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetSecretChat { self.instance.clone() }
@@ -63141,13 +63141,13 @@ impl Function for GetStickerEmojis {}
 
 impl GetStickerEmojis {
   
-  pub fn builder() -> GetStickerEmojisBuilder {
+  pub fn builder() -> RTDGetStickerEmojisBuilder {
     let instance = Self {
       td_name: "getStickerEmojis".to_string(),
       sticker: None,
       
     };
-    GetStickerEmojisBuilder::new(instance)
+    RTDGetStickerEmojisBuilder::new(instance)
   }
   
   
@@ -63160,9 +63160,9 @@ impl GetStickerEmojis {
 
 
 #[derive(Debug)]
-pub struct GetStickerEmojisBuilder { instance: GetStickerEmojis }
+pub struct RTDGetStickerEmojisBuilder { instance: GetStickerEmojis }
 
-impl GetStickerEmojisBuilder {
+impl RTDGetStickerEmojisBuilder {
   fn new(instance: GetStickerEmojis) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetStickerEmojis { self.instance.clone() }
@@ -63202,13 +63202,13 @@ impl Function for GetStickerSet {}
 
 impl GetStickerSet {
   
-  pub fn builder() -> GetStickerSetBuilder {
+  pub fn builder() -> RTDGetStickerSetBuilder {
     let instance = Self {
       td_name: "getStickerSet".to_string(),
       set_id: None,
       
     };
-    GetStickerSetBuilder::new(instance)
+    RTDGetStickerSetBuilder::new(instance)
   }
   
   
@@ -63221,9 +63221,9 @@ impl GetStickerSet {
 
 
 #[derive(Debug)]
-pub struct GetStickerSetBuilder { instance: GetStickerSet }
+pub struct RTDGetStickerSetBuilder { instance: GetStickerSet }
 
-impl GetStickerSetBuilder {
+impl RTDGetStickerSetBuilder {
   fn new(instance: GetStickerSet) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetStickerSet { self.instance.clone() }
@@ -63265,14 +63265,14 @@ impl Function for GetStickers {}
 
 impl GetStickers {
   
-  pub fn builder() -> GetStickersBuilder {
+  pub fn builder() -> RTDGetStickersBuilder {
     let instance = Self {
       td_name: "getStickers".to_string(),
       emoji: None,
       limit: None,
       
     };
-    GetStickersBuilder::new(instance)
+    RTDGetStickersBuilder::new(instance)
   }
   
   
@@ -63287,9 +63287,9 @@ impl GetStickers {
 
 
 #[derive(Debug)]
-pub struct GetStickersBuilder { instance: GetStickers }
+pub struct RTDGetStickersBuilder { instance: GetStickers }
 
-impl GetStickersBuilder {
+impl RTDGetStickersBuilder {
   fn new(instance: GetStickers) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetStickers { self.instance.clone() }
@@ -63334,13 +63334,13 @@ impl Function for GetStorageStatistics {}
 
 impl GetStorageStatistics {
   
-  pub fn builder() -> GetStorageStatisticsBuilder {
+  pub fn builder() -> RTDGetStorageStatisticsBuilder {
     let instance = Self {
       td_name: "getStorageStatistics".to_string(),
       chat_limit: None,
       
     };
-    GetStorageStatisticsBuilder::new(instance)
+    RTDGetStorageStatisticsBuilder::new(instance)
   }
   
   
@@ -63353,9 +63353,9 @@ impl GetStorageStatistics {
 
 
 #[derive(Debug)]
-pub struct GetStorageStatisticsBuilder { instance: GetStorageStatistics }
+pub struct RTDGetStorageStatisticsBuilder { instance: GetStorageStatistics }
 
-impl GetStorageStatisticsBuilder {
+impl RTDGetStorageStatisticsBuilder {
   fn new(instance: GetStorageStatistics) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetStorageStatistics { self.instance.clone() }
@@ -63393,12 +63393,12 @@ impl Function for GetStorageStatisticsFast {}
 
 impl GetStorageStatisticsFast {
   
-  pub fn builder() -> GetStorageStatisticsFastBuilder {
+  pub fn builder() -> RTDGetStorageStatisticsFastBuilder {
     let instance = Self {
       td_name: "getStorageStatisticsFast".to_string(),
       
     };
-    GetStorageStatisticsFastBuilder::new(instance)
+    RTDGetStorageStatisticsFastBuilder::new(instance)
   }
   
   
@@ -63409,9 +63409,9 @@ impl GetStorageStatisticsFast {
 
 
 #[derive(Debug)]
-pub struct GetStorageStatisticsFastBuilder { instance: GetStorageStatisticsFast }
+pub struct RTDGetStorageStatisticsFastBuilder { instance: GetStorageStatisticsFast }
 
-impl GetStorageStatisticsFastBuilder {
+impl RTDGetStorageStatisticsFastBuilder {
   fn new(instance: GetStorageStatisticsFast) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetStorageStatisticsFast { self.instance.clone() }
@@ -63446,13 +63446,13 @@ impl Function for GetSupergroup {}
 
 impl GetSupergroup {
   
-  pub fn builder() -> GetSupergroupBuilder {
+  pub fn builder() -> RTDGetSupergroupBuilder {
     let instance = Self {
       td_name: "getSupergroup".to_string(),
       supergroup_id: None,
       
     };
-    GetSupergroupBuilder::new(instance)
+    RTDGetSupergroupBuilder::new(instance)
   }
   
   
@@ -63465,9 +63465,9 @@ impl GetSupergroup {
 
 
 #[derive(Debug)]
-pub struct GetSupergroupBuilder { instance: GetSupergroup }
+pub struct RTDGetSupergroupBuilder { instance: GetSupergroup }
 
-impl GetSupergroupBuilder {
+impl RTDGetSupergroupBuilder {
   fn new(instance: GetSupergroup) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetSupergroup { self.instance.clone() }
@@ -63507,13 +63507,13 @@ impl Function for GetSupergroupFullInfo {}
 
 impl GetSupergroupFullInfo {
   
-  pub fn builder() -> GetSupergroupFullInfoBuilder {
+  pub fn builder() -> RTDGetSupergroupFullInfoBuilder {
     let instance = Self {
       td_name: "getSupergroupFullInfo".to_string(),
       supergroup_id: None,
       
     };
-    GetSupergroupFullInfoBuilder::new(instance)
+    RTDGetSupergroupFullInfoBuilder::new(instance)
   }
   
   
@@ -63526,9 +63526,9 @@ impl GetSupergroupFullInfo {
 
 
 #[derive(Debug)]
-pub struct GetSupergroupFullInfoBuilder { instance: GetSupergroupFullInfo }
+pub struct RTDGetSupergroupFullInfoBuilder { instance: GetSupergroupFullInfo }
 
-impl GetSupergroupFullInfoBuilder {
+impl RTDGetSupergroupFullInfoBuilder {
   fn new(instance: GetSupergroupFullInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetSupergroupFullInfo { self.instance.clone() }
@@ -63581,7 +63581,7 @@ impl Function for GetSupergroupMembers {}
 
 impl GetSupergroupMembers {
   
-  pub fn builder() -> GetSupergroupMembersBuilder {
+  pub fn builder() -> RTDGetSupergroupMembersBuilder {
     let instance = Self {
       td_name: "getSupergroupMembers".to_string(),
       supergroup_id: None,
@@ -63590,7 +63590,7 @@ impl GetSupergroupMembers {
       limit: None,
       
     };
-    GetSupergroupMembersBuilder::new(instance)
+    RTDGetSupergroupMembersBuilder::new(instance)
   }
   
   
@@ -63609,9 +63609,9 @@ impl GetSupergroupMembers {
 
 
 #[derive(Debug)]
-pub struct GetSupergroupMembersBuilder { instance: GetSupergroupMembers }
+pub struct RTDGetSupergroupMembersBuilder { instance: GetSupergroupMembers }
 
-impl GetSupergroupMembersBuilder {
+impl RTDGetSupergroupMembersBuilder {
   fn new(instance: GetSupergroupMembers) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetSupergroupMembers { self.instance.clone() }
@@ -63664,12 +63664,12 @@ impl Function for GetSupportUser {}
 
 impl GetSupportUser {
   
-  pub fn builder() -> GetSupportUserBuilder {
+  pub fn builder() -> RTDGetSupportUserBuilder {
     let instance = Self {
       td_name: "getSupportUser".to_string(),
       
     };
-    GetSupportUserBuilder::new(instance)
+    RTDGetSupportUserBuilder::new(instance)
   }
   
   
@@ -63680,9 +63680,9 @@ impl GetSupportUser {
 
 
 #[derive(Debug)]
-pub struct GetSupportUserBuilder { instance: GetSupportUser }
+pub struct RTDGetSupportUserBuilder { instance: GetSupportUser }
 
-impl GetSupportUserBuilder {
+impl RTDGetSupportUserBuilder {
   fn new(instance: GetSupportUser) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetSupportUser { self.instance.clone() }
@@ -63715,12 +63715,12 @@ impl Function for GetTemporaryPasswordState {}
 
 impl GetTemporaryPasswordState {
   
-  pub fn builder() -> GetTemporaryPasswordStateBuilder {
+  pub fn builder() -> RTDGetTemporaryPasswordStateBuilder {
     let instance = Self {
       td_name: "getTemporaryPasswordState".to_string(),
       
     };
-    GetTemporaryPasswordStateBuilder::new(instance)
+    RTDGetTemporaryPasswordStateBuilder::new(instance)
   }
   
   
@@ -63731,9 +63731,9 @@ impl GetTemporaryPasswordState {
 
 
 #[derive(Debug)]
-pub struct GetTemporaryPasswordStateBuilder { instance: GetTemporaryPasswordState }
+pub struct RTDGetTemporaryPasswordStateBuilder { instance: GetTemporaryPasswordState }
 
-impl GetTemporaryPasswordStateBuilder {
+impl RTDGetTemporaryPasswordStateBuilder {
   fn new(instance: GetTemporaryPasswordState) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetTemporaryPasswordState { self.instance.clone() }
@@ -63768,13 +63768,13 @@ impl Function for GetTextEntities {}
 
 impl GetTextEntities {
   
-  pub fn builder() -> GetTextEntitiesBuilder {
+  pub fn builder() -> RTDGetTextEntitiesBuilder {
     let instance = Self {
       td_name: "getTextEntities".to_string(),
       text: None,
       
     };
-    GetTextEntitiesBuilder::new(instance)
+    RTDGetTextEntitiesBuilder::new(instance)
   }
   
   
@@ -63787,9 +63787,9 @@ impl GetTextEntities {
 
 
 #[derive(Debug)]
-pub struct GetTextEntitiesBuilder { instance: GetTextEntities }
+pub struct RTDGetTextEntitiesBuilder { instance: GetTextEntities }
 
-impl GetTextEntitiesBuilder {
+impl RTDGetTextEntitiesBuilder {
   fn new(instance: GetTextEntities) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetTextEntities { self.instance.clone() }
@@ -63838,14 +63838,14 @@ impl Function for GetTopChats {}
 
 impl GetTopChats {
   
-  pub fn builder() -> GetTopChatsBuilder {
+  pub fn builder() -> RTDGetTopChatsBuilder {
     let instance = Self {
       td_name: "getTopChats".to_string(),
       category: None,
       limit: None,
       
     };
-    GetTopChatsBuilder::new(instance)
+    RTDGetTopChatsBuilder::new(instance)
   }
   
   
@@ -63860,9 +63860,9 @@ impl GetTopChats {
 
 
 #[derive(Debug)]
-pub struct GetTopChatsBuilder { instance: GetTopChats }
+pub struct RTDGetTopChatsBuilder { instance: GetTopChats }
 
-impl GetTopChatsBuilder {
+impl RTDGetTopChatsBuilder {
   fn new(instance: GetTopChats) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetTopChats { self.instance.clone() }
@@ -63905,12 +63905,12 @@ impl Function for GetTrendingStickerSets {}
 
 impl GetTrendingStickerSets {
   
-  pub fn builder() -> GetTrendingStickerSetsBuilder {
+  pub fn builder() -> RTDGetTrendingStickerSetsBuilder {
     let instance = Self {
       td_name: "getTrendingStickerSets".to_string(),
       
     };
-    GetTrendingStickerSetsBuilder::new(instance)
+    RTDGetTrendingStickerSetsBuilder::new(instance)
   }
   
   
@@ -63921,9 +63921,9 @@ impl GetTrendingStickerSets {
 
 
 #[derive(Debug)]
-pub struct GetTrendingStickerSetsBuilder { instance: GetTrendingStickerSets }
+pub struct RTDGetTrendingStickerSetsBuilder { instance: GetTrendingStickerSets }
 
-impl GetTrendingStickerSetsBuilder {
+impl RTDGetTrendingStickerSetsBuilder {
   fn new(instance: GetTrendingStickerSets) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetTrendingStickerSets { self.instance.clone() }
@@ -63958,13 +63958,13 @@ impl Function for GetUser {}
 
 impl GetUser {
   
-  pub fn builder() -> GetUserBuilder {
+  pub fn builder() -> RTDGetUserBuilder {
     let instance = Self {
       td_name: "getUser".to_string(),
       user_id: None,
       
     };
-    GetUserBuilder::new(instance)
+    RTDGetUserBuilder::new(instance)
   }
   
   
@@ -63977,9 +63977,9 @@ impl GetUser {
 
 
 #[derive(Debug)]
-pub struct GetUserBuilder { instance: GetUser }
+pub struct RTDGetUserBuilder { instance: GetUser }
 
-impl GetUserBuilder {
+impl RTDGetUserBuilder {
   fn new(instance: GetUser) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetUser { self.instance.clone() }
@@ -64019,13 +64019,13 @@ impl Function for GetUserFullInfo {}
 
 impl GetUserFullInfo {
   
-  pub fn builder() -> GetUserFullInfoBuilder {
+  pub fn builder() -> RTDGetUserFullInfoBuilder {
     let instance = Self {
       td_name: "getUserFullInfo".to_string(),
       user_id: None,
       
     };
-    GetUserFullInfoBuilder::new(instance)
+    RTDGetUserFullInfoBuilder::new(instance)
   }
   
   
@@ -64038,9 +64038,9 @@ impl GetUserFullInfo {
 
 
 #[derive(Debug)]
-pub struct GetUserFullInfoBuilder { instance: GetUserFullInfo }
+pub struct RTDGetUserFullInfoBuilder { instance: GetUserFullInfo }
 
-impl GetUserFullInfoBuilder {
+impl RTDGetUserFullInfoBuilder {
   fn new(instance: GetUserFullInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetUserFullInfo { self.instance.clone() }
@@ -64087,13 +64087,13 @@ impl Function for GetUserPrivacySettingRules {}
 
 impl GetUserPrivacySettingRules {
   
-  pub fn builder() -> GetUserPrivacySettingRulesBuilder {
+  pub fn builder() -> RTDGetUserPrivacySettingRulesBuilder {
     let instance = Self {
       td_name: "getUserPrivacySettingRules".to_string(),
       setting: None,
       
     };
-    GetUserPrivacySettingRulesBuilder::new(instance)
+    RTDGetUserPrivacySettingRulesBuilder::new(instance)
   }
   
   
@@ -64106,9 +64106,9 @@ impl GetUserPrivacySettingRules {
 
 
 #[derive(Debug)]
-pub struct GetUserPrivacySettingRulesBuilder { instance: GetUserPrivacySettingRules }
+pub struct RTDGetUserPrivacySettingRulesBuilder { instance: GetUserPrivacySettingRules }
 
-impl GetUserPrivacySettingRulesBuilder {
+impl RTDGetUserPrivacySettingRulesBuilder {
   fn new(instance: GetUserPrivacySettingRules) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetUserPrivacySettingRules { self.instance.clone() }
@@ -64152,7 +64152,7 @@ impl Function for GetUserProfilePhotos {}
 
 impl GetUserProfilePhotos {
   
-  pub fn builder() -> GetUserProfilePhotosBuilder {
+  pub fn builder() -> RTDGetUserProfilePhotosBuilder {
     let instance = Self {
       td_name: "getUserProfilePhotos".to_string(),
       user_id: None,
@@ -64160,7 +64160,7 @@ impl GetUserProfilePhotos {
       limit: None,
       
     };
-    GetUserProfilePhotosBuilder::new(instance)
+    RTDGetUserProfilePhotosBuilder::new(instance)
   }
   
   
@@ -64177,9 +64177,9 @@ impl GetUserProfilePhotos {
 
 
 #[derive(Debug)]
-pub struct GetUserProfilePhotosBuilder { instance: GetUserProfilePhotos }
+pub struct RTDGetUserProfilePhotosBuilder { instance: GetUserProfilePhotos }
 
-impl GetUserProfilePhotosBuilder {
+impl RTDGetUserProfilePhotosBuilder {
   fn new(instance: GetUserProfilePhotos) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetUserProfilePhotos { self.instance.clone() }
@@ -64227,12 +64227,12 @@ impl Function for GetWallpapers {}
 
 impl GetWallpapers {
   
-  pub fn builder() -> GetWallpapersBuilder {
+  pub fn builder() -> RTDGetWallpapersBuilder {
     let instance = Self {
       td_name: "getWallpapers".to_string(),
       
     };
-    GetWallpapersBuilder::new(instance)
+    RTDGetWallpapersBuilder::new(instance)
   }
   
   
@@ -64243,9 +64243,9 @@ impl GetWallpapers {
 
 
 #[derive(Debug)]
-pub struct GetWallpapersBuilder { instance: GetWallpapers }
+pub struct RTDGetWallpapersBuilder { instance: GetWallpapers }
 
-impl GetWallpapersBuilder {
+impl RTDGetWallpapersBuilder {
   fn new(instance: GetWallpapers) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetWallpapers { self.instance.clone() }
@@ -64282,14 +64282,14 @@ impl Function for GetWebPageInstantView {}
 
 impl GetWebPageInstantView {
   
-  pub fn builder() -> GetWebPageInstantViewBuilder {
+  pub fn builder() -> RTDGetWebPageInstantViewBuilder {
     let instance = Self {
       td_name: "getWebPageInstantView".to_string(),
       url: None,
       force_full: None,
       
     };
-    GetWebPageInstantViewBuilder::new(instance)
+    RTDGetWebPageInstantViewBuilder::new(instance)
   }
   
   
@@ -64304,9 +64304,9 @@ impl GetWebPageInstantView {
 
 
 #[derive(Debug)]
-pub struct GetWebPageInstantViewBuilder { instance: GetWebPageInstantView }
+pub struct RTDGetWebPageInstantViewBuilder { instance: GetWebPageInstantView }
 
-impl GetWebPageInstantViewBuilder {
+impl RTDGetWebPageInstantViewBuilder {
   fn new(instance: GetWebPageInstantView) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetWebPageInstantView { self.instance.clone() }
@@ -64351,13 +64351,13 @@ impl Function for GetWebPagePreview {}
 
 impl GetWebPagePreview {
   
-  pub fn builder() -> GetWebPagePreviewBuilder {
+  pub fn builder() -> RTDGetWebPagePreviewBuilder {
     let instance = Self {
       td_name: "getWebPagePreview".to_string(),
       text: None,
       
     };
-    GetWebPagePreviewBuilder::new(instance)
+    RTDGetWebPagePreviewBuilder::new(instance)
   }
   
   
@@ -64370,9 +64370,9 @@ impl GetWebPagePreview {
 
 
 #[derive(Debug)]
-pub struct GetWebPagePreviewBuilder { instance: GetWebPagePreview }
+pub struct RTDGetWebPagePreviewBuilder { instance: GetWebPagePreview }
 
-impl GetWebPagePreviewBuilder {
+impl RTDGetWebPagePreviewBuilder {
   fn new(instance: GetWebPagePreview) -> Self { Self { instance } }
 
   pub fn build(&self) -> GetWebPagePreview { self.instance.clone() }
@@ -64412,13 +64412,13 @@ impl Function for ImportContacts {}
 
 impl ImportContacts {
   
-  pub fn builder() -> ImportContactsBuilder {
+  pub fn builder() -> RTDImportContactsBuilder {
     let instance = Self {
       td_name: "importContacts".to_string(),
       contacts: None,
       
     };
-    ImportContactsBuilder::new(instance)
+    RTDImportContactsBuilder::new(instance)
   }
   
   
@@ -64431,9 +64431,9 @@ impl ImportContacts {
 
 
 #[derive(Debug)]
-pub struct ImportContactsBuilder { instance: ImportContacts }
+pub struct RTDImportContactsBuilder { instance: ImportContacts }
 
-impl ImportContactsBuilder {
+impl RTDImportContactsBuilder {
   fn new(instance: ImportContacts) -> Self { Self { instance } }
 
   pub fn build(&self) -> ImportContacts { self.instance.clone() }
@@ -64473,13 +64473,13 @@ impl Function for JoinChat {}
 
 impl JoinChat {
   
-  pub fn builder() -> JoinChatBuilder {
+  pub fn builder() -> RTDJoinChatBuilder {
     let instance = Self {
       td_name: "joinChat".to_string(),
       chat_id: None,
       
     };
-    JoinChatBuilder::new(instance)
+    RTDJoinChatBuilder::new(instance)
   }
   
   
@@ -64492,9 +64492,9 @@ impl JoinChat {
 
 
 #[derive(Debug)]
-pub struct JoinChatBuilder { instance: JoinChat }
+pub struct RTDJoinChatBuilder { instance: JoinChat }
 
-impl JoinChatBuilder {
+impl RTDJoinChatBuilder {
   fn new(instance: JoinChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> JoinChat { self.instance.clone() }
@@ -64534,13 +64534,13 @@ impl Function for JoinChatByInviteLink {}
 
 impl JoinChatByInviteLink {
   
-  pub fn builder() -> JoinChatByInviteLinkBuilder {
+  pub fn builder() -> RTDJoinChatByInviteLinkBuilder {
     let instance = Self {
       td_name: "joinChatByInviteLink".to_string(),
       invite_link: None,
       
     };
-    JoinChatByInviteLinkBuilder::new(instance)
+    RTDJoinChatByInviteLinkBuilder::new(instance)
   }
   
   
@@ -64553,9 +64553,9 @@ impl JoinChatByInviteLink {
 
 
 #[derive(Debug)]
-pub struct JoinChatByInviteLinkBuilder { instance: JoinChatByInviteLink }
+pub struct RTDJoinChatByInviteLinkBuilder { instance: JoinChatByInviteLink }
 
-impl JoinChatByInviteLinkBuilder {
+impl RTDJoinChatByInviteLinkBuilder {
   fn new(instance: JoinChatByInviteLink) -> Self { Self { instance } }
 
   pub fn build(&self) -> JoinChatByInviteLink { self.instance.clone() }
@@ -64595,13 +64595,13 @@ impl Function for LeaveChat {}
 
 impl LeaveChat {
   
-  pub fn builder() -> LeaveChatBuilder {
+  pub fn builder() -> RTDLeaveChatBuilder {
     let instance = Self {
       td_name: "leaveChat".to_string(),
       chat_id: None,
       
     };
-    LeaveChatBuilder::new(instance)
+    RTDLeaveChatBuilder::new(instance)
   }
   
   
@@ -64614,9 +64614,9 @@ impl LeaveChat {
 
 
 #[derive(Debug)]
-pub struct LeaveChatBuilder { instance: LeaveChat }
+pub struct RTDLeaveChatBuilder { instance: LeaveChat }
 
-impl LeaveChatBuilder {
+impl RTDLeaveChatBuilder {
   fn new(instance: LeaveChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> LeaveChat { self.instance.clone() }
@@ -64654,12 +64654,12 @@ impl Function for LogOut {}
 
 impl LogOut {
   
-  pub fn builder() -> LogOutBuilder {
+  pub fn builder() -> RTDLogOutBuilder {
     let instance = Self {
       td_name: "logOut".to_string(),
       
     };
-    LogOutBuilder::new(instance)
+    RTDLogOutBuilder::new(instance)
   }
   
   
@@ -64670,9 +64670,9 @@ impl LogOut {
 
 
 #[derive(Debug)]
-pub struct LogOutBuilder { instance: LogOut }
+pub struct RTDLogOutBuilder { instance: LogOut }
 
-impl LogOutBuilder {
+impl RTDLogOutBuilder {
   fn new(instance: LogOut) -> Self { Self { instance } }
 
   pub fn build(&self) -> LogOut { self.instance.clone() }
@@ -64707,13 +64707,13 @@ impl Function for OpenChat {}
 
 impl OpenChat {
   
-  pub fn builder() -> OpenChatBuilder {
+  pub fn builder() -> RTDOpenChatBuilder {
     let instance = Self {
       td_name: "openChat".to_string(),
       chat_id: None,
       
     };
-    OpenChatBuilder::new(instance)
+    RTDOpenChatBuilder::new(instance)
   }
   
   
@@ -64726,9 +64726,9 @@ impl OpenChat {
 
 
 #[derive(Debug)]
-pub struct OpenChatBuilder { instance: OpenChat }
+pub struct RTDOpenChatBuilder { instance: OpenChat }
 
-impl OpenChatBuilder {
+impl RTDOpenChatBuilder {
   fn new(instance: OpenChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> OpenChat { self.instance.clone() }
@@ -64770,14 +64770,14 @@ impl Function for OpenMessageContent {}
 
 impl OpenMessageContent {
   
-  pub fn builder() -> OpenMessageContentBuilder {
+  pub fn builder() -> RTDOpenMessageContentBuilder {
     let instance = Self {
       td_name: "openMessageContent".to_string(),
       chat_id: None,
       message_id: None,
       
     };
-    OpenMessageContentBuilder::new(instance)
+    RTDOpenMessageContentBuilder::new(instance)
   }
   
   
@@ -64792,9 +64792,9 @@ impl OpenMessageContent {
 
 
 #[derive(Debug)]
-pub struct OpenMessageContentBuilder { instance: OpenMessageContent }
+pub struct RTDOpenMessageContentBuilder { instance: OpenMessageContent }
 
-impl OpenMessageContentBuilder {
+impl RTDOpenMessageContentBuilder {
   fn new(instance: OpenMessageContent) -> Self { Self { instance } }
 
   pub fn build(&self) -> OpenMessageContent { self.instance.clone() }
@@ -64860,7 +64860,7 @@ impl Function for OptimizeStorage {}
 
 impl OptimizeStorage {
   
-  pub fn builder() -> OptimizeStorageBuilder {
+  pub fn builder() -> RTDOptimizeStorageBuilder {
     let instance = Self {
       td_name: "optimizeStorage".to_string(),
       size: None,
@@ -64873,7 +64873,7 @@ impl OptimizeStorage {
       chat_limit: None,
       
     };
-    OptimizeStorageBuilder::new(instance)
+    RTDOptimizeStorageBuilder::new(instance)
   }
   
   
@@ -64900,9 +64900,9 @@ impl OptimizeStorage {
 
 
 #[derive(Debug)]
-pub struct OptimizeStorageBuilder { instance: OptimizeStorage }
+pub struct RTDOptimizeStorageBuilder { instance: OptimizeStorage }
 
-impl OptimizeStorageBuilder {
+impl RTDOptimizeStorageBuilder {
   fn new(instance: OptimizeStorage) -> Self { Self { instance } }
 
   pub fn build(&self) -> OptimizeStorage { self.instance.clone() }
@@ -64986,14 +64986,14 @@ impl Function for ParseTextEntities {}
 
 impl ParseTextEntities {
   
-  pub fn builder() -> ParseTextEntitiesBuilder {
+  pub fn builder() -> RTDParseTextEntitiesBuilder {
     let instance = Self {
       td_name: "parseTextEntities".to_string(),
       text: None,
       parse_mode: None,
       
     };
-    ParseTextEntitiesBuilder::new(instance)
+    RTDParseTextEntitiesBuilder::new(instance)
   }
   
   
@@ -65008,9 +65008,9 @@ impl ParseTextEntities {
 
 
 #[derive(Debug)]
-pub struct ParseTextEntitiesBuilder { instance: ParseTextEntities }
+pub struct RTDParseTextEntitiesBuilder { instance: ParseTextEntities }
 
-impl ParseTextEntitiesBuilder {
+impl RTDParseTextEntitiesBuilder {
   fn new(instance: ParseTextEntities) -> Self { Self { instance } }
 
   pub fn build(&self) -> ParseTextEntities { self.instance.clone() }
@@ -65059,7 +65059,7 @@ impl Function for PinChatMessage {}
 
 impl PinChatMessage {
   
-  pub fn builder() -> PinChatMessageBuilder {
+  pub fn builder() -> RTDPinChatMessageBuilder {
     let instance = Self {
       td_name: "pinChatMessage".to_string(),
       chat_id: None,
@@ -65067,7 +65067,7 @@ impl PinChatMessage {
       disable_notification: None,
       
     };
-    PinChatMessageBuilder::new(instance)
+    RTDPinChatMessageBuilder::new(instance)
   }
   
   
@@ -65084,9 +65084,9 @@ impl PinChatMessage {
 
 
 #[derive(Debug)]
-pub struct PinChatMessageBuilder { instance: PinChatMessage }
+pub struct RTDPinChatMessageBuilder { instance: PinChatMessage }
 
-impl PinChatMessageBuilder {
+impl RTDPinChatMessageBuilder {
   fn new(instance: PinChatMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> PinChatMessage { self.instance.clone() }
@@ -65136,13 +65136,13 @@ impl Function for PingProxy {}
 
 impl PingProxy {
   
-  pub fn builder() -> PingProxyBuilder {
+  pub fn builder() -> RTDPingProxyBuilder {
     let instance = Self {
       td_name: "pingProxy".to_string(),
       proxy_id: None,
       
     };
-    PingProxyBuilder::new(instance)
+    RTDPingProxyBuilder::new(instance)
   }
   
   
@@ -65155,9 +65155,9 @@ impl PingProxy {
 
 
 #[derive(Debug)]
-pub struct PingProxyBuilder { instance: PingProxy }
+pub struct RTDPingProxyBuilder { instance: PingProxy }
 
-impl PingProxyBuilder {
+impl RTDPingProxyBuilder {
   fn new(instance: PingProxy) -> Self { Self { instance } }
 
   pub fn build(&self) -> PingProxy { self.instance.clone() }
@@ -65197,13 +65197,13 @@ impl Function for ProcessPushNotification {}
 
 impl ProcessPushNotification {
   
-  pub fn builder() -> ProcessPushNotificationBuilder {
+  pub fn builder() -> RTDProcessPushNotificationBuilder {
     let instance = Self {
       td_name: "processPushNotification".to_string(),
       payload: None,
       
     };
-    ProcessPushNotificationBuilder::new(instance)
+    RTDProcessPushNotificationBuilder::new(instance)
   }
   
   
@@ -65216,9 +65216,9 @@ impl ProcessPushNotification {
 
 
 #[derive(Debug)]
-pub struct ProcessPushNotificationBuilder { instance: ProcessPushNotification }
+pub struct RTDProcessPushNotificationBuilder { instance: ProcessPushNotification }
 
-impl ProcessPushNotificationBuilder {
+impl RTDProcessPushNotificationBuilder {
   fn new(instance: ProcessPushNotification) -> Self { Self { instance } }
 
   pub fn build(&self) -> ProcessPushNotification { self.instance.clone() }
@@ -65258,13 +65258,13 @@ impl Function for ReadAllChatMentions {}
 
 impl ReadAllChatMentions {
   
-  pub fn builder() -> ReadAllChatMentionsBuilder {
+  pub fn builder() -> RTDReadAllChatMentionsBuilder {
     let instance = Self {
       td_name: "readAllChatMentions".to_string(),
       chat_id: None,
       
     };
-    ReadAllChatMentionsBuilder::new(instance)
+    RTDReadAllChatMentionsBuilder::new(instance)
   }
   
   
@@ -65277,9 +65277,9 @@ impl ReadAllChatMentions {
 
 
 #[derive(Debug)]
-pub struct ReadAllChatMentionsBuilder { instance: ReadAllChatMentions }
+pub struct RTDReadAllChatMentionsBuilder { instance: ReadAllChatMentions }
 
-impl ReadAllChatMentionsBuilder {
+impl RTDReadAllChatMentionsBuilder {
   fn new(instance: ReadAllChatMentions) -> Self { Self { instance } }
 
   pub fn build(&self) -> ReadAllChatMentions { self.instance.clone() }
@@ -65323,7 +65323,7 @@ impl Function for ReadFilePart {}
 
 impl ReadFilePart {
   
-  pub fn builder() -> ReadFilePartBuilder {
+  pub fn builder() -> RTDReadFilePartBuilder {
     let instance = Self {
       td_name: "readFilePart".to_string(),
       file_id: None,
@@ -65331,7 +65331,7 @@ impl ReadFilePart {
       count: None,
       
     };
-    ReadFilePartBuilder::new(instance)
+    RTDReadFilePartBuilder::new(instance)
   }
   
   
@@ -65348,9 +65348,9 @@ impl ReadFilePart {
 
 
 #[derive(Debug)]
-pub struct ReadFilePartBuilder { instance: ReadFilePart }
+pub struct RTDReadFilePartBuilder { instance: ReadFilePart }
 
-impl ReadFilePartBuilder {
+impl RTDReadFilePartBuilder {
   fn new(instance: ReadFilePart) -> Self { Self { instance } }
 
   pub fn build(&self) -> ReadFilePart { self.instance.clone() }
@@ -65400,13 +65400,13 @@ impl Function for RecoverAuthenticationPassword {}
 
 impl RecoverAuthenticationPassword {
   
-  pub fn builder() -> RecoverAuthenticationPasswordBuilder {
+  pub fn builder() -> RTDRecoverAuthenticationPasswordBuilder {
     let instance = Self {
       td_name: "recoverAuthenticationPassword".to_string(),
       recovery_code: None,
       
     };
-    RecoverAuthenticationPasswordBuilder::new(instance)
+    RTDRecoverAuthenticationPasswordBuilder::new(instance)
   }
   
   
@@ -65419,9 +65419,9 @@ impl RecoverAuthenticationPassword {
 
 
 #[derive(Debug)]
-pub struct RecoverAuthenticationPasswordBuilder { instance: RecoverAuthenticationPassword }
+pub struct RTDRecoverAuthenticationPasswordBuilder { instance: RecoverAuthenticationPassword }
 
-impl RecoverAuthenticationPasswordBuilder {
+impl RTDRecoverAuthenticationPasswordBuilder {
   fn new(instance: RecoverAuthenticationPassword) -> Self { Self { instance } }
 
   pub fn build(&self) -> RecoverAuthenticationPassword { self.instance.clone() }
@@ -65461,13 +65461,13 @@ impl Function for RecoverPassword {}
 
 impl RecoverPassword {
   
-  pub fn builder() -> RecoverPasswordBuilder {
+  pub fn builder() -> RTDRecoverPasswordBuilder {
     let instance = Self {
       td_name: "recoverPassword".to_string(),
       recovery_code: None,
       
     };
-    RecoverPasswordBuilder::new(instance)
+    RTDRecoverPasswordBuilder::new(instance)
   }
   
   
@@ -65480,9 +65480,9 @@ impl RecoverPassword {
 
 
 #[derive(Debug)]
-pub struct RecoverPasswordBuilder { instance: RecoverPassword }
+pub struct RTDRecoverPasswordBuilder { instance: RecoverPassword }
 
-impl RecoverPasswordBuilder {
+impl RTDRecoverPasswordBuilder {
   fn new(instance: RecoverPassword) -> Self { Self { instance } }
 
   pub fn build(&self) -> RecoverPassword { self.instance.clone() }
@@ -65531,14 +65531,14 @@ impl Function for RegisterDevice {}
 
 impl RegisterDevice {
   
-  pub fn builder() -> RegisterDeviceBuilder {
+  pub fn builder() -> RTDRegisterDeviceBuilder {
     let instance = Self {
       td_name: "registerDevice".to_string(),
       device_token: None,
       other_user_ids: None,
       
     };
-    RegisterDeviceBuilder::new(instance)
+    RTDRegisterDeviceBuilder::new(instance)
   }
   
   
@@ -65553,9 +65553,9 @@ impl RegisterDevice {
 
 
 #[derive(Debug)]
-pub struct RegisterDeviceBuilder { instance: RegisterDevice }
+pub struct RTDRegisterDeviceBuilder { instance: RegisterDevice }
 
-impl RegisterDeviceBuilder {
+impl RTDRegisterDeviceBuilder {
   fn new(instance: RegisterDevice) -> Self { Self { instance } }
 
   pub fn build(&self) -> RegisterDevice { self.instance.clone() }
@@ -65600,13 +65600,13 @@ impl Function for RemoveContacts {}
 
 impl RemoveContacts {
   
-  pub fn builder() -> RemoveContactsBuilder {
+  pub fn builder() -> RTDRemoveContactsBuilder {
     let instance = Self {
       td_name: "removeContacts".to_string(),
       user_ids: None,
       
     };
-    RemoveContactsBuilder::new(instance)
+    RTDRemoveContactsBuilder::new(instance)
   }
   
   
@@ -65619,9 +65619,9 @@ impl RemoveContacts {
 
 
 #[derive(Debug)]
-pub struct RemoveContactsBuilder { instance: RemoveContacts }
+pub struct RTDRemoveContactsBuilder { instance: RemoveContacts }
 
-impl RemoveContactsBuilder {
+impl RTDRemoveContactsBuilder {
   fn new(instance: RemoveContacts) -> Self { Self { instance } }
 
   pub fn build(&self) -> RemoveContacts { self.instance.clone() }
@@ -65668,13 +65668,13 @@ impl Function for RemoveFavoriteSticker {}
 
 impl RemoveFavoriteSticker {
   
-  pub fn builder() -> RemoveFavoriteStickerBuilder {
+  pub fn builder() -> RTDRemoveFavoriteStickerBuilder {
     let instance = Self {
       td_name: "removeFavoriteSticker".to_string(),
       sticker: None,
       
     };
-    RemoveFavoriteStickerBuilder::new(instance)
+    RTDRemoveFavoriteStickerBuilder::new(instance)
   }
   
   
@@ -65687,9 +65687,9 @@ impl RemoveFavoriteSticker {
 
 
 #[derive(Debug)]
-pub struct RemoveFavoriteStickerBuilder { instance: RemoveFavoriteSticker }
+pub struct RTDRemoveFavoriteStickerBuilder { instance: RemoveFavoriteSticker }
 
-impl RemoveFavoriteStickerBuilder {
+impl RTDRemoveFavoriteStickerBuilder {
   fn new(instance: RemoveFavoriteSticker) -> Self { Self { instance } }
 
   pub fn build(&self) -> RemoveFavoriteSticker { self.instance.clone() }
@@ -65731,14 +65731,14 @@ impl Function for RemoveNotification {}
 
 impl RemoveNotification {
   
-  pub fn builder() -> RemoveNotificationBuilder {
+  pub fn builder() -> RTDRemoveNotificationBuilder {
     let instance = Self {
       td_name: "removeNotification".to_string(),
       notification_group_id: None,
       notification_id: None,
       
     };
-    RemoveNotificationBuilder::new(instance)
+    RTDRemoveNotificationBuilder::new(instance)
   }
   
   
@@ -65753,9 +65753,9 @@ impl RemoveNotification {
 
 
 #[derive(Debug)]
-pub struct RemoveNotificationBuilder { instance: RemoveNotification }
+pub struct RTDRemoveNotificationBuilder { instance: RemoveNotification }
 
-impl RemoveNotificationBuilder {
+impl RTDRemoveNotificationBuilder {
   fn new(instance: RemoveNotification) -> Self { Self { instance } }
 
   pub fn build(&self) -> RemoveNotification { self.instance.clone() }
@@ -65802,14 +65802,14 @@ impl Function for RemoveNotificationGroup {}
 
 impl RemoveNotificationGroup {
   
-  pub fn builder() -> RemoveNotificationGroupBuilder {
+  pub fn builder() -> RTDRemoveNotificationGroupBuilder {
     let instance = Self {
       td_name: "removeNotificationGroup".to_string(),
       notification_group_id: None,
       max_notification_id: None,
       
     };
-    RemoveNotificationGroupBuilder::new(instance)
+    RTDRemoveNotificationGroupBuilder::new(instance)
   }
   
   
@@ -65824,9 +65824,9 @@ impl RemoveNotificationGroup {
 
 
 #[derive(Debug)]
-pub struct RemoveNotificationGroupBuilder { instance: RemoveNotificationGroup }
+pub struct RTDRemoveNotificationGroupBuilder { instance: RemoveNotificationGroup }
 
-impl RemoveNotificationGroupBuilder {
+impl RTDRemoveNotificationGroupBuilder {
   fn new(instance: RemoveNotificationGroup) -> Self { Self { instance } }
 
   pub fn build(&self) -> RemoveNotificationGroup { self.instance.clone() }
@@ -65871,13 +65871,13 @@ impl Function for RemoveProxy {}
 
 impl RemoveProxy {
   
-  pub fn builder() -> RemoveProxyBuilder {
+  pub fn builder() -> RTDRemoveProxyBuilder {
     let instance = Self {
       td_name: "removeProxy".to_string(),
       proxy_id: None,
       
     };
-    RemoveProxyBuilder::new(instance)
+    RTDRemoveProxyBuilder::new(instance)
   }
   
   
@@ -65890,9 +65890,9 @@ impl RemoveProxy {
 
 
 #[derive(Debug)]
-pub struct RemoveProxyBuilder { instance: RemoveProxy }
+pub struct RTDRemoveProxyBuilder { instance: RemoveProxy }
 
-impl RemoveProxyBuilder {
+impl RTDRemoveProxyBuilder {
   fn new(instance: RemoveProxy) -> Self { Self { instance } }
 
   pub fn build(&self) -> RemoveProxy { self.instance.clone() }
@@ -65932,13 +65932,13 @@ impl Function for RemoveRecentHashtag {}
 
 impl RemoveRecentHashtag {
   
-  pub fn builder() -> RemoveRecentHashtagBuilder {
+  pub fn builder() -> RTDRemoveRecentHashtagBuilder {
     let instance = Self {
       td_name: "removeRecentHashtag".to_string(),
       hashtag: None,
       
     };
-    RemoveRecentHashtagBuilder::new(instance)
+    RTDRemoveRecentHashtagBuilder::new(instance)
   }
   
   
@@ -65951,9 +65951,9 @@ impl RemoveRecentHashtag {
 
 
 #[derive(Debug)]
-pub struct RemoveRecentHashtagBuilder { instance: RemoveRecentHashtag }
+pub struct RTDRemoveRecentHashtagBuilder { instance: RemoveRecentHashtag }
 
-impl RemoveRecentHashtagBuilder {
+impl RTDRemoveRecentHashtagBuilder {
   fn new(instance: RemoveRecentHashtag) -> Self { Self { instance } }
 
   pub fn build(&self) -> RemoveRecentHashtag { self.instance.clone() }
@@ -66002,14 +66002,14 @@ impl Function for RemoveRecentSticker {}
 
 impl RemoveRecentSticker {
   
-  pub fn builder() -> RemoveRecentStickerBuilder {
+  pub fn builder() -> RTDRemoveRecentStickerBuilder {
     let instance = Self {
       td_name: "removeRecentSticker".to_string(),
       is_attached: None,
       sticker: None,
       
     };
-    RemoveRecentStickerBuilder::new(instance)
+    RTDRemoveRecentStickerBuilder::new(instance)
   }
   
   
@@ -66024,9 +66024,9 @@ impl RemoveRecentSticker {
 
 
 #[derive(Debug)]
-pub struct RemoveRecentStickerBuilder { instance: RemoveRecentSticker }
+pub struct RTDRemoveRecentStickerBuilder { instance: RemoveRecentSticker }
 
-impl RemoveRecentStickerBuilder {
+impl RTDRemoveRecentStickerBuilder {
   fn new(instance: RemoveRecentSticker) -> Self { Self { instance } }
 
   pub fn build(&self) -> RemoveRecentSticker { self.instance.clone() }
@@ -66071,13 +66071,13 @@ impl Function for RemoveRecentlyFoundChat {}
 
 impl RemoveRecentlyFoundChat {
   
-  pub fn builder() -> RemoveRecentlyFoundChatBuilder {
+  pub fn builder() -> RTDRemoveRecentlyFoundChatBuilder {
     let instance = Self {
       td_name: "removeRecentlyFoundChat".to_string(),
       chat_id: None,
       
     };
-    RemoveRecentlyFoundChatBuilder::new(instance)
+    RTDRemoveRecentlyFoundChatBuilder::new(instance)
   }
   
   
@@ -66090,9 +66090,9 @@ impl RemoveRecentlyFoundChat {
 
 
 #[derive(Debug)]
-pub struct RemoveRecentlyFoundChatBuilder { instance: RemoveRecentlyFoundChat }
+pub struct RTDRemoveRecentlyFoundChatBuilder { instance: RemoveRecentlyFoundChat }
 
-impl RemoveRecentlyFoundChatBuilder {
+impl RTDRemoveRecentlyFoundChatBuilder {
   fn new(instance: RemoveRecentlyFoundChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> RemoveRecentlyFoundChat { self.instance.clone() }
@@ -66139,13 +66139,13 @@ impl Function for RemoveSavedAnimation {}
 
 impl RemoveSavedAnimation {
   
-  pub fn builder() -> RemoveSavedAnimationBuilder {
+  pub fn builder() -> RTDRemoveSavedAnimationBuilder {
     let instance = Self {
       td_name: "removeSavedAnimation".to_string(),
       animation: None,
       
     };
-    RemoveSavedAnimationBuilder::new(instance)
+    RTDRemoveSavedAnimationBuilder::new(instance)
   }
   
   
@@ -66158,9 +66158,9 @@ impl RemoveSavedAnimation {
 
 
 #[derive(Debug)]
-pub struct RemoveSavedAnimationBuilder { instance: RemoveSavedAnimation }
+pub struct RTDRemoveSavedAnimationBuilder { instance: RemoveSavedAnimation }
 
-impl RemoveSavedAnimationBuilder {
+impl RTDRemoveSavedAnimationBuilder {
   fn new(instance: RemoveSavedAnimation) -> Self { Self { instance } }
 
   pub fn build(&self) -> RemoveSavedAnimation { self.instance.clone() }
@@ -66207,13 +66207,13 @@ impl Function for RemoveStickerFromSet {}
 
 impl RemoveStickerFromSet {
   
-  pub fn builder() -> RemoveStickerFromSetBuilder {
+  pub fn builder() -> RTDRemoveStickerFromSetBuilder {
     let instance = Self {
       td_name: "removeStickerFromSet".to_string(),
       sticker: None,
       
     };
-    RemoveStickerFromSetBuilder::new(instance)
+    RTDRemoveStickerFromSetBuilder::new(instance)
   }
   
   
@@ -66226,9 +66226,9 @@ impl RemoveStickerFromSet {
 
 
 #[derive(Debug)]
-pub struct RemoveStickerFromSetBuilder { instance: RemoveStickerFromSet }
+pub struct RTDRemoveStickerFromSetBuilder { instance: RemoveStickerFromSet }
 
-impl RemoveStickerFromSetBuilder {
+impl RTDRemoveStickerFromSetBuilder {
   fn new(instance: RemoveStickerFromSet) -> Self { Self { instance } }
 
   pub fn build(&self) -> RemoveStickerFromSet { self.instance.clone() }
@@ -66277,14 +66277,14 @@ impl Function for RemoveTopChat {}
 
 impl RemoveTopChat {
   
-  pub fn builder() -> RemoveTopChatBuilder {
+  pub fn builder() -> RTDRemoveTopChatBuilder {
     let instance = Self {
       td_name: "removeTopChat".to_string(),
       category: None,
       chat_id: None,
       
     };
-    RemoveTopChatBuilder::new(instance)
+    RTDRemoveTopChatBuilder::new(instance)
   }
   
   
@@ -66299,9 +66299,9 @@ impl RemoveTopChat {
 
 
 #[derive(Debug)]
-pub struct RemoveTopChatBuilder { instance: RemoveTopChat }
+pub struct RTDRemoveTopChatBuilder { instance: RemoveTopChat }
 
-impl RemoveTopChatBuilder {
+impl RTDRemoveTopChatBuilder {
   fn new(instance: RemoveTopChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> RemoveTopChat { self.instance.clone() }
@@ -66348,14 +66348,14 @@ impl Function for ReorderInstalledStickerSets {}
 
 impl ReorderInstalledStickerSets {
   
-  pub fn builder() -> ReorderInstalledStickerSetsBuilder {
+  pub fn builder() -> RTDReorderInstalledStickerSetsBuilder {
     let instance = Self {
       td_name: "reorderInstalledStickerSets".to_string(),
       is_masks: None,
       sticker_set_ids: None,
       
     };
-    ReorderInstalledStickerSetsBuilder::new(instance)
+    RTDReorderInstalledStickerSetsBuilder::new(instance)
   }
   
   
@@ -66370,9 +66370,9 @@ impl ReorderInstalledStickerSets {
 
 
 #[derive(Debug)]
-pub struct ReorderInstalledStickerSetsBuilder { instance: ReorderInstalledStickerSets }
+pub struct RTDReorderInstalledStickerSetsBuilder { instance: ReorderInstalledStickerSets }
 
-impl ReorderInstalledStickerSetsBuilder {
+impl RTDReorderInstalledStickerSetsBuilder {
   fn new(instance: ReorderInstalledStickerSets) -> Self { Self { instance } }
 
   pub fn build(&self) -> ReorderInstalledStickerSets { self.instance.clone() }
@@ -66428,7 +66428,7 @@ impl Function for ReportChat {}
 
 impl ReportChat {
   
-  pub fn builder() -> ReportChatBuilder {
+  pub fn builder() -> RTDReportChatBuilder {
     let instance = Self {
       td_name: "reportChat".to_string(),
       chat_id: None,
@@ -66436,7 +66436,7 @@ impl ReportChat {
       message_ids: None,
       
     };
-    ReportChatBuilder::new(instance)
+    RTDReportChatBuilder::new(instance)
   }
   
   
@@ -66453,9 +66453,9 @@ impl ReportChat {
 
 
 #[derive(Debug)]
-pub struct ReportChatBuilder { instance: ReportChat }
+pub struct RTDReportChatBuilder { instance: ReportChat }
 
-impl ReportChatBuilder {
+impl RTDReportChatBuilder {
   fn new(instance: ReportChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> ReportChat { self.instance.clone() }
@@ -66509,7 +66509,7 @@ impl Function for ReportSupergroupSpam {}
 
 impl ReportSupergroupSpam {
   
-  pub fn builder() -> ReportSupergroupSpamBuilder {
+  pub fn builder() -> RTDReportSupergroupSpamBuilder {
     let instance = Self {
       td_name: "reportSupergroupSpam".to_string(),
       supergroup_id: None,
@@ -66517,7 +66517,7 @@ impl ReportSupergroupSpam {
       message_ids: None,
       
     };
-    ReportSupergroupSpamBuilder::new(instance)
+    RTDReportSupergroupSpamBuilder::new(instance)
   }
   
   
@@ -66534,9 +66534,9 @@ impl ReportSupergroupSpam {
 
 
 #[derive(Debug)]
-pub struct ReportSupergroupSpamBuilder { instance: ReportSupergroupSpam }
+pub struct RTDReportSupergroupSpamBuilder { instance: ReportSupergroupSpam }
 
-impl ReportSupergroupSpamBuilder {
+impl RTDReportSupergroupSpamBuilder {
   fn new(instance: ReportSupergroupSpam) -> Self { Self { instance } }
 
   pub fn build(&self) -> ReportSupergroupSpam { self.instance.clone() }
@@ -66584,12 +66584,12 @@ impl Function for RequestAuthenticationPasswordRecovery {}
 
 impl RequestAuthenticationPasswordRecovery {
   
-  pub fn builder() -> RequestAuthenticationPasswordRecoveryBuilder {
+  pub fn builder() -> RTDRequestAuthenticationPasswordRecoveryBuilder {
     let instance = Self {
       td_name: "requestAuthenticationPasswordRecovery".to_string(),
       
     };
-    RequestAuthenticationPasswordRecoveryBuilder::new(instance)
+    RTDRequestAuthenticationPasswordRecoveryBuilder::new(instance)
   }
   
   
@@ -66600,9 +66600,9 @@ impl RequestAuthenticationPasswordRecovery {
 
 
 #[derive(Debug)]
-pub struct RequestAuthenticationPasswordRecoveryBuilder { instance: RequestAuthenticationPasswordRecovery }
+pub struct RTDRequestAuthenticationPasswordRecoveryBuilder { instance: RequestAuthenticationPasswordRecovery }
 
-impl RequestAuthenticationPasswordRecoveryBuilder {
+impl RTDRequestAuthenticationPasswordRecoveryBuilder {
   fn new(instance: RequestAuthenticationPasswordRecovery) -> Self { Self { instance } }
 
   pub fn build(&self) -> RequestAuthenticationPasswordRecovery { self.instance.clone() }
@@ -66635,12 +66635,12 @@ impl Function for RequestPasswordRecovery {}
 
 impl RequestPasswordRecovery {
   
-  pub fn builder() -> RequestPasswordRecoveryBuilder {
+  pub fn builder() -> RTDRequestPasswordRecoveryBuilder {
     let instance = Self {
       td_name: "requestPasswordRecovery".to_string(),
       
     };
-    RequestPasswordRecoveryBuilder::new(instance)
+    RTDRequestPasswordRecoveryBuilder::new(instance)
   }
   
   
@@ -66651,9 +66651,9 @@ impl RequestPasswordRecovery {
 
 
 #[derive(Debug)]
-pub struct RequestPasswordRecoveryBuilder { instance: RequestPasswordRecovery }
+pub struct RTDRequestPasswordRecoveryBuilder { instance: RequestPasswordRecovery }
 
-impl RequestPasswordRecoveryBuilder {
+impl RTDRequestPasswordRecoveryBuilder {
   fn new(instance: RequestPasswordRecovery) -> Self { Self { instance } }
 
   pub fn build(&self) -> RequestPasswordRecovery { self.instance.clone() }
@@ -66686,12 +66686,12 @@ impl Function for ResendAuthenticationCode {}
 
 impl ResendAuthenticationCode {
   
-  pub fn builder() -> ResendAuthenticationCodeBuilder {
+  pub fn builder() -> RTDResendAuthenticationCodeBuilder {
     let instance = Self {
       td_name: "resendAuthenticationCode".to_string(),
       
     };
-    ResendAuthenticationCodeBuilder::new(instance)
+    RTDResendAuthenticationCodeBuilder::new(instance)
   }
   
   
@@ -66702,9 +66702,9 @@ impl ResendAuthenticationCode {
 
 
 #[derive(Debug)]
-pub struct ResendAuthenticationCodeBuilder { instance: ResendAuthenticationCode }
+pub struct RTDResendAuthenticationCodeBuilder { instance: ResendAuthenticationCode }
 
-impl ResendAuthenticationCodeBuilder {
+impl RTDResendAuthenticationCodeBuilder {
   fn new(instance: ResendAuthenticationCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> ResendAuthenticationCode { self.instance.clone() }
@@ -66737,12 +66737,12 @@ impl Function for ResendChangePhoneNumberCode {}
 
 impl ResendChangePhoneNumberCode {
   
-  pub fn builder() -> ResendChangePhoneNumberCodeBuilder {
+  pub fn builder() -> RTDResendChangePhoneNumberCodeBuilder {
     let instance = Self {
       td_name: "resendChangePhoneNumberCode".to_string(),
       
     };
-    ResendChangePhoneNumberCodeBuilder::new(instance)
+    RTDResendChangePhoneNumberCodeBuilder::new(instance)
   }
   
   
@@ -66753,9 +66753,9 @@ impl ResendChangePhoneNumberCode {
 
 
 #[derive(Debug)]
-pub struct ResendChangePhoneNumberCodeBuilder { instance: ResendChangePhoneNumberCode }
+pub struct RTDResendChangePhoneNumberCodeBuilder { instance: ResendChangePhoneNumberCode }
 
-impl ResendChangePhoneNumberCodeBuilder {
+impl RTDResendChangePhoneNumberCodeBuilder {
   fn new(instance: ResendChangePhoneNumberCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> ResendChangePhoneNumberCode { self.instance.clone() }
@@ -66788,12 +66788,12 @@ impl Function for ResendEmailAddressVerificationCode {}
 
 impl ResendEmailAddressVerificationCode {
   
-  pub fn builder() -> ResendEmailAddressVerificationCodeBuilder {
+  pub fn builder() -> RTDResendEmailAddressVerificationCodeBuilder {
     let instance = Self {
       td_name: "resendEmailAddressVerificationCode".to_string(),
       
     };
-    ResendEmailAddressVerificationCodeBuilder::new(instance)
+    RTDResendEmailAddressVerificationCodeBuilder::new(instance)
   }
   
   
@@ -66804,9 +66804,9 @@ impl ResendEmailAddressVerificationCode {
 
 
 #[derive(Debug)]
-pub struct ResendEmailAddressVerificationCodeBuilder { instance: ResendEmailAddressVerificationCode }
+pub struct RTDResendEmailAddressVerificationCodeBuilder { instance: ResendEmailAddressVerificationCode }
 
-impl ResendEmailAddressVerificationCodeBuilder {
+impl RTDResendEmailAddressVerificationCodeBuilder {
   fn new(instance: ResendEmailAddressVerificationCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> ResendEmailAddressVerificationCode { self.instance.clone() }
@@ -66839,12 +66839,12 @@ impl Function for ResendPhoneNumberConfirmationCode {}
 
 impl ResendPhoneNumberConfirmationCode {
   
-  pub fn builder() -> ResendPhoneNumberConfirmationCodeBuilder {
+  pub fn builder() -> RTDResendPhoneNumberConfirmationCodeBuilder {
     let instance = Self {
       td_name: "resendPhoneNumberConfirmationCode".to_string(),
       
     };
-    ResendPhoneNumberConfirmationCodeBuilder::new(instance)
+    RTDResendPhoneNumberConfirmationCodeBuilder::new(instance)
   }
   
   
@@ -66855,9 +66855,9 @@ impl ResendPhoneNumberConfirmationCode {
 
 
 #[derive(Debug)]
-pub struct ResendPhoneNumberConfirmationCodeBuilder { instance: ResendPhoneNumberConfirmationCode }
+pub struct RTDResendPhoneNumberConfirmationCodeBuilder { instance: ResendPhoneNumberConfirmationCode }
 
-impl ResendPhoneNumberConfirmationCodeBuilder {
+impl RTDResendPhoneNumberConfirmationCodeBuilder {
   fn new(instance: ResendPhoneNumberConfirmationCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> ResendPhoneNumberConfirmationCode { self.instance.clone() }
@@ -66890,12 +66890,12 @@ impl Function for ResendPhoneNumberVerificationCode {}
 
 impl ResendPhoneNumberVerificationCode {
   
-  pub fn builder() -> ResendPhoneNumberVerificationCodeBuilder {
+  pub fn builder() -> RTDResendPhoneNumberVerificationCodeBuilder {
     let instance = Self {
       td_name: "resendPhoneNumberVerificationCode".to_string(),
       
     };
-    ResendPhoneNumberVerificationCodeBuilder::new(instance)
+    RTDResendPhoneNumberVerificationCodeBuilder::new(instance)
   }
   
   
@@ -66906,9 +66906,9 @@ impl ResendPhoneNumberVerificationCode {
 
 
 #[derive(Debug)]
-pub struct ResendPhoneNumberVerificationCodeBuilder { instance: ResendPhoneNumberVerificationCode }
+pub struct RTDResendPhoneNumberVerificationCodeBuilder { instance: ResendPhoneNumberVerificationCode }
 
-impl ResendPhoneNumberVerificationCodeBuilder {
+impl RTDResendPhoneNumberVerificationCodeBuilder {
   fn new(instance: ResendPhoneNumberVerificationCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> ResendPhoneNumberVerificationCode { self.instance.clone() }
@@ -66941,12 +66941,12 @@ impl Function for ResendRecoveryEmailAddressCode {}
 
 impl ResendRecoveryEmailAddressCode {
   
-  pub fn builder() -> ResendRecoveryEmailAddressCodeBuilder {
+  pub fn builder() -> RTDResendRecoveryEmailAddressCodeBuilder {
     let instance = Self {
       td_name: "resendRecoveryEmailAddressCode".to_string(),
       
     };
-    ResendRecoveryEmailAddressCodeBuilder::new(instance)
+    RTDResendRecoveryEmailAddressCodeBuilder::new(instance)
   }
   
   
@@ -66957,9 +66957,9 @@ impl ResendRecoveryEmailAddressCode {
 
 
 #[derive(Debug)]
-pub struct ResendRecoveryEmailAddressCodeBuilder { instance: ResendRecoveryEmailAddressCode }
+pub struct RTDResendRecoveryEmailAddressCodeBuilder { instance: ResendRecoveryEmailAddressCode }
 
-impl ResendRecoveryEmailAddressCodeBuilder {
+impl RTDResendRecoveryEmailAddressCodeBuilder {
   fn new(instance: ResendRecoveryEmailAddressCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> ResendRecoveryEmailAddressCode { self.instance.clone() }
@@ -66992,12 +66992,12 @@ impl Function for ResetAllNotificationSettings {}
 
 impl ResetAllNotificationSettings {
   
-  pub fn builder() -> ResetAllNotificationSettingsBuilder {
+  pub fn builder() -> RTDResetAllNotificationSettingsBuilder {
     let instance = Self {
       td_name: "resetAllNotificationSettings".to_string(),
       
     };
-    ResetAllNotificationSettingsBuilder::new(instance)
+    RTDResetAllNotificationSettingsBuilder::new(instance)
   }
   
   
@@ -67008,9 +67008,9 @@ impl ResetAllNotificationSettings {
 
 
 #[derive(Debug)]
-pub struct ResetAllNotificationSettingsBuilder { instance: ResetAllNotificationSettings }
+pub struct RTDResetAllNotificationSettingsBuilder { instance: ResetAllNotificationSettings }
 
-impl ResetAllNotificationSettingsBuilder {
+impl RTDResetAllNotificationSettingsBuilder {
   fn new(instance: ResetAllNotificationSettings) -> Self { Self { instance } }
 
   pub fn build(&self) -> ResetAllNotificationSettings { self.instance.clone() }
@@ -67043,12 +67043,12 @@ impl Function for ResetNetworkStatistics {}
 
 impl ResetNetworkStatistics {
   
-  pub fn builder() -> ResetNetworkStatisticsBuilder {
+  pub fn builder() -> RTDResetNetworkStatisticsBuilder {
     let instance = Self {
       td_name: "resetNetworkStatistics".to_string(),
       
     };
-    ResetNetworkStatisticsBuilder::new(instance)
+    RTDResetNetworkStatisticsBuilder::new(instance)
   }
   
   
@@ -67059,9 +67059,9 @@ impl ResetNetworkStatistics {
 
 
 #[derive(Debug)]
-pub struct ResetNetworkStatisticsBuilder { instance: ResetNetworkStatistics }
+pub struct RTDResetNetworkStatisticsBuilder { instance: ResetNetworkStatistics }
 
-impl ResetNetworkStatisticsBuilder {
+impl RTDResetNetworkStatisticsBuilder {
   fn new(instance: ResetNetworkStatistics) -> Self { Self { instance } }
 
   pub fn build(&self) -> ResetNetworkStatistics { self.instance.clone() }
@@ -67100,7 +67100,7 @@ impl Function for SearchCallMessages {}
 
 impl SearchCallMessages {
   
-  pub fn builder() -> SearchCallMessagesBuilder {
+  pub fn builder() -> RTDSearchCallMessagesBuilder {
     let instance = Self {
       td_name: "searchCallMessages".to_string(),
       from_message_id: None,
@@ -67108,7 +67108,7 @@ impl SearchCallMessages {
       only_missed: None,
       
     };
-    SearchCallMessagesBuilder::new(instance)
+    RTDSearchCallMessagesBuilder::new(instance)
   }
   
   
@@ -67125,9 +67125,9 @@ impl SearchCallMessages {
 
 
 #[derive(Debug)]
-pub struct SearchCallMessagesBuilder { instance: SearchCallMessages }
+pub struct RTDSearchCallMessagesBuilder { instance: SearchCallMessages }
 
-impl SearchCallMessagesBuilder {
+impl RTDSearchCallMessagesBuilder {
   fn new(instance: SearchCallMessages) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchCallMessages { self.instance.clone() }
@@ -67190,7 +67190,7 @@ impl Function for SearchChatMembers {}
 
 impl SearchChatMembers {
   
-  pub fn builder() -> SearchChatMembersBuilder {
+  pub fn builder() -> RTDSearchChatMembersBuilder {
     let instance = Self {
       td_name: "searchChatMembers".to_string(),
       chat_id: None,
@@ -67199,7 +67199,7 @@ impl SearchChatMembers {
       filter: None,
       
     };
-    SearchChatMembersBuilder::new(instance)
+    RTDSearchChatMembersBuilder::new(instance)
   }
   
   
@@ -67218,9 +67218,9 @@ impl SearchChatMembers {
 
 
 #[derive(Debug)]
-pub struct SearchChatMembersBuilder { instance: SearchChatMembers }
+pub struct RTDSearchChatMembersBuilder { instance: SearchChatMembers }
 
-impl SearchChatMembersBuilder {
+impl RTDSearchChatMembersBuilder {
   fn new(instance: SearchChatMembers) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchChatMembers { self.instance.clone() }
@@ -67294,7 +67294,7 @@ impl Function for SearchChatMessages {}
 
 impl SearchChatMessages {
   
-  pub fn builder() -> SearchChatMessagesBuilder {
+  pub fn builder() -> RTDSearchChatMessagesBuilder {
     let instance = Self {
       td_name: "searchChatMessages".to_string(),
       chat_id: None,
@@ -67306,7 +67306,7 @@ impl SearchChatMessages {
       filter: None,
       
     };
-    SearchChatMessagesBuilder::new(instance)
+    RTDSearchChatMessagesBuilder::new(instance)
   }
   
   
@@ -67331,9 +67331,9 @@ impl SearchChatMessages {
 
 
 #[derive(Debug)]
-pub struct SearchChatMessagesBuilder { instance: SearchChatMessages }
+pub struct RTDSearchChatMessagesBuilder { instance: SearchChatMessages }
 
-impl SearchChatMessagesBuilder {
+impl RTDSearchChatMessagesBuilder {
   fn new(instance: SearchChatMessages) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchChatMessages { self.instance.clone() }
@@ -67405,14 +67405,14 @@ impl Function for SearchChatRecentLocationMessages {}
 
 impl SearchChatRecentLocationMessages {
   
-  pub fn builder() -> SearchChatRecentLocationMessagesBuilder {
+  pub fn builder() -> RTDSearchChatRecentLocationMessagesBuilder {
     let instance = Self {
       td_name: "searchChatRecentLocationMessages".to_string(),
       chat_id: None,
       limit: None,
       
     };
-    SearchChatRecentLocationMessagesBuilder::new(instance)
+    RTDSearchChatRecentLocationMessagesBuilder::new(instance)
   }
   
   
@@ -67427,9 +67427,9 @@ impl SearchChatRecentLocationMessages {
 
 
 #[derive(Debug)]
-pub struct SearchChatRecentLocationMessagesBuilder { instance: SearchChatRecentLocationMessages }
+pub struct RTDSearchChatRecentLocationMessagesBuilder { instance: SearchChatRecentLocationMessages }
 
-impl SearchChatRecentLocationMessagesBuilder {
+impl RTDSearchChatRecentLocationMessagesBuilder {
   fn new(instance: SearchChatRecentLocationMessages) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchChatRecentLocationMessages { self.instance.clone() }
@@ -67476,14 +67476,14 @@ impl Function for SearchChats {}
 
 impl SearchChats {
   
-  pub fn builder() -> SearchChatsBuilder {
+  pub fn builder() -> RTDSearchChatsBuilder {
     let instance = Self {
       td_name: "searchChats".to_string(),
       query: None,
       limit: None,
       
     };
-    SearchChatsBuilder::new(instance)
+    RTDSearchChatsBuilder::new(instance)
   }
   
   
@@ -67498,9 +67498,9 @@ impl SearchChats {
 
 
 #[derive(Debug)]
-pub struct SearchChatsBuilder { instance: SearchChats }
+pub struct RTDSearchChatsBuilder { instance: SearchChats }
 
-impl SearchChatsBuilder {
+impl RTDSearchChatsBuilder {
   fn new(instance: SearchChats) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchChats { self.instance.clone() }
@@ -67547,14 +67547,14 @@ impl Function for SearchChatsOnServer {}
 
 impl SearchChatsOnServer {
   
-  pub fn builder() -> SearchChatsOnServerBuilder {
+  pub fn builder() -> RTDSearchChatsOnServerBuilder {
     let instance = Self {
       td_name: "searchChatsOnServer".to_string(),
       query: None,
       limit: None,
       
     };
-    SearchChatsOnServerBuilder::new(instance)
+    RTDSearchChatsOnServerBuilder::new(instance)
   }
   
   
@@ -67569,9 +67569,9 @@ impl SearchChatsOnServer {
 
 
 #[derive(Debug)]
-pub struct SearchChatsOnServerBuilder { instance: SearchChatsOnServer }
+pub struct RTDSearchChatsOnServerBuilder { instance: SearchChatsOnServer }
 
-impl SearchChatsOnServerBuilder {
+impl RTDSearchChatsOnServerBuilder {
   fn new(instance: SearchChatsOnServer) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchChatsOnServer { self.instance.clone() }
@@ -67618,14 +67618,14 @@ impl Function for SearchContacts {}
 
 impl SearchContacts {
   
-  pub fn builder() -> SearchContactsBuilder {
+  pub fn builder() -> RTDSearchContactsBuilder {
     let instance = Self {
       td_name: "searchContacts".to_string(),
       query: None,
       limit: None,
       
     };
-    SearchContactsBuilder::new(instance)
+    RTDSearchContactsBuilder::new(instance)
   }
   
   
@@ -67640,9 +67640,9 @@ impl SearchContacts {
 
 
 #[derive(Debug)]
-pub struct SearchContactsBuilder { instance: SearchContacts }
+pub struct RTDSearchContactsBuilder { instance: SearchContacts }
 
-impl SearchContactsBuilder {
+impl RTDSearchContactsBuilder {
   fn new(instance: SearchContacts) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchContacts { self.instance.clone() }
@@ -67689,14 +67689,14 @@ impl Function for SearchHashtags {}
 
 impl SearchHashtags {
   
-  pub fn builder() -> SearchHashtagsBuilder {
+  pub fn builder() -> RTDSearchHashtagsBuilder {
     let instance = Self {
       td_name: "searchHashtags".to_string(),
       prefix: None,
       limit: None,
       
     };
-    SearchHashtagsBuilder::new(instance)
+    RTDSearchHashtagsBuilder::new(instance)
   }
   
   
@@ -67711,9 +67711,9 @@ impl SearchHashtags {
 
 
 #[derive(Debug)]
-pub struct SearchHashtagsBuilder { instance: SearchHashtags }
+pub struct RTDSearchHashtagsBuilder { instance: SearchHashtags }
 
-impl SearchHashtagsBuilder {
+impl RTDSearchHashtagsBuilder {
   fn new(instance: SearchHashtags) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchHashtags { self.instance.clone() }
@@ -67762,7 +67762,7 @@ impl Function for SearchInstalledStickerSets {}
 
 impl SearchInstalledStickerSets {
   
-  pub fn builder() -> SearchInstalledStickerSetsBuilder {
+  pub fn builder() -> RTDSearchInstalledStickerSetsBuilder {
     let instance = Self {
       td_name: "searchInstalledStickerSets".to_string(),
       is_masks: None,
@@ -67770,7 +67770,7 @@ impl SearchInstalledStickerSets {
       limit: None,
       
     };
-    SearchInstalledStickerSetsBuilder::new(instance)
+    RTDSearchInstalledStickerSetsBuilder::new(instance)
   }
   
   
@@ -67787,9 +67787,9 @@ impl SearchInstalledStickerSets {
 
 
 #[derive(Debug)]
-pub struct SearchInstalledStickerSetsBuilder { instance: SearchInstalledStickerSets }
+pub struct RTDSearchInstalledStickerSetsBuilder { instance: SearchInstalledStickerSets }
 
-impl SearchInstalledStickerSetsBuilder {
+impl RTDSearchInstalledStickerSetsBuilder {
   fn new(instance: SearchInstalledStickerSets) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchInstalledStickerSets { self.instance.clone() }
@@ -67847,7 +67847,7 @@ impl Function for SearchMessages {}
 
 impl SearchMessages {
   
-  pub fn builder() -> SearchMessagesBuilder {
+  pub fn builder() -> RTDSearchMessagesBuilder {
     let instance = Self {
       td_name: "searchMessages".to_string(),
       query: None,
@@ -67857,7 +67857,7 @@ impl SearchMessages {
       limit: None,
       
     };
-    SearchMessagesBuilder::new(instance)
+    RTDSearchMessagesBuilder::new(instance)
   }
   
   
@@ -67878,9 +67878,9 @@ impl SearchMessages {
 
 
 #[derive(Debug)]
-pub struct SearchMessagesBuilder { instance: SearchMessages }
+pub struct RTDSearchMessagesBuilder { instance: SearchMessages }
 
-impl SearchMessagesBuilder {
+impl RTDSearchMessagesBuilder {
   fn new(instance: SearchMessages) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchMessages { self.instance.clone() }
@@ -67940,13 +67940,13 @@ impl Function for SearchPublicChat {}
 
 impl SearchPublicChat {
   
-  pub fn builder() -> SearchPublicChatBuilder {
+  pub fn builder() -> RTDSearchPublicChatBuilder {
     let instance = Self {
       td_name: "searchPublicChat".to_string(),
       username: None,
       
     };
-    SearchPublicChatBuilder::new(instance)
+    RTDSearchPublicChatBuilder::new(instance)
   }
   
   
@@ -67959,9 +67959,9 @@ impl SearchPublicChat {
 
 
 #[derive(Debug)]
-pub struct SearchPublicChatBuilder { instance: SearchPublicChat }
+pub struct RTDSearchPublicChatBuilder { instance: SearchPublicChat }
 
-impl SearchPublicChatBuilder {
+impl RTDSearchPublicChatBuilder {
   fn new(instance: SearchPublicChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchPublicChat { self.instance.clone() }
@@ -68001,13 +68001,13 @@ impl Function for SearchPublicChats {}
 
 impl SearchPublicChats {
   
-  pub fn builder() -> SearchPublicChatsBuilder {
+  pub fn builder() -> RTDSearchPublicChatsBuilder {
     let instance = Self {
       td_name: "searchPublicChats".to_string(),
       query: None,
       
     };
-    SearchPublicChatsBuilder::new(instance)
+    RTDSearchPublicChatsBuilder::new(instance)
   }
   
   
@@ -68020,9 +68020,9 @@ impl SearchPublicChats {
 
 
 #[derive(Debug)]
-pub struct SearchPublicChatsBuilder { instance: SearchPublicChats }
+pub struct RTDSearchPublicChatsBuilder { instance: SearchPublicChats }
 
-impl SearchPublicChatsBuilder {
+impl RTDSearchPublicChatsBuilder {
   fn new(instance: SearchPublicChats) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchPublicChats { self.instance.clone() }
@@ -68077,7 +68077,7 @@ impl Function for SearchSecretMessages {}
 
 impl SearchSecretMessages {
   
-  pub fn builder() -> SearchSecretMessagesBuilder {
+  pub fn builder() -> RTDSearchSecretMessagesBuilder {
     let instance = Self {
       td_name: "searchSecretMessages".to_string(),
       chat_id: None,
@@ -68087,7 +68087,7 @@ impl SearchSecretMessages {
       filter: None,
       
     };
-    SearchSecretMessagesBuilder::new(instance)
+    RTDSearchSecretMessagesBuilder::new(instance)
   }
   
   
@@ -68108,9 +68108,9 @@ impl SearchSecretMessages {
 
 
 #[derive(Debug)]
-pub struct SearchSecretMessagesBuilder { instance: SearchSecretMessages }
+pub struct RTDSearchSecretMessagesBuilder { instance: SearchSecretMessages }
 
-impl SearchSecretMessagesBuilder {
+impl RTDSearchSecretMessagesBuilder {
   fn new(instance: SearchSecretMessages) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchSecretMessages { self.instance.clone() }
@@ -68170,13 +68170,13 @@ impl Function for SearchStickerSet {}
 
 impl SearchStickerSet {
   
-  pub fn builder() -> SearchStickerSetBuilder {
+  pub fn builder() -> RTDSearchStickerSetBuilder {
     let instance = Self {
       td_name: "searchStickerSet".to_string(),
       name: None,
       
     };
-    SearchStickerSetBuilder::new(instance)
+    RTDSearchStickerSetBuilder::new(instance)
   }
   
   
@@ -68189,9 +68189,9 @@ impl SearchStickerSet {
 
 
 #[derive(Debug)]
-pub struct SearchStickerSetBuilder { instance: SearchStickerSet }
+pub struct RTDSearchStickerSetBuilder { instance: SearchStickerSet }
 
-impl SearchStickerSetBuilder {
+impl RTDSearchStickerSetBuilder {
   fn new(instance: SearchStickerSet) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchStickerSet { self.instance.clone() }
@@ -68231,13 +68231,13 @@ impl Function for SearchStickerSets {}
 
 impl SearchStickerSets {
   
-  pub fn builder() -> SearchStickerSetsBuilder {
+  pub fn builder() -> RTDSearchStickerSetsBuilder {
     let instance = Self {
       td_name: "searchStickerSets".to_string(),
       query: None,
       
     };
-    SearchStickerSetsBuilder::new(instance)
+    RTDSearchStickerSetsBuilder::new(instance)
   }
   
   
@@ -68250,9 +68250,9 @@ impl SearchStickerSets {
 
 
 #[derive(Debug)]
-pub struct SearchStickerSetsBuilder { instance: SearchStickerSets }
+pub struct RTDSearchStickerSetsBuilder { instance: SearchStickerSets }
 
-impl SearchStickerSetsBuilder {
+impl RTDSearchStickerSetsBuilder {
   fn new(instance: SearchStickerSets) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchStickerSets { self.instance.clone() }
@@ -68294,14 +68294,14 @@ impl Function for SearchStickers {}
 
 impl SearchStickers {
   
-  pub fn builder() -> SearchStickersBuilder {
+  pub fn builder() -> RTDSearchStickersBuilder {
     let instance = Self {
       td_name: "searchStickers".to_string(),
       emoji: None,
       limit: None,
       
     };
-    SearchStickersBuilder::new(instance)
+    RTDSearchStickersBuilder::new(instance)
   }
   
   
@@ -68316,9 +68316,9 @@ impl SearchStickers {
 
 
 #[derive(Debug)]
-pub struct SearchStickersBuilder { instance: SearchStickers }
+pub struct RTDSearchStickersBuilder { instance: SearchStickers }
 
-impl SearchStickersBuilder {
+impl RTDSearchStickersBuilder {
   fn new(instance: SearchStickers) -> Self { Self { instance } }
 
   pub fn build(&self) -> SearchStickers { self.instance.clone() }
@@ -68367,7 +68367,7 @@ impl Function for SendBotStartMessage {}
 
 impl SendBotStartMessage {
   
-  pub fn builder() -> SendBotStartMessageBuilder {
+  pub fn builder() -> RTDSendBotStartMessageBuilder {
     let instance = Self {
       td_name: "sendBotStartMessage".to_string(),
       bot_user_id: None,
@@ -68375,7 +68375,7 @@ impl SendBotStartMessage {
       parameter: None,
       
     };
-    SendBotStartMessageBuilder::new(instance)
+    RTDSendBotStartMessageBuilder::new(instance)
   }
   
   
@@ -68392,9 +68392,9 @@ impl SendBotStartMessage {
 
 
 #[derive(Debug)]
-pub struct SendBotStartMessageBuilder { instance: SendBotStartMessage }
+pub struct RTDSendBotStartMessageBuilder { instance: SendBotStartMessage }
 
-impl SendBotStartMessageBuilder {
+impl RTDSendBotStartMessageBuilder {
   fn new(instance: SendBotStartMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> SendBotStartMessage { self.instance.clone() }
@@ -68446,14 +68446,14 @@ impl Function for SendCallDebugInformation {}
 
 impl SendCallDebugInformation {
   
-  pub fn builder() -> SendCallDebugInformationBuilder {
+  pub fn builder() -> RTDSendCallDebugInformationBuilder {
     let instance = Self {
       td_name: "sendCallDebugInformation".to_string(),
       call_id: None,
       debug_information: None,
       
     };
-    SendCallDebugInformationBuilder::new(instance)
+    RTDSendCallDebugInformationBuilder::new(instance)
   }
   
   
@@ -68468,9 +68468,9 @@ impl SendCallDebugInformation {
 
 
 #[derive(Debug)]
-pub struct SendCallDebugInformationBuilder { instance: SendCallDebugInformation }
+pub struct RTDSendCallDebugInformationBuilder { instance: SendCallDebugInformation }
 
-impl SendCallDebugInformationBuilder {
+impl RTDSendCallDebugInformationBuilder {
   fn new(instance: SendCallDebugInformation) -> Self { Self { instance } }
 
   pub fn build(&self) -> SendCallDebugInformation { self.instance.clone() }
@@ -68519,7 +68519,7 @@ impl Function for SendCallRating {}
 
 impl SendCallRating {
   
-  pub fn builder() -> SendCallRatingBuilder {
+  pub fn builder() -> RTDSendCallRatingBuilder {
     let instance = Self {
       td_name: "sendCallRating".to_string(),
       call_id: None,
@@ -68527,7 +68527,7 @@ impl SendCallRating {
       comment: None,
       
     };
-    SendCallRatingBuilder::new(instance)
+    RTDSendCallRatingBuilder::new(instance)
   }
   
   
@@ -68544,9 +68544,9 @@ impl SendCallRating {
 
 
 #[derive(Debug)]
-pub struct SendCallRatingBuilder { instance: SendCallRating }
+pub struct RTDSendCallRatingBuilder { instance: SendCallRating }
 
-impl SendCallRatingBuilder {
+impl RTDSendCallRatingBuilder {
   fn new(instance: SendCallRating) -> Self { Self { instance } }
 
   pub fn build(&self) -> SendCallRating { self.instance.clone() }
@@ -68605,14 +68605,14 @@ impl Function for SendChatAction {}
 
 impl SendChatAction {
   
-  pub fn builder() -> SendChatActionBuilder {
+  pub fn builder() -> RTDSendChatActionBuilder {
     let instance = Self {
       td_name: "sendChatAction".to_string(),
       chat_id: None,
       action: None,
       
     };
-    SendChatActionBuilder::new(instance)
+    RTDSendChatActionBuilder::new(instance)
   }
   
   
@@ -68627,9 +68627,9 @@ impl SendChatAction {
 
 
 #[derive(Debug)]
-pub struct SendChatActionBuilder { instance: SendChatAction }
+pub struct RTDSendChatActionBuilder { instance: SendChatAction }
 
-impl SendChatActionBuilder {
+impl RTDSendChatActionBuilder {
   fn new(instance: SendChatAction) -> Self { Self { instance } }
 
   pub fn build(&self) -> SendChatAction { self.instance.clone() }
@@ -68674,13 +68674,13 @@ impl Function for SendChatScreenshotTakenNotification {}
 
 impl SendChatScreenshotTakenNotification {
   
-  pub fn builder() -> SendChatScreenshotTakenNotificationBuilder {
+  pub fn builder() -> RTDSendChatScreenshotTakenNotificationBuilder {
     let instance = Self {
       td_name: "sendChatScreenshotTakenNotification".to_string(),
       chat_id: None,
       
     };
-    SendChatScreenshotTakenNotificationBuilder::new(instance)
+    RTDSendChatScreenshotTakenNotificationBuilder::new(instance)
   }
   
   
@@ -68693,9 +68693,9 @@ impl SendChatScreenshotTakenNotification {
 
 
 #[derive(Debug)]
-pub struct SendChatScreenshotTakenNotificationBuilder { instance: SendChatScreenshotTakenNotification }
+pub struct RTDSendChatScreenshotTakenNotificationBuilder { instance: SendChatScreenshotTakenNotification }
 
-impl SendChatScreenshotTakenNotificationBuilder {
+impl RTDSendChatScreenshotTakenNotificationBuilder {
   fn new(instance: SendChatScreenshotTakenNotification) -> Self { Self { instance } }
 
   pub fn build(&self) -> SendChatScreenshotTakenNotification { self.instance.clone() }
@@ -68737,14 +68737,14 @@ impl Function for SendChatSetTtlMessage {}
 
 impl SendChatSetTtlMessage {
   
-  pub fn builder() -> SendChatSetTtlMessageBuilder {
+  pub fn builder() -> RTDSendChatSetTtlMessageBuilder {
     let instance = Self {
       td_name: "sendChatSetTtlMessage".to_string(),
       chat_id: None,
       ttl: None,
       
     };
-    SendChatSetTtlMessageBuilder::new(instance)
+    RTDSendChatSetTtlMessageBuilder::new(instance)
   }
   
   
@@ -68759,9 +68759,9 @@ impl SendChatSetTtlMessage {
 
 
 #[derive(Debug)]
-pub struct SendChatSetTtlMessageBuilder { instance: SendChatSetTtlMessage }
+pub struct RTDSendChatSetTtlMessageBuilder { instance: SendChatSetTtlMessage }
 
-impl SendChatSetTtlMessageBuilder {
+impl RTDSendChatSetTtlMessageBuilder {
   fn new(instance: SendChatSetTtlMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> SendChatSetTtlMessage { self.instance.clone() }
@@ -68808,14 +68808,14 @@ impl Function for SendCustomRequest {}
 
 impl SendCustomRequest {
   
-  pub fn builder() -> SendCustomRequestBuilder {
+  pub fn builder() -> RTDSendCustomRequestBuilder {
     let instance = Self {
       td_name: "sendCustomRequest".to_string(),
       method: None,
       parameters: None,
       
     };
-    SendCustomRequestBuilder::new(instance)
+    RTDSendCustomRequestBuilder::new(instance)
   }
   
   
@@ -68830,9 +68830,9 @@ impl SendCustomRequest {
 
 
 #[derive(Debug)]
-pub struct SendCustomRequestBuilder { instance: SendCustomRequest }
+pub struct RTDSendCustomRequestBuilder { instance: SendCustomRequest }
 
-impl SendCustomRequestBuilder {
+impl RTDSendCustomRequestBuilder {
   fn new(instance: SendCustomRequest) -> Self { Self { instance } }
 
   pub fn build(&self) -> SendCustomRequest { self.instance.clone() }
@@ -68877,13 +68877,13 @@ impl Function for SendEmailAddressVerificationCode {}
 
 impl SendEmailAddressVerificationCode {
   
-  pub fn builder() -> SendEmailAddressVerificationCodeBuilder {
+  pub fn builder() -> RTDSendEmailAddressVerificationCodeBuilder {
     let instance = Self {
       td_name: "sendEmailAddressVerificationCode".to_string(),
       email_address: None,
       
     };
-    SendEmailAddressVerificationCodeBuilder::new(instance)
+    RTDSendEmailAddressVerificationCodeBuilder::new(instance)
   }
   
   
@@ -68896,9 +68896,9 @@ impl SendEmailAddressVerificationCode {
 
 
 #[derive(Debug)]
-pub struct SendEmailAddressVerificationCodeBuilder { instance: SendEmailAddressVerificationCode }
+pub struct RTDSendEmailAddressVerificationCodeBuilder { instance: SendEmailAddressVerificationCode }
 
-impl SendEmailAddressVerificationCodeBuilder {
+impl RTDSendEmailAddressVerificationCodeBuilder {
   fn new(instance: SendEmailAddressVerificationCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> SendEmailAddressVerificationCode { self.instance.clone() }
@@ -68950,7 +68950,7 @@ impl Function for SendInlineQueryResultMessage {}
 
 impl SendInlineQueryResultMessage {
   
-  pub fn builder() -> SendInlineQueryResultMessageBuilder {
+  pub fn builder() -> RTDSendInlineQueryResultMessageBuilder {
     let instance = Self {
       td_name: "sendInlineQueryResultMessage".to_string(),
       chat_id: None,
@@ -68962,7 +68962,7 @@ impl SendInlineQueryResultMessage {
       hide_via_bot: None,
       
     };
-    SendInlineQueryResultMessageBuilder::new(instance)
+    RTDSendInlineQueryResultMessageBuilder::new(instance)
   }
   
   
@@ -68987,9 +68987,9 @@ impl SendInlineQueryResultMessage {
 
 
 #[derive(Debug)]
-pub struct SendInlineQueryResultMessageBuilder { instance: SendInlineQueryResultMessage }
+pub struct RTDSendInlineQueryResultMessageBuilder { instance: SendInlineQueryResultMessage }
 
-impl SendInlineQueryResultMessageBuilder {
+impl RTDSendInlineQueryResultMessageBuilder {
   fn new(instance: SendInlineQueryResultMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> SendInlineQueryResultMessage { self.instance.clone() }
@@ -69076,7 +69076,7 @@ impl Function for SendMessage {}
 
 impl SendMessage {
   
-  pub fn builder() -> SendMessageBuilder {
+  pub fn builder() -> RTDSendMessageBuilder {
     let instance = Self {
       td_name: "sendMessage".to_string(),
       chat_id: None,
@@ -69087,7 +69087,7 @@ impl SendMessage {
       input_message_content: None,
       
     };
-    SendMessageBuilder::new(instance)
+    RTDSendMessageBuilder::new(instance)
   }
   
   
@@ -69110,9 +69110,9 @@ impl SendMessage {
 
 
 #[derive(Debug)]
-pub struct SendMessageBuilder { instance: SendMessage }
+pub struct RTDSendMessageBuilder { instance: SendMessage }
 
-impl SendMessageBuilder {
+impl RTDSendMessageBuilder {
   fn new(instance: SendMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> SendMessage { self.instance.clone() }
@@ -69192,7 +69192,7 @@ impl Function for SendMessageAlbum {}
 
 impl SendMessageAlbum {
   
-  pub fn builder() -> SendMessageAlbumBuilder {
+  pub fn builder() -> RTDSendMessageAlbumBuilder {
     let instance = Self {
       td_name: "sendMessageAlbum".to_string(),
       chat_id: None,
@@ -69202,7 +69202,7 @@ impl SendMessageAlbum {
       input_message_contents: None,
       
     };
-    SendMessageAlbumBuilder::new(instance)
+    RTDSendMessageAlbumBuilder::new(instance)
   }
   
   
@@ -69223,9 +69223,9 @@ impl SendMessageAlbum {
 
 
 #[derive(Debug)]
-pub struct SendMessageAlbumBuilder { instance: SendMessageAlbum }
+pub struct RTDSendMessageAlbumBuilder { instance: SendMessageAlbum }
 
-impl SendMessageAlbumBuilder {
+impl RTDSendMessageAlbumBuilder {
   fn new(instance: SendMessageAlbum) -> Self { Self { instance } }
 
   pub fn build(&self) -> SendMessageAlbum { self.instance.clone() }
@@ -69294,14 +69294,14 @@ impl Function for SendPassportAuthorizationForm {}
 
 impl SendPassportAuthorizationForm {
   
-  pub fn builder() -> SendPassportAuthorizationFormBuilder {
+  pub fn builder() -> RTDSendPassportAuthorizationFormBuilder {
     let instance = Self {
       td_name: "sendPassportAuthorizationForm".to_string(),
       autorization_form_id: None,
       types: None,
       
     };
-    SendPassportAuthorizationFormBuilder::new(instance)
+    RTDSendPassportAuthorizationFormBuilder::new(instance)
   }
   
   
@@ -69316,9 +69316,9 @@ impl SendPassportAuthorizationForm {
 
 
 #[derive(Debug)]
-pub struct SendPassportAuthorizationFormBuilder { instance: SendPassportAuthorizationForm }
+pub struct RTDSendPassportAuthorizationFormBuilder { instance: SendPassportAuthorizationForm }
 
-impl SendPassportAuthorizationFormBuilder {
+impl RTDSendPassportAuthorizationFormBuilder {
   fn new(instance: SendPassportAuthorizationForm) -> Self { Self { instance } }
 
   pub fn build(&self) -> SendPassportAuthorizationForm { self.instance.clone() }
@@ -69378,7 +69378,7 @@ impl Function for SendPaymentForm {}
 
 impl SendPaymentForm {
   
-  pub fn builder() -> SendPaymentFormBuilder {
+  pub fn builder() -> RTDSendPaymentFormBuilder {
     let instance = Self {
       td_name: "sendPaymentForm".to_string(),
       chat_id: None,
@@ -69388,7 +69388,7 @@ impl SendPaymentForm {
       credentials: None,
       
     };
-    SendPaymentFormBuilder::new(instance)
+    RTDSendPaymentFormBuilder::new(instance)
   }
   
   
@@ -69409,9 +69409,9 @@ impl SendPaymentForm {
 
 
 #[derive(Debug)]
-pub struct SendPaymentFormBuilder { instance: SendPaymentForm }
+pub struct RTDSendPaymentFormBuilder { instance: SendPaymentForm }
 
-impl SendPaymentFormBuilder {
+impl RTDSendPaymentFormBuilder {
   fn new(instance: SendPaymentForm) -> Self { Self { instance } }
 
   pub fn build(&self) -> SendPaymentForm { self.instance.clone() }
@@ -69477,7 +69477,7 @@ impl Function for SendPhoneNumberConfirmationCode {}
 
 impl SendPhoneNumberConfirmationCode {
   
-  pub fn builder() -> SendPhoneNumberConfirmationCodeBuilder {
+  pub fn builder() -> RTDSendPhoneNumberConfirmationCodeBuilder {
     let instance = Self {
       td_name: "sendPhoneNumberConfirmationCode".to_string(),
       hash: None,
@@ -69486,7 +69486,7 @@ impl SendPhoneNumberConfirmationCode {
       is_current_phone_number: None,
       
     };
-    SendPhoneNumberConfirmationCodeBuilder::new(instance)
+    RTDSendPhoneNumberConfirmationCodeBuilder::new(instance)
   }
   
   
@@ -69505,9 +69505,9 @@ impl SendPhoneNumberConfirmationCode {
 
 
 #[derive(Debug)]
-pub struct SendPhoneNumberConfirmationCodeBuilder { instance: SendPhoneNumberConfirmationCode }
+pub struct RTDSendPhoneNumberConfirmationCodeBuilder { instance: SendPhoneNumberConfirmationCode }
 
-impl SendPhoneNumberConfirmationCodeBuilder {
+impl RTDSendPhoneNumberConfirmationCodeBuilder {
   fn new(instance: SendPhoneNumberConfirmationCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> SendPhoneNumberConfirmationCode { self.instance.clone() }
@@ -69566,7 +69566,7 @@ impl Function for SendPhoneNumberVerificationCode {}
 
 impl SendPhoneNumberVerificationCode {
   
-  pub fn builder() -> SendPhoneNumberVerificationCodeBuilder {
+  pub fn builder() -> RTDSendPhoneNumberVerificationCodeBuilder {
     let instance = Self {
       td_name: "sendPhoneNumberVerificationCode".to_string(),
       phone_number: None,
@@ -69574,7 +69574,7 @@ impl SendPhoneNumberVerificationCode {
       is_current_phone_number: None,
       
     };
-    SendPhoneNumberVerificationCodeBuilder::new(instance)
+    RTDSendPhoneNumberVerificationCodeBuilder::new(instance)
   }
   
   
@@ -69591,9 +69591,9 @@ impl SendPhoneNumberVerificationCode {
 
 
 #[derive(Debug)]
-pub struct SendPhoneNumberVerificationCodeBuilder { instance: SendPhoneNumberVerificationCode }
+pub struct RTDSendPhoneNumberVerificationCodeBuilder { instance: SendPhoneNumberVerificationCode }
 
-impl SendPhoneNumberVerificationCodeBuilder {
+impl RTDSendPhoneNumberVerificationCodeBuilder {
   fn new(instance: SendPhoneNumberVerificationCode) -> Self { Self { instance } }
 
   pub fn build(&self) -> SendPhoneNumberVerificationCode { self.instance.clone() }
@@ -69643,13 +69643,13 @@ impl Function for SetAccountTtl {}
 
 impl SetAccountTtl {
   
-  pub fn builder() -> SetAccountTtlBuilder {
+  pub fn builder() -> RTDSetAccountTtlBuilder {
     let instance = Self {
       td_name: "setAccountTtl".to_string(),
       ttl: None,
       
     };
-    SetAccountTtlBuilder::new(instance)
+    RTDSetAccountTtlBuilder::new(instance)
   }
   
   
@@ -69662,9 +69662,9 @@ impl SetAccountTtl {
 
 
 #[derive(Debug)]
-pub struct SetAccountTtlBuilder { instance: SetAccountTtl }
+pub struct RTDSetAccountTtlBuilder { instance: SetAccountTtl }
 
-impl SetAccountTtlBuilder {
+impl RTDSetAccountTtlBuilder {
   fn new(instance: SetAccountTtl) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetAccountTtl { self.instance.clone() }
@@ -69704,13 +69704,13 @@ impl Function for SetAlarm {}
 
 impl SetAlarm {
   
-  pub fn builder() -> SetAlarmBuilder {
+  pub fn builder() -> RTDSetAlarmBuilder {
     let instance = Self {
       td_name: "setAlarm".to_string(),
       seconds: None,
       
     };
-    SetAlarmBuilder::new(instance)
+    RTDSetAlarmBuilder::new(instance)
   }
   
   
@@ -69723,9 +69723,9 @@ impl SetAlarm {
 
 
 #[derive(Debug)]
-pub struct SetAlarmBuilder { instance: SetAlarm }
+pub struct RTDSetAlarmBuilder { instance: SetAlarm }
 
-impl SetAlarmBuilder {
+impl RTDSetAlarmBuilder {
   fn new(instance: SetAlarm) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetAlarm { self.instance.clone() }
@@ -69769,7 +69769,7 @@ impl Function for SetAuthenticationPhoneNumber {}
 
 impl SetAuthenticationPhoneNumber {
   
-  pub fn builder() -> SetAuthenticationPhoneNumberBuilder {
+  pub fn builder() -> RTDSetAuthenticationPhoneNumberBuilder {
     let instance = Self {
       td_name: "setAuthenticationPhoneNumber".to_string(),
       phone_number: None,
@@ -69777,7 +69777,7 @@ impl SetAuthenticationPhoneNumber {
       is_current_phone_number: None,
       
     };
-    SetAuthenticationPhoneNumberBuilder::new(instance)
+    RTDSetAuthenticationPhoneNumberBuilder::new(instance)
   }
   
   
@@ -69794,9 +69794,9 @@ impl SetAuthenticationPhoneNumber {
 
 
 #[derive(Debug)]
-pub struct SetAuthenticationPhoneNumberBuilder { instance: SetAuthenticationPhoneNumber }
+pub struct RTDSetAuthenticationPhoneNumberBuilder { instance: SetAuthenticationPhoneNumber }
 
-impl SetAuthenticationPhoneNumberBuilder {
+impl RTDSetAuthenticationPhoneNumberBuilder {
   fn new(instance: SetAuthenticationPhoneNumber) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetAuthenticationPhoneNumber { self.instance.clone() }
@@ -69846,13 +69846,13 @@ impl Function for SetBio {}
 
 impl SetBio {
   
-  pub fn builder() -> SetBioBuilder {
+  pub fn builder() -> RTDSetBioBuilder {
     let instance = Self {
       td_name: "setBio".to_string(),
       bio: None,
       
     };
-    SetBioBuilder::new(instance)
+    RTDSetBioBuilder::new(instance)
   }
   
   
@@ -69865,9 +69865,9 @@ impl SetBio {
 
 
 #[derive(Debug)]
-pub struct SetBioBuilder { instance: SetBio }
+pub struct RTDSetBioBuilder { instance: SetBio }
 
-impl SetBioBuilder {
+impl RTDSetBioBuilder {
   fn new(instance: SetBio) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetBio { self.instance.clone() }
@@ -69909,14 +69909,14 @@ impl Function for SetBotUpdatesStatus {}
 
 impl SetBotUpdatesStatus {
   
-  pub fn builder() -> SetBotUpdatesStatusBuilder {
+  pub fn builder() -> RTDSetBotUpdatesStatusBuilder {
     let instance = Self {
       td_name: "setBotUpdatesStatus".to_string(),
       pending_update_count: None,
       error_message: None,
       
     };
-    SetBotUpdatesStatusBuilder::new(instance)
+    RTDSetBotUpdatesStatusBuilder::new(instance)
   }
   
   
@@ -69931,9 +69931,9 @@ impl SetBotUpdatesStatus {
 
 
 #[derive(Debug)]
-pub struct SetBotUpdatesStatusBuilder { instance: SetBotUpdatesStatus }
+pub struct RTDSetBotUpdatesStatusBuilder { instance: SetBotUpdatesStatus }
 
-impl SetBotUpdatesStatusBuilder {
+impl RTDSetBotUpdatesStatusBuilder {
   fn new(instance: SetBotUpdatesStatus) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetBotUpdatesStatus { self.instance.clone() }
@@ -69980,14 +69980,14 @@ impl Function for SetChatClientData {}
 
 impl SetChatClientData {
   
-  pub fn builder() -> SetChatClientDataBuilder {
+  pub fn builder() -> RTDSetChatClientDataBuilder {
     let instance = Self {
       td_name: "setChatClientData".to_string(),
       chat_id: None,
       client_data: None,
       
     };
-    SetChatClientDataBuilder::new(instance)
+    RTDSetChatClientDataBuilder::new(instance)
   }
   
   
@@ -70002,9 +70002,9 @@ impl SetChatClientData {
 
 
 #[derive(Debug)]
-pub struct SetChatClientDataBuilder { instance: SetChatClientData }
+pub struct RTDSetChatClientDataBuilder { instance: SetChatClientData }
 
-impl SetChatClientDataBuilder {
+impl RTDSetChatClientDataBuilder {
   fn new(instance: SetChatClientData) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetChatClientData { self.instance.clone() }
@@ -70051,14 +70051,14 @@ impl Function for SetChatDraftMessage {}
 
 impl SetChatDraftMessage {
   
-  pub fn builder() -> SetChatDraftMessageBuilder {
+  pub fn builder() -> RTDSetChatDraftMessageBuilder {
     let instance = Self {
       td_name: "setChatDraftMessage".to_string(),
       chat_id: None,
       draft_message: None,
       
     };
-    SetChatDraftMessageBuilder::new(instance)
+    RTDSetChatDraftMessageBuilder::new(instance)
   }
   
   
@@ -70073,9 +70073,9 @@ impl SetChatDraftMessage {
 
 
 #[derive(Debug)]
-pub struct SetChatDraftMessageBuilder { instance: SetChatDraftMessage }
+pub struct RTDSetChatDraftMessageBuilder { instance: SetChatDraftMessage }
 
-impl SetChatDraftMessageBuilder {
+impl RTDSetChatDraftMessageBuilder {
   fn new(instance: SetChatDraftMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetChatDraftMessage { self.instance.clone() }
@@ -70131,7 +70131,7 @@ impl Function for SetChatMemberStatus {}
 
 impl SetChatMemberStatus {
   
-  pub fn builder() -> SetChatMemberStatusBuilder {
+  pub fn builder() -> RTDSetChatMemberStatusBuilder {
     let instance = Self {
       td_name: "setChatMemberStatus".to_string(),
       chat_id: None,
@@ -70139,7 +70139,7 @@ impl SetChatMemberStatus {
       status: None,
       
     };
-    SetChatMemberStatusBuilder::new(instance)
+    RTDSetChatMemberStatusBuilder::new(instance)
   }
   
   
@@ -70156,9 +70156,9 @@ impl SetChatMemberStatus {
 
 
 #[derive(Debug)]
-pub struct SetChatMemberStatusBuilder { instance: SetChatMemberStatus }
+pub struct RTDSetChatMemberStatusBuilder { instance: SetChatMemberStatus }
 
-impl SetChatMemberStatusBuilder {
+impl RTDSetChatMemberStatusBuilder {
   fn new(instance: SetChatMemberStatus) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetChatMemberStatus { self.instance.clone() }
@@ -70210,14 +70210,14 @@ impl Function for SetChatNotificationSettings {}
 
 impl SetChatNotificationSettings {
   
-  pub fn builder() -> SetChatNotificationSettingsBuilder {
+  pub fn builder() -> RTDSetChatNotificationSettingsBuilder {
     let instance = Self {
       td_name: "setChatNotificationSettings".to_string(),
       chat_id: None,
       notification_settings: None,
       
     };
-    SetChatNotificationSettingsBuilder::new(instance)
+    RTDSetChatNotificationSettingsBuilder::new(instance)
   }
   
   
@@ -70232,9 +70232,9 @@ impl SetChatNotificationSettings {
 
 
 #[derive(Debug)]
-pub struct SetChatNotificationSettingsBuilder { instance: SetChatNotificationSettings }
+pub struct RTDSetChatNotificationSettingsBuilder { instance: SetChatNotificationSettings }
 
-impl SetChatNotificationSettingsBuilder {
+impl RTDSetChatNotificationSettingsBuilder {
   fn new(instance: SetChatNotificationSettings) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetChatNotificationSettings { self.instance.clone() }
@@ -70288,14 +70288,14 @@ impl Function for SetChatPhoto {}
 
 impl SetChatPhoto {
   
-  pub fn builder() -> SetChatPhotoBuilder {
+  pub fn builder() -> RTDSetChatPhotoBuilder {
     let instance = Self {
       td_name: "setChatPhoto".to_string(),
       chat_id: None,
       photo: None,
       
     };
-    SetChatPhotoBuilder::new(instance)
+    RTDSetChatPhotoBuilder::new(instance)
   }
   
   
@@ -70310,9 +70310,9 @@ impl SetChatPhoto {
 
 
 #[derive(Debug)]
-pub struct SetChatPhotoBuilder { instance: SetChatPhoto }
+pub struct RTDSetChatPhotoBuilder { instance: SetChatPhoto }
 
-impl SetChatPhotoBuilder {
+impl RTDSetChatPhotoBuilder {
   fn new(instance: SetChatPhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetChatPhoto { self.instance.clone() }
@@ -70359,14 +70359,14 @@ impl Function for SetChatTitle {}
 
 impl SetChatTitle {
   
-  pub fn builder() -> SetChatTitleBuilder {
+  pub fn builder() -> RTDSetChatTitleBuilder {
     let instance = Self {
       td_name: "setChatTitle".to_string(),
       chat_id: None,
       title: None,
       
     };
-    SetChatTitleBuilder::new(instance)
+    RTDSetChatTitleBuilder::new(instance)
   }
   
   
@@ -70381,9 +70381,9 @@ impl SetChatTitle {
 
 
 #[derive(Debug)]
-pub struct SetChatTitleBuilder { instance: SetChatTitle }
+pub struct RTDSetChatTitleBuilder { instance: SetChatTitle }
 
-impl SetChatTitleBuilder {
+impl RTDSetChatTitleBuilder {
   fn new(instance: SetChatTitle) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetChatTitle { self.instance.clone() }
@@ -70430,14 +70430,14 @@ impl Function for SetCustomLanguagePack {}
 
 impl SetCustomLanguagePack {
   
-  pub fn builder() -> SetCustomLanguagePackBuilder {
+  pub fn builder() -> RTDSetCustomLanguagePackBuilder {
     let instance = Self {
       td_name: "setCustomLanguagePack".to_string(),
       info: None,
       strings: None,
       
     };
-    SetCustomLanguagePackBuilder::new(instance)
+    RTDSetCustomLanguagePackBuilder::new(instance)
   }
   
   
@@ -70452,9 +70452,9 @@ impl SetCustomLanguagePack {
 
 
 #[derive(Debug)]
-pub struct SetCustomLanguagePackBuilder { instance: SetCustomLanguagePack }
+pub struct RTDSetCustomLanguagePackBuilder { instance: SetCustomLanguagePack }
 
-impl SetCustomLanguagePackBuilder {
+impl RTDSetCustomLanguagePackBuilder {
   fn new(instance: SetCustomLanguagePack) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetCustomLanguagePack { self.instance.clone() }
@@ -70501,14 +70501,14 @@ impl Function for SetCustomLanguagePackString {}
 
 impl SetCustomLanguagePackString {
   
-  pub fn builder() -> SetCustomLanguagePackStringBuilder {
+  pub fn builder() -> RTDSetCustomLanguagePackStringBuilder {
     let instance = Self {
       td_name: "setCustomLanguagePackString".to_string(),
       language_pack_id: None,
       new_string: None,
       
     };
-    SetCustomLanguagePackStringBuilder::new(instance)
+    RTDSetCustomLanguagePackStringBuilder::new(instance)
   }
   
   
@@ -70523,9 +70523,9 @@ impl SetCustomLanguagePackString {
 
 
 #[derive(Debug)]
-pub struct SetCustomLanguagePackStringBuilder { instance: SetCustomLanguagePackString }
+pub struct RTDSetCustomLanguagePackStringBuilder { instance: SetCustomLanguagePackString }
 
-impl SetCustomLanguagePackStringBuilder {
+impl RTDSetCustomLanguagePackStringBuilder {
   fn new(instance: SetCustomLanguagePackString) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetCustomLanguagePackString { self.instance.clone() }
@@ -70570,13 +70570,13 @@ impl Function for SetDatabaseEncryptionKey {}
 
 impl SetDatabaseEncryptionKey {
   
-  pub fn builder() -> SetDatabaseEncryptionKeyBuilder {
+  pub fn builder() -> RTDSetDatabaseEncryptionKeyBuilder {
     let instance = Self {
       td_name: "setDatabaseEncryptionKey".to_string(),
       new_encryption_key: None,
       
     };
-    SetDatabaseEncryptionKeyBuilder::new(instance)
+    RTDSetDatabaseEncryptionKeyBuilder::new(instance)
   }
   
   
@@ -70589,9 +70589,9 @@ impl SetDatabaseEncryptionKey {
 
 
 #[derive(Debug)]
-pub struct SetDatabaseEncryptionKeyBuilder { instance: SetDatabaseEncryptionKey }
+pub struct RTDSetDatabaseEncryptionKeyBuilder { instance: SetDatabaseEncryptionKey }
 
-impl SetDatabaseEncryptionKeyBuilder {
+impl RTDSetDatabaseEncryptionKeyBuilder {
   fn new(instance: SetDatabaseEncryptionKey) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetDatabaseEncryptionKey { self.instance.clone() }
@@ -70635,7 +70635,7 @@ impl Function for SetFileGenerationProgress {}
 
 impl SetFileGenerationProgress {
   
-  pub fn builder() -> SetFileGenerationProgressBuilder {
+  pub fn builder() -> RTDSetFileGenerationProgressBuilder {
     let instance = Self {
       td_name: "setFileGenerationProgress".to_string(),
       generation_id: None,
@@ -70643,7 +70643,7 @@ impl SetFileGenerationProgress {
       local_prefix_size: None,
       
     };
-    SetFileGenerationProgressBuilder::new(instance)
+    RTDSetFileGenerationProgressBuilder::new(instance)
   }
   
   
@@ -70660,9 +70660,9 @@ impl SetFileGenerationProgress {
 
 
 #[derive(Debug)]
-pub struct SetFileGenerationProgressBuilder { instance: SetFileGenerationProgress }
+pub struct RTDSetFileGenerationProgressBuilder { instance: SetFileGenerationProgress }
 
-impl SetFileGenerationProgressBuilder {
+impl RTDSetFileGenerationProgressBuilder {
   fn new(instance: SetFileGenerationProgress) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetFileGenerationProgress { self.instance.clone() }
@@ -70722,7 +70722,7 @@ impl Function for SetGameScore {}
 
 impl SetGameScore {
   
-  pub fn builder() -> SetGameScoreBuilder {
+  pub fn builder() -> RTDSetGameScoreBuilder {
     let instance = Self {
       td_name: "setGameScore".to_string(),
       chat_id: None,
@@ -70733,7 +70733,7 @@ impl SetGameScore {
       force: None,
       
     };
-    SetGameScoreBuilder::new(instance)
+    RTDSetGameScoreBuilder::new(instance)
   }
   
   
@@ -70756,9 +70756,9 @@ impl SetGameScore {
 
 
 #[derive(Debug)]
-pub struct SetGameScoreBuilder { instance: SetGameScore }
+pub struct RTDSetGameScoreBuilder { instance: SetGameScore }
 
-impl SetGameScoreBuilder {
+impl RTDSetGameScoreBuilder {
   fn new(instance: SetGameScore) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetGameScore { self.instance.clone() }
@@ -70831,7 +70831,7 @@ impl Function for SetInlineGameScore {}
 
 impl SetInlineGameScore {
   
-  pub fn builder() -> SetInlineGameScoreBuilder {
+  pub fn builder() -> RTDSetInlineGameScoreBuilder {
     let instance = Self {
       td_name: "setInlineGameScore".to_string(),
       inline_message_id: None,
@@ -70841,7 +70841,7 @@ impl SetInlineGameScore {
       force: None,
       
     };
-    SetInlineGameScoreBuilder::new(instance)
+    RTDSetInlineGameScoreBuilder::new(instance)
   }
   
   
@@ -70862,9 +70862,9 @@ impl SetInlineGameScore {
 
 
 #[derive(Debug)]
-pub struct SetInlineGameScoreBuilder { instance: SetInlineGameScore }
+pub struct RTDSetInlineGameScoreBuilder { instance: SetInlineGameScore }
 
-impl SetInlineGameScoreBuilder {
+impl RTDSetInlineGameScoreBuilder {
   fn new(instance: SetInlineGameScore) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetInlineGameScore { self.instance.clone() }
@@ -70931,13 +70931,13 @@ impl Function for SetLogStream {}
 
 impl SetLogStream {
   
-  pub fn builder() -> SetLogStreamBuilder {
+  pub fn builder() -> RTDSetLogStreamBuilder {
     let instance = Self {
       td_name: "setLogStream".to_string(),
       log_stream: None,
       
     };
-    SetLogStreamBuilder::new(instance)
+    RTDSetLogStreamBuilder::new(instance)
   }
   
   
@@ -70950,9 +70950,9 @@ impl SetLogStream {
 
 
 #[derive(Debug)]
-pub struct SetLogStreamBuilder { instance: SetLogStream }
+pub struct RTDSetLogStreamBuilder { instance: SetLogStream }
 
-impl SetLogStreamBuilder {
+impl RTDSetLogStreamBuilder {
   fn new(instance: SetLogStream) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetLogStream { self.instance.clone() }
@@ -70994,14 +70994,14 @@ impl Function for SetLogTagVerbosityLevel {}
 
 impl SetLogTagVerbosityLevel {
   
-  pub fn builder() -> SetLogTagVerbosityLevelBuilder {
+  pub fn builder() -> RTDSetLogTagVerbosityLevelBuilder {
     let instance = Self {
       td_name: "setLogTagVerbosityLevel".to_string(),
       tag: None,
       new_verbosity_level: None,
       
     };
-    SetLogTagVerbosityLevelBuilder::new(instance)
+    RTDSetLogTagVerbosityLevelBuilder::new(instance)
   }
   
   
@@ -71016,9 +71016,9 @@ impl SetLogTagVerbosityLevel {
 
 
 #[derive(Debug)]
-pub struct SetLogTagVerbosityLevelBuilder { instance: SetLogTagVerbosityLevel }
+pub struct RTDSetLogTagVerbosityLevelBuilder { instance: SetLogTagVerbosityLevel }
 
-impl SetLogTagVerbosityLevelBuilder {
+impl RTDSetLogTagVerbosityLevelBuilder {
   fn new(instance: SetLogTagVerbosityLevel) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetLogTagVerbosityLevel { self.instance.clone() }
@@ -71063,13 +71063,13 @@ impl Function for SetLogVerbosityLevel {}
 
 impl SetLogVerbosityLevel {
   
-  pub fn builder() -> SetLogVerbosityLevelBuilder {
+  pub fn builder() -> RTDSetLogVerbosityLevelBuilder {
     let instance = Self {
       td_name: "setLogVerbosityLevel".to_string(),
       new_verbosity_level: None,
       
     };
-    SetLogVerbosityLevelBuilder::new(instance)
+    RTDSetLogVerbosityLevelBuilder::new(instance)
   }
   
   
@@ -71082,9 +71082,9 @@ impl SetLogVerbosityLevel {
 
 
 #[derive(Debug)]
-pub struct SetLogVerbosityLevelBuilder { instance: SetLogVerbosityLevel }
+pub struct RTDSetLogVerbosityLevelBuilder { instance: SetLogVerbosityLevel }
 
-impl SetLogVerbosityLevelBuilder {
+impl RTDSetLogVerbosityLevelBuilder {
   fn new(instance: SetLogVerbosityLevel) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetLogVerbosityLevel { self.instance.clone() }
@@ -71126,14 +71126,14 @@ impl Function for SetName {}
 
 impl SetName {
   
-  pub fn builder() -> SetNameBuilder {
+  pub fn builder() -> RTDSetNameBuilder {
     let instance = Self {
       td_name: "setName".to_string(),
       first_name: None,
       last_name: None,
       
     };
-    SetNameBuilder::new(instance)
+    RTDSetNameBuilder::new(instance)
   }
   
   
@@ -71148,9 +71148,9 @@ impl SetName {
 
 
 #[derive(Debug)]
-pub struct SetNameBuilder { instance: SetName }
+pub struct RTDSetNameBuilder { instance: SetName }
 
-impl SetNameBuilder {
+impl RTDSetNameBuilder {
   fn new(instance: SetName) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetName { self.instance.clone() }
@@ -71202,13 +71202,13 @@ impl Function for SetNetworkType {}
 
 impl SetNetworkType {
   
-  pub fn builder() -> SetNetworkTypeBuilder {
+  pub fn builder() -> RTDSetNetworkTypeBuilder {
     let instance = Self {
       td_name: "setNetworkType".to_string(),
       type_: None,
       
     };
-    SetNetworkTypeBuilder::new(instance)
+    RTDSetNetworkTypeBuilder::new(instance)
   }
   
   
@@ -71221,9 +71221,9 @@ impl SetNetworkType {
 
 
 #[derive(Debug)]
-pub struct SetNetworkTypeBuilder { instance: SetNetworkType }
+pub struct RTDSetNetworkTypeBuilder { instance: SetNetworkType }
 
-impl SetNetworkTypeBuilder {
+impl RTDSetNetworkTypeBuilder {
   fn new(instance: SetNetworkType) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetNetworkType { self.instance.clone() }
@@ -71272,14 +71272,14 @@ impl Function for SetOption {}
 
 impl SetOption {
   
-  pub fn builder() -> SetOptionBuilder {
+  pub fn builder() -> RTDSetOptionBuilder {
     let instance = Self {
       td_name: "setOption".to_string(),
       name: None,
       value: None,
       
     };
-    SetOptionBuilder::new(instance)
+    RTDSetOptionBuilder::new(instance)
   }
   
   
@@ -71294,9 +71294,9 @@ impl SetOption {
 
 
 #[derive(Debug)]
-pub struct SetOptionBuilder { instance: SetOption }
+pub struct RTDSetOptionBuilder { instance: SetOption }
 
-impl SetOptionBuilder {
+impl RTDSetOptionBuilder {
   fn new(instance: SetOption) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetOption { self.instance.clone() }
@@ -71350,14 +71350,14 @@ impl Function for SetPassportElement {}
 
 impl SetPassportElement {
   
-  pub fn builder() -> SetPassportElementBuilder {
+  pub fn builder() -> RTDSetPassportElementBuilder {
     let instance = Self {
       td_name: "setPassportElement".to_string(),
       element: None,
       password: None,
       
     };
-    SetPassportElementBuilder::new(instance)
+    RTDSetPassportElementBuilder::new(instance)
   }
   
   
@@ -71372,9 +71372,9 @@ impl SetPassportElement {
 
 
 #[derive(Debug)]
-pub struct SetPassportElementBuilder { instance: SetPassportElement }
+pub struct RTDSetPassportElementBuilder { instance: SetPassportElement }
 
-impl SetPassportElementBuilder {
+impl RTDSetPassportElementBuilder {
   fn new(instance: SetPassportElement) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetPassportElement { self.instance.clone() }
@@ -71421,14 +71421,14 @@ impl Function for SetPassportElementErrors {}
 
 impl SetPassportElementErrors {
   
-  pub fn builder() -> SetPassportElementErrorsBuilder {
+  pub fn builder() -> RTDSetPassportElementErrorsBuilder {
     let instance = Self {
       td_name: "setPassportElementErrors".to_string(),
       user_id: None,
       errors: None,
       
     };
-    SetPassportElementErrorsBuilder::new(instance)
+    RTDSetPassportElementErrorsBuilder::new(instance)
   }
   
   
@@ -71443,9 +71443,9 @@ impl SetPassportElementErrors {
 
 
 #[derive(Debug)]
-pub struct SetPassportElementErrorsBuilder { instance: SetPassportElementErrors }
+pub struct RTDSetPassportElementErrorsBuilder { instance: SetPassportElementErrors }
 
-impl SetPassportElementErrorsBuilder {
+impl RTDSetPassportElementErrorsBuilder {
   fn new(instance: SetPassportElementErrors) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetPassportElementErrors { self.instance.clone() }
@@ -71498,7 +71498,7 @@ impl Function for SetPassword {}
 
 impl SetPassword {
   
-  pub fn builder() -> SetPasswordBuilder {
+  pub fn builder() -> RTDSetPasswordBuilder {
     let instance = Self {
       td_name: "setPassword".to_string(),
       old_password: None,
@@ -71508,7 +71508,7 @@ impl SetPassword {
       new_recovery_email_address: None,
       
     };
-    SetPasswordBuilder::new(instance)
+    RTDSetPasswordBuilder::new(instance)
   }
   
   
@@ -71529,9 +71529,9 @@ impl SetPassword {
 
 
 #[derive(Debug)]
-pub struct SetPasswordBuilder { instance: SetPassword }
+pub struct RTDSetPasswordBuilder { instance: SetPassword }
 
-impl SetPasswordBuilder {
+impl RTDSetPasswordBuilder {
   fn new(instance: SetPassword) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetPassword { self.instance.clone() }
@@ -71591,13 +71591,13 @@ impl Function for SetPinnedChats {}
 
 impl SetPinnedChats {
   
-  pub fn builder() -> SetPinnedChatsBuilder {
+  pub fn builder() -> RTDSetPinnedChatsBuilder {
     let instance = Self {
       td_name: "setPinnedChats".to_string(),
       chat_ids: None,
       
     };
-    SetPinnedChatsBuilder::new(instance)
+    RTDSetPinnedChatsBuilder::new(instance)
   }
   
   
@@ -71610,9 +71610,9 @@ impl SetPinnedChats {
 
 
 #[derive(Debug)]
-pub struct SetPinnedChatsBuilder { instance: SetPinnedChats }
+pub struct RTDSetPinnedChatsBuilder { instance: SetPinnedChats }
 
-impl SetPinnedChatsBuilder {
+impl RTDSetPinnedChatsBuilder {
   fn new(instance: SetPinnedChats) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetPinnedChats { self.instance.clone() }
@@ -71656,7 +71656,7 @@ impl Function for SetPollAnswer {}
 
 impl SetPollAnswer {
   
-  pub fn builder() -> SetPollAnswerBuilder {
+  pub fn builder() -> RTDSetPollAnswerBuilder {
     let instance = Self {
       td_name: "setPollAnswer".to_string(),
       chat_id: None,
@@ -71664,7 +71664,7 @@ impl SetPollAnswer {
       option_ids: None,
       
     };
-    SetPollAnswerBuilder::new(instance)
+    RTDSetPollAnswerBuilder::new(instance)
   }
   
   
@@ -71681,9 +71681,9 @@ impl SetPollAnswer {
 
 
 #[derive(Debug)]
-pub struct SetPollAnswerBuilder { instance: SetPollAnswer }
+pub struct RTDSetPollAnswerBuilder { instance: SetPollAnswer }
 
-impl SetPollAnswerBuilder {
+impl RTDSetPollAnswerBuilder {
   fn new(instance: SetPollAnswer) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetPollAnswer { self.instance.clone() }
@@ -71740,13 +71740,13 @@ impl Function for SetProfilePhoto {}
 
 impl SetProfilePhoto {
   
-  pub fn builder() -> SetProfilePhotoBuilder {
+  pub fn builder() -> RTDSetProfilePhotoBuilder {
     let instance = Self {
       td_name: "setProfilePhoto".to_string(),
       photo: None,
       
     };
-    SetProfilePhotoBuilder::new(instance)
+    RTDSetProfilePhotoBuilder::new(instance)
   }
   
   
@@ -71759,9 +71759,9 @@ impl SetProfilePhoto {
 
 
 #[derive(Debug)]
-pub struct SetProfilePhotoBuilder { instance: SetProfilePhoto }
+pub struct RTDSetProfilePhotoBuilder { instance: SetProfilePhoto }
 
-impl SetProfilePhotoBuilder {
+impl RTDSetProfilePhotoBuilder {
   fn new(instance: SetProfilePhoto) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetProfilePhoto { self.instance.clone() }
@@ -71803,14 +71803,14 @@ impl Function for SetRecoveryEmailAddress {}
 
 impl SetRecoveryEmailAddress {
   
-  pub fn builder() -> SetRecoveryEmailAddressBuilder {
+  pub fn builder() -> RTDSetRecoveryEmailAddressBuilder {
     let instance = Self {
       td_name: "setRecoveryEmailAddress".to_string(),
       password: None,
       new_recovery_email_address: None,
       
     };
-    SetRecoveryEmailAddressBuilder::new(instance)
+    RTDSetRecoveryEmailAddressBuilder::new(instance)
   }
   
   
@@ -71825,9 +71825,9 @@ impl SetRecoveryEmailAddress {
 
 
 #[derive(Debug)]
-pub struct SetRecoveryEmailAddressBuilder { instance: SetRecoveryEmailAddress }
+pub struct RTDSetRecoveryEmailAddressBuilder { instance: SetRecoveryEmailAddress }
 
-impl SetRecoveryEmailAddressBuilder {
+impl RTDSetRecoveryEmailAddressBuilder {
   fn new(instance: SetRecoveryEmailAddress) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetRecoveryEmailAddress { self.instance.clone() }
@@ -71881,14 +71881,14 @@ impl Function for SetScopeNotificationSettings {}
 
 impl SetScopeNotificationSettings {
   
-  pub fn builder() -> SetScopeNotificationSettingsBuilder {
+  pub fn builder() -> RTDSetScopeNotificationSettingsBuilder {
     let instance = Self {
       td_name: "setScopeNotificationSettings".to_string(),
       scope: None,
       notification_settings: None,
       
     };
-    SetScopeNotificationSettingsBuilder::new(instance)
+    RTDSetScopeNotificationSettingsBuilder::new(instance)
   }
   
   
@@ -71903,9 +71903,9 @@ impl SetScopeNotificationSettings {
 
 
 #[derive(Debug)]
-pub struct SetScopeNotificationSettingsBuilder { instance: SetScopeNotificationSettings }
+pub struct RTDSetScopeNotificationSettingsBuilder { instance: SetScopeNotificationSettings }
 
-impl SetScopeNotificationSettingsBuilder {
+impl RTDSetScopeNotificationSettingsBuilder {
   fn new(instance: SetScopeNotificationSettings) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetScopeNotificationSettings { self.instance.clone() }
@@ -71959,14 +71959,14 @@ impl Function for SetStickerPositionInSet {}
 
 impl SetStickerPositionInSet {
   
-  pub fn builder() -> SetStickerPositionInSetBuilder {
+  pub fn builder() -> RTDSetStickerPositionInSetBuilder {
     let instance = Self {
       td_name: "setStickerPositionInSet".to_string(),
       sticker: None,
       position: None,
       
     };
-    SetStickerPositionInSetBuilder::new(instance)
+    RTDSetStickerPositionInSetBuilder::new(instance)
   }
   
   
@@ -71981,9 +71981,9 @@ impl SetStickerPositionInSet {
 
 
 #[derive(Debug)]
-pub struct SetStickerPositionInSetBuilder { instance: SetStickerPositionInSet }
+pub struct RTDSetStickerPositionInSetBuilder { instance: SetStickerPositionInSet }
 
-impl SetStickerPositionInSetBuilder {
+impl RTDSetStickerPositionInSetBuilder {
   fn new(instance: SetStickerPositionInSet) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetStickerPositionInSet { self.instance.clone() }
@@ -72030,14 +72030,14 @@ impl Function for SetSupergroupDescription {}
 
 impl SetSupergroupDescription {
   
-  pub fn builder() -> SetSupergroupDescriptionBuilder {
+  pub fn builder() -> RTDSetSupergroupDescriptionBuilder {
     let instance = Self {
       td_name: "setSupergroupDescription".to_string(),
       supergroup_id: None,
       description: None,
       
     };
-    SetSupergroupDescriptionBuilder::new(instance)
+    RTDSetSupergroupDescriptionBuilder::new(instance)
   }
   
   
@@ -72052,9 +72052,9 @@ impl SetSupergroupDescription {
 
 
 #[derive(Debug)]
-pub struct SetSupergroupDescriptionBuilder { instance: SetSupergroupDescription }
+pub struct RTDSetSupergroupDescriptionBuilder { instance: SetSupergroupDescription }
 
-impl SetSupergroupDescriptionBuilder {
+impl RTDSetSupergroupDescriptionBuilder {
   fn new(instance: SetSupergroupDescription) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetSupergroupDescription { self.instance.clone() }
@@ -72101,14 +72101,14 @@ impl Function for SetSupergroupStickerSet {}
 
 impl SetSupergroupStickerSet {
   
-  pub fn builder() -> SetSupergroupStickerSetBuilder {
+  pub fn builder() -> RTDSetSupergroupStickerSetBuilder {
     let instance = Self {
       td_name: "setSupergroupStickerSet".to_string(),
       supergroup_id: None,
       sticker_set_id: None,
       
     };
-    SetSupergroupStickerSetBuilder::new(instance)
+    RTDSetSupergroupStickerSetBuilder::new(instance)
   }
   
   
@@ -72123,9 +72123,9 @@ impl SetSupergroupStickerSet {
 
 
 #[derive(Debug)]
-pub struct SetSupergroupStickerSetBuilder { instance: SetSupergroupStickerSet }
+pub struct RTDSetSupergroupStickerSetBuilder { instance: SetSupergroupStickerSet }
 
-impl SetSupergroupStickerSetBuilder {
+impl RTDSetSupergroupStickerSetBuilder {
   fn new(instance: SetSupergroupStickerSet) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetSupergroupStickerSet { self.instance.clone() }
@@ -72172,14 +72172,14 @@ impl Function for SetSupergroupUsername {}
 
 impl SetSupergroupUsername {
   
-  pub fn builder() -> SetSupergroupUsernameBuilder {
+  pub fn builder() -> RTDSetSupergroupUsernameBuilder {
     let instance = Self {
       td_name: "setSupergroupUsername".to_string(),
       supergroup_id: None,
       username: None,
       
     };
-    SetSupergroupUsernameBuilder::new(instance)
+    RTDSetSupergroupUsernameBuilder::new(instance)
   }
   
   
@@ -72194,9 +72194,9 @@ impl SetSupergroupUsername {
 
 
 #[derive(Debug)]
-pub struct SetSupergroupUsernameBuilder { instance: SetSupergroupUsername }
+pub struct RTDSetSupergroupUsernameBuilder { instance: SetSupergroupUsername }
 
-impl SetSupergroupUsernameBuilder {
+impl RTDSetSupergroupUsernameBuilder {
   fn new(instance: SetSupergroupUsername) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetSupergroupUsername { self.instance.clone() }
@@ -72241,13 +72241,13 @@ impl Function for SetTdlibParameters {}
 
 impl SetTdlibParameters {
   
-  pub fn builder() -> SetTdlibParametersBuilder {
+  pub fn builder() -> RTDSetTdlibParametersBuilder {
     let instance = Self {
       td_name: "setTdlibParameters".to_string(),
       parameters: None,
       
     };
-    SetTdlibParametersBuilder::new(instance)
+    RTDSetTdlibParametersBuilder::new(instance)
   }
   
   
@@ -72260,9 +72260,9 @@ impl SetTdlibParameters {
 
 
 #[derive(Debug)]
-pub struct SetTdlibParametersBuilder { instance: SetTdlibParameters }
+pub struct RTDSetTdlibParametersBuilder { instance: SetTdlibParameters }
 
-impl SetTdlibParametersBuilder {
+impl RTDSetTdlibParametersBuilder {
   fn new(instance: SetTdlibParameters) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetTdlibParameters { self.instance.clone() }
@@ -72311,14 +72311,14 @@ impl Function for SetUserPrivacySettingRules {}
 
 impl SetUserPrivacySettingRules {
   
-  pub fn builder() -> SetUserPrivacySettingRulesBuilder {
+  pub fn builder() -> RTDSetUserPrivacySettingRulesBuilder {
     let instance = Self {
       td_name: "setUserPrivacySettingRules".to_string(),
       setting: None,
       rules: None,
       
     };
-    SetUserPrivacySettingRulesBuilder::new(instance)
+    RTDSetUserPrivacySettingRulesBuilder::new(instance)
   }
   
   
@@ -72333,9 +72333,9 @@ impl SetUserPrivacySettingRules {
 
 
 #[derive(Debug)]
-pub struct SetUserPrivacySettingRulesBuilder { instance: SetUserPrivacySettingRules }
+pub struct RTDSetUserPrivacySettingRulesBuilder { instance: SetUserPrivacySettingRules }
 
-impl SetUserPrivacySettingRulesBuilder {
+impl RTDSetUserPrivacySettingRulesBuilder {
   fn new(instance: SetUserPrivacySettingRules) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetUserPrivacySettingRules { self.instance.clone() }
@@ -72380,13 +72380,13 @@ impl Function for SetUsername {}
 
 impl SetUsername {
   
-  pub fn builder() -> SetUsernameBuilder {
+  pub fn builder() -> RTDSetUsernameBuilder {
     let instance = Self {
       td_name: "setUsername".to_string(),
       username: None,
       
     };
-    SetUsernameBuilder::new(instance)
+    RTDSetUsernameBuilder::new(instance)
   }
   
   
@@ -72399,9 +72399,9 @@ impl SetUsername {
 
 
 #[derive(Debug)]
-pub struct SetUsernameBuilder { instance: SetUsername }
+pub struct RTDSetUsernameBuilder { instance: SetUsername }
 
-impl SetUsernameBuilder {
+impl RTDSetUsernameBuilder {
   fn new(instance: SetUsername) -> Self { Self { instance } }
 
   pub fn build(&self) -> SetUsername { self.instance.clone() }
@@ -72452,7 +72452,7 @@ impl Function for StopPoll {}
 
 impl StopPoll {
   
-  pub fn builder() -> StopPollBuilder {
+  pub fn builder() -> RTDStopPollBuilder {
     let instance = Self {
       td_name: "stopPoll".to_string(),
       chat_id: None,
@@ -72460,7 +72460,7 @@ impl StopPoll {
       reply_markup: None,
       
     };
-    StopPollBuilder::new(instance)
+    RTDStopPollBuilder::new(instance)
   }
   
   
@@ -72477,9 +72477,9 @@ impl StopPoll {
 
 
 #[derive(Debug)]
-pub struct StopPollBuilder { instance: StopPoll }
+pub struct RTDStopPollBuilder { instance: StopPoll }
 
-impl StopPollBuilder {
+impl RTDStopPollBuilder {
   fn new(instance: StopPoll) -> Self { Self { instance } }
 
   pub fn build(&self) -> StopPoll { self.instance.clone() }
@@ -72529,13 +72529,13 @@ impl Function for SynchronizeLanguagePack {}
 
 impl SynchronizeLanguagePack {
   
-  pub fn builder() -> SynchronizeLanguagePackBuilder {
+  pub fn builder() -> RTDSynchronizeLanguagePackBuilder {
     let instance = Self {
       td_name: "synchronizeLanguagePack".to_string(),
       language_pack_id: None,
       
     };
-    SynchronizeLanguagePackBuilder::new(instance)
+    RTDSynchronizeLanguagePackBuilder::new(instance)
   }
   
   
@@ -72548,9 +72548,9 @@ impl SynchronizeLanguagePack {
 
 
 #[derive(Debug)]
-pub struct SynchronizeLanguagePackBuilder { instance: SynchronizeLanguagePack }
+pub struct RTDSynchronizeLanguagePackBuilder { instance: SynchronizeLanguagePack }
 
-impl SynchronizeLanguagePackBuilder {
+impl RTDSynchronizeLanguagePackBuilder {
   fn new(instance: SynchronizeLanguagePack) -> Self { Self { instance } }
 
   pub fn build(&self) -> SynchronizeLanguagePack { self.instance.clone() }
@@ -72588,12 +72588,12 @@ impl Function for TerminateAllOtherSessions {}
 
 impl TerminateAllOtherSessions {
   
-  pub fn builder() -> TerminateAllOtherSessionsBuilder {
+  pub fn builder() -> RTDTerminateAllOtherSessionsBuilder {
     let instance = Self {
       td_name: "terminateAllOtherSessions".to_string(),
       
     };
-    TerminateAllOtherSessionsBuilder::new(instance)
+    RTDTerminateAllOtherSessionsBuilder::new(instance)
   }
   
   
@@ -72604,9 +72604,9 @@ impl TerminateAllOtherSessions {
 
 
 #[derive(Debug)]
-pub struct TerminateAllOtherSessionsBuilder { instance: TerminateAllOtherSessions }
+pub struct RTDTerminateAllOtherSessionsBuilder { instance: TerminateAllOtherSessions }
 
-impl TerminateAllOtherSessionsBuilder {
+impl RTDTerminateAllOtherSessionsBuilder {
   fn new(instance: TerminateAllOtherSessions) -> Self { Self { instance } }
 
   pub fn build(&self) -> TerminateAllOtherSessions { self.instance.clone() }
@@ -72641,13 +72641,13 @@ impl Function for TerminateSession {}
 
 impl TerminateSession {
   
-  pub fn builder() -> TerminateSessionBuilder {
+  pub fn builder() -> RTDTerminateSessionBuilder {
     let instance = Self {
       td_name: "terminateSession".to_string(),
       session_id: None,
       
     };
-    TerminateSessionBuilder::new(instance)
+    RTDTerminateSessionBuilder::new(instance)
   }
   
   
@@ -72660,9 +72660,9 @@ impl TerminateSession {
 
 
 #[derive(Debug)]
-pub struct TerminateSessionBuilder { instance: TerminateSession }
+pub struct RTDTerminateSessionBuilder { instance: TerminateSession }
 
-impl TerminateSessionBuilder {
+impl RTDTerminateSessionBuilder {
   fn new(instance: TerminateSession) -> Self { Self { instance } }
 
   pub fn build(&self) -> TerminateSession { self.instance.clone() }
@@ -72702,13 +72702,13 @@ impl Function for TestCallBytes {}
 
 impl TestCallBytes {
   
-  pub fn builder() -> TestCallBytesBuilder {
+  pub fn builder() -> RTDTestCallBytesBuilder {
     let instance = Self {
       td_name: "testCallBytes".to_string(),
       x: None,
       
     };
-    TestCallBytesBuilder::new(instance)
+    RTDTestCallBytesBuilder::new(instance)
   }
   
   
@@ -72721,9 +72721,9 @@ impl TestCallBytes {
 
 
 #[derive(Debug)]
-pub struct TestCallBytesBuilder { instance: TestCallBytes }
+pub struct RTDTestCallBytesBuilder { instance: TestCallBytes }
 
-impl TestCallBytesBuilder {
+impl RTDTestCallBytesBuilder {
   fn new(instance: TestCallBytes) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestCallBytes { self.instance.clone() }
@@ -72761,12 +72761,12 @@ impl Function for TestCallEmpty {}
 
 impl TestCallEmpty {
   
-  pub fn builder() -> TestCallEmptyBuilder {
+  pub fn builder() -> RTDTestCallEmptyBuilder {
     let instance = Self {
       td_name: "testCallEmpty".to_string(),
       
     };
-    TestCallEmptyBuilder::new(instance)
+    RTDTestCallEmptyBuilder::new(instance)
   }
   
   
@@ -72777,9 +72777,9 @@ impl TestCallEmpty {
 
 
 #[derive(Debug)]
-pub struct TestCallEmptyBuilder { instance: TestCallEmpty }
+pub struct RTDTestCallEmptyBuilder { instance: TestCallEmpty }
 
-impl TestCallEmptyBuilder {
+impl RTDTestCallEmptyBuilder {
   fn new(instance: TestCallEmpty) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestCallEmpty { self.instance.clone() }
@@ -72814,13 +72814,13 @@ impl Function for TestCallString {}
 
 impl TestCallString {
   
-  pub fn builder() -> TestCallStringBuilder {
+  pub fn builder() -> RTDTestCallStringBuilder {
     let instance = Self {
       td_name: "testCallString".to_string(),
       x: None,
       
     };
-    TestCallStringBuilder::new(instance)
+    RTDTestCallStringBuilder::new(instance)
   }
   
   
@@ -72833,9 +72833,9 @@ impl TestCallString {
 
 
 #[derive(Debug)]
-pub struct TestCallStringBuilder { instance: TestCallString }
+pub struct RTDTestCallStringBuilder { instance: TestCallString }
 
-impl TestCallStringBuilder {
+impl RTDTestCallStringBuilder {
   fn new(instance: TestCallString) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestCallString { self.instance.clone() }
@@ -72875,13 +72875,13 @@ impl Function for TestCallVectorInt {}
 
 impl TestCallVectorInt {
   
-  pub fn builder() -> TestCallVectorIntBuilder {
+  pub fn builder() -> RTDTestCallVectorIntBuilder {
     let instance = Self {
       td_name: "testCallVectorInt".to_string(),
       x: None,
       
     };
-    TestCallVectorIntBuilder::new(instance)
+    RTDTestCallVectorIntBuilder::new(instance)
   }
   
   
@@ -72894,9 +72894,9 @@ impl TestCallVectorInt {
 
 
 #[derive(Debug)]
-pub struct TestCallVectorIntBuilder { instance: TestCallVectorInt }
+pub struct RTDTestCallVectorIntBuilder { instance: TestCallVectorInt }
 
-impl TestCallVectorIntBuilder {
+impl RTDTestCallVectorIntBuilder {
   fn new(instance: TestCallVectorInt) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestCallVectorInt { self.instance.clone() }
@@ -72936,13 +72936,13 @@ impl Function for TestCallVectorIntObject {}
 
 impl TestCallVectorIntObject {
   
-  pub fn builder() -> TestCallVectorIntObjectBuilder {
+  pub fn builder() -> RTDTestCallVectorIntObjectBuilder {
     let instance = Self {
       td_name: "testCallVectorIntObject".to_string(),
       x: None,
       
     };
-    TestCallVectorIntObjectBuilder::new(instance)
+    RTDTestCallVectorIntObjectBuilder::new(instance)
   }
   
   
@@ -72955,9 +72955,9 @@ impl TestCallVectorIntObject {
 
 
 #[derive(Debug)]
-pub struct TestCallVectorIntObjectBuilder { instance: TestCallVectorIntObject }
+pub struct RTDTestCallVectorIntObjectBuilder { instance: TestCallVectorIntObject }
 
-impl TestCallVectorIntObjectBuilder {
+impl RTDTestCallVectorIntObjectBuilder {
   fn new(instance: TestCallVectorIntObject) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestCallVectorIntObject { self.instance.clone() }
@@ -72997,13 +72997,13 @@ impl Function for TestCallVectorString {}
 
 impl TestCallVectorString {
   
-  pub fn builder() -> TestCallVectorStringBuilder {
+  pub fn builder() -> RTDTestCallVectorStringBuilder {
     let instance = Self {
       td_name: "testCallVectorString".to_string(),
       x: None,
       
     };
-    TestCallVectorStringBuilder::new(instance)
+    RTDTestCallVectorStringBuilder::new(instance)
   }
   
   
@@ -73016,9 +73016,9 @@ impl TestCallVectorString {
 
 
 #[derive(Debug)]
-pub struct TestCallVectorStringBuilder { instance: TestCallVectorString }
+pub struct RTDTestCallVectorStringBuilder { instance: TestCallVectorString }
 
-impl TestCallVectorStringBuilder {
+impl RTDTestCallVectorStringBuilder {
   fn new(instance: TestCallVectorString) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestCallVectorString { self.instance.clone() }
@@ -73058,13 +73058,13 @@ impl Function for TestCallVectorStringObject {}
 
 impl TestCallVectorStringObject {
   
-  pub fn builder() -> TestCallVectorStringObjectBuilder {
+  pub fn builder() -> RTDTestCallVectorStringObjectBuilder {
     let instance = Self {
       td_name: "testCallVectorStringObject".to_string(),
       x: None,
       
     };
-    TestCallVectorStringObjectBuilder::new(instance)
+    RTDTestCallVectorStringObjectBuilder::new(instance)
   }
   
   
@@ -73077,9 +73077,9 @@ impl TestCallVectorStringObject {
 
 
 #[derive(Debug)]
-pub struct TestCallVectorStringObjectBuilder { instance: TestCallVectorStringObject }
+pub struct RTDTestCallVectorStringObjectBuilder { instance: TestCallVectorStringObject }
 
-impl TestCallVectorStringObjectBuilder {
+impl RTDTestCallVectorStringObjectBuilder {
   fn new(instance: TestCallVectorStringObject) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestCallVectorStringObject { self.instance.clone() }
@@ -73117,12 +73117,12 @@ impl Function for TestGetDifference {}
 
 impl TestGetDifference {
   
-  pub fn builder() -> TestGetDifferenceBuilder {
+  pub fn builder() -> RTDTestGetDifferenceBuilder {
     let instance = Self {
       td_name: "testGetDifference".to_string(),
       
     };
-    TestGetDifferenceBuilder::new(instance)
+    RTDTestGetDifferenceBuilder::new(instance)
   }
   
   
@@ -73133,9 +73133,9 @@ impl TestGetDifference {
 
 
 #[derive(Debug)]
-pub struct TestGetDifferenceBuilder { instance: TestGetDifference }
+pub struct RTDTestGetDifferenceBuilder { instance: TestGetDifference }
 
-impl TestGetDifferenceBuilder {
+impl RTDTestGetDifferenceBuilder {
   fn new(instance: TestGetDifference) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestGetDifference { self.instance.clone() }
@@ -73168,12 +73168,12 @@ impl Function for TestNetwork {}
 
 impl TestNetwork {
   
-  pub fn builder() -> TestNetworkBuilder {
+  pub fn builder() -> RTDTestNetworkBuilder {
     let instance = Self {
       td_name: "testNetwork".to_string(),
       
     };
-    TestNetworkBuilder::new(instance)
+    RTDTestNetworkBuilder::new(instance)
   }
   
   
@@ -73184,9 +73184,9 @@ impl TestNetwork {
 
 
 #[derive(Debug)]
-pub struct TestNetworkBuilder { instance: TestNetwork }
+pub struct RTDTestNetworkBuilder { instance: TestNetwork }
 
-impl TestNetworkBuilder {
+impl RTDTestNetworkBuilder {
   fn new(instance: TestNetwork) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestNetwork { self.instance.clone() }
@@ -73221,13 +73221,13 @@ impl Function for TestSquareInt {}
 
 impl TestSquareInt {
   
-  pub fn builder() -> TestSquareIntBuilder {
+  pub fn builder() -> RTDTestSquareIntBuilder {
     let instance = Self {
       td_name: "testSquareInt".to_string(),
       x: None,
       
     };
-    TestSquareIntBuilder::new(instance)
+    RTDTestSquareIntBuilder::new(instance)
   }
   
   
@@ -73240,9 +73240,9 @@ impl TestSquareInt {
 
 
 #[derive(Debug)]
-pub struct TestSquareIntBuilder { instance: TestSquareInt }
+pub struct RTDTestSquareIntBuilder { instance: TestSquareInt }
 
-impl TestSquareIntBuilder {
+impl RTDTestSquareIntBuilder {
   fn new(instance: TestSquareInt) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestSquareInt { self.instance.clone() }
@@ -73280,12 +73280,12 @@ impl Function for TestUseError {}
 
 impl TestUseError {
   
-  pub fn builder() -> TestUseErrorBuilder {
+  pub fn builder() -> RTDTestUseErrorBuilder {
     let instance = Self {
       td_name: "testUseError".to_string(),
       
     };
-    TestUseErrorBuilder::new(instance)
+    RTDTestUseErrorBuilder::new(instance)
   }
   
   
@@ -73296,9 +73296,9 @@ impl TestUseError {
 
 
 #[derive(Debug)]
-pub struct TestUseErrorBuilder { instance: TestUseError }
+pub struct RTDTestUseErrorBuilder { instance: TestUseError }
 
-impl TestUseErrorBuilder {
+impl RTDTestUseErrorBuilder {
   fn new(instance: TestUseError) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestUseError { self.instance.clone() }
@@ -73331,12 +73331,12 @@ impl Function for TestUseUpdate {}
 
 impl TestUseUpdate {
   
-  pub fn builder() -> TestUseUpdateBuilder {
+  pub fn builder() -> RTDTestUseUpdateBuilder {
     let instance = Self {
       td_name: "testUseUpdate".to_string(),
       
     };
-    TestUseUpdateBuilder::new(instance)
+    RTDTestUseUpdateBuilder::new(instance)
   }
   
   
@@ -73347,9 +73347,9 @@ impl TestUseUpdate {
 
 
 #[derive(Debug)]
-pub struct TestUseUpdateBuilder { instance: TestUseUpdate }
+pub struct RTDTestUseUpdateBuilder { instance: TestUseUpdate }
 
-impl TestUseUpdateBuilder {
+impl RTDTestUseUpdateBuilder {
   fn new(instance: TestUseUpdate) -> Self { Self { instance } }
 
   pub fn build(&self) -> TestUseUpdate { self.instance.clone() }
@@ -73386,14 +73386,14 @@ impl Function for ToggleBasicGroupAdministrators {}
 
 impl ToggleBasicGroupAdministrators {
   
-  pub fn builder() -> ToggleBasicGroupAdministratorsBuilder {
+  pub fn builder() -> RTDToggleBasicGroupAdministratorsBuilder {
     let instance = Self {
       td_name: "toggleBasicGroupAdministrators".to_string(),
       basic_group_id: None,
       everyone_is_administrator: None,
       
     };
-    ToggleBasicGroupAdministratorsBuilder::new(instance)
+    RTDToggleBasicGroupAdministratorsBuilder::new(instance)
   }
   
   
@@ -73408,9 +73408,9 @@ impl ToggleBasicGroupAdministrators {
 
 
 #[derive(Debug)]
-pub struct ToggleBasicGroupAdministratorsBuilder { instance: ToggleBasicGroupAdministrators }
+pub struct RTDToggleBasicGroupAdministratorsBuilder { instance: ToggleBasicGroupAdministrators }
 
-impl ToggleBasicGroupAdministratorsBuilder {
+impl RTDToggleBasicGroupAdministratorsBuilder {
   fn new(instance: ToggleBasicGroupAdministrators) -> Self { Self { instance } }
 
   pub fn build(&self) -> ToggleBasicGroupAdministrators { self.instance.clone() }
@@ -73457,14 +73457,14 @@ impl Function for ToggleChatDefaultDisableNotification {}
 
 impl ToggleChatDefaultDisableNotification {
   
-  pub fn builder() -> ToggleChatDefaultDisableNotificationBuilder {
+  pub fn builder() -> RTDToggleChatDefaultDisableNotificationBuilder {
     let instance = Self {
       td_name: "toggleChatDefaultDisableNotification".to_string(),
       chat_id: None,
       default_disable_notification: None,
       
     };
-    ToggleChatDefaultDisableNotificationBuilder::new(instance)
+    RTDToggleChatDefaultDisableNotificationBuilder::new(instance)
   }
   
   
@@ -73479,9 +73479,9 @@ impl ToggleChatDefaultDisableNotification {
 
 
 #[derive(Debug)]
-pub struct ToggleChatDefaultDisableNotificationBuilder { instance: ToggleChatDefaultDisableNotification }
+pub struct RTDToggleChatDefaultDisableNotificationBuilder { instance: ToggleChatDefaultDisableNotification }
 
-impl ToggleChatDefaultDisableNotificationBuilder {
+impl RTDToggleChatDefaultDisableNotificationBuilder {
   fn new(instance: ToggleChatDefaultDisableNotification) -> Self { Self { instance } }
 
   pub fn build(&self) -> ToggleChatDefaultDisableNotification { self.instance.clone() }
@@ -73528,14 +73528,14 @@ impl Function for ToggleChatIsMarkedAsUnread {}
 
 impl ToggleChatIsMarkedAsUnread {
   
-  pub fn builder() -> ToggleChatIsMarkedAsUnreadBuilder {
+  pub fn builder() -> RTDToggleChatIsMarkedAsUnreadBuilder {
     let instance = Self {
       td_name: "toggleChatIsMarkedAsUnread".to_string(),
       chat_id: None,
       is_marked_as_unread: None,
       
     };
-    ToggleChatIsMarkedAsUnreadBuilder::new(instance)
+    RTDToggleChatIsMarkedAsUnreadBuilder::new(instance)
   }
   
   
@@ -73550,9 +73550,9 @@ impl ToggleChatIsMarkedAsUnread {
 
 
 #[derive(Debug)]
-pub struct ToggleChatIsMarkedAsUnreadBuilder { instance: ToggleChatIsMarkedAsUnread }
+pub struct RTDToggleChatIsMarkedAsUnreadBuilder { instance: ToggleChatIsMarkedAsUnread }
 
-impl ToggleChatIsMarkedAsUnreadBuilder {
+impl RTDToggleChatIsMarkedAsUnreadBuilder {
   fn new(instance: ToggleChatIsMarkedAsUnread) -> Self { Self { instance } }
 
   pub fn build(&self) -> ToggleChatIsMarkedAsUnread { self.instance.clone() }
@@ -73599,14 +73599,14 @@ impl Function for ToggleChatIsPinned {}
 
 impl ToggleChatIsPinned {
   
-  pub fn builder() -> ToggleChatIsPinnedBuilder {
+  pub fn builder() -> RTDToggleChatIsPinnedBuilder {
     let instance = Self {
       td_name: "toggleChatIsPinned".to_string(),
       chat_id: None,
       is_pinned: None,
       
     };
-    ToggleChatIsPinnedBuilder::new(instance)
+    RTDToggleChatIsPinnedBuilder::new(instance)
   }
   
   
@@ -73621,9 +73621,9 @@ impl ToggleChatIsPinned {
 
 
 #[derive(Debug)]
-pub struct ToggleChatIsPinnedBuilder { instance: ToggleChatIsPinned }
+pub struct RTDToggleChatIsPinnedBuilder { instance: ToggleChatIsPinned }
 
-impl ToggleChatIsPinnedBuilder {
+impl RTDToggleChatIsPinnedBuilder {
   fn new(instance: ToggleChatIsPinned) -> Self { Self { instance } }
 
   pub fn build(&self) -> ToggleChatIsPinned { self.instance.clone() }
@@ -73670,14 +73670,14 @@ impl Function for ToggleSupergroupInvites {}
 
 impl ToggleSupergroupInvites {
   
-  pub fn builder() -> ToggleSupergroupInvitesBuilder {
+  pub fn builder() -> RTDToggleSupergroupInvitesBuilder {
     let instance = Self {
       td_name: "toggleSupergroupInvites".to_string(),
       supergroup_id: None,
       anyone_can_invite: None,
       
     };
-    ToggleSupergroupInvitesBuilder::new(instance)
+    RTDToggleSupergroupInvitesBuilder::new(instance)
   }
   
   
@@ -73692,9 +73692,9 @@ impl ToggleSupergroupInvites {
 
 
 #[derive(Debug)]
-pub struct ToggleSupergroupInvitesBuilder { instance: ToggleSupergroupInvites }
+pub struct RTDToggleSupergroupInvitesBuilder { instance: ToggleSupergroupInvites }
 
-impl ToggleSupergroupInvitesBuilder {
+impl RTDToggleSupergroupInvitesBuilder {
   fn new(instance: ToggleSupergroupInvites) -> Self { Self { instance } }
 
   pub fn build(&self) -> ToggleSupergroupInvites { self.instance.clone() }
@@ -73741,14 +73741,14 @@ impl Function for ToggleSupergroupIsAllHistoryAvailable {}
 
 impl ToggleSupergroupIsAllHistoryAvailable {
   
-  pub fn builder() -> ToggleSupergroupIsAllHistoryAvailableBuilder {
+  pub fn builder() -> RTDToggleSupergroupIsAllHistoryAvailableBuilder {
     let instance = Self {
       td_name: "toggleSupergroupIsAllHistoryAvailable".to_string(),
       supergroup_id: None,
       is_all_history_available: None,
       
     };
-    ToggleSupergroupIsAllHistoryAvailableBuilder::new(instance)
+    RTDToggleSupergroupIsAllHistoryAvailableBuilder::new(instance)
   }
   
   
@@ -73763,9 +73763,9 @@ impl ToggleSupergroupIsAllHistoryAvailable {
 
 
 #[derive(Debug)]
-pub struct ToggleSupergroupIsAllHistoryAvailableBuilder { instance: ToggleSupergroupIsAllHistoryAvailable }
+pub struct RTDToggleSupergroupIsAllHistoryAvailableBuilder { instance: ToggleSupergroupIsAllHistoryAvailable }
 
-impl ToggleSupergroupIsAllHistoryAvailableBuilder {
+impl RTDToggleSupergroupIsAllHistoryAvailableBuilder {
   fn new(instance: ToggleSupergroupIsAllHistoryAvailable) -> Self { Self { instance } }
 
   pub fn build(&self) -> ToggleSupergroupIsAllHistoryAvailable { self.instance.clone() }
@@ -73812,14 +73812,14 @@ impl Function for ToggleSupergroupSignMessages {}
 
 impl ToggleSupergroupSignMessages {
   
-  pub fn builder() -> ToggleSupergroupSignMessagesBuilder {
+  pub fn builder() -> RTDToggleSupergroupSignMessagesBuilder {
     let instance = Self {
       td_name: "toggleSupergroupSignMessages".to_string(),
       supergroup_id: None,
       sign_messages: None,
       
     };
-    ToggleSupergroupSignMessagesBuilder::new(instance)
+    RTDToggleSupergroupSignMessagesBuilder::new(instance)
   }
   
   
@@ -73834,9 +73834,9 @@ impl ToggleSupergroupSignMessages {
 
 
 #[derive(Debug)]
-pub struct ToggleSupergroupSignMessagesBuilder { instance: ToggleSupergroupSignMessages }
+pub struct RTDToggleSupergroupSignMessagesBuilder { instance: ToggleSupergroupSignMessages }
 
-impl ToggleSupergroupSignMessagesBuilder {
+impl RTDToggleSupergroupSignMessagesBuilder {
   fn new(instance: ToggleSupergroupSignMessages) -> Self { Self { instance } }
 
   pub fn build(&self) -> ToggleSupergroupSignMessages { self.instance.clone() }
@@ -73881,13 +73881,13 @@ impl Function for UnblockUser {}
 
 impl UnblockUser {
   
-  pub fn builder() -> UnblockUserBuilder {
+  pub fn builder() -> RTDUnblockUserBuilder {
     let instance = Self {
       td_name: "unblockUser".to_string(),
       user_id: None,
       
     };
-    UnblockUserBuilder::new(instance)
+    RTDUnblockUserBuilder::new(instance)
   }
   
   
@@ -73900,9 +73900,9 @@ impl UnblockUser {
 
 
 #[derive(Debug)]
-pub struct UnblockUserBuilder { instance: UnblockUser }
+pub struct RTDUnblockUserBuilder { instance: UnblockUser }
 
-impl UnblockUserBuilder {
+impl RTDUnblockUserBuilder {
   fn new(instance: UnblockUser) -> Self { Self { instance } }
 
   pub fn build(&self) -> UnblockUser { self.instance.clone() }
@@ -73942,13 +73942,13 @@ impl Function for UnpinChatMessage {}
 
 impl UnpinChatMessage {
   
-  pub fn builder() -> UnpinChatMessageBuilder {
+  pub fn builder() -> RTDUnpinChatMessageBuilder {
     let instance = Self {
       td_name: "unpinChatMessage".to_string(),
       chat_id: None,
       
     };
-    UnpinChatMessageBuilder::new(instance)
+    RTDUnpinChatMessageBuilder::new(instance)
   }
   
   
@@ -73961,9 +73961,9 @@ impl UnpinChatMessage {
 
 
 #[derive(Debug)]
-pub struct UnpinChatMessageBuilder { instance: UnpinChatMessage }
+pub struct RTDUnpinChatMessageBuilder { instance: UnpinChatMessage }
 
-impl UnpinChatMessageBuilder {
+impl RTDUnpinChatMessageBuilder {
   fn new(instance: UnpinChatMessage) -> Self { Self { instance } }
 
   pub fn build(&self) -> UnpinChatMessage { self.instance.clone() }
@@ -74003,13 +74003,13 @@ impl Function for UpgradeBasicGroupChatToSupergroupChat {}
 
 impl UpgradeBasicGroupChatToSupergroupChat {
   
-  pub fn builder() -> UpgradeBasicGroupChatToSupergroupChatBuilder {
+  pub fn builder() -> RTDUpgradeBasicGroupChatToSupergroupChatBuilder {
     let instance = Self {
       td_name: "upgradeBasicGroupChatToSupergroupChat".to_string(),
       chat_id: None,
       
     };
-    UpgradeBasicGroupChatToSupergroupChatBuilder::new(instance)
+    RTDUpgradeBasicGroupChatToSupergroupChatBuilder::new(instance)
   }
   
   
@@ -74022,9 +74022,9 @@ impl UpgradeBasicGroupChatToSupergroupChat {
 
 
 #[derive(Debug)]
-pub struct UpgradeBasicGroupChatToSupergroupChatBuilder { instance: UpgradeBasicGroupChatToSupergroupChat }
+pub struct RTDUpgradeBasicGroupChatToSupergroupChatBuilder { instance: UpgradeBasicGroupChatToSupergroupChat }
 
-impl UpgradeBasicGroupChatToSupergroupChatBuilder {
+impl RTDUpgradeBasicGroupChatToSupergroupChatBuilder {
   fn new(instance: UpgradeBasicGroupChatToSupergroupChat) -> Self { Self { instance } }
 
   pub fn build(&self) -> UpgradeBasicGroupChatToSupergroupChat { self.instance.clone() }
@@ -74075,7 +74075,7 @@ impl Function for UploadFile {}
 
 impl UploadFile {
   
-  pub fn builder() -> UploadFileBuilder {
+  pub fn builder() -> RTDUploadFileBuilder {
     let instance = Self {
       td_name: "uploadFile".to_string(),
       file: None,
@@ -74083,7 +74083,7 @@ impl UploadFile {
       priority: None,
       
     };
-    UploadFileBuilder::new(instance)
+    RTDUploadFileBuilder::new(instance)
   }
   
   
@@ -74100,9 +74100,9 @@ impl UploadFile {
 
 
 #[derive(Debug)]
-pub struct UploadFileBuilder { instance: UploadFile }
+pub struct RTDUploadFileBuilder { instance: UploadFile }
 
-impl UploadFileBuilder {
+impl RTDUploadFileBuilder {
   fn new(instance: UploadFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> UploadFile { self.instance.clone() }
@@ -74161,14 +74161,14 @@ impl Function for UploadStickerFile {}
 
 impl UploadStickerFile {
   
-  pub fn builder() -> UploadStickerFileBuilder {
+  pub fn builder() -> RTDUploadStickerFileBuilder {
     let instance = Self {
       td_name: "uploadStickerFile".to_string(),
       user_id: None,
       png_sticker: None,
       
     };
-    UploadStickerFileBuilder::new(instance)
+    RTDUploadStickerFileBuilder::new(instance)
   }
   
   
@@ -74183,9 +74183,9 @@ impl UploadStickerFile {
 
 
 #[derive(Debug)]
-pub struct UploadStickerFileBuilder { instance: UploadStickerFile }
+pub struct RTDUploadStickerFileBuilder { instance: UploadStickerFile }
 
-impl UploadStickerFileBuilder {
+impl RTDUploadStickerFileBuilder {
   fn new(instance: UploadStickerFile) -> Self { Self { instance } }
 
   pub fn build(&self) -> UploadStickerFile { self.instance.clone() }
@@ -74236,7 +74236,7 @@ impl Function for ValidateOrderInfo {}
 
 impl ValidateOrderInfo {
   
-  pub fn builder() -> ValidateOrderInfoBuilder {
+  pub fn builder() -> RTDValidateOrderInfoBuilder {
     let instance = Self {
       td_name: "validateOrderInfo".to_string(),
       chat_id: None,
@@ -74245,7 +74245,7 @@ impl ValidateOrderInfo {
       allow_save: None,
       
     };
-    ValidateOrderInfoBuilder::new(instance)
+    RTDValidateOrderInfoBuilder::new(instance)
   }
   
   
@@ -74264,9 +74264,9 @@ impl ValidateOrderInfo {
 
 
 #[derive(Debug)]
-pub struct ValidateOrderInfoBuilder { instance: ValidateOrderInfo }
+pub struct RTDValidateOrderInfoBuilder { instance: ValidateOrderInfo }
 
-impl ValidateOrderInfoBuilder {
+impl RTDValidateOrderInfoBuilder {
   fn new(instance: ValidateOrderInfo) -> Self { Self { instance } }
 
   pub fn build(&self) -> ValidateOrderInfo { self.instance.clone() }
@@ -74325,7 +74325,7 @@ impl Function for ViewMessages {}
 
 impl ViewMessages {
   
-  pub fn builder() -> ViewMessagesBuilder {
+  pub fn builder() -> RTDViewMessagesBuilder {
     let instance = Self {
       td_name: "viewMessages".to_string(),
       chat_id: None,
@@ -74333,7 +74333,7 @@ impl ViewMessages {
       force_read: None,
       
     };
-    ViewMessagesBuilder::new(instance)
+    RTDViewMessagesBuilder::new(instance)
   }
   
   
@@ -74350,9 +74350,9 @@ impl ViewMessages {
 
 
 #[derive(Debug)]
-pub struct ViewMessagesBuilder { instance: ViewMessages }
+pub struct RTDViewMessagesBuilder { instance: ViewMessages }
 
-impl ViewMessagesBuilder {
+impl RTDViewMessagesBuilder {
   fn new(instance: ViewMessages) -> Self { Self { instance } }
 
   pub fn build(&self) -> ViewMessages { self.instance.clone() }
@@ -74402,13 +74402,13 @@ impl Function for ViewTrendingStickerSets {}
 
 impl ViewTrendingStickerSets {
   
-  pub fn builder() -> ViewTrendingStickerSetsBuilder {
+  pub fn builder() -> RTDViewTrendingStickerSetsBuilder {
     let instance = Self {
       td_name: "viewTrendingStickerSets".to_string(),
       sticker_set_ids: None,
       
     };
-    ViewTrendingStickerSetsBuilder::new(instance)
+    RTDViewTrendingStickerSetsBuilder::new(instance)
   }
   
   
@@ -74421,9 +74421,9 @@ impl ViewTrendingStickerSets {
 
 
 #[derive(Debug)]
-pub struct ViewTrendingStickerSetsBuilder { instance: ViewTrendingStickerSets }
+pub struct RTDViewTrendingStickerSetsBuilder { instance: ViewTrendingStickerSets }
 
-impl ViewTrendingStickerSetsBuilder {
+impl RTDViewTrendingStickerSetsBuilder {
   fn new(instance: ViewTrendingStickerSets) -> Self { Self { instance } }
 
   pub fn build(&self) -> ViewTrendingStickerSets { self.instance.clone() }
@@ -74467,7 +74467,7 @@ impl Function for WriteGeneratedFilePart {}
 
 impl WriteGeneratedFilePart {
   
-  pub fn builder() -> WriteGeneratedFilePartBuilder {
+  pub fn builder() -> RTDWriteGeneratedFilePartBuilder {
     let instance = Self {
       td_name: "writeGeneratedFilePart".to_string(),
       generation_id: None,
@@ -74475,7 +74475,7 @@ impl WriteGeneratedFilePart {
       data: None,
       
     };
-    WriteGeneratedFilePartBuilder::new(instance)
+    RTDWriteGeneratedFilePartBuilder::new(instance)
   }
   
   
@@ -74492,9 +74492,9 @@ impl WriteGeneratedFilePart {
 
 
 #[derive(Debug)]
-pub struct WriteGeneratedFilePartBuilder { instance: WriteGeneratedFilePart }
+pub struct RTDWriteGeneratedFilePartBuilder { instance: WriteGeneratedFilePart }
 
-impl WriteGeneratedFilePartBuilder {
+impl RTDWriteGeneratedFilePartBuilder {
   fn new(instance: WriteGeneratedFilePart) -> Self { Self { instance } }
 
   pub fn build(&self) -> WriteGeneratedFilePart { self.instance.clone() }
