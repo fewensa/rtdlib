@@ -57,8 +57,8 @@ impl RTD{{ clz_name }}Builder {
 
   pub fn build(&self) -> {{ clz_name }} { self.instance.clone() }
   {% if fields %}{% for field in fields %}
-  pub fn {{field.name}}(&mut self, {{field.name}}: {{field.type}}) -> &mut Self {
-    self.instance.{{field.name}} = Some({{field.name}});
+  pub fn {{field.name}}{% if field.type == 'String' %}<S: AsRef<str>>{% endif %}(&mut self, {{field.name}}: {% if field.type == 'String' %}S{% else %}{{field.type}}{% endif %}) -> &mut Self {
+    self.instance.{{field.name}} = Some({{field.name}}{% if field.type == 'String' %}.as_ref().to_string(){% endif %});
     self
   }
   {% endfor %}{% endif %}

@@ -1600,33 +1600,33 @@ impl RTDAddressBuilder {
 
   pub fn build(&self) -> Address { self.instance.clone() }
   
-  pub fn country_code(&mut self, country_code: String) -> &mut Self {
-    self.instance.country_code = Some(country_code);
+  pub fn country_code<S: AsRef<str>>(&mut self, country_code: S) -> &mut Self {
+    self.instance.country_code = Some(country_code.as_ref().to_string());
     self
   }
   
-  pub fn state(&mut self, state: String) -> &mut Self {
-    self.instance.state = Some(state);
+  pub fn state<S: AsRef<str>>(&mut self, state: S) -> &mut Self {
+    self.instance.state = Some(state.as_ref().to_string());
     self
   }
   
-  pub fn city(&mut self, city: String) -> &mut Self {
-    self.instance.city = Some(city);
+  pub fn city<S: AsRef<str>>(&mut self, city: S) -> &mut Self {
+    self.instance.city = Some(city.as_ref().to_string());
     self
   }
   
-  pub fn street_line1(&mut self, street_line1: String) -> &mut Self {
-    self.instance.street_line1 = Some(street_line1);
+  pub fn street_line1<S: AsRef<str>>(&mut self, street_line1: S) -> &mut Self {
+    self.instance.street_line1 = Some(street_line1.as_ref().to_string());
     self
   }
   
-  pub fn street_line2(&mut self, street_line2: String) -> &mut Self {
-    self.instance.street_line2 = Some(street_line2);
+  pub fn street_line2<S: AsRef<str>>(&mut self, street_line2: S) -> &mut Self {
+    self.instance.street_line2 = Some(street_line2.as_ref().to_string());
     self
   }
   
-  pub fn postal_code(&mut self, postal_code: String) -> &mut Self {
-    self.instance.postal_code = Some(postal_code);
+  pub fn postal_code<S: AsRef<str>>(&mut self, postal_code: S) -> &mut Self {
+    self.instance.postal_code = Some(postal_code.as_ref().to_string());
     self
   }
   
@@ -1729,13 +1729,13 @@ impl RTDAnimationBuilder {
     self
   }
   
-  pub fn file_name(&mut self, file_name: String) -> &mut Self {
-    self.instance.file_name = Some(file_name);
+  pub fn file_name<S: AsRef<str>>(&mut self, file_name: S) -> &mut Self {
+    self.instance.file_name = Some(file_name.as_ref().to_string());
     self
   }
   
-  pub fn mime_type(&mut self, mime_type: String) -> &mut Self {
-    self.instance.mime_type = Some(mime_type);
+  pub fn mime_type<S: AsRef<str>>(&mut self, mime_type: S) -> &mut Self {
+    self.instance.mime_type = Some(mime_type.as_ref().to_string());
     self
   }
   
@@ -1897,23 +1897,23 @@ impl RTDAudioBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn performer(&mut self, performer: String) -> &mut Self {
-    self.instance.performer = Some(performer);
+  pub fn performer<S: AsRef<str>>(&mut self, performer: S) -> &mut Self {
+    self.instance.performer = Some(performer.as_ref().to_string());
     self
   }
   
-  pub fn file_name(&mut self, file_name: String) -> &mut Self {
-    self.instance.file_name = Some(file_name);
+  pub fn file_name<S: AsRef<str>>(&mut self, file_name: S) -> &mut Self {
+    self.instance.file_name = Some(file_name.as_ref().to_string());
     self
   }
   
-  pub fn mime_type(&mut self, mime_type: String) -> &mut Self {
-    self.instance.mime_type = Some(mime_type);
+  pub fn mime_type<S: AsRef<str>>(&mut self, mime_type: S) -> &mut Self {
+    self.instance.mime_type = Some(mime_type.as_ref().to_string());
     self
   }
   
@@ -2003,8 +2003,8 @@ impl RTDAuthenticationCodeInfoBuilder {
 
   pub fn build(&self) -> AuthenticationCodeInfo { self.instance.clone() }
   
-  pub fn phone_number(&mut self, phone_number: String) -> &mut Self {
-    self.instance.phone_number = Some(phone_number);
+  pub fn phone_number<S: AsRef<str>>(&mut self, phone_number: S) -> &mut Self {
+    self.instance.phone_number = Some(phone_number.as_ref().to_string());
     self
   }
   
@@ -2299,8 +2299,8 @@ impl RTDAuthenticationCodeTypeFlashCallBuilder {
 
   pub fn build(&self) -> AuthenticationCodeTypeFlashCall { self.instance.clone() }
   
-  pub fn pattern(&mut self, pattern: String) -> &mut Self {
-    self.instance.pattern = Some(pattern);
+  pub fn pattern<S: AsRef<str>>(&mut self, pattern: S) -> &mut Self {
+    self.instance.pattern = Some(pattern.as_ref().to_string());
     self
   }
   
@@ -2861,8 +2861,8 @@ impl RTDBasicGroupFullInfoBuilder {
     self
   }
   
-  pub fn invite_link(&mut self, invite_link: String) -> &mut Self {
-    self.instance.invite_link = Some(invite_link);
+  pub fn invite_link<S: AsRef<str>>(&mut self, invite_link: S) -> &mut Self {
+    self.instance.invite_link = Some(invite_link.as_ref().to_string());
     self
   }
   
@@ -2925,13 +2925,13 @@ impl RTDBotCommandBuilder {
 
   pub fn build(&self) -> BotCommand { self.instance.clone() }
   
-  pub fn command(&mut self, command: String) -> &mut Self {
-    self.instance.command = Some(command);
+  pub fn command<S: AsRef<str>>(&mut self, command: S) -> &mut Self {
+    self.instance.command = Some(command.as_ref().to_string());
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
@@ -2994,8 +2994,8 @@ impl RTDBotInfoBuilder {
 
   pub fn build(&self) -> BotInfo { self.instance.clone() }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
@@ -3179,13 +3179,13 @@ impl RTDCallConnectionBuilder {
     self
   }
   
-  pub fn ip(&mut self, ip: String) -> &mut Self {
-    self.instance.ip = Some(ip);
+  pub fn ip<S: AsRef<str>>(&mut self, ip: S) -> &mut Self {
+    self.instance.ip = Some(ip.as_ref().to_string());
     self
   }
   
-  pub fn ipv6(&mut self, ipv6: String) -> &mut Self {
-    self.instance.ipv6 = Some(ipv6);
+  pub fn ipv6<S: AsRef<str>>(&mut self, ipv6: S) -> &mut Self {
+    self.instance.ipv6 = Some(ipv6.as_ref().to_string());
     self
   }
   
@@ -3194,8 +3194,8 @@ impl RTDCallConnectionBuilder {
     self
   }
   
-  pub fn peer_tag(&mut self, peer_tag: String) -> &mut Self {
-    self.instance.peer_tag = Some(peer_tag);
+  pub fn peer_tag<S: AsRef<str>>(&mut self, peer_tag: S) -> &mut Self {
+    self.instance.peer_tag = Some(peer_tag.as_ref().to_string());
     self
   }
   
@@ -3892,13 +3892,13 @@ impl RTDCallStateReadyBuilder {
     self
   }
   
-  pub fn config(&mut self, config: String) -> &mut Self {
-    self.instance.config = Some(config);
+  pub fn config<S: AsRef<str>>(&mut self, config: S) -> &mut Self {
+    self.instance.config = Some(config.as_ref().to_string());
     self
   }
   
-  pub fn encryption_key(&mut self, encryption_key: String) -> &mut Self {
-    self.instance.encryption_key = Some(encryption_key);
+  pub fn encryption_key<S: AsRef<str>>(&mut self, encryption_key: S) -> &mut Self {
+    self.instance.encryption_key = Some(encryption_key.as_ref().to_string());
     self
   }
   
@@ -4176,8 +4176,8 @@ impl RTDCallbackQueryAnswerBuilder {
 
   pub fn build(&self) -> CallbackQueryAnswer { self.instance.clone() }
   
-  pub fn text(&mut self, text: String) -> &mut Self {
-    self.instance.text = Some(text);
+  pub fn text<S: AsRef<str>>(&mut self, text: S) -> &mut Self {
+    self.instance.text = Some(text.as_ref().to_string());
     self
   }
   
@@ -4186,8 +4186,8 @@ impl RTDCallbackQueryAnswerBuilder {
     self
   }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
@@ -4282,8 +4282,8 @@ impl RTDCallbackQueryPayloadDataBuilder {
 
   pub fn build(&self) -> CallbackQueryPayloadData { self.instance.clone() }
   
-  pub fn data(&mut self, data: String) -> &mut Self {
-    self.instance.data = Some(data);
+  pub fn data<S: AsRef<str>>(&mut self, data: S) -> &mut Self {
+    self.instance.data = Some(data.as_ref().to_string());
     self
   }
   
@@ -4343,8 +4343,8 @@ impl RTDCallbackQueryPayloadGameBuilder {
 
   pub fn build(&self) -> CallbackQueryPayloadGame { self.instance.clone() }
   
-  pub fn game_short_name(&mut self, game_short_name: String) -> &mut Self {
-    self.instance.game_short_name = Some(game_short_name);
+  pub fn game_short_name<S: AsRef<str>>(&mut self, game_short_name: S) -> &mut Self {
+    self.instance.game_short_name = Some(game_short_name.as_ref().to_string());
     self
   }
   
@@ -4524,8 +4524,8 @@ impl RTDChatBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -4619,8 +4619,8 @@ impl RTDChatBuilder {
     self
   }
   
-  pub fn client_data(&mut self, client_data: String) -> &mut Self {
-    self.instance.client_data = Some(client_data);
+  pub fn client_data<S: AsRef<str>>(&mut self, client_data: S) -> &mut Self {
+    self.instance.client_data = Some(client_data.as_ref().to_string());
     self
   }
   
@@ -6190,13 +6190,13 @@ impl RTDChatEventTitleChangedBuilder {
 
   pub fn build(&self) -> ChatEventTitleChanged { self.instance.clone() }
   
-  pub fn old_title(&mut self, old_title: String) -> &mut Self {
-    self.instance.old_title = Some(old_title);
+  pub fn old_title<S: AsRef<str>>(&mut self, old_title: S) -> &mut Self {
+    self.instance.old_title = Some(old_title.as_ref().to_string());
     self
   }
   
-  pub fn new_title(&mut self, new_title: String) -> &mut Self {
-    self.instance.new_title = Some(new_title);
+  pub fn new_title<S: AsRef<str>>(&mut self, new_title: S) -> &mut Self {
+    self.instance.new_title = Some(new_title.as_ref().to_string());
     self
   }
   
@@ -6261,13 +6261,13 @@ impl RTDChatEventDescriptionChangedBuilder {
 
   pub fn build(&self) -> ChatEventDescriptionChanged { self.instance.clone() }
   
-  pub fn old_description(&mut self, old_description: String) -> &mut Self {
-    self.instance.old_description = Some(old_description);
+  pub fn old_description<S: AsRef<str>>(&mut self, old_description: S) -> &mut Self {
+    self.instance.old_description = Some(old_description.as_ref().to_string());
     self
   }
   
-  pub fn new_description(&mut self, new_description: String) -> &mut Self {
-    self.instance.new_description = Some(new_description);
+  pub fn new_description<S: AsRef<str>>(&mut self, new_description: S) -> &mut Self {
+    self.instance.new_description = Some(new_description.as_ref().to_string());
     self
   }
   
@@ -6332,13 +6332,13 @@ impl RTDChatEventUsernameChangedBuilder {
 
   pub fn build(&self) -> ChatEventUsernameChanged { self.instance.clone() }
   
-  pub fn old_username(&mut self, old_username: String) -> &mut Self {
-    self.instance.old_username = Some(old_username);
+  pub fn old_username<S: AsRef<str>>(&mut self, old_username: S) -> &mut Self {
+    self.instance.old_username = Some(old_username.as_ref().to_string());
     self
   }
   
-  pub fn new_username(&mut self, new_username: String) -> &mut Self {
-    self.instance.new_username = Some(new_username);
+  pub fn new_username<S: AsRef<str>>(&mut self, new_username: S) -> &mut Self {
+    self.instance.new_username = Some(new_username.as_ref().to_string());
     self
   }
   
@@ -6929,8 +6929,8 @@ impl RTDChatInviteLinkBuilder {
 
   pub fn build(&self) -> ChatInviteLink { self.instance.clone() }
   
-  pub fn invite_link(&mut self, invite_link: String) -> &mut Self {
-    self.instance.invite_link = Some(invite_link);
+  pub fn invite_link<S: AsRef<str>>(&mut self, invite_link: S) -> &mut Self {
+    self.instance.invite_link = Some(invite_link.as_ref().to_string());
     self
   }
   
@@ -7035,8 +7035,8 @@ impl RTDChatInviteLinkInfoBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -8157,8 +8157,8 @@ impl RTDChatNotificationSettingsBuilder {
     self
   }
   
-  pub fn sound(&mut self, sound: String) -> &mut Self {
-    self.instance.sound = Some(sound);
+  pub fn sound<S: AsRef<str>>(&mut self, sound: S) -> &mut Self {
+    self.instance.sound = Some(sound.as_ref().to_string());
     self
   }
   
@@ -8611,8 +8611,8 @@ impl RTDChatReportReasonCustomBuilder {
 
   pub fn build(&self) -> ChatReportReasonCustom { self.instance.clone() }
   
-  pub fn text(&mut self, text: String) -> &mut Self {
-    self.instance.text = Some(text);
+  pub fn text<S: AsRef<str>>(&mut self, text: S) -> &mut Self {
+    self.instance.text = Some(text.as_ref().to_string());
     self
   }
   
@@ -9427,8 +9427,8 @@ impl RTDConnectedWebsiteBuilder {
     self
   }
   
-  pub fn domain_name(&mut self, domain_name: String) -> &mut Self {
-    self.instance.domain_name = Some(domain_name);
+  pub fn domain_name<S: AsRef<str>>(&mut self, domain_name: S) -> &mut Self {
+    self.instance.domain_name = Some(domain_name.as_ref().to_string());
     self
   }
   
@@ -9437,13 +9437,13 @@ impl RTDConnectedWebsiteBuilder {
     self
   }
   
-  pub fn browser(&mut self, browser: String) -> &mut Self {
-    self.instance.browser = Some(browser);
+  pub fn browser<S: AsRef<str>>(&mut self, browser: S) -> &mut Self {
+    self.instance.browser = Some(browser.as_ref().to_string());
     self
   }
   
-  pub fn platform(&mut self, platform: String) -> &mut Self {
-    self.instance.platform = Some(platform);
+  pub fn platform<S: AsRef<str>>(&mut self, platform: S) -> &mut Self {
+    self.instance.platform = Some(platform.as_ref().to_string());
     self
   }
   
@@ -9457,13 +9457,13 @@ impl RTDConnectedWebsiteBuilder {
     self
   }
   
-  pub fn ip(&mut self, ip: String) -> &mut Self {
-    self.instance.ip = Some(ip);
+  pub fn ip<S: AsRef<str>>(&mut self, ip: S) -> &mut Self {
+    self.instance.ip = Some(ip.as_ref().to_string());
     self
   }
   
-  pub fn location(&mut self, location: String) -> &mut Self {
-    self.instance.location = Some(location);
+  pub fn location<S: AsRef<str>>(&mut self, location: S) -> &mut Self {
+    self.instance.location = Some(location.as_ref().to_string());
     self
   }
   
@@ -9893,23 +9893,23 @@ impl RTDContactBuilder {
 
   pub fn build(&self) -> Contact { self.instance.clone() }
   
-  pub fn phone_number(&mut self, phone_number: String) -> &mut Self {
-    self.instance.phone_number = Some(phone_number);
+  pub fn phone_number<S: AsRef<str>>(&mut self, phone_number: S) -> &mut Self {
+    self.instance.phone_number = Some(phone_number.as_ref().to_string());
     self
   }
   
-  pub fn first_name(&mut self, first_name: String) -> &mut Self {
-    self.instance.first_name = Some(first_name);
+  pub fn first_name<S: AsRef<str>>(&mut self, first_name: S) -> &mut Self {
+    self.instance.first_name = Some(first_name.as_ref().to_string());
     self
   }
   
-  pub fn last_name(&mut self, last_name: String) -> &mut Self {
-    self.instance.last_name = Some(last_name);
+  pub fn last_name<S: AsRef<str>>(&mut self, last_name: S) -> &mut Self {
+    self.instance.last_name = Some(last_name.as_ref().to_string());
     self
   }
   
-  pub fn vcard(&mut self, vcard: String) -> &mut Self {
-    self.instance.vcard = Some(vcard);
+  pub fn vcard<S: AsRef<str>>(&mut self, vcard: S) -> &mut Self {
+    self.instance.vcard = Some(vcard.as_ref().to_string());
     self
   }
   
@@ -10031,8 +10031,8 @@ impl RTDCustomRequestResultBuilder {
 
   pub fn build(&self) -> CustomRequestResult { self.instance.clone() }
   
-  pub fn result(&mut self, result: String) -> &mut Self {
-    self.instance.result = Some(result);
+  pub fn result<S: AsRef<str>>(&mut self, result: S) -> &mut Self {
+    self.instance.result = Some(result.as_ref().to_string());
     self
   }
   
@@ -10090,8 +10090,8 @@ impl RTDDatabaseStatisticsBuilder {
 
   pub fn build(&self) -> DatabaseStatistics { self.instance.clone() }
   
-  pub fn statistics(&mut self, statistics: String) -> &mut Self {
-    self.instance.statistics = Some(statistics);
+  pub fn statistics<S: AsRef<str>>(&mut self, statistics: S) -> &mut Self {
+    self.instance.statistics = Some(statistics.as_ref().to_string());
     self
   }
   
@@ -10417,8 +10417,8 @@ impl RTDDeviceTokenFirebaseCloudMessagingBuilder {
 
   pub fn build(&self) -> DeviceTokenFirebaseCloudMessaging { self.instance.clone() }
   
-  pub fn token(&mut self, token: String) -> &mut Self {
-    self.instance.token = Some(token);
+  pub fn token<S: AsRef<str>>(&mut self, token: S) -> &mut Self {
+    self.instance.token = Some(token.as_ref().to_string());
     self
   }
   
@@ -10488,8 +10488,8 @@ impl RTDDeviceTokenApplePushBuilder {
 
   pub fn build(&self) -> DeviceTokenApplePush { self.instance.clone() }
   
-  pub fn device_token(&mut self, device_token: String) -> &mut Self {
-    self.instance.device_token = Some(device_token);
+  pub fn device_token<S: AsRef<str>>(&mut self, device_token: S) -> &mut Self {
+    self.instance.device_token = Some(device_token.as_ref().to_string());
     self
   }
   
@@ -10564,8 +10564,8 @@ impl RTDDeviceTokenApplePushVoIPBuilder {
 
   pub fn build(&self) -> DeviceTokenApplePushVoIP { self.instance.clone() }
   
-  pub fn device_token(&mut self, device_token: String) -> &mut Self {
-    self.instance.device_token = Some(device_token);
+  pub fn device_token<S: AsRef<str>>(&mut self, device_token: S) -> &mut Self {
+    self.instance.device_token = Some(device_token.as_ref().to_string());
     self
   }
   
@@ -10635,8 +10635,8 @@ impl RTDDeviceTokenWindowsPushBuilder {
 
   pub fn build(&self) -> DeviceTokenWindowsPush { self.instance.clone() }
   
-  pub fn access_token(&mut self, access_token: String) -> &mut Self {
-    self.instance.access_token = Some(access_token);
+  pub fn access_token<S: AsRef<str>>(&mut self, access_token: S) -> &mut Self {
+    self.instance.access_token = Some(access_token.as_ref().to_string());
     self
   }
   
@@ -10696,8 +10696,8 @@ impl RTDDeviceTokenMicrosoftPushBuilder {
 
   pub fn build(&self) -> DeviceTokenMicrosoftPush { self.instance.clone() }
   
-  pub fn channel_uri(&mut self, channel_uri: String) -> &mut Self {
-    self.instance.channel_uri = Some(channel_uri);
+  pub fn channel_uri<S: AsRef<str>>(&mut self, channel_uri: S) -> &mut Self {
+    self.instance.channel_uri = Some(channel_uri.as_ref().to_string());
     self
   }
   
@@ -10757,8 +10757,8 @@ impl RTDDeviceTokenMicrosoftPushVoIPBuilder {
 
   pub fn build(&self) -> DeviceTokenMicrosoftPushVoIP { self.instance.clone() }
   
-  pub fn channel_uri(&mut self, channel_uri: String) -> &mut Self {
-    self.instance.channel_uri = Some(channel_uri);
+  pub fn channel_uri<S: AsRef<str>>(&mut self, channel_uri: S) -> &mut Self {
+    self.instance.channel_uri = Some(channel_uri.as_ref().to_string());
     self
   }
   
@@ -10828,18 +10828,18 @@ impl RTDDeviceTokenWebPushBuilder {
 
   pub fn build(&self) -> DeviceTokenWebPush { self.instance.clone() }
   
-  pub fn endpoint(&mut self, endpoint: String) -> &mut Self {
-    self.instance.endpoint = Some(endpoint);
+  pub fn endpoint<S: AsRef<str>>(&mut self, endpoint: S) -> &mut Self {
+    self.instance.endpoint = Some(endpoint.as_ref().to_string());
     self
   }
   
-  pub fn p256dh_base64url(&mut self, p256dh_base64url: String) -> &mut Self {
-    self.instance.p256dh_base64url = Some(p256dh_base64url);
+  pub fn p256dh_base64url<S: AsRef<str>>(&mut self, p256dh_base64url: S) -> &mut Self {
+    self.instance.p256dh_base64url = Some(p256dh_base64url.as_ref().to_string());
     self
   }
   
-  pub fn auth_base64url(&mut self, auth_base64url: String) -> &mut Self {
-    self.instance.auth_base64url = Some(auth_base64url);
+  pub fn auth_base64url<S: AsRef<str>>(&mut self, auth_base64url: S) -> &mut Self {
+    self.instance.auth_base64url = Some(auth_base64url.as_ref().to_string());
     self
   }
   
@@ -10899,8 +10899,8 @@ impl RTDDeviceTokenSimplePushBuilder {
 
   pub fn build(&self) -> DeviceTokenSimplePush { self.instance.clone() }
   
-  pub fn endpoint(&mut self, endpoint: String) -> &mut Self {
-    self.instance.endpoint = Some(endpoint);
+  pub fn endpoint<S: AsRef<str>>(&mut self, endpoint: S) -> &mut Self {
+    self.instance.endpoint = Some(endpoint.as_ref().to_string());
     self
   }
   
@@ -10960,8 +10960,8 @@ impl RTDDeviceTokenUbuntuPushBuilder {
 
   pub fn build(&self) -> DeviceTokenUbuntuPush { self.instance.clone() }
   
-  pub fn token(&mut self, token: String) -> &mut Self {
-    self.instance.token = Some(token);
+  pub fn token<S: AsRef<str>>(&mut self, token: S) -> &mut Self {
+    self.instance.token = Some(token.as_ref().to_string());
     self
   }
   
@@ -11021,8 +11021,8 @@ impl RTDDeviceTokenBlackBerryPushBuilder {
 
   pub fn build(&self) -> DeviceTokenBlackBerryPush { self.instance.clone() }
   
-  pub fn token(&mut self, token: String) -> &mut Self {
-    self.instance.token = Some(token);
+  pub fn token<S: AsRef<str>>(&mut self, token: S) -> &mut Self {
+    self.instance.token = Some(token.as_ref().to_string());
     self
   }
   
@@ -11082,8 +11082,8 @@ impl RTDDeviceTokenTizenPushBuilder {
 
   pub fn build(&self) -> DeviceTokenTizenPush { self.instance.clone() }
   
-  pub fn reg_id(&mut self, reg_id: String) -> &mut Self {
-    self.instance.reg_id = Some(reg_id);
+  pub fn reg_id<S: AsRef<str>>(&mut self, reg_id: S) -> &mut Self {
+    self.instance.reg_id = Some(reg_id.as_ref().to_string());
     self
   }
   
@@ -11156,13 +11156,13 @@ impl RTDDocumentBuilder {
 
   pub fn build(&self) -> Document { self.instance.clone() }
   
-  pub fn file_name(&mut self, file_name: String) -> &mut Self {
-    self.instance.file_name = Some(file_name);
+  pub fn file_name<S: AsRef<str>>(&mut self, file_name: S) -> &mut Self {
+    self.instance.file_name = Some(file_name.as_ref().to_string());
     self
   }
   
-  pub fn mime_type(&mut self, mime_type: String) -> &mut Self {
-    self.instance.mime_type = Some(mime_type);
+  pub fn mime_type<S: AsRef<str>>(&mut self, mime_type: S) -> &mut Self {
+    self.instance.mime_type = Some(mime_type.as_ref().to_string());
     self
   }
   
@@ -11311,8 +11311,8 @@ impl RTDEmailAddressAuthenticationCodeInfoBuilder {
 
   pub fn build(&self) -> EmailAddressAuthenticationCodeInfo { self.instance.clone() }
   
-  pub fn email_address_pattern(&mut self, email_address_pattern: String) -> &mut Self {
-    self.instance.email_address_pattern = Some(email_address_pattern);
+  pub fn email_address_pattern<S: AsRef<str>>(&mut self, email_address_pattern: S) -> &mut Self {
+    self.instance.email_address_pattern = Some(email_address_pattern.as_ref().to_string());
     self
   }
   
@@ -11385,18 +11385,18 @@ impl RTDEncryptedCredentialsBuilder {
 
   pub fn build(&self) -> EncryptedCredentials { self.instance.clone() }
   
-  pub fn data(&mut self, data: String) -> &mut Self {
-    self.instance.data = Some(data);
+  pub fn data<S: AsRef<str>>(&mut self, data: S) -> &mut Self {
+    self.instance.data = Some(data.as_ref().to_string());
     self
   }
   
-  pub fn hash(&mut self, hash: String) -> &mut Self {
-    self.instance.hash = Some(hash);
+  pub fn hash<S: AsRef<str>>(&mut self, hash: S) -> &mut Self {
+    self.instance.hash = Some(hash.as_ref().to_string());
     self
   }
   
-  pub fn secret(&mut self, secret: String) -> &mut Self {
-    self.instance.secret = Some(secret);
+  pub fn secret<S: AsRef<str>>(&mut self, secret: S) -> &mut Self {
+    self.instance.secret = Some(secret.as_ref().to_string());
     self
   }
   
@@ -11506,8 +11506,8 @@ impl RTDEncryptedPassportElementBuilder {
     self
   }
   
-  pub fn data(&mut self, data: String) -> &mut Self {
-    self.instance.data = Some(data);
+  pub fn data<S: AsRef<str>>(&mut self, data: S) -> &mut Self {
+    self.instance.data = Some(data.as_ref().to_string());
     self
   }
   
@@ -11536,13 +11536,13 @@ impl RTDEncryptedPassportElementBuilder {
     self
   }
   
-  pub fn value(&mut self, value: String) -> &mut Self {
-    self.instance.value = Some(value);
+  pub fn value<S: AsRef<str>>(&mut self, value: S) -> &mut Self {
+    self.instance.value = Some(value.as_ref().to_string());
     self
   }
   
-  pub fn hash(&mut self, hash: String) -> &mut Self {
-    self.instance.hash = Some(hash);
+  pub fn hash<S: AsRef<str>>(&mut self, hash: S) -> &mut Self {
+    self.instance.hash = Some(hash.as_ref().to_string());
     self
   }
   
@@ -11610,8 +11610,8 @@ impl RTDErrorBuilder {
     self
   }
   
-  pub fn message(&mut self, message: String) -> &mut Self {
-    self.instance.message = Some(message);
+  pub fn message<S: AsRef<str>>(&mut self, message: S) -> &mut Self {
+    self.instance.message = Some(message.as_ref().to_string());
     self
   }
   
@@ -11768,8 +11768,8 @@ impl RTDFilePartBuilder {
 
   pub fn build(&self) -> FilePart { self.instance.clone() }
   
-  pub fn data(&mut self, data: String) -> &mut Self {
-    self.instance.data = Some(data);
+  pub fn data<S: AsRef<str>>(&mut self, data: S) -> &mut Self {
+    self.instance.data = Some(data.as_ref().to_string());
     self
   }
   
@@ -12697,8 +12697,8 @@ impl RTDFormattedTextBuilder {
 
   pub fn build(&self) -> FormattedText { self.instance.clone() }
   
-  pub fn text(&mut self, text: String) -> &mut Self {
-    self.instance.text = Some(text);
+  pub fn text<S: AsRef<str>>(&mut self, text: S) -> &mut Self {
+    self.instance.text = Some(text.as_ref().to_string());
     self
   }
   
@@ -12865,13 +12865,13 @@ impl RTDGameBuilder {
     self
   }
   
-  pub fn short_name(&mut self, short_name: String) -> &mut Self {
-    self.instance.short_name = Some(short_name);
+  pub fn short_name<S: AsRef<str>>(&mut self, short_name: S) -> &mut Self {
+    self.instance.short_name = Some(short_name.as_ref().to_string());
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -12880,8 +12880,8 @@ impl RTDGameBuilder {
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
@@ -13146,8 +13146,8 @@ impl RTDHttpUrlBuilder {
 
   pub fn build(&self) -> HttpUrl { self.instance.clone() }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
@@ -13230,8 +13230,8 @@ impl RTDIdentityDocumentBuilder {
 
   pub fn build(&self) -> IdentityDocument { self.instance.clone() }
   
-  pub fn number(&mut self, number: String) -> &mut Self {
-    self.instance.number = Some(number);
+  pub fn number<S: AsRef<str>>(&mut self, number: S) -> &mut Self {
+    self.instance.number = Some(number.as_ref().to_string());
     self
   }
   
@@ -13395,8 +13395,8 @@ impl RTDInlineKeyboardButtonBuilder {
 
   pub fn build(&self) -> InlineKeyboardButton { self.instance.clone() }
   
-  pub fn text(&mut self, text: String) -> &mut Self {
-    self.instance.text = Some(text);
+  pub fn text<S: AsRef<str>>(&mut self, text: S) -> &mut Self {
+    self.instance.text = Some(text.as_ref().to_string());
     self
   }
   
@@ -13499,8 +13499,8 @@ impl RTDInlineKeyboardButtonTypeUrlBuilder {
 
   pub fn build(&self) -> InlineKeyboardButtonTypeUrl { self.instance.clone() }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
@@ -13560,8 +13560,8 @@ impl RTDInlineKeyboardButtonTypeCallbackBuilder {
 
   pub fn build(&self) -> InlineKeyboardButtonTypeCallback { self.instance.clone() }
   
-  pub fn data(&mut self, data: String) -> &mut Self {
-    self.instance.data = Some(data);
+  pub fn data<S: AsRef<str>>(&mut self, data: S) -> &mut Self {
+    self.instance.data = Some(data.as_ref().to_string());
     self
   }
   
@@ -13677,8 +13677,8 @@ impl RTDInlineKeyboardButtonTypeSwitchInlineBuilder {
 
   pub fn build(&self) -> InlineKeyboardButtonTypeSwitchInline { self.instance.clone() }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
@@ -13864,13 +13864,13 @@ impl RTDInlineQueryResultArticleBuilder {
 
   pub fn build(&self) -> InlineQueryResultArticle { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
@@ -13879,13 +13879,13 @@ impl RTDInlineQueryResultArticleBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
@@ -13960,8 +13960,8 @@ impl RTDInlineQueryResultContactBuilder {
 
   pub fn build(&self) -> InlineQueryResultContact { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -14046,8 +14046,8 @@ impl RTDInlineQueryResultLocationBuilder {
 
   pub fn build(&self) -> InlineQueryResultLocation { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -14056,8 +14056,8 @@ impl RTDInlineQueryResultLocationBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -14132,8 +14132,8 @@ impl RTDInlineQueryResultVenueBuilder {
 
   pub fn build(&self) -> InlineQueryResultVenue { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -14208,8 +14208,8 @@ impl RTDInlineQueryResultGameBuilder {
 
   pub fn build(&self) -> InlineQueryResultGame { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -14284,8 +14284,8 @@ impl RTDInlineQueryResultAnimationBuilder {
 
   pub fn build(&self) -> InlineQueryResultAnimation { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -14294,8 +14294,8 @@ impl RTDInlineQueryResultAnimationBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -14360,8 +14360,8 @@ impl RTDInlineQueryResultAudioBuilder {
 
   pub fn build(&self) -> InlineQueryResultAudio { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -14441,8 +14441,8 @@ impl RTDInlineQueryResultDocumentBuilder {
 
   pub fn build(&self) -> InlineQueryResultDocument { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -14451,13 +14451,13 @@ impl RTDInlineQueryResultDocumentBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
@@ -14532,8 +14532,8 @@ impl RTDInlineQueryResultPhotoBuilder {
 
   pub fn build(&self) -> InlineQueryResultPhoto { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -14542,13 +14542,13 @@ impl RTDInlineQueryResultPhotoBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
@@ -14613,8 +14613,8 @@ impl RTDInlineQueryResultStickerBuilder {
 
   pub fn build(&self) -> InlineQueryResultSticker { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -14694,8 +14694,8 @@ impl RTDInlineQueryResultVideoBuilder {
 
   pub fn build(&self) -> InlineQueryResultVideo { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -14704,13 +14704,13 @@ impl RTDInlineQueryResultVideoBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
@@ -14780,8 +14780,8 @@ impl RTDInlineQueryResultVoiceNoteBuilder {
 
   pub fn build(&self) -> InlineQueryResultVoiceNote { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -14790,8 +14790,8 @@ impl RTDInlineQueryResultVoiceNoteBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -14881,8 +14881,8 @@ impl RTDInlineQueryResultsBuilder {
     self
   }
   
-  pub fn next_offset(&mut self, next_offset: String) -> &mut Self {
-    self.instance.next_offset = Some(next_offset);
+  pub fn next_offset<S: AsRef<str>>(&mut self, next_offset: S) -> &mut Self {
+    self.instance.next_offset = Some(next_offset.as_ref().to_string());
     self
   }
   
@@ -14891,13 +14891,13 @@ impl RTDInlineQueryResultsBuilder {
     self
   }
   
-  pub fn switch_pm_text(&mut self, switch_pm_text: String) -> &mut Self {
-    self.instance.switch_pm_text = Some(switch_pm_text);
+  pub fn switch_pm_text<S: AsRef<str>>(&mut self, switch_pm_text: S) -> &mut Self {
+    self.instance.switch_pm_text = Some(switch_pm_text.as_ref().to_string());
     self
   }
   
-  pub fn switch_pm_parameter(&mut self, switch_pm_parameter: String) -> &mut Self {
-    self.instance.switch_pm_parameter = Some(switch_pm_parameter);
+  pub fn switch_pm_parameter<S: AsRef<str>>(&mut self, switch_pm_parameter: S) -> &mut Self {
+    self.instance.switch_pm_parameter = Some(switch_pm_parameter.as_ref().to_string());
     self
   }
   
@@ -14994,8 +14994,8 @@ impl RTDInputCredentialsSavedBuilder {
 
   pub fn build(&self) -> InputCredentialsSaved { self.instance.clone() }
   
-  pub fn saved_credentials_id(&mut self, saved_credentials_id: String) -> &mut Self {
-    self.instance.saved_credentials_id = Some(saved_credentials_id);
+  pub fn saved_credentials_id<S: AsRef<str>>(&mut self, saved_credentials_id: S) -> &mut Self {
+    self.instance.saved_credentials_id = Some(saved_credentials_id.as_ref().to_string());
     self
   }
   
@@ -15060,8 +15060,8 @@ impl RTDInputCredentialsNewBuilder {
 
   pub fn build(&self) -> InputCredentialsNew { self.instance.clone() }
   
-  pub fn data(&mut self, data: String) -> &mut Self {
-    self.instance.data = Some(data);
+  pub fn data<S: AsRef<str>>(&mut self, data: S) -> &mut Self {
+    self.instance.data = Some(data.as_ref().to_string());
     self
   }
   
@@ -15126,8 +15126,8 @@ impl RTDInputCredentialsAndroidPayBuilder {
 
   pub fn build(&self) -> InputCredentialsAndroidPay { self.instance.clone() }
   
-  pub fn data(&mut self, data: String) -> &mut Self {
-    self.instance.data = Some(data);
+  pub fn data<S: AsRef<str>>(&mut self, data: S) -> &mut Self {
+    self.instance.data = Some(data.as_ref().to_string());
     self
   }
   
@@ -15187,8 +15187,8 @@ impl RTDInputCredentialsApplePayBuilder {
 
   pub fn build(&self) -> InputCredentialsApplePay { self.instance.clone() }
   
-  pub fn data(&mut self, data: String) -> &mut Self {
-    self.instance.data = Some(data);
+  pub fn data<S: AsRef<str>>(&mut self, data: S) -> &mut Self {
+    self.instance.data = Some(data.as_ref().to_string());
     self
   }
   
@@ -15346,8 +15346,8 @@ impl RTDInputFileRemoteBuilder {
 
   pub fn build(&self) -> InputFileRemote { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -15407,8 +15407,8 @@ impl RTDInputFileLocalBuilder {
 
   pub fn build(&self) -> InputFileLocal { self.instance.clone() }
   
-  pub fn path(&mut self, path: String) -> &mut Self {
-    self.instance.path = Some(path);
+  pub fn path<S: AsRef<str>>(&mut self, path: S) -> &mut Self {
+    self.instance.path = Some(path.as_ref().to_string());
     self
   }
   
@@ -15478,13 +15478,13 @@ impl RTDInputFileGeneratedBuilder {
 
   pub fn build(&self) -> InputFileGenerated { self.instance.clone() }
   
-  pub fn original_path(&mut self, original_path: String) -> &mut Self {
-    self.instance.original_path = Some(original_path);
+  pub fn original_path<S: AsRef<str>>(&mut self, original_path: S) -> &mut Self {
+    self.instance.original_path = Some(original_path.as_ref().to_string());
     self
   }
   
-  pub fn conversion(&mut self, conversion: String) -> &mut Self {
-    self.instance.conversion = Some(conversion);
+  pub fn conversion<S: AsRef<str>>(&mut self, conversion: S) -> &mut Self {
+    self.instance.conversion = Some(conversion.as_ref().to_string());
     self
   }
   
@@ -15579,8 +15579,8 @@ impl RTDInputIdentityDocumentBuilder {
 
   pub fn build(&self) -> InputIdentityDocument { self.instance.clone() }
   
-  pub fn number(&mut self, number: String) -> &mut Self {
-    self.instance.number = Some(number);
+  pub fn number<S: AsRef<str>>(&mut self, number: S) -> &mut Self {
+    self.instance.number = Some(number.as_ref().to_string());
     self
   }
   
@@ -15758,23 +15758,23 @@ impl RTDInputInlineQueryResultAnimatedGifBuilder {
 
   pub fn build(&self) -> InputInlineQueryResultAnimatedGif { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn thumbnail_url(&mut self, thumbnail_url: String) -> &mut Self {
-    self.instance.thumbnail_url = Some(thumbnail_url);
+  pub fn thumbnail_url<S: AsRef<str>>(&mut self, thumbnail_url: S) -> &mut Self {
+    self.instance.thumbnail_url = Some(thumbnail_url.as_ref().to_string());
     self
   }
   
-  pub fn gif_url(&mut self, gif_url: String) -> &mut Self {
-    self.instance.gif_url = Some(gif_url);
+  pub fn gif_url<S: AsRef<str>>(&mut self, gif_url: S) -> &mut Self {
+    self.instance.gif_url = Some(gif_url.as_ref().to_string());
     self
   }
   
@@ -15906,23 +15906,23 @@ impl RTDInputInlineQueryResultAnimatedMpeg4Builder {
 
   pub fn build(&self) -> InputInlineQueryResultAnimatedMpeg4 { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn thumbnail_url(&mut self, thumbnail_url: String) -> &mut Self {
-    self.instance.thumbnail_url = Some(thumbnail_url);
+  pub fn thumbnail_url<S: AsRef<str>>(&mut self, thumbnail_url: S) -> &mut Self {
+    self.instance.thumbnail_url = Some(thumbnail_url.as_ref().to_string());
     self
   }
   
-  pub fn mpeg4_url(&mut self, mpeg4_url: String) -> &mut Self {
-    self.instance.mpeg4_url = Some(mpeg4_url);
+  pub fn mpeg4_url<S: AsRef<str>>(&mut self, mpeg4_url: S) -> &mut Self {
+    self.instance.mpeg4_url = Some(mpeg4_url.as_ref().to_string());
     self
   }
   
@@ -16059,13 +16059,13 @@ impl RTDInputInlineQueryResultArticleBuilder {
 
   pub fn build(&self) -> InputInlineQueryResultArticle { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
@@ -16074,18 +16074,18 @@ impl RTDInputInlineQueryResultArticleBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
-  pub fn thumbnail_url(&mut self, thumbnail_url: String) -> &mut Self {
-    self.instance.thumbnail_url = Some(thumbnail_url);
+  pub fn thumbnail_url<S: AsRef<str>>(&mut self, thumbnail_url: S) -> &mut Self {
+    self.instance.thumbnail_url = Some(thumbnail_url.as_ref().to_string());
     self
   }
   
@@ -16202,23 +16202,23 @@ impl RTDInputInlineQueryResultAudioBuilder {
 
   pub fn build(&self) -> InputInlineQueryResultAudio { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn performer(&mut self, performer: String) -> &mut Self {
-    self.instance.performer = Some(performer);
+  pub fn performer<S: AsRef<str>>(&mut self, performer: S) -> &mut Self {
+    self.instance.performer = Some(performer.as_ref().to_string());
     self
   }
   
-  pub fn audio_url(&mut self, audio_url: String) -> &mut Self {
-    self.instance.audio_url = Some(audio_url);
+  pub fn audio_url<S: AsRef<str>>(&mut self, audio_url: S) -> &mut Self {
+    self.instance.audio_url = Some(audio_url.as_ref().to_string());
     self
   }
   
@@ -16330,8 +16330,8 @@ impl RTDInputInlineQueryResultContactBuilder {
 
   pub fn build(&self) -> InputInlineQueryResultContact { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -16340,8 +16340,8 @@ impl RTDInputInlineQueryResultContactBuilder {
     self
   }
   
-  pub fn thumbnail_url(&mut self, thumbnail_url: String) -> &mut Self {
-    self.instance.thumbnail_url = Some(thumbnail_url);
+  pub fn thumbnail_url<S: AsRef<str>>(&mut self, thumbnail_url: S) -> &mut Self {
+    self.instance.thumbnail_url = Some(thumbnail_url.as_ref().to_string());
     self
   }
   
@@ -16473,33 +16473,33 @@ impl RTDInputInlineQueryResultDocumentBuilder {
 
   pub fn build(&self) -> InputInlineQueryResultDocument { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
-  pub fn document_url(&mut self, document_url: String) -> &mut Self {
-    self.instance.document_url = Some(document_url);
+  pub fn document_url<S: AsRef<str>>(&mut self, document_url: S) -> &mut Self {
+    self.instance.document_url = Some(document_url.as_ref().to_string());
     self
   }
   
-  pub fn mime_type(&mut self, mime_type: String) -> &mut Self {
-    self.instance.mime_type = Some(mime_type);
+  pub fn mime_type<S: AsRef<str>>(&mut self, mime_type: S) -> &mut Self {
+    self.instance.mime_type = Some(mime_type.as_ref().to_string());
     self
   }
   
-  pub fn thumbnail_url(&mut self, thumbnail_url: String) -> &mut Self {
-    self.instance.thumbnail_url = Some(thumbnail_url);
+  pub fn thumbnail_url<S: AsRef<str>>(&mut self, thumbnail_url: S) -> &mut Self {
+    self.instance.thumbnail_url = Some(thumbnail_url.as_ref().to_string());
     self
   }
   
@@ -16596,13 +16596,13 @@ impl RTDInputInlineQueryResultGameBuilder {
 
   pub fn build(&self) -> InputInlineQueryResultGame { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
-  pub fn game_short_name(&mut self, game_short_name: String) -> &mut Self {
-    self.instance.game_short_name = Some(game_short_name);
+  pub fn game_short_name<S: AsRef<str>>(&mut self, game_short_name: S) -> &mut Self {
+    self.instance.game_short_name = Some(game_short_name.as_ref().to_string());
     self
   }
   
@@ -16714,8 +16714,8 @@ impl RTDInputInlineQueryResultLocationBuilder {
 
   pub fn build(&self) -> InputInlineQueryResultLocation { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -16729,13 +16729,13 @@ impl RTDInputInlineQueryResultLocationBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn thumbnail_url(&mut self, thumbnail_url: String) -> &mut Self {
-    self.instance.thumbnail_url = Some(thumbnail_url);
+  pub fn thumbnail_url<S: AsRef<str>>(&mut self, thumbnail_url: S) -> &mut Self {
+    self.instance.thumbnail_url = Some(thumbnail_url.as_ref().to_string());
     self
   }
   
@@ -16862,28 +16862,28 @@ impl RTDInputInlineQueryResultPhotoBuilder {
 
   pub fn build(&self) -> InputInlineQueryResultPhoto { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
-  pub fn thumbnail_url(&mut self, thumbnail_url: String) -> &mut Self {
-    self.instance.thumbnail_url = Some(thumbnail_url);
+  pub fn thumbnail_url<S: AsRef<str>>(&mut self, thumbnail_url: S) -> &mut Self {
+    self.instance.thumbnail_url = Some(thumbnail_url.as_ref().to_string());
     self
   }
   
-  pub fn photo_url(&mut self, photo_url: String) -> &mut Self {
-    self.instance.photo_url = Some(photo_url);
+  pub fn photo_url<S: AsRef<str>>(&mut self, photo_url: S) -> &mut Self {
+    self.instance.photo_url = Some(photo_url.as_ref().to_string());
     self
   }
   
@@ -17000,18 +17000,18 @@ impl RTDInputInlineQueryResultStickerBuilder {
 
   pub fn build(&self) -> InputInlineQueryResultSticker { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
-  pub fn thumbnail_url(&mut self, thumbnail_url: String) -> &mut Self {
-    self.instance.thumbnail_url = Some(thumbnail_url);
+  pub fn thumbnail_url<S: AsRef<str>>(&mut self, thumbnail_url: S) -> &mut Self {
+    self.instance.thumbnail_url = Some(thumbnail_url.as_ref().to_string());
     self
   }
   
-  pub fn sticker_url(&mut self, sticker_url: String) -> &mut Self {
-    self.instance.sticker_url = Some(sticker_url);
+  pub fn sticker_url<S: AsRef<str>>(&mut self, sticker_url: S) -> &mut Self {
+    self.instance.sticker_url = Some(sticker_url.as_ref().to_string());
     self
   }
   
@@ -17128,8 +17128,8 @@ impl RTDInputInlineQueryResultVenueBuilder {
 
   pub fn build(&self) -> InputInlineQueryResultVenue { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -17138,8 +17138,8 @@ impl RTDInputInlineQueryResultVenueBuilder {
     self
   }
   
-  pub fn thumbnail_url(&mut self, thumbnail_url: String) -> &mut Self {
-    self.instance.thumbnail_url = Some(thumbnail_url);
+  pub fn thumbnail_url<S: AsRef<str>>(&mut self, thumbnail_url: S) -> &mut Self {
+    self.instance.thumbnail_url = Some(thumbnail_url.as_ref().to_string());
     self
   }
   
@@ -17276,33 +17276,33 @@ impl RTDInputInlineQueryResultVideoBuilder {
 
   pub fn build(&self) -> InputInlineQueryResultVideo { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
-  pub fn thumbnail_url(&mut self, thumbnail_url: String) -> &mut Self {
-    self.instance.thumbnail_url = Some(thumbnail_url);
+  pub fn thumbnail_url<S: AsRef<str>>(&mut self, thumbnail_url: S) -> &mut Self {
+    self.instance.thumbnail_url = Some(thumbnail_url.as_ref().to_string());
     self
   }
   
-  pub fn video_url(&mut self, video_url: String) -> &mut Self {
-    self.instance.video_url = Some(video_url);
+  pub fn video_url<S: AsRef<str>>(&mut self, video_url: S) -> &mut Self {
+    self.instance.video_url = Some(video_url.as_ref().to_string());
     self
   }
   
-  pub fn mime_type(&mut self, mime_type: String) -> &mut Self {
-    self.instance.mime_type = Some(mime_type);
+  pub fn mime_type<S: AsRef<str>>(&mut self, mime_type: S) -> &mut Self {
+    self.instance.mime_type = Some(mime_type.as_ref().to_string());
     self
   }
   
@@ -17419,18 +17419,18 @@ impl RTDInputInlineQueryResultVoiceNoteBuilder {
 
   pub fn build(&self) -> InputInlineQueryResultVoiceNote { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn voice_note_url(&mut self, voice_note_url: String) -> &mut Self {
-    self.instance.voice_note_url = Some(voice_note_url);
+  pub fn voice_note_url<S: AsRef<str>>(&mut self, voice_note_url: S) -> &mut Self {
+    self.instance.voice_note_url = Some(voice_note_url.as_ref().to_string());
     self
   }
   
@@ -17800,13 +17800,13 @@ impl RTDInputMessageAudioBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn performer(&mut self, performer: String) -> &mut Self {
-    self.instance.performer = Some(performer);
+  pub fn performer<S: AsRef<str>>(&mut self, performer: S) -> &mut Self {
+    self.instance.performer = Some(performer.as_ref().to_string());
     self
   }
   
@@ -18463,8 +18463,8 @@ impl RTDInputMessageVoiceNoteBuilder {
     self
   }
   
-  pub fn waveform(&mut self, waveform: String) -> &mut Self {
-    self.instance.waveform = Some(waveform);
+  pub fn waveform<S: AsRef<str>>(&mut self, waveform: S) -> &mut Self {
+    self.instance.waveform = Some(waveform.as_ref().to_string());
     self
   }
   
@@ -18732,8 +18732,8 @@ impl RTDInputMessageGameBuilder {
     self
   }
   
-  pub fn game_short_name(&mut self, game_short_name: String) -> &mut Self {
-    self.instance.game_short_name = Some(game_short_name);
+  pub fn game_short_name<S: AsRef<str>>(&mut self, game_short_name: S) -> &mut Self {
+    self.instance.game_short_name = Some(game_short_name.as_ref().to_string());
     self
   }
   
@@ -18848,18 +18848,18 @@ impl RTDInputMessageInvoiceBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
-  pub fn photo_url(&mut self, photo_url: String) -> &mut Self {
-    self.instance.photo_url = Some(photo_url);
+  pub fn photo_url<S: AsRef<str>>(&mut self, photo_url: S) -> &mut Self {
+    self.instance.photo_url = Some(photo_url.as_ref().to_string());
     self
   }
   
@@ -18878,23 +18878,23 @@ impl RTDInputMessageInvoiceBuilder {
     self
   }
   
-  pub fn payload(&mut self, payload: String) -> &mut Self {
-    self.instance.payload = Some(payload);
+  pub fn payload<S: AsRef<str>>(&mut self, payload: S) -> &mut Self {
+    self.instance.payload = Some(payload.as_ref().to_string());
     self
   }
   
-  pub fn provider_token(&mut self, provider_token: String) -> &mut Self {
-    self.instance.provider_token = Some(provider_token);
+  pub fn provider_token<S: AsRef<str>>(&mut self, provider_token: S) -> &mut Self {
+    self.instance.provider_token = Some(provider_token.as_ref().to_string());
     self
   }
   
-  pub fn provider_data(&mut self, provider_data: String) -> &mut Self {
-    self.instance.provider_data = Some(provider_data);
+  pub fn provider_data<S: AsRef<str>>(&mut self, provider_data: S) -> &mut Self {
+    self.instance.provider_data = Some(provider_data.as_ref().to_string());
     self
   }
   
-  pub fn start_parameter(&mut self, start_parameter: String) -> &mut Self {
-    self.instance.start_parameter = Some(start_parameter);
+  pub fn start_parameter<S: AsRef<str>>(&mut self, start_parameter: S) -> &mut Self {
+    self.instance.start_parameter = Some(start_parameter.as_ref().to_string());
     self
   }
   
@@ -18959,8 +18959,8 @@ impl RTDInputMessagePollBuilder {
 
   pub fn build(&self) -> InputMessagePoll { self.instance.clone() }
   
-  pub fn question(&mut self, question: String) -> &mut Self {
-    self.instance.question = Some(question);
+  pub fn question<S: AsRef<str>>(&mut self, question: S) -> &mut Self {
+    self.instance.question = Some(question.as_ref().to_string());
     self
   }
   
@@ -19823,8 +19823,8 @@ impl RTDInputPassportElementPhoneNumberBuilder {
 
   pub fn build(&self) -> InputPassportElementPhoneNumber { self.instance.clone() }
   
-  pub fn phone_number(&mut self, phone_number: String) -> &mut Self {
-    self.instance.phone_number = Some(phone_number);
+  pub fn phone_number<S: AsRef<str>>(&mut self, phone_number: S) -> &mut Self {
+    self.instance.phone_number = Some(phone_number.as_ref().to_string());
     self
   }
   
@@ -19884,8 +19884,8 @@ impl RTDInputPassportElementEmailAddressBuilder {
 
   pub fn build(&self) -> InputPassportElementEmailAddress { self.instance.clone() }
   
-  pub fn email_address(&mut self, email_address: String) -> &mut Self {
-    self.instance.email_address = Some(email_address);
+  pub fn email_address<S: AsRef<str>>(&mut self, email_address: S) -> &mut Self {
+    self.instance.email_address = Some(email_address.as_ref().to_string());
     self
   }
   
@@ -19965,8 +19965,8 @@ impl RTDInputPassportElementErrorBuilder {
     self
   }
   
-  pub fn message(&mut self, message: String) -> &mut Self {
-    self.instance.message = Some(message);
+  pub fn message<S: AsRef<str>>(&mut self, message: S) -> &mut Self {
+    self.instance.message = Some(message.as_ref().to_string());
     self
   }
   
@@ -20073,8 +20073,8 @@ impl RTDInputPassportElementErrorSourceUnspecifiedBuilder {
 
   pub fn build(&self) -> InputPassportElementErrorSourceUnspecified { self.instance.clone() }
   
-  pub fn element_hash(&mut self, element_hash: String) -> &mut Self {
-    self.instance.element_hash = Some(element_hash);
+  pub fn element_hash<S: AsRef<str>>(&mut self, element_hash: S) -> &mut Self {
+    self.instance.element_hash = Some(element_hash.as_ref().to_string());
     self
   }
   
@@ -20139,13 +20139,13 @@ impl RTDInputPassportElementErrorSourceDataFieldBuilder {
 
   pub fn build(&self) -> InputPassportElementErrorSourceDataField { self.instance.clone() }
   
-  pub fn field_name(&mut self, field_name: String) -> &mut Self {
-    self.instance.field_name = Some(field_name);
+  pub fn field_name<S: AsRef<str>>(&mut self, field_name: S) -> &mut Self {
+    self.instance.field_name = Some(field_name.as_ref().to_string());
     self
   }
   
-  pub fn data_hash(&mut self, data_hash: String) -> &mut Self {
-    self.instance.data_hash = Some(data_hash);
+  pub fn data_hash<S: AsRef<str>>(&mut self, data_hash: S) -> &mut Self {
+    self.instance.data_hash = Some(data_hash.as_ref().to_string());
     self
   }
   
@@ -20205,8 +20205,8 @@ impl RTDInputPassportElementErrorSourceFrontSideBuilder {
 
   pub fn build(&self) -> InputPassportElementErrorSourceFrontSide { self.instance.clone() }
   
-  pub fn file_hash(&mut self, file_hash: String) -> &mut Self {
-    self.instance.file_hash = Some(file_hash);
+  pub fn file_hash<S: AsRef<str>>(&mut self, file_hash: S) -> &mut Self {
+    self.instance.file_hash = Some(file_hash.as_ref().to_string());
     self
   }
   
@@ -20266,8 +20266,8 @@ impl RTDInputPassportElementErrorSourceReverseSideBuilder {
 
   pub fn build(&self) -> InputPassportElementErrorSourceReverseSide { self.instance.clone() }
   
-  pub fn file_hash(&mut self, file_hash: String) -> &mut Self {
-    self.instance.file_hash = Some(file_hash);
+  pub fn file_hash<S: AsRef<str>>(&mut self, file_hash: S) -> &mut Self {
+    self.instance.file_hash = Some(file_hash.as_ref().to_string());
     self
   }
   
@@ -20327,8 +20327,8 @@ impl RTDInputPassportElementErrorSourceSelfieBuilder {
 
   pub fn build(&self) -> InputPassportElementErrorSourceSelfie { self.instance.clone() }
   
-  pub fn file_hash(&mut self, file_hash: String) -> &mut Self {
-    self.instance.file_hash = Some(file_hash);
+  pub fn file_hash<S: AsRef<str>>(&mut self, file_hash: S) -> &mut Self {
+    self.instance.file_hash = Some(file_hash.as_ref().to_string());
     self
   }
   
@@ -20388,8 +20388,8 @@ impl RTDInputPassportElementErrorSourceTranslationFileBuilder {
 
   pub fn build(&self) -> InputPassportElementErrorSourceTranslationFile { self.instance.clone() }
   
-  pub fn file_hash(&mut self, file_hash: String) -> &mut Self {
-    self.instance.file_hash = Some(file_hash);
+  pub fn file_hash<S: AsRef<str>>(&mut self, file_hash: S) -> &mut Self {
+    self.instance.file_hash = Some(file_hash.as_ref().to_string());
     self
   }
   
@@ -20510,8 +20510,8 @@ impl RTDInputPassportElementErrorSourceFileBuilder {
 
   pub fn build(&self) -> InputPassportElementErrorSourceFile { self.instance.clone() }
   
-  pub fn file_hash(&mut self, file_hash: String) -> &mut Self {
-    self.instance.file_hash = Some(file_hash);
+  pub fn file_hash<S: AsRef<str>>(&mut self, file_hash: S) -> &mut Self {
+    self.instance.file_hash = Some(file_hash.as_ref().to_string());
     self
   }
   
@@ -20728,8 +20728,8 @@ impl RTDInputStickerBuilder {
     self
   }
   
-  pub fn emojis(&mut self, emojis: String) -> &mut Self {
-    self.instance.emojis = Some(emojis);
+  pub fn emojis<S: AsRef<str>>(&mut self, emojis: S) -> &mut Self {
+    self.instance.emojis = Some(emojis.as_ref().to_string());
     self
   }
   
@@ -20923,8 +20923,8 @@ impl RTDInvoiceBuilder {
 
   pub fn build(&self) -> Invoice { self.instance.clone() }
   
-  pub fn currency(&mut self, currency: String) -> &mut Self {
-    self.instance.currency = Some(currency);
+  pub fn currency<S: AsRef<str>>(&mut self, currency: S) -> &mut Self {
+    self.instance.currency = Some(currency.as_ref().to_string());
     self
   }
   
@@ -21039,8 +21039,8 @@ impl RTDKeyboardButtonBuilder {
 
   pub fn build(&self) -> KeyboardButton { self.instance.clone() }
   
-  pub fn text(&mut self, text: String) -> &mut Self {
-    self.instance.text = Some(text);
+  pub fn text<S: AsRef<str>>(&mut self, text: S) -> &mut Self {
+    self.instance.text = Some(text.as_ref().to_string());
     self
   }
   
@@ -21297,8 +21297,8 @@ impl RTDLabeledPricePartBuilder {
 
   pub fn build(&self) -> LabeledPricePart { self.instance.clone() }
   
-  pub fn label(&mut self, label: String) -> &mut Self {
-    self.instance.label = Some(label);
+  pub fn label<S: AsRef<str>>(&mut self, label: S) -> &mut Self {
+    self.instance.label = Some(label.as_ref().to_string());
     self
   }
   
@@ -21421,28 +21421,28 @@ impl RTDLanguagePackInfoBuilder {
 
   pub fn build(&self) -> LanguagePackInfo { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
-  pub fn base_language_pack_id(&mut self, base_language_pack_id: String) -> &mut Self {
-    self.instance.base_language_pack_id = Some(base_language_pack_id);
+  pub fn base_language_pack_id<S: AsRef<str>>(&mut self, base_language_pack_id: S) -> &mut Self {
+    self.instance.base_language_pack_id = Some(base_language_pack_id.as_ref().to_string());
     self
   }
   
-  pub fn name(&mut self, name: String) -> &mut Self {
-    self.instance.name = Some(name);
+  pub fn name<S: AsRef<str>>(&mut self, name: S) -> &mut Self {
+    self.instance.name = Some(name.as_ref().to_string());
     self
   }
   
-  pub fn native_name(&mut self, native_name: String) -> &mut Self {
-    self.instance.native_name = Some(native_name);
+  pub fn native_name<S: AsRef<str>>(&mut self, native_name: S) -> &mut Self {
+    self.instance.native_name = Some(native_name.as_ref().to_string());
     self
   }
   
-  pub fn plural_code(&mut self, plural_code: String) -> &mut Self {
-    self.instance.plural_code = Some(plural_code);
+  pub fn plural_code<S: AsRef<str>>(&mut self, plural_code: S) -> &mut Self {
+    self.instance.plural_code = Some(plural_code.as_ref().to_string());
     self
   }
   
@@ -21481,8 +21481,8 @@ impl RTDLanguagePackInfoBuilder {
     self
   }
   
-  pub fn translation_url(&mut self, translation_url: String) -> &mut Self {
-    self.instance.translation_url = Some(translation_url);
+  pub fn translation_url<S: AsRef<str>>(&mut self, translation_url: S) -> &mut Self {
+    self.instance.translation_url = Some(translation_url.as_ref().to_string());
     self
   }
   
@@ -21552,8 +21552,8 @@ impl RTDLanguagePackStringBuilder {
 
   pub fn build(&self) -> LanguagePackString { self.instance.clone() }
   
-  pub fn key(&mut self, key: String) -> &mut Self {
-    self.instance.key = Some(key);
+  pub fn key<S: AsRef<str>>(&mut self, key: S) -> &mut Self {
+    self.instance.key = Some(key.as_ref().to_string());
     self
   }
   
@@ -21654,8 +21654,8 @@ impl RTDLanguagePackStringValueOrdinaryBuilder {
 
   pub fn build(&self) -> LanguagePackStringValueOrdinary { self.instance.clone() }
   
-  pub fn value(&mut self, value: String) -> &mut Self {
-    self.instance.value = Some(value);
+  pub fn value<S: AsRef<str>>(&mut self, value: S) -> &mut Self {
+    self.instance.value = Some(value.as_ref().to_string());
     self
   }
   
@@ -21740,33 +21740,33 @@ impl RTDLanguagePackStringValuePluralizedBuilder {
 
   pub fn build(&self) -> LanguagePackStringValuePluralized { self.instance.clone() }
   
-  pub fn zero_value(&mut self, zero_value: String) -> &mut Self {
-    self.instance.zero_value = Some(zero_value);
+  pub fn zero_value<S: AsRef<str>>(&mut self, zero_value: S) -> &mut Self {
+    self.instance.zero_value = Some(zero_value.as_ref().to_string());
     self
   }
   
-  pub fn one_value(&mut self, one_value: String) -> &mut Self {
-    self.instance.one_value = Some(one_value);
+  pub fn one_value<S: AsRef<str>>(&mut self, one_value: S) -> &mut Self {
+    self.instance.one_value = Some(one_value.as_ref().to_string());
     self
   }
   
-  pub fn two_value(&mut self, two_value: String) -> &mut Self {
-    self.instance.two_value = Some(two_value);
+  pub fn two_value<S: AsRef<str>>(&mut self, two_value: S) -> &mut Self {
+    self.instance.two_value = Some(two_value.as_ref().to_string());
     self
   }
   
-  pub fn few_value(&mut self, few_value: String) -> &mut Self {
-    self.instance.few_value = Some(few_value);
+  pub fn few_value<S: AsRef<str>>(&mut self, few_value: S) -> &mut Self {
+    self.instance.few_value = Some(few_value.as_ref().to_string());
     self
   }
   
-  pub fn many_value(&mut self, many_value: String) -> &mut Self {
-    self.instance.many_value = Some(many_value);
+  pub fn many_value<S: AsRef<str>>(&mut self, many_value: S) -> &mut Self {
+    self.instance.many_value = Some(many_value.as_ref().to_string());
     self
   }
   
-  pub fn other_value(&mut self, other_value: String) -> &mut Self {
-    self.instance.other_value = Some(other_value);
+  pub fn other_value<S: AsRef<str>>(&mut self, other_value: S) -> &mut Self {
+    self.instance.other_value = Some(other_value.as_ref().to_string());
     self
   }
   
@@ -22158,8 +22158,8 @@ impl RTDLocalFileBuilder {
 
   pub fn build(&self) -> LocalFile { self.instance.clone() }
   
-  pub fn path(&mut self, path: String) -> &mut Self {
-    self.instance.path = Some(path);
+  pub fn path<S: AsRef<str>>(&mut self, path: S) -> &mut Self {
+    self.instance.path = Some(path.as_ref().to_string());
     self
   }
   
@@ -22474,8 +22474,8 @@ impl RTDLogStreamFileBuilder {
 
   pub fn build(&self) -> LogStreamFile { self.instance.clone() }
   
-  pub fn path(&mut self, path: String) -> &mut Self {
-    self.instance.path = Some(path);
+  pub fn path<S: AsRef<str>>(&mut self, path: S) -> &mut Self {
+    self.instance.path = Some(path.as_ref().to_string());
     self
   }
   
@@ -23251,8 +23251,8 @@ impl RTDMessageBuilder {
     self
   }
   
-  pub fn author_signature(&mut self, author_signature: String) -> &mut Self {
-    self.instance.author_signature = Some(author_signature);
+  pub fn author_signature<S: AsRef<str>>(&mut self, author_signature: S) -> &mut Self {
+    self.instance.author_signature = Some(author_signature.as_ref().to_string());
     self
   }
   
@@ -24551,13 +24551,13 @@ impl RTDMessageInvoiceBuilder {
 
   pub fn build(&self) -> MessageInvoice { self.instance.clone() }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
@@ -24566,8 +24566,8 @@ impl RTDMessageInvoiceBuilder {
     self
   }
   
-  pub fn currency(&mut self, currency: String) -> &mut Self {
-    self.instance.currency = Some(currency);
+  pub fn currency<S: AsRef<str>>(&mut self, currency: S) -> &mut Self {
+    self.instance.currency = Some(currency.as_ref().to_string());
     self
   }
   
@@ -24576,8 +24576,8 @@ impl RTDMessageInvoiceBuilder {
     self
   }
   
-  pub fn start_parameter(&mut self, start_parameter: String) -> &mut Self {
-    self.instance.start_parameter = Some(start_parameter);
+  pub fn start_parameter<S: AsRef<str>>(&mut self, start_parameter: S) -> &mut Self {
+    self.instance.start_parameter = Some(start_parameter.as_ref().to_string());
     self
   }
   
@@ -24735,8 +24735,8 @@ impl RTDMessageBasicGroupChatCreateBuilder {
 
   pub fn build(&self) -> MessageBasicGroupChatCreate { self.instance.clone() }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -24801,8 +24801,8 @@ impl RTDMessageSupergroupChatCreateBuilder {
 
   pub fn build(&self) -> MessageSupergroupChatCreate { self.instance.clone() }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -24862,8 +24862,8 @@ impl RTDMessageChatChangeTitleBuilder {
 
   pub fn build(&self) -> MessageChatChangeTitle { self.instance.clone() }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -25274,8 +25274,8 @@ impl RTDMessageChatUpgradeFromBuilder {
 
   pub fn build(&self) -> MessageChatUpgradeFrom { self.instance.clone() }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -25513,8 +25513,8 @@ impl RTDMessageCustomServiceActionBuilder {
 
   pub fn build(&self) -> MessageCustomServiceAction { self.instance.clone() }
   
-  pub fn text(&mut self, text: String) -> &mut Self {
-    self.instance.text = Some(text);
+  pub fn text<S: AsRef<str>>(&mut self, text: S) -> &mut Self {
+    self.instance.text = Some(text.as_ref().to_string());
     self
   }
   
@@ -25670,8 +25670,8 @@ impl RTDMessagePaymentSuccessfulBuilder {
     self
   }
   
-  pub fn currency(&mut self, currency: String) -> &mut Self {
-    self.instance.currency = Some(currency);
+  pub fn currency<S: AsRef<str>>(&mut self, currency: S) -> &mut Self {
+    self.instance.currency = Some(currency.as_ref().to_string());
     self
   }
   
@@ -25776,8 +25776,8 @@ impl RTDMessagePaymentSuccessfulBotBuilder {
     self
   }
   
-  pub fn currency(&mut self, currency: String) -> &mut Self {
-    self.instance.currency = Some(currency);
+  pub fn currency<S: AsRef<str>>(&mut self, currency: S) -> &mut Self {
+    self.instance.currency = Some(currency.as_ref().to_string());
     self
   }
   
@@ -25786,13 +25786,13 @@ impl RTDMessagePaymentSuccessfulBotBuilder {
     self
   }
   
-  pub fn invoice_payload(&mut self, invoice_payload: String) -> &mut Self {
-    self.instance.invoice_payload = Some(invoice_payload);
+  pub fn invoice_payload<S: AsRef<str>>(&mut self, invoice_payload: S) -> &mut Self {
+    self.instance.invoice_payload = Some(invoice_payload.as_ref().to_string());
     self
   }
   
-  pub fn shipping_option_id(&mut self, shipping_option_id: String) -> &mut Self {
-    self.instance.shipping_option_id = Some(shipping_option_id);
+  pub fn shipping_option_id<S: AsRef<str>>(&mut self, shipping_option_id: S) -> &mut Self {
+    self.instance.shipping_option_id = Some(shipping_option_id.as_ref().to_string());
     self
   }
   
@@ -25801,13 +25801,13 @@ impl RTDMessagePaymentSuccessfulBotBuilder {
     self
   }
   
-  pub fn telegram_payment_charge_id(&mut self, telegram_payment_charge_id: String) -> &mut Self {
-    self.instance.telegram_payment_charge_id = Some(telegram_payment_charge_id);
+  pub fn telegram_payment_charge_id<S: AsRef<str>>(&mut self, telegram_payment_charge_id: S) -> &mut Self {
+    self.instance.telegram_payment_charge_id = Some(telegram_payment_charge_id.as_ref().to_string());
     self
   }
   
-  pub fn provider_payment_charge_id(&mut self, provider_payment_charge_id: String) -> &mut Self {
-    self.instance.provider_payment_charge_id = Some(provider_payment_charge_id);
+  pub fn provider_payment_charge_id<S: AsRef<str>>(&mut self, provider_payment_charge_id: S) -> &mut Self {
+    self.instance.provider_payment_charge_id = Some(provider_payment_charge_id.as_ref().to_string());
     self
   }
   
@@ -25918,8 +25918,8 @@ impl RTDMessageWebsiteConnectedBuilder {
 
   pub fn build(&self) -> MessageWebsiteConnected { self.instance.clone() }
   
-  pub fn domain_name(&mut self, domain_name: String) -> &mut Self {
-    self.instance.domain_name = Some(domain_name);
+  pub fn domain_name<S: AsRef<str>>(&mut self, domain_name: S) -> &mut Self {
+    self.instance.domain_name = Some(domain_name.as_ref().to_string());
     self
   }
   
@@ -26362,8 +26362,8 @@ impl RTDMessageForwardOriginHiddenUserBuilder {
 
   pub fn build(&self) -> MessageForwardOriginHiddenUser { self.instance.clone() }
   
-  pub fn sender_name(&mut self, sender_name: String) -> &mut Self {
-    self.instance.sender_name = Some(sender_name);
+  pub fn sender_name<S: AsRef<str>>(&mut self, sender_name: S) -> &mut Self {
+    self.instance.sender_name = Some(sender_name.as_ref().to_string());
     self
   }
   
@@ -26443,8 +26443,8 @@ impl RTDMessageForwardOriginChannelBuilder {
     self
   }
   
-  pub fn author_signature(&mut self, author_signature: String) -> &mut Self {
-    self.instance.author_signature = Some(author_signature);
+  pub fn author_signature<S: AsRef<str>>(&mut self, author_signature: S) -> &mut Self {
+    self.instance.author_signature = Some(author_signature.as_ref().to_string());
     self
   }
   
@@ -28489,8 +28489,8 @@ impl RTDOptionValueStringBuilder {
 
   pub fn build(&self) -> OptionValueString { self.instance.clone() }
   
-  pub fn value(&mut self, value: String) -> &mut Self {
-    self.instance.value = Some(value);
+  pub fn value<S: AsRef<str>>(&mut self, value: S) -> &mut Self {
+    self.instance.value = Some(value.as_ref().to_string());
     self
   }
   
@@ -28563,18 +28563,18 @@ impl RTDOrderInfoBuilder {
 
   pub fn build(&self) -> OrderInfo { self.instance.clone() }
   
-  pub fn name(&mut self, name: String) -> &mut Self {
-    self.instance.name = Some(name);
+  pub fn name<S: AsRef<str>>(&mut self, name: S) -> &mut Self {
+    self.instance.name = Some(name.as_ref().to_string());
     self
   }
   
-  pub fn phone_number(&mut self, phone_number: String) -> &mut Self {
-    self.instance.phone_number = Some(phone_number);
+  pub fn phone_number<S: AsRef<str>>(&mut self, phone_number: S) -> &mut Self {
+    self.instance.phone_number = Some(phone_number.as_ref().to_string());
     self
   }
   
-  pub fn email_address(&mut self, email_address: String) -> &mut Self {
-    self.instance.email_address = Some(email_address);
+  pub fn email_address<S: AsRef<str>>(&mut self, email_address: S) -> &mut Self {
+    self.instance.email_address = Some(email_address.as_ref().to_string());
     self
   }
   
@@ -29203,8 +29203,8 @@ impl RTDPageBlockPreformattedBuilder {
     self
   }
   
-  pub fn language(&mut self, language: String) -> &mut Self {
-    self.instance.language = Some(language);
+  pub fn language<S: AsRef<str>>(&mut self, language: S) -> &mut Self {
+    self.instance.language = Some(language.as_ref().to_string());
     self
   }
   
@@ -29383,8 +29383,8 @@ impl RTDPageBlockAnchorBuilder {
 
   pub fn build(&self) -> PageBlockAnchor { self.instance.clone() }
   
-  pub fn name(&mut self, name: String) -> &mut Self {
-    self.instance.name = Some(name);
+  pub fn name<S: AsRef<str>>(&mut self, name: S) -> &mut Self {
+    self.instance.name = Some(name.as_ref().to_string());
     self
   }
   
@@ -29833,8 +29833,8 @@ impl RTDPageBlockPhotoBuilder {
     self
   }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
@@ -30088,13 +30088,13 @@ impl RTDPageBlockEmbeddedBuilder {
 
   pub fn build(&self) -> PageBlockEmbedded { self.instance.clone() }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
-  pub fn html(&mut self, html: String) -> &mut Self {
-    self.instance.html = Some(html);
+  pub fn html<S: AsRef<str>>(&mut self, html: S) -> &mut Self {
+    self.instance.html = Some(html.as_ref().to_string());
     self
   }
   
@@ -30216,13 +30216,13 @@ impl RTDPageBlockEmbeddedPostBuilder {
 
   pub fn build(&self) -> PageBlockEmbeddedPost { self.instance.clone() }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
-  pub fn author(&mut self, author: String) -> &mut Self {
-    self.instance.author = Some(author);
+  pub fn author<S: AsRef<str>>(&mut self, author: S) -> &mut Self {
+    self.instance.author = Some(author.as_ref().to_string());
     self
   }
   
@@ -30468,8 +30468,8 @@ impl RTDPageBlockChatLinkBuilder {
 
   pub fn build(&self) -> PageBlockChatLink { self.instance.clone() }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -30478,8 +30478,8 @@ impl RTDPageBlockChatLinkBuilder {
     self
   }
   
-  pub fn username(&mut self, username: String) -> &mut Self {
-    self.instance.username = Some(username);
+  pub fn username<S: AsRef<str>>(&mut self, username: S) -> &mut Self {
+    self.instance.username = Some(username.as_ref().to_string());
     self
   }
   
@@ -31179,8 +31179,8 @@ impl RTDPageBlockListItemBuilder {
 
   pub fn build(&self) -> PageBlockListItem { self.instance.clone() }
   
-  pub fn label(&mut self, label: String) -> &mut Self {
-    self.instance.label = Some(label);
+  pub fn label<S: AsRef<str>>(&mut self, label: S) -> &mut Self {
+    self.instance.label = Some(label.as_ref().to_string());
     self
   }
   
@@ -31268,18 +31268,18 @@ impl RTDPageBlockRelatedArticleBuilder {
 
   pub fn build(&self) -> PageBlockRelatedArticle { self.instance.clone() }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
@@ -31288,8 +31288,8 @@ impl RTDPageBlockRelatedArticleBuilder {
     self
   }
   
-  pub fn author(&mut self, author: String) -> &mut Self {
-    self.instance.author = Some(author);
+  pub fn author<S: AsRef<str>>(&mut self, author: S) -> &mut Self {
+    self.instance.author = Some(author.as_ref().to_string());
     self
   }
   
@@ -31677,8 +31677,8 @@ impl RTDPassportAuthorizationFormBuilder {
     self
   }
   
-  pub fn privacy_policy_url(&mut self, privacy_policy_url: String) -> &mut Self {
-    self.instance.privacy_policy_url = Some(privacy_policy_url);
+  pub fn privacy_policy_url<S: AsRef<str>>(&mut self, privacy_policy_url: S) -> &mut Self {
+    self.instance.privacy_policy_url = Some(privacy_policy_url.as_ref().to_string());
     self
   }
   
@@ -32455,8 +32455,8 @@ impl RTDPassportElementPhoneNumberBuilder {
 
   pub fn build(&self) -> PassportElementPhoneNumber { self.instance.clone() }
   
-  pub fn phone_number(&mut self, phone_number: String) -> &mut Self {
-    self.instance.phone_number = Some(phone_number);
+  pub fn phone_number<S: AsRef<str>>(&mut self, phone_number: S) -> &mut Self {
+    self.instance.phone_number = Some(phone_number.as_ref().to_string());
     self
   }
   
@@ -32516,8 +32516,8 @@ impl RTDPassportElementEmailAddressBuilder {
 
   pub fn build(&self) -> PassportElementEmailAddress { self.instance.clone() }
   
-  pub fn email_address(&mut self, email_address: String) -> &mut Self {
-    self.instance.email_address = Some(email_address);
+  pub fn email_address<S: AsRef<str>>(&mut self, email_address: S) -> &mut Self {
+    self.instance.email_address = Some(email_address.as_ref().to_string());
     self
   }
   
@@ -32597,8 +32597,8 @@ impl RTDPassportElementErrorBuilder {
     self
   }
   
-  pub fn message(&mut self, message: String) -> &mut Self {
-    self.instance.message = Some(message);
+  pub fn message<S: AsRef<str>>(&mut self, message: S) -> &mut Self {
+    self.instance.message = Some(message.as_ref().to_string());
     self
   }
   
@@ -32756,8 +32756,8 @@ impl RTDPassportElementErrorSourceDataFieldBuilder {
 
   pub fn build(&self) -> PassportElementErrorSourceDataField { self.instance.clone() }
   
-  pub fn field_name(&mut self, field_name: String) -> &mut Self {
-    self.instance.field_name = Some(field_name);
+  pub fn field_name<S: AsRef<str>>(&mut self, field_name: S) -> &mut Self {
+    self.instance.field_name = Some(field_name.as_ref().to_string());
     self
   }
   
@@ -34223,8 +34223,8 @@ impl RTDPasswordStateBuilder {
     self
   }
   
-  pub fn password_hint(&mut self, password_hint: String) -> &mut Self {
-    self.instance.password_hint = Some(password_hint);
+  pub fn password_hint<S: AsRef<str>>(&mut self, password_hint: S) -> &mut Self {
+    self.instance.password_hint = Some(password_hint.as_ref().to_string());
     self
   }
   
@@ -34332,8 +34332,8 @@ impl RTDPaymentFormBuilder {
     self
   }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
@@ -34466,8 +34466,8 @@ impl RTDPaymentReceiptBuilder {
     self
   }
   
-  pub fn credentials_title(&mut self, credentials_title: String) -> &mut Self {
-    self.instance.credentials_title = Some(credentials_title);
+  pub fn credentials_title<S: AsRef<str>>(&mut self, credentials_title: S) -> &mut Self {
+    self.instance.credentials_title = Some(credentials_title.as_ref().to_string());
     self
   }
   
@@ -34535,8 +34535,8 @@ impl RTDPaymentResultBuilder {
     self
   }
   
-  pub fn verification_url(&mut self, verification_url: String) -> &mut Self {
-    self.instance.verification_url = Some(verification_url);
+  pub fn verification_url<S: AsRef<str>>(&mut self, verification_url: S) -> &mut Self {
+    self.instance.verification_url = Some(verification_url.as_ref().to_string());
     self
   }
   
@@ -34609,8 +34609,8 @@ impl RTDPaymentsProviderStripeBuilder {
 
   pub fn build(&self) -> PaymentsProviderStripe { self.instance.clone() }
   
-  pub fn publishable_key(&mut self, publishable_key: String) -> &mut Self {
-    self.instance.publishable_key = Some(publishable_key);
+  pub fn publishable_key<S: AsRef<str>>(&mut self, publishable_key: S) -> &mut Self {
+    self.instance.publishable_key = Some(publishable_key.as_ref().to_string());
     self
   }
   
@@ -34728,33 +34728,33 @@ impl RTDPersonalDetailsBuilder {
 
   pub fn build(&self) -> PersonalDetails { self.instance.clone() }
   
-  pub fn first_name(&mut self, first_name: String) -> &mut Self {
-    self.instance.first_name = Some(first_name);
+  pub fn first_name<S: AsRef<str>>(&mut self, first_name: S) -> &mut Self {
+    self.instance.first_name = Some(first_name.as_ref().to_string());
     self
   }
   
-  pub fn middle_name(&mut self, middle_name: String) -> &mut Self {
-    self.instance.middle_name = Some(middle_name);
+  pub fn middle_name<S: AsRef<str>>(&mut self, middle_name: S) -> &mut Self {
+    self.instance.middle_name = Some(middle_name.as_ref().to_string());
     self
   }
   
-  pub fn last_name(&mut self, last_name: String) -> &mut Self {
-    self.instance.last_name = Some(last_name);
+  pub fn last_name<S: AsRef<str>>(&mut self, last_name: S) -> &mut Self {
+    self.instance.last_name = Some(last_name.as_ref().to_string());
     self
   }
   
-  pub fn native_first_name(&mut self, native_first_name: String) -> &mut Self {
-    self.instance.native_first_name = Some(native_first_name);
+  pub fn native_first_name<S: AsRef<str>>(&mut self, native_first_name: S) -> &mut Self {
+    self.instance.native_first_name = Some(native_first_name.as_ref().to_string());
     self
   }
   
-  pub fn native_middle_name(&mut self, native_middle_name: String) -> &mut Self {
-    self.instance.native_middle_name = Some(native_middle_name);
+  pub fn native_middle_name<S: AsRef<str>>(&mut self, native_middle_name: S) -> &mut Self {
+    self.instance.native_middle_name = Some(native_middle_name.as_ref().to_string());
     self
   }
   
-  pub fn native_last_name(&mut self, native_last_name: String) -> &mut Self {
-    self.instance.native_last_name = Some(native_last_name);
+  pub fn native_last_name<S: AsRef<str>>(&mut self, native_last_name: S) -> &mut Self {
+    self.instance.native_last_name = Some(native_last_name.as_ref().to_string());
     self
   }
   
@@ -34763,18 +34763,18 @@ impl RTDPersonalDetailsBuilder {
     self
   }
   
-  pub fn gender(&mut self, gender: String) -> &mut Self {
-    self.instance.gender = Some(gender);
+  pub fn gender<S: AsRef<str>>(&mut self, gender: S) -> &mut Self {
+    self.instance.gender = Some(gender.as_ref().to_string());
     self
   }
   
-  pub fn country_code(&mut self, country_code: String) -> &mut Self {
-    self.instance.country_code = Some(country_code);
+  pub fn country_code<S: AsRef<str>>(&mut self, country_code: S) -> &mut Self {
+    self.instance.country_code = Some(country_code.as_ref().to_string());
     self
   }
   
-  pub fn residence_country_code(&mut self, residence_country_code: String) -> &mut Self {
-    self.instance.residence_country_code = Some(residence_country_code);
+  pub fn residence_country_code<S: AsRef<str>>(&mut self, residence_country_code: S) -> &mut Self {
+    self.instance.residence_country_code = Some(residence_country_code.as_ref().to_string());
     self
   }
   
@@ -34985,8 +34985,8 @@ impl RTDPhotoSizeBuilder {
 
   pub fn build(&self) -> PhotoSize { self.instance.clone() }
   
-  pub fn type_(&mut self, type_: String) -> &mut Self {
-    self.instance.type_ = Some(type_);
+  pub fn type_<S: AsRef<str>>(&mut self, type_: S) -> &mut Self {
+    self.instance.type_ = Some(type_.as_ref().to_string());
     self
   }
   
@@ -35084,8 +35084,8 @@ impl RTDPollBuilder {
     self
   }
   
-  pub fn question(&mut self, question: String) -> &mut Self {
-    self.instance.question = Some(question);
+  pub fn question<S: AsRef<str>>(&mut self, question: S) -> &mut Self {
+    self.instance.question = Some(question.as_ref().to_string());
     self
   }
   
@@ -35178,8 +35178,8 @@ impl RTDPollOptionBuilder {
 
   pub fn build(&self) -> PollOption { self.instance.clone() }
   
-  pub fn text(&mut self, text: String) -> &mut Self {
-    self.instance.text = Some(text);
+  pub fn text<S: AsRef<str>>(&mut self, text: S) -> &mut Self {
+    self.instance.text = Some(text.as_ref().to_string());
     self
   }
   
@@ -35432,8 +35432,8 @@ impl RTDProxyBuilder {
     self
   }
   
-  pub fn server(&mut self, server: String) -> &mut Self {
-    self.instance.server = Some(server);
+  pub fn server<S: AsRef<str>>(&mut self, server: S) -> &mut Self {
+    self.instance.server = Some(server.as_ref().to_string());
     self
   }
   
@@ -35554,13 +35554,13 @@ impl RTDProxyTypeSocks5Builder {
 
   pub fn build(&self) -> ProxyTypeSocks5 { self.instance.clone() }
   
-  pub fn username(&mut self, username: String) -> &mut Self {
-    self.instance.username = Some(username);
+  pub fn username<S: AsRef<str>>(&mut self, username: S) -> &mut Self {
+    self.instance.username = Some(username.as_ref().to_string());
     self
   }
   
-  pub fn password(&mut self, password: String) -> &mut Self {
-    self.instance.password = Some(password);
+  pub fn password<S: AsRef<str>>(&mut self, password: S) -> &mut Self {
+    self.instance.password = Some(password.as_ref().to_string());
     self
   }
   
@@ -35630,13 +35630,13 @@ impl RTDProxyTypeHttpBuilder {
 
   pub fn build(&self) -> ProxyTypeHttp { self.instance.clone() }
   
-  pub fn username(&mut self, username: String) -> &mut Self {
-    self.instance.username = Some(username);
+  pub fn username<S: AsRef<str>>(&mut self, username: S) -> &mut Self {
+    self.instance.username = Some(username.as_ref().to_string());
     self
   }
   
-  pub fn password(&mut self, password: String) -> &mut Self {
-    self.instance.password = Some(password);
+  pub fn password<S: AsRef<str>>(&mut self, password: S) -> &mut Self {
+    self.instance.password = Some(password.as_ref().to_string());
     self
   }
   
@@ -35701,8 +35701,8 @@ impl RTDProxyTypeMtprotoBuilder {
 
   pub fn build(&self) -> ProxyTypeMtproto { self.instance.clone() }
   
-  pub fn secret(&mut self, secret: String) -> &mut Self {
-    self.instance.secret = Some(secret);
+  pub fn secret<S: AsRef<str>>(&mut self, secret: S) -> &mut Self {
+    self.instance.secret = Some(secret.as_ref().to_string());
     self
   }
   
@@ -35765,13 +35765,13 @@ impl RTDPublicMessageLinkBuilder {
 
   pub fn build(&self) -> PublicMessageLink { self.instance.clone() }
   
-  pub fn link(&mut self, link: String) -> &mut Self {
-    self.instance.link = Some(link);
+  pub fn link<S: AsRef<str>>(&mut self, link: S) -> &mut Self {
+    self.instance.link = Some(link.as_ref().to_string());
     self
   }
   
-  pub fn html(&mut self, html: String) -> &mut Self {
-    self.instance.html = Some(html);
+  pub fn html<S: AsRef<str>>(&mut self, html: S) -> &mut Self {
+    self.instance.html = Some(html.as_ref().to_string());
     self
   }
   
@@ -35966,8 +35966,8 @@ impl RTDPushMessageContentAnimationBuilder {
     self
   }
   
-  pub fn caption(&mut self, caption: String) -> &mut Self {
-    self.instance.caption = Some(caption);
+  pub fn caption<S: AsRef<str>>(&mut self, caption: S) -> &mut Self {
+    self.instance.caption = Some(caption.as_ref().to_string());
     self
   }
   
@@ -36108,8 +36108,8 @@ impl RTDPushMessageContentContactBuilder {
 
   pub fn build(&self) -> PushMessageContentContact { self.instance.clone() }
   
-  pub fn name(&mut self, name: String) -> &mut Self {
-    self.instance.name = Some(name);
+  pub fn name<S: AsRef<str>>(&mut self, name: S) -> &mut Self {
+    self.instance.name = Some(name.as_ref().to_string());
     self
   }
   
@@ -36301,8 +36301,8 @@ impl RTDPushMessageContentGameBuilder {
 
   pub fn build(&self) -> PushMessageContentGame { self.instance.clone() }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -36377,8 +36377,8 @@ impl RTDPushMessageContentGameScoreBuilder {
 
   pub fn build(&self) -> PushMessageContentGameScore { self.instance.clone() }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -36453,8 +36453,8 @@ impl RTDPushMessageContentInvoiceBuilder {
 
   pub fn build(&self) -> PushMessageContentInvoice { self.instance.clone() }
   
-  pub fn price(&mut self, price: String) -> &mut Self {
-    self.instance.price = Some(price);
+  pub fn price<S: AsRef<str>>(&mut self, price: S) -> &mut Self {
+    self.instance.price = Some(price.as_ref().to_string());
     self
   }
   
@@ -36610,8 +36610,8 @@ impl RTDPushMessageContentPhotoBuilder {
     self
   }
   
-  pub fn caption(&mut self, caption: String) -> &mut Self {
-    self.instance.caption = Some(caption);
+  pub fn caption<S: AsRef<str>>(&mut self, caption: S) -> &mut Self {
+    self.instance.caption = Some(caption.as_ref().to_string());
     self
   }
   
@@ -36686,8 +36686,8 @@ impl RTDPushMessageContentPollBuilder {
 
   pub fn build(&self) -> PushMessageContentPoll { self.instance.clone() }
   
-  pub fn question(&mut self, question: String) -> &mut Self {
-    self.instance.question = Some(question);
+  pub fn question<S: AsRef<str>>(&mut self, question: S) -> &mut Self {
+    self.instance.question = Some(question.as_ref().to_string());
     self
   }
   
@@ -36818,8 +36818,8 @@ impl RTDPushMessageContentStickerBuilder {
     self
   }
   
-  pub fn emoji(&mut self, emoji: String) -> &mut Self {
-    self.instance.emoji = Some(emoji);
+  pub fn emoji<S: AsRef<str>>(&mut self, emoji: S) -> &mut Self {
+    self.instance.emoji = Some(emoji.as_ref().to_string());
     self
   }
   
@@ -36889,8 +36889,8 @@ impl RTDPushMessageContentTextBuilder {
 
   pub fn build(&self) -> PushMessageContentText { self.instance.clone() }
   
-  pub fn text(&mut self, text: String) -> &mut Self {
-    self.instance.text = Some(text);
+  pub fn text<S: AsRef<str>>(&mut self, text: S) -> &mut Self {
+    self.instance.text = Some(text.as_ref().to_string());
     self
   }
   
@@ -36975,8 +36975,8 @@ impl RTDPushMessageContentVideoBuilder {
     self
   }
   
-  pub fn caption(&mut self, caption: String) -> &mut Self {
-    self.instance.caption = Some(caption);
+  pub fn caption<S: AsRef<str>>(&mut self, caption: S) -> &mut Self {
+    self.instance.caption = Some(caption.as_ref().to_string());
     self
   }
   
@@ -37249,8 +37249,8 @@ impl RTDPushMessageContentChatAddMembersBuilder {
 
   pub fn build(&self) -> PushMessageContentChatAddMembers { self.instance.clone() }
   
-  pub fn member_name(&mut self, member_name: String) -> &mut Self {
-    self.instance.member_name = Some(member_name);
+  pub fn member_name<S: AsRef<str>>(&mut self, member_name: S) -> &mut Self {
+    self.instance.member_name = Some(member_name.as_ref().to_string());
     self
   }
   
@@ -37371,8 +37371,8 @@ impl RTDPushMessageContentChatChangeTitleBuilder {
 
   pub fn build(&self) -> PushMessageContentChatChangeTitle { self.instance.clone() }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -37442,8 +37442,8 @@ impl RTDPushMessageContentChatDeleteMemberBuilder {
 
   pub fn build(&self) -> PushMessageContentChatDeleteMember { self.instance.clone() }
   
-  pub fn member_name(&mut self, member_name: String) -> &mut Self {
-    self.instance.member_name = Some(member_name);
+  pub fn member_name<S: AsRef<str>>(&mut self, member_name: S) -> &mut Self {
+    self.instance.member_name = Some(member_name.as_ref().to_string());
     self
   }
   
@@ -37763,8 +37763,8 @@ impl RTDRecoveryEmailAddressBuilder {
 
   pub fn build(&self) -> RecoveryEmailAddress { self.instance.clone() }
   
-  pub fn recovery_email_address(&mut self, recovery_email_address: String) -> &mut Self {
-    self.instance.recovery_email_address = Some(recovery_email_address);
+  pub fn recovery_email_address<S: AsRef<str>>(&mut self, recovery_email_address: S) -> &mut Self {
+    self.instance.recovery_email_address = Some(recovery_email_address.as_ref().to_string());
     self
   }
   
@@ -37837,8 +37837,8 @@ impl RTDRemoteFileBuilder {
 
   pub fn build(&self) -> RemoteFile { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
@@ -38272,8 +38272,8 @@ impl RTDRichTextPlainBuilder {
 
   pub fn build(&self) -> RichTextPlain { self.instance.clone() }
   
-  pub fn text(&mut self, text: String) -> &mut Self {
-    self.instance.text = Some(text);
+  pub fn text<S: AsRef<str>>(&mut self, text: S) -> &mut Self {
+    self.instance.text = Some(text.as_ref().to_string());
     self
   }
   
@@ -38690,8 +38690,8 @@ impl RTDRichTextUrlBuilder {
     self
   }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
@@ -38768,8 +38768,8 @@ impl RTDRichTextEmailAddressBuilder {
     self
   }
   
-  pub fn email_address(&mut self, email_address: String) -> &mut Self {
-    self.instance.email_address = Some(email_address);
+  pub fn email_address<S: AsRef<str>>(&mut self, email_address: S) -> &mut Self {
+    self.instance.email_address = Some(email_address.as_ref().to_string());
     self
   }
   
@@ -39050,8 +39050,8 @@ impl RTDRichTextPhoneNumberBuilder {
     self
   }
   
-  pub fn phone_number(&mut self, phone_number: String) -> &mut Self {
-    self.instance.phone_number = Some(phone_number);
+  pub fn phone_number<S: AsRef<str>>(&mut self, phone_number: S) -> &mut Self {
+    self.instance.phone_number = Some(phone_number.as_ref().to_string());
     self
   }
   
@@ -39209,8 +39209,8 @@ impl RTDRichTextAnchorBuilder {
     self
   }
   
-  pub fn name(&mut self, name: String) -> &mut Self {
-    self.instance.name = Some(name);
+  pub fn name<S: AsRef<str>>(&mut self, name: S) -> &mut Self {
+    self.instance.name = Some(name.as_ref().to_string());
     self
   }
   
@@ -39341,13 +39341,13 @@ impl RTDSavedCredentialsBuilder {
 
   pub fn build(&self) -> SavedCredentials { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -39430,8 +39430,8 @@ impl RTDScopeNotificationSettingsBuilder {
     self
   }
   
-  pub fn sound(&mut self, sound: String) -> &mut Self {
-    self.instance.sound = Some(sound);
+  pub fn sound<S: AsRef<str>>(&mut self, sound: S) -> &mut Self {
+    self.instance.sound = Some(sound.as_ref().to_string());
     self
   }
   
@@ -40490,8 +40490,8 @@ impl RTDSecretChatBuilder {
     self
   }
   
-  pub fn key_hash(&mut self, key_hash: String) -> &mut Self {
-    self.instance.key_hash = Some(key_hash);
+  pub fn key_hash<S: AsRef<str>>(&mut self, key_hash: S) -> &mut Self {
+    self.instance.key_hash = Some(key_hash.as_ref().to_string());
     self
   }
   
@@ -40833,13 +40833,13 @@ impl RTDSessionBuilder {
     self
   }
   
-  pub fn application_name(&mut self, application_name: String) -> &mut Self {
-    self.instance.application_name = Some(application_name);
+  pub fn application_name<S: AsRef<str>>(&mut self, application_name: S) -> &mut Self {
+    self.instance.application_name = Some(application_name.as_ref().to_string());
     self
   }
   
-  pub fn application_version(&mut self, application_version: String) -> &mut Self {
-    self.instance.application_version = Some(application_version);
+  pub fn application_version<S: AsRef<str>>(&mut self, application_version: S) -> &mut Self {
+    self.instance.application_version = Some(application_version.as_ref().to_string());
     self
   }
   
@@ -40848,18 +40848,18 @@ impl RTDSessionBuilder {
     self
   }
   
-  pub fn device_model(&mut self, device_model: String) -> &mut Self {
-    self.instance.device_model = Some(device_model);
+  pub fn device_model<S: AsRef<str>>(&mut self, device_model: S) -> &mut Self {
+    self.instance.device_model = Some(device_model.as_ref().to_string());
     self
   }
   
-  pub fn platform(&mut self, platform: String) -> &mut Self {
-    self.instance.platform = Some(platform);
+  pub fn platform<S: AsRef<str>>(&mut self, platform: S) -> &mut Self {
+    self.instance.platform = Some(platform.as_ref().to_string());
     self
   }
   
-  pub fn system_version(&mut self, system_version: String) -> &mut Self {
-    self.instance.system_version = Some(system_version);
+  pub fn system_version<S: AsRef<str>>(&mut self, system_version: S) -> &mut Self {
+    self.instance.system_version = Some(system_version.as_ref().to_string());
     self
   }
   
@@ -40873,18 +40873,18 @@ impl RTDSessionBuilder {
     self
   }
   
-  pub fn ip(&mut self, ip: String) -> &mut Self {
-    self.instance.ip = Some(ip);
+  pub fn ip<S: AsRef<str>>(&mut self, ip: S) -> &mut Self {
+    self.instance.ip = Some(ip.as_ref().to_string());
     self
   }
   
-  pub fn country(&mut self, country: String) -> &mut Self {
-    self.instance.country = Some(country);
+  pub fn country<S: AsRef<str>>(&mut self, country: S) -> &mut Self {
+    self.instance.country = Some(country.as_ref().to_string());
     self
   }
   
-  pub fn region(&mut self, region: String) -> &mut Self {
-    self.instance.region = Some(region);
+  pub fn region<S: AsRef<str>>(&mut self, region: S) -> &mut Self {
+    self.instance.region = Some(region.as_ref().to_string());
     self
   }
   
@@ -41011,13 +41011,13 @@ impl RTDShippingOptionBuilder {
 
   pub fn build(&self) -> ShippingOption { self.instance.clone() }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -41130,8 +41130,8 @@ impl RTDStickerBuilder {
     self
   }
   
-  pub fn emoji(&mut self, emoji: String) -> &mut Self {
-    self.instance.emoji = Some(emoji);
+  pub fn emoji<S: AsRef<str>>(&mut self, emoji: S) -> &mut Self {
+    self.instance.emoji = Some(emoji.as_ref().to_string());
     self
   }
   
@@ -41318,13 +41318,13 @@ impl RTDStickerSetBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn name(&mut self, name: String) -> &mut Self {
-    self.instance.name = Some(name);
+  pub fn name<S: AsRef<str>>(&mut self, name: S) -> &mut Self {
+    self.instance.name = Some(name.as_ref().to_string());
     self
   }
   
@@ -41467,13 +41467,13 @@ impl RTDStickerSetInfoBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn name(&mut self, name: String) -> &mut Self {
-    self.instance.name = Some(name);
+  pub fn name<S: AsRef<str>>(&mut self, name: S) -> &mut Self {
+    self.instance.name = Some(name.as_ref().to_string());
     self
   }
   
@@ -42104,8 +42104,8 @@ impl RTDSupergroupBuilder {
     self
   }
   
-  pub fn username(&mut self, username: String) -> &mut Self {
-    self.instance.username = Some(username);
+  pub fn username<S: AsRef<str>>(&mut self, username: S) -> &mut Self {
+    self.instance.username = Some(username.as_ref().to_string());
     self
   }
   
@@ -42144,8 +42144,8 @@ impl RTDSupergroupBuilder {
     self
   }
   
-  pub fn restriction_reason(&mut self, restriction_reason: String) -> &mut Self {
-    self.instance.restriction_reason = Some(restriction_reason);
+  pub fn restriction_reason<S: AsRef<str>>(&mut self, restriction_reason: S) -> &mut Self {
+    self.instance.restriction_reason = Some(restriction_reason.as_ref().to_string());
     self
   }
   
@@ -42268,8 +42268,8 @@ impl RTDSupergroupFullInfoBuilder {
 
   pub fn build(&self) -> SupergroupFullInfo { self.instance.clone() }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
@@ -42323,8 +42323,8 @@ impl RTDSupergroupFullInfoBuilder {
     self
   }
   
-  pub fn invite_link(&mut self, invite_link: String) -> &mut Self {
-    self.instance.invite_link = Some(invite_link);
+  pub fn invite_link<S: AsRef<str>>(&mut self, invite_link: S) -> &mut Self {
+    self.instance.invite_link = Some(invite_link.as_ref().to_string());
     self
   }
   
@@ -42535,8 +42535,8 @@ impl RTDSupergroupMembersFilterSearchBuilder {
 
   pub fn build(&self) -> SupergroupMembersFilterSearch { self.instance.clone() }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
@@ -42596,8 +42596,8 @@ impl RTDSupergroupMembersFilterRestrictedBuilder {
 
   pub fn build(&self) -> SupergroupMembersFilterRestricted { self.instance.clone() }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
@@ -42657,8 +42657,8 @@ impl RTDSupergroupMembersFilterBannedBuilder {
 
   pub fn build(&self) -> SupergroupMembersFilterBanned { self.instance.clone() }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
@@ -42779,8 +42779,8 @@ impl RTDTMeUrlBuilder {
 
   pub fn build(&self) -> TMeUrl { self.instance.clone() }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
@@ -43258,13 +43258,13 @@ impl RTDTdlibParametersBuilder {
     self
   }
   
-  pub fn database_directory(&mut self, database_directory: String) -> &mut Self {
-    self.instance.database_directory = Some(database_directory);
+  pub fn database_directory<S: AsRef<str>>(&mut self, database_directory: S) -> &mut Self {
+    self.instance.database_directory = Some(database_directory.as_ref().to_string());
     self
   }
   
-  pub fn files_directory(&mut self, files_directory: String) -> &mut Self {
-    self.instance.files_directory = Some(files_directory);
+  pub fn files_directory<S: AsRef<str>>(&mut self, files_directory: S) -> &mut Self {
+    self.instance.files_directory = Some(files_directory.as_ref().to_string());
     self
   }
   
@@ -43293,28 +43293,28 @@ impl RTDTdlibParametersBuilder {
     self
   }
   
-  pub fn api_hash(&mut self, api_hash: String) -> &mut Self {
-    self.instance.api_hash = Some(api_hash);
+  pub fn api_hash<S: AsRef<str>>(&mut self, api_hash: S) -> &mut Self {
+    self.instance.api_hash = Some(api_hash.as_ref().to_string());
     self
   }
   
-  pub fn system_language_code(&mut self, system_language_code: String) -> &mut Self {
-    self.instance.system_language_code = Some(system_language_code);
+  pub fn system_language_code<S: AsRef<str>>(&mut self, system_language_code: S) -> &mut Self {
+    self.instance.system_language_code = Some(system_language_code.as_ref().to_string());
     self
   }
   
-  pub fn device_model(&mut self, device_model: String) -> &mut Self {
-    self.instance.device_model = Some(device_model);
+  pub fn device_model<S: AsRef<str>>(&mut self, device_model: S) -> &mut Self {
+    self.instance.device_model = Some(device_model.as_ref().to_string());
     self
   }
   
-  pub fn system_version(&mut self, system_version: String) -> &mut Self {
-    self.instance.system_version = Some(system_version);
+  pub fn system_version<S: AsRef<str>>(&mut self, system_version: S) -> &mut Self {
+    self.instance.system_version = Some(system_version.as_ref().to_string());
     self
   }
   
-  pub fn application_version(&mut self, application_version: String) -> &mut Self {
-    self.instance.application_version = Some(application_version);
+  pub fn application_version<S: AsRef<str>>(&mut self, application_version: S) -> &mut Self {
+    self.instance.application_version = Some(application_version.as_ref().to_string());
     self
   }
   
@@ -43530,8 +43530,8 @@ impl RTDTestBytesBuilder {
 
   pub fn build(&self) -> TestBytes { self.instance.clone() }
   
-  pub fn value(&mut self, value: String) -> &mut Self {
-    self.instance.value = Some(value);
+  pub fn value<S: AsRef<str>>(&mut self, value: S) -> &mut Self {
+    self.instance.value = Some(value.as_ref().to_string());
     self
   }
   
@@ -43648,8 +43648,8 @@ impl RTDTestStringBuilder {
 
   pub fn build(&self) -> TestString { self.instance.clone() }
   
-  pub fn value(&mut self, value: String) -> &mut Self {
-    self.instance.value = Some(value);
+  pub fn value<S: AsRef<str>>(&mut self, value: S) -> &mut Self {
+    self.instance.value = Some(value.as_ref().to_string());
     self
   }
   
@@ -43943,8 +43943,8 @@ impl RTDTextBuilder {
 
   pub fn build(&self) -> Text { self.instance.clone() }
   
-  pub fn text(&mut self, text: String) -> &mut Self {
-    self.instance.text = Some(text);
+  pub fn text<S: AsRef<str>>(&mut self, text: S) -> &mut Self {
+    self.instance.text = Some(text.as_ref().to_string());
     self
   }
   
@@ -44706,8 +44706,8 @@ impl RTDTextEntityTypePreCodeBuilder {
 
   pub fn build(&self) -> TextEntityTypePreCode { self.instance.clone() }
   
-  pub fn language(&mut self, language: String) -> &mut Self {
-    self.instance.language = Some(language);
+  pub fn language<S: AsRef<str>>(&mut self, language: S) -> &mut Self {
+    self.instance.language = Some(language.as_ref().to_string());
     self
   }
   
@@ -44767,8 +44767,8 @@ impl RTDTextEntityTypeTextUrlBuilder {
 
   pub fn build(&self) -> TextEntityTypeTextUrl { self.instance.clone() }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
@@ -48668,23 +48668,23 @@ impl RTDUserBuilder {
     self
   }
   
-  pub fn first_name(&mut self, first_name: String) -> &mut Self {
-    self.instance.first_name = Some(first_name);
+  pub fn first_name<S: AsRef<str>>(&mut self, first_name: S) -> &mut Self {
+    self.instance.first_name = Some(first_name.as_ref().to_string());
     self
   }
   
-  pub fn last_name(&mut self, last_name: String) -> &mut Self {
-    self.instance.last_name = Some(last_name);
+  pub fn last_name<S: AsRef<str>>(&mut self, last_name: S) -> &mut Self {
+    self.instance.last_name = Some(last_name.as_ref().to_string());
     self
   }
   
-  pub fn username(&mut self, username: String) -> &mut Self {
-    self.instance.username = Some(username);
+  pub fn username<S: AsRef<str>>(&mut self, username: S) -> &mut Self {
+    self.instance.username = Some(username.as_ref().to_string());
     self
   }
   
-  pub fn phone_number(&mut self, phone_number: String) -> &mut Self {
-    self.instance.phone_number = Some(phone_number);
+  pub fn phone_number<S: AsRef<str>>(&mut self, phone_number: S) -> &mut Self {
+    self.instance.phone_number = Some(phone_number.as_ref().to_string());
     self
   }
   
@@ -48718,8 +48718,8 @@ impl RTDUserBuilder {
     self
   }
   
-  pub fn restriction_reason(&mut self, restriction_reason: String) -> &mut Self {
-    self.instance.restriction_reason = Some(restriction_reason);
+  pub fn restriction_reason<S: AsRef<str>>(&mut self, restriction_reason: S) -> &mut Self {
+    self.instance.restriction_reason = Some(restriction_reason.as_ref().to_string());
     self
   }
   
@@ -48733,8 +48733,8 @@ impl RTDUserBuilder {
     self
   }
   
-  pub fn language_code(&mut self, language_code: String) -> &mut Self {
-    self.instance.language_code = Some(language_code);
+  pub fn language_code<S: AsRef<str>>(&mut self, language_code: S) -> &mut Self {
+    self.instance.language_code = Some(language_code.as_ref().to_string());
     self
   }
   
@@ -48837,13 +48837,13 @@ impl RTDUserFullInfoBuilder {
     self
   }
   
-  pub fn bio(&mut self, bio: String) -> &mut Self {
-    self.instance.bio = Some(bio);
+  pub fn bio<S: AsRef<str>>(&mut self, bio: S) -> &mut Self {
+    self.instance.bio = Some(bio.as_ref().to_string());
     self
   }
   
-  pub fn share_text(&mut self, share_text: String) -> &mut Self {
-    self.instance.share_text = Some(share_text);
+  pub fn share_text<S: AsRef<str>>(&mut self, share_text: S) -> &mut Self {
+    self.instance.share_text = Some(share_text.as_ref().to_string());
     self
   }
   
@@ -50272,8 +50272,8 @@ impl RTDUserTypeBotBuilder {
     self
   }
   
-  pub fn inline_query_placeholder(&mut self, inline_query_placeholder: String) -> &mut Self {
-    self.instance.inline_query_placeholder = Some(inline_query_placeholder);
+  pub fn inline_query_placeholder<S: AsRef<str>>(&mut self, inline_query_placeholder: S) -> &mut Self {
+    self.instance.inline_query_placeholder = Some(inline_query_placeholder.as_ref().to_string());
     self
   }
   
@@ -50461,8 +50461,8 @@ impl RTDValidatedOrderInfoBuilder {
 
   pub fn build(&self) -> ValidatedOrderInfo { self.instance.clone() }
   
-  pub fn order_info_id(&mut self, order_info_id: String) -> &mut Self {
-    self.instance.order_info_id = Some(order_info_id);
+  pub fn order_info_id<S: AsRef<str>>(&mut self, order_info_id: S) -> &mut Self {
+    self.instance.order_info_id = Some(order_info_id.as_ref().to_string());
     self
   }
   
@@ -50555,28 +50555,28 @@ impl RTDVenueBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn address(&mut self, address: String) -> &mut Self {
-    self.instance.address = Some(address);
+  pub fn address<S: AsRef<str>>(&mut self, address: S) -> &mut Self {
+    self.instance.address = Some(address.as_ref().to_string());
     self
   }
   
-  pub fn provider(&mut self, provider: String) -> &mut Self {
-    self.instance.provider = Some(provider);
+  pub fn provider<S: AsRef<str>>(&mut self, provider: S) -> &mut Self {
+    self.instance.provider = Some(provider.as_ref().to_string());
     self
   }
   
-  pub fn id(&mut self, id: String) -> &mut Self {
-    self.instance.id = Some(id);
+  pub fn id<S: AsRef<str>>(&mut self, id: S) -> &mut Self {
+    self.instance.id = Some(id.as_ref().to_string());
     self
   }
   
-  pub fn type_(&mut self, type_: String) -> &mut Self {
-    self.instance.type_ = Some(type_);
+  pub fn type_<S: AsRef<str>>(&mut self, type_: S) -> &mut Self {
+    self.instance.type_ = Some(type_.as_ref().to_string());
     self
   }
   
@@ -50689,13 +50689,13 @@ impl RTDVideoBuilder {
     self
   }
   
-  pub fn file_name(&mut self, file_name: String) -> &mut Self {
-    self.instance.file_name = Some(file_name);
+  pub fn file_name<S: AsRef<str>>(&mut self, file_name: S) -> &mut Self {
+    self.instance.file_name = Some(file_name.as_ref().to_string());
     self
   }
   
-  pub fn mime_type(&mut self, mime_type: String) -> &mut Self {
-    self.instance.mime_type = Some(mime_type);
+  pub fn mime_type<S: AsRef<str>>(&mut self, mime_type: S) -> &mut Self {
+    self.instance.mime_type = Some(mime_type.as_ref().to_string());
     self
   }
   
@@ -50882,13 +50882,13 @@ impl RTDVoiceNoteBuilder {
     self
   }
   
-  pub fn waveform(&mut self, waveform: String) -> &mut Self {
-    self.instance.waveform = Some(waveform);
+  pub fn waveform<S: AsRef<str>>(&mut self, waveform: S) -> &mut Self {
+    self.instance.waveform = Some(waveform.as_ref().to_string());
     self
   }
   
-  pub fn mime_type(&mut self, mime_type: String) -> &mut Self {
-    self.instance.mime_type = Some(mime_type);
+  pub fn mime_type<S: AsRef<str>>(&mut self, mime_type: S) -> &mut Self {
+    self.instance.mime_type = Some(mime_type.as_ref().to_string());
     self
   }
   
@@ -51189,33 +51189,33 @@ impl RTDWebPageBuilder {
 
   pub fn build(&self) -> WebPage { self.instance.clone() }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
-  pub fn display_url(&mut self, display_url: String) -> &mut Self {
-    self.instance.display_url = Some(display_url);
+  pub fn display_url<S: AsRef<str>>(&mut self, display_url: S) -> &mut Self {
+    self.instance.display_url = Some(display_url.as_ref().to_string());
     self
   }
   
-  pub fn type_(&mut self, type_: String) -> &mut Self {
-    self.instance.type_ = Some(type_);
+  pub fn type_<S: AsRef<str>>(&mut self, type_: S) -> &mut Self {
+    self.instance.type_ = Some(type_.as_ref().to_string());
     self
   }
   
-  pub fn site_name(&mut self, site_name: String) -> &mut Self {
-    self.instance.site_name = Some(site_name);
+  pub fn site_name<S: AsRef<str>>(&mut self, site_name: S) -> &mut Self {
+    self.instance.site_name = Some(site_name.as_ref().to_string());
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
@@ -51224,13 +51224,13 @@ impl RTDWebPageBuilder {
     self
   }
   
-  pub fn embed_url(&mut self, embed_url: String) -> &mut Self {
-    self.instance.embed_url = Some(embed_url);
+  pub fn embed_url<S: AsRef<str>>(&mut self, embed_url: S) -> &mut Self {
+    self.instance.embed_url = Some(embed_url.as_ref().to_string());
     self
   }
   
-  pub fn embed_type(&mut self, embed_type: String) -> &mut Self {
-    self.instance.embed_type = Some(embed_type);
+  pub fn embed_type<S: AsRef<str>>(&mut self, embed_type: S) -> &mut Self {
+    self.instance.embed_type = Some(embed_type.as_ref().to_string());
     self
   }
   
@@ -51249,8 +51249,8 @@ impl RTDWebPageBuilder {
     self
   }
   
-  pub fn author(&mut self, author: String) -> &mut Self {
-    self.instance.author = Some(author);
+  pub fn author<S: AsRef<str>>(&mut self, author: S) -> &mut Self {
+    self.instance.author = Some(author.as_ref().to_string());
     self
   }
   
@@ -51385,8 +51385,8 @@ impl RTDWebPageInstantViewBuilder {
     self
   }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
@@ -51527,8 +51527,8 @@ impl RTDAcceptTermsOfServiceBuilder {
 
   pub fn build(&self) -> AcceptTermsOfService { self.instance.clone() }
   
-  pub fn terms_of_service_id(&mut self, terms_of_service_id: String) -> &mut Self {
-    self.instance.terms_of_service_id = Some(terms_of_service_id);
+  pub fn terms_of_service_id<S: AsRef<str>>(&mut self, terms_of_service_id: S) -> &mut Self {
+    self.instance.terms_of_service_id = Some(terms_of_service_id.as_ref().to_string());
     self
   }
   
@@ -51740,8 +51740,8 @@ impl RTDAddCustomServerLanguagePackBuilder {
 
   pub fn build(&self) -> AddCustomServerLanguagePack { self.instance.clone() }
   
-  pub fn language_pack_id(&mut self, language_pack_id: String) -> &mut Self {
-    self.instance.language_pack_id = Some(language_pack_id);
+  pub fn language_pack_id<S: AsRef<str>>(&mut self, language_pack_id: S) -> &mut Self {
+    self.instance.language_pack_id = Some(language_pack_id.as_ref().to_string());
     self
   }
   
@@ -51987,8 +51987,8 @@ impl RTDAddLogMessageBuilder {
     self
   }
   
-  pub fn text(&mut self, text: String) -> &mut Self {
-    self.instance.text = Some(text);
+  pub fn text<S: AsRef<str>>(&mut self, text: S) -> &mut Self {
+    self.instance.text = Some(text.as_ref().to_string());
     self
   }
   
@@ -52138,8 +52138,8 @@ impl RTDAddProxyBuilder {
 
   pub fn build(&self) -> AddProxy { self.instance.clone() }
   
-  pub fn server(&mut self, server: String) -> &mut Self {
-    self.instance.server = Some(server);
+  pub fn server<S: AsRef<str>>(&mut self, server: S) -> &mut Self {
+    self.instance.server = Some(server.as_ref().to_string());
     self
   }
   
@@ -52436,8 +52436,8 @@ impl RTDAddStickerToSetBuilder {
     self
   }
   
-  pub fn name(&mut self, name: String) -> &mut Self {
-    self.instance.name = Some(name);
+  pub fn name<S: AsRef<str>>(&mut self, name: S) -> &mut Self {
+    self.instance.name = Some(name.as_ref().to_string());
     self
   }
   
@@ -52527,8 +52527,8 @@ impl RTDAnswerCallbackQueryBuilder {
     self
   }
   
-  pub fn text(&mut self, text: String) -> &mut Self {
-    self.instance.text = Some(text);
+  pub fn text<S: AsRef<str>>(&mut self, text: S) -> &mut Self {
+    self.instance.text = Some(text.as_ref().to_string());
     self
   }
   
@@ -52537,8 +52537,8 @@ impl RTDAnswerCallbackQueryBuilder {
     self
   }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
@@ -52613,8 +52613,8 @@ impl RTDAnswerCustomQueryBuilder {
     self
   }
   
-  pub fn data(&mut self, data: String) -> &mut Self {
-    self.instance.data = Some(data);
+  pub fn data<S: AsRef<str>>(&mut self, data: S) -> &mut Self {
+    self.instance.data = Some(data.as_ref().to_string());
     self
   }
   
@@ -52731,18 +52731,18 @@ impl RTDAnswerInlineQueryBuilder {
     self
   }
   
-  pub fn next_offset(&mut self, next_offset: String) -> &mut Self {
-    self.instance.next_offset = Some(next_offset);
+  pub fn next_offset<S: AsRef<str>>(&mut self, next_offset: S) -> &mut Self {
+    self.instance.next_offset = Some(next_offset.as_ref().to_string());
     self
   }
   
-  pub fn switch_pm_text(&mut self, switch_pm_text: String) -> &mut Self {
-    self.instance.switch_pm_text = Some(switch_pm_text);
+  pub fn switch_pm_text<S: AsRef<str>>(&mut self, switch_pm_text: S) -> &mut Self {
+    self.instance.switch_pm_text = Some(switch_pm_text.as_ref().to_string());
     self
   }
   
-  pub fn switch_pm_parameter(&mut self, switch_pm_parameter: String) -> &mut Self {
-    self.instance.switch_pm_parameter = Some(switch_pm_parameter);
+  pub fn switch_pm_parameter<S: AsRef<str>>(&mut self, switch_pm_parameter: S) -> &mut Self {
+    self.instance.switch_pm_parameter = Some(switch_pm_parameter.as_ref().to_string());
     self
   }
   
@@ -52812,8 +52812,8 @@ impl RTDAnswerPreCheckoutQueryBuilder {
     self
   }
   
-  pub fn error_message(&mut self, error_message: String) -> &mut Self {
-    self.instance.error_message = Some(error_message);
+  pub fn error_message<S: AsRef<str>>(&mut self, error_message: S) -> &mut Self {
+    self.instance.error_message = Some(error_message.as_ref().to_string());
     self
   }
   
@@ -52893,8 +52893,8 @@ impl RTDAnswerShippingQueryBuilder {
     self
   }
   
-  pub fn error_message(&mut self, error_message: String) -> &mut Self {
-    self.instance.error_message = Some(error_message);
+  pub fn error_message<S: AsRef<str>>(&mut self, error_message: S) -> &mut Self {
+    self.instance.error_message = Some(error_message.as_ref().to_string());
     self
   }
   
@@ -53289,8 +53289,8 @@ impl RTDChangePhoneNumberBuilder {
 
   pub fn build(&self) -> ChangePhoneNumber { self.instance.clone() }
   
-  pub fn phone_number(&mut self, phone_number: String) -> &mut Self {
-    self.instance.phone_number = Some(phone_number);
+  pub fn phone_number<S: AsRef<str>>(&mut self, phone_number: S) -> &mut Self {
+    self.instance.phone_number = Some(phone_number.as_ref().to_string());
     self
   }
   
@@ -53441,8 +53441,8 @@ impl RTDCheckAuthenticationBotTokenBuilder {
 
   pub fn build(&self) -> CheckAuthenticationBotToken { self.instance.clone() }
   
-  pub fn token(&mut self, token: String) -> &mut Self {
-    self.instance.token = Some(token);
+  pub fn token<S: AsRef<str>>(&mut self, token: S) -> &mut Self {
+    self.instance.token = Some(token.as_ref().to_string());
     self
   }
   
@@ -53512,18 +53512,18 @@ impl RTDCheckAuthenticationCodeBuilder {
 
   pub fn build(&self) -> CheckAuthenticationCode { self.instance.clone() }
   
-  pub fn code(&mut self, code: String) -> &mut Self {
-    self.instance.code = Some(code);
+  pub fn code<S: AsRef<str>>(&mut self, code: S) -> &mut Self {
+    self.instance.code = Some(code.as_ref().to_string());
     self
   }
   
-  pub fn first_name(&mut self, first_name: String) -> &mut Self {
-    self.instance.first_name = Some(first_name);
+  pub fn first_name<S: AsRef<str>>(&mut self, first_name: S) -> &mut Self {
+    self.instance.first_name = Some(first_name.as_ref().to_string());
     self
   }
   
-  pub fn last_name(&mut self, last_name: String) -> &mut Self {
-    self.instance.last_name = Some(last_name);
+  pub fn last_name<S: AsRef<str>>(&mut self, last_name: S) -> &mut Self {
+    self.instance.last_name = Some(last_name.as_ref().to_string());
     self
   }
   
@@ -53583,8 +53583,8 @@ impl RTDCheckAuthenticationPasswordBuilder {
 
   pub fn build(&self) -> CheckAuthenticationPassword { self.instance.clone() }
   
-  pub fn password(&mut self, password: String) -> &mut Self {
-    self.instance.password = Some(password);
+  pub fn password<S: AsRef<str>>(&mut self, password: S) -> &mut Self {
+    self.instance.password = Some(password.as_ref().to_string());
     self
   }
   
@@ -53644,8 +53644,8 @@ impl RTDCheckChangePhoneNumberCodeBuilder {
 
   pub fn build(&self) -> CheckChangePhoneNumberCode { self.instance.clone() }
   
-  pub fn code(&mut self, code: String) -> &mut Self {
-    self.instance.code = Some(code);
+  pub fn code<S: AsRef<str>>(&mut self, code: S) -> &mut Self {
+    self.instance.code = Some(code.as_ref().to_string());
     self
   }
   
@@ -53705,8 +53705,8 @@ impl RTDCheckChatInviteLinkBuilder {
 
   pub fn build(&self) -> CheckChatInviteLink { self.instance.clone() }
   
-  pub fn invite_link(&mut self, invite_link: String) -> &mut Self {
-    self.instance.invite_link = Some(invite_link);
+  pub fn invite_link<S: AsRef<str>>(&mut self, invite_link: S) -> &mut Self {
+    self.instance.invite_link = Some(invite_link.as_ref().to_string());
     self
   }
   
@@ -53776,8 +53776,8 @@ impl RTDCheckChatUsernameBuilder {
     self
   }
   
-  pub fn username(&mut self, username: String) -> &mut Self {
-    self.instance.username = Some(username);
+  pub fn username<S: AsRef<str>>(&mut self, username: S) -> &mut Self {
+    self.instance.username = Some(username.as_ref().to_string());
     self
   }
   
@@ -53837,8 +53837,8 @@ impl RTDCheckDatabaseEncryptionKeyBuilder {
 
   pub fn build(&self) -> CheckDatabaseEncryptionKey { self.instance.clone() }
   
-  pub fn encryption_key(&mut self, encryption_key: String) -> &mut Self {
-    self.instance.encryption_key = Some(encryption_key);
+  pub fn encryption_key<S: AsRef<str>>(&mut self, encryption_key: S) -> &mut Self {
+    self.instance.encryption_key = Some(encryption_key.as_ref().to_string());
     self
   }
   
@@ -53898,8 +53898,8 @@ impl RTDCheckEmailAddressVerificationCodeBuilder {
 
   pub fn build(&self) -> CheckEmailAddressVerificationCode { self.instance.clone() }
   
-  pub fn code(&mut self, code: String) -> &mut Self {
-    self.instance.code = Some(code);
+  pub fn code<S: AsRef<str>>(&mut self, code: S) -> &mut Self {
+    self.instance.code = Some(code.as_ref().to_string());
     self
   }
   
@@ -53959,8 +53959,8 @@ impl RTDCheckPhoneNumberConfirmationCodeBuilder {
 
   pub fn build(&self) -> CheckPhoneNumberConfirmationCode { self.instance.clone() }
   
-  pub fn code(&mut self, code: String) -> &mut Self {
-    self.instance.code = Some(code);
+  pub fn code<S: AsRef<str>>(&mut self, code: S) -> &mut Self {
+    self.instance.code = Some(code.as_ref().to_string());
     self
   }
   
@@ -54020,8 +54020,8 @@ impl RTDCheckPhoneNumberVerificationCodeBuilder {
 
   pub fn build(&self) -> CheckPhoneNumberVerificationCode { self.instance.clone() }
   
-  pub fn code(&mut self, code: String) -> &mut Self {
-    self.instance.code = Some(code);
+  pub fn code<S: AsRef<str>>(&mut self, code: S) -> &mut Self {
+    self.instance.code = Some(code.as_ref().to_string());
     self
   }
   
@@ -54081,8 +54081,8 @@ impl RTDCheckRecoveryEmailAddressCodeBuilder {
 
   pub fn build(&self) -> CheckRecoveryEmailAddressCode { self.instance.clone() }
   
-  pub fn code(&mut self, code: String) -> &mut Self {
-    self.instance.code = Some(code);
+  pub fn code<S: AsRef<str>>(&mut self, code: S) -> &mut Self {
+    self.instance.code = Some(code.as_ref().to_string());
     self
   }
   
@@ -54142,8 +54142,8 @@ impl RTDCleanFileNameBuilder {
 
   pub fn build(&self) -> CleanFileName { self.instance.clone() }
   
-  pub fn file_name(&mut self, file_name: String) -> &mut Self {
-    self.instance.file_name = Some(file_name);
+  pub fn file_name<S: AsRef<str>>(&mut self, file_name: S) -> &mut Self {
+    self.instance.file_name = Some(file_name.as_ref().to_string());
     self
   }
   
@@ -54752,8 +54752,8 @@ impl RTDCreateNewBasicGroupChatBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -54899,13 +54899,13 @@ impl RTDCreateNewStickerSetBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
-  pub fn name(&mut self, name: String) -> &mut Self {
-    self.instance.name = Some(name);
+  pub fn name<S: AsRef<str>>(&mut self, name: S) -> &mut Self {
+    self.instance.name = Some(name.as_ref().to_string());
     self
   }
   
@@ -54985,8 +54985,8 @@ impl RTDCreateNewSupergroupChatBuilder {
 
   pub fn build(&self) -> CreateNewSupergroupChat { self.instance.clone() }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -54995,8 +54995,8 @@ impl RTDCreateNewSupergroupChatBuilder {
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
@@ -55264,8 +55264,8 @@ impl RTDCreateTemporaryPasswordBuilder {
 
   pub fn build(&self) -> CreateTemporaryPassword { self.instance.clone() }
   
-  pub fn password(&mut self, password: String) -> &mut Self {
-    self.instance.password = Some(password);
+  pub fn password<S: AsRef<str>>(&mut self, password: S) -> &mut Self {
+    self.instance.password = Some(password.as_ref().to_string());
     self
   }
   
@@ -55330,8 +55330,8 @@ impl RTDDeleteAccountBuilder {
 
   pub fn build(&self) -> DeleteAccount { self.instance.clone() }
   
-  pub fn reason(&mut self, reason: String) -> &mut Self {
-    self.instance.reason = Some(reason);
+  pub fn reason<S: AsRef<str>>(&mut self, reason: S) -> &mut Self {
+    self.instance.reason = Some(reason.as_ref().to_string());
     self
   }
   
@@ -55675,8 +55675,8 @@ impl RTDDeleteLanguagePackBuilder {
 
   pub fn build(&self) -> DeleteLanguagePack { self.instance.clone() }
   
-  pub fn language_pack_id(&mut self, language_pack_id: String) -> &mut Self {
-    self.instance.language_pack_id = Some(language_pack_id);
+  pub fn language_pack_id<S: AsRef<str>>(&mut self, language_pack_id: S) -> &mut Self {
+    self.instance.language_pack_id = Some(language_pack_id.as_ref().to_string());
     self
   }
   
@@ -56593,8 +56593,8 @@ impl RTDEditInlineMessageCaptionBuilder {
 
   pub fn build(&self) -> EditInlineMessageCaption { self.instance.clone() }
   
-  pub fn inline_message_id(&mut self, inline_message_id: String) -> &mut Self {
-    self.instance.inline_message_id = Some(inline_message_id);
+  pub fn inline_message_id<S: AsRef<str>>(&mut self, inline_message_id: S) -> &mut Self {
+    self.instance.inline_message_id = Some(inline_message_id.as_ref().to_string());
     self
   }
   
@@ -56681,8 +56681,8 @@ impl RTDEditInlineMessageLiveLocationBuilder {
 
   pub fn build(&self) -> EditInlineMessageLiveLocation { self.instance.clone() }
   
-  pub fn inline_message_id(&mut self, inline_message_id: String) -> &mut Self {
-    self.instance.inline_message_id = Some(inline_message_id);
+  pub fn inline_message_id<S: AsRef<str>>(&mut self, inline_message_id: S) -> &mut Self {
+    self.instance.inline_message_id = Some(inline_message_id.as_ref().to_string());
     self
   }
   
@@ -56769,8 +56769,8 @@ impl RTDEditInlineMessageMediaBuilder {
 
   pub fn build(&self) -> EditInlineMessageMedia { self.instance.clone() }
   
-  pub fn inline_message_id(&mut self, inline_message_id: String) -> &mut Self {
-    self.instance.inline_message_id = Some(inline_message_id);
+  pub fn inline_message_id<S: AsRef<str>>(&mut self, inline_message_id: S) -> &mut Self {
+    self.instance.inline_message_id = Some(inline_message_id.as_ref().to_string());
     self
   }
   
@@ -56852,8 +56852,8 @@ impl RTDEditInlineMessageReplyMarkupBuilder {
 
   pub fn build(&self) -> EditInlineMessageReplyMarkup { self.instance.clone() }
   
-  pub fn inline_message_id(&mut self, inline_message_id: String) -> &mut Self {
-    self.instance.inline_message_id = Some(inline_message_id);
+  pub fn inline_message_id<S: AsRef<str>>(&mut self, inline_message_id: S) -> &mut Self {
+    self.instance.inline_message_id = Some(inline_message_id.as_ref().to_string());
     self
   }
   
@@ -56935,8 +56935,8 @@ impl RTDEditInlineMessageTextBuilder {
 
   pub fn build(&self) -> EditInlineMessageText { self.instance.clone() }
   
-  pub fn inline_message_id(&mut self, inline_message_id: String) -> &mut Self {
-    self.instance.inline_message_id = Some(inline_message_id);
+  pub fn inline_message_id<S: AsRef<str>>(&mut self, inline_message_id: S) -> &mut Self {
+    self.instance.inline_message_id = Some(inline_message_id.as_ref().to_string());
     self
   }
   
@@ -57518,8 +57518,8 @@ impl RTDEditProxyBuilder {
     self
   }
   
-  pub fn server(&mut self, server: String) -> &mut Self {
-    self.instance.server = Some(server);
+  pub fn server<S: AsRef<str>>(&mut self, server: S) -> &mut Self {
+    self.instance.server = Some(server.as_ref().to_string());
     self
   }
   
@@ -58051,8 +58051,8 @@ impl RTDGetAllPassportElementsBuilder {
 
   pub fn build(&self) -> GetAllPassportElements { self.instance.clone() }
   
-  pub fn password(&mut self, password: String) -> &mut Self {
-    self.instance.password = Some(password);
+  pub fn password<S: AsRef<str>>(&mut self, password: S) -> &mut Self {
+    self.instance.password = Some(password.as_ref().to_string());
     self
   }
   
@@ -58789,8 +58789,8 @@ impl RTDGetChatEventLogBuilder {
     self
   }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
@@ -59416,8 +59416,8 @@ impl RTDGetChatStatisticsUrlBuilder {
     self
   }
   
-  pub fn parameters(&mut self, parameters: String) -> &mut Self {
-    self.instance.parameters = Some(parameters);
+  pub fn parameters<S: AsRef<str>>(&mut self, parameters: S) -> &mut Self {
+    self.instance.parameters = Some(parameters.as_ref().to_string());
     self
   }
   
@@ -59869,8 +59869,8 @@ impl RTDGetDeepLinkInfoBuilder {
 
   pub fn build(&self) -> GetDeepLinkInfo { self.instance.clone() }
   
-  pub fn link(&mut self, link: String) -> &mut Self {
-    self.instance.link = Some(link);
+  pub fn link<S: AsRef<str>>(&mut self, link: S) -> &mut Self {
+    self.instance.link = Some(link.as_ref().to_string());
     self
   }
   
@@ -60113,8 +60113,8 @@ impl RTDGetFileExtensionBuilder {
 
   pub fn build(&self) -> GetFileExtension { self.instance.clone() }
   
-  pub fn mime_type(&mut self, mime_type: String) -> &mut Self {
-    self.instance.mime_type = Some(mime_type);
+  pub fn mime_type<S: AsRef<str>>(&mut self, mime_type: S) -> &mut Self {
+    self.instance.mime_type = Some(mime_type.as_ref().to_string());
     self
   }
   
@@ -60174,8 +60174,8 @@ impl RTDGetFileMimeTypeBuilder {
 
   pub fn build(&self) -> GetFileMimeType { self.instance.clone() }
   
-  pub fn file_name(&mut self, file_name: String) -> &mut Self {
-    self.instance.file_name = Some(file_name);
+  pub fn file_name<S: AsRef<str>>(&mut self, file_name: S) -> &mut Self {
+    self.instance.file_name = Some(file_name.as_ref().to_string());
     self
   }
   
@@ -60453,8 +60453,8 @@ impl RTDGetInlineGameHighScoresBuilder {
 
   pub fn build(&self) -> GetInlineGameHighScores { self.instance.clone() }
   
-  pub fn inline_message_id(&mut self, inline_message_id: String) -> &mut Self {
-    self.instance.inline_message_id = Some(inline_message_id);
+  pub fn inline_message_id<S: AsRef<str>>(&mut self, inline_message_id: S) -> &mut Self {
+    self.instance.inline_message_id = Some(inline_message_id.as_ref().to_string());
     self
   }
   
@@ -60554,13 +60554,13 @@ impl RTDGetInlineQueryResultsBuilder {
     self
   }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
-  pub fn offset(&mut self, offset: String) -> &mut Self {
-    self.instance.offset = Some(offset);
+  pub fn offset<S: AsRef<str>>(&mut self, offset: S) -> &mut Self {
+    self.instance.offset = Some(offset.as_ref().to_string());
     self
   }
   
@@ -60732,8 +60732,8 @@ impl RTDGetLanguagePackInfoBuilder {
 
   pub fn build(&self) -> GetLanguagePackInfo { self.instance.clone() }
   
-  pub fn language_pack_id(&mut self, language_pack_id: String) -> &mut Self {
-    self.instance.language_pack_id = Some(language_pack_id);
+  pub fn language_pack_id<S: AsRef<str>>(&mut self, language_pack_id: S) -> &mut Self {
+    self.instance.language_pack_id = Some(language_pack_id.as_ref().to_string());
     self
   }
   
@@ -60808,23 +60808,23 @@ impl RTDGetLanguagePackStringBuilder {
 
   pub fn build(&self) -> GetLanguagePackString { self.instance.clone() }
   
-  pub fn language_pack_database_path(&mut self, language_pack_database_path: String) -> &mut Self {
-    self.instance.language_pack_database_path = Some(language_pack_database_path);
+  pub fn language_pack_database_path<S: AsRef<str>>(&mut self, language_pack_database_path: S) -> &mut Self {
+    self.instance.language_pack_database_path = Some(language_pack_database_path.as_ref().to_string());
     self
   }
   
-  pub fn localization_target(&mut self, localization_target: String) -> &mut Self {
-    self.instance.localization_target = Some(localization_target);
+  pub fn localization_target<S: AsRef<str>>(&mut self, localization_target: S) -> &mut Self {
+    self.instance.localization_target = Some(localization_target.as_ref().to_string());
     self
   }
   
-  pub fn language_pack_id(&mut self, language_pack_id: String) -> &mut Self {
-    self.instance.language_pack_id = Some(language_pack_id);
+  pub fn language_pack_id<S: AsRef<str>>(&mut self, language_pack_id: S) -> &mut Self {
+    self.instance.language_pack_id = Some(language_pack_id.as_ref().to_string());
     self
   }
   
-  pub fn key(&mut self, key: String) -> &mut Self {
-    self.instance.key = Some(key);
+  pub fn key<S: AsRef<str>>(&mut self, key: S) -> &mut Self {
+    self.instance.key = Some(key.as_ref().to_string());
     self
   }
   
@@ -60889,8 +60889,8 @@ impl RTDGetLanguagePackStringsBuilder {
 
   pub fn build(&self) -> GetLanguagePackStrings { self.instance.clone() }
   
-  pub fn language_pack_id(&mut self, language_pack_id: String) -> &mut Self {
-    self.instance.language_pack_id = Some(language_pack_id);
+  pub fn language_pack_id<S: AsRef<str>>(&mut self, language_pack_id: S) -> &mut Self {
+    self.instance.language_pack_id = Some(language_pack_id.as_ref().to_string());
     self
   }
   
@@ -61067,8 +61067,8 @@ impl RTDGetLogTagVerbosityLevelBuilder {
 
   pub fn build(&self) -> GetLogTagVerbosityLevel { self.instance.clone() }
   
-  pub fn tag(&mut self, tag: String) -> &mut Self {
-    self.instance.tag = Some(tag);
+  pub fn tag<S: AsRef<str>>(&mut self, tag: S) -> &mut Self {
+    self.instance.tag = Some(tag.as_ref().to_string());
     self
   }
   
@@ -61737,8 +61737,8 @@ impl RTDGetOptionBuilder {
 
   pub fn build(&self) -> GetOption { self.instance.clone() }
   
-  pub fn name(&mut self, name: String) -> &mut Self {
-    self.instance.name = Some(name);
+  pub fn name<S: AsRef<str>>(&mut self, name: S) -> &mut Self {
+    self.instance.name = Some(name.as_ref().to_string());
     self
   }
   
@@ -61818,18 +61818,18 @@ impl RTDGetPassportAuthorizationFormBuilder {
     self
   }
   
-  pub fn scope(&mut self, scope: String) -> &mut Self {
-    self.instance.scope = Some(scope);
+  pub fn scope<S: AsRef<str>>(&mut self, scope: S) -> &mut Self {
+    self.instance.scope = Some(scope.as_ref().to_string());
     self
   }
   
-  pub fn public_key(&mut self, public_key: String) -> &mut Self {
-    self.instance.public_key = Some(public_key);
+  pub fn public_key<S: AsRef<str>>(&mut self, public_key: S) -> &mut Self {
+    self.instance.public_key = Some(public_key.as_ref().to_string());
     self
   }
   
-  pub fn nonce(&mut self, nonce: String) -> &mut Self {
-    self.instance.nonce = Some(nonce);
+  pub fn nonce<S: AsRef<str>>(&mut self, nonce: S) -> &mut Self {
+    self.instance.nonce = Some(nonce.as_ref().to_string());
     self
   }
   
@@ -61899,8 +61899,8 @@ impl RTDGetPassportAuthorizationFormAvailableElementsBuilder {
     self
   }
   
-  pub fn password(&mut self, password: String) -> &mut Self {
-    self.instance.password = Some(password);
+  pub fn password<S: AsRef<str>>(&mut self, password: S) -> &mut Self {
+    self.instance.password = Some(password.as_ref().to_string());
     self
   }
   
@@ -61977,8 +61977,8 @@ impl RTDGetPassportElementBuilder {
     self
   }
   
-  pub fn password(&mut self, password: String) -> &mut Self {
-    self.instance.password = Some(password);
+  pub fn password<S: AsRef<str>>(&mut self, password: S) -> &mut Self {
+    self.instance.password = Some(password.as_ref().to_string());
     self
   }
   
@@ -62231,8 +62231,8 @@ impl RTDGetPreferredCountryLanguageBuilder {
 
   pub fn build(&self) -> GetPreferredCountryLanguage { self.instance.clone() }
   
-  pub fn country_code(&mut self, country_code: String) -> &mut Self {
-    self.instance.country_code = Some(country_code);
+  pub fn country_code<S: AsRef<str>>(&mut self, country_code: S) -> &mut Self {
+    self.instance.country_code = Some(country_code.as_ref().to_string());
     self
   }
   
@@ -62485,8 +62485,8 @@ impl RTDGetPushReceiverIdBuilder {
 
   pub fn build(&self) -> GetPushReceiverId { self.instance.clone() }
   
-  pub fn payload(&mut self, payload: String) -> &mut Self {
-    self.instance.payload = Some(payload);
+  pub fn payload<S: AsRef<str>>(&mut self, payload: S) -> &mut Self {
+    self.instance.payload = Some(payload.as_ref().to_string());
     self
   }
   
@@ -62658,8 +62658,8 @@ impl RTDGetRecentlyVisitedTMeUrlsBuilder {
 
   pub fn build(&self) -> GetRecentlyVisitedTMeUrls { self.instance.clone() }
   
-  pub fn referrer(&mut self, referrer: String) -> &mut Self {
-    self.instance.referrer = Some(referrer);
+  pub fn referrer<S: AsRef<str>>(&mut self, referrer: S) -> &mut Self {
+    self.instance.referrer = Some(referrer.as_ref().to_string());
     self
   }
   
@@ -62719,8 +62719,8 @@ impl RTDGetRecoveryEmailAddressBuilder {
 
   pub fn build(&self) -> GetRecoveryEmailAddress { self.instance.clone() }
   
-  pub fn password(&mut self, password: String) -> &mut Self {
-    self.instance.password = Some(password);
+  pub fn password<S: AsRef<str>>(&mut self, password: S) -> &mut Self {
+    self.instance.password = Some(password.as_ref().to_string());
     self
   }
   
@@ -62792,8 +62792,8 @@ impl RTDGetRemoteFileBuilder {
 
   pub fn build(&self) -> GetRemoteFile { self.instance.clone() }
   
-  pub fn remote_file_id(&mut self, remote_file_id: String) -> &mut Self {
-    self.instance.remote_file_id = Some(remote_file_id);
+  pub fn remote_file_id<S: AsRef<str>>(&mut self, remote_file_id: S) -> &mut Self {
+    self.instance.remote_file_id = Some(remote_file_id.as_ref().to_string());
     self
   }
   
@@ -63294,8 +63294,8 @@ impl RTDGetStickersBuilder {
 
   pub fn build(&self) -> GetStickers { self.instance.clone() }
   
-  pub fn emoji(&mut self, emoji: String) -> &mut Self {
-    self.instance.emoji = Some(emoji);
+  pub fn emoji<S: AsRef<str>>(&mut self, emoji: S) -> &mut Self {
+    self.instance.emoji = Some(emoji.as_ref().to_string());
     self
   }
   
@@ -63794,8 +63794,8 @@ impl RTDGetTextEntitiesBuilder {
 
   pub fn build(&self) -> GetTextEntities { self.instance.clone() }
   
-  pub fn text(&mut self, text: String) -> &mut Self {
-    self.instance.text = Some(text);
+  pub fn text<S: AsRef<str>>(&mut self, text: S) -> &mut Self {
+    self.instance.text = Some(text.as_ref().to_string());
     self
   }
   
@@ -64311,8 +64311,8 @@ impl RTDGetWebPageInstantViewBuilder {
 
   pub fn build(&self) -> GetWebPageInstantView { self.instance.clone() }
   
-  pub fn url(&mut self, url: String) -> &mut Self {
-    self.instance.url = Some(url);
+  pub fn url<S: AsRef<str>>(&mut self, url: S) -> &mut Self {
+    self.instance.url = Some(url.as_ref().to_string());
     self
   }
   
@@ -64560,8 +64560,8 @@ impl RTDJoinChatByInviteLinkBuilder {
 
   pub fn build(&self) -> JoinChatByInviteLink { self.instance.clone() }
   
-  pub fn invite_link(&mut self, invite_link: String) -> &mut Self {
-    self.instance.invite_link = Some(invite_link);
+  pub fn invite_link<S: AsRef<str>>(&mut self, invite_link: S) -> &mut Self {
+    self.instance.invite_link = Some(invite_link.as_ref().to_string());
     self
   }
   
@@ -65015,8 +65015,8 @@ impl RTDParseTextEntitiesBuilder {
 
   pub fn build(&self) -> ParseTextEntities { self.instance.clone() }
   
-  pub fn text(&mut self, text: String) -> &mut Self {
-    self.instance.text = Some(text);
+  pub fn text<S: AsRef<str>>(&mut self, text: S) -> &mut Self {
+    self.instance.text = Some(text.as_ref().to_string());
     self
   }
   
@@ -65223,8 +65223,8 @@ impl RTDProcessPushNotificationBuilder {
 
   pub fn build(&self) -> ProcessPushNotification { self.instance.clone() }
   
-  pub fn payload(&mut self, payload: String) -> &mut Self {
-    self.instance.payload = Some(payload);
+  pub fn payload<S: AsRef<str>>(&mut self, payload: S) -> &mut Self {
+    self.instance.payload = Some(payload.as_ref().to_string());
     self
   }
   
@@ -65426,8 +65426,8 @@ impl RTDRecoverAuthenticationPasswordBuilder {
 
   pub fn build(&self) -> RecoverAuthenticationPassword { self.instance.clone() }
   
-  pub fn recovery_code(&mut self, recovery_code: String) -> &mut Self {
-    self.instance.recovery_code = Some(recovery_code);
+  pub fn recovery_code<S: AsRef<str>>(&mut self, recovery_code: S) -> &mut Self {
+    self.instance.recovery_code = Some(recovery_code.as_ref().to_string());
     self
   }
   
@@ -65487,8 +65487,8 @@ impl RTDRecoverPasswordBuilder {
 
   pub fn build(&self) -> RecoverPassword { self.instance.clone() }
   
-  pub fn recovery_code(&mut self, recovery_code: String) -> &mut Self {
-    self.instance.recovery_code = Some(recovery_code);
+  pub fn recovery_code<S: AsRef<str>>(&mut self, recovery_code: S) -> &mut Self {
+    self.instance.recovery_code = Some(recovery_code.as_ref().to_string());
     self
   }
   
@@ -65958,8 +65958,8 @@ impl RTDRemoveRecentHashtagBuilder {
 
   pub fn build(&self) -> RemoveRecentHashtag { self.instance.clone() }
   
-  pub fn hashtag(&mut self, hashtag: String) -> &mut Self {
-    self.instance.hashtag = Some(hashtag);
+  pub fn hashtag<S: AsRef<str>>(&mut self, hashtag: S) -> &mut Self {
+    self.instance.hashtag = Some(hashtag.as_ref().to_string());
     self
   }
   
@@ -67230,8 +67230,8 @@ impl RTDSearchChatMembersBuilder {
     self
   }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
@@ -67343,8 +67343,8 @@ impl RTDSearchChatMessagesBuilder {
     self
   }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
@@ -67505,8 +67505,8 @@ impl RTDSearchChatsBuilder {
 
   pub fn build(&self) -> SearchChats { self.instance.clone() }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
@@ -67576,8 +67576,8 @@ impl RTDSearchChatsOnServerBuilder {
 
   pub fn build(&self) -> SearchChatsOnServer { self.instance.clone() }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
@@ -67647,8 +67647,8 @@ impl RTDSearchContactsBuilder {
 
   pub fn build(&self) -> SearchContacts { self.instance.clone() }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
@@ -67718,8 +67718,8 @@ impl RTDSearchHashtagsBuilder {
 
   pub fn build(&self) -> SearchHashtags { self.instance.clone() }
   
-  pub fn prefix(&mut self, prefix: String) -> &mut Self {
-    self.instance.prefix = Some(prefix);
+  pub fn prefix<S: AsRef<str>>(&mut self, prefix: S) -> &mut Self {
+    self.instance.prefix = Some(prefix.as_ref().to_string());
     self
   }
   
@@ -67799,8 +67799,8 @@ impl RTDSearchInstalledStickerSetsBuilder {
     self
   }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
@@ -67885,8 +67885,8 @@ impl RTDSearchMessagesBuilder {
 
   pub fn build(&self) -> SearchMessages { self.instance.clone() }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
@@ -67966,8 +67966,8 @@ impl RTDSearchPublicChatBuilder {
 
   pub fn build(&self) -> SearchPublicChat { self.instance.clone() }
   
-  pub fn username(&mut self, username: String) -> &mut Self {
-    self.instance.username = Some(username);
+  pub fn username<S: AsRef<str>>(&mut self, username: S) -> &mut Self {
+    self.instance.username = Some(username.as_ref().to_string());
     self
   }
   
@@ -68027,8 +68027,8 @@ impl RTDSearchPublicChatsBuilder {
 
   pub fn build(&self) -> SearchPublicChats { self.instance.clone() }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
@@ -68120,8 +68120,8 @@ impl RTDSearchSecretMessagesBuilder {
     self
   }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
@@ -68196,8 +68196,8 @@ impl RTDSearchStickerSetBuilder {
 
   pub fn build(&self) -> SearchStickerSet { self.instance.clone() }
   
-  pub fn name(&mut self, name: String) -> &mut Self {
-    self.instance.name = Some(name);
+  pub fn name<S: AsRef<str>>(&mut self, name: S) -> &mut Self {
+    self.instance.name = Some(name.as_ref().to_string());
     self
   }
   
@@ -68257,8 +68257,8 @@ impl RTDSearchStickerSetsBuilder {
 
   pub fn build(&self) -> SearchStickerSets { self.instance.clone() }
   
-  pub fn query(&mut self, query: String) -> &mut Self {
-    self.instance.query = Some(query);
+  pub fn query<S: AsRef<str>>(&mut self, query: S) -> &mut Self {
+    self.instance.query = Some(query.as_ref().to_string());
     self
   }
   
@@ -68323,8 +68323,8 @@ impl RTDSearchStickersBuilder {
 
   pub fn build(&self) -> SearchStickers { self.instance.clone() }
   
-  pub fn emoji(&mut self, emoji: String) -> &mut Self {
-    self.instance.emoji = Some(emoji);
+  pub fn emoji<S: AsRef<str>>(&mut self, emoji: S) -> &mut Self {
+    self.instance.emoji = Some(emoji.as_ref().to_string());
     self
   }
   
@@ -68409,8 +68409,8 @@ impl RTDSendBotStartMessageBuilder {
     self
   }
   
-  pub fn parameter(&mut self, parameter: String) -> &mut Self {
-    self.instance.parameter = Some(parameter);
+  pub fn parameter<S: AsRef<str>>(&mut self, parameter: S) -> &mut Self {
+    self.instance.parameter = Some(parameter.as_ref().to_string());
     self
   }
   
@@ -68480,8 +68480,8 @@ impl RTDSendCallDebugInformationBuilder {
     self
   }
   
-  pub fn debug_information(&mut self, debug_information: String) -> &mut Self {
-    self.instance.debug_information = Some(debug_information);
+  pub fn debug_information<S: AsRef<str>>(&mut self, debug_information: S) -> &mut Self {
+    self.instance.debug_information = Some(debug_information.as_ref().to_string());
     self
   }
   
@@ -68561,8 +68561,8 @@ impl RTDSendCallRatingBuilder {
     self
   }
   
-  pub fn comment(&mut self, comment: String) -> &mut Self {
-    self.instance.comment = Some(comment);
+  pub fn comment<S: AsRef<str>>(&mut self, comment: S) -> &mut Self {
+    self.instance.comment = Some(comment.as_ref().to_string());
     self
   }
   
@@ -68837,13 +68837,13 @@ impl RTDSendCustomRequestBuilder {
 
   pub fn build(&self) -> SendCustomRequest { self.instance.clone() }
   
-  pub fn method(&mut self, method: String) -> &mut Self {
-    self.instance.method = Some(method);
+  pub fn method<S: AsRef<str>>(&mut self, method: S) -> &mut Self {
+    self.instance.method = Some(method.as_ref().to_string());
     self
   }
   
-  pub fn parameters(&mut self, parameters: String) -> &mut Self {
-    self.instance.parameters = Some(parameters);
+  pub fn parameters<S: AsRef<str>>(&mut self, parameters: S) -> &mut Self {
+    self.instance.parameters = Some(parameters.as_ref().to_string());
     self
   }
   
@@ -68903,8 +68903,8 @@ impl RTDSendEmailAddressVerificationCodeBuilder {
 
   pub fn build(&self) -> SendEmailAddressVerificationCode { self.instance.clone() }
   
-  pub fn email_address(&mut self, email_address: String) -> &mut Self {
-    self.instance.email_address = Some(email_address);
+  pub fn email_address<S: AsRef<str>>(&mut self, email_address: S) -> &mut Self {
+    self.instance.email_address = Some(email_address.as_ref().to_string());
     self
   }
   
@@ -69019,8 +69019,8 @@ impl RTDSendInlineQueryResultMessageBuilder {
     self
   }
   
-  pub fn result_id(&mut self, result_id: String) -> &mut Self {
-    self.instance.result_id = Some(result_id);
+  pub fn result_id<S: AsRef<str>>(&mut self, result_id: S) -> &mut Self {
+    self.instance.result_id = Some(result_id.as_ref().to_string());
     self
   }
   
@@ -69426,13 +69426,13 @@ impl RTDSendPaymentFormBuilder {
     self
   }
   
-  pub fn order_info_id(&mut self, order_info_id: String) -> &mut Self {
-    self.instance.order_info_id = Some(order_info_id);
+  pub fn order_info_id<S: AsRef<str>>(&mut self, order_info_id: S) -> &mut Self {
+    self.instance.order_info_id = Some(order_info_id.as_ref().to_string());
     self
   }
   
-  pub fn shipping_option_id(&mut self, shipping_option_id: String) -> &mut Self {
-    self.instance.shipping_option_id = Some(shipping_option_id);
+  pub fn shipping_option_id<S: AsRef<str>>(&mut self, shipping_option_id: S) -> &mut Self {
+    self.instance.shipping_option_id = Some(shipping_option_id.as_ref().to_string());
     self
   }
   
@@ -69512,13 +69512,13 @@ impl RTDSendPhoneNumberConfirmationCodeBuilder {
 
   pub fn build(&self) -> SendPhoneNumberConfirmationCode { self.instance.clone() }
   
-  pub fn hash(&mut self, hash: String) -> &mut Self {
-    self.instance.hash = Some(hash);
+  pub fn hash<S: AsRef<str>>(&mut self, hash: S) -> &mut Self {
+    self.instance.hash = Some(hash.as_ref().to_string());
     self
   }
   
-  pub fn phone_number(&mut self, phone_number: String) -> &mut Self {
-    self.instance.phone_number = Some(phone_number);
+  pub fn phone_number<S: AsRef<str>>(&mut self, phone_number: S) -> &mut Self {
+    self.instance.phone_number = Some(phone_number.as_ref().to_string());
     self
   }
   
@@ -69598,8 +69598,8 @@ impl RTDSendPhoneNumberVerificationCodeBuilder {
 
   pub fn build(&self) -> SendPhoneNumberVerificationCode { self.instance.clone() }
   
-  pub fn phone_number(&mut self, phone_number: String) -> &mut Self {
-    self.instance.phone_number = Some(phone_number);
+  pub fn phone_number<S: AsRef<str>>(&mut self, phone_number: S) -> &mut Self {
+    self.instance.phone_number = Some(phone_number.as_ref().to_string());
     self
   }
   
@@ -69801,8 +69801,8 @@ impl RTDSetAuthenticationPhoneNumberBuilder {
 
   pub fn build(&self) -> SetAuthenticationPhoneNumber { self.instance.clone() }
   
-  pub fn phone_number(&mut self, phone_number: String) -> &mut Self {
-    self.instance.phone_number = Some(phone_number);
+  pub fn phone_number<S: AsRef<str>>(&mut self, phone_number: S) -> &mut Self {
+    self.instance.phone_number = Some(phone_number.as_ref().to_string());
     self
   }
   
@@ -69872,8 +69872,8 @@ impl RTDSetBioBuilder {
 
   pub fn build(&self) -> SetBio { self.instance.clone() }
   
-  pub fn bio(&mut self, bio: String) -> &mut Self {
-    self.instance.bio = Some(bio);
+  pub fn bio<S: AsRef<str>>(&mut self, bio: S) -> &mut Self {
+    self.instance.bio = Some(bio.as_ref().to_string());
     self
   }
   
@@ -69943,8 +69943,8 @@ impl RTDSetBotUpdatesStatusBuilder {
     self
   }
   
-  pub fn error_message(&mut self, error_message: String) -> &mut Self {
-    self.instance.error_message = Some(error_message);
+  pub fn error_message<S: AsRef<str>>(&mut self, error_message: S) -> &mut Self {
+    self.instance.error_message = Some(error_message.as_ref().to_string());
     self
   }
   
@@ -70014,8 +70014,8 @@ impl RTDSetChatClientDataBuilder {
     self
   }
   
-  pub fn client_data(&mut self, client_data: String) -> &mut Self {
-    self.instance.client_data = Some(client_data);
+  pub fn client_data<S: AsRef<str>>(&mut self, client_data: S) -> &mut Self {
+    self.instance.client_data = Some(client_data.as_ref().to_string());
     self
   }
   
@@ -70393,8 +70393,8 @@ impl RTDSetChatTitleBuilder {
     self
   }
   
-  pub fn title(&mut self, title: String) -> &mut Self {
-    self.instance.title = Some(title);
+  pub fn title<S: AsRef<str>>(&mut self, title: S) -> &mut Self {
+    self.instance.title = Some(title.as_ref().to_string());
     self
   }
   
@@ -70530,8 +70530,8 @@ impl RTDSetCustomLanguagePackStringBuilder {
 
   pub fn build(&self) -> SetCustomLanguagePackString { self.instance.clone() }
   
-  pub fn language_pack_id(&mut self, language_pack_id: String) -> &mut Self {
-    self.instance.language_pack_id = Some(language_pack_id);
+  pub fn language_pack_id<S: AsRef<str>>(&mut self, language_pack_id: S) -> &mut Self {
+    self.instance.language_pack_id = Some(language_pack_id.as_ref().to_string());
     self
   }
   
@@ -70596,8 +70596,8 @@ impl RTDSetDatabaseEncryptionKeyBuilder {
 
   pub fn build(&self) -> SetDatabaseEncryptionKey { self.instance.clone() }
   
-  pub fn new_encryption_key(&mut self, new_encryption_key: String) -> &mut Self {
-    self.instance.new_encryption_key = Some(new_encryption_key);
+  pub fn new_encryption_key<S: AsRef<str>>(&mut self, new_encryption_key: S) -> &mut Self {
+    self.instance.new_encryption_key = Some(new_encryption_key.as_ref().to_string());
     self
   }
   
@@ -70869,8 +70869,8 @@ impl RTDSetInlineGameScoreBuilder {
 
   pub fn build(&self) -> SetInlineGameScore { self.instance.clone() }
   
-  pub fn inline_message_id(&mut self, inline_message_id: String) -> &mut Self {
-    self.instance.inline_message_id = Some(inline_message_id);
+  pub fn inline_message_id<S: AsRef<str>>(&mut self, inline_message_id: S) -> &mut Self {
+    self.instance.inline_message_id = Some(inline_message_id.as_ref().to_string());
     self
   }
   
@@ -71023,8 +71023,8 @@ impl RTDSetLogTagVerbosityLevelBuilder {
 
   pub fn build(&self) -> SetLogTagVerbosityLevel { self.instance.clone() }
   
-  pub fn tag(&mut self, tag: String) -> &mut Self {
-    self.instance.tag = Some(tag);
+  pub fn tag<S: AsRef<str>>(&mut self, tag: S) -> &mut Self {
+    self.instance.tag = Some(tag.as_ref().to_string());
     self
   }
   
@@ -71155,13 +71155,13 @@ impl RTDSetNameBuilder {
 
   pub fn build(&self) -> SetName { self.instance.clone() }
   
-  pub fn first_name(&mut self, first_name: String) -> &mut Self {
-    self.instance.first_name = Some(first_name);
+  pub fn first_name<S: AsRef<str>>(&mut self, first_name: S) -> &mut Self {
+    self.instance.first_name = Some(first_name.as_ref().to_string());
     self
   }
   
-  pub fn last_name(&mut self, last_name: String) -> &mut Self {
-    self.instance.last_name = Some(last_name);
+  pub fn last_name<S: AsRef<str>>(&mut self, last_name: S) -> &mut Self {
+    self.instance.last_name = Some(last_name.as_ref().to_string());
     self
   }
   
@@ -71301,8 +71301,8 @@ impl RTDSetOptionBuilder {
 
   pub fn build(&self) -> SetOption { self.instance.clone() }
   
-  pub fn name(&mut self, name: String) -> &mut Self {
-    self.instance.name = Some(name);
+  pub fn name<S: AsRef<str>>(&mut self, name: S) -> &mut Self {
+    self.instance.name = Some(name.as_ref().to_string());
     self
   }
   
@@ -71384,8 +71384,8 @@ impl RTDSetPassportElementBuilder {
     self
   }
   
-  pub fn password(&mut self, password: String) -> &mut Self {
-    self.instance.password = Some(password);
+  pub fn password<S: AsRef<str>>(&mut self, password: S) -> &mut Self {
+    self.instance.password = Some(password.as_ref().to_string());
     self
   }
   
@@ -71536,18 +71536,18 @@ impl RTDSetPasswordBuilder {
 
   pub fn build(&self) -> SetPassword { self.instance.clone() }
   
-  pub fn old_password(&mut self, old_password: String) -> &mut Self {
-    self.instance.old_password = Some(old_password);
+  pub fn old_password<S: AsRef<str>>(&mut self, old_password: S) -> &mut Self {
+    self.instance.old_password = Some(old_password.as_ref().to_string());
     self
   }
   
-  pub fn new_password(&mut self, new_password: String) -> &mut Self {
-    self.instance.new_password = Some(new_password);
+  pub fn new_password<S: AsRef<str>>(&mut self, new_password: S) -> &mut Self {
+    self.instance.new_password = Some(new_password.as_ref().to_string());
     self
   }
   
-  pub fn new_hint(&mut self, new_hint: String) -> &mut Self {
-    self.instance.new_hint = Some(new_hint);
+  pub fn new_hint<S: AsRef<str>>(&mut self, new_hint: S) -> &mut Self {
+    self.instance.new_hint = Some(new_hint.as_ref().to_string());
     self
   }
   
@@ -71556,8 +71556,8 @@ impl RTDSetPasswordBuilder {
     self
   }
   
-  pub fn new_recovery_email_address(&mut self, new_recovery_email_address: String) -> &mut Self {
-    self.instance.new_recovery_email_address = Some(new_recovery_email_address);
+  pub fn new_recovery_email_address<S: AsRef<str>>(&mut self, new_recovery_email_address: S) -> &mut Self {
+    self.instance.new_recovery_email_address = Some(new_recovery_email_address.as_ref().to_string());
     self
   }
   
@@ -71832,13 +71832,13 @@ impl RTDSetRecoveryEmailAddressBuilder {
 
   pub fn build(&self) -> SetRecoveryEmailAddress { self.instance.clone() }
   
-  pub fn password(&mut self, password: String) -> &mut Self {
-    self.instance.password = Some(password);
+  pub fn password<S: AsRef<str>>(&mut self, password: S) -> &mut Self {
+    self.instance.password = Some(password.as_ref().to_string());
     self
   }
   
-  pub fn new_recovery_email_address(&mut self, new_recovery_email_address: String) -> &mut Self {
-    self.instance.new_recovery_email_address = Some(new_recovery_email_address);
+  pub fn new_recovery_email_address<S: AsRef<str>>(&mut self, new_recovery_email_address: S) -> &mut Self {
+    self.instance.new_recovery_email_address = Some(new_recovery_email_address.as_ref().to_string());
     self
   }
   
@@ -72064,8 +72064,8 @@ impl RTDSetSupergroupDescriptionBuilder {
     self
   }
   
-  pub fn description(&mut self, description: String) -> &mut Self {
-    self.instance.description = Some(description);
+  pub fn description<S: AsRef<str>>(&mut self, description: S) -> &mut Self {
+    self.instance.description = Some(description.as_ref().to_string());
     self
   }
   
@@ -72206,8 +72206,8 @@ impl RTDSetSupergroupUsernameBuilder {
     self
   }
   
-  pub fn username(&mut self, username: String) -> &mut Self {
-    self.instance.username = Some(username);
+  pub fn username<S: AsRef<str>>(&mut self, username: S) -> &mut Self {
+    self.instance.username = Some(username.as_ref().to_string());
     self
   }
   
@@ -72406,8 +72406,8 @@ impl RTDSetUsernameBuilder {
 
   pub fn build(&self) -> SetUsername { self.instance.clone() }
   
-  pub fn username(&mut self, username: String) -> &mut Self {
-    self.instance.username = Some(username);
+  pub fn username<S: AsRef<str>>(&mut self, username: S) -> &mut Self {
+    self.instance.username = Some(username.as_ref().to_string());
     self
   }
   
@@ -72555,8 +72555,8 @@ impl RTDSynchronizeLanguagePackBuilder {
 
   pub fn build(&self) -> SynchronizeLanguagePack { self.instance.clone() }
   
-  pub fn language_pack_id(&mut self, language_pack_id: String) -> &mut Self {
-    self.instance.language_pack_id = Some(language_pack_id);
+  pub fn language_pack_id<S: AsRef<str>>(&mut self, language_pack_id: S) -> &mut Self {
+    self.instance.language_pack_id = Some(language_pack_id.as_ref().to_string());
     self
   }
   
@@ -72728,8 +72728,8 @@ impl RTDTestCallBytesBuilder {
 
   pub fn build(&self) -> TestCallBytes { self.instance.clone() }
   
-  pub fn x(&mut self, x: String) -> &mut Self {
-    self.instance.x = Some(x);
+  pub fn x<S: AsRef<str>>(&mut self, x: S) -> &mut Self {
+    self.instance.x = Some(x.as_ref().to_string());
     self
   }
   
@@ -72840,8 +72840,8 @@ impl RTDTestCallStringBuilder {
 
   pub fn build(&self) -> TestCallString { self.instance.clone() }
   
-  pub fn x(&mut self, x: String) -> &mut Self {
-    self.instance.x = Some(x);
+  pub fn x<S: AsRef<str>>(&mut self, x: S) -> &mut Self {
+    self.instance.x = Some(x.as_ref().to_string());
     self
   }
   
@@ -74509,8 +74509,8 @@ impl RTDWriteGeneratedFilePartBuilder {
     self
   }
   
-  pub fn data(&mut self, data: String) -> &mut Self {
-    self.instance.data = Some(data);
+  pub fn data<S: AsRef<str>>(&mut self, data: S) -> &mut Self {
+    self.instance.data = Some(data.as_ref().to_string());
     self
   }
   
