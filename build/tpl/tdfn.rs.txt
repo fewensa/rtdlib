@@ -85,7 +85,7 @@ pub enum TD{{clz_name}}Type {
   {% endfor %}
 }
 impl TD{{clz_name}}Type {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 {% endif %}
 {% endif %}

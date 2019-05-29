@@ -1461,7 +1461,7 @@ pub enum TDFunctionType {
   
 }
 impl TDFunctionType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -2059,7 +2059,7 @@ pub enum TDAuthenticationCodeTypeType {
   
 }
 impl TDAuthenticationCodeTypeType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -2345,7 +2345,7 @@ pub enum TDAuthorizationStateType {
   
 }
 impl TDAuthorizationStateType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -3236,7 +3236,7 @@ pub enum TDCallDiscardReasonType {
   
 }
 impl TDCallDiscardReasonType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -3678,7 +3678,7 @@ pub enum TDCallStateType {
   
 }
 impl TDCallStateType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -4225,7 +4225,7 @@ pub enum TDCallbackQueryPayloadType {
   
 }
 impl TDCallbackQueryPayloadType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -4669,7 +4669,7 @@ pub enum TDChatActionType {
   
 }
 impl TDChatActionType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -5528,7 +5528,7 @@ pub enum TDChatEventActionType {
   
 }
 impl TDChatEventActionType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -7204,7 +7204,7 @@ pub enum TDChatMemberStatusType {
   
 }
 impl TDChatMemberStatusType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -7787,7 +7787,7 @@ pub enum TDChatMembersFilterType {
   
 }
 impl TDChatMembersFilterType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -8299,7 +8299,7 @@ pub enum TDChatReportReasonType {
   
 }
 impl TDChatReportReasonType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -8711,7 +8711,7 @@ pub enum TDChatTypeType {
   
 }
 impl TDChatTypeType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -9072,7 +9072,7 @@ pub enum TDCheckChatUsernameResultType {
   
 }
 impl TDCheckChatUsernameResultType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -9563,7 +9563,7 @@ pub enum TDConnectionStateType {
   
 }
 impl TDConnectionStateType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -10355,7 +10355,7 @@ pub enum TDDeviceTokenType {
   
 }
 impl TDDeviceTokenType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -11821,7 +11821,7 @@ pub enum TDFileTypeType {
   
 }
 impl TDFileTypeType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -13442,7 +13442,7 @@ pub enum TDInlineKeyboardButtonTypeType {
   
 }
 impl TDInlineKeyboardButtonTypeType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -13782,7 +13782,7 @@ pub enum TDInlineQueryResultType {
   
 }
 impl TDInlineQueryResultType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -14937,7 +14937,7 @@ pub enum TDInputCredentialsType {
   
 }
 impl TDInputCredentialsType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -15228,7 +15228,7 @@ pub enum TDInputFileType {
   
 }
 impl TDInputFileType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -15654,7 +15654,7 @@ pub enum TDInputInlineQueryResultType {
   
 }
 impl TDInputInlineQueryResultType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -17497,7 +17497,7 @@ pub enum TDInputMessageContentType {
   
 }
 impl TDInputMessageContentType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -19095,7 +19095,7 @@ pub enum TDInputPassportElementType {
   
 }
 impl TDInputPassportElementType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -20016,7 +20016,7 @@ pub enum TDInputPassportElementErrorSourceType {
   
 }
 impl TDInputPassportElementErrorSourceType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -21084,7 +21084,7 @@ pub enum TDKeyboardButtonTypeType {
   
 }
 impl TDKeyboardButtonTypeType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -21597,7 +21597,7 @@ pub enum TDLanguagePackStringValueType {
   
 }
 impl TDLanguagePackStringValueType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -21915,7 +21915,7 @@ pub enum TDLinkStateType {
   
 }
 impl TDLinkStateType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -22361,7 +22361,7 @@ pub enum TDLogStreamType {
   
 }
 impl TDLogStreamType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -22689,7 +22689,7 @@ pub enum TDMaskPointType {
   
 }
 impl TDMaskPointType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -23348,7 +23348,7 @@ pub enum TDMessageContentType {
   
 }
 impl TDMessageContentType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -26244,7 +26244,7 @@ pub enum TDMessageForwardOriginType {
   
 }
 impl TDMessageForwardOriginType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -26482,7 +26482,7 @@ pub enum TDMessageSendingStateType {
   
 }
 impl TDMessageSendingStateType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -26764,7 +26764,7 @@ pub enum TDNetworkStatisticsEntryType {
   
 }
 impl TDNetworkStatisticsEntryType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -26998,7 +26998,7 @@ pub enum TDNetworkTypeType {
   
 }
 impl TDNetworkTypeType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -27482,7 +27482,7 @@ pub enum TDNotificationGroupTypeType {
   
 }
 impl TDNotificationGroupTypeType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -27722,7 +27722,7 @@ pub enum TDNotificationSettingsScopeType {
   
 }
 impl TDNotificationSettingsScopeType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -27912,7 +27912,7 @@ pub enum TDNotificationTypeType {
   
 }
 impl TDNotificationTypeType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -28259,7 +28259,7 @@ pub enum TDOptionValueType {
   
 }
 impl TDOptionValueType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -28643,7 +28643,7 @@ pub enum TDPageBlockType {
   
 }
 impl TDPageBlockType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -30959,7 +30959,7 @@ pub enum TDPageBlockHorizontalAlignmentType {
   
 }
 impl TDPageBlockHorizontalAlignmentType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -31449,7 +31449,7 @@ pub enum TDPageBlockVerticalAlignmentType {
   
 }
 impl TDPageBlockVerticalAlignmentType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -31727,7 +31727,7 @@ pub enum TDPassportElementType {
   
 }
 impl TDPassportElementType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -32648,7 +32648,7 @@ pub enum TDPassportElementErrorSourceType {
   
 }
 impl TDPassportElementErrorSourceType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -33183,7 +33183,7 @@ pub enum TDPassportElementTypeType {
   
 }
 impl TDPassportElementTypeType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -35492,7 +35492,7 @@ pub enum TDProxyTypeType {
   
 }
 impl TDProxyTypeType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -35833,7 +35833,7 @@ pub enum TDPushMessageContentType {
   
 }
 impl TDPushMessageContentType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -37893,7 +37893,7 @@ pub enum TDReplyMarkupType {
   
 }
 impl TDReplyMarkupType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -38215,7 +38215,7 @@ pub enum TDRichTextType {
   
 }
 impl TDRichTextType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -39498,7 +39498,7 @@ pub enum TDSearchMessagesFilterType {
   
 }
 impl TDSearchMessagesFilterType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -40535,7 +40535,7 @@ pub enum TDSecretChatStateType {
   
 }
 impl TDSecretChatStateType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -42376,7 +42376,7 @@ pub enum TDSupergroupMembersFilterType {
   
 }
 impl TDSupergroupMembersFilterType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -42825,7 +42825,7 @@ pub enum TDTMeUrlTypeType {
   
 }
 impl TDTMeUrlTypeType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -44139,7 +44139,7 @@ pub enum TDTextEntityTypeType {
   
 }
 impl TDTextEntityTypeType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -44918,7 +44918,7 @@ pub enum TDTextParseModeType {
   
 }
 impl TDTextParseModeType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -45059,7 +45059,7 @@ pub enum TDTopChatCategoryType {
   
 }
 impl TDTopChatCategoryType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -45466,7 +45466,7 @@ pub enum TDUpdateType {
   
 }
 impl TDUpdateType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -48893,7 +48893,7 @@ pub enum TDUserPrivacySettingType {
   
 }
 impl TDUserPrivacySettingType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -49136,7 +49136,7 @@ pub enum TDUserPrivacySettingRuleType {
   
 }
 impl TDUserPrivacySettingRuleType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -49715,7 +49715,7 @@ pub enum TDUserStatusType {
   
 }
 impl TDUserStatusType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 
@@ -50078,7 +50078,7 @@ pub enum TDUserTypeType {
   
 }
 impl TDUserTypeType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(text.as_ref()) { Ok(t) => Some(t), Err(_) => None } }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 

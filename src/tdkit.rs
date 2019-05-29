@@ -64,7 +64,7 @@ pub fn fill_json_struct<S: AsRef<str>>(json: S) -> String {
   builder.string()
 }
 
-fn uppercase_first_char<S: AsRef<str>>(s: S) -> String {
+pub(crate) fn uppercase_first_char<S: AsRef<str>>(s: S) -> String {
   let mut c = s.as_ref().chars();
   match c.next() {
     None => String::new(),
