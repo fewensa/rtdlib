@@ -38,9 +38,6 @@ fn remove_all_struct<S: AsRef<str>>(json: S) -> String {
             _ => {}
           }
         }
-        if let Some(',') = reader.next() {} else {
-          reader.back();
-        }
       }
       Some(ch) => {
         builder.append(ch);
