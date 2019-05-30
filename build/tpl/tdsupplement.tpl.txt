@@ -1,0 +1,73 @@
+use crate::types::{Function, Object, RObject, RTDType};
+use crate::{tdkit, types};
+
+impl <'a, Fnc: Function> Function for &'a Fnc {}
+
+impl <'a, Fnc: Function> Function for &'a mut Fnc {}
+
+impl <'a, Obj: Object> Object for &'a Obj {}
+
+impl <'a, Obj: Object> Object for &'a mut Obj {}
+
+impl <'a, RObj: RObject> RObject for &'a RObj {
+  fn td_name(&self) -> &'static str {
+    (*self).td_name()
+  }
+
+  fn td_type(&self) -> RTDType {
+    (*self).td_type()
+  }
+
+  fn to_json(&self) -> String {
+    (*self).to_json()
+  }
+}
+
+impl <'a, RObj: RObject> RObject for &'a mut RObj {
+  fn td_name(&self) -> &'static str {
+    (**self).td_name()
+  }
+
+  fn td_type(&self) -> RTDType {
+    (**self).td_type()
+  }
+
+  fn to_json(&self) -> String {
+    (**self).to_json()
+  }
+}
+
+impl Object {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<Object>> {
+    let struct_name = tdkit::extra_struct(json.as_ref());
+    if struct_name.is_none() {
+      eprintln!("JSON FAIL => {}", json.as_ref());
+      return None;
+    }
+    let struct_name = struct_name.unwrap();
+    let ret: Option<Box<Object>> = match &struct_name[..] {
+      {% for item in object_classes %}{% if item.is_trait == "false" %}"{{item.clz_name}}" => { match serde_json::from_str::<Box<types::{{item.clz_name}}>>(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } },
+      {% endif %}{% endfor %}
+      _ => None
+    };
+    ret
+  }
+}
+
+impl Function {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<Function>> {
+    let struct_name = tdkit::extra_struct(json.as_ref());
+    if struct_name.is_none() {
+      eprintln!("JSON FAIL => {}", json.as_ref());
+      return None;
+    }
+    let struct_name = struct_name.unwrap();
+    let ret: Option<Box<Function>> = match &struct_name[..] {
+      {% for item in function_classes %}{% if item.is_trait == "false" %}"{{item.clz_name}}" => { match serde_json::from_str::<Box<types::{{item.clz_name}}>>(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } },
+      {% endif %}{% endfor %}
+      _ => None
+    };
+    ret
+  }
+}
+

@@ -11,7 +11,7 @@ categories = ["api-bindings"]
 include = [
   "Cargo.toml",
   "**/*.rs",
-  "**/*.rs.txt",
+  "**/*.tpl.txt",
   "README.md",
   "LICENSE"
 ]
@@ -44,4 +44,4 @@ hostname = "0.1.5"
 tera = "0.11.20"
 text-reader = "0.2.1"
 rstring-builder = "0.1.3"
-toolkit = "0.1.0"
+toolkit = { git = "https://github.com/fewensa/toolkit" }

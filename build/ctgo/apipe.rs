@@ -5,7 +5,7 @@ use rstring_builder::StringBuilder;
 use scraper::{ElementRef, Html, Selector};
 use text_reader::TextReader;
 
-use crate::{bakit, bog};
+use crate::bog;
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Hash)]
 pub enum FieldINF {
@@ -27,62 +27,49 @@ impl FieldINF {
 }
 
 pub struct Apipe {
-  czs: Vec<(String, String)>
+  czs: Vec<(String, String)>,
+  cache_document: HashMap<String, Html>,
+  cache_is_trait: HashMap<String, bool>,
+  cache_description: HashMap<String, String>,
+  cache_subclasses: HashMap<String, Vec<String>>,
+  cache_fatherclass: HashMap<String, String>,
+  cache_fields: HashMap<String, Vec<HashMap<FieldINF, String>>>,
 }
 
 impl Apipe {
   pub fn new(czs: Vec<(String, String)>) -> Self {
-    Self { czs }
-  }
-
-  fn exists_name<S: AsRef<str>>(&self, name: S) -> bool {
-    !self.czs.iter()
-      .filter(|(cname, _)| cname.to_lowercase() == name.as_ref().to_lowercase())
-      .map(|(_, _)| 0)
-      .collect::<Vec<(_)>>()
-      .is_empty()
-  }
-
-  fn path<S: AsRef<str>>(&self, name: S) -> Option<String> {
-    self.czs.iter()
-      .filter(|(cname, _)| name.as_ref().to_lowercase() == cname.to_lowercase())
-      .map(|(_, cpath)| cpath)
-      .collect::<Vec<&String>>()
-      .first()
-      .map(|&cpath| cpath.clone())
-  }
-
-  fn document<S: AsRef<str>>(&self, name: S) -> Option<Html> {
-    let path = match self.path(name) {
-      Some(path) => path,
-      None => return None
+    let mut apipe = Self {
+      czs: czs.clone(),
+      cache_document: HashMap::new(),
+      cache_is_trait: HashMap::new(),
+      cache_description: HashMap::new(),
+      cache_subclasses: HashMap::new(),
+      cache_fatherclass: HashMap::new(),
+      cache_fields: HashMap::new(),
     };
+    // cache document
+    czs.iter().for_each(|(name, path)| apipe.cache_document(name, path));
+    // cache description
+    czs.iter().for_each(|(name, _)| apipe.cache_description(name));
+    // cache is_trait
+    czs.iter().for_each(|(name, _)| apipe.cache_is_trait(name));
+    // cache father class
+    czs.iter().for_each(|(name, _)| apipe.cache_fatherclass(name));
+    // cache subclasses
+    czs.iter().for_each(|(name, _)| apipe.cache_subclasses(name));
+    // cache fields
+    czs.iter().for_each(|(name, _)| apipe.cache_fields(name));
+    apipe
+  }
+
+  fn cache_document(&mut self, name: &String, path: &String) {
     let content = fs::read_to_string(&path[..]).unwrap();
-    Some(Html::parse_fragment(&content[..]))
+    let document = Html::parse_fragment(&content[..]);
+    bog::info(format!("Found html {}", path));
+    self.cache_document.insert(name.to_lowercase(), document);
   }
 
-
-  pub fn names(&self) -> Vec<String> {
-    self.czs.iter()
-      .map(|(cname, _)| cname.clone())
-      .collect::<Vec<String>>()
-  }
-
-  pub fn is_trait<S: AsRef<str>>(&self, name: S) -> bool {
-    let lowercase_text = match self.description(name) {
-      Some(text) => text.to_lowercase(),
-      None => return false
-    };
-
-    lowercase_text.contains("this class is a base class") ||
-      lowercase_text.contains("this class is an abstract base class")
-  }
-
-  pub fn description<S: AsRef<str>>(&self, name: S) -> Option<String> {
-    if !self.exists_name(&name) {
-      return None;
-    }
-
+  fn cache_description(&mut self, name: &String) {
     let selector_description = Selector::parse(".textblock").unwrap();
     let ret = self.document(name).map(|doc| {
       let ele = match doc.select(&selector_description).next() {
@@ -91,17 +78,37 @@ impl Apipe {
       };
       match ele.text().next() {
         Some(text) => Some(text.to_string()),
-        None => None
+        None => return None
       }
     });
-    bakit::flatten_option(ret)
+    let description = toolkit::option::flatten(ret);
+    if description.is_some() {
+      let description = description.unwrap();
+      bog::info(format!("Found description [{}] => {}", name, description));
+      self.cache_description.insert(name.to_lowercase(), description);
+    }
   }
 
-  pub fn father_class<S: AsRef<str>>(&self, name: S) -> Option<String> {
-    if !self.exists_name(&name) {
-      return None;
-    }
+  fn cache_is_trait(&mut self, name: &String) {
+    let lowercase_text = match self.description(name) {
+      Some(text) => text.to_lowercase(),
+      None => {
+        bog::info(format!("[{}] is trait false", name));
+        self.cache_is_trait.insert(name.to_lowercase(), false);
+        return;
+      }
+    };
 
+    let is_trait = lowercase_text.contains("this class is a base class") ||
+      lowercase_text.contains("this class is an abstract base class");
+    bog::info(format!("[{}] is trait {} ", name, is_trait));
+    self.cache_is_trait.insert(name.to_lowercase(), is_trait);
+//    if name == "UserStatus" {
+//      panic!("ttttttt {:?}", self.cache_is_trait.get(&name.to_lowercase()[..]))
+//    }
+  }
+
+  fn cache_fatherclass(&mut self, name: &String) {
     let selector_inherits = Selector::parse(".el").unwrap();
     let ret = self.document(name).map(|doc| {
       let ele = match doc.select(&selector_inherits).nth(1) {
@@ -113,13 +120,15 @@ impl Apipe {
         None => None
       }
     });
-    bakit::flatten_option(ret)
+    let fa = toolkit::option::flatten(ret);
+    if fa.is_some() {
+      let fa = fa.unwrap();
+      bog::info(format!("[{}] father class is {}", name, fa));
+      self.cache_fatherclass.insert(name.to_lowercase(), fa);
+    }
   }
 
-  pub fn sub_classes<S: AsRef<str>>(&self, name: S) -> Option<Vec<String>> {
-    if !self.exists_name(&name) {
-      return None;
-    }
+  fn cache_subclasses(&mut self, name: &String) {
     let selector_inherited = Selector::parse(".contents p").unwrap();
     let selector_subel = Selector::parse(".el").unwrap();
 
@@ -141,20 +150,25 @@ impl Apipe {
         });
         Some(rets)
       });
-    bakit::flatten_option(subclasses)
+    let subclasses = toolkit::option::flatten(subclasses);
+    if subclasses.is_some() {
+      let subclasses = subclasses.unwrap();
+      bog::info(format!("[{}] has those sub classes {:?}", name, subclasses));
+      self.cache_subclasses.insert(name.to_lowercase(), subclasses);
+    }
   }
 
-  pub fn fields<S: AsRef<str>>(&self, name: S) -> Vec<HashMap<FieldINF, String>> {
-    let rets = vec![];
-    if !self.exists_name(&name) {
-      return rets;
+
+  fn cache_fields(&mut self, name: &String) {
+    if !self.exists_name(name) {
+      return;
     }
     let selector_mems = Selector::parse(".memberdecls").unwrap();
     let selector_heading = Selector::parse(".heading").unwrap();
     let selector_tr = Selector::parse("tr").unwrap();
     let doc = match self.document(name) {
       Some(doc) => doc,
-      None => return rets
+      None => return
     };
 
     // get all public fields
@@ -170,13 +184,13 @@ impl Apipe {
     }).collect::<Vec<ElementRef>>();
     let pf = match pf.first() {
       Some(pf) => pf,
-      None => return rets
+      None => return
     };
 
 
     let mut tdpf = HashMap::new();
 
-    pf.select(&selector_tr).map(|tr| {
+    let fields = pf.select(&selector_tr).map(|tr| {
       let ele = tr.value();
       let css_class = ele.attr("class");
       if let None = css_class {
@@ -207,7 +221,208 @@ impl Apipe {
     })
       .filter(|item| item.is_some())
       .map(|item| item.unwrap())
-      .collect::<Vec<HashMap<FieldINF, String>>>()
+      .collect::<Vec<HashMap<FieldINF, String>>>();
+
+    bog::info(format!("[{}] has those fields {:?}", name, fields));
+    self.cache_fields.insert(name.to_lowercase(), fields);
+  }
+
+
+  fn exists_name<S: AsRef<str>>(&self, name: S) -> bool {
+    !self.czs.iter()
+      .filter(|(cname, _)| cname.to_lowercase() == name.as_ref().to_lowercase())
+      .map(|(_, _)| 0)
+      .collect::<Vec<(_)>>()
+      .is_empty()
+  }
+
+  fn path<S: AsRef<str>>(&self, name: S) -> Option<String> {
+    self.czs.iter()
+      .filter(|(cname, _)| name.as_ref().to_lowercase() == cname.to_lowercase())
+      .map(|(_, cpath)| cpath)
+      .collect::<Vec<&String>>()
+      .first()
+      .map(|&cpath| cpath.clone())
+  }
+
+  fn document<S: AsRef<str>>(&self, name: S) -> Option<&Html> {
+//    let path = match self.path(name) {
+//      Some(path) => path,
+//      None => return None
+//    };
+//    let content = fs::read_to_string(&path[..]).unwrap();
+//    Some(Html::parse_fragment(&content[..]))
+
+    if !self.exists_name(name.as_ref()) {
+      return None;
+    }
+    self.cache_document.get(&name.as_ref().to_lowercase()[..])
+  }
+
+
+  pub fn names(&self) -> Vec<String> {
+    self.czs.iter()
+      .map(|(cname, _)| cname.clone())
+      .collect::<Vec<String>>()
+  }
+
+  pub fn is_trait<S: AsRef<str>>(&self, name: S) -> bool {
+//    let lowercase_text = match self.description(name) {
+//      Some(text) => text.to_lowercase(),
+//      None => return false
+//    };
+//
+//    lowercase_text.contains("this class is a base class") ||
+//      lowercase_text.contains("this class is an abstract base class")
+
+    if !self.exists_name(name.as_ref()) {
+      return false;
+    }
+//    if name.as_ref() == "UserStatus" {
+//      panic!("xxxxxxxxx {:?}", self.cache_is_trait.get(&name.as_ref().to_lowercase()[..]))
+//    }
+    self.cache_is_trait.get(&name.as_ref().to_lowercase()[..]).map_or(false, |v| v.clone())
+  }
+
+  pub fn description<S: AsRef<str>>(&self, name: S) -> Option<&String> {
+    if !self.exists_name(name.as_ref()) {
+      return None;
+    }
+
+//    let selector_description = Selector::parse(".textblock").unwrap();
+//    let ret = self.document(name).map(|doc| {
+//      let ele = match doc.select(&selector_description).next() {
+//        Some(ele) => ele,
+//        None => return None
+//      };
+//      match ele.text().next() {
+//        Some(text) => Some(text.to_string()),
+//        None => None
+//      }
+//    });
+//    bakit::flatten_option(ret)
+    self.cache_description.get(&name.as_ref().to_lowercase()[..])
+  }
+
+  pub fn father_class<S: AsRef<str>>(&self, name: S) -> Option<&String> {
+    if !self.exists_name(name.as_ref()) {
+      return None;
+    }
+
+//    let selector_inherits = Selector::parse(".el").unwrap();
+//    let ret = self.document(name).map(|doc| {
+//      let ele = match doc.select(&selector_inherits).nth(1) {
+//        Some(ele) => ele,
+//        None => return None
+//      }; // super class
+//      match ele.text().next() {
+//        Some(text) => Some(text.to_string()),
+//        None => None
+//      }
+//    });
+//    bakit::flatten_option(ret)
+    self.cache_fatherclass.get(&name.as_ref().to_lowercase()[..])
+  }
+
+  pub fn sub_classes<S: AsRef<str>>(&self, name: S) -> Option<&Vec<String>> {
+    if !self.exists_name(name.as_ref()) {
+      return None;
+    }
+//    let selector_inherited = Selector::parse(".contents p").unwrap();
+//    let selector_subel = Selector::parse(".el").unwrap();
+//
+//
+//    let subclasses = self.document(name)
+//      .map(|doc| {
+//        let eles = doc.select(&selector_inherited)
+//          .filter(|eref| self::ele_text(eref).to_lowercase().starts_with("inherited by"))
+//          .collect::<Vec<ElementRef>>();
+//        let ele = eles.first();
+//        if None == ele {
+//          return None;
+//        }
+//        let ele = ele.unwrap();
+//        let mut rets = vec![];
+//        ele.select(&selector_subel).for_each(|subclzele| {
+//          let text = self::ele_text(&subclzele);
+//          rets.push(toolkit::text::uppercase_first_char(text));
+//        });
+//        Some(rets)
+//      });
+//    bakit::flatten_option(subclasses)
+    self.cache_subclasses.get(&name.as_ref().to_lowercase()[..])
+  }
+
+  pub fn fields<S: AsRef<str>>(&self, name: S) -> Option<&Vec<HashMap<FieldINF, String>>> {
+//    let rets = vec![];
+//    if !self.exists_name(&name) {
+//      return rets;
+//    }
+//    let rets = vec![];
+//    let selector_mems = Selector::parse(".memberdecls").unwrap();
+//    let selector_heading = Selector::parse(".heading").unwrap();
+//    let selector_tr = Selector::parse("tr").unwrap();
+//    let doc = match self.document(name) {
+//      Some(doc) => doc,
+//      None => return rets
+//    };
+//
+//    // get all public fields
+//    let pf = doc.select(&selector_mems).filter(|item| {
+//      let text = match item.select(&selector_heading).next() {
+//        Some(ele) => match ele.text().next() {
+//          Some(text) => text,
+//          None => return false
+//        },
+//        None => return false
+//      };
+//      text.to_lowercase().contains("public fields")
+//    }).collect::<Vec<ElementRef>>();
+//    let pf = match pf.first() {
+//      Some(pf) => pf,
+//      None => return rets
+//    };
+//
+//
+//    let mut tdpf = HashMap::new();
+//
+//    pf.select(&selector_tr).map(|tr| {
+//      let ele = tr.value();
+//      let css_class = ele.attr("class");
+//      if let None = css_class {
+//        return None;
+//      }
+//      let css_class = css_class.unwrap();
+//      if "heading" == css_class {
+//        return None;
+//      }
+//
+//      if css_class.starts_with("memitem") {
+//        let field_name = self::rs_field_name(self::ele_text_rule(&tr, ".memItemRight"));
+//        let field_type = self::rs_type(self::ele_text_rule(&tr, ".memItemLeft"));
+//        let is_trait = self::field_is_trait(self, &field_type);
+//        tdpf.insert(FieldINF::Name, field_name);
+//        tdpf.insert(FieldINF::IsTrait, if is_trait { 1 } else { 0 }.to_string());
+//        tdpf.insert(FieldINF::Type, self::box_trait_field_type(self, field_type, is_trait));
+//        return None;
+//      }
+//      if css_class.starts_with("memdesc") {
+//        tdpf.insert(FieldINF::Description, self::ele_text_rule(&tr, ".mdescRight"));
+//        bog::info(format!("FOUND FIELD => {:?}", tdpf));
+//        let s = Some(tdpf.clone());
+//        tdpf.clear();
+//        return s;
+//      }
+//      None
+//    })
+//      .filter(|item| item.is_some())
+//      .map(|item| item.unwrap())
+//      .collect::<Vec<HashMap<FieldINF, String>>>()
+
+    if !self.exists_name(name.as_ref()) {
+      return None;
+    }
+    self.cache_fields.get(&name.as_ref().to_lowercase()[..])
   }
 }
 

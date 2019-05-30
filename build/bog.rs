@@ -3,8 +3,6 @@ use std::fs::{File, OpenOptions};
 use std::io::Write;
 use std::path::Path;
 
-use crate::bakit;
-
 enum Level {
   Debug,
   Info,
@@ -24,26 +22,13 @@ impl Level {
 }
 
 pub fn clear() {
-  let log_file = Path::new(bakit::root_dir()).join("build/build.log");
+  let log_file = Path::new(&toolkit::path::root_dir()[..]).join("build/build.log");
   fs::remove_file(log_file).expect("Can not remove build log file.");
 }
 
 fn println<S: AsRef<str>>(level: Level, log: S) {
-  let log_file = Path::new(bakit::root_dir()).join("build/build.log");
-//  fs::write(log_path, log.as_ref()).expect("Can not write log file.");
-  if !log_file.exists() {
-    File::create(log_file.clone()).expect("Can not create log file.");
-  }
-
-  let mut file = OpenOptions::new()
-    .write(true)
-    .append(true)
-    .open(log_file)
-    .unwrap();
-
-  if let Err(e) = writeln!(file, "[{}] -> {}", level.string(), log.as_ref()) {
-    panic!("Couldn't write to file: {:?}", e);
-  }
+  let log_file = Path::new(&toolkit::path::root_dir()[..]).join("build/build.log");
+  toolkit::fs::append(log_file, format!("[{}] -> {}", level.string(), log.as_ref())).unwrap();
 }
 
 

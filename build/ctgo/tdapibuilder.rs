@@ -5,15 +5,15 @@ use std::io::Write;
 use std::path::Path;
 
 use curl::easy::{Easy, ProxyType};
+use scraper::{Html, Selector};
 use tera::{Context, Tera};
 
-use crate::{bakit, bog};
+use crate::bog;
 use crate::ctgo::apipe::{Apipe, FieldINF};
-use scraper::{Html, Selector};
 
 const TG_API_DOC_BASE_URL: &'static str = "https://core.telegram.org/tdlib/docs/";
 
-fn download_page<S: AsRef<str>, P: AsRef<Path>>(url: S, save_path: P, save_name: S) -> &'static str {
+fn download_page<S: AsRef<str>, P: AsRef<Path>>(url: S, save_path: P, save_name: S) -> String {
   let path = save_path.as_ref();
   let save_name = save_name.as_ref();
   let url = &format!("{}{}", TG_API_DOC_BASE_URL, url.as_ref())[..];
@@ -23,11 +23,11 @@ fn download_page<S: AsRef<str>, P: AsRef<Path>>(url: S, save_path: P, save_name:
   }
   let fpath = path.join(save_name);
   if fpath.exists() {
-    bog::debug(format!("exists {}/{} file, use cache.", bakit::canonicalize_path(path), save_name));
-    return bakit::canonicalize_path(path.join(save_name));
+    bog::debug(format!("exists {}/{} file, use cache.", toolkit::path::canonicalize_path(path).expect("Can not get tdpi document path"), save_name));
+    return toolkit::path::canonicalize_path(path.join(save_name)).expect("Can not get tdapi document file");
   }
 
-  bog::debug(format!("Download {} ==> {}/{}", url, bakit::canonicalize_path(path), save_name));
+  bog::debug(format!("Download {} ==> {}/{}", url, toolkit::path::canonicalize_path(path).expect("Can not get tdapi save path."), save_name));
 
   let mut easy = Easy::new();
   let hostname: Option<String> = hostname::get_hostname();
@@ -52,21 +52,21 @@ fn download_page<S: AsRef<str>, P: AsRef<Path>>(url: S, save_path: P, save_name:
 
 
   let content = String::from_utf8(all).expect("Can not get response body");
-  fs::write(&fpath, content).expect(&format!("Can not write conten to => {:?}", bakit::canonicalize_path(&fpath))[..]);
-  return bakit::canonicalize_path(fpath);
+  fs::write(&fpath, content).expect(&format!("Can not write conten to => {:?}", toolkit::path::canonicalize_path(&fpath).expect("Not found save path"))[..]);
+  return toolkit::path::canonicalize_path(fpath).expect("Can not get tdapi document file");
 
 //  println!("===> {}", easy.response_code().unwrap());
 }
 
-pub fn build<P: AsRef<Path>, S: AsRef<str>>(save_path: P, write_to: S) {
-  let write_to = write_to.as_ref();
-  rm_rawtd(write_to);
-  handle_main("td__api_8h.html", save_path, write_to);
+pub fn build<P: AsRef<Path>>(save_path: P) {
+  rm_rawtd("types.rs");
+  rm_rawtd("tdsupplement.rs");
+  handle_main("td__api_8h.html", save_path);
   bog::info("Generate complete.");
 }
 
 
-fn handle_main<P: AsRef<Path>, S: AsRef<str>>(main_page: &'static str, save_path: P, write_to: S) {
+fn handle_main<P: AsRef<Path>>(main_page: &'static str, save_path: P) {
   let save_path = save_path.as_ref();
   self::download_page(main_page, save_path, "_index.html");
   let main_body = fs::read_to_string(save_path.join("_index.html")).expect("Not found telegram api index.html");
@@ -99,13 +99,13 @@ fn handle_main<P: AsRef<Path>, S: AsRef<str>>(main_page: &'static str, save_path
     }
     let href = href.unwrap();
     let path = self::download_page(href, save_path, &format!("{}.html", cname)[..]);
-    czs.push((cname.trim().to_string(), path.to_string()));
+    czs.push((cname.trim().to_string(), path));
     count += 1;
   });
 
   bog::info(format!("CLASS COUNT: {}", count));
 
-  self::gen_rs(czs, write_to);
+  self::gen_rs(czs);
 }
 
 fn is_skip(cname: String) -> bool {
@@ -127,7 +127,7 @@ fn write_rawtd<S: AsRef<str>>(content: S, write_to: S) {
   let path = Path::new(rawtd_path(write_to));
   if !path.exists() {
     File::create(path.clone()).expect(&format!("Can not create {}", write_to)[..]);
-    bog::debug(format!("Create {}", bakit::canonicalize_path(path.clone())));
+    bog::debug(format!("Create {}", toolkit::path::canonicalize_path(path.clone()).expect("Ca not get save path.")));
   }
   bog::info(format!("Append code to {} ```rust\\n{}\\n```", write_to, content.as_ref().trim().replace("\n", "\\n")));
 
@@ -152,19 +152,21 @@ fn rm_rawtd<S: AsRef<str>>(write_to: S) {
 }
 
 fn rawtd_path<S: AsRef<str>>(write_to: S) -> &'static str {
-  let path = format!("{}/src/{}", bakit::root_dir(), write_to.as_ref());
+  let path = format!("{}/src/{}", toolkit::path::root_dir(), write_to.as_ref());
   Box::leak(path.into_boxed_str())
 }
 
-fn gen_rs<S: AsRef<str>>(czs: Vec<(String, String)>, write_to: S) {
-  let write_to = write_to.as_ref();
-  let tpl_path = &format!("{}/build/tpl/**/*", bakit::canonicalize_path(Path::new(bakit::root_dir())))[..];
+fn gen_rs(czs: Vec<(String, String)>) {
+  let write_to_types = "types.rs";
+  let write_to_supplement = "tdsupplement.rs";
+
+  let tpl_path = &format!("{}/build/tpl/**/*", toolkit::path::root_dir())[..];
   bog::debug(format!("Template path: {}", tpl_path));
   let tera = Tera::new(tpl_path).expect("Can not create Tera template engine.");
 
   let apipe = Apipe::new(czs.clone());
 
-  self::gen_common(&apipe, &tera, write_to);
+  self::gen_common(&apipe, &tera, write_to_types);
 
   apipe.names().iter().for_each(|name| {
     let mut context = Context::new();
@@ -177,19 +179,9 @@ fn gen_rs<S: AsRef<str>>(czs: Vec<(String, String)>, write_to: S) {
     self::gen_fields2(&apipe, &mut context, name);
     self::gen_fill(&apipe, &mut context);
 
-
-//    match tera.render("tdfn.rs.txt", &context) {
-//      Ok(s) => write_rawtd(s, write_to.to_string()),
-//      Err(e) => {
-//        println!("Error: {}", e);
-//        for e in e.iter().skip(1) {
-//          println!("Reason: {}", e);
-//        }
-//        panic!("Can not gen rawfn => {:?}", e);
-//      }
-//    }
-    render(&tera, "tdfn.rs.txt", &context, write_to);
+    render(&tera, "tdfn.tpl.txt", &context, write_to_types);
   });
+  self::gen_supplement(&apipe, &tera, write_to_supplement);
 }
 
 fn gen_fill(apipe: &Apipe, context: &mut Context) {
@@ -250,7 +242,7 @@ fn gen_trait2(apipe: &Apipe, context: &mut Context, name: &String) {
   context.insert("clz_description", &description);
   if is_trait {
     let mut has_subclasses = false;
-    if let Some(sub_classes) =  apipe.sub_classes(name) {
+    if let Some(sub_classes) = apipe.sub_classes(name) {
       context.insert("sub_classes", &sub_classes);
       has_subclasses = sub_classes.len() > 0;
     }
@@ -267,12 +259,16 @@ fn gen_father2(apipe: &Apipe, context: &mut Context, name: &String) {
 
 fn gen_fields2(apipe: &Apipe, context: &mut Context, name: &String) {
   let mut has_trait_field = false;
-  let fields = apipe.fields(name)
-    .iter()
+  let afie = apipe.fields(name);
+  if afie.is_none() {
+    return;
+  }
+  let afie = afie.unwrap();
+  let fields = afie.iter()
     .map(|field| {
       field.iter().map(|(inf, val)| {
         if !has_trait_field && inf == &FieldINF::IsTrait {
-          has_trait_field = val == "1";
+          has_trait_field = &val[..] == "1";
         }
         (&inf.string()[..], val.clone())
       })
@@ -286,7 +282,7 @@ fn gen_fields2(apipe: &Apipe, context: &mut Context, name: &String) {
 }
 
 fn gen_common<S: AsRef<str>>(apipe: &Apipe, tera: &Tera, write_to: S) {
-//  let cm_path = Path::new(bakit::root_dir()).join("build/tpl/tdcm.rs.txt");
+//  let cm_path = Path::new(bakit::root_dir()).join("build/tpl/tdcm.tpl.txt");
 
 //  match fs::read_to_string(cm_path) {
 //    Ok(text) => write_rawtd(text, write_to.as_ref().to_string()),
@@ -301,9 +297,44 @@ fn gen_common<S: AsRef<str>>(apipe: &Apipe, tera: &Tera, write_to: S) {
   context.insert("origin_names", &names);
   context.insert("clz_names", &clznames);
   context.insert("len", &names.len());
-  render(tera, "tdcm.rs.txt", &context, write_to.as_ref());
+  render(tera, "tdcm.tpl.txt", &context, write_to.as_ref());
 }
 
+fn gen_supplement<S: AsRef<str>>(apipe: &Apipe, tera: &Tera, write_to: S) {
+  let mut context = Context::new();
+
+  let object_classes = apipe.names().iter()
+    .map(|name| {
+      let mut map = HashMap::new();
+      let clz_name = toolkit::text::uppercase_first_char(name);
+      let is_trait = apipe.is_trait(name);
+      map.insert("origin_name", name.clone());
+      map.insert("clz_name", clz_name);
+      map.insert("is_trait", is_trait.to_string());
+      map
+    })
+    .collect::<Vec<HashMap<&str, String>>>();
+  context.insert("object_classes", &object_classes);
+
+  let function_classes = apipe.names().iter()
+    .filter(|&name| {
+      let fa = apipe.father_class(name);
+      fa.is_some() && fa.unwrap() == "Function"
+    })
+    .map(|name| {
+      let mut map = HashMap::new();
+      let clz_name = toolkit::text::uppercase_first_char(name);
+      let is_trait = apipe.is_trait(name);
+      map.insert("origin_name", name.clone());
+      map.insert("clz_name", clz_name);
+      map.insert("is_trait", is_trait.to_string());
+      map
+    })
+    .collect::<Vec<HashMap<&str, String>>>();
+  context.insert("function_classes", &function_classes);
+
+  render(tera, "tdsupplement.tpl.txt", &context, write_to.as_ref());
+}
 
 fn render(tera: &Tera, tpl: &str, context: &Context, write_to: &str) {
   match tera.render(tpl, &context) {

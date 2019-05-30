@@ -3,9 +3,14 @@ use std::fmt::Debug;
 use std::str::FromStr;
 use crate::tdkit;
 
+/// All tdlib type abstract class defined the same behavior
 pub trait RObject {
  #[doc(hidden)] fn td_name(&self) -> &'static str;
- fn td_type(&self) -> TDType; // convert TDLib type to rust enum TDType
+ /// convert TDLib type to rust enum RTDType
+ fn td_type(&self) -> RTDType;
+ /// The string that implements the return of to_json should be called `tdkit::fill_json_struct` for optimization,
+ /// appending the `@struct` field, although usually struct will actively generate `@struct`, but not in `Object` and `Function`,
+ /// because the implementation of typetag cannot be automatically generated.
  fn to_json(&self) -> String;
 }
 
@@ -15,7 +20,7 @@ trait TlObject: Debug + Clone {}
 
 /// TDLib all class name mappers
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
-pub enum TDType {
+pub enum RTDType {
   Object,
   Function,
   AccountTtl,
@@ -1100,7 +1105,7 @@ pub enum TDType {
 
 /// This class is a base class for all TDLib API classes. 
 
-pub trait Object: Debug {}
+pub trait Object: RObject + Debug {}
 
 
 
@@ -1123,7 +1128,7 @@ pub trait Function: Object + RObject + Debug {}
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDFunctionType {
+pub enum RTDFunctionType {
   AcceptCall,
   AcceptTermsOfService,
   AddChatMember,
@@ -1460,7 +1465,7 @@ pub enum TDFunctionType {
   WriteGeneratedFilePart,
   
 }
-impl TDFunctionType {
+impl RTDFunctionType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -1482,8 +1487,8 @@ pub struct AccountTtl {
 impl Object for AccountTtl {}
 impl RObject for AccountTtl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "accountTtl" }
-  fn td_type(&self) -> TDType { TDType::AccountTtl }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AccountTtl }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -1551,8 +1556,8 @@ pub struct Address {
 impl Object for Address {}
 impl RObject for Address {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "address" }
-  fn td_type(&self) -> TDType { TDType::Address }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Address }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -1662,8 +1667,8 @@ pub struct Animation {
 impl Object for Animation {}
 impl RObject for Animation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "animation" }
-  fn td_type(&self) -> TDType { TDType::Animation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Animation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -1769,8 +1774,8 @@ pub struct Animations {
 impl Object for Animations {}
 impl RObject for Animations {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "animations" }
-  fn td_type(&self) -> TDType { TDType::Animations }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Animations }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -1840,8 +1845,8 @@ pub struct Audio {
 impl Object for Audio {}
 impl RObject for Audio {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "audio" }
-  fn td_type(&self) -> TDType { TDType::Audio }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Audio }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -1960,8 +1965,8 @@ impl Clone for AuthenticationCodeInfo {
 impl Object for AuthenticationCodeInfo {}
 impl RObject for AuthenticationCodeInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authenticationCodeInfo" }
-  fn td_type(&self) -> TDType { TDType::AuthenticationCodeInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AuthenticationCodeInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2051,14 +2056,14 @@ impl Clone for Box<AuthenticationCodeType> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDAuthenticationCodeTypeType {
+pub enum RTDAuthenticationCodeTypeType {
   AuthenticationCodeTypeCall,
   AuthenticationCodeTypeFlashCall,
   AuthenticationCodeTypeSms,
   AuthenticationCodeTypeTelegramMessage,
   
 }
-impl TDAuthenticationCodeTypeType {
+impl RTDAuthenticationCodeTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -2080,8 +2085,8 @@ pub struct AuthenticationCodeTypeTelegramMessage {
 impl Object for AuthenticationCodeTypeTelegramMessage {}
 impl RObject for AuthenticationCodeTypeTelegramMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authenticationCodeTypeTelegramMessage" }
-  fn td_type(&self) -> TDType { TDType::AuthenticationCodeTypeTelegramMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AuthenticationCodeTypeTelegramMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2141,8 +2146,8 @@ pub struct AuthenticationCodeTypeSms {
 impl Object for AuthenticationCodeTypeSms {}
 impl RObject for AuthenticationCodeTypeSms {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authenticationCodeTypeSms" }
-  fn td_type(&self) -> TDType { TDType::AuthenticationCodeTypeSms }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AuthenticationCodeTypeSms }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2202,8 +2207,8 @@ pub struct AuthenticationCodeTypeCall {
 impl Object for AuthenticationCodeTypeCall {}
 impl RObject for AuthenticationCodeTypeCall {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authenticationCodeTypeCall" }
-  fn td_type(&self) -> TDType { TDType::AuthenticationCodeTypeCall }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AuthenticationCodeTypeCall }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2263,8 +2268,8 @@ pub struct AuthenticationCodeTypeFlashCall {
 impl Object for AuthenticationCodeTypeFlashCall {}
 impl RObject for AuthenticationCodeTypeFlashCall {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authenticationCodeTypeFlashCall" }
-  fn td_type(&self) -> TDType { TDType::AuthenticationCodeTypeFlashCall }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AuthenticationCodeTypeFlashCall }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2332,7 +2337,7 @@ impl Clone for Box<AuthorizationState> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDAuthorizationStateType {
+pub enum RTDAuthorizationStateType {
   AuthorizationStateClosed,
   AuthorizationStateClosing,
   AuthorizationStateLoggingOut,
@@ -2344,7 +2349,7 @@ pub enum TDAuthorizationStateType {
   AuthorizationStateWaitTdlibParameters,
   
 }
-impl TDAuthorizationStateType {
+impl RTDAuthorizationStateType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -2364,8 +2369,8 @@ pub struct AuthorizationStateWaitTdlibParameters {
 impl Object for AuthorizationStateWaitTdlibParameters {}
 impl RObject for AuthorizationStateWaitTdlibParameters {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authorizationStateWaitTdlibParameters" }
-  fn td_type(&self) -> TDType { TDType::AuthorizationStateWaitTdlibParameters }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AuthorizationStateWaitTdlibParameters }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2399,8 +2404,8 @@ pub struct AuthorizationStateWaitEncryptionKey {
 impl Object for AuthorizationStateWaitEncryptionKey {}
 impl RObject for AuthorizationStateWaitEncryptionKey {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authorizationStateWaitEncryptionKey" }
-  fn td_type(&self) -> TDType { TDType::AuthorizationStateWaitEncryptionKey }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AuthorizationStateWaitEncryptionKey }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2434,8 +2439,8 @@ pub struct AuthorizationStateWaitPhoneNumber {
 impl Object for AuthorizationStateWaitPhoneNumber {}
 impl RObject for AuthorizationStateWaitPhoneNumber {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authorizationStateWaitPhoneNumber" }
-  fn td_type(&self) -> TDType { TDType::AuthorizationStateWaitPhoneNumber }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AuthorizationStateWaitPhoneNumber }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2473,8 +2478,8 @@ pub struct AuthorizationStateWaitCode {
 impl Object for AuthorizationStateWaitCode {}
 impl RObject for AuthorizationStateWaitCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authorizationStateWaitCode" }
-  fn td_type(&self) -> TDType { TDType::AuthorizationStateWaitCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AuthorizationStateWaitCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2518,8 +2523,8 @@ pub struct AuthorizationStateWaitPassword {
 impl Object for AuthorizationStateWaitPassword {}
 impl RObject for AuthorizationStateWaitPassword {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authorizationStateWaitPassword" }
-  fn td_type(&self) -> TDType { TDType::AuthorizationStateWaitPassword }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AuthorizationStateWaitPassword }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2557,8 +2562,8 @@ pub struct AuthorizationStateReady {
 impl Object for AuthorizationStateReady {}
 impl RObject for AuthorizationStateReady {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authorizationStateReady" }
-  fn td_type(&self) -> TDType { TDType::AuthorizationStateReady }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AuthorizationStateReady }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2590,8 +2595,8 @@ pub struct AuthorizationStateLoggingOut {
 impl Object for AuthorizationStateLoggingOut {}
 impl RObject for AuthorizationStateLoggingOut {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authorizationStateLoggingOut" }
-  fn td_type(&self) -> TDType { TDType::AuthorizationStateLoggingOut }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AuthorizationStateLoggingOut }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2623,8 +2628,8 @@ pub struct AuthorizationStateClosing {
 impl Object for AuthorizationStateClosing {}
 impl RObject for AuthorizationStateClosing {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authorizationStateClosing" }
-  fn td_type(&self) -> TDType { TDType::AuthorizationStateClosing }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AuthorizationStateClosing }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2656,8 +2661,8 @@ pub struct AuthorizationStateClosed {
 impl Object for AuthorizationStateClosed {}
 impl RObject for AuthorizationStateClosed {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authorizationStateClosed" }
-  fn td_type(&self) -> TDType { TDType::AuthorizationStateClosed }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AuthorizationStateClosed }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2708,8 +2713,8 @@ impl Clone for BasicGroup {
 impl Object for BasicGroup {}
 impl RObject for BasicGroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "basicGroup" }
-  fn td_type(&self) -> TDType { TDType::BasicGroup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::BasicGroup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2811,8 +2816,8 @@ pub struct BasicGroupFullInfo {
 impl Object for BasicGroupFullInfo {}
 impl RObject for BasicGroupFullInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "basicGroupFullInfo" }
-  fn td_type(&self) -> TDType { TDType::BasicGroupFullInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::BasicGroupFullInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2888,8 +2893,8 @@ pub struct BotCommand {
 impl Object for BotCommand {}
 impl RObject for BotCommand {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "botCommand" }
-  fn td_type(&self) -> TDType { TDType::BotCommand }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::BotCommand }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -2957,8 +2962,8 @@ pub struct BotInfo {
 impl Object for BotInfo {}
 impl RObject for BotInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "botInfo" }
-  fn td_type(&self) -> TDType { TDType::BotInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::BotInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -3037,8 +3042,8 @@ impl Clone for Call {
 impl Object for Call {}
 impl RObject for Call {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "call" }
-  fn td_type(&self) -> TDType { TDType::Call }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Call }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -3128,8 +3133,8 @@ pub struct CallConnection {
 impl Object for CallConnection {}
 impl RObject for CallConnection {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callConnection" }
-  fn td_type(&self) -> TDType { TDType::CallConnection }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallConnection }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -3227,7 +3232,7 @@ impl Clone for Box<CallDiscardReason> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDCallDiscardReasonType {
+pub enum RTDCallDiscardReasonType {
   CallDiscardReasonDeclined,
   CallDiscardReasonDisconnected,
   CallDiscardReasonEmpty,
@@ -3235,7 +3240,7 @@ pub enum TDCallDiscardReasonType {
   CallDiscardReasonMissed,
   
 }
-impl TDCallDiscardReasonType {
+impl RTDCallDiscardReasonType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -3255,8 +3260,8 @@ pub struct CallDiscardReasonEmpty {
 impl Object for CallDiscardReasonEmpty {}
 impl RObject for CallDiscardReasonEmpty {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callDiscardReasonEmpty" }
-  fn td_type(&self) -> TDType { TDType::CallDiscardReasonEmpty }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallDiscardReasonEmpty }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -3306,8 +3311,8 @@ pub struct CallDiscardReasonMissed {
 impl Object for CallDiscardReasonMissed {}
 impl RObject for CallDiscardReasonMissed {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callDiscardReasonMissed" }
-  fn td_type(&self) -> TDType { TDType::CallDiscardReasonMissed }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallDiscardReasonMissed }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -3357,8 +3362,8 @@ pub struct CallDiscardReasonDeclined {
 impl Object for CallDiscardReasonDeclined {}
 impl RObject for CallDiscardReasonDeclined {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callDiscardReasonDeclined" }
-  fn td_type(&self) -> TDType { TDType::CallDiscardReasonDeclined }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallDiscardReasonDeclined }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -3408,8 +3413,8 @@ pub struct CallDiscardReasonDisconnected {
 impl Object for CallDiscardReasonDisconnected {}
 impl RObject for CallDiscardReasonDisconnected {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callDiscardReasonDisconnected" }
-  fn td_type(&self) -> TDType { TDType::CallDiscardReasonDisconnected }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallDiscardReasonDisconnected }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -3459,8 +3464,8 @@ pub struct CallDiscardReasonHungUp {
 impl Object for CallDiscardReasonHungUp {}
 impl RObject for CallDiscardReasonHungUp {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callDiscardReasonHungUp" }
-  fn td_type(&self) -> TDType { TDType::CallDiscardReasonHungUp }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallDiscardReasonHungUp }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -3512,8 +3517,8 @@ pub struct CallId {
 impl Object for CallId {}
 impl RObject for CallId {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callId" }
-  fn td_type(&self) -> TDType { TDType::CallId }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallId }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -3577,8 +3582,8 @@ pub struct CallProtocol {
 impl Object for CallProtocol {}
 impl RObject for CallProtocol {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callProtocol" }
-  fn td_type(&self) -> TDType { TDType::CallProtocol }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallProtocol }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -3668,7 +3673,7 @@ impl Clone for Box<CallState> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDCallStateType {
+pub enum RTDCallStateType {
   CallStateDiscarded,
   CallStateError,
   CallStateExchangingKeys,
@@ -3677,7 +3682,7 @@ pub enum TDCallStateType {
   CallStateReady,
   
 }
-impl TDCallStateType {
+impl RTDCallStateType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -3701,8 +3706,8 @@ pub struct CallStatePending {
 impl Object for CallStatePending {}
 impl RObject for CallStatePending {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callStatePending" }
-  fn td_type(&self) -> TDType { TDType::CallStatePending }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallStatePending }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -3768,8 +3773,8 @@ pub struct CallStateExchangingKeys {
 impl Object for CallStateExchangingKeys {}
 impl RObject for CallStateExchangingKeys {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callStateExchangingKeys" }
-  fn td_type(&self) -> TDType { TDType::CallStateExchangingKeys }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallStateExchangingKeys }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -3831,8 +3836,8 @@ pub struct CallStateReady {
 impl Object for CallStateReady {}
 impl RObject for CallStateReady {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callStateReady" }
-  fn td_type(&self) -> TDType { TDType::CallStateReady }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallStateReady }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -3930,8 +3935,8 @@ pub struct CallStateHangingUp {
 impl Object for CallStateHangingUp {}
 impl RObject for CallStateHangingUp {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callStateHangingUp" }
-  fn td_type(&self) -> TDType { TDType::CallStateHangingUp }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallStateHangingUp }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -3994,8 +3999,8 @@ impl Clone for CallStateDiscarded {
 impl Object for CallStateDiscarded {}
 impl RObject for CallStateDiscarded {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callStateDiscarded" }
-  fn td_type(&self) -> TDType { TDType::CallStateDiscarded }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallStateDiscarded }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -4071,8 +4076,8 @@ pub struct CallStateError {
 impl Object for CallStateError {}
 impl RObject for CallStateError {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callStateError" }
-  fn td_type(&self) -> TDType { TDType::CallStateError }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallStateError }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -4136,8 +4141,8 @@ pub struct CallbackQueryAnswer {
 impl Object for CallbackQueryAnswer {}
 impl RObject for CallbackQueryAnswer {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callbackQueryAnswer" }
-  fn td_type(&self) -> TDType { TDType::CallbackQueryAnswer }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallbackQueryAnswer }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -4219,12 +4224,12 @@ impl Clone for Box<CallbackQueryPayload> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDCallbackQueryPayloadType {
+pub enum RTDCallbackQueryPayloadType {
   CallbackQueryPayloadData,
   CallbackQueryPayloadGame,
   
 }
-impl TDCallbackQueryPayloadType {
+impl RTDCallbackQueryPayloadType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -4246,8 +4251,8 @@ pub struct CallbackQueryPayloadData {
 impl Object for CallbackQueryPayloadData {}
 impl RObject for CallbackQueryPayloadData {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callbackQueryPayloadData" }
-  fn td_type(&self) -> TDType { TDType::CallbackQueryPayloadData }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallbackQueryPayloadData }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -4307,8 +4312,8 @@ pub struct CallbackQueryPayloadGame {
 impl Object for CallbackQueryPayloadGame {}
 impl RObject for CallbackQueryPayloadGame {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callbackQueryPayloadGame" }
-  fn td_type(&self) -> TDType { TDType::CallbackQueryPayloadGame }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CallbackQueryPayloadGame }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -4417,8 +4422,8 @@ impl Clone for Chat {
 impl Object for Chat {}
 impl RObject for Chat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chat" }
-  fn td_type(&self) -> TDType { TDType::Chat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Chat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -4652,7 +4657,7 @@ impl Clone for Box<ChatAction> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDChatActionType {
+pub enum RTDChatActionType {
   ChatActionCancel,
   ChatActionChoosingContact,
   ChatActionChoosingLocation,
@@ -4668,7 +4673,7 @@ pub enum TDChatActionType {
   ChatActionUploadingVoiceNote,
   
 }
-impl TDChatActionType {
+impl RTDChatActionType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -4688,8 +4693,8 @@ pub struct ChatActionTyping {
 impl Object for ChatActionTyping {}
 impl RObject for ChatActionTyping {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionTyping" }
-  fn td_type(&self) -> TDType { TDType::ChatActionTyping }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatActionTyping }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -4739,8 +4744,8 @@ pub struct ChatActionRecordingVideo {
 impl Object for ChatActionRecordingVideo {}
 impl RObject for ChatActionRecordingVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionRecordingVideo" }
-  fn td_type(&self) -> TDType { TDType::ChatActionRecordingVideo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatActionRecordingVideo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -4792,8 +4797,8 @@ pub struct ChatActionUploadingVideo {
 impl Object for ChatActionUploadingVideo {}
 impl RObject for ChatActionUploadingVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionUploadingVideo" }
-  fn td_type(&self) -> TDType { TDType::ChatActionUploadingVideo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatActionUploadingVideo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -4851,8 +4856,8 @@ pub struct ChatActionRecordingVoiceNote {
 impl Object for ChatActionRecordingVoiceNote {}
 impl RObject for ChatActionRecordingVoiceNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionRecordingVoiceNote" }
-  fn td_type(&self) -> TDType { TDType::ChatActionRecordingVoiceNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatActionRecordingVoiceNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -4904,8 +4909,8 @@ pub struct ChatActionUploadingVoiceNote {
 impl Object for ChatActionUploadingVoiceNote {}
 impl RObject for ChatActionUploadingVoiceNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionUploadingVoiceNote" }
-  fn td_type(&self) -> TDType { TDType::ChatActionUploadingVoiceNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatActionUploadingVoiceNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -4965,8 +4970,8 @@ pub struct ChatActionUploadingPhoto {
 impl Object for ChatActionUploadingPhoto {}
 impl RObject for ChatActionUploadingPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionUploadingPhoto" }
-  fn td_type(&self) -> TDType { TDType::ChatActionUploadingPhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatActionUploadingPhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5026,8 +5031,8 @@ pub struct ChatActionUploadingDocument {
 impl Object for ChatActionUploadingDocument {}
 impl RObject for ChatActionUploadingDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionUploadingDocument" }
-  fn td_type(&self) -> TDType { TDType::ChatActionUploadingDocument }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatActionUploadingDocument }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5085,8 +5090,8 @@ pub struct ChatActionChoosingLocation {
 impl Object for ChatActionChoosingLocation {}
 impl RObject for ChatActionChoosingLocation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionChoosingLocation" }
-  fn td_type(&self) -> TDType { TDType::ChatActionChoosingLocation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatActionChoosingLocation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5136,8 +5141,8 @@ pub struct ChatActionChoosingContact {
 impl Object for ChatActionChoosingContact {}
 impl RObject for ChatActionChoosingContact {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionChoosingContact" }
-  fn td_type(&self) -> TDType { TDType::ChatActionChoosingContact }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatActionChoosingContact }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5187,8 +5192,8 @@ pub struct ChatActionStartPlayingGame {
 impl Object for ChatActionStartPlayingGame {}
 impl RObject for ChatActionStartPlayingGame {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionStartPlayingGame" }
-  fn td_type(&self) -> TDType { TDType::ChatActionStartPlayingGame }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatActionStartPlayingGame }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5238,8 +5243,8 @@ pub struct ChatActionRecordingVideoNote {
 impl Object for ChatActionRecordingVideoNote {}
 impl RObject for ChatActionRecordingVideoNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionRecordingVideoNote" }
-  fn td_type(&self) -> TDType { TDType::ChatActionRecordingVideoNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatActionRecordingVideoNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5291,8 +5296,8 @@ pub struct ChatActionUploadingVideoNote {
 impl Object for ChatActionUploadingVideoNote {}
 impl RObject for ChatActionUploadingVideoNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionUploadingVideoNote" }
-  fn td_type(&self) -> TDType { TDType::ChatActionUploadingVideoNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatActionUploadingVideoNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5350,8 +5355,8 @@ pub struct ChatActionCancel {
 impl Object for ChatActionCancel {}
 impl RObject for ChatActionCancel {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionCancel" }
-  fn td_type(&self) -> TDType { TDType::ChatActionCancel }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatActionCancel }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5416,8 +5421,8 @@ impl Clone for ChatEvent {
 impl Object for ChatEvent {}
 impl RObject for ChatEvent {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEvent" }
-  fn td_type(&self) -> TDType { TDType::ChatEvent }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEvent }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5507,7 +5512,7 @@ impl Clone for Box<ChatEventAction> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDChatEventActionType {
+pub enum RTDChatEventActionType {
   ChatEventDescriptionChanged,
   ChatEventInvitesToggled,
   ChatEventIsAllHistoryAvailableToggled,
@@ -5527,7 +5532,7 @@ pub enum TDChatEventActionType {
   ChatEventUsernameChanged,
   
 }
-impl TDChatEventActionType {
+impl RTDChatEventActionType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -5551,8 +5556,8 @@ pub struct ChatEventMessageEdited {
 impl Object for ChatEventMessageEdited {}
 impl RObject for ChatEventMessageEdited {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMessageEdited" }
-  fn td_type(&self) -> TDType { TDType::ChatEventMessageEdited }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventMessageEdited }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5620,8 +5625,8 @@ pub struct ChatEventMessageDeleted {
 impl Object for ChatEventMessageDeleted {}
 impl RObject for ChatEventMessageDeleted {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMessageDeleted" }
-  fn td_type(&self) -> TDType { TDType::ChatEventMessageDeleted }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventMessageDeleted }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5681,8 +5686,8 @@ pub struct ChatEventMessagePinned {
 impl Object for ChatEventMessagePinned {}
 impl RObject for ChatEventMessagePinned {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMessagePinned" }
-  fn td_type(&self) -> TDType { TDType::ChatEventMessagePinned }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventMessagePinned }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5740,8 +5745,8 @@ pub struct ChatEventMessageUnpinned {
 impl Object for ChatEventMessageUnpinned {}
 impl RObject for ChatEventMessageUnpinned {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMessageUnpinned" }
-  fn td_type(&self) -> TDType { TDType::ChatEventMessageUnpinned }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventMessageUnpinned }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5791,8 +5796,8 @@ pub struct ChatEventMemberJoined {
 impl Object for ChatEventMemberJoined {}
 impl RObject for ChatEventMemberJoined {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMemberJoined" }
-  fn td_type(&self) -> TDType { TDType::ChatEventMemberJoined }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventMemberJoined }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5842,8 +5847,8 @@ pub struct ChatEventMemberLeft {
 impl Object for ChatEventMemberLeft {}
 impl RObject for ChatEventMemberLeft {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMemberLeft" }
-  fn td_type(&self) -> TDType { TDType::ChatEventMemberLeft }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventMemberLeft }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5904,8 +5909,8 @@ impl Clone for ChatEventMemberInvited {
 impl Object for ChatEventMemberInvited {}
 impl RObject for ChatEventMemberInvited {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMemberInvited" }
-  fn td_type(&self) -> TDType { TDType::ChatEventMemberInvited }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventMemberInvited }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -5984,8 +5989,8 @@ impl Clone for ChatEventMemberPromoted {
 impl Object for ChatEventMemberPromoted {}
 impl RObject for ChatEventMemberPromoted {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMemberPromoted" }
-  fn td_type(&self) -> TDType { TDType::ChatEventMemberPromoted }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventMemberPromoted }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -6072,8 +6077,8 @@ impl Clone for ChatEventMemberRestricted {
 impl Object for ChatEventMemberRestricted {}
 impl RObject for ChatEventMemberRestricted {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMemberRestricted" }
-  fn td_type(&self) -> TDType { TDType::ChatEventMemberRestricted }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventMemberRestricted }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -6151,8 +6156,8 @@ pub struct ChatEventTitleChanged {
 impl Object for ChatEventTitleChanged {}
 impl RObject for ChatEventTitleChanged {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventTitleChanged" }
-  fn td_type(&self) -> TDType { TDType::ChatEventTitleChanged }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventTitleChanged }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -6222,8 +6227,8 @@ pub struct ChatEventDescriptionChanged {
 impl Object for ChatEventDescriptionChanged {}
 impl RObject for ChatEventDescriptionChanged {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventDescriptionChanged" }
-  fn td_type(&self) -> TDType { TDType::ChatEventDescriptionChanged }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventDescriptionChanged }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -6293,8 +6298,8 @@ pub struct ChatEventUsernameChanged {
 impl Object for ChatEventUsernameChanged {}
 impl RObject for ChatEventUsernameChanged {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventUsernameChanged" }
-  fn td_type(&self) -> TDType { TDType::ChatEventUsernameChanged }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventUsernameChanged }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -6364,8 +6369,8 @@ pub struct ChatEventPhotoChanged {
 impl Object for ChatEventPhotoChanged {}
 impl RObject for ChatEventPhotoChanged {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventPhotoChanged" }
-  fn td_type(&self) -> TDType { TDType::ChatEventPhotoChanged }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventPhotoChanged }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -6433,8 +6438,8 @@ pub struct ChatEventInvitesToggled {
 impl Object for ChatEventInvitesToggled {}
 impl RObject for ChatEventInvitesToggled {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventInvitesToggled" }
-  fn td_type(&self) -> TDType { TDType::ChatEventInvitesToggled }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventInvitesToggled }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -6494,8 +6499,8 @@ pub struct ChatEventSignMessagesToggled {
 impl Object for ChatEventSignMessagesToggled {}
 impl RObject for ChatEventSignMessagesToggled {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventSignMessagesToggled" }
-  fn td_type(&self) -> TDType { TDType::ChatEventSignMessagesToggled }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventSignMessagesToggled }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -6557,8 +6562,8 @@ pub struct ChatEventStickerSetChanged {
 impl Object for ChatEventStickerSetChanged {}
 impl RObject for ChatEventStickerSetChanged {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventStickerSetChanged" }
-  fn td_type(&self) -> TDType { TDType::ChatEventStickerSetChanged }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventStickerSetChanged }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -6626,8 +6631,8 @@ pub struct ChatEventIsAllHistoryAvailableToggled {
 impl Object for ChatEventIsAllHistoryAvailableToggled {}
 impl RObject for ChatEventIsAllHistoryAvailableToggled {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventIsAllHistoryAvailableToggled" }
-  fn td_type(&self) -> TDType { TDType::ChatEventIsAllHistoryAvailableToggled }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventIsAllHistoryAvailableToggled }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -6705,8 +6710,8 @@ pub struct ChatEventLogFilters {
 impl Object for ChatEventLogFilters {}
 impl RObject for ChatEventLogFilters {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventLogFilters" }
-  fn td_type(&self) -> TDType { TDType::ChatEventLogFilters }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEventLogFilters }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -6836,8 +6841,8 @@ pub struct ChatEvents {
 impl Object for ChatEvents {}
 impl RObject for ChatEvents {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEvents" }
-  fn td_type(&self) -> TDType { TDType::ChatEvents }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatEvents }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -6895,8 +6900,8 @@ pub struct ChatInviteLink {
 impl Object for ChatInviteLink {}
 impl RObject for ChatInviteLink {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatInviteLink" }
-  fn td_type(&self) -> TDType { TDType::ChatInviteLink }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatInviteLink }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -6973,8 +6978,8 @@ impl Clone for ChatInviteLinkInfo {
 impl Object for ChatInviteLinkInfo {}
 impl RObject for ChatInviteLinkInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatInviteLinkInfo" }
-  fn td_type(&self) -> TDType { TDType::ChatInviteLinkInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatInviteLinkInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -7095,8 +7100,8 @@ impl Clone for ChatMember {
 impl Object for ChatMember {}
 impl RObject for ChatMember {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMember" }
-  fn td_type(&self) -> TDType { TDType::ChatMember }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatMember }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -7194,7 +7199,7 @@ impl Clone for Box<ChatMemberStatus> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDChatMemberStatusType {
+pub enum RTDChatMemberStatusType {
   ChatMemberStatusAdministrator,
   ChatMemberStatusBanned,
   ChatMemberStatusCreator,
@@ -7203,7 +7208,7 @@ pub enum TDChatMemberStatusType {
   ChatMemberStatusRestricted,
   
 }
-impl TDChatMemberStatusType {
+impl RTDChatMemberStatusType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -7225,8 +7230,8 @@ pub struct ChatMemberStatusCreator {
 impl Object for ChatMemberStatusCreator {}
 impl RObject for ChatMemberStatusCreator {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMemberStatusCreator" }
-  fn td_type(&self) -> TDType { TDType::ChatMemberStatusCreator }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatMemberStatusCreator }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -7302,8 +7307,8 @@ pub struct ChatMemberStatusAdministrator {
 impl Object for ChatMemberStatusAdministrator {}
 impl RObject for ChatMemberStatusAdministrator {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMemberStatusAdministrator" }
-  fn td_type(&self) -> TDType { TDType::ChatMemberStatusAdministrator }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatMemberStatusAdministrator }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -7425,8 +7430,8 @@ pub struct ChatMemberStatusMember {
 impl Object for ChatMemberStatusMember {}
 impl RObject for ChatMemberStatusMember {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMemberStatusMember" }
-  fn td_type(&self) -> TDType { TDType::ChatMemberStatusMember }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatMemberStatusMember }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -7488,8 +7493,8 @@ pub struct ChatMemberStatusRestricted {
 impl Object for ChatMemberStatusRestricted {}
 impl RObject for ChatMemberStatusRestricted {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMemberStatusRestricted" }
-  fn td_type(&self) -> TDType { TDType::ChatMemberStatusRestricted }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatMemberStatusRestricted }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -7587,8 +7592,8 @@ pub struct ChatMemberStatusLeft {
 impl Object for ChatMemberStatusLeft {}
 impl RObject for ChatMemberStatusLeft {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMemberStatusLeft" }
-  fn td_type(&self) -> TDType { TDType::ChatMemberStatusLeft }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatMemberStatusLeft }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -7640,8 +7645,8 @@ pub struct ChatMemberStatusBanned {
 impl Object for ChatMemberStatusBanned {}
 impl RObject for ChatMemberStatusBanned {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMemberStatusBanned" }
-  fn td_type(&self) -> TDType { TDType::ChatMemberStatusBanned }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatMemberStatusBanned }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -7703,8 +7708,8 @@ pub struct ChatMembers {
 impl Object for ChatMembers {}
 impl RObject for ChatMembers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMembers" }
-  fn td_type(&self) -> TDType { TDType::ChatMembers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatMembers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -7778,7 +7783,7 @@ impl Clone for Box<ChatMembersFilter> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDChatMembersFilterType {
+pub enum RTDChatMembersFilterType {
   ChatMembersFilterAdministrators,
   ChatMembersFilterBanned,
   ChatMembersFilterBots,
@@ -7786,7 +7791,7 @@ pub enum TDChatMembersFilterType {
   ChatMembersFilterRestricted,
   
 }
-impl TDChatMembersFilterType {
+impl RTDChatMembersFilterType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -7806,8 +7811,8 @@ pub struct ChatMembersFilterAdministrators {
 impl Object for ChatMembersFilterAdministrators {}
 impl RObject for ChatMembersFilterAdministrators {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMembersFilterAdministrators" }
-  fn td_type(&self) -> TDType { TDType::ChatMembersFilterAdministrators }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatMembersFilterAdministrators }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -7857,8 +7862,8 @@ pub struct ChatMembersFilterMembers {
 impl Object for ChatMembersFilterMembers {}
 impl RObject for ChatMembersFilterMembers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMembersFilterMembers" }
-  fn td_type(&self) -> TDType { TDType::ChatMembersFilterMembers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatMembersFilterMembers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -7908,8 +7913,8 @@ pub struct ChatMembersFilterRestricted {
 impl Object for ChatMembersFilterRestricted {}
 impl RObject for ChatMembersFilterRestricted {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMembersFilterRestricted" }
-  fn td_type(&self) -> TDType { TDType::ChatMembersFilterRestricted }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatMembersFilterRestricted }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -7959,8 +7964,8 @@ pub struct ChatMembersFilterBanned {
 impl Object for ChatMembersFilterBanned {}
 impl RObject for ChatMembersFilterBanned {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMembersFilterBanned" }
-  fn td_type(&self) -> TDType { TDType::ChatMembersFilterBanned }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatMembersFilterBanned }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -8010,8 +8015,8 @@ pub struct ChatMembersFilterBots {
 impl Object for ChatMembersFilterBots {}
 impl RObject for ChatMembersFilterBots {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMembersFilterBots" }
-  fn td_type(&self) -> TDType { TDType::ChatMembersFilterBots }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatMembersFilterBots }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -8081,8 +8086,8 @@ pub struct ChatNotificationSettings {
 impl Object for ChatNotificationSettings {}
 impl RObject for ChatNotificationSettings {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatNotificationSettings" }
-  fn td_type(&self) -> TDType { TDType::ChatNotificationSettings }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatNotificationSettings }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -8214,8 +8219,8 @@ pub struct ChatPhoto {
 impl Object for ChatPhoto {}
 impl RObject for ChatPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatPhoto" }
-  fn td_type(&self) -> TDType { TDType::ChatPhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatPhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -8289,7 +8294,7 @@ impl Clone for Box<ChatReportReason> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDChatReportReasonType {
+pub enum RTDChatReportReasonType {
   ChatReportReasonChildAbuse,
   ChatReportReasonCopyright,
   ChatReportReasonCustom,
@@ -8298,7 +8303,7 @@ pub enum TDChatReportReasonType {
   ChatReportReasonViolence,
   
 }
-impl TDChatReportReasonType {
+impl RTDChatReportReasonType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -8318,8 +8323,8 @@ pub struct ChatReportReasonSpam {
 impl Object for ChatReportReasonSpam {}
 impl RObject for ChatReportReasonSpam {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonSpam" }
-  fn td_type(&self) -> TDType { TDType::ChatReportReasonSpam }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatReportReasonSpam }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -8369,8 +8374,8 @@ pub struct ChatReportReasonViolence {
 impl Object for ChatReportReasonViolence {}
 impl RObject for ChatReportReasonViolence {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonViolence" }
-  fn td_type(&self) -> TDType { TDType::ChatReportReasonViolence }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatReportReasonViolence }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -8420,8 +8425,8 @@ pub struct ChatReportReasonPornography {
 impl Object for ChatReportReasonPornography {}
 impl RObject for ChatReportReasonPornography {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonPornography" }
-  fn td_type(&self) -> TDType { TDType::ChatReportReasonPornography }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatReportReasonPornography }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -8471,8 +8476,8 @@ pub struct ChatReportReasonChildAbuse {
 impl Object for ChatReportReasonChildAbuse {}
 impl RObject for ChatReportReasonChildAbuse {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonChildAbuse" }
-  fn td_type(&self) -> TDType { TDType::ChatReportReasonChildAbuse }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatReportReasonChildAbuse }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -8522,8 +8527,8 @@ pub struct ChatReportReasonCopyright {
 impl Object for ChatReportReasonCopyright {}
 impl RObject for ChatReportReasonCopyright {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonCopyright" }
-  fn td_type(&self) -> TDType { TDType::ChatReportReasonCopyright }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatReportReasonCopyright }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -8575,8 +8580,8 @@ pub struct ChatReportReasonCustom {
 impl Object for ChatReportReasonCustom {}
 impl RObject for ChatReportReasonCustom {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonCustom" }
-  fn td_type(&self) -> TDType { TDType::ChatReportReasonCustom }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatReportReasonCustom }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -8636,8 +8641,8 @@ pub struct ChatReportSpamState {
 impl Object for ChatReportSpamState {}
 impl RObject for ChatReportSpamState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportSpamState" }
-  fn td_type(&self) -> TDType { TDType::ChatReportSpamState }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatReportSpamState }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -8703,14 +8708,14 @@ impl Clone for Box<ChatType> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDChatTypeType {
+pub enum RTDChatTypeType {
   ChatTypeBasicGroup,
   ChatTypePrivate,
   ChatTypeSecret,
   ChatTypeSupergroup,
   
 }
-impl TDChatTypeType {
+impl RTDChatTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -8732,8 +8737,8 @@ pub struct ChatTypePrivate {
 impl Object for ChatTypePrivate {}
 impl RObject for ChatTypePrivate {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatTypePrivate" }
-  fn td_type(&self) -> TDType { TDType::ChatTypePrivate }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatTypePrivate }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -8793,8 +8798,8 @@ pub struct ChatTypeBasicGroup {
 impl Object for ChatTypeBasicGroup {}
 impl RObject for ChatTypeBasicGroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatTypeBasicGroup" }
-  fn td_type(&self) -> TDType { TDType::ChatTypeBasicGroup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatTypeBasicGroup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -8856,8 +8861,8 @@ pub struct ChatTypeSupergroup {
 impl Object for ChatTypeSupergroup {}
 impl RObject for ChatTypeSupergroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatTypeSupergroup" }
-  fn td_type(&self) -> TDType { TDType::ChatTypeSupergroup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatTypeSupergroup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -8927,8 +8932,8 @@ pub struct ChatTypeSecret {
 impl Object for ChatTypeSecret {}
 impl RObject for ChatTypeSecret {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatTypeSecret" }
-  fn td_type(&self) -> TDType { TDType::ChatTypeSecret }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChatTypeSecret }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -8996,8 +9001,8 @@ pub struct Chats {
 impl Object for Chats {}
 impl RObject for Chats {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chats" }
-  fn td_type(&self) -> TDType { TDType::Chats }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Chats }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -9063,7 +9068,7 @@ impl Clone for Box<CheckChatUsernameResult> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDCheckChatUsernameResultType {
+pub enum RTDCheckChatUsernameResultType {
   CheckChatUsernameResultOk,
   CheckChatUsernameResultPublicChatsTooMuch,
   CheckChatUsernameResultPublicGroupsUnavailable,
@@ -9071,7 +9076,7 @@ pub enum TDCheckChatUsernameResultType {
   CheckChatUsernameResultUsernameOccupied,
   
 }
-impl TDCheckChatUsernameResultType {
+impl RTDCheckChatUsernameResultType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -9091,8 +9096,8 @@ pub struct CheckChatUsernameResultOk {
 impl Object for CheckChatUsernameResultOk {}
 impl RObject for CheckChatUsernameResultOk {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkChatUsernameResultOk" }
-  fn td_type(&self) -> TDType { TDType::CheckChatUsernameResultOk }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckChatUsernameResultOk }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -9142,8 +9147,8 @@ pub struct CheckChatUsernameResultUsernameInvalid {
 impl Object for CheckChatUsernameResultUsernameInvalid {}
 impl RObject for CheckChatUsernameResultUsernameInvalid {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkChatUsernameResultUsernameInvalid" }
-  fn td_type(&self) -> TDType { TDType::CheckChatUsernameResultUsernameInvalid }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckChatUsernameResultUsernameInvalid }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -9193,8 +9198,8 @@ pub struct CheckChatUsernameResultUsernameOccupied {
 impl Object for CheckChatUsernameResultUsernameOccupied {}
 impl RObject for CheckChatUsernameResultUsernameOccupied {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkChatUsernameResultUsernameOccupied" }
-  fn td_type(&self) -> TDType { TDType::CheckChatUsernameResultUsernameOccupied }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckChatUsernameResultUsernameOccupied }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -9244,8 +9249,8 @@ pub struct CheckChatUsernameResultPublicChatsTooMuch {
 impl Object for CheckChatUsernameResultPublicChatsTooMuch {}
 impl RObject for CheckChatUsernameResultPublicChatsTooMuch {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkChatUsernameResultPublicChatsTooMuch" }
-  fn td_type(&self) -> TDType { TDType::CheckChatUsernameResultPublicChatsTooMuch }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckChatUsernameResultPublicChatsTooMuch }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -9295,8 +9300,8 @@ pub struct CheckChatUsernameResultPublicGroupsUnavailable {
 impl Object for CheckChatUsernameResultPublicGroupsUnavailable {}
 impl RObject for CheckChatUsernameResultPublicGroupsUnavailable {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkChatUsernameResultPublicGroupsUnavailable" }
-  fn td_type(&self) -> TDType { TDType::CheckChatUsernameResultPublicGroupsUnavailable }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckChatUsernameResultPublicGroupsUnavailable }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -9364,8 +9369,8 @@ pub struct ConnectedWebsite {
 impl Object for ConnectedWebsite {}
 impl RObject for ConnectedWebsite {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "connectedWebsite" }
-  fn td_type(&self) -> TDType { TDType::ConnectedWebsite }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ConnectedWebsite }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -9487,8 +9492,8 @@ pub struct ConnectedWebsites {
 impl Object for ConnectedWebsites {}
 impl RObject for ConnectedWebsites {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "connectedWebsites" }
-  fn td_type(&self) -> TDType { TDType::ConnectedWebsites }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ConnectedWebsites }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -9554,7 +9559,7 @@ impl Clone for Box<ConnectionState> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDConnectionStateType {
+pub enum RTDConnectionStateType {
   ConnectionStateConnecting,
   ConnectionStateConnectingToProxy,
   ConnectionStateReady,
@@ -9562,7 +9567,7 @@ pub enum TDConnectionStateType {
   ConnectionStateWaitingForNetwork,
   
 }
-impl TDConnectionStateType {
+impl RTDConnectionStateType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -9582,8 +9587,8 @@ pub struct ConnectionStateWaitingForNetwork {
 impl Object for ConnectionStateWaitingForNetwork {}
 impl RObject for ConnectionStateWaitingForNetwork {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "connectionStateWaitingForNetwork" }
-  fn td_type(&self) -> TDType { TDType::ConnectionStateWaitingForNetwork }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ConnectionStateWaitingForNetwork }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -9633,8 +9638,8 @@ pub struct ConnectionStateConnectingToProxy {
 impl Object for ConnectionStateConnectingToProxy {}
 impl RObject for ConnectionStateConnectingToProxy {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "connectionStateConnectingToProxy" }
-  fn td_type(&self) -> TDType { TDType::ConnectionStateConnectingToProxy }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ConnectionStateConnectingToProxy }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -9684,8 +9689,8 @@ pub struct ConnectionStateConnecting {
 impl Object for ConnectionStateConnecting {}
 impl RObject for ConnectionStateConnecting {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "connectionStateConnecting" }
-  fn td_type(&self) -> TDType { TDType::ConnectionStateConnecting }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ConnectionStateConnecting }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -9735,8 +9740,8 @@ pub struct ConnectionStateUpdating {
 impl Object for ConnectionStateUpdating {}
 impl RObject for ConnectionStateUpdating {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "connectionStateUpdating" }
-  fn td_type(&self) -> TDType { TDType::ConnectionStateUpdating }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ConnectionStateUpdating }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -9786,8 +9791,8 @@ pub struct ConnectionStateReady {
 impl Object for ConnectionStateReady {}
 impl RObject for ConnectionStateReady {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "connectionStateReady" }
-  fn td_type(&self) -> TDType { TDType::ConnectionStateReady }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ConnectionStateReady }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -9847,8 +9852,8 @@ pub struct Contact {
 impl Object for Contact {}
 impl RObject for Contact {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "contact" }
-  fn td_type(&self) -> TDType { TDType::Contact }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Contact }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -9938,8 +9943,8 @@ pub struct Count {
 impl Object for Count {}
 impl RObject for Count {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "count" }
-  fn td_type(&self) -> TDType { TDType::Count }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Count }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -9997,8 +10002,8 @@ pub struct CustomRequestResult {
 impl Object for CustomRequestResult {}
 impl RObject for CustomRequestResult {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "customRequestResult" }
-  fn td_type(&self) -> TDType { TDType::CustomRequestResult }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CustomRequestResult }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -10056,8 +10061,8 @@ pub struct DatabaseStatistics {
 impl Object for DatabaseStatistics {}
 impl RObject for DatabaseStatistics {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "databaseStatistics" }
-  fn td_type(&self) -> TDType { TDType::DatabaseStatistics }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DatabaseStatistics }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -10119,8 +10124,8 @@ pub struct Date {
 impl Object for Date {}
 impl RObject for Date {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "date" }
-  fn td_type(&self) -> TDType { TDType::Date }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Date }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -10196,8 +10201,8 @@ pub struct DatedFile {
 impl Object for DatedFile {}
 impl RObject for DatedFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "datedFile" }
-  fn td_type(&self) -> TDType { TDType::DatedFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DatedFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -10265,8 +10270,8 @@ pub struct DeepLinkInfo {
 impl Object for DeepLinkInfo {}
 impl RObject for DeepLinkInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deepLinkInfo" }
-  fn td_type(&self) -> TDType { TDType::DeepLinkInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeepLinkInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -10340,7 +10345,7 @@ impl Clone for Box<DeviceToken> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDDeviceTokenType {
+pub enum RTDDeviceTokenType {
   DeviceTokenApplePush,
   DeviceTokenApplePushVoIP,
   DeviceTokenBlackBerryPush,
@@ -10354,7 +10359,7 @@ pub enum TDDeviceTokenType {
   DeviceTokenWindowsPush,
   
 }
-impl TDDeviceTokenType {
+impl RTDDeviceTokenType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -10378,8 +10383,8 @@ pub struct DeviceTokenFirebaseCloudMessaging {
 impl Object for DeviceTokenFirebaseCloudMessaging {}
 impl RObject for DeviceTokenFirebaseCloudMessaging {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deviceTokenFirebaseCloudMessaging" }
-  fn td_type(&self) -> TDType { TDType::DeviceTokenFirebaseCloudMessaging }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeviceTokenFirebaseCloudMessaging }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -10449,8 +10454,8 @@ pub struct DeviceTokenApplePush {
 impl Object for DeviceTokenApplePush {}
 impl RObject for DeviceTokenApplePush {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deviceTokenApplePush" }
-  fn td_type(&self) -> TDType { TDType::DeviceTokenApplePush }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeviceTokenApplePush }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -10522,8 +10527,8 @@ pub struct DeviceTokenApplePushVoIP {
 impl Object for DeviceTokenApplePushVoIP {}
 impl RObject for DeviceTokenApplePushVoIP {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deviceTokenApplePushVoIP" }
-  fn td_type(&self) -> TDType { TDType::DeviceTokenApplePushVoIP }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeviceTokenApplePushVoIP }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -10599,8 +10604,8 @@ pub struct DeviceTokenWindowsPush {
 impl Object for DeviceTokenWindowsPush {}
 impl RObject for DeviceTokenWindowsPush {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deviceTokenWindowsPush" }
-  fn td_type(&self) -> TDType { TDType::DeviceTokenWindowsPush }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeviceTokenWindowsPush }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -10660,8 +10665,8 @@ pub struct DeviceTokenMicrosoftPush {
 impl Object for DeviceTokenMicrosoftPush {}
 impl RObject for DeviceTokenMicrosoftPush {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deviceTokenMicrosoftPush" }
-  fn td_type(&self) -> TDType { TDType::DeviceTokenMicrosoftPush }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeviceTokenMicrosoftPush }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -10721,8 +10726,8 @@ pub struct DeviceTokenMicrosoftPushVoIP {
 impl Object for DeviceTokenMicrosoftPushVoIP {}
 impl RObject for DeviceTokenMicrosoftPushVoIP {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deviceTokenMicrosoftPushVoIP" }
-  fn td_type(&self) -> TDType { TDType::DeviceTokenMicrosoftPushVoIP }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeviceTokenMicrosoftPushVoIP }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -10786,8 +10791,8 @@ pub struct DeviceTokenWebPush {
 impl Object for DeviceTokenWebPush {}
 impl RObject for DeviceTokenWebPush {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deviceTokenWebPush" }
-  fn td_type(&self) -> TDType { TDType::DeviceTokenWebPush }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeviceTokenWebPush }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -10863,8 +10868,8 @@ pub struct DeviceTokenSimplePush {
 impl Object for DeviceTokenSimplePush {}
 impl RObject for DeviceTokenSimplePush {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deviceTokenSimplePush" }
-  fn td_type(&self) -> TDType { TDType::DeviceTokenSimplePush }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeviceTokenSimplePush }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -10924,8 +10929,8 @@ pub struct DeviceTokenUbuntuPush {
 impl Object for DeviceTokenUbuntuPush {}
 impl RObject for DeviceTokenUbuntuPush {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deviceTokenUbuntuPush" }
-  fn td_type(&self) -> TDType { TDType::DeviceTokenUbuntuPush }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeviceTokenUbuntuPush }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -10985,8 +10990,8 @@ pub struct DeviceTokenBlackBerryPush {
 impl Object for DeviceTokenBlackBerryPush {}
 impl RObject for DeviceTokenBlackBerryPush {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deviceTokenBlackBerryPush" }
-  fn td_type(&self) -> TDType { TDType::DeviceTokenBlackBerryPush }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeviceTokenBlackBerryPush }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -11046,8 +11051,8 @@ pub struct DeviceTokenTizenPush {
 impl Object for DeviceTokenTizenPush {}
 impl RObject for DeviceTokenTizenPush {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deviceTokenTizenPush" }
-  fn td_type(&self) -> TDType { TDType::DeviceTokenTizenPush }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeviceTokenTizenPush }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -11113,8 +11118,8 @@ pub struct Document {
 impl Object for Document {}
 impl RObject for Document {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "document" }
-  fn td_type(&self) -> TDType { TDType::Document }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Document }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -11205,8 +11210,8 @@ impl Clone for DraftMessage {
 impl Object for DraftMessage {}
 impl RObject for DraftMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "draftMessage" }
-  fn td_type(&self) -> TDType { TDType::DraftMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DraftMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -11274,8 +11279,8 @@ pub struct EmailAddressAuthenticationCodeInfo {
 impl Object for EmailAddressAuthenticationCodeInfo {}
 impl RObject for EmailAddressAuthenticationCodeInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "emailAddressAuthenticationCodeInfo" }
-  fn td_type(&self) -> TDType { TDType::EmailAddressAuthenticationCodeInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EmailAddressAuthenticationCodeInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -11345,8 +11350,8 @@ pub struct EncryptedCredentials {
 impl Object for EncryptedCredentials {}
 impl RObject for EncryptedCredentials {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "encryptedCredentials" }
-  fn td_type(&self) -> TDType { TDType::EncryptedCredentials }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EncryptedCredentials }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -11443,8 +11448,8 @@ impl Clone for EncryptedPassportElement {
 impl Object for EncryptedPassportElement {}
 impl RObject for EncryptedPassportElement {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "encryptedPassportElement" }
-  fn td_type(&self) -> TDType { TDType::EncryptedPassportElement }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EncryptedPassportElement }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -11568,8 +11573,8 @@ pub struct Error {
 impl Object for Error {}
 impl RObject for Error {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "error" }
-  fn td_type(&self) -> TDType { TDType::Error }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Error }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -11643,8 +11648,8 @@ pub struct File {
 impl Object for File {}
 impl RObject for File {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "file" }
-  fn td_type(&self) -> TDType { TDType::File }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::File }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -11734,8 +11739,8 @@ pub struct FilePart {
 impl Object for FilePart {}
 impl RObject for FilePart {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "filePart" }
-  fn td_type(&self) -> TDType { TDType::FilePart }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FilePart }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -11801,7 +11806,7 @@ impl Clone for Box<FileType> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDFileTypeType {
+pub enum RTDFileTypeType {
   FileTypeAnimation,
   FileTypeAudio,
   FileTypeDocument,
@@ -11820,7 +11825,7 @@ pub enum TDFileTypeType {
   FileTypeWallpaper,
   
 }
-impl TDFileTypeType {
+impl RTDFileTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -11840,8 +11845,8 @@ pub struct FileTypeNone {
 impl Object for FileTypeNone {}
 impl RObject for FileTypeNone {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeNone" }
-  fn td_type(&self) -> TDType { TDType::FileTypeNone }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypeNone }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -11891,8 +11896,8 @@ pub struct FileTypeAnimation {
 impl Object for FileTypeAnimation {}
 impl RObject for FileTypeAnimation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeAnimation" }
-  fn td_type(&self) -> TDType { TDType::FileTypeAnimation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypeAnimation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -11942,8 +11947,8 @@ pub struct FileTypeAudio {
 impl Object for FileTypeAudio {}
 impl RObject for FileTypeAudio {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeAudio" }
-  fn td_type(&self) -> TDType { TDType::FileTypeAudio }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypeAudio }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -11993,8 +11998,8 @@ pub struct FileTypeDocument {
 impl Object for FileTypeDocument {}
 impl RObject for FileTypeDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeDocument" }
-  fn td_type(&self) -> TDType { TDType::FileTypeDocument }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypeDocument }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12044,8 +12049,8 @@ pub struct FileTypePhoto {
 impl Object for FileTypePhoto {}
 impl RObject for FileTypePhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypePhoto" }
-  fn td_type(&self) -> TDType { TDType::FileTypePhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypePhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12095,8 +12100,8 @@ pub struct FileTypeProfilePhoto {
 impl Object for FileTypeProfilePhoto {}
 impl RObject for FileTypeProfilePhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeProfilePhoto" }
-  fn td_type(&self) -> TDType { TDType::FileTypeProfilePhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypeProfilePhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12146,8 +12151,8 @@ pub struct FileTypeSecret {
 impl Object for FileTypeSecret {}
 impl RObject for FileTypeSecret {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeSecret" }
-  fn td_type(&self) -> TDType { TDType::FileTypeSecret }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypeSecret }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12197,8 +12202,8 @@ pub struct FileTypeSecretThumbnail {
 impl Object for FileTypeSecretThumbnail {}
 impl RObject for FileTypeSecretThumbnail {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeSecretThumbnail" }
-  fn td_type(&self) -> TDType { TDType::FileTypeSecretThumbnail }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypeSecretThumbnail }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12248,8 +12253,8 @@ pub struct FileTypeSecure {
 impl Object for FileTypeSecure {}
 impl RObject for FileTypeSecure {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeSecure" }
-  fn td_type(&self) -> TDType { TDType::FileTypeSecure }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypeSecure }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12299,8 +12304,8 @@ pub struct FileTypeSticker {
 impl Object for FileTypeSticker {}
 impl RObject for FileTypeSticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeSticker" }
-  fn td_type(&self) -> TDType { TDType::FileTypeSticker }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypeSticker }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12350,8 +12355,8 @@ pub struct FileTypeThumbnail {
 impl Object for FileTypeThumbnail {}
 impl RObject for FileTypeThumbnail {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeThumbnail" }
-  fn td_type(&self) -> TDType { TDType::FileTypeThumbnail }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypeThumbnail }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12401,8 +12406,8 @@ pub struct FileTypeUnknown {
 impl Object for FileTypeUnknown {}
 impl RObject for FileTypeUnknown {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeUnknown" }
-  fn td_type(&self) -> TDType { TDType::FileTypeUnknown }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypeUnknown }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12452,8 +12457,8 @@ pub struct FileTypeVideo {
 impl Object for FileTypeVideo {}
 impl RObject for FileTypeVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeVideo" }
-  fn td_type(&self) -> TDType { TDType::FileTypeVideo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypeVideo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12503,8 +12508,8 @@ pub struct FileTypeVideoNote {
 impl Object for FileTypeVideoNote {}
 impl RObject for FileTypeVideoNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeVideoNote" }
-  fn td_type(&self) -> TDType { TDType::FileTypeVideoNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypeVideoNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12554,8 +12559,8 @@ pub struct FileTypeVoiceNote {
 impl Object for FileTypeVoiceNote {}
 impl RObject for FileTypeVoiceNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeVoiceNote" }
-  fn td_type(&self) -> TDType { TDType::FileTypeVoiceNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypeVoiceNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12605,8 +12610,8 @@ pub struct FileTypeWallpaper {
 impl Object for FileTypeWallpaper {}
 impl RObject for FileTypeWallpaper {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeWallpaper" }
-  fn td_type(&self) -> TDType { TDType::FileTypeWallpaper }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FileTypeWallpaper }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12660,8 +12665,8 @@ pub struct FormattedText {
 impl Object for FormattedText {}
 impl RObject for FormattedText {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "formattedText" }
-  fn td_type(&self) -> TDType { TDType::FormattedText }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FormattedText }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12729,8 +12734,8 @@ pub struct FoundMessages {
 impl Object for FoundMessages {}
 impl RObject for FoundMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "foundMessages" }
-  fn td_type(&self) -> TDType { TDType::FoundMessages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FoundMessages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12808,8 +12813,8 @@ pub struct Game {
 impl Object for Game {}
 impl RObject for Game {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "game" }
-  fn td_type(&self) -> TDType { TDType::Game }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Game }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12919,8 +12924,8 @@ pub struct GameHighScore {
 impl Object for GameHighScore {}
 impl RObject for GameHighScore {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "gameHighScore" }
-  fn td_type(&self) -> TDType { TDType::GameHighScore }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GameHighScore }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -12994,8 +12999,8 @@ pub struct GameHighScores {
 impl Object for GameHighScores {}
 impl RObject for GameHighScores {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "gameHighScores" }
-  fn td_type(&self) -> TDType { TDType::GameHighScores }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GameHighScores }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -13053,8 +13058,8 @@ pub struct Hashtags {
 impl Object for Hashtags {}
 impl RObject for Hashtags {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "hashtags" }
-  fn td_type(&self) -> TDType { TDType::Hashtags }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Hashtags }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -13112,8 +13117,8 @@ pub struct HttpUrl {
 impl Object for HttpUrl {}
 impl RObject for HttpUrl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "httpUrl" }
-  fn td_type(&self) -> TDType { TDType::HttpUrl }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::HttpUrl }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -13181,8 +13186,8 @@ pub struct IdentityDocument {
 impl Object for IdentityDocument {}
 impl RObject for IdentityDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "identityDocument" }
-  fn td_type(&self) -> TDType { TDType::IdentityDocument }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::IdentityDocument }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -13282,8 +13287,8 @@ pub struct ImportedContacts {
 impl Object for ImportedContacts {}
 impl RObject for ImportedContacts {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "importedContacts" }
-  fn td_type(&self) -> TDType { TDType::ImportedContacts }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ImportedContacts }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -13358,8 +13363,8 @@ impl Clone for InlineKeyboardButton {
 impl Object for InlineKeyboardButton {}
 impl RObject for InlineKeyboardButton {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineKeyboardButton" }
-  fn td_type(&self) -> TDType { TDType::InlineKeyboardButton }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineKeyboardButton }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -13433,7 +13438,7 @@ impl Clone for Box<InlineKeyboardButtonType> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDInlineKeyboardButtonTypeType {
+pub enum RTDInlineKeyboardButtonTypeType {
   InlineKeyboardButtonTypeBuy,
   InlineKeyboardButtonTypeCallback,
   InlineKeyboardButtonTypeCallbackGame,
@@ -13441,7 +13446,7 @@ pub enum TDInlineKeyboardButtonTypeType {
   InlineKeyboardButtonTypeUrl,
   
 }
-impl TDInlineKeyboardButtonTypeType {
+impl RTDInlineKeyboardButtonTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -13463,8 +13468,8 @@ pub struct InlineKeyboardButtonTypeUrl {
 impl Object for InlineKeyboardButtonTypeUrl {}
 impl RObject for InlineKeyboardButtonTypeUrl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineKeyboardButtonTypeUrl" }
-  fn td_type(&self) -> TDType { TDType::InlineKeyboardButtonTypeUrl }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineKeyboardButtonTypeUrl }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -13524,8 +13529,8 @@ pub struct InlineKeyboardButtonTypeCallback {
 impl Object for InlineKeyboardButtonTypeCallback {}
 impl RObject for InlineKeyboardButtonTypeCallback {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineKeyboardButtonTypeCallback" }
-  fn td_type(&self) -> TDType { TDType::InlineKeyboardButtonTypeCallback }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineKeyboardButtonTypeCallback }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -13583,8 +13588,8 @@ pub struct InlineKeyboardButtonTypeCallbackGame {
 impl Object for InlineKeyboardButtonTypeCallbackGame {}
 impl RObject for InlineKeyboardButtonTypeCallbackGame {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineKeyboardButtonTypeCallbackGame" }
-  fn td_type(&self) -> TDType { TDType::InlineKeyboardButtonTypeCallbackGame }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineKeyboardButtonTypeCallbackGame }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -13638,8 +13643,8 @@ pub struct InlineKeyboardButtonTypeSwitchInline {
 impl Object for InlineKeyboardButtonTypeSwitchInline {}
 impl RObject for InlineKeyboardButtonTypeSwitchInline {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineKeyboardButtonTypeSwitchInline" }
-  fn td_type(&self) -> TDType { TDType::InlineKeyboardButtonTypeSwitchInline }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineKeyboardButtonTypeSwitchInline }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -13705,8 +13710,8 @@ pub struct InlineKeyboardButtonTypeBuy {
 impl Object for InlineKeyboardButtonTypeBuy {}
 impl RObject for InlineKeyboardButtonTypeBuy {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineKeyboardButtonTypeBuy" }
-  fn td_type(&self) -> TDType { TDType::InlineKeyboardButtonTypeBuy }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineKeyboardButtonTypeBuy }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -13766,7 +13771,7 @@ impl Clone for Box<InlineQueryResult> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDInlineQueryResultType {
+pub enum RTDInlineQueryResultType {
   InlineQueryResultAnimation,
   InlineQueryResultArticle,
   InlineQueryResultAudio,
@@ -13781,7 +13786,7 @@ pub enum TDInlineQueryResultType {
   InlineQueryResultVoiceNote,
   
 }
-impl TDInlineQueryResultType {
+impl RTDInlineQueryResultType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -13813,8 +13818,8 @@ pub struct InlineQueryResultArticle {
 impl Object for InlineQueryResultArticle {}
 impl RObject for InlineQueryResultArticle {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultArticle" }
-  fn td_type(&self) -> TDType { TDType::InlineQueryResultArticle }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineQueryResultArticle }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -13918,8 +13923,8 @@ pub struct InlineQueryResultContact {
 impl Object for InlineQueryResultContact {}
 impl RObject for InlineQueryResultContact {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultContact" }
-  fn td_type(&self) -> TDType { TDType::InlineQueryResultContact }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineQueryResultContact }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -14001,8 +14006,8 @@ pub struct InlineQueryResultLocation {
 impl Object for InlineQueryResultLocation {}
 impl RObject for InlineQueryResultLocation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultLocation" }
-  fn td_type(&self) -> TDType { TDType::InlineQueryResultLocation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineQueryResultLocation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -14090,8 +14095,8 @@ pub struct InlineQueryResultVenue {
 impl Object for InlineQueryResultVenue {}
 impl RObject for InlineQueryResultVenue {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultVenue" }
-  fn td_type(&self) -> TDType { TDType::InlineQueryResultVenue }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineQueryResultVenue }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -14169,8 +14174,8 @@ pub struct InlineQueryResultGame {
 impl Object for InlineQueryResultGame {}
 impl RObject for InlineQueryResultGame {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultGame" }
-  fn td_type(&self) -> TDType { TDType::InlineQueryResultGame }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineQueryResultGame }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -14242,8 +14247,8 @@ pub struct InlineQueryResultAnimation {
 impl Object for InlineQueryResultAnimation {}
 impl RObject for InlineQueryResultAnimation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultAnimation" }
-  fn td_type(&self) -> TDType { TDType::InlineQueryResultAnimation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineQueryResultAnimation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -14321,8 +14326,8 @@ pub struct InlineQueryResultAudio {
 impl Object for InlineQueryResultAudio {}
 impl RObject for InlineQueryResultAudio {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultAudio" }
-  fn td_type(&self) -> TDType { TDType::InlineQueryResultAudio }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineQueryResultAudio }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -14396,8 +14401,8 @@ pub struct InlineQueryResultDocument {
 impl Object for InlineQueryResultDocument {}
 impl RObject for InlineQueryResultDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultDocument" }
-  fn td_type(&self) -> TDType { TDType::InlineQueryResultDocument }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineQueryResultDocument }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -14487,8 +14492,8 @@ pub struct InlineQueryResultPhoto {
 impl Object for InlineQueryResultPhoto {}
 impl RObject for InlineQueryResultPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultPhoto" }
-  fn td_type(&self) -> TDType { TDType::InlineQueryResultPhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineQueryResultPhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -14574,8 +14579,8 @@ pub struct InlineQueryResultSticker {
 impl Object for InlineQueryResultSticker {}
 impl RObject for InlineQueryResultSticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultSticker" }
-  fn td_type(&self) -> TDType { TDType::InlineQueryResultSticker }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineQueryResultSticker }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -14649,8 +14654,8 @@ pub struct InlineQueryResultVideo {
 impl Object for InlineQueryResultVideo {}
 impl RObject for InlineQueryResultVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultVideo" }
-  fn td_type(&self) -> TDType { TDType::InlineQueryResultVideo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineQueryResultVideo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -14738,8 +14743,8 @@ pub struct InlineQueryResultVoiceNote {
 impl Object for InlineQueryResultVoiceNote {}
 impl RObject for InlineQueryResultVoiceNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultVoiceNote" }
-  fn td_type(&self) -> TDType { TDType::InlineQueryResultVoiceNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineQueryResultVoiceNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -14830,8 +14835,8 @@ impl Clone for InlineQueryResults {
 impl Object for InlineQueryResults {}
 impl RObject for InlineQueryResults {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResults" }
-  fn td_type(&self) -> TDType { TDType::InlineQueryResults }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InlineQueryResults }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -14929,14 +14934,14 @@ impl Clone for Box<InputCredentials> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDInputCredentialsType {
+pub enum RTDInputCredentialsType {
   InputCredentialsAndroidPay,
   InputCredentialsApplePay,
   InputCredentialsNew,
   InputCredentialsSaved,
   
 }
-impl TDInputCredentialsType {
+impl RTDInputCredentialsType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -14958,8 +14963,8 @@ pub struct InputCredentialsSaved {
 impl Object for InputCredentialsSaved {}
 impl RObject for InputCredentialsSaved {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputCredentialsSaved" }
-  fn td_type(&self) -> TDType { TDType::InputCredentialsSaved }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputCredentialsSaved }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -15021,8 +15026,8 @@ pub struct InputCredentialsNew {
 impl Object for InputCredentialsNew {}
 impl RObject for InputCredentialsNew {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputCredentialsNew" }
-  fn td_type(&self) -> TDType { TDType::InputCredentialsNew }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputCredentialsNew }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -15090,8 +15095,8 @@ pub struct InputCredentialsAndroidPay {
 impl Object for InputCredentialsAndroidPay {}
 impl RObject for InputCredentialsAndroidPay {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputCredentialsAndroidPay" }
-  fn td_type(&self) -> TDType { TDType::InputCredentialsAndroidPay }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputCredentialsAndroidPay }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -15151,8 +15156,8 @@ pub struct InputCredentialsApplePay {
 impl Object for InputCredentialsApplePay {}
 impl RObject for InputCredentialsApplePay {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputCredentialsApplePay" }
-  fn td_type(&self) -> TDType { TDType::InputCredentialsApplePay }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputCredentialsApplePay }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -15220,14 +15225,14 @@ impl Clone for Box<InputFile> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDInputFileType {
+pub enum RTDInputFileType {
   InputFileGenerated,
   InputFileId,
   InputFileLocal,
   InputFileRemote,
   
 }
-impl TDInputFileType {
+impl RTDInputFileType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -15249,8 +15254,8 @@ pub struct InputFileId {
 impl Object for InputFileId {}
 impl RObject for InputFileId {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputFileId" }
-  fn td_type(&self) -> TDType { TDType::InputFileId }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputFileId }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -15310,8 +15315,8 @@ pub struct InputFileRemote {
 impl Object for InputFileRemote {}
 impl RObject for InputFileRemote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputFileRemote" }
-  fn td_type(&self) -> TDType { TDType::InputFileRemote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputFileRemote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -15371,8 +15376,8 @@ pub struct InputFileLocal {
 impl Object for InputFileLocal {}
 impl RObject for InputFileLocal {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputFileLocal" }
-  fn td_type(&self) -> TDType { TDType::InputFileLocal }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputFileLocal }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -15436,8 +15441,8 @@ pub struct InputFileGenerated {
 impl Object for InputFileGenerated {}
 impl RObject for InputFileGenerated {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputFileGenerated" }
-  fn td_type(&self) -> TDType { TDType::InputFileGenerated }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputFileGenerated }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -15530,8 +15535,8 @@ impl Clone for InputIdentityDocument {
 impl Object for InputIdentityDocument {}
 impl RObject for InputIdentityDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputIdentityDocument" }
-  fn td_type(&self) -> TDType { TDType::InputIdentityDocument }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputIdentityDocument }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -15637,7 +15642,7 @@ impl Clone for Box<InputInlineQueryResult> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDInputInlineQueryResultType {
+pub enum RTDInputInlineQueryResultType {
   InputInlineQueryResultAnimatedGif,
   InputInlineQueryResultAnimatedMpeg4,
   InputInlineQueryResultArticle,
@@ -15653,7 +15658,7 @@ pub enum TDInputInlineQueryResultType {
   InputInlineQueryResultVoiceNote,
   
 }
-impl TDInputInlineQueryResultType {
+impl RTDInputInlineQueryResultType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -15698,8 +15703,8 @@ impl Clone for InputInlineQueryResultAnimatedGif {
 impl Object for InputInlineQueryResultAnimatedGif {}
 impl RObject for InputInlineQueryResultAnimatedGif {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultAnimatedGif" }
-  fn td_type(&self) -> TDType { TDType::InputInlineQueryResultAnimatedGif }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputInlineQueryResultAnimatedGif }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -15846,8 +15851,8 @@ impl Clone for InputInlineQueryResultAnimatedMpeg4 {
 impl Object for InputInlineQueryResultAnimatedMpeg4 {}
 impl RObject for InputInlineQueryResultAnimatedMpeg4 {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultAnimatedMpeg4" }
-  fn td_type(&self) -> TDType { TDType::InputInlineQueryResultAnimatedMpeg4 }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputInlineQueryResultAnimatedMpeg4 }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -15996,8 +16001,8 @@ impl Clone for InputInlineQueryResultArticle {
 impl Object for InputInlineQueryResultArticle {}
 impl RObject for InputInlineQueryResultArticle {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultArticle" }
-  fn td_type(&self) -> TDType { TDType::InputInlineQueryResultArticle }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputInlineQueryResultArticle }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -16148,8 +16153,8 @@ impl Clone for InputInlineQueryResultAudio {
 impl Object for InputInlineQueryResultAudio {}
 impl RObject for InputInlineQueryResultAudio {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultAudio" }
-  fn td_type(&self) -> TDType { TDType::InputInlineQueryResultAudio }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputInlineQueryResultAudio }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -16276,8 +16281,8 @@ impl Clone for InputInlineQueryResultContact {
 impl Object for InputInlineQueryResultContact {}
 impl RObject for InputInlineQueryResultContact {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultContact" }
-  fn td_type(&self) -> TDType { TDType::InputInlineQueryResultContact }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputInlineQueryResultContact }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -16410,8 +16415,8 @@ impl Clone for InputInlineQueryResultDocument {
 impl Object for InputInlineQueryResultDocument {}
 impl RObject for InputInlineQueryResultDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultDocument" }
-  fn td_type(&self) -> TDType { TDType::InputInlineQueryResultDocument }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputInlineQueryResultDocument }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -16554,8 +16559,8 @@ impl Clone for InputInlineQueryResultGame {
 impl Object for InputInlineQueryResultGame {}
 impl RObject for InputInlineQueryResultGame {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultGame" }
-  fn td_type(&self) -> TDType { TDType::InputInlineQueryResultGame }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputInlineQueryResultGame }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -16654,8 +16659,8 @@ impl Clone for InputInlineQueryResultLocation {
 impl Object for InputInlineQueryResultLocation {}
 impl RObject for InputInlineQueryResultLocation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultLocation" }
-  fn td_type(&self) -> TDType { TDType::InputInlineQueryResultLocation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputInlineQueryResultLocation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -16802,8 +16807,8 @@ impl Clone for InputInlineQueryResultPhoto {
 impl Object for InputInlineQueryResultPhoto {}
 impl RObject for InputInlineQueryResultPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultPhoto" }
-  fn td_type(&self) -> TDType { TDType::InputInlineQueryResultPhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputInlineQueryResultPhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -16946,8 +16951,8 @@ impl Clone for InputInlineQueryResultSticker {
 impl Object for InputInlineQueryResultSticker {}
 impl RObject for InputInlineQueryResultSticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultSticker" }
-  fn td_type(&self) -> TDType { TDType::InputInlineQueryResultSticker }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputInlineQueryResultSticker }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -17074,8 +17079,8 @@ impl Clone for InputInlineQueryResultVenue {
 impl Object for InputInlineQueryResultVenue {}
 impl RObject for InputInlineQueryResultVenue {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultVenue" }
-  fn td_type(&self) -> TDType { TDType::InputInlineQueryResultVenue }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputInlineQueryResultVenue }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -17210,8 +17215,8 @@ impl Clone for InputInlineQueryResultVideo {
 impl Object for InputInlineQueryResultVideo {}
 impl RObject for InputInlineQueryResultVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultVideo" }
-  fn td_type(&self) -> TDType { TDType::InputInlineQueryResultVideo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputInlineQueryResultVideo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -17368,8 +17373,8 @@ impl Clone for InputInlineQueryResultVoiceNote {
 impl Object for InputInlineQueryResultVoiceNote {}
 impl RObject for InputInlineQueryResultVoiceNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultVoiceNote" }
-  fn td_type(&self) -> TDType { TDType::InputInlineQueryResultVoiceNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputInlineQueryResultVoiceNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -17477,7 +17482,7 @@ impl Clone for Box<InputMessageContent> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDInputMessageContentType {
+pub enum RTDInputMessageContentType {
   InputMessageAnimation,
   InputMessageAudio,
   InputMessageContact,
@@ -17496,7 +17501,7 @@ pub enum TDInputMessageContentType {
   InputMessageVoiceNote,
   
 }
-impl TDInputMessageContentType {
+impl RTDInputMessageContentType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -17522,8 +17527,8 @@ pub struct InputMessageText {
 impl Object for InputMessageText {}
 impl RObject for InputMessageText {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageText" }
-  fn td_type(&self) -> TDType { TDType::InputMessageText }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessageText }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -17616,8 +17621,8 @@ impl Clone for InputMessageAnimation {
 impl Object for InputMessageAnimation {}
 impl RObject for InputMessageAnimation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageAnimation" }
-  fn td_type(&self) -> TDType { TDType::InputMessageAnimation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessageAnimation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -17734,8 +17739,8 @@ impl Clone for InputMessageAudio {
 impl Object for InputMessageAudio {}
 impl RObject for InputMessageAudio {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageAudio" }
-  fn td_type(&self) -> TDType { TDType::InputMessageAudio }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessageAudio }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -17846,8 +17851,8 @@ impl Clone for InputMessageDocument {
 impl Object for InputMessageDocument {}
 impl RObject for InputMessageDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageDocument" }
-  fn td_type(&self) -> TDType { TDType::InputMessageDocument }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessageDocument }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -17942,8 +17947,8 @@ impl Clone for InputMessagePhoto {
 impl Object for InputMessagePhoto {}
 impl RObject for InputMessagePhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessagePhoto" }
-  fn td_type(&self) -> TDType { TDType::InputMessagePhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessagePhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -18064,8 +18069,8 @@ impl Clone for InputMessageSticker {
 impl Object for InputMessageSticker {}
 impl RObject for InputMessageSticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageSticker" }
-  fn td_type(&self) -> TDType { TDType::InputMessageSticker }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessageSticker }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -18172,8 +18177,8 @@ impl Clone for InputMessageVideo {
 impl Object for InputMessageVideo {}
 impl RObject for InputMessageVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageVideo" }
-  fn td_type(&self) -> TDType { TDType::InputMessageVideo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessageVideo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -18310,8 +18315,8 @@ impl Clone for InputMessageVideoNote {
 impl Object for InputMessageVideoNote {}
 impl RObject for InputMessageVideoNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageVideoNote" }
-  fn td_type(&self) -> TDType { TDType::InputMessageVideoNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessageVideoNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -18408,8 +18413,8 @@ impl Clone for InputMessageVoiceNote {
 impl Object for InputMessageVoiceNote {}
 impl RObject for InputMessageVoiceNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageVoiceNote" }
-  fn td_type(&self) -> TDType { TDType::InputMessageVoiceNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessageVoiceNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -18495,8 +18500,8 @@ pub struct InputMessageLocation {
 impl Object for InputMessageLocation {}
 impl RObject for InputMessageLocation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageLocation" }
-  fn td_type(&self) -> TDType { TDType::InputMessageLocation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessageLocation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -18564,8 +18569,8 @@ pub struct InputMessageVenue {
 impl Object for InputMessageVenue {}
 impl RObject for InputMessageVenue {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageVenue" }
-  fn td_type(&self) -> TDType { TDType::InputMessageVenue }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessageVenue }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -18625,8 +18630,8 @@ pub struct InputMessageContact {
 impl Object for InputMessageContact {}
 impl RObject for InputMessageContact {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageContact" }
-  fn td_type(&self) -> TDType { TDType::InputMessageContact }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessageContact }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -18688,8 +18693,8 @@ pub struct InputMessageGame {
 impl Object for InputMessageGame {}
 impl RObject for InputMessageGame {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageGame" }
-  fn td_type(&self) -> TDType { TDType::InputMessageGame }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessageGame }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -18777,8 +18782,8 @@ pub struct InputMessageInvoice {
 impl Object for InputMessageInvoice {}
 impl RObject for InputMessageInvoice {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageInvoice" }
-  fn td_type(&self) -> TDType { TDType::InputMessageInvoice }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessageInvoice }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -18920,8 +18925,8 @@ pub struct InputMessagePoll {
 impl Object for InputMessagePoll {}
 impl RObject for InputMessagePoll {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessagePoll" }
-  fn td_type(&self) -> TDType { TDType::InputMessagePoll }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessagePoll }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -18993,8 +18998,8 @@ pub struct InputMessageForwarded {
 impl Object for InputMessageForwarded {}
 impl RObject for InputMessageForwarded {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageForwarded" }
-  fn td_type(&self) -> TDType { TDType::InputMessageForwarded }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputMessageForwarded }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -19078,7 +19083,7 @@ impl Clone for Box<InputPassportElement> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDInputPassportElementType {
+pub enum RTDInputPassportElementType {
   InputPassportElementAddress,
   InputPassportElementBankStatement,
   InputPassportElementDriverLicense,
@@ -19094,7 +19099,7 @@ pub enum TDInputPassportElementType {
   InputPassportElementUtilityBill,
   
 }
-impl TDInputPassportElementType {
+impl RTDInputPassportElementType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -19116,8 +19121,8 @@ pub struct InputPassportElementPersonalDetails {
 impl Object for InputPassportElementPersonalDetails {}
 impl RObject for InputPassportElementPersonalDetails {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementPersonalDetails" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementPersonalDetails }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementPersonalDetails }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -19177,8 +19182,8 @@ pub struct InputPassportElementPassport {
 impl Object for InputPassportElementPassport {}
 impl RObject for InputPassportElementPassport {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementPassport" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementPassport }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementPassport }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -19238,8 +19243,8 @@ pub struct InputPassportElementDriverLicense {
 impl Object for InputPassportElementDriverLicense {}
 impl RObject for InputPassportElementDriverLicense {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementDriverLicense" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementDriverLicense }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementDriverLicense }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -19299,8 +19304,8 @@ pub struct InputPassportElementIdentityCard {
 impl Object for InputPassportElementIdentityCard {}
 impl RObject for InputPassportElementIdentityCard {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementIdentityCard" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementIdentityCard }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementIdentityCard }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -19360,8 +19365,8 @@ pub struct InputPassportElementInternalPassport {
 impl Object for InputPassportElementInternalPassport {}
 impl RObject for InputPassportElementInternalPassport {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementInternalPassport" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementInternalPassport }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementInternalPassport }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -19421,8 +19426,8 @@ pub struct InputPassportElementAddress {
 impl Object for InputPassportElementAddress {}
 impl RObject for InputPassportElementAddress {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementAddress" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementAddress }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementAddress }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -19482,8 +19487,8 @@ pub struct InputPassportElementUtilityBill {
 impl Object for InputPassportElementUtilityBill {}
 impl RObject for InputPassportElementUtilityBill {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementUtilityBill" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementUtilityBill }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementUtilityBill }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -19543,8 +19548,8 @@ pub struct InputPassportElementBankStatement {
 impl Object for InputPassportElementBankStatement {}
 impl RObject for InputPassportElementBankStatement {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementBankStatement" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementBankStatement }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementBankStatement }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -19604,8 +19609,8 @@ pub struct InputPassportElementRentalAgreement {
 impl Object for InputPassportElementRentalAgreement {}
 impl RObject for InputPassportElementRentalAgreement {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementRentalAgreement" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementRentalAgreement }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementRentalAgreement }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -19665,8 +19670,8 @@ pub struct InputPassportElementPassportRegistration {
 impl Object for InputPassportElementPassportRegistration {}
 impl RObject for InputPassportElementPassportRegistration {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementPassportRegistration" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementPassportRegistration }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementPassportRegistration }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -19726,8 +19731,8 @@ pub struct InputPassportElementTemporaryRegistration {
 impl Object for InputPassportElementTemporaryRegistration {}
 impl RObject for InputPassportElementTemporaryRegistration {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementTemporaryRegistration" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementTemporaryRegistration }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementTemporaryRegistration }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -19787,8 +19792,8 @@ pub struct InputPassportElementPhoneNumber {
 impl Object for InputPassportElementPhoneNumber {}
 impl RObject for InputPassportElementPhoneNumber {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementPhoneNumber" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementPhoneNumber }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementPhoneNumber }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -19848,8 +19853,8 @@ pub struct InputPassportElementEmailAddress {
 impl Object for InputPassportElementEmailAddress {}
 impl RObject for InputPassportElementEmailAddress {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementEmailAddress" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementEmailAddress }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementEmailAddress }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -19920,8 +19925,8 @@ impl Clone for InputPassportElementError {
 impl Object for InputPassportElementError {}
 impl RObject for InputPassportElementError {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementError" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementError }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementError }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -20003,7 +20008,7 @@ impl Clone for Box<InputPassportElementErrorSource> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDInputPassportElementErrorSourceType {
+pub enum RTDInputPassportElementErrorSourceType {
   InputPassportElementErrorSourceDataField,
   InputPassportElementErrorSourceFile,
   InputPassportElementErrorSourceFiles,
@@ -20015,7 +20020,7 @@ pub enum TDInputPassportElementErrorSourceType {
   InputPassportElementErrorSourceUnspecified,
   
 }
-impl TDInputPassportElementErrorSourceType {
+impl RTDInputPassportElementErrorSourceType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -20037,8 +20042,8 @@ pub struct InputPassportElementErrorSourceUnspecified {
 impl Object for InputPassportElementErrorSourceUnspecified {}
 impl RObject for InputPassportElementErrorSourceUnspecified {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementErrorSourceUnspecified" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementErrorSourceUnspecified }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementErrorSourceUnspecified }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -20100,8 +20105,8 @@ pub struct InputPassportElementErrorSourceDataField {
 impl Object for InputPassportElementErrorSourceDataField {}
 impl RObject for InputPassportElementErrorSourceDataField {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementErrorSourceDataField" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementErrorSourceDataField }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementErrorSourceDataField }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -20169,8 +20174,8 @@ pub struct InputPassportElementErrorSourceFrontSide {
 impl Object for InputPassportElementErrorSourceFrontSide {}
 impl RObject for InputPassportElementErrorSourceFrontSide {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementErrorSourceFrontSide" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementErrorSourceFrontSide }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementErrorSourceFrontSide }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -20230,8 +20235,8 @@ pub struct InputPassportElementErrorSourceReverseSide {
 impl Object for InputPassportElementErrorSourceReverseSide {}
 impl RObject for InputPassportElementErrorSourceReverseSide {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementErrorSourceReverseSide" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementErrorSourceReverseSide }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementErrorSourceReverseSide }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -20291,8 +20296,8 @@ pub struct InputPassportElementErrorSourceSelfie {
 impl Object for InputPassportElementErrorSourceSelfie {}
 impl RObject for InputPassportElementErrorSourceSelfie {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementErrorSourceSelfie" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementErrorSourceSelfie }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementErrorSourceSelfie }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -20352,8 +20357,8 @@ pub struct InputPassportElementErrorSourceTranslationFile {
 impl Object for InputPassportElementErrorSourceTranslationFile {}
 impl RObject for InputPassportElementErrorSourceTranslationFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementErrorSourceTranslationFile" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementErrorSourceTranslationFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementErrorSourceTranslationFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -20413,8 +20418,8 @@ pub struct InputPassportElementErrorSourceTranslationFiles {
 impl Object for InputPassportElementErrorSourceTranslationFiles {}
 impl RObject for InputPassportElementErrorSourceTranslationFiles {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementErrorSourceTranslationFiles" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementErrorSourceTranslationFiles }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementErrorSourceTranslationFiles }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -20474,8 +20479,8 @@ pub struct InputPassportElementErrorSourceFile {
 impl Object for InputPassportElementErrorSourceFile {}
 impl RObject for InputPassportElementErrorSourceFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementErrorSourceFile" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementErrorSourceFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementErrorSourceFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -20535,8 +20540,8 @@ pub struct InputPassportElementErrorSourceFiles {
 impl Object for InputPassportElementErrorSourceFiles {}
 impl RObject for InputPassportElementErrorSourceFiles {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementErrorSourceFiles" }
-  fn td_type(&self) -> TDType { TDType::InputPassportElementErrorSourceFiles }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPassportElementErrorSourceFiles }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -20605,8 +20610,8 @@ impl Clone for InputPersonalDocument {
 impl Object for InputPersonalDocument {}
 impl RObject for InputPersonalDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPersonalDocument" }
-  fn td_type(&self) -> TDType { TDType::InputPersonalDocument }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputPersonalDocument }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -20683,8 +20688,8 @@ impl Clone for InputSticker {
 impl Object for InputSticker {}
 impl RObject for InputSticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputSticker" }
-  fn td_type(&self) -> TDType { TDType::InputSticker }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputSticker }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -20769,8 +20774,8 @@ impl Clone for InputThumbnail {
 impl Object for InputThumbnail {}
 impl RObject for InputThumbnail {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputThumbnail" }
-  fn td_type(&self) -> TDType { TDType::InputThumbnail }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::InputThumbnail }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -20862,8 +20867,8 @@ pub struct Invoice {
 impl Object for Invoice {}
 impl RObject for Invoice {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "invoice" }
-  fn td_type(&self) -> TDType { TDType::Invoice }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Invoice }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -21002,8 +21007,8 @@ impl Clone for KeyboardButton {
 impl Object for KeyboardButton {}
 impl RObject for KeyboardButton {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "keyboardButton" }
-  fn td_type(&self) -> TDType { TDType::KeyboardButton }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::KeyboardButton }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -21077,13 +21082,13 @@ impl Clone for Box<KeyboardButtonType> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDKeyboardButtonTypeType {
+pub enum RTDKeyboardButtonTypeType {
   KeyboardButtonTypeRequestLocation,
   KeyboardButtonTypeRequestPhoneNumber,
   KeyboardButtonTypeText,
   
 }
-impl TDKeyboardButtonTypeType {
+impl RTDKeyboardButtonTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -21103,8 +21108,8 @@ pub struct KeyboardButtonTypeText {
 impl Object for KeyboardButtonTypeText {}
 impl RObject for KeyboardButtonTypeText {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "keyboardButtonTypeText" }
-  fn td_type(&self) -> TDType { TDType::KeyboardButtonTypeText }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::KeyboardButtonTypeText }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -21154,8 +21159,8 @@ pub struct KeyboardButtonTypeRequestPhoneNumber {
 impl Object for KeyboardButtonTypeRequestPhoneNumber {}
 impl RObject for KeyboardButtonTypeRequestPhoneNumber {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "keyboardButtonTypeRequestPhoneNumber" }
-  fn td_type(&self) -> TDType { TDType::KeyboardButtonTypeRequestPhoneNumber }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::KeyboardButtonTypeRequestPhoneNumber }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -21205,8 +21210,8 @@ pub struct KeyboardButtonTypeRequestLocation {
 impl Object for KeyboardButtonTypeRequestLocation {}
 impl RObject for KeyboardButtonTypeRequestLocation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "keyboardButtonTypeRequestLocation" }
-  fn td_type(&self) -> TDType { TDType::KeyboardButtonTypeRequestLocation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::KeyboardButtonTypeRequestLocation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -21260,8 +21265,8 @@ pub struct LabeledPricePart {
 impl Object for LabeledPricePart {}
 impl RObject for LabeledPricePart {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "labeledPricePart" }
-  fn td_type(&self) -> TDType { TDType::LabeledPricePart }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LabeledPricePart }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -21351,8 +21356,8 @@ pub struct LanguagePackInfo {
 impl Object for LanguagePackInfo {}
 impl RObject for LanguagePackInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "languagePackInfo" }
-  fn td_type(&self) -> TDType { TDType::LanguagePackInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LanguagePackInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -21515,8 +21520,8 @@ impl Clone for LanguagePackString {
 impl Object for LanguagePackString {}
 impl RObject for LanguagePackString {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "languagePackString" }
-  fn td_type(&self) -> TDType { TDType::LanguagePackString }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LanguagePackString }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -21590,13 +21595,13 @@ impl Clone for Box<LanguagePackStringValue> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDLanguagePackStringValueType {
+pub enum RTDLanguagePackStringValueType {
   LanguagePackStringValueDeleted,
   LanguagePackStringValueOrdinary,
   LanguagePackStringValuePluralized,
   
 }
-impl TDLanguagePackStringValueType {
+impl RTDLanguagePackStringValueType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -21618,8 +21623,8 @@ pub struct LanguagePackStringValueOrdinary {
 impl Object for LanguagePackStringValueOrdinary {}
 impl RObject for LanguagePackStringValueOrdinary {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "languagePackStringValueOrdinary" }
-  fn td_type(&self) -> TDType { TDType::LanguagePackStringValueOrdinary }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LanguagePackStringValueOrdinary }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -21689,8 +21694,8 @@ pub struct LanguagePackStringValuePluralized {
 impl Object for LanguagePackStringValuePluralized {}
 impl RObject for LanguagePackStringValuePluralized {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "languagePackStringValuePluralized" }
-  fn td_type(&self) -> TDType { TDType::LanguagePackStringValuePluralized }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LanguagePackStringValuePluralized }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -21788,8 +21793,8 @@ pub struct LanguagePackStringValueDeleted {
 impl Object for LanguagePackStringValueDeleted {}
 impl RObject for LanguagePackStringValueDeleted {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "languagePackStringValueDeleted" }
-  fn td_type(&self) -> TDType { TDType::LanguagePackStringValueDeleted }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LanguagePackStringValueDeleted }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -21841,8 +21846,8 @@ pub struct LanguagePackStrings {
 impl Object for LanguagePackStrings {}
 impl RObject for LanguagePackStrings {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "languagePackStrings" }
-  fn td_type(&self) -> TDType { TDType::LanguagePackStrings }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LanguagePackStrings }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -21908,13 +21913,13 @@ impl Clone for Box<LinkState> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDLinkStateType {
+pub enum RTDLinkStateType {
   LinkStateIsContact,
   LinkStateKnowsPhoneNumber,
   LinkStateNone,
   
 }
-impl TDLinkStateType {
+impl RTDLinkStateType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -21934,8 +21939,8 @@ pub struct LinkStateNone {
 impl Object for LinkStateNone {}
 impl RObject for LinkStateNone {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "linkStateNone" }
-  fn td_type(&self) -> TDType { TDType::LinkStateNone }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LinkStateNone }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -21985,8 +21990,8 @@ pub struct LinkStateKnowsPhoneNumber {
 impl Object for LinkStateKnowsPhoneNumber {}
 impl RObject for LinkStateKnowsPhoneNumber {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "linkStateKnowsPhoneNumber" }
-  fn td_type(&self) -> TDType { TDType::LinkStateKnowsPhoneNumber }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LinkStateKnowsPhoneNumber }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -22036,8 +22041,8 @@ pub struct LinkStateIsContact {
 impl Object for LinkStateIsContact {}
 impl RObject for LinkStateIsContact {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "linkStateIsContact" }
-  fn td_type(&self) -> TDType { TDType::LinkStateIsContact }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LinkStateIsContact }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -22103,8 +22108,8 @@ pub struct LocalFile {
 impl Object for LocalFile {}
 impl RObject for LocalFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "localFile" }
-  fn td_type(&self) -> TDType { TDType::LocalFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LocalFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -22218,8 +22223,8 @@ pub struct LocalizationTargetInfo {
 impl Object for LocalizationTargetInfo {}
 impl RObject for LocalizationTargetInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "localizationTargetInfo" }
-  fn td_type(&self) -> TDType { TDType::LocalizationTargetInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LocalizationTargetInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -22279,8 +22284,8 @@ pub struct Location {
 impl Object for Location {}
 impl RObject for Location {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "location" }
-  fn td_type(&self) -> TDType { TDType::Location }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Location }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -22354,13 +22359,13 @@ impl Clone for Box<LogStream> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDLogStreamType {
+pub enum RTDLogStreamType {
   LogStreamDefault,
   LogStreamEmpty,
   LogStreamFile,
   
 }
-impl TDLogStreamType {
+impl RTDLogStreamType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -22380,8 +22385,8 @@ pub struct LogStreamDefault {
 impl Object for LogStreamDefault {}
 impl RObject for LogStreamDefault {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "logStreamDefault" }
-  fn td_type(&self) -> TDType { TDType::LogStreamDefault }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LogStreamDefault }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -22435,8 +22440,8 @@ pub struct LogStreamFile {
 impl Object for LogStreamFile {}
 impl RObject for LogStreamFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "logStreamFile" }
-  fn td_type(&self) -> TDType { TDType::LogStreamFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LogStreamFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -22502,8 +22507,8 @@ pub struct LogStreamEmpty {
 impl Object for LogStreamEmpty {}
 impl RObject for LogStreamEmpty {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "logStreamEmpty" }
-  fn td_type(&self) -> TDType { TDType::LogStreamEmpty }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LogStreamEmpty }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -22555,8 +22560,8 @@ pub struct LogTags {
 impl Object for LogTags {}
 impl RObject for LogTags {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "logTags" }
-  fn td_type(&self) -> TDType { TDType::LogTags }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LogTags }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -22614,8 +22619,8 @@ pub struct LogVerbosityLevel {
 impl Object for LogVerbosityLevel {}
 impl RObject for LogVerbosityLevel {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "logVerbosityLevel" }
-  fn td_type(&self) -> TDType { TDType::LogVerbosityLevel }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LogVerbosityLevel }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -22681,14 +22686,14 @@ impl Clone for Box<MaskPoint> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDMaskPointType {
+pub enum RTDMaskPointType {
   MaskPointChin,
   MaskPointEyes,
   MaskPointForehead,
   MaskPointMouth,
   
 }
-impl TDMaskPointType {
+impl RTDMaskPointType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -22708,8 +22713,8 @@ pub struct MaskPointForehead {
 impl Object for MaskPointForehead {}
 impl RObject for MaskPointForehead {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "maskPointForehead" }
-  fn td_type(&self) -> TDType { TDType::MaskPointForehead }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MaskPointForehead }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -22759,8 +22764,8 @@ pub struct MaskPointEyes {
 impl Object for MaskPointEyes {}
 impl RObject for MaskPointEyes {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "maskPointEyes" }
-  fn td_type(&self) -> TDType { TDType::MaskPointEyes }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MaskPointEyes }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -22810,8 +22815,8 @@ pub struct MaskPointMouth {
 impl Object for MaskPointMouth {}
 impl RObject for MaskPointMouth {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "maskPointMouth" }
-  fn td_type(&self) -> TDType { TDType::MaskPointMouth }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MaskPointMouth }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -22861,8 +22866,8 @@ pub struct MaskPointChin {
 impl Object for MaskPointChin {}
 impl RObject for MaskPointChin {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "maskPointChin" }
-  fn td_type(&self) -> TDType { TDType::MaskPointChin }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MaskPointChin }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -22927,8 +22932,8 @@ impl Clone for MaskPosition {
 impl Object for MaskPosition {}
 impl RObject for MaskPosition {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "maskPosition" }
-  fn td_type(&self) -> TDType { TDType::MaskPosition }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MaskPosition }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -23061,8 +23066,8 @@ impl Clone for Message {
 impl Object for Message {}
 impl RObject for Message {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "message" }
-  fn td_type(&self) -> TDType { TDType::Message }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Message }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -23304,7 +23309,7 @@ impl Clone for Box<MessageContent> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDMessageContentType {
+pub enum RTDMessageContentType {
   MessageAnimation,
   MessageAudio,
   MessageBasicGroupChatCreate,
@@ -23347,7 +23352,7 @@ pub enum TDMessageContentType {
   MessageWebsiteConnected,
   
 }
-impl TDMessageContentType {
+impl RTDMessageContentType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -23371,8 +23376,8 @@ pub struct MessageText {
 impl Object for MessageText {}
 impl RObject for MessageText {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageText" }
-  fn td_type(&self) -> TDType { TDType::MessageText }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageText }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -23444,8 +23449,8 @@ pub struct MessageAnimation {
 impl Object for MessageAnimation {}
 impl RObject for MessageAnimation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageAnimation" }
-  fn td_type(&self) -> TDType { TDType::MessageAnimation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageAnimation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -23523,8 +23528,8 @@ pub struct MessageAudio {
 impl Object for MessageAudio {}
 impl RObject for MessageAudio {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageAudio" }
-  fn td_type(&self) -> TDType { TDType::MessageAudio }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageAudio }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -23594,8 +23599,8 @@ pub struct MessageDocument {
 impl Object for MessageDocument {}
 impl RObject for MessageDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageDocument" }
-  fn td_type(&self) -> TDType { TDType::MessageDocument }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageDocument }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -23667,8 +23672,8 @@ pub struct MessagePhoto {
 impl Object for MessagePhoto {}
 impl RObject for MessagePhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messagePhoto" }
-  fn td_type(&self) -> TDType { TDType::MessagePhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessagePhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -23742,8 +23747,8 @@ pub struct MessageExpiredPhoto {
 impl Object for MessageExpiredPhoto {}
 impl RObject for MessageExpiredPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageExpiredPhoto" }
-  fn td_type(&self) -> TDType { TDType::MessageExpiredPhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageExpiredPhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -23795,8 +23800,8 @@ pub struct MessageSticker {
 impl Object for MessageSticker {}
 impl RObject for MessageSticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageSticker" }
-  fn td_type(&self) -> TDType { TDType::MessageSticker }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageSticker }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -23860,8 +23865,8 @@ pub struct MessageVideo {
 impl Object for MessageVideo {}
 impl RObject for MessageVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageVideo" }
-  fn td_type(&self) -> TDType { TDType::MessageVideo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageVideo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -23935,8 +23940,8 @@ pub struct MessageExpiredVideo {
 impl Object for MessageExpiredVideo {}
 impl RObject for MessageExpiredVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageExpiredVideo" }
-  fn td_type(&self) -> TDType { TDType::MessageExpiredVideo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageExpiredVideo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -23992,8 +23997,8 @@ pub struct MessageVideoNote {
 impl Object for MessageVideoNote {}
 impl RObject for MessageVideoNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageVideoNote" }
-  fn td_type(&self) -> TDType { TDType::MessageVideoNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageVideoNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -24073,8 +24078,8 @@ pub struct MessageVoiceNote {
 impl Object for MessageVoiceNote {}
 impl RObject for MessageVoiceNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageVoiceNote" }
-  fn td_type(&self) -> TDType { TDType::MessageVoiceNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageVoiceNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -24154,8 +24159,8 @@ pub struct MessageLocation {
 impl Object for MessageLocation {}
 impl RObject for MessageLocation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageLocation" }
-  fn td_type(&self) -> TDType { TDType::MessageLocation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageLocation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -24231,8 +24236,8 @@ pub struct MessageVenue {
 impl Object for MessageVenue {}
 impl RObject for MessageVenue {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageVenue" }
-  fn td_type(&self) -> TDType { TDType::MessageVenue }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageVenue }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -24292,8 +24297,8 @@ pub struct MessageContact {
 impl Object for MessageContact {}
 impl RObject for MessageContact {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageContact" }
-  fn td_type(&self) -> TDType { TDType::MessageContact }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageContact }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -24353,8 +24358,8 @@ pub struct MessageGame {
 impl Object for MessageGame {}
 impl RObject for MessageGame {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageGame" }
-  fn td_type(&self) -> TDType { TDType::MessageGame }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageGame }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -24414,8 +24419,8 @@ pub struct MessagePoll {
 impl Object for MessagePoll {}
 impl RObject for MessagePoll {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messagePoll" }
-  fn td_type(&self) -> TDType { TDType::MessagePoll }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessagePoll }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -24491,8 +24496,8 @@ pub struct MessageInvoice {
 impl Object for MessageInvoice {}
 impl RObject for MessageInvoice {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageInvoice" }
-  fn td_type(&self) -> TDType { TDType::MessageInvoice }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageInvoice }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -24625,8 +24630,8 @@ impl Clone for MessageCall {
 impl Object for MessageCall {}
 impl RObject for MessageCall {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageCall" }
-  fn td_type(&self) -> TDType { TDType::MessageCall }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageCall }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -24696,8 +24701,8 @@ pub struct MessageBasicGroupChatCreate {
 impl Object for MessageBasicGroupChatCreate {}
 impl RObject for MessageBasicGroupChatCreate {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageBasicGroupChatCreate" }
-  fn td_type(&self) -> TDType { TDType::MessageBasicGroupChatCreate }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageBasicGroupChatCreate }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -24765,8 +24770,8 @@ pub struct MessageSupergroupChatCreate {
 impl Object for MessageSupergroupChatCreate {}
 impl RObject for MessageSupergroupChatCreate {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageSupergroupChatCreate" }
-  fn td_type(&self) -> TDType { TDType::MessageSupergroupChatCreate }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageSupergroupChatCreate }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -24826,8 +24831,8 @@ pub struct MessageChatChangeTitle {
 impl Object for MessageChatChangeTitle {}
 impl RObject for MessageChatChangeTitle {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageChatChangeTitle" }
-  fn td_type(&self) -> TDType { TDType::MessageChatChangeTitle }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageChatChangeTitle }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -24887,8 +24892,8 @@ pub struct MessageChatChangePhoto {
 impl Object for MessageChatChangePhoto {}
 impl RObject for MessageChatChangePhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageChatChangePhoto" }
-  fn td_type(&self) -> TDType { TDType::MessageChatChangePhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageChatChangePhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -24946,8 +24951,8 @@ pub struct MessageChatDeletePhoto {
 impl Object for MessageChatDeletePhoto {}
 impl RObject for MessageChatDeletePhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageChatDeletePhoto" }
-  fn td_type(&self) -> TDType { TDType::MessageChatDeletePhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageChatDeletePhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -24999,8 +25004,8 @@ pub struct MessageChatAddMembers {
 impl Object for MessageChatAddMembers {}
 impl RObject for MessageChatAddMembers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageChatAddMembers" }
-  fn td_type(&self) -> TDType { TDType::MessageChatAddMembers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageChatAddMembers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -25058,8 +25063,8 @@ pub struct MessageChatJoinByLink {
 impl Object for MessageChatJoinByLink {}
 impl RObject for MessageChatJoinByLink {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageChatJoinByLink" }
-  fn td_type(&self) -> TDType { TDType::MessageChatJoinByLink }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageChatJoinByLink }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -25111,8 +25116,8 @@ pub struct MessageChatDeleteMember {
 impl Object for MessageChatDeleteMember {}
 impl RObject for MessageChatDeleteMember {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageChatDeleteMember" }
-  fn td_type(&self) -> TDType { TDType::MessageChatDeleteMember }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageChatDeleteMember }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -25172,8 +25177,8 @@ pub struct MessageChatUpgradeTo {
 impl Object for MessageChatUpgradeTo {}
 impl RObject for MessageChatUpgradeTo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageChatUpgradeTo" }
-  fn td_type(&self) -> TDType { TDType::MessageChatUpgradeTo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageChatUpgradeTo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -25235,8 +25240,8 @@ pub struct MessageChatUpgradeFrom {
 impl Object for MessageChatUpgradeFrom {}
 impl RObject for MessageChatUpgradeFrom {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageChatUpgradeFrom" }
-  fn td_type(&self) -> TDType { TDType::MessageChatUpgradeFrom }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageChatUpgradeFrom }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -25304,8 +25309,8 @@ pub struct MessagePinMessage {
 impl Object for MessagePinMessage {}
 impl RObject for MessagePinMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messagePinMessage" }
-  fn td_type(&self) -> TDType { TDType::MessagePinMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessagePinMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -25363,8 +25368,8 @@ pub struct MessageScreenshotTaken {
 impl Object for MessageScreenshotTaken {}
 impl RObject for MessageScreenshotTaken {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageScreenshotTaken" }
-  fn td_type(&self) -> TDType { TDType::MessageScreenshotTaken }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageScreenshotTaken }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -25416,8 +25421,8 @@ pub struct MessageChatSetTtl {
 impl Object for MessageChatSetTtl {}
 impl RObject for MessageChatSetTtl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageChatSetTtl" }
-  fn td_type(&self) -> TDType { TDType::MessageChatSetTtl }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageChatSetTtl }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -25477,8 +25482,8 @@ pub struct MessageCustomServiceAction {
 impl Object for MessageCustomServiceAction {}
 impl RObject for MessageCustomServiceAction {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageCustomServiceAction" }
-  fn td_type(&self) -> TDType { TDType::MessageCustomServiceAction }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageCustomServiceAction }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -25542,8 +25547,8 @@ pub struct MessageGameScore {
 impl Object for MessageGameScore {}
 impl RObject for MessageGameScore {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageGameScore" }
-  fn td_type(&self) -> TDType { TDType::MessageGameScore }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageGameScore }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -25623,8 +25628,8 @@ pub struct MessagePaymentSuccessful {
 impl Object for MessagePaymentSuccessful {}
 impl RObject for MessagePaymentSuccessful {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messagePaymentSuccessful" }
-  fn td_type(&self) -> TDType { TDType::MessagePaymentSuccessful }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessagePaymentSuccessful }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -25714,8 +25719,8 @@ pub struct MessagePaymentSuccessfulBot {
 impl Object for MessagePaymentSuccessfulBot {}
 impl RObject for MessagePaymentSuccessfulBot {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messagePaymentSuccessfulBot" }
-  fn td_type(&self) -> TDType { TDType::MessagePaymentSuccessfulBot }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessagePaymentSuccessfulBot }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -25829,8 +25834,8 @@ pub struct MessageContactRegistered {
 impl Object for MessageContactRegistered {}
 impl RObject for MessageContactRegistered {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageContactRegistered" }
-  fn td_type(&self) -> TDType { TDType::MessageContactRegistered }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageContactRegistered }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -25882,8 +25887,8 @@ pub struct MessageWebsiteConnected {
 impl Object for MessageWebsiteConnected {}
 impl RObject for MessageWebsiteConnected {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageWebsiteConnected" }
-  fn td_type(&self) -> TDType { TDType::MessageWebsiteConnected }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageWebsiteConnected }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -25950,8 +25955,8 @@ impl Clone for MessagePassportDataSent {
 impl Object for MessagePassportDataSent {}
 impl RObject for MessagePassportDataSent {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messagePassportDataSent" }
-  fn td_type(&self) -> TDType { TDType::MessagePassportDataSent }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessagePassportDataSent }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -26013,8 +26018,8 @@ pub struct MessagePassportDataReceived {
 impl Object for MessagePassportDataReceived {}
 impl RObject for MessagePassportDataReceived {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messagePassportDataReceived" }
-  fn td_type(&self) -> TDType { TDType::MessagePassportDataReceived }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessagePassportDataReceived }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -26080,8 +26085,8 @@ pub struct MessageUnsupported {
 impl Object for MessageUnsupported {}
 impl RObject for MessageUnsupported {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageUnsupported" }
-  fn td_type(&self) -> TDType { TDType::MessageUnsupported }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageUnsupported }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -26146,8 +26151,8 @@ impl Clone for MessageForwardInfo {
 impl Object for MessageForwardInfo {}
 impl RObject for MessageForwardInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageForwardInfo" }
-  fn td_type(&self) -> TDType { TDType::MessageForwardInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageForwardInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -26237,13 +26242,13 @@ impl Clone for Box<MessageForwardOrigin> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDMessageForwardOriginType {
+pub enum RTDMessageForwardOriginType {
   MessageForwardOriginChannel,
   MessageForwardOriginHiddenUser,
   MessageForwardOriginUser,
   
 }
-impl TDMessageForwardOriginType {
+impl RTDMessageForwardOriginType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -26265,8 +26270,8 @@ pub struct MessageForwardOriginUser {
 impl Object for MessageForwardOriginUser {}
 impl RObject for MessageForwardOriginUser {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageForwardOriginUser" }
-  fn td_type(&self) -> TDType { TDType::MessageForwardOriginUser }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageForwardOriginUser }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -26326,8 +26331,8 @@ pub struct MessageForwardOriginHiddenUser {
 impl Object for MessageForwardOriginHiddenUser {}
 impl RObject for MessageForwardOriginHiddenUser {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageForwardOriginHiddenUser" }
-  fn td_type(&self) -> TDType { TDType::MessageForwardOriginHiddenUser }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageForwardOriginHiddenUser }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -26391,8 +26396,8 @@ pub struct MessageForwardOriginChannel {
 impl Object for MessageForwardOriginChannel {}
 impl RObject for MessageForwardOriginChannel {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageForwardOriginChannel" }
-  fn td_type(&self) -> TDType { TDType::MessageForwardOriginChannel }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageForwardOriginChannel }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -26476,12 +26481,12 @@ impl Clone for Box<MessageSendingState> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDMessageSendingStateType {
+pub enum RTDMessageSendingStateType {
   MessageSendingStateFailed,
   MessageSendingStatePending,
   
 }
-impl TDMessageSendingStateType {
+impl RTDMessageSendingStateType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -26501,8 +26506,8 @@ pub struct MessageSendingStatePending {
 impl Object for MessageSendingStatePending {}
 impl RObject for MessageSendingStatePending {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageSendingStatePending" }
-  fn td_type(&self) -> TDType { TDType::MessageSendingStatePending }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageSendingStatePending }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -26552,8 +26557,8 @@ pub struct MessageSendingStateFailed {
 impl Object for MessageSendingStateFailed {}
 impl RObject for MessageSendingStateFailed {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageSendingStateFailed" }
-  fn td_type(&self) -> TDType { TDType::MessageSendingStateFailed }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::MessageSendingStateFailed }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -26607,8 +26612,8 @@ pub struct Messages {
 impl Object for Messages {}
 impl RObject for Messages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messages" }
-  fn td_type(&self) -> TDType { TDType::Messages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Messages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -26683,8 +26688,8 @@ impl Clone for NetworkStatistics {
 impl Object for NetworkStatistics {}
 impl RObject for NetworkStatistics {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "networkStatistics" }
-  fn td_type(&self) -> TDType { TDType::NetworkStatistics }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NetworkStatistics }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -26758,12 +26763,12 @@ impl Clone for Box<NetworkStatisticsEntry> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDNetworkStatisticsEntryType {
+pub enum RTDNetworkStatisticsEntryType {
   NetworkStatisticsEntryCall,
   NetworkStatisticsEntryFile,
   
 }
-impl TDNetworkStatisticsEntryType {
+impl RTDNetworkStatisticsEntryType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -26798,8 +26803,8 @@ impl Clone for NetworkStatisticsEntryFile {
 impl Object for NetworkStatisticsEntryFile {}
 impl RObject for NetworkStatisticsEntryFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "networkStatisticsEntryFile" }
-  fn td_type(&self) -> TDType { TDType::NetworkStatisticsEntryFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NetworkStatisticsEntryFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -26896,8 +26901,8 @@ impl Clone for NetworkStatisticsEntryCall {
 impl Object for NetworkStatisticsEntryCall {}
 impl RObject for NetworkStatisticsEntryCall {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "networkStatisticsEntryCall" }
-  fn td_type(&self) -> TDType { TDType::NetworkStatisticsEntryCall }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NetworkStatisticsEntryCall }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -26989,7 +26994,7 @@ impl Clone for Box<NetworkType> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDNetworkTypeType {
+pub enum RTDNetworkTypeType {
   NetworkTypeMobile,
   NetworkTypeMobileRoaming,
   NetworkTypeNone,
@@ -26997,7 +27002,7 @@ pub enum TDNetworkTypeType {
   NetworkTypeWiFi,
   
 }
-impl TDNetworkTypeType {
+impl RTDNetworkTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -27017,8 +27022,8 @@ pub struct NetworkTypeNone {
 impl Object for NetworkTypeNone {}
 impl RObject for NetworkTypeNone {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "networkTypeNone" }
-  fn td_type(&self) -> TDType { TDType::NetworkTypeNone }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NetworkTypeNone }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -27068,8 +27073,8 @@ pub struct NetworkTypeMobile {
 impl Object for NetworkTypeMobile {}
 impl RObject for NetworkTypeMobile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "networkTypeMobile" }
-  fn td_type(&self) -> TDType { TDType::NetworkTypeMobile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NetworkTypeMobile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -27119,8 +27124,8 @@ pub struct NetworkTypeMobileRoaming {
 impl Object for NetworkTypeMobileRoaming {}
 impl RObject for NetworkTypeMobileRoaming {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "networkTypeMobileRoaming" }
-  fn td_type(&self) -> TDType { TDType::NetworkTypeMobileRoaming }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NetworkTypeMobileRoaming }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -27170,8 +27175,8 @@ pub struct NetworkTypeWiFi {
 impl Object for NetworkTypeWiFi {}
 impl RObject for NetworkTypeWiFi {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "networkTypeWiFi" }
-  fn td_type(&self) -> TDType { TDType::NetworkTypeWiFi }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NetworkTypeWiFi }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -27221,8 +27226,8 @@ pub struct NetworkTypeOther {
 impl Object for NetworkTypeOther {}
 impl RObject for NetworkTypeOther {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "networkTypeOther" }
-  fn td_type(&self) -> TDType { TDType::NetworkTypeOther }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NetworkTypeOther }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -27285,8 +27290,8 @@ impl Clone for Notification {
 impl Object for Notification {}
 impl RObject for Notification {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notification" }
-  fn td_type(&self) -> TDType { TDType::Notification }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Notification }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -27375,8 +27380,8 @@ impl Clone for NotificationGroup {
 impl Object for NotificationGroup {}
 impl RObject for NotificationGroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationGroup" }
-  fn td_type(&self) -> TDType { TDType::NotificationGroup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NotificationGroup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -27474,14 +27479,14 @@ impl Clone for Box<NotificationGroupType> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDNotificationGroupTypeType {
+pub enum RTDNotificationGroupTypeType {
   NotificationGroupTypeCalls,
   NotificationGroupTypeMentions,
   NotificationGroupTypeMessages,
   NotificationGroupTypeSecretChat,
   
 }
-impl TDNotificationGroupTypeType {
+impl RTDNotificationGroupTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -27501,8 +27506,8 @@ pub struct NotificationGroupTypeMessages {
 impl Object for NotificationGroupTypeMessages {}
 impl RObject for NotificationGroupTypeMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationGroupTypeMessages" }
-  fn td_type(&self) -> TDType { TDType::NotificationGroupTypeMessages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NotificationGroupTypeMessages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -27552,8 +27557,8 @@ pub struct NotificationGroupTypeMentions {
 impl Object for NotificationGroupTypeMentions {}
 impl RObject for NotificationGroupTypeMentions {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationGroupTypeMentions" }
-  fn td_type(&self) -> TDType { TDType::NotificationGroupTypeMentions }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NotificationGroupTypeMentions }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -27603,8 +27608,8 @@ pub struct NotificationGroupTypeSecretChat {
 impl Object for NotificationGroupTypeSecretChat {}
 impl RObject for NotificationGroupTypeSecretChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationGroupTypeSecretChat" }
-  fn td_type(&self) -> TDType { TDType::NotificationGroupTypeSecretChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NotificationGroupTypeSecretChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -27654,8 +27659,8 @@ pub struct NotificationGroupTypeCalls {
 impl Object for NotificationGroupTypeCalls {}
 impl RObject for NotificationGroupTypeCalls {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationGroupTypeCalls" }
-  fn td_type(&self) -> TDType { TDType::NotificationGroupTypeCalls }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NotificationGroupTypeCalls }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -27715,13 +27720,13 @@ impl Clone for Box<NotificationSettingsScope> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDNotificationSettingsScopeType {
+pub enum RTDNotificationSettingsScopeType {
   NotificationSettingsScopeChannelChats,
   NotificationSettingsScopeGroupChats,
   NotificationSettingsScopePrivateChats,
   
 }
-impl TDNotificationSettingsScopeType {
+impl RTDNotificationSettingsScopeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -27741,8 +27746,8 @@ pub struct NotificationSettingsScopePrivateChats {
 impl Object for NotificationSettingsScopePrivateChats {}
 impl RObject for NotificationSettingsScopePrivateChats {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationSettingsScopePrivateChats" }
-  fn td_type(&self) -> TDType { TDType::NotificationSettingsScopePrivateChats }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NotificationSettingsScopePrivateChats }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -27792,8 +27797,8 @@ pub struct NotificationSettingsScopeGroupChats {
 impl Object for NotificationSettingsScopeGroupChats {}
 impl RObject for NotificationSettingsScopeGroupChats {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationSettingsScopeGroupChats" }
-  fn td_type(&self) -> TDType { TDType::NotificationSettingsScopeGroupChats }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NotificationSettingsScopeGroupChats }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -27843,8 +27848,8 @@ pub struct NotificationSettingsScopeChannelChats {
 impl Object for NotificationSettingsScopeChannelChats {}
 impl RObject for NotificationSettingsScopeChannelChats {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationSettingsScopeChannelChats" }
-  fn td_type(&self) -> TDType { TDType::NotificationSettingsScopeChannelChats }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NotificationSettingsScopeChannelChats }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -27904,14 +27909,14 @@ impl Clone for Box<NotificationType> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDNotificationTypeType {
+pub enum RTDNotificationTypeType {
   NotificationTypeNewCall,
   NotificationTypeNewMessage,
   NotificationTypeNewPushMessage,
   NotificationTypeNewSecretChat,
   
 }
-impl TDNotificationTypeType {
+impl RTDNotificationTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -27933,8 +27938,8 @@ pub struct NotificationTypeNewMessage {
 impl Object for NotificationTypeNewMessage {}
 impl RObject for NotificationTypeNewMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationTypeNewMessage" }
-  fn td_type(&self) -> TDType { TDType::NotificationTypeNewMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NotificationTypeNewMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -27992,8 +27997,8 @@ pub struct NotificationTypeNewSecretChat {
 impl Object for NotificationTypeNewSecretChat {}
 impl RObject for NotificationTypeNewSecretChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationTypeNewSecretChat" }
-  fn td_type(&self) -> TDType { TDType::NotificationTypeNewSecretChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NotificationTypeNewSecretChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -28045,8 +28050,8 @@ pub struct NotificationTypeNewCall {
 impl Object for NotificationTypeNewCall {}
 impl RObject for NotificationTypeNewCall {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationTypeNewCall" }
-  fn td_type(&self) -> TDType { TDType::NotificationTypeNewCall }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NotificationTypeNewCall }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -28117,8 +28122,8 @@ impl Clone for NotificationTypeNewPushMessage {
 impl Object for NotificationTypeNewPushMessage {}
 impl RObject for NotificationTypeNewPushMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationTypeNewPushMessage" }
-  fn td_type(&self) -> TDType { TDType::NotificationTypeNewPushMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::NotificationTypeNewPushMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -28192,8 +28197,8 @@ pub struct Ok {
 impl Object for Ok {}
 impl RObject for Ok {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "ok" }
-  fn td_type(&self) -> TDType { TDType::Ok }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Ok }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -28251,14 +28256,14 @@ impl Clone for Box<OptionValue> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDOptionValueType {
+pub enum RTDOptionValueType {
   OptionValueBoolean,
   OptionValueEmpty,
   OptionValueInteger,
   OptionValueString,
   
 }
-impl TDOptionValueType {
+impl RTDOptionValueType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -28280,8 +28285,8 @@ pub struct OptionValueBoolean {
 impl Object for OptionValueBoolean {}
 impl RObject for OptionValueBoolean {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "optionValueBoolean" }
-  fn td_type(&self) -> TDType { TDType::OptionValueBoolean }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::OptionValueBoolean }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -28339,8 +28344,8 @@ pub struct OptionValueEmpty {
 impl Object for OptionValueEmpty {}
 impl RObject for OptionValueEmpty {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "optionValueEmpty" }
-  fn td_type(&self) -> TDType { TDType::OptionValueEmpty }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::OptionValueEmpty }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -28392,8 +28397,8 @@ pub struct OptionValueInteger {
 impl Object for OptionValueInteger {}
 impl RObject for OptionValueInteger {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "optionValueInteger" }
-  fn td_type(&self) -> TDType { TDType::OptionValueInteger }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::OptionValueInteger }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -28453,8 +28458,8 @@ pub struct OptionValueString {
 impl Object for OptionValueString {}
 impl RObject for OptionValueString {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "optionValueString" }
-  fn td_type(&self) -> TDType { TDType::OptionValueString }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::OptionValueString }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -28520,8 +28525,8 @@ pub struct OrderInfo {
 impl Object for OrderInfo {}
 impl RObject for OrderInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "orderInfo" }
-  fn td_type(&self) -> TDType { TDType::OrderInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::OrderInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -28611,7 +28616,7 @@ impl Clone for Box<PageBlock> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDPageBlockType {
+pub enum RTDPageBlockType {
   PageBlockAnchor,
   PageBlockAnimation,
   PageBlockAudio,
@@ -28642,7 +28647,7 @@ pub enum TDPageBlockType {
   PageBlockVideo,
   
 }
-impl TDPageBlockType {
+impl RTDPageBlockType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -28671,8 +28676,8 @@ impl Clone for PageBlockTitle {
 impl Object for PageBlockTitle {}
 impl RObject for PageBlockTitle {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockTitle" }
-  fn td_type(&self) -> TDType { TDType::PageBlockTitle }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockTitle }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -28739,8 +28744,8 @@ impl Clone for PageBlockSubtitle {
 impl Object for PageBlockSubtitle {}
 impl RObject for PageBlockSubtitle {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockSubtitle" }
-  fn td_type(&self) -> TDType { TDType::PageBlockSubtitle }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockSubtitle }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -28809,8 +28814,8 @@ impl Clone for PageBlockAuthorDate {
 impl Object for PageBlockAuthorDate {}
 impl RObject for PageBlockAuthorDate {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockAuthorDate" }
-  fn td_type(&self) -> TDType { TDType::PageBlockAuthorDate }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockAuthorDate }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -28885,8 +28890,8 @@ impl Clone for PageBlockHeader {
 impl Object for PageBlockHeader {}
 impl RObject for PageBlockHeader {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockHeader" }
-  fn td_type(&self) -> TDType { TDType::PageBlockHeader }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockHeader }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -28953,8 +28958,8 @@ impl Clone for PageBlockSubheader {
 impl Object for PageBlockSubheader {}
 impl RObject for PageBlockSubheader {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockSubheader" }
-  fn td_type(&self) -> TDType { TDType::PageBlockSubheader }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockSubheader }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -29021,8 +29026,8 @@ impl Clone for PageBlockKicker {
 impl Object for PageBlockKicker {}
 impl RObject for PageBlockKicker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockKicker" }
-  fn td_type(&self) -> TDType { TDType::PageBlockKicker }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockKicker }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -29089,8 +29094,8 @@ impl Clone for PageBlockParagraph {
 impl Object for PageBlockParagraph {}
 impl RObject for PageBlockParagraph {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockParagraph" }
-  fn td_type(&self) -> TDType { TDType::PageBlockParagraph }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockParagraph }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -29159,8 +29164,8 @@ impl Clone for PageBlockPreformatted {
 impl Object for PageBlockPreformatted {}
 impl RObject for PageBlockPreformatted {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockPreformatted" }
-  fn td_type(&self) -> TDType { TDType::PageBlockPreformatted }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockPreformatted }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -29235,8 +29240,8 @@ impl Clone for PageBlockFooter {
 impl Object for PageBlockFooter {}
 impl RObject for PageBlockFooter {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockFooter" }
-  fn td_type(&self) -> TDType { TDType::PageBlockFooter }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockFooter }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -29294,8 +29299,8 @@ pub struct PageBlockDivider {
 impl Object for PageBlockDivider {}
 impl RObject for PageBlockDivider {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockDivider" }
-  fn td_type(&self) -> TDType { TDType::PageBlockDivider }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockDivider }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -29347,8 +29352,8 @@ pub struct PageBlockAnchor {
 impl Object for PageBlockAnchor {}
 impl RObject for PageBlockAnchor {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockAnchor" }
-  fn td_type(&self) -> TDType { TDType::PageBlockAnchor }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockAnchor }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -29408,8 +29413,8 @@ pub struct PageBlockList {
 impl Object for PageBlockList {}
 impl RObject for PageBlockList {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockList" }
-  fn td_type(&self) -> TDType { TDType::PageBlockList }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockList }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -29478,8 +29483,8 @@ impl Clone for PageBlockBlockQuote {
 impl Object for PageBlockBlockQuote {}
 impl RObject for PageBlockBlockQuote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockBlockQuote" }
-  fn td_type(&self) -> TDType { TDType::PageBlockBlockQuote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockBlockQuote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -29556,8 +29561,8 @@ impl Clone for PageBlockPullQuote {
 impl Object for PageBlockPullQuote {}
 impl RObject for PageBlockPullQuote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockPullQuote" }
-  fn td_type(&self) -> TDType { TDType::PageBlockPullQuote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockPullQuote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -29629,8 +29634,8 @@ pub struct PageBlockAnimation {
 impl Object for PageBlockAnimation {}
 impl RObject for PageBlockAnimation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockAnimation" }
-  fn td_type(&self) -> TDType { TDType::PageBlockAnimation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockAnimation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -29708,8 +29713,8 @@ pub struct PageBlockAudio {
 impl Object for PageBlockAudio {}
 impl RObject for PageBlockAudio {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockAudio" }
-  fn td_type(&self) -> TDType { TDType::PageBlockAudio }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockAudio }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -29781,8 +29786,8 @@ pub struct PageBlockPhoto {
 impl Object for PageBlockPhoto {}
 impl RObject for PageBlockPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockPhoto" }
-  fn td_type(&self) -> TDType { TDType::PageBlockPhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockPhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -29864,8 +29869,8 @@ pub struct PageBlockVideo {
 impl Object for PageBlockVideo {}
 impl RObject for PageBlockVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockVideo" }
-  fn td_type(&self) -> TDType { TDType::PageBlockVideo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockVideo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -29956,8 +29961,8 @@ impl Clone for PageBlockCover {
 impl Object for PageBlockCover {}
 impl RObject for PageBlockCover {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockCover" }
-  fn td_type(&self) -> TDType { TDType::PageBlockCover }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockCover }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -30031,8 +30036,8 @@ pub struct PageBlockEmbedded {
 impl Object for PageBlockEmbedded {}
 impl RObject for PageBlockEmbedded {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockEmbedded" }
-  fn td_type(&self) -> TDType { TDType::PageBlockEmbedded }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockEmbedded }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -30165,8 +30170,8 @@ impl Clone for PageBlockEmbeddedPost {
 impl Object for PageBlockEmbeddedPost {}
 impl RObject for PageBlockEmbeddedPost {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockEmbeddedPost" }
-  fn td_type(&self) -> TDType { TDType::PageBlockEmbeddedPost }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockEmbeddedPost }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -30275,8 +30280,8 @@ impl Clone for PageBlockCollage {
 impl Object for PageBlockCollage {}
 impl RObject for PageBlockCollage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockCollage" }
-  fn td_type(&self) -> TDType { TDType::PageBlockCollage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockCollage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -30353,8 +30358,8 @@ impl Clone for PageBlockSlideshow {
 impl Object for PageBlockSlideshow {}
 impl RObject for PageBlockSlideshow {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockSlideshow" }
-  fn td_type(&self) -> TDType { TDType::PageBlockSlideshow }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockSlideshow }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -30426,8 +30431,8 @@ pub struct PageBlockChatLink {
 impl Object for PageBlockChatLink {}
 impl RObject for PageBlockChatLink {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockChatLink" }
-  fn td_type(&self) -> TDType { TDType::PageBlockChatLink }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockChatLink }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -30516,8 +30521,8 @@ impl Clone for PageBlockTable {
 impl Object for PageBlockTable {}
 impl RObject for PageBlockTable {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockTable" }
-  fn td_type(&self) -> TDType { TDType::PageBlockTable }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockTable }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -30612,8 +30617,8 @@ impl Clone for PageBlockDetails {
 impl Object for PageBlockDetails {}
 impl RObject for PageBlockDetails {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockDetails" }
-  fn td_type(&self) -> TDType { TDType::PageBlockDetails }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockDetails }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -30698,8 +30703,8 @@ impl Clone for PageBlockRelatedArticles {
 impl Object for PageBlockRelatedArticles {}
 impl RObject for PageBlockRelatedArticles {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockRelatedArticles" }
-  fn td_type(&self) -> TDType { TDType::PageBlockRelatedArticles }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockRelatedArticles }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -30775,8 +30780,8 @@ pub struct PageBlockMap {
 impl Object for PageBlockMap {}
 impl RObject for PageBlockMap {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockMap" }
-  fn td_type(&self) -> TDType { TDType::PageBlockMap }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockMap }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -30877,8 +30882,8 @@ impl Clone for PageBlockCaption {
 impl Object for PageBlockCaption {}
 impl RObject for PageBlockCaption {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockCaption" }
-  fn td_type(&self) -> TDType { TDType::PageBlockCaption }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockCaption }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -30952,13 +30957,13 @@ impl Clone for Box<PageBlockHorizontalAlignment> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDPageBlockHorizontalAlignmentType {
+pub enum RTDPageBlockHorizontalAlignmentType {
   PageBlockHorizontalAlignmentCenter,
   PageBlockHorizontalAlignmentLeft,
   PageBlockHorizontalAlignmentRight,
   
 }
-impl TDPageBlockHorizontalAlignmentType {
+impl RTDPageBlockHorizontalAlignmentType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -30978,8 +30983,8 @@ pub struct PageBlockHorizontalAlignmentLeft {
 impl Object for PageBlockHorizontalAlignmentLeft {}
 impl RObject for PageBlockHorizontalAlignmentLeft {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockHorizontalAlignmentLeft" }
-  fn td_type(&self) -> TDType { TDType::PageBlockHorizontalAlignmentLeft }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockHorizontalAlignmentLeft }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -31029,8 +31034,8 @@ pub struct PageBlockHorizontalAlignmentCenter {
 impl Object for PageBlockHorizontalAlignmentCenter {}
 impl RObject for PageBlockHorizontalAlignmentCenter {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockHorizontalAlignmentCenter" }
-  fn td_type(&self) -> TDType { TDType::PageBlockHorizontalAlignmentCenter }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockHorizontalAlignmentCenter }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -31080,8 +31085,8 @@ pub struct PageBlockHorizontalAlignmentRight {
 impl Object for PageBlockHorizontalAlignmentRight {}
 impl RObject for PageBlockHorizontalAlignmentRight {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockHorizontalAlignmentRight" }
-  fn td_type(&self) -> TDType { TDType::PageBlockHorizontalAlignmentRight }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockHorizontalAlignmentRight }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -31142,8 +31147,8 @@ impl Clone for PageBlockListItem {
 impl Object for PageBlockListItem {}
 impl RObject for PageBlockListItem {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockListItem" }
-  fn td_type(&self) -> TDType { TDType::PageBlockListItem }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockListItem }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -31219,8 +31224,8 @@ pub struct PageBlockRelatedArticle {
 impl Object for PageBlockRelatedArticle {}
 impl RObject for PageBlockRelatedArticle {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockRelatedArticle" }
-  fn td_type(&self) -> TDType { TDType::PageBlockRelatedArticle }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockRelatedArticle }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -31335,8 +31340,8 @@ impl Clone for PageBlockTableCell {
 impl Object for PageBlockTableCell {}
 impl RObject for PageBlockTableCell {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockTableCell" }
-  fn td_type(&self) -> TDType { TDType::PageBlockTableCell }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockTableCell }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -31442,13 +31447,13 @@ impl Clone for Box<PageBlockVerticalAlignment> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDPageBlockVerticalAlignmentType {
+pub enum RTDPageBlockVerticalAlignmentType {
   PageBlockVerticalAlignmentBottom,
   PageBlockVerticalAlignmentMiddle,
   PageBlockVerticalAlignmentTop,
   
 }
-impl TDPageBlockVerticalAlignmentType {
+impl RTDPageBlockVerticalAlignmentType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -31468,8 +31473,8 @@ pub struct PageBlockVerticalAlignmentTop {
 impl Object for PageBlockVerticalAlignmentTop {}
 impl RObject for PageBlockVerticalAlignmentTop {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockVerticalAlignmentTop" }
-  fn td_type(&self) -> TDType { TDType::PageBlockVerticalAlignmentTop }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockVerticalAlignmentTop }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -31519,8 +31524,8 @@ pub struct PageBlockVerticalAlignmentMiddle {
 impl Object for PageBlockVerticalAlignmentMiddle {}
 impl RObject for PageBlockVerticalAlignmentMiddle {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockVerticalAlignmentMiddle" }
-  fn td_type(&self) -> TDType { TDType::PageBlockVerticalAlignmentMiddle }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockVerticalAlignmentMiddle }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -31570,8 +31575,8 @@ pub struct PageBlockVerticalAlignmentBottom {
 impl Object for PageBlockVerticalAlignmentBottom {}
 impl RObject for PageBlockVerticalAlignmentBottom {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockVerticalAlignmentBottom" }
-  fn td_type(&self) -> TDType { TDType::PageBlockVerticalAlignmentBottom }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PageBlockVerticalAlignmentBottom }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -31627,8 +31632,8 @@ pub struct PassportAuthorizationForm {
 impl Object for PassportAuthorizationForm {}
 impl RObject for PassportAuthorizationForm {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportAuthorizationForm" }
-  fn td_type(&self) -> TDType { TDType::PassportAuthorizationForm }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportAuthorizationForm }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -31710,7 +31715,7 @@ impl Clone for Box<PassportElement> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDPassportElementType {
+pub enum RTDPassportElementType {
   PassportElementAddress,
   PassportElementBankStatement,
   PassportElementDriverLicense,
@@ -31726,7 +31731,7 @@ pub enum TDPassportElementType {
   PassportElementUtilityBill,
   
 }
-impl TDPassportElementType {
+impl RTDPassportElementType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -31748,8 +31753,8 @@ pub struct PassportElementPersonalDetails {
 impl Object for PassportElementPersonalDetails {}
 impl RObject for PassportElementPersonalDetails {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementPersonalDetails" }
-  fn td_type(&self) -> TDType { TDType::PassportElementPersonalDetails }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementPersonalDetails }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -31809,8 +31814,8 @@ pub struct PassportElementPassport {
 impl Object for PassportElementPassport {}
 impl RObject for PassportElementPassport {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementPassport" }
-  fn td_type(&self) -> TDType { TDType::PassportElementPassport }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementPassport }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -31870,8 +31875,8 @@ pub struct PassportElementDriverLicense {
 impl Object for PassportElementDriverLicense {}
 impl RObject for PassportElementDriverLicense {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementDriverLicense" }
-  fn td_type(&self) -> TDType { TDType::PassportElementDriverLicense }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementDriverLicense }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -31931,8 +31936,8 @@ pub struct PassportElementIdentityCard {
 impl Object for PassportElementIdentityCard {}
 impl RObject for PassportElementIdentityCard {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementIdentityCard" }
-  fn td_type(&self) -> TDType { TDType::PassportElementIdentityCard }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementIdentityCard }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -31992,8 +31997,8 @@ pub struct PassportElementInternalPassport {
 impl Object for PassportElementInternalPassport {}
 impl RObject for PassportElementInternalPassport {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementInternalPassport" }
-  fn td_type(&self) -> TDType { TDType::PassportElementInternalPassport }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementInternalPassport }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32053,8 +32058,8 @@ pub struct PassportElementAddress {
 impl Object for PassportElementAddress {}
 impl RObject for PassportElementAddress {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementAddress" }
-  fn td_type(&self) -> TDType { TDType::PassportElementAddress }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementAddress }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32114,8 +32119,8 @@ pub struct PassportElementUtilityBill {
 impl Object for PassportElementUtilityBill {}
 impl RObject for PassportElementUtilityBill {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementUtilityBill" }
-  fn td_type(&self) -> TDType { TDType::PassportElementUtilityBill }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementUtilityBill }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32175,8 +32180,8 @@ pub struct PassportElementBankStatement {
 impl Object for PassportElementBankStatement {}
 impl RObject for PassportElementBankStatement {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementBankStatement" }
-  fn td_type(&self) -> TDType { TDType::PassportElementBankStatement }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementBankStatement }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32236,8 +32241,8 @@ pub struct PassportElementRentalAgreement {
 impl Object for PassportElementRentalAgreement {}
 impl RObject for PassportElementRentalAgreement {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementRentalAgreement" }
-  fn td_type(&self) -> TDType { TDType::PassportElementRentalAgreement }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementRentalAgreement }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32297,8 +32302,8 @@ pub struct PassportElementPassportRegistration {
 impl Object for PassportElementPassportRegistration {}
 impl RObject for PassportElementPassportRegistration {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementPassportRegistration" }
-  fn td_type(&self) -> TDType { TDType::PassportElementPassportRegistration }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementPassportRegistration }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32358,8 +32363,8 @@ pub struct PassportElementTemporaryRegistration {
 impl Object for PassportElementTemporaryRegistration {}
 impl RObject for PassportElementTemporaryRegistration {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTemporaryRegistration" }
-  fn td_type(&self) -> TDType { TDType::PassportElementTemporaryRegistration }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementTemporaryRegistration }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32419,8 +32424,8 @@ pub struct PassportElementPhoneNumber {
 impl Object for PassportElementPhoneNumber {}
 impl RObject for PassportElementPhoneNumber {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementPhoneNumber" }
-  fn td_type(&self) -> TDType { TDType::PassportElementPhoneNumber }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementPhoneNumber }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32480,8 +32485,8 @@ pub struct PassportElementEmailAddress {
 impl Object for PassportElementEmailAddress {}
 impl RObject for PassportElementEmailAddress {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementEmailAddress" }
-  fn td_type(&self) -> TDType { TDType::PassportElementEmailAddress }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementEmailAddress }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32552,8 +32557,8 @@ impl Clone for PassportElementError {
 impl Object for PassportElementError {}
 impl RObject for PassportElementError {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementError" }
-  fn td_type(&self) -> TDType { TDType::PassportElementError }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementError }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32635,7 +32640,7 @@ impl Clone for Box<PassportElementErrorSource> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDPassportElementErrorSourceType {
+pub enum RTDPassportElementErrorSourceType {
   PassportElementErrorSourceDataField,
   PassportElementErrorSourceFile,
   PassportElementErrorSourceFiles,
@@ -32647,7 +32652,7 @@ pub enum TDPassportElementErrorSourceType {
   PassportElementErrorSourceUnspecified,
   
 }
-impl TDPassportElementErrorSourceType {
+impl RTDPassportElementErrorSourceType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -32667,8 +32672,8 @@ pub struct PassportElementErrorSourceUnspecified {
 impl Object for PassportElementErrorSourceUnspecified {}
 impl RObject for PassportElementErrorSourceUnspecified {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceUnspecified" }
-  fn td_type(&self) -> TDType { TDType::PassportElementErrorSourceUnspecified }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementErrorSourceUnspecified }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32720,8 +32725,8 @@ pub struct PassportElementErrorSourceDataField {
 impl Object for PassportElementErrorSourceDataField {}
 impl RObject for PassportElementErrorSourceDataField {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceDataField" }
-  fn td_type(&self) -> TDType { TDType::PassportElementErrorSourceDataField }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementErrorSourceDataField }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32779,8 +32784,8 @@ pub struct PassportElementErrorSourceFrontSide {
 impl Object for PassportElementErrorSourceFrontSide {}
 impl RObject for PassportElementErrorSourceFrontSide {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceFrontSide" }
-  fn td_type(&self) -> TDType { TDType::PassportElementErrorSourceFrontSide }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementErrorSourceFrontSide }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32830,8 +32835,8 @@ pub struct PassportElementErrorSourceReverseSide {
 impl Object for PassportElementErrorSourceReverseSide {}
 impl RObject for PassportElementErrorSourceReverseSide {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceReverseSide" }
-  fn td_type(&self) -> TDType { TDType::PassportElementErrorSourceReverseSide }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementErrorSourceReverseSide }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32881,8 +32886,8 @@ pub struct PassportElementErrorSourceSelfie {
 impl Object for PassportElementErrorSourceSelfie {}
 impl RObject for PassportElementErrorSourceSelfie {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceSelfie" }
-  fn td_type(&self) -> TDType { TDType::PassportElementErrorSourceSelfie }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementErrorSourceSelfie }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32934,8 +32939,8 @@ pub struct PassportElementErrorSourceTranslationFile {
 impl Object for PassportElementErrorSourceTranslationFile {}
 impl RObject for PassportElementErrorSourceTranslationFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceTranslationFile" }
-  fn td_type(&self) -> TDType { TDType::PassportElementErrorSourceTranslationFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementErrorSourceTranslationFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -32993,8 +32998,8 @@ pub struct PassportElementErrorSourceTranslationFiles {
 impl Object for PassportElementErrorSourceTranslationFiles {}
 impl RObject for PassportElementErrorSourceTranslationFiles {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceTranslationFiles" }
-  fn td_type(&self) -> TDType { TDType::PassportElementErrorSourceTranslationFiles }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementErrorSourceTranslationFiles }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33046,8 +33051,8 @@ pub struct PassportElementErrorSourceFile {
 impl Object for PassportElementErrorSourceFile {}
 impl RObject for PassportElementErrorSourceFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceFile" }
-  fn td_type(&self) -> TDType { TDType::PassportElementErrorSourceFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementErrorSourceFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33105,8 +33110,8 @@ pub struct PassportElementErrorSourceFiles {
 impl Object for PassportElementErrorSourceFiles {}
 impl RObject for PassportElementErrorSourceFiles {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceFiles" }
-  fn td_type(&self) -> TDType { TDType::PassportElementErrorSourceFiles }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementErrorSourceFiles }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33166,7 +33171,7 @@ impl Clone for Box<PassportElementType> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDPassportElementTypeType {
+pub enum RTDPassportElementTypeType {
   PassportElementTypeAddress,
   PassportElementTypeBankStatement,
   PassportElementTypeDriverLicense,
@@ -33182,7 +33187,7 @@ pub enum TDPassportElementTypeType {
   PassportElementTypeUtilityBill,
   
 }
-impl TDPassportElementTypeType {
+impl RTDPassportElementTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -33202,8 +33207,8 @@ pub struct PassportElementTypePersonalDetails {
 impl Object for PassportElementTypePersonalDetails {}
 impl RObject for PassportElementTypePersonalDetails {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypePersonalDetails" }
-  fn td_type(&self) -> TDType { TDType::PassportElementTypePersonalDetails }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementTypePersonalDetails }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33253,8 +33258,8 @@ pub struct PassportElementTypePassport {
 impl Object for PassportElementTypePassport {}
 impl RObject for PassportElementTypePassport {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypePassport" }
-  fn td_type(&self) -> TDType { TDType::PassportElementTypePassport }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementTypePassport }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33304,8 +33309,8 @@ pub struct PassportElementTypeDriverLicense {
 impl Object for PassportElementTypeDriverLicense {}
 impl RObject for PassportElementTypeDriverLicense {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeDriverLicense" }
-  fn td_type(&self) -> TDType { TDType::PassportElementTypeDriverLicense }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementTypeDriverLicense }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33355,8 +33360,8 @@ pub struct PassportElementTypeIdentityCard {
 impl Object for PassportElementTypeIdentityCard {}
 impl RObject for PassportElementTypeIdentityCard {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeIdentityCard" }
-  fn td_type(&self) -> TDType { TDType::PassportElementTypeIdentityCard }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementTypeIdentityCard }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33406,8 +33411,8 @@ pub struct PassportElementTypeInternalPassport {
 impl Object for PassportElementTypeInternalPassport {}
 impl RObject for PassportElementTypeInternalPassport {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeInternalPassport" }
-  fn td_type(&self) -> TDType { TDType::PassportElementTypeInternalPassport }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementTypeInternalPassport }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33457,8 +33462,8 @@ pub struct PassportElementTypeAddress {
 impl Object for PassportElementTypeAddress {}
 impl RObject for PassportElementTypeAddress {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeAddress" }
-  fn td_type(&self) -> TDType { TDType::PassportElementTypeAddress }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementTypeAddress }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33508,8 +33513,8 @@ pub struct PassportElementTypeUtilityBill {
 impl Object for PassportElementTypeUtilityBill {}
 impl RObject for PassportElementTypeUtilityBill {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeUtilityBill" }
-  fn td_type(&self) -> TDType { TDType::PassportElementTypeUtilityBill }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementTypeUtilityBill }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33559,8 +33564,8 @@ pub struct PassportElementTypeBankStatement {
 impl Object for PassportElementTypeBankStatement {}
 impl RObject for PassportElementTypeBankStatement {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeBankStatement" }
-  fn td_type(&self) -> TDType { TDType::PassportElementTypeBankStatement }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementTypeBankStatement }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33610,8 +33615,8 @@ pub struct PassportElementTypeRentalAgreement {
 impl Object for PassportElementTypeRentalAgreement {}
 impl RObject for PassportElementTypeRentalAgreement {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeRentalAgreement" }
-  fn td_type(&self) -> TDType { TDType::PassportElementTypeRentalAgreement }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementTypeRentalAgreement }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33661,8 +33666,8 @@ pub struct PassportElementTypePassportRegistration {
 impl Object for PassportElementTypePassportRegistration {}
 impl RObject for PassportElementTypePassportRegistration {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypePassportRegistration" }
-  fn td_type(&self) -> TDType { TDType::PassportElementTypePassportRegistration }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementTypePassportRegistration }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33712,8 +33717,8 @@ pub struct PassportElementTypeTemporaryRegistration {
 impl Object for PassportElementTypeTemporaryRegistration {}
 impl RObject for PassportElementTypeTemporaryRegistration {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeTemporaryRegistration" }
-  fn td_type(&self) -> TDType { TDType::PassportElementTypeTemporaryRegistration }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementTypeTemporaryRegistration }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33763,8 +33768,8 @@ pub struct PassportElementTypePhoneNumber {
 impl Object for PassportElementTypePhoneNumber {}
 impl RObject for PassportElementTypePhoneNumber {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypePhoneNumber" }
-  fn td_type(&self) -> TDType { TDType::PassportElementTypePhoneNumber }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementTypePhoneNumber }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33814,8 +33819,8 @@ pub struct PassportElementTypeEmailAddress {
 impl Object for PassportElementTypeEmailAddress {}
 impl RObject for PassportElementTypeEmailAddress {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeEmailAddress" }
-  fn td_type(&self) -> TDType { TDType::PassportElementTypeEmailAddress }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementTypeEmailAddress }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33874,8 +33879,8 @@ impl Clone for PassportElements {
 impl Object for PassportElements {}
 impl RObject for PassportElements {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElements" }
-  fn td_type(&self) -> TDType { TDType::PassportElements }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElements }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -33942,8 +33947,8 @@ impl Clone for PassportElementsWithErrors {
 impl Object for PassportElementsWithErrors {}
 impl RObject for PassportElementsWithErrors {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementsWithErrors" }
-  fn td_type(&self) -> TDType { TDType::PassportElementsWithErrors }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportElementsWithErrors }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -34009,8 +34014,8 @@ pub struct PassportRequiredElement {
 impl Object for PassportRequiredElement {}
 impl RObject for PassportRequiredElement {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportRequiredElement" }
-  fn td_type(&self) -> TDType { TDType::PassportRequiredElement }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportRequiredElement }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -34081,8 +34086,8 @@ impl Clone for PassportSuitableElement {
 impl Object for PassportSuitableElement {}
 impl RObject for PassportSuitableElement {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportSuitableElement" }
-  fn td_type(&self) -> TDType { TDType::PassportSuitableElement }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PassportSuitableElement }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -34172,8 +34177,8 @@ pub struct PasswordState {
 impl Object for PasswordState {}
 impl RObject for PasswordState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passwordState" }
-  fn td_type(&self) -> TDType { TDType::PasswordState }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PasswordState }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -34275,8 +34280,8 @@ pub struct PaymentForm {
 impl Object for PaymentForm {}
 impl RObject for PaymentForm {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "paymentForm" }
-  fn td_type(&self) -> TDType { TDType::PaymentForm }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PaymentForm }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -34392,8 +34397,8 @@ pub struct PaymentReceipt {
 impl Object for PaymentReceipt {}
 impl RObject for PaymentReceipt {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "paymentReceipt" }
-  fn td_type(&self) -> TDType { TDType::PaymentReceipt }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PaymentReceipt }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -34493,8 +34498,8 @@ pub struct PaymentResult {
 impl Object for PaymentResult {}
 impl RObject for PaymentResult {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "paymentResult" }
-  fn td_type(&self) -> TDType { TDType::PaymentResult }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PaymentResult }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -34566,8 +34571,8 @@ pub struct PaymentsProviderStripe {
 impl Object for PaymentsProviderStripe {}
 impl RObject for PaymentsProviderStripe {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "paymentsProviderStripe" }
-  fn td_type(&self) -> TDType { TDType::PaymentsProviderStripe }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PaymentsProviderStripe }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -34667,8 +34672,8 @@ pub struct PersonalDetails {
 impl Object for PersonalDetails {}
 impl RObject for PersonalDetails {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "personalDetails" }
-  fn td_type(&self) -> TDType { TDType::PersonalDetails }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PersonalDetails }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -34800,8 +34805,8 @@ pub struct PersonalDocument {
 impl Object for PersonalDocument {}
 impl RObject for PersonalDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "personalDocument" }
-  fn td_type(&self) -> TDType { TDType::PersonalDocument }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PersonalDocument }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -34869,8 +34874,8 @@ pub struct Photo {
 impl Object for Photo {}
 impl RObject for Photo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "photo" }
-  fn td_type(&self) -> TDType { TDType::Photo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Photo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -34942,8 +34947,8 @@ pub struct PhotoSize {
 impl Object for PhotoSize {}
 impl RObject for PhotoSize {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "photoSize" }
-  fn td_type(&self) -> TDType { TDType::PhotoSize }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PhotoSize }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -35033,8 +35038,8 @@ pub struct Poll {
 impl Object for Poll {}
 impl RObject for Poll {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "poll" }
-  fn td_type(&self) -> TDType { TDType::Poll }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Poll }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -35132,8 +35137,8 @@ pub struct PollOption {
 impl Object for PollOption {}
 impl RObject for PollOption {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pollOption" }
-  fn td_type(&self) -> TDType { TDType::PollOption }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PollOption }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -35227,8 +35232,8 @@ pub struct ProfilePhoto {
 impl Object for ProfilePhoto {}
 impl RObject for ProfilePhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "profilePhoto" }
-  fn td_type(&self) -> TDType { TDType::ProfilePhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ProfilePhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -35302,8 +35307,8 @@ pub struct Proxies {
 impl Object for Proxies {}
 impl RObject for Proxies {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "proxies" }
-  fn td_type(&self) -> TDType { TDType::Proxies }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Proxies }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -35378,8 +35383,8 @@ impl Clone for Proxy {
 impl Object for Proxy {}
 impl RObject for Proxy {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "proxy" }
-  fn td_type(&self) -> TDType { TDType::Proxy }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Proxy }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -35485,13 +35490,13 @@ impl Clone for Box<ProxyType> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDProxyTypeType {
+pub enum RTDProxyTypeType {
   ProxyTypeHttp,
   ProxyTypeMtproto,
   ProxyTypeSocks5,
   
 }
-impl TDProxyTypeType {
+impl RTDProxyTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -35515,8 +35520,8 @@ pub struct ProxyTypeSocks5 {
 impl Object for ProxyTypeSocks5 {}
 impl RObject for ProxyTypeSocks5 {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "proxyTypeSocks5" }
-  fn td_type(&self) -> TDType { TDType::ProxyTypeSocks5 }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ProxyTypeSocks5 }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -35588,8 +35593,8 @@ pub struct ProxyTypeHttp {
 impl Object for ProxyTypeHttp {}
 impl RObject for ProxyTypeHttp {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "proxyTypeHttp" }
-  fn td_type(&self) -> TDType { TDType::ProxyTypeHttp }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ProxyTypeHttp }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -35665,8 +35670,8 @@ pub struct ProxyTypeMtproto {
 impl Object for ProxyTypeMtproto {}
 impl RObject for ProxyTypeMtproto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "proxyTypeMtproto" }
-  fn td_type(&self) -> TDType { TDType::ProxyTypeMtproto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ProxyTypeMtproto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -35728,8 +35733,8 @@ pub struct PublicMessageLink {
 impl Object for PublicMessageLink {}
 impl RObject for PublicMessageLink {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "publicMessageLink" }
-  fn td_type(&self) -> TDType { TDType::PublicMessageLink }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PublicMessageLink }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -35803,7 +35808,7 @@ impl Clone for Box<PushMessageContent> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDPushMessageContentType {
+pub enum RTDPushMessageContentType {
   PushMessageContentAnimation,
   PushMessageContentAudio,
   PushMessageContentBasicGroupChatCreate,
@@ -35832,7 +35837,7 @@ pub enum TDPushMessageContentType {
   PushMessageContentVoiceNote,
   
 }
-impl TDPushMessageContentType {
+impl RTDPushMessageContentType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -35854,8 +35859,8 @@ pub struct PushMessageContentHidden {
 impl Object for PushMessageContentHidden {}
 impl RObject for PushMessageContentHidden {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentHidden" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentHidden }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentHidden }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -35919,8 +35924,8 @@ pub struct PushMessageContentAnimation {
 impl Object for PushMessageContentAnimation {}
 impl RObject for PushMessageContentAnimation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentAnimation" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentAnimation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentAnimation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -35998,8 +36003,8 @@ pub struct PushMessageContentAudio {
 impl Object for PushMessageContentAudio {}
 impl RObject for PushMessageContentAudio {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentAudio" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentAudio }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentAudio }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -36069,8 +36074,8 @@ pub struct PushMessageContentContact {
 impl Object for PushMessageContentContact {}
 impl RObject for PushMessageContentContact {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentContact" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentContact }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentContact }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -36136,8 +36141,8 @@ pub struct PushMessageContentContactRegistered {
 impl Object for PushMessageContentContactRegistered {}
 impl RObject for PushMessageContentContactRegistered {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentContactRegistered" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentContactRegistered }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentContactRegistered }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -36191,8 +36196,8 @@ pub struct PushMessageContentDocument {
 impl Object for PushMessageContentDocument {}
 impl RObject for PushMessageContentDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentDocument" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentDocument }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentDocument }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -36262,8 +36267,8 @@ pub struct PushMessageContentGame {
 impl Object for PushMessageContentGame {}
 impl RObject for PushMessageContentGame {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentGame" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentGame }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentGame }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -36335,8 +36340,8 @@ pub struct PushMessageContentGameScore {
 impl Object for PushMessageContentGameScore {}
 impl RObject for PushMessageContentGameScore {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentGameScore" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentGameScore }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentGameScore }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -36414,8 +36419,8 @@ pub struct PushMessageContentInvoice {
 impl Object for PushMessageContentInvoice {}
 impl RObject for PushMessageContentInvoice {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentInvoice" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentInvoice }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentInvoice }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -36485,8 +36490,8 @@ pub struct PushMessageContentLocation {
 impl Object for PushMessageContentLocation {}
 impl RObject for PushMessageContentLocation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentLocation" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentLocation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentLocation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -36560,8 +36565,8 @@ pub struct PushMessageContentPhoto {
 impl Object for PushMessageContentPhoto {}
 impl RObject for PushMessageContentPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentPhoto" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentPhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentPhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -36647,8 +36652,8 @@ pub struct PushMessageContentPoll {
 impl Object for PushMessageContentPoll {}
 impl RObject for PushMessageContentPoll {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentPoll" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentPoll }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentPoll }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -36714,8 +36719,8 @@ pub struct PushMessageContentScreenshotTaken {
 impl Object for PushMessageContentScreenshotTaken {}
 impl RObject for PushMessageContentScreenshotTaken {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentScreenshotTaken" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentScreenshotTaken }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentScreenshotTaken }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -36771,8 +36776,8 @@ pub struct PushMessageContentSticker {
 impl Object for PushMessageContentSticker {}
 impl RObject for PushMessageContentSticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentSticker" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentSticker }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentSticker }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -36850,8 +36855,8 @@ pub struct PushMessageContentText {
 impl Object for PushMessageContentText {}
 impl RObject for PushMessageContentText {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentText" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentText }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentText }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -36925,8 +36930,8 @@ pub struct PushMessageContentVideo {
 impl Object for PushMessageContentVideo {}
 impl RObject for PushMessageContentVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentVideo" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentVideo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentVideo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -37012,8 +37017,8 @@ pub struct PushMessageContentVideoNote {
 impl Object for PushMessageContentVideoNote {}
 impl RObject for PushMessageContentVideoNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentVideoNote" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentVideoNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentVideoNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -37083,8 +37088,8 @@ pub struct PushMessageContentVoiceNote {
 impl Object for PushMessageContentVoiceNote {}
 impl RObject for PushMessageContentVoiceNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentVoiceNote" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentVoiceNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentVoiceNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -37150,8 +37155,8 @@ pub struct PushMessageContentBasicGroupChatCreate {
 impl Object for PushMessageContentBasicGroupChatCreate {}
 impl RObject for PushMessageContentBasicGroupChatCreate {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentBasicGroupChatCreate" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentBasicGroupChatCreate }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentBasicGroupChatCreate }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -37207,8 +37212,8 @@ pub struct PushMessageContentChatAddMembers {
 impl Object for PushMessageContentChatAddMembers {}
 impl RObject for PushMessageContentChatAddMembers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatAddMembers" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentChatAddMembers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentChatAddMembers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -37282,8 +37287,8 @@ pub struct PushMessageContentChatChangePhoto {
 impl Object for PushMessageContentChatChangePhoto {}
 impl RObject for PushMessageContentChatChangePhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatChangePhoto" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentChatChangePhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentChatChangePhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -37335,8 +37340,8 @@ pub struct PushMessageContentChatChangeTitle {
 impl Object for PushMessageContentChatChangeTitle {}
 impl RObject for PushMessageContentChatChangeTitle {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatChangeTitle" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentChatChangeTitle }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentChatChangeTitle }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -37400,8 +37405,8 @@ pub struct PushMessageContentChatDeleteMember {
 impl Object for PushMessageContentChatDeleteMember {}
 impl RObject for PushMessageContentChatDeleteMember {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatDeleteMember" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentChatDeleteMember }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentChatDeleteMember }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -37475,8 +37480,8 @@ pub struct PushMessageContentChatJoinByLink {
 impl Object for PushMessageContentChatJoinByLink {}
 impl RObject for PushMessageContentChatJoinByLink {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatJoinByLink" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentChatJoinByLink }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentChatJoinByLink }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -37528,8 +37533,8 @@ pub struct PushMessageContentMessageForwards {
 impl Object for PushMessageContentMessageForwards {}
 impl RObject for PushMessageContentMessageForwards {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentMessageForwards" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentMessageForwards }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentMessageForwards }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -37593,8 +37598,8 @@ pub struct PushMessageContentMediaAlbum {
 impl Object for PushMessageContentMediaAlbum {}
 impl RObject for PushMessageContentMediaAlbum {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentMediaAlbum" }
-  fn td_type(&self) -> TDType { TDType::PushMessageContentMediaAlbum }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushMessageContentMediaAlbum }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -37670,8 +37675,8 @@ pub struct PushReceiverId {
 impl Object for PushReceiverId {}
 impl RObject for PushReceiverId {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushReceiverId" }
-  fn td_type(&self) -> TDType { TDType::PushReceiverId }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PushReceiverId }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -37729,8 +37734,8 @@ pub struct RecoveryEmailAddress {
 impl Object for RecoveryEmailAddress {}
 impl RObject for RecoveryEmailAddress {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "recoveryEmailAddress" }
-  fn td_type(&self) -> TDType { TDType::RecoveryEmailAddress }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RecoveryEmailAddress }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -37794,8 +37799,8 @@ pub struct RemoteFile {
 impl Object for RemoteFile {}
 impl RObject for RemoteFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "remoteFile" }
-  fn td_type(&self) -> TDType { TDType::RemoteFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RemoteFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -37885,14 +37890,14 @@ impl Clone for Box<ReplyMarkup> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDReplyMarkupType {
+pub enum RTDReplyMarkupType {
   ReplyMarkupForceReply,
   ReplyMarkupInlineKeyboard,
   ReplyMarkupRemoveKeyboard,
   ReplyMarkupShowKeyboard,
   
 }
-impl TDReplyMarkupType {
+impl RTDReplyMarkupType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -37914,8 +37919,8 @@ pub struct ReplyMarkupRemoveKeyboard {
 impl Object for ReplyMarkupRemoveKeyboard {}
 impl RObject for ReplyMarkupRemoveKeyboard {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "replyMarkupRemoveKeyboard" }
-  fn td_type(&self) -> TDType { TDType::ReplyMarkupRemoveKeyboard }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ReplyMarkupRemoveKeyboard }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -37975,8 +37980,8 @@ pub struct ReplyMarkupForceReply {
 impl Object for ReplyMarkupForceReply {}
 impl RObject for ReplyMarkupForceReply {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "replyMarkupForceReply" }
-  fn td_type(&self) -> TDType { TDType::ReplyMarkupForceReply }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ReplyMarkupForceReply }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -38042,8 +38047,8 @@ pub struct ReplyMarkupShowKeyboard {
 impl Object for ReplyMarkupShowKeyboard {}
 impl RObject for ReplyMarkupShowKeyboard {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "replyMarkupShowKeyboard" }
-  fn td_type(&self) -> TDType { TDType::ReplyMarkupShowKeyboard }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ReplyMarkupShowKeyboard }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -38127,8 +38132,8 @@ pub struct ReplyMarkupInlineKeyboard {
 impl Object for ReplyMarkupInlineKeyboard {}
 impl RObject for ReplyMarkupInlineKeyboard {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "replyMarkupInlineKeyboard" }
-  fn td_type(&self) -> TDType { TDType::ReplyMarkupInlineKeyboard }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ReplyMarkupInlineKeyboard }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -38196,7 +38201,7 @@ impl Clone for Box<RichText> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDRichTextType {
+pub enum RTDRichTextType {
   RichTextAnchor,
   RichTextBold,
   RichTextEmailAddress,
@@ -38214,7 +38219,7 @@ pub enum TDRichTextType {
   RichTextUrl,
   
 }
-impl TDRichTextType {
+impl RTDRichTextType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -38236,8 +38241,8 @@ pub struct RichTextPlain {
 impl Object for RichTextPlain {}
 impl RObject for RichTextPlain {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextPlain" }
-  fn td_type(&self) -> TDType { TDType::RichTextPlain }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RichTextPlain }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -38304,8 +38309,8 @@ impl Clone for RichTextBold {
 impl Object for RichTextBold {}
 impl RObject for RichTextBold {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextBold" }
-  fn td_type(&self) -> TDType { TDType::RichTextBold }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RichTextBold }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -38372,8 +38377,8 @@ impl Clone for RichTextItalic {
 impl Object for RichTextItalic {}
 impl RObject for RichTextItalic {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextItalic" }
-  fn td_type(&self) -> TDType { TDType::RichTextItalic }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RichTextItalic }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -38440,8 +38445,8 @@ impl Clone for RichTextUnderline {
 impl Object for RichTextUnderline {}
 impl RObject for RichTextUnderline {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextUnderline" }
-  fn td_type(&self) -> TDType { TDType::RichTextUnderline }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RichTextUnderline }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -38508,8 +38513,8 @@ impl Clone for RichTextStrikethrough {
 impl Object for RichTextStrikethrough {}
 impl RObject for RichTextStrikethrough {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextStrikethrough" }
-  fn td_type(&self) -> TDType { TDType::RichTextStrikethrough }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RichTextStrikethrough }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -38576,8 +38581,8 @@ impl Clone for RichTextFixed {
 impl Object for RichTextFixed {}
 impl RObject for RichTextFixed {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextFixed" }
-  fn td_type(&self) -> TDType { TDType::RichTextFixed }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RichTextFixed }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -38646,8 +38651,8 @@ impl Clone for RichTextUrl {
 impl Object for RichTextUrl {}
 impl RObject for RichTextUrl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextUrl" }
-  fn td_type(&self) -> TDType { TDType::RichTextUrl }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RichTextUrl }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -38724,8 +38729,8 @@ impl Clone for RichTextEmailAddress {
 impl Object for RichTextEmailAddress {}
 impl RObject for RichTextEmailAddress {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextEmailAddress" }
-  fn td_type(&self) -> TDType { TDType::RichTextEmailAddress }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RichTextEmailAddress }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -38800,8 +38805,8 @@ impl Clone for RichTextSubscript {
 impl Object for RichTextSubscript {}
 impl RObject for RichTextSubscript {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextSubscript" }
-  fn td_type(&self) -> TDType { TDType::RichTextSubscript }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RichTextSubscript }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -38868,8 +38873,8 @@ impl Clone for RichTextSuperscript {
 impl Object for RichTextSuperscript {}
 impl RObject for RichTextSuperscript {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextSuperscript" }
-  fn td_type(&self) -> TDType { TDType::RichTextSuperscript }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RichTextSuperscript }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -38936,8 +38941,8 @@ impl Clone for RichTextMarked {
 impl Object for RichTextMarked {}
 impl RObject for RichTextMarked {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextMarked" }
-  fn td_type(&self) -> TDType { TDType::RichTextMarked }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RichTextMarked }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39006,8 +39011,8 @@ impl Clone for RichTextPhoneNumber {
 impl Object for RichTextPhoneNumber {}
 impl RObject for RichTextPhoneNumber {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextPhoneNumber" }
-  fn td_type(&self) -> TDType { TDType::RichTextPhoneNumber }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RichTextPhoneNumber }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39079,8 +39084,8 @@ pub struct RichTextIcon {
 impl Object for RichTextIcon {}
 impl RObject for RichTextIcon {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextIcon" }
-  fn td_type(&self) -> TDType { TDType::RichTextIcon }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RichTextIcon }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39165,8 +39170,8 @@ impl Clone for RichTextAnchor {
 impl Object for RichTextAnchor {}
 impl RObject for RichTextAnchor {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextAnchor" }
-  fn td_type(&self) -> TDType { TDType::RichTextAnchor }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RichTextAnchor }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39241,8 +39246,8 @@ impl Clone for RichTexts {
 impl Object for RichTexts {}
 impl RObject for RichTexts {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTexts" }
-  fn td_type(&self) -> TDType { TDType::RichTexts }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RichTexts }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39304,8 +39309,8 @@ pub struct SavedCredentials {
 impl Object for SavedCredentials {}
 impl RObject for SavedCredentials {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "savedCredentials" }
-  fn td_type(&self) -> TDType { TDType::SavedCredentials }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SavedCredentials }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39379,8 +39384,8 @@ pub struct ScopeNotificationSettings {
 impl Object for ScopeNotificationSettings {}
 impl RObject for ScopeNotificationSettings {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "scopeNotificationSettings" }
-  fn td_type(&self) -> TDType { TDType::ScopeNotificationSettings }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ScopeNotificationSettings }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39478,7 +39483,7 @@ impl Clone for Box<SearchMessagesFilter> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDSearchMessagesFilterType {
+pub enum RTDSearchMessagesFilterType {
   SearchMessagesFilterAnimation,
   SearchMessagesFilterAudio,
   SearchMessagesFilterCall,
@@ -39497,7 +39502,7 @@ pub enum TDSearchMessagesFilterType {
   SearchMessagesFilterVoiceNote,
   
 }
-impl TDSearchMessagesFilterType {
+impl RTDSearchMessagesFilterType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -39517,8 +39522,8 @@ pub struct SearchMessagesFilterEmpty {
 impl Object for SearchMessagesFilterEmpty {}
 impl RObject for SearchMessagesFilterEmpty {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterEmpty" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterEmpty }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterEmpty }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39568,8 +39573,8 @@ pub struct SearchMessagesFilterAnimation {
 impl Object for SearchMessagesFilterAnimation {}
 impl RObject for SearchMessagesFilterAnimation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterAnimation" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterAnimation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterAnimation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39619,8 +39624,8 @@ pub struct SearchMessagesFilterAudio {
 impl Object for SearchMessagesFilterAudio {}
 impl RObject for SearchMessagesFilterAudio {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterAudio" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterAudio }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterAudio }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39670,8 +39675,8 @@ pub struct SearchMessagesFilterDocument {
 impl Object for SearchMessagesFilterDocument {}
 impl RObject for SearchMessagesFilterDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterDocument" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterDocument }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterDocument }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39721,8 +39726,8 @@ pub struct SearchMessagesFilterPhoto {
 impl Object for SearchMessagesFilterPhoto {}
 impl RObject for SearchMessagesFilterPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterPhoto" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterPhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterPhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39772,8 +39777,8 @@ pub struct SearchMessagesFilterVideo {
 impl Object for SearchMessagesFilterVideo {}
 impl RObject for SearchMessagesFilterVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterVideo" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterVideo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterVideo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39823,8 +39828,8 @@ pub struct SearchMessagesFilterVoiceNote {
 impl Object for SearchMessagesFilterVoiceNote {}
 impl RObject for SearchMessagesFilterVoiceNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterVoiceNote" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterVoiceNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterVoiceNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39874,8 +39879,8 @@ pub struct SearchMessagesFilterPhotoAndVideo {
 impl Object for SearchMessagesFilterPhotoAndVideo {}
 impl RObject for SearchMessagesFilterPhotoAndVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterPhotoAndVideo" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterPhotoAndVideo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterPhotoAndVideo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39925,8 +39930,8 @@ pub struct SearchMessagesFilterUrl {
 impl Object for SearchMessagesFilterUrl {}
 impl RObject for SearchMessagesFilterUrl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterUrl" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterUrl }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterUrl }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -39976,8 +39981,8 @@ pub struct SearchMessagesFilterChatPhoto {
 impl Object for SearchMessagesFilterChatPhoto {}
 impl RObject for SearchMessagesFilterChatPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterChatPhoto" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterChatPhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterChatPhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -40027,8 +40032,8 @@ pub struct SearchMessagesFilterCall {
 impl Object for SearchMessagesFilterCall {}
 impl RObject for SearchMessagesFilterCall {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterCall" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterCall }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterCall }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -40078,8 +40083,8 @@ pub struct SearchMessagesFilterMissedCall {
 impl Object for SearchMessagesFilterMissedCall {}
 impl RObject for SearchMessagesFilterMissedCall {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterMissedCall" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterMissedCall }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterMissedCall }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -40129,8 +40134,8 @@ pub struct SearchMessagesFilterVideoNote {
 impl Object for SearchMessagesFilterVideoNote {}
 impl RObject for SearchMessagesFilterVideoNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterVideoNote" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterVideoNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterVideoNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -40180,8 +40185,8 @@ pub struct SearchMessagesFilterVoiceAndVideoNote {
 impl Object for SearchMessagesFilterVoiceAndVideoNote {}
 impl RObject for SearchMessagesFilterVoiceAndVideoNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterVoiceAndVideoNote" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterVoiceAndVideoNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterVoiceAndVideoNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -40231,8 +40236,8 @@ pub struct SearchMessagesFilterMention {
 impl Object for SearchMessagesFilterMention {}
 impl RObject for SearchMessagesFilterMention {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterMention" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterMention }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterMention }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -40282,8 +40287,8 @@ pub struct SearchMessagesFilterUnreadMention {
 impl Object for SearchMessagesFilterUnreadMention {}
 impl RObject for SearchMessagesFilterUnreadMention {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterUnreadMention" }
-  fn td_type(&self) -> TDType { TDType::SearchMessagesFilterUnreadMention }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessagesFilterUnreadMention }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -40335,8 +40340,8 @@ pub struct Seconds {
 impl Object for Seconds {}
 impl RObject for Seconds {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "seconds" }
-  fn td_type(&self) -> TDType { TDType::Seconds }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Seconds }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -40413,8 +40418,8 @@ impl Clone for SecretChat {
 impl Object for SecretChat {}
 impl RObject for SecretChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "secretChat" }
-  fn td_type(&self) -> TDType { TDType::SecretChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SecretChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -40528,13 +40533,13 @@ impl Clone for Box<SecretChatState> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDSecretChatStateType {
+pub enum RTDSecretChatStateType {
   SecretChatStateClosed,
   SecretChatStatePending,
   SecretChatStateReady,
   
 }
-impl TDSecretChatStateType {
+impl RTDSecretChatStateType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -40554,8 +40559,8 @@ pub struct SecretChatStatePending {
 impl Object for SecretChatStatePending {}
 impl RObject for SecretChatStatePending {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "secretChatStatePending" }
-  fn td_type(&self) -> TDType { TDType::SecretChatStatePending }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SecretChatStatePending }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -40605,8 +40610,8 @@ pub struct SecretChatStateReady {
 impl Object for SecretChatStateReady {}
 impl RObject for SecretChatStateReady {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "secretChatStateReady" }
-  fn td_type(&self) -> TDType { TDType::SecretChatStateReady }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SecretChatStateReady }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -40656,8 +40661,8 @@ pub struct SecretChatStateClosed {
 impl Object for SecretChatStateClosed {}
 impl RObject for SecretChatStateClosed {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "secretChatStateClosed" }
-  fn td_type(&self) -> TDType { TDType::SecretChatStateClosed }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SecretChatStateClosed }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -40737,8 +40742,8 @@ pub struct Session {
 impl Object for Session {}
 impl RObject for Session {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "session" }
-  fn td_type(&self) -> TDType { TDType::Session }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Session }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -40908,8 +40913,8 @@ pub struct Sessions {
 impl Object for Sessions {}
 impl RObject for Sessions {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sessions" }
-  fn td_type(&self) -> TDType { TDType::Sessions }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Sessions }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -40971,8 +40976,8 @@ pub struct ShippingOption {
 impl Object for ShippingOption {}
 impl RObject for ShippingOption {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "shippingOption" }
-  fn td_type(&self) -> TDType { TDType::ShippingOption }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ShippingOption }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -41060,8 +41065,8 @@ pub struct Sticker {
 impl Object for Sticker {}
 impl RObject for Sticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sticker" }
-  fn td_type(&self) -> TDType { TDType::Sticker }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Sticker }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -41175,8 +41180,8 @@ pub struct StickerEmojis {
 impl Object for StickerEmojis {}
 impl RObject for StickerEmojis {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "stickerEmojis" }
-  fn td_type(&self) -> TDType { TDType::StickerEmojis }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::StickerEmojis }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -41252,8 +41257,8 @@ pub struct StickerSet {
 impl Object for StickerSet {}
 impl RObject for StickerSet {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "stickerSet" }
-  fn td_type(&self) -> TDType { TDType::StickerSet }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::StickerSet }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -41401,8 +41406,8 @@ pub struct StickerSetInfo {
 impl Object for StickerSetInfo {}
 impl RObject for StickerSetInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "stickerSetInfo" }
-  fn td_type(&self) -> TDType { TDType::StickerSetInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::StickerSetInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -41534,8 +41539,8 @@ pub struct StickerSets {
 impl Object for StickerSets {}
 impl RObject for StickerSets {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "stickerSets" }
-  fn td_type(&self) -> TDType { TDType::StickerSets }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::StickerSets }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -41601,8 +41606,8 @@ pub struct Stickers {
 impl Object for Stickers {}
 impl RObject for Stickers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "stickers" }
-  fn td_type(&self) -> TDType { TDType::Stickers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Stickers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -41664,8 +41669,8 @@ pub struct StorageStatistics {
 impl Object for StorageStatistics {}
 impl RObject for StorageStatistics {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "storageStatistics" }
-  fn td_type(&self) -> TDType { TDType::StorageStatistics }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::StorageStatistics }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -41745,8 +41750,8 @@ pub struct StorageStatisticsByChat {
 impl Object for StorageStatisticsByChat {}
 impl RObject for StorageStatisticsByChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "storageStatisticsByChat" }
-  fn td_type(&self) -> TDType { TDType::StorageStatisticsByChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::StorageStatisticsByChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -41839,8 +41844,8 @@ impl Clone for StorageStatisticsByFileType {
 impl Object for StorageStatisticsByFileType {}
 impl RObject for StorageStatisticsByFileType {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "storageStatisticsByFileType" }
-  fn td_type(&self) -> TDType { TDType::StorageStatisticsByFileType }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::StorageStatisticsByFileType }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -41922,8 +41927,8 @@ pub struct StorageStatisticsFast {
 impl Object for StorageStatisticsFast {}
 impl RObject for StorageStatisticsFast {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "storageStatisticsFast" }
-  fn td_type(&self) -> TDType { TDType::StorageStatisticsFast }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::StorageStatisticsFast }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -42038,8 +42043,8 @@ impl Clone for Supergroup {
 impl Object for Supergroup {}
 impl RObject for Supergroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "supergroup" }
-  fn td_type(&self) -> TDType { TDType::Supergroup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Supergroup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -42195,8 +42200,8 @@ pub struct SupergroupFullInfo {
 impl Object for SupergroupFullInfo {}
 impl RObject for SupergroupFullInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "supergroupFullInfo" }
-  fn td_type(&self) -> TDType { TDType::SupergroupFullInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SupergroupFullInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -42366,7 +42371,7 @@ impl Clone for Box<SupergroupMembersFilter> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDSupergroupMembersFilterType {
+pub enum RTDSupergroupMembersFilterType {
   SupergroupMembersFilterAdministrators,
   SupergroupMembersFilterBanned,
   SupergroupMembersFilterBots,
@@ -42375,7 +42380,7 @@ pub enum TDSupergroupMembersFilterType {
   SupergroupMembersFilterSearch,
   
 }
-impl TDSupergroupMembersFilterType {
+impl RTDSupergroupMembersFilterType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -42395,8 +42400,8 @@ pub struct SupergroupMembersFilterRecent {
 impl Object for SupergroupMembersFilterRecent {}
 impl RObject for SupergroupMembersFilterRecent {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "supergroupMembersFilterRecent" }
-  fn td_type(&self) -> TDType { TDType::SupergroupMembersFilterRecent }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SupergroupMembersFilterRecent }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -42446,8 +42451,8 @@ pub struct SupergroupMembersFilterAdministrators {
 impl Object for SupergroupMembersFilterAdministrators {}
 impl RObject for SupergroupMembersFilterAdministrators {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "supergroupMembersFilterAdministrators" }
-  fn td_type(&self) -> TDType { TDType::SupergroupMembersFilterAdministrators }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SupergroupMembersFilterAdministrators }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -42499,8 +42504,8 @@ pub struct SupergroupMembersFilterSearch {
 impl Object for SupergroupMembersFilterSearch {}
 impl RObject for SupergroupMembersFilterSearch {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "supergroupMembersFilterSearch" }
-  fn td_type(&self) -> TDType { TDType::SupergroupMembersFilterSearch }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SupergroupMembersFilterSearch }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -42560,8 +42565,8 @@ pub struct SupergroupMembersFilterRestricted {
 impl Object for SupergroupMembersFilterRestricted {}
 impl RObject for SupergroupMembersFilterRestricted {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "supergroupMembersFilterRestricted" }
-  fn td_type(&self) -> TDType { TDType::SupergroupMembersFilterRestricted }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SupergroupMembersFilterRestricted }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -42621,8 +42626,8 @@ pub struct SupergroupMembersFilterBanned {
 impl Object for SupergroupMembersFilterBanned {}
 impl RObject for SupergroupMembersFilterBanned {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "supergroupMembersFilterBanned" }
-  fn td_type(&self) -> TDType { TDType::SupergroupMembersFilterBanned }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SupergroupMembersFilterBanned }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -42680,8 +42685,8 @@ pub struct SupergroupMembersFilterBots {
 impl Object for SupergroupMembersFilterBots {}
 impl RObject for SupergroupMembersFilterBots {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "supergroupMembersFilterBots" }
-  fn td_type(&self) -> TDType { TDType::SupergroupMembersFilterBots }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SupergroupMembersFilterBots }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -42742,8 +42747,8 @@ impl Clone for TMeUrl {
 impl Object for TMeUrl {}
 impl RObject for TMeUrl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "tMeUrl" }
-  fn td_type(&self) -> TDType { TDType::TMeUrl }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TMeUrl }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -42817,14 +42822,14 @@ impl Clone for Box<TMeUrlType> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDTMeUrlTypeType {
+pub enum RTDTMeUrlTypeType {
   TMeUrlTypeChatInvite,
   TMeUrlTypeStickerSet,
   TMeUrlTypeSupergroup,
   TMeUrlTypeUser,
   
 }
-impl TDTMeUrlTypeType {
+impl RTDTMeUrlTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -42846,8 +42851,8 @@ pub struct TMeUrlTypeUser {
 impl Object for TMeUrlTypeUser {}
 impl RObject for TMeUrlTypeUser {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "tMeUrlTypeUser" }
-  fn td_type(&self) -> TDType { TDType::TMeUrlTypeUser }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TMeUrlTypeUser }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -42907,8 +42912,8 @@ pub struct TMeUrlTypeSupergroup {
 impl Object for TMeUrlTypeSupergroup {}
 impl RObject for TMeUrlTypeSupergroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "tMeUrlTypeSupergroup" }
-  fn td_type(&self) -> TDType { TDType::TMeUrlTypeSupergroup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TMeUrlTypeSupergroup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -42968,8 +42973,8 @@ pub struct TMeUrlTypeChatInvite {
 impl Object for TMeUrlTypeChatInvite {}
 impl RObject for TMeUrlTypeChatInvite {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "tMeUrlTypeChatInvite" }
-  fn td_type(&self) -> TDType { TDType::TMeUrlTypeChatInvite }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TMeUrlTypeChatInvite }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -43029,8 +43034,8 @@ pub struct TMeUrlTypeStickerSet {
 impl Object for TMeUrlTypeStickerSet {}
 impl RObject for TMeUrlTypeStickerSet {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "tMeUrlTypeStickerSet" }
-  fn td_type(&self) -> TDType { TDType::TMeUrlTypeStickerSet }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TMeUrlTypeStickerSet }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -43090,8 +43095,8 @@ pub struct TMeUrls {
 impl Object for TMeUrls {}
 impl RObject for TMeUrls {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "tMeUrls" }
-  fn td_type(&self) -> TDType { TDType::TMeUrls }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TMeUrls }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -43177,8 +43182,8 @@ pub struct TdlibParameters {
 impl Object for TdlibParameters {}
 impl RObject for TdlibParameters {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "tdlibParameters" }
-  fn td_type(&self) -> TDType { TDType::TdlibParameters }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TdlibParameters }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -43350,8 +43355,8 @@ pub struct TemporaryPasswordState {
 impl Object for TemporaryPasswordState {}
 impl RObject for TemporaryPasswordState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "temporaryPasswordState" }
-  fn td_type(&self) -> TDType { TDType::TemporaryPasswordState }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TemporaryPasswordState }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -43421,8 +43426,8 @@ pub struct TermsOfService {
 impl Object for TermsOfService {}
 impl RObject for TermsOfService {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "termsOfService" }
-  fn td_type(&self) -> TDType { TDType::TermsOfService }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TermsOfService }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -43496,8 +43501,8 @@ pub struct TestBytes {
 impl Object for TestBytes {}
 impl RObject for TestBytes {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testBytes" }
-  fn td_type(&self) -> TDType { TDType::TestBytes }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestBytes }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -43555,8 +43560,8 @@ pub struct TestInt {
 impl Object for TestInt {}
 impl RObject for TestInt {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testInt" }
-  fn td_type(&self) -> TDType { TDType::TestInt }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestInt }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -43614,8 +43619,8 @@ pub struct TestString {
 impl Object for TestString {}
 impl RObject for TestString {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testString" }
-  fn td_type(&self) -> TDType { TDType::TestString }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestString }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -43673,8 +43678,8 @@ pub struct TestVectorInt {
 impl Object for TestVectorInt {}
 impl RObject for TestVectorInt {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testVectorInt" }
-  fn td_type(&self) -> TDType { TDType::TestVectorInt }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestVectorInt }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -43732,8 +43737,8 @@ pub struct TestVectorIntObject {
 impl Object for TestVectorIntObject {}
 impl RObject for TestVectorIntObject {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testVectorIntObject" }
-  fn td_type(&self) -> TDType { TDType::TestVectorIntObject }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestVectorIntObject }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -43791,8 +43796,8 @@ pub struct TestVectorString {
 impl Object for TestVectorString {}
 impl RObject for TestVectorString {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testVectorString" }
-  fn td_type(&self) -> TDType { TDType::TestVectorString }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestVectorString }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -43850,8 +43855,8 @@ pub struct TestVectorStringObject {
 impl Object for TestVectorStringObject {}
 impl RObject for TestVectorStringObject {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testVectorStringObject" }
-  fn td_type(&self) -> TDType { TDType::TestVectorStringObject }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestVectorStringObject }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -43909,8 +43914,8 @@ pub struct Text {
 impl Object for Text {}
 impl RObject for Text {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "text" }
-  fn td_type(&self) -> TDType { TDType::Text }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Text }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -43968,8 +43973,8 @@ pub struct TextEntities {
 impl Object for TextEntities {}
 impl RObject for TextEntities {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntities" }
-  fn td_type(&self) -> TDType { TDType::TextEntities }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntities }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44038,8 +44043,8 @@ impl Clone for TextEntity {
 impl Object for TextEntity {}
 impl RObject for TextEntity {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntity" }
-  fn td_type(&self) -> TDType { TDType::TextEntity }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntity }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44121,7 +44126,7 @@ impl Clone for Box<TextEntityType> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDTextEntityTypeType {
+pub enum RTDTextEntityTypeType {
   TextEntityTypeBold,
   TextEntityTypeBotCommand,
   TextEntityTypeCashtag,
@@ -44138,7 +44143,7 @@ pub enum TDTextEntityTypeType {
   TextEntityTypeUrl,
   
 }
-impl TDTextEntityTypeType {
+impl RTDTextEntityTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -44158,8 +44163,8 @@ pub struct TextEntityTypeMention {
 impl Object for TextEntityTypeMention {}
 impl RObject for TextEntityTypeMention {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeMention" }
-  fn td_type(&self) -> TDType { TDType::TextEntityTypeMention }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntityTypeMention }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44209,8 +44214,8 @@ pub struct TextEntityTypeHashtag {
 impl Object for TextEntityTypeHashtag {}
 impl RObject for TextEntityTypeHashtag {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeHashtag" }
-  fn td_type(&self) -> TDType { TDType::TextEntityTypeHashtag }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntityTypeHashtag }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44260,8 +44265,8 @@ pub struct TextEntityTypeCashtag {
 impl Object for TextEntityTypeCashtag {}
 impl RObject for TextEntityTypeCashtag {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeCashtag" }
-  fn td_type(&self) -> TDType { TDType::TextEntityTypeCashtag }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntityTypeCashtag }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44311,8 +44316,8 @@ pub struct TextEntityTypeBotCommand {
 impl Object for TextEntityTypeBotCommand {}
 impl RObject for TextEntityTypeBotCommand {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeBotCommand" }
-  fn td_type(&self) -> TDType { TDType::TextEntityTypeBotCommand }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntityTypeBotCommand }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44362,8 +44367,8 @@ pub struct TextEntityTypeUrl {
 impl Object for TextEntityTypeUrl {}
 impl RObject for TextEntityTypeUrl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeUrl" }
-  fn td_type(&self) -> TDType { TDType::TextEntityTypeUrl }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntityTypeUrl }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44413,8 +44418,8 @@ pub struct TextEntityTypeEmailAddress {
 impl Object for TextEntityTypeEmailAddress {}
 impl RObject for TextEntityTypeEmailAddress {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeEmailAddress" }
-  fn td_type(&self) -> TDType { TDType::TextEntityTypeEmailAddress }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntityTypeEmailAddress }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44464,8 +44469,8 @@ pub struct TextEntityTypeBold {
 impl Object for TextEntityTypeBold {}
 impl RObject for TextEntityTypeBold {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeBold" }
-  fn td_type(&self) -> TDType { TDType::TextEntityTypeBold }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntityTypeBold }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44515,8 +44520,8 @@ pub struct TextEntityTypeItalic {
 impl Object for TextEntityTypeItalic {}
 impl RObject for TextEntityTypeItalic {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeItalic" }
-  fn td_type(&self) -> TDType { TDType::TextEntityTypeItalic }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntityTypeItalic }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44566,8 +44571,8 @@ pub struct TextEntityTypeCode {
 impl Object for TextEntityTypeCode {}
 impl RObject for TextEntityTypeCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeCode" }
-  fn td_type(&self) -> TDType { TDType::TextEntityTypeCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntityTypeCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44617,8 +44622,8 @@ pub struct TextEntityTypePre {
 impl Object for TextEntityTypePre {}
 impl RObject for TextEntityTypePre {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypePre" }
-  fn td_type(&self) -> TDType { TDType::TextEntityTypePre }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntityTypePre }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44670,8 +44675,8 @@ pub struct TextEntityTypePreCode {
 impl Object for TextEntityTypePreCode {}
 impl RObject for TextEntityTypePreCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypePreCode" }
-  fn td_type(&self) -> TDType { TDType::TextEntityTypePreCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntityTypePreCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44731,8 +44736,8 @@ pub struct TextEntityTypeTextUrl {
 impl Object for TextEntityTypeTextUrl {}
 impl RObject for TextEntityTypeTextUrl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeTextUrl" }
-  fn td_type(&self) -> TDType { TDType::TextEntityTypeTextUrl }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntityTypeTextUrl }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44792,8 +44797,8 @@ pub struct TextEntityTypeMentionName {
 impl Object for TextEntityTypeMentionName {}
 impl RObject for TextEntityTypeMentionName {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeMentionName" }
-  fn td_type(&self) -> TDType { TDType::TextEntityTypeMentionName }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntityTypeMentionName }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44851,8 +44856,8 @@ pub struct TextEntityTypePhoneNumber {
 impl Object for TextEntityTypePhoneNumber {}
 impl RObject for TextEntityTypePhoneNumber {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypePhoneNumber" }
-  fn td_type(&self) -> TDType { TDType::TextEntityTypePhoneNumber }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextEntityTypePhoneNumber }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44912,12 +44917,12 @@ impl Clone for Box<TextParseMode> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDTextParseModeType {
+pub enum RTDTextParseModeType {
   TextParseModeHTML,
   TextParseModeMarkdown,
   
 }
-impl TDTextParseModeType {
+impl RTDTextParseModeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -44937,8 +44942,8 @@ pub struct TextParseModeMarkdown {
 impl Object for TextParseModeMarkdown {}
 impl RObject for TextParseModeMarkdown {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textParseModeMarkdown" }
-  fn td_type(&self) -> TDType { TDType::TextParseModeMarkdown }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextParseModeMarkdown }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -44988,8 +44993,8 @@ pub struct TextParseModeHTML {
 impl Object for TextParseModeHTML {}
 impl RObject for TextParseModeHTML {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textParseModeHTML" }
-  fn td_type(&self) -> TDType { TDType::TextParseModeHTML }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TextParseModeHTML }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45049,7 +45054,7 @@ impl Clone for Box<TopChatCategory> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDTopChatCategoryType {
+pub enum RTDTopChatCategoryType {
   TopChatCategoryBots,
   TopChatCategoryCalls,
   TopChatCategoryChannels,
@@ -45058,7 +45063,7 @@ pub enum TDTopChatCategoryType {
   TopChatCategoryUsers,
   
 }
-impl TDTopChatCategoryType {
+impl RTDTopChatCategoryType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -45078,8 +45083,8 @@ pub struct TopChatCategoryUsers {
 impl Object for TopChatCategoryUsers {}
 impl RObject for TopChatCategoryUsers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "topChatCategoryUsers" }
-  fn td_type(&self) -> TDType { TDType::TopChatCategoryUsers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TopChatCategoryUsers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45129,8 +45134,8 @@ pub struct TopChatCategoryBots {
 impl Object for TopChatCategoryBots {}
 impl RObject for TopChatCategoryBots {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "topChatCategoryBots" }
-  fn td_type(&self) -> TDType { TDType::TopChatCategoryBots }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TopChatCategoryBots }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45180,8 +45185,8 @@ pub struct TopChatCategoryGroups {
 impl Object for TopChatCategoryGroups {}
 impl RObject for TopChatCategoryGroups {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "topChatCategoryGroups" }
-  fn td_type(&self) -> TDType { TDType::TopChatCategoryGroups }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TopChatCategoryGroups }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45231,8 +45236,8 @@ pub struct TopChatCategoryChannels {
 impl Object for TopChatCategoryChannels {}
 impl RObject for TopChatCategoryChannels {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "topChatCategoryChannels" }
-  fn td_type(&self) -> TDType { TDType::TopChatCategoryChannels }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TopChatCategoryChannels }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45282,8 +45287,8 @@ pub struct TopChatCategoryInlineBots {
 impl Object for TopChatCategoryInlineBots {}
 impl RObject for TopChatCategoryInlineBots {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "topChatCategoryInlineBots" }
-  fn td_type(&self) -> TDType { TDType::TopChatCategoryInlineBots }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TopChatCategoryInlineBots }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45333,8 +45338,8 @@ pub struct TopChatCategoryCalls {
 impl Object for TopChatCategoryCalls {}
 impl RObject for TopChatCategoryCalls {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "topChatCategoryCalls" }
-  fn td_type(&self) -> TDType { TDType::TopChatCategoryCalls }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TopChatCategoryCalls }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45394,7 +45399,7 @@ impl Clone for Box<Update> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDUpdateType {
+pub enum RTDUpdateType {
   UpdateActiveNotifications,
   UpdateAuthorizationState,
   UpdateBasicGroup,
@@ -45465,7 +45470,7 @@ pub enum TDUpdateType {
   UpdateUserStatus,
   
 }
-impl TDUpdateType {
+impl RTDUpdateType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -45494,8 +45499,8 @@ impl Clone for UpdateAuthorizationState {
 impl Object for UpdateAuthorizationState {}
 impl RObject for UpdateAuthorizationState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateAuthorizationState" }
-  fn td_type(&self) -> TDType { TDType::UpdateAuthorizationState }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateAuthorizationState }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45531,8 +45536,8 @@ pub struct UpdateNewMessage {
 impl Object for UpdateNewMessage {}
 impl RObject for UpdateNewMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateNewMessage" }
-  fn td_type(&self) -> TDType { TDType::UpdateNewMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateNewMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45570,8 +45575,8 @@ pub struct UpdateMessageSendAcknowledged {
 impl Object for UpdateMessageSendAcknowledged {}
 impl RObject for UpdateMessageSendAcknowledged {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateMessageSendAcknowledged" }
-  fn td_type(&self) -> TDType { TDType::UpdateMessageSendAcknowledged }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateMessageSendAcknowledged }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45611,8 +45616,8 @@ pub struct UpdateMessageSendSucceeded {
 impl Object for UpdateMessageSendSucceeded {}
 impl RObject for UpdateMessageSendSucceeded {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateMessageSendSucceeded" }
-  fn td_type(&self) -> TDType { TDType::UpdateMessageSendSucceeded }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateMessageSendSucceeded }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45656,8 +45661,8 @@ pub struct UpdateMessageSendFailed {
 impl Object for UpdateMessageSendFailed {}
 impl RObject for UpdateMessageSendFailed {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateMessageSendFailed" }
-  fn td_type(&self) -> TDType { TDType::UpdateMessageSendFailed }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateMessageSendFailed }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45710,8 +45715,8 @@ impl Clone for UpdateMessageContent {
 impl Object for UpdateMessageContent {}
 impl RObject for UpdateMessageContent {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateMessageContent" }
-  fn td_type(&self) -> TDType { TDType::UpdateMessageContent }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateMessageContent }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45764,8 +45769,8 @@ impl Clone for UpdateMessageEdited {
 impl Object for UpdateMessageEdited {}
 impl RObject for UpdateMessageEdited {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateMessageEdited" }
-  fn td_type(&self) -> TDType { TDType::UpdateMessageEdited }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateMessageEdited }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45811,8 +45816,8 @@ pub struct UpdateMessageViews {
 impl Object for UpdateMessageViews {}
 impl RObject for UpdateMessageViews {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateMessageViews" }
-  fn td_type(&self) -> TDType { TDType::UpdateMessageViews }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateMessageViews }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45854,8 +45859,8 @@ pub struct UpdateMessageContentOpened {
 impl Object for UpdateMessageContentOpened {}
 impl RObject for UpdateMessageContentOpened {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateMessageContentOpened" }
-  fn td_type(&self) -> TDType { TDType::UpdateMessageContentOpened }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateMessageContentOpened }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45897,8 +45902,8 @@ pub struct UpdateMessageMentionRead {
 impl Object for UpdateMessageMentionRead {}
 impl RObject for UpdateMessageMentionRead {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateMessageMentionRead" }
-  fn td_type(&self) -> TDType { TDType::UpdateMessageMentionRead }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateMessageMentionRead }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45938,8 +45943,8 @@ pub struct UpdateNewChat {
 impl Object for UpdateNewChat {}
 impl RObject for UpdateNewChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateNewChat" }
-  fn td_type(&self) -> TDType { TDType::UpdateNewChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateNewChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -45977,8 +45982,8 @@ pub struct UpdateChatTitle {
 impl Object for UpdateChatTitle {}
 impl RObject for UpdateChatTitle {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatTitle" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatTitle }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatTitle }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46018,8 +46023,8 @@ pub struct UpdateChatPhoto {
 impl Object for UpdateChatPhoto {}
 impl RObject for UpdateChatPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatPhoto" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatPhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatPhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46061,8 +46066,8 @@ pub struct UpdateChatLastMessage {
 impl Object for UpdateChatLastMessage {}
 impl RObject for UpdateChatLastMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatLastMessage" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatLastMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatLastMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46104,8 +46109,8 @@ pub struct UpdateChatOrder {
 impl Object for UpdateChatOrder {}
 impl RObject for UpdateChatOrder {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatOrder" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatOrder }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatOrder }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46147,8 +46152,8 @@ pub struct UpdateChatIsPinned {
 impl Object for UpdateChatIsPinned {}
 impl RObject for UpdateChatIsPinned {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatIsPinned" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatIsPinned }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatIsPinned }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46190,8 +46195,8 @@ pub struct UpdateChatIsMarkedAsUnread {
 impl Object for UpdateChatIsMarkedAsUnread {}
 impl RObject for UpdateChatIsMarkedAsUnread {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatIsMarkedAsUnread" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatIsMarkedAsUnread }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatIsMarkedAsUnread }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46233,8 +46238,8 @@ pub struct UpdateChatIsSponsored {
 impl Object for UpdateChatIsSponsored {}
 impl RObject for UpdateChatIsSponsored {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatIsSponsored" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatIsSponsored }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatIsSponsored }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46276,8 +46281,8 @@ pub struct UpdateChatDefaultDisableNotification {
 impl Object for UpdateChatDefaultDisableNotification {}
 impl RObject for UpdateChatDefaultDisableNotification {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatDefaultDisableNotification" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatDefaultDisableNotification }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatDefaultDisableNotification }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46319,8 +46324,8 @@ pub struct UpdateChatReadInbox {
 impl Object for UpdateChatReadInbox {}
 impl RObject for UpdateChatReadInbox {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatReadInbox" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatReadInbox }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatReadInbox }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46362,8 +46367,8 @@ pub struct UpdateChatReadOutbox {
 impl Object for UpdateChatReadOutbox {}
 impl RObject for UpdateChatReadOutbox {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatReadOutbox" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatReadOutbox }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatReadOutbox }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46403,8 +46408,8 @@ pub struct UpdateChatUnreadMentionCount {
 impl Object for UpdateChatUnreadMentionCount {}
 impl RObject for UpdateChatUnreadMentionCount {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatUnreadMentionCount" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatUnreadMentionCount }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatUnreadMentionCount }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46444,8 +46449,8 @@ pub struct UpdateChatNotificationSettings {
 impl Object for UpdateChatNotificationSettings {}
 impl RObject for UpdateChatNotificationSettings {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatNotificationSettings" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatNotificationSettings }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatNotificationSettings }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46492,8 +46497,8 @@ impl Clone for UpdateScopeNotificationSettings {
 impl Object for UpdateScopeNotificationSettings {}
 impl RObject for UpdateScopeNotificationSettings {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateScopeNotificationSettings" }
-  fn td_type(&self) -> TDType { TDType::UpdateScopeNotificationSettings }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateScopeNotificationSettings }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46533,8 +46538,8 @@ pub struct UpdateChatPinnedMessage {
 impl Object for UpdateChatPinnedMessage {}
 impl RObject for UpdateChatPinnedMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatPinnedMessage" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatPinnedMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatPinnedMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46574,8 +46579,8 @@ pub struct UpdateChatReplyMarkup {
 impl Object for UpdateChatReplyMarkup {}
 impl RObject for UpdateChatReplyMarkup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatReplyMarkup" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatReplyMarkup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatReplyMarkup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46617,8 +46622,8 @@ pub struct UpdateChatDraftMessage {
 impl Object for UpdateChatDraftMessage {}
 impl RObject for UpdateChatDraftMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatDraftMessage" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatDraftMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatDraftMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46660,8 +46665,8 @@ pub struct UpdateChatOnlineMemberCount {
 impl Object for UpdateChatOnlineMemberCount {}
 impl RObject for UpdateChatOnlineMemberCount {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatOnlineMemberCount" }
-  fn td_type(&self) -> TDType { TDType::UpdateChatOnlineMemberCount }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateChatOnlineMemberCount }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46701,8 +46706,8 @@ pub struct UpdateNotification {
 impl Object for UpdateNotification {}
 impl RObject for UpdateNotification {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateNotification" }
-  fn td_type(&self) -> TDType { TDType::UpdateNotification }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateNotification }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46761,8 +46766,8 @@ impl Clone for UpdateNotificationGroup {
 impl Object for UpdateNotificationGroup {}
 impl RObject for UpdateNotificationGroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateNotificationGroup" }
-  fn td_type(&self) -> TDType { TDType::UpdateNotificationGroup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateNotificationGroup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46812,8 +46817,8 @@ pub struct UpdateActiveNotifications {
 impl Object for UpdateActiveNotifications {}
 impl RObject for UpdateActiveNotifications {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateActiveNotifications" }
-  fn td_type(&self) -> TDType { TDType::UpdateActiveNotifications }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateActiveNotifications }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46851,8 +46856,8 @@ pub struct UpdateHavePendingNotifications {
 impl Object for UpdateHavePendingNotifications {}
 impl RObject for UpdateHavePendingNotifications {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateHavePendingNotifications" }
-  fn td_type(&self) -> TDType { TDType::UpdateHavePendingNotifications }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateHavePendingNotifications }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46896,8 +46901,8 @@ pub struct UpdateDeleteMessages {
 impl Object for UpdateDeleteMessages {}
 impl RObject for UpdateDeleteMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateDeleteMessages" }
-  fn td_type(&self) -> TDType { TDType::UpdateDeleteMessages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateDeleteMessages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -46950,8 +46955,8 @@ impl Clone for UpdateUserChatAction {
 impl Object for UpdateUserChatAction {}
 impl RObject for UpdateUserChatAction {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateUserChatAction" }
-  fn td_type(&self) -> TDType { TDType::UpdateUserChatAction }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateUserChatAction }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47000,8 +47005,8 @@ impl Clone for UpdateUserStatus {
 impl Object for UpdateUserStatus {}
 impl RObject for UpdateUserStatus {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateUserStatus" }
-  fn td_type(&self) -> TDType { TDType::UpdateUserStatus }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateUserStatus }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47039,8 +47044,8 @@ pub struct UpdateUser {
 impl Object for UpdateUser {}
 impl RObject for UpdateUser {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateUser" }
-  fn td_type(&self) -> TDType { TDType::UpdateUser }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateUser }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47076,8 +47081,8 @@ pub struct UpdateBasicGroup {
 impl Object for UpdateBasicGroup {}
 impl RObject for UpdateBasicGroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateBasicGroup" }
-  fn td_type(&self) -> TDType { TDType::UpdateBasicGroup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateBasicGroup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47113,8 +47118,8 @@ pub struct UpdateSupergroup {
 impl Object for UpdateSupergroup {}
 impl RObject for UpdateSupergroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateSupergroup" }
-  fn td_type(&self) -> TDType { TDType::UpdateSupergroup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateSupergroup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47150,8 +47155,8 @@ pub struct UpdateSecretChat {
 impl Object for UpdateSecretChat {}
 impl RObject for UpdateSecretChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateSecretChat" }
-  fn td_type(&self) -> TDType { TDType::UpdateSecretChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateSecretChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47189,8 +47194,8 @@ pub struct UpdateUserFullInfo {
 impl Object for UpdateUserFullInfo {}
 impl RObject for UpdateUserFullInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateUserFullInfo" }
-  fn td_type(&self) -> TDType { TDType::UpdateUserFullInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateUserFullInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47230,8 +47235,8 @@ pub struct UpdateBasicGroupFullInfo {
 impl Object for UpdateBasicGroupFullInfo {}
 impl RObject for UpdateBasicGroupFullInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateBasicGroupFullInfo" }
-  fn td_type(&self) -> TDType { TDType::UpdateBasicGroupFullInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateBasicGroupFullInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47271,8 +47276,8 @@ pub struct UpdateSupergroupFullInfo {
 impl Object for UpdateSupergroupFullInfo {}
 impl RObject for UpdateSupergroupFullInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateSupergroupFullInfo" }
-  fn td_type(&self) -> TDType { TDType::UpdateSupergroupFullInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateSupergroupFullInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47319,8 +47324,8 @@ impl Clone for UpdateServiceNotification {
 impl Object for UpdateServiceNotification {}
 impl RObject for UpdateServiceNotification {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateServiceNotification" }
-  fn td_type(&self) -> TDType { TDType::UpdateServiceNotification }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateServiceNotification }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47358,8 +47363,8 @@ pub struct UpdateFile {
 impl Object for UpdateFile {}
 impl RObject for UpdateFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateFile" }
-  fn td_type(&self) -> TDType { TDType::UpdateFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47401,8 +47406,8 @@ pub struct UpdateFileGenerationStart {
 impl Object for UpdateFileGenerationStart {}
 impl RObject for UpdateFileGenerationStart {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateFileGenerationStart" }
-  fn td_type(&self) -> TDType { TDType::UpdateFileGenerationStart }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateFileGenerationStart }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47444,8 +47449,8 @@ pub struct UpdateFileGenerationStop {
 impl Object for UpdateFileGenerationStop {}
 impl RObject for UpdateFileGenerationStop {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateFileGenerationStop" }
-  fn td_type(&self) -> TDType { TDType::UpdateFileGenerationStop }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateFileGenerationStop }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47481,8 +47486,8 @@ pub struct UpdateCall {
 impl Object for UpdateCall {}
 impl RObject for UpdateCall {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateCall" }
-  fn td_type(&self) -> TDType { TDType::UpdateCall }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateCall }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47527,8 +47532,8 @@ impl Clone for UpdateUserPrivacySettingRules {
 impl Object for UpdateUserPrivacySettingRules {}
 impl RObject for UpdateUserPrivacySettingRules {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateUserPrivacySettingRules" }
-  fn td_type(&self) -> TDType { TDType::UpdateUserPrivacySettingRules }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateUserPrivacySettingRules }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47568,8 +47573,8 @@ pub struct UpdateUnreadMessageCount {
 impl Object for UpdateUnreadMessageCount {}
 impl RObject for UpdateUnreadMessageCount {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateUnreadMessageCount" }
-  fn td_type(&self) -> TDType { TDType::UpdateUnreadMessageCount }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateUnreadMessageCount }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47613,8 +47618,8 @@ pub struct UpdateUnreadChatCount {
 impl Object for UpdateUnreadChatCount {}
 impl RObject for UpdateUnreadChatCount {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateUnreadChatCount" }
-  fn td_type(&self) -> TDType { TDType::UpdateUnreadChatCount }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateUnreadChatCount }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47665,8 +47670,8 @@ impl Clone for UpdateOption {
 impl Object for UpdateOption {}
 impl RObject for UpdateOption {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateOption" }
-  fn td_type(&self) -> TDType { TDType::UpdateOption }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateOption }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47706,8 +47711,8 @@ pub struct UpdateInstalledStickerSets {
 impl Object for UpdateInstalledStickerSets {}
 impl RObject for UpdateInstalledStickerSets {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateInstalledStickerSets" }
-  fn td_type(&self) -> TDType { TDType::UpdateInstalledStickerSets }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateInstalledStickerSets }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47745,8 +47750,8 @@ pub struct UpdateTrendingStickerSets {
 impl Object for UpdateTrendingStickerSets {}
 impl RObject for UpdateTrendingStickerSets {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateTrendingStickerSets" }
-  fn td_type(&self) -> TDType { TDType::UpdateTrendingStickerSets }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateTrendingStickerSets }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47784,8 +47789,8 @@ pub struct UpdateRecentStickers {
 impl Object for UpdateRecentStickers {}
 impl RObject for UpdateRecentStickers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateRecentStickers" }
-  fn td_type(&self) -> TDType { TDType::UpdateRecentStickers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateRecentStickers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47823,8 +47828,8 @@ pub struct UpdateFavoriteStickers {
 impl Object for UpdateFavoriteStickers {}
 impl RObject for UpdateFavoriteStickers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateFavoriteStickers" }
-  fn td_type(&self) -> TDType { TDType::UpdateFavoriteStickers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateFavoriteStickers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47860,8 +47865,8 @@ pub struct UpdateSavedAnimations {
 impl Object for UpdateSavedAnimations {}
 impl RObject for UpdateSavedAnimations {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateSavedAnimations" }
-  fn td_type(&self) -> TDType { TDType::UpdateSavedAnimations }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateSavedAnimations }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47901,8 +47906,8 @@ pub struct UpdateLanguagePackStrings {
 impl Object for UpdateLanguagePackStrings {}
 impl RObject for UpdateLanguagePackStrings {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateLanguagePackStrings" }
-  fn td_type(&self) -> TDType { TDType::UpdateLanguagePackStrings }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateLanguagePackStrings }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47949,8 +47954,8 @@ impl Clone for UpdateConnectionState {
 impl Object for UpdateConnectionState {}
 impl RObject for UpdateConnectionState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateConnectionState" }
-  fn td_type(&self) -> TDType { TDType::UpdateConnectionState }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateConnectionState }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -47988,8 +47993,8 @@ pub struct UpdateTermsOfService {
 impl Object for UpdateTermsOfService {}
 impl RObject for UpdateTermsOfService {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateTermsOfService" }
-  fn td_type(&self) -> TDType { TDType::UpdateTermsOfService }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateTermsOfService }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -48035,8 +48040,8 @@ pub struct UpdateNewInlineQuery {
 impl Object for UpdateNewInlineQuery {}
 impl RObject for UpdateNewInlineQuery {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateNewInlineQuery" }
-  fn td_type(&self) -> TDType { TDType::UpdateNewInlineQuery }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateNewInlineQuery }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -48088,8 +48093,8 @@ pub struct UpdateNewChosenInlineResult {
 impl Object for UpdateNewChosenInlineResult {}
 impl RObject for UpdateNewChosenInlineResult {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateNewChosenInlineResult" }
-  fn td_type(&self) -> TDType { TDType::UpdateNewChosenInlineResult }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateNewChosenInlineResult }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -48150,8 +48155,8 @@ impl Clone for UpdateNewCallbackQuery {
 impl Object for UpdateNewCallbackQuery {}
 impl RObject for UpdateNewCallbackQuery {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateNewCallbackQuery" }
-  fn td_type(&self) -> TDType { TDType::UpdateNewCallbackQuery }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateNewCallbackQuery }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -48212,8 +48217,8 @@ impl Clone for UpdateNewInlineCallbackQuery {
 impl Object for UpdateNewInlineCallbackQuery {}
 impl RObject for UpdateNewInlineCallbackQuery {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateNewInlineCallbackQuery" }
-  fn td_type(&self) -> TDType { TDType::UpdateNewInlineCallbackQuery }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateNewInlineCallbackQuery }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -48263,8 +48268,8 @@ pub struct UpdateNewShippingQuery {
 impl Object for UpdateNewShippingQuery {}
 impl RObject for UpdateNewShippingQuery {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateNewShippingQuery" }
-  fn td_type(&self) -> TDType { TDType::UpdateNewShippingQuery }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateNewShippingQuery }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -48318,8 +48323,8 @@ pub struct UpdateNewPreCheckoutQuery {
 impl Object for UpdateNewPreCheckoutQuery {}
 impl RObject for UpdateNewPreCheckoutQuery {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateNewPreCheckoutQuery" }
-  fn td_type(&self) -> TDType { TDType::UpdateNewPreCheckoutQuery }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateNewPreCheckoutQuery }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -48367,8 +48372,8 @@ pub struct UpdateNewCustomEvent {
 impl Object for UpdateNewCustomEvent {}
 impl RObject for UpdateNewCustomEvent {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateNewCustomEvent" }
-  fn td_type(&self) -> TDType { TDType::UpdateNewCustomEvent }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateNewCustomEvent }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -48408,8 +48413,8 @@ pub struct UpdateNewCustomQuery {
 impl Object for UpdateNewCustomQuery {}
 impl RObject for UpdateNewCustomQuery {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updateNewCustomQuery" }
-  fn td_type(&self) -> TDType { TDType::UpdateNewCustomQuery }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdateNewCustomQuery }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -48449,8 +48454,8 @@ pub struct UpdatePoll {
 impl Object for UpdatePoll {}
 impl RObject for UpdatePoll {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updatePoll" }
-  fn td_type(&self) -> TDType { TDType::UpdatePoll }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpdatePoll }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -48493,8 +48498,8 @@ impl Clone for Updates {
 impl Object for Updates {}
 impl RObject for Updates {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "updates" }
-  fn td_type(&self) -> TDType { TDType::Updates }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Updates }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -48587,8 +48592,8 @@ impl Clone for User {
 impl Object for User {}
 impl RObject for User {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "user" }
-  fn td_type(&self) -> TDType { TDType::User }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::User }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -48770,8 +48775,8 @@ pub struct UserFullInfo {
 impl Object for UserFullInfo {}
 impl RObject for UserFullInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userFullInfo" }
-  fn td_type(&self) -> TDType { TDType::UserFullInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserFullInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -48885,14 +48890,14 @@ impl Clone for Box<UserPrivacySetting> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDUserPrivacySettingType {
+pub enum RTDUserPrivacySettingType {
   UserPrivacySettingAllowCalls,
   UserPrivacySettingAllowChatInvites,
   UserPrivacySettingAllowPeerToPeerCalls,
   UserPrivacySettingShowStatus,
   
 }
-impl TDUserPrivacySettingType {
+impl RTDUserPrivacySettingType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -48912,8 +48917,8 @@ pub struct UserPrivacySettingShowStatus {
 impl Object for UserPrivacySettingShowStatus {}
 impl RObject for UserPrivacySettingShowStatus {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingShowStatus" }
-  fn td_type(&self) -> TDType { TDType::UserPrivacySettingShowStatus }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserPrivacySettingShowStatus }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -48963,8 +48968,8 @@ pub struct UserPrivacySettingAllowChatInvites {
 impl Object for UserPrivacySettingAllowChatInvites {}
 impl RObject for UserPrivacySettingAllowChatInvites {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingAllowChatInvites" }
-  fn td_type(&self) -> TDType { TDType::UserPrivacySettingAllowChatInvites }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserPrivacySettingAllowChatInvites }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49014,8 +49019,8 @@ pub struct UserPrivacySettingAllowCalls {
 impl Object for UserPrivacySettingAllowCalls {}
 impl RObject for UserPrivacySettingAllowCalls {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingAllowCalls" }
-  fn td_type(&self) -> TDType { TDType::UserPrivacySettingAllowCalls }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserPrivacySettingAllowCalls }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49065,8 +49070,8 @@ pub struct UserPrivacySettingAllowPeerToPeerCalls {
 impl Object for UserPrivacySettingAllowPeerToPeerCalls {}
 impl RObject for UserPrivacySettingAllowPeerToPeerCalls {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingAllowPeerToPeerCalls" }
-  fn td_type(&self) -> TDType { TDType::UserPrivacySettingAllowPeerToPeerCalls }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserPrivacySettingAllowPeerToPeerCalls }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49126,7 +49131,7 @@ impl Clone for Box<UserPrivacySettingRule> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDUserPrivacySettingRuleType {
+pub enum RTDUserPrivacySettingRuleType {
   UserPrivacySettingRuleAllowAll,
   UserPrivacySettingRuleAllowContacts,
   UserPrivacySettingRuleAllowUsers,
@@ -49135,7 +49140,7 @@ pub enum TDUserPrivacySettingRuleType {
   UserPrivacySettingRuleRestrictUsers,
   
 }
-impl TDUserPrivacySettingRuleType {
+impl RTDUserPrivacySettingRuleType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -49155,8 +49160,8 @@ pub struct UserPrivacySettingRuleAllowAll {
 impl Object for UserPrivacySettingRuleAllowAll {}
 impl RObject for UserPrivacySettingRuleAllowAll {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingRuleAllowAll" }
-  fn td_type(&self) -> TDType { TDType::UserPrivacySettingRuleAllowAll }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserPrivacySettingRuleAllowAll }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49206,8 +49211,8 @@ pub struct UserPrivacySettingRuleAllowContacts {
 impl Object for UserPrivacySettingRuleAllowContacts {}
 impl RObject for UserPrivacySettingRuleAllowContacts {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingRuleAllowContacts" }
-  fn td_type(&self) -> TDType { TDType::UserPrivacySettingRuleAllowContacts }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserPrivacySettingRuleAllowContacts }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49259,8 +49264,8 @@ pub struct UserPrivacySettingRuleAllowUsers {
 impl Object for UserPrivacySettingRuleAllowUsers {}
 impl RObject for UserPrivacySettingRuleAllowUsers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingRuleAllowUsers" }
-  fn td_type(&self) -> TDType { TDType::UserPrivacySettingRuleAllowUsers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserPrivacySettingRuleAllowUsers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49318,8 +49323,8 @@ pub struct UserPrivacySettingRuleRestrictAll {
 impl Object for UserPrivacySettingRuleRestrictAll {}
 impl RObject for UserPrivacySettingRuleRestrictAll {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingRuleRestrictAll" }
-  fn td_type(&self) -> TDType { TDType::UserPrivacySettingRuleRestrictAll }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserPrivacySettingRuleRestrictAll }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49369,8 +49374,8 @@ pub struct UserPrivacySettingRuleRestrictContacts {
 impl Object for UserPrivacySettingRuleRestrictContacts {}
 impl RObject for UserPrivacySettingRuleRestrictContacts {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingRuleRestrictContacts" }
-  fn td_type(&self) -> TDType { TDType::UserPrivacySettingRuleRestrictContacts }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserPrivacySettingRuleRestrictContacts }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49422,8 +49427,8 @@ pub struct UserPrivacySettingRuleRestrictUsers {
 impl Object for UserPrivacySettingRuleRestrictUsers {}
 impl RObject for UserPrivacySettingRuleRestrictUsers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingRuleRestrictUsers" }
-  fn td_type(&self) -> TDType { TDType::UserPrivacySettingRuleRestrictUsers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserPrivacySettingRuleRestrictUsers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49490,8 +49495,8 @@ impl Clone for UserPrivacySettingRules {
 impl Object for UserPrivacySettingRules {}
 impl RObject for UserPrivacySettingRules {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingRules" }
-  fn td_type(&self) -> TDType { TDType::UserPrivacySettingRules }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserPrivacySettingRules }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49553,8 +49558,8 @@ pub struct UserProfilePhoto {
 impl Object for UserProfilePhoto {}
 impl RObject for UserProfilePhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userProfilePhoto" }
-  fn td_type(&self) -> TDType { TDType::UserProfilePhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserProfilePhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49630,8 +49635,8 @@ pub struct UserProfilePhotos {
 impl Object for UserProfilePhotos {}
 impl RObject for UserProfilePhotos {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userProfilePhotos" }
-  fn td_type(&self) -> TDType { TDType::UserProfilePhotos }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserProfilePhotos }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49705,7 +49710,7 @@ impl Clone for Box<UserStatus> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDUserStatusType {
+pub enum RTDUserStatusType {
   UserStatusEmpty,
   UserStatusLastMonth,
   UserStatusLastWeek,
@@ -49714,7 +49719,7 @@ pub enum TDUserStatusType {
   UserStatusRecently,
   
 }
-impl TDUserStatusType {
+impl RTDUserStatusType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -49734,8 +49739,8 @@ pub struct UserStatusEmpty {
 impl Object for UserStatusEmpty {}
 impl RObject for UserStatusEmpty {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userStatusEmpty" }
-  fn td_type(&self) -> TDType { TDType::UserStatusEmpty }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserStatusEmpty }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49787,8 +49792,8 @@ pub struct UserStatusOnline {
 impl Object for UserStatusOnline {}
 impl RObject for UserStatusOnline {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userStatusOnline" }
-  fn td_type(&self) -> TDType { TDType::UserStatusOnline }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserStatusOnline }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49848,8 +49853,8 @@ pub struct UserStatusOffline {
 impl Object for UserStatusOffline {}
 impl RObject for UserStatusOffline {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userStatusOffline" }
-  fn td_type(&self) -> TDType { TDType::UserStatusOffline }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserStatusOffline }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49907,8 +49912,8 @@ pub struct UserStatusRecently {
 impl Object for UserStatusRecently {}
 impl RObject for UserStatusRecently {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userStatusRecently" }
-  fn td_type(&self) -> TDType { TDType::UserStatusRecently }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserStatusRecently }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -49958,8 +49963,8 @@ pub struct UserStatusLastWeek {
 impl Object for UserStatusLastWeek {}
 impl RObject for UserStatusLastWeek {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userStatusLastWeek" }
-  fn td_type(&self) -> TDType { TDType::UserStatusLastWeek }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserStatusLastWeek }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -50009,8 +50014,8 @@ pub struct UserStatusLastMonth {
 impl Object for UserStatusLastMonth {}
 impl RObject for UserStatusLastMonth {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userStatusLastMonth" }
-  fn td_type(&self) -> TDType { TDType::UserStatusLastMonth }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserStatusLastMonth }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -50070,14 +50075,14 @@ impl Clone for Box<UserType> {
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum TDUserTypeType {
+pub enum RTDUserTypeType {
   UserTypeBot,
   UserTypeDeleted,
   UserTypeRegular,
   UserTypeUnknown,
   
 }
-impl TDUserTypeType {
+impl RTDUserTypeType {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
@@ -50097,8 +50102,8 @@ pub struct UserTypeRegular {
 impl Object for UserTypeRegular {}
 impl RObject for UserTypeRegular {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userTypeRegular" }
-  fn td_type(&self) -> TDType { TDType::UserTypeRegular }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserTypeRegular }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -50148,8 +50153,8 @@ pub struct UserTypeDeleted {
 impl Object for UserTypeDeleted {}
 impl RObject for UserTypeDeleted {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userTypeDeleted" }
-  fn td_type(&self) -> TDType { TDType::UserTypeDeleted }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserTypeDeleted }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -50209,8 +50214,8 @@ pub struct UserTypeBot {
 impl Object for UserTypeBot {}
 impl RObject for UserTypeBot {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userTypeBot" }
-  fn td_type(&self) -> TDType { TDType::UserTypeBot }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserTypeBot }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -50300,8 +50305,8 @@ pub struct UserTypeUnknown {
 impl Object for UserTypeUnknown {}
 impl RObject for UserTypeUnknown {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userTypeUnknown" }
-  fn td_type(&self) -> TDType { TDType::UserTypeUnknown }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UserTypeUnknown }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -50355,8 +50360,8 @@ pub struct Users {
 impl Object for Users {}
 impl RObject for Users {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "users" }
-  fn td_type(&self) -> TDType { TDType::Users }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Users }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -50424,8 +50429,8 @@ pub struct ValidatedOrderInfo {
 impl Object for ValidatedOrderInfo {}
 impl RObject for ValidatedOrderInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "validatedOrderInfo" }
-  fn td_type(&self) -> TDType { TDType::ValidatedOrderInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ValidatedOrderInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -50501,8 +50506,8 @@ pub struct Venue {
 impl Object for Venue {}
 impl RObject for Venue {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "venue" }
-  fn td_type(&self) -> TDType { TDType::Venue }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Venue }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -50616,8 +50621,8 @@ pub struct Video {
 impl Object for Video {}
 impl RObject for Video {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "video" }
-  fn td_type(&self) -> TDType { TDType::Video }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Video }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -50745,8 +50750,8 @@ pub struct VideoNote {
 impl Object for VideoNote {}
 impl RObject for VideoNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "videoNote" }
-  fn td_type(&self) -> TDType { TDType::VideoNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::VideoNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -50834,8 +50839,8 @@ pub struct VoiceNote {
 impl Object for VoiceNote {}
 impl RObject for VoiceNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "voiceNote" }
-  fn td_type(&self) -> TDType { TDType::VoiceNote }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::VoiceNote }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -50921,8 +50926,8 @@ pub struct Wallpaper {
 impl Object for Wallpaper {}
 impl RObject for Wallpaper {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "wallpaper" }
-  fn td_type(&self) -> TDType { TDType::Wallpaper }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Wallpaper }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -50996,8 +51001,8 @@ pub struct Wallpapers {
 impl Object for Wallpapers {}
 impl RObject for Wallpapers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "wallpapers" }
-  fn td_type(&self) -> TDType { TDType::Wallpapers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Wallpapers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -51095,8 +51100,8 @@ pub struct WebPage {
 impl Object for WebPage {}
 impl RObject for WebPage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "webPage" }
-  fn td_type(&self) -> TDType { TDType::WebPage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::WebPage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -51329,8 +51334,8 @@ impl Clone for WebPageInstantView {
 impl Object for WebPageInstantView {}
 impl RObject for WebPageInstantView {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "webPageInstantView" }
-  fn td_type(&self) -> TDType { TDType::WebPageInstantView }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::WebPageInstantView }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -51422,8 +51427,8 @@ pub struct AcceptCall {
 impl Object for AcceptCall {}
 impl RObject for AcceptCall {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "acceptCall" }
-  fn td_type(&self) -> TDType { TDType::AcceptCall }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AcceptCall }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -51491,8 +51496,8 @@ pub struct AcceptTermsOfService {
 impl Object for AcceptTermsOfService {}
 impl RObject for AcceptTermsOfService {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "acceptTermsOfService" }
-  fn td_type(&self) -> TDType { TDType::AcceptTermsOfService }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AcceptTermsOfService }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -51556,8 +51561,8 @@ pub struct AddChatMember {
 impl Object for AddChatMember {}
 impl RObject for AddChatMember {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "addChatMember" }
-  fn td_type(&self) -> TDType { TDType::AddChatMember }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AddChatMember }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -51635,8 +51640,8 @@ pub struct AddChatMembers {
 impl Object for AddChatMembers {}
 impl RObject for AddChatMembers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "addChatMembers" }
-  fn td_type(&self) -> TDType { TDType::AddChatMembers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AddChatMembers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -51704,8 +51709,8 @@ pub struct AddCustomServerLanguagePack {
 impl Object for AddCustomServerLanguagePack {}
 impl RObject for AddCustomServerLanguagePack {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "addCustomServerLanguagePack" }
-  fn td_type(&self) -> TDType { TDType::AddCustomServerLanguagePack }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AddCustomServerLanguagePack }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -51772,8 +51777,8 @@ impl Clone for AddFavoriteSticker {
 impl Object for AddFavoriteSticker {}
 impl RObject for AddFavoriteSticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "addFavoriteSticker" }
-  fn td_type(&self) -> TDType { TDType::AddFavoriteSticker }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AddFavoriteSticker }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -51848,8 +51853,8 @@ impl Clone for AddLocalMessage {
 impl Object for AddLocalMessage {}
 impl RObject for AddLocalMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "addLocalMessage" }
-  fn td_type(&self) -> TDType { TDType::AddLocalMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AddLocalMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -51943,8 +51948,8 @@ pub struct AddLogMessage {
 impl Object for AddLogMessage {}
 impl RObject for AddLogMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "addLogMessage" }
-  fn td_type(&self) -> TDType { TDType::AddLogMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AddLogMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -52019,8 +52024,8 @@ impl Clone for AddNetworkStatistics {
 impl Object for AddNetworkStatistics {}
 impl RObject for AddNetworkStatistics {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "addNetworkStatistics" }
-  fn td_type(&self) -> TDType { TDType::AddNetworkStatistics }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AddNetworkStatistics }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -52093,8 +52098,8 @@ impl Clone for AddProxy {
 impl Object for AddProxy {}
 impl RObject for AddProxy {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "addProxy" }
-  fn td_type(&self) -> TDType { TDType::AddProxy }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AddProxy }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -52187,8 +52192,8 @@ impl Clone for AddRecentSticker {
 impl Object for AddRecentSticker {}
 impl RObject for AddRecentSticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "addRecentSticker" }
-  fn td_type(&self) -> TDType { TDType::AddRecentSticker }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AddRecentSticker }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -52256,8 +52261,8 @@ pub struct AddRecentlyFoundChat {
 impl Object for AddRecentlyFoundChat {}
 impl RObject for AddRecentlyFoundChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "addRecentlyFoundChat" }
-  fn td_type(&self) -> TDType { TDType::AddRecentlyFoundChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AddRecentlyFoundChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -52324,8 +52329,8 @@ impl Clone for AddSavedAnimation {
 impl Object for AddSavedAnimation {}
 impl RObject for AddSavedAnimation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "addSavedAnimation" }
-  fn td_type(&self) -> TDType { TDType::AddSavedAnimation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AddSavedAnimation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -52389,8 +52394,8 @@ pub struct AddStickerToSet {
 impl Object for AddStickerToSet {}
 impl RObject for AddStickerToSet {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "addStickerToSet" }
-  fn td_type(&self) -> TDType { TDType::AddStickerToSet }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AddStickerToSet }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -52474,8 +52479,8 @@ pub struct AnswerCallbackQuery {
 impl Object for AnswerCallbackQuery {}
 impl RObject for AnswerCallbackQuery {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "answerCallbackQuery" }
-  fn td_type(&self) -> TDType { TDType::AnswerCallbackQuery }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AnswerCallbackQuery }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -52569,8 +52574,8 @@ pub struct AnswerCustomQuery {
 impl Object for AnswerCustomQuery {}
 impl RObject for AnswerCustomQuery {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "answerCustomQuery" }
-  fn td_type(&self) -> TDType { TDType::AnswerCustomQuery }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AnswerCustomQuery }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -52657,8 +52662,8 @@ impl Clone for AnswerInlineQuery {
 impl Object for AnswerInlineQuery {}
 impl RObject for AnswerInlineQuery {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "answerInlineQuery" }
-  fn td_type(&self) -> TDType { TDType::AnswerInlineQuery }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AnswerInlineQuery }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -52768,8 +52773,8 @@ pub struct AnswerPreCheckoutQuery {
 impl Object for AnswerPreCheckoutQuery {}
 impl RObject for AnswerPreCheckoutQuery {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "answerPreCheckoutQuery" }
-  fn td_type(&self) -> TDType { TDType::AnswerPreCheckoutQuery }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AnswerPreCheckoutQuery }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -52841,8 +52846,8 @@ pub struct AnswerShippingQuery {
 impl Object for AnswerShippingQuery {}
 impl RObject for AnswerShippingQuery {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "answerShippingQuery" }
-  fn td_type(&self) -> TDType { TDType::AnswerShippingQuery }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::AnswerShippingQuery }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -52918,8 +52923,8 @@ pub struct BlockUser {
 impl Object for BlockUser {}
 impl RObject for BlockUser {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "blockUser" }
-  fn td_type(&self) -> TDType { TDType::BlockUser }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::BlockUser }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -52981,8 +52986,8 @@ pub struct CancelDownloadFile {
 impl Object for CancelDownloadFile {}
 impl RObject for CancelDownloadFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "cancelDownloadFile" }
-  fn td_type(&self) -> TDType { TDType::CancelDownloadFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CancelDownloadFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -53050,8 +53055,8 @@ pub struct CancelUploadFile {
 impl Object for CancelUploadFile {}
 impl RObject for CancelUploadFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "cancelUploadFile" }
-  fn td_type(&self) -> TDType { TDType::CancelUploadFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CancelUploadFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -53113,8 +53118,8 @@ pub struct ChangeChatReportSpamState {
 impl Object for ChangeChatReportSpamState {}
 impl RObject for ChangeChatReportSpamState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "changeChatReportSpamState" }
-  fn td_type(&self) -> TDType { TDType::ChangeChatReportSpamState }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChangeChatReportSpamState }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -53182,8 +53187,8 @@ pub struct ChangeImportedContacts {
 impl Object for ChangeImportedContacts {}
 impl RObject for ChangeImportedContacts {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "changeImportedContacts" }
-  fn td_type(&self) -> TDType { TDType::ChangeImportedContacts }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChangeImportedContacts }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -53247,8 +53252,8 @@ pub struct ChangePhoneNumber {
 impl Object for ChangePhoneNumber {}
 impl RObject for ChangePhoneNumber {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "changePhoneNumber" }
-  fn td_type(&self) -> TDType { TDType::ChangePhoneNumber }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChangePhoneNumber }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -53328,8 +53333,8 @@ pub struct ChangeStickerSet {
 impl Object for ChangeStickerSet {}
 impl RObject for ChangeStickerSet {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "changeStickerSet" }
-  fn td_type(&self) -> TDType { TDType::ChangeStickerSet }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ChangeStickerSet }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -53405,8 +53410,8 @@ pub struct CheckAuthenticationBotToken {
 impl Object for CheckAuthenticationBotToken {}
 impl RObject for CheckAuthenticationBotToken {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkAuthenticationBotToken" }
-  fn td_type(&self) -> TDType { TDType::CheckAuthenticationBotToken }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckAuthenticationBotToken }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -53470,8 +53475,8 @@ pub struct CheckAuthenticationCode {
 impl Object for CheckAuthenticationCode {}
 impl RObject for CheckAuthenticationCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkAuthenticationCode" }
-  fn td_type(&self) -> TDType { TDType::CheckAuthenticationCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckAuthenticationCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -53547,8 +53552,8 @@ pub struct CheckAuthenticationPassword {
 impl Object for CheckAuthenticationPassword {}
 impl RObject for CheckAuthenticationPassword {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkAuthenticationPassword" }
-  fn td_type(&self) -> TDType { TDType::CheckAuthenticationPassword }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckAuthenticationPassword }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -53608,8 +53613,8 @@ pub struct CheckChangePhoneNumberCode {
 impl Object for CheckChangePhoneNumberCode {}
 impl RObject for CheckChangePhoneNumberCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkChangePhoneNumberCode" }
-  fn td_type(&self) -> TDType { TDType::CheckChangePhoneNumberCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckChangePhoneNumberCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -53669,8 +53674,8 @@ pub struct CheckChatInviteLink {
 impl Object for CheckChatInviteLink {}
 impl RObject for CheckChatInviteLink {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkChatInviteLink" }
-  fn td_type(&self) -> TDType { TDType::CheckChatInviteLink }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckChatInviteLink }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -53732,8 +53737,8 @@ pub struct CheckChatUsername {
 impl Object for CheckChatUsername {}
 impl RObject for CheckChatUsername {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkChatUsername" }
-  fn td_type(&self) -> TDType { TDType::CheckChatUsername }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckChatUsername }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -53801,8 +53806,8 @@ pub struct CheckDatabaseEncryptionKey {
 impl Object for CheckDatabaseEncryptionKey {}
 impl RObject for CheckDatabaseEncryptionKey {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkDatabaseEncryptionKey" }
-  fn td_type(&self) -> TDType { TDType::CheckDatabaseEncryptionKey }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckDatabaseEncryptionKey }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -53862,8 +53867,8 @@ pub struct CheckEmailAddressVerificationCode {
 impl Object for CheckEmailAddressVerificationCode {}
 impl RObject for CheckEmailAddressVerificationCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkEmailAddressVerificationCode" }
-  fn td_type(&self) -> TDType { TDType::CheckEmailAddressVerificationCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckEmailAddressVerificationCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -53923,8 +53928,8 @@ pub struct CheckPhoneNumberConfirmationCode {
 impl Object for CheckPhoneNumberConfirmationCode {}
 impl RObject for CheckPhoneNumberConfirmationCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkPhoneNumberConfirmationCode" }
-  fn td_type(&self) -> TDType { TDType::CheckPhoneNumberConfirmationCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckPhoneNumberConfirmationCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -53984,8 +53989,8 @@ pub struct CheckPhoneNumberVerificationCode {
 impl Object for CheckPhoneNumberVerificationCode {}
 impl RObject for CheckPhoneNumberVerificationCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkPhoneNumberVerificationCode" }
-  fn td_type(&self) -> TDType { TDType::CheckPhoneNumberVerificationCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckPhoneNumberVerificationCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -54045,8 +54050,8 @@ pub struct CheckRecoveryEmailAddressCode {
 impl Object for CheckRecoveryEmailAddressCode {}
 impl RObject for CheckRecoveryEmailAddressCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkRecoveryEmailAddressCode" }
-  fn td_type(&self) -> TDType { TDType::CheckRecoveryEmailAddressCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CheckRecoveryEmailAddressCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -54106,8 +54111,8 @@ pub struct CleanFileName {
 impl Object for CleanFileName {}
 impl RObject for CleanFileName {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "cleanFileName" }
-  fn td_type(&self) -> TDType { TDType::CleanFileName }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CleanFileName }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -54167,8 +54172,8 @@ pub struct ClearAllDraftMessages {
 impl Object for ClearAllDraftMessages {}
 impl RObject for ClearAllDraftMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "clearAllDraftMessages" }
-  fn td_type(&self) -> TDType { TDType::ClearAllDraftMessages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ClearAllDraftMessages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -54226,8 +54231,8 @@ pub struct ClearImportedContacts {
 impl Object for ClearImportedContacts {}
 impl RObject for ClearImportedContacts {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "clearImportedContacts" }
-  fn td_type(&self) -> TDType { TDType::ClearImportedContacts }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ClearImportedContacts }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -54279,8 +54284,8 @@ pub struct ClearRecentStickers {
 impl Object for ClearRecentStickers {}
 impl RObject for ClearRecentStickers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "clearRecentStickers" }
-  fn td_type(&self) -> TDType { TDType::ClearRecentStickers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ClearRecentStickers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -54338,8 +54343,8 @@ pub struct ClearRecentlyFoundChats {
 impl Object for ClearRecentlyFoundChats {}
 impl RObject for ClearRecentlyFoundChats {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "clearRecentlyFoundChats" }
-  fn td_type(&self) -> TDType { TDType::ClearRecentlyFoundChats }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ClearRecentlyFoundChats }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -54389,8 +54394,8 @@ pub struct Close {
 impl Object for Close {}
 impl RObject for Close {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "close" }
-  fn td_type(&self) -> TDType { TDType::Close }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Close }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -54442,8 +54447,8 @@ pub struct CloseChat {
 impl Object for CloseChat {}
 impl RObject for CloseChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "closeChat" }
-  fn td_type(&self) -> TDType { TDType::CloseChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CloseChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -54503,8 +54508,8 @@ pub struct CloseSecretChat {
 impl Object for CloseSecretChat {}
 impl RObject for CloseSecretChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "closeSecretChat" }
-  fn td_type(&self) -> TDType { TDType::CloseSecretChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CloseSecretChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -54566,8 +54571,8 @@ pub struct CreateBasicGroupChat {
 impl Object for CreateBasicGroupChat {}
 impl RObject for CreateBasicGroupChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "createBasicGroupChat" }
-  fn td_type(&self) -> TDType { TDType::CreateBasicGroupChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CreateBasicGroupChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -54637,8 +54642,8 @@ pub struct CreateCall {
 impl Object for CreateCall {}
 impl RObject for CreateCall {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "createCall" }
-  fn td_type(&self) -> TDType { TDType::CreateCall }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CreateCall }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -54708,8 +54713,8 @@ pub struct CreateNewBasicGroupChat {
 impl Object for CreateNewBasicGroupChat {}
 impl RObject for CreateNewBasicGroupChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "createNewBasicGroupChat" }
-  fn td_type(&self) -> TDType { TDType::CreateNewBasicGroupChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CreateNewBasicGroupChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -54777,8 +54782,8 @@ pub struct CreateNewSecretChat {
 impl Object for CreateNewSecretChat {}
 impl RObject for CreateNewSecretChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "createNewSecretChat" }
-  fn td_type(&self) -> TDType { TDType::CreateNewSecretChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CreateNewSecretChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -54846,8 +54851,8 @@ pub struct CreateNewStickerSet {
 impl Object for CreateNewStickerSet {}
 impl RObject for CreateNewStickerSet {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "createNewStickerSet" }
-  fn td_type(&self) -> TDType { TDType::CreateNewStickerSet }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CreateNewStickerSet }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -54943,8 +54948,8 @@ pub struct CreateNewSupergroupChat {
 impl Object for CreateNewSupergroupChat {}
 impl RObject for CreateNewSupergroupChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "createNewSupergroupChat" }
-  fn td_type(&self) -> TDType { TDType::CreateNewSupergroupChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CreateNewSupergroupChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -55022,8 +55027,8 @@ pub struct CreatePrivateChat {
 impl Object for CreatePrivateChat {}
 impl RObject for CreatePrivateChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "createPrivateChat" }
-  fn td_type(&self) -> TDType { TDType::CreatePrivateChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CreatePrivateChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -55091,8 +55096,8 @@ pub struct CreateSecretChat {
 impl Object for CreateSecretChat {}
 impl RObject for CreateSecretChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "createSecretChat" }
-  fn td_type(&self) -> TDType { TDType::CreateSecretChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CreateSecretChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -55154,8 +55159,8 @@ pub struct CreateSupergroupChat {
 impl Object for CreateSupergroupChat {}
 impl RObject for CreateSupergroupChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "createSupergroupChat" }
-  fn td_type(&self) -> TDType { TDType::CreateSupergroupChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CreateSupergroupChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -55225,8 +55230,8 @@ pub struct CreateTemporaryPassword {
 impl Object for CreateTemporaryPassword {}
 impl RObject for CreateTemporaryPassword {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "createTemporaryPassword" }
-  fn td_type(&self) -> TDType { TDType::CreateTemporaryPassword }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::CreateTemporaryPassword }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -55294,8 +55299,8 @@ pub struct DeleteAccount {
 impl Object for DeleteAccount {}
 impl RObject for DeleteAccount {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deleteAccount" }
-  fn td_type(&self) -> TDType { TDType::DeleteAccount }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeleteAccount }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -55359,8 +55364,8 @@ pub struct DeleteChatHistory {
 impl Object for DeleteChatHistory {}
 impl RObject for DeleteChatHistory {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deleteChatHistory" }
-  fn td_type(&self) -> TDType { TDType::DeleteChatHistory }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeleteChatHistory }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -55438,8 +55443,8 @@ pub struct DeleteChatMessagesFromUser {
 impl Object for DeleteChatMessagesFromUser {}
 impl RObject for DeleteChatMessagesFromUser {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deleteChatMessagesFromUser" }
-  fn td_type(&self) -> TDType { TDType::DeleteChatMessagesFromUser }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeleteChatMessagesFromUser }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -55509,8 +55514,8 @@ pub struct DeleteChatReplyMarkup {
 impl Object for DeleteChatReplyMarkup {}
 impl RObject for DeleteChatReplyMarkup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deleteChatReplyMarkup" }
-  fn td_type(&self) -> TDType { TDType::DeleteChatReplyMarkup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeleteChatReplyMarkup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -55578,8 +55583,8 @@ pub struct DeleteFile {
 impl Object for DeleteFile {}
 impl RObject for DeleteFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deleteFile" }
-  fn td_type(&self) -> TDType { TDType::DeleteFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeleteFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -55639,8 +55644,8 @@ pub struct DeleteLanguagePack {
 impl Object for DeleteLanguagePack {}
 impl RObject for DeleteLanguagePack {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deleteLanguagePack" }
-  fn td_type(&self) -> TDType { TDType::DeleteLanguagePack }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeleteLanguagePack }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -55704,8 +55709,8 @@ pub struct DeleteMessages {
 impl Object for DeleteMessages {}
 impl RObject for DeleteMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deleteMessages" }
-  fn td_type(&self) -> TDType { TDType::DeleteMessages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeleteMessages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -55788,8 +55793,8 @@ impl Clone for DeletePassportElement {
 impl Object for DeletePassportElement {}
 impl RObject for DeletePassportElement {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deletePassportElement" }
-  fn td_type(&self) -> TDType { TDType::DeletePassportElement }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeletePassportElement }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -55849,8 +55854,8 @@ pub struct DeleteProfilePhoto {
 impl Object for DeleteProfilePhoto {}
 impl RObject for DeleteProfilePhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deleteProfilePhoto" }
-  fn td_type(&self) -> TDType { TDType::DeleteProfilePhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeleteProfilePhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -55908,8 +55913,8 @@ pub struct DeleteSavedCredentials {
 impl Object for DeleteSavedCredentials {}
 impl RObject for DeleteSavedCredentials {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deleteSavedCredentials" }
-  fn td_type(&self) -> TDType { TDType::DeleteSavedCredentials }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeleteSavedCredentials }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -55959,8 +55964,8 @@ pub struct DeleteSavedOrderInfo {
 impl Object for DeleteSavedOrderInfo {}
 impl RObject for DeleteSavedOrderInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deleteSavedOrderInfo" }
-  fn td_type(&self) -> TDType { TDType::DeleteSavedOrderInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeleteSavedOrderInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -56012,8 +56017,8 @@ pub struct DeleteSupergroup {
 impl Object for DeleteSupergroup {}
 impl RObject for DeleteSupergroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deleteSupergroup" }
-  fn td_type(&self) -> TDType { TDType::DeleteSupergroup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DeleteSupergroup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -56071,8 +56076,8 @@ pub struct Destroy {
 impl Object for Destroy {}
 impl RObject for Destroy {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "destroy" }
-  fn td_type(&self) -> TDType { TDType::Destroy }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::Destroy }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -56122,8 +56127,8 @@ pub struct DisableProxy {
 impl Object for DisableProxy {}
 impl RObject for DisableProxy {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "disableProxy" }
-  fn td_type(&self) -> TDType { TDType::DisableProxy }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DisableProxy }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -56181,8 +56186,8 @@ pub struct DiscardCall {
 impl Object for DiscardCall {}
 impl RObject for DiscardCall {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "discardCall" }
-  fn td_type(&self) -> TDType { TDType::DiscardCall }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DiscardCall }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -56264,8 +56269,8 @@ pub struct DisconnectAllWebsites {
 impl Object for DisconnectAllWebsites {}
 impl RObject for DisconnectAllWebsites {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "disconnectAllWebsites" }
-  fn td_type(&self) -> TDType { TDType::DisconnectAllWebsites }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DisconnectAllWebsites }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -56317,8 +56322,8 @@ pub struct DisconnectWebsite {
 impl Object for DisconnectWebsite {}
 impl RObject for DisconnectWebsite {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "disconnectWebsite" }
-  fn td_type(&self) -> TDType { TDType::DisconnectWebsite }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DisconnectWebsite }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -56386,8 +56391,8 @@ pub struct DownloadFile {
 impl Object for DownloadFile {}
 impl RObject for DownloadFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "downloadFile" }
-  fn td_type(&self) -> TDType { TDType::DownloadFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::DownloadFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -56479,8 +56484,8 @@ pub struct EditCustomLanguagePackInfo {
 impl Object for EditCustomLanguagePackInfo {}
 impl RObject for EditCustomLanguagePackInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "editCustomLanguagePackInfo" }
-  fn td_type(&self) -> TDType { TDType::EditCustomLanguagePackInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EditCustomLanguagePackInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -56551,8 +56556,8 @@ impl Clone for EditInlineMessageCaption {
 impl Object for EditInlineMessageCaption {}
 impl RObject for EditInlineMessageCaption {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "editInlineMessageCaption" }
-  fn td_type(&self) -> TDType { TDType::EditInlineMessageCaption }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EditInlineMessageCaption }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -56639,8 +56644,8 @@ impl Clone for EditInlineMessageLiveLocation {
 impl Object for EditInlineMessageLiveLocation {}
 impl RObject for EditInlineMessageLiveLocation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "editInlineMessageLiveLocation" }
-  fn td_type(&self) -> TDType { TDType::EditInlineMessageLiveLocation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EditInlineMessageLiveLocation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -56727,8 +56732,8 @@ impl Clone for EditInlineMessageMedia {
 impl Object for EditInlineMessageMedia {}
 impl RObject for EditInlineMessageMedia {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "editInlineMessageMedia" }
-  fn td_type(&self) -> TDType { TDType::EditInlineMessageMedia }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EditInlineMessageMedia }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -56813,8 +56818,8 @@ impl Clone for EditInlineMessageReplyMarkup {
 impl Object for EditInlineMessageReplyMarkup {}
 impl RObject for EditInlineMessageReplyMarkup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "editInlineMessageReplyMarkup" }
-  fn td_type(&self) -> TDType { TDType::EditInlineMessageReplyMarkup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EditInlineMessageReplyMarkup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -56893,8 +56898,8 @@ impl Clone for EditInlineMessageText {
 impl Object for EditInlineMessageText {}
 impl RObject for EditInlineMessageText {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "editInlineMessageText" }
-  fn td_type(&self) -> TDType { TDType::EditInlineMessageText }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EditInlineMessageText }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -56983,8 +56988,8 @@ impl Clone for EditMessageCaption {
 impl Object for EditMessageCaption {}
 impl RObject for EditMessageCaption {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "editMessageCaption" }
-  fn td_type(&self) -> TDType { TDType::EditMessageCaption }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EditMessageCaption }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -57081,8 +57086,8 @@ impl Clone for EditMessageLiveLocation {
 impl Object for EditMessageLiveLocation {}
 impl RObject for EditMessageLiveLocation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "editMessageLiveLocation" }
-  fn td_type(&self) -> TDType { TDType::EditMessageLiveLocation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EditMessageLiveLocation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -57179,8 +57184,8 @@ impl Clone for EditMessageMedia {
 impl Object for EditMessageMedia {}
 impl RObject for EditMessageMedia {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "editMessageMedia" }
-  fn td_type(&self) -> TDType { TDType::EditMessageMedia }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EditMessageMedia }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -57275,8 +57280,8 @@ impl Clone for EditMessageReplyMarkup {
 impl Object for EditMessageReplyMarkup {}
 impl RObject for EditMessageReplyMarkup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "editMessageReplyMarkup" }
-  fn td_type(&self) -> TDType { TDType::EditMessageReplyMarkup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EditMessageReplyMarkup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -57365,8 +57370,8 @@ impl Clone for EditMessageText {
 impl Object for EditMessageText {}
 impl RObject for EditMessageText {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "editMessageText" }
-  fn td_type(&self) -> TDType { TDType::EditMessageText }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EditMessageText }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -57465,8 +57470,8 @@ impl Clone for EditProxy {
 impl Object for EditProxy {}
 impl RObject for EditProxy {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "editProxy" }
-  fn td_type(&self) -> TDType { TDType::EditProxy }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EditProxy }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -57558,8 +57563,8 @@ pub struct EnableProxy {
 impl Object for EnableProxy {}
 impl RObject for EnableProxy {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "enableProxy" }
-  fn td_type(&self) -> TDType { TDType::EnableProxy }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::EnableProxy }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -57621,8 +57626,8 @@ pub struct FinishFileGeneration {
 impl Object for FinishFileGeneration {}
 impl RObject for FinishFileGeneration {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "finishFileGeneration" }
-  fn td_type(&self) -> TDType { TDType::FinishFileGeneration }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::FinishFileGeneration }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -57700,8 +57705,8 @@ pub struct ForwardMessages {
 impl Object for ForwardMessages {}
 impl RObject for ForwardMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "forwardMessages" }
-  fn td_type(&self) -> TDType { TDType::ForwardMessages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ForwardMessages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -57801,8 +57806,8 @@ pub struct GenerateChatInviteLink {
 impl Object for GenerateChatInviteLink {}
 impl RObject for GenerateChatInviteLink {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "generateChatInviteLink" }
-  fn td_type(&self) -> TDType { TDType::GenerateChatInviteLink }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GenerateChatInviteLink }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -57860,8 +57865,8 @@ pub struct GetAccountTtl {
 impl Object for GetAccountTtl {}
 impl RObject for GetAccountTtl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getAccountTtl" }
-  fn td_type(&self) -> TDType { TDType::GetAccountTtl }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetAccountTtl }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -57911,8 +57916,8 @@ pub struct GetActiveLiveLocationMessages {
 impl Object for GetActiveLiveLocationMessages {}
 impl RObject for GetActiveLiveLocationMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getActiveLiveLocationMessages" }
-  fn td_type(&self) -> TDType { TDType::GetActiveLiveLocationMessages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetActiveLiveLocationMessages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -57962,8 +57967,8 @@ pub struct GetActiveSessions {
 impl Object for GetActiveSessions {}
 impl RObject for GetActiveSessions {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getActiveSessions" }
-  fn td_type(&self) -> TDType { TDType::GetActiveSessions }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetActiveSessions }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -58015,8 +58020,8 @@ pub struct GetAllPassportElements {
 impl Object for GetAllPassportElements {}
 impl RObject for GetAllPassportElements {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getAllPassportElements" }
-  fn td_type(&self) -> TDType { TDType::GetAllPassportElements }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetAllPassportElements }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -58074,8 +58079,8 @@ pub struct GetApplicationConfig {
 impl Object for GetApplicationConfig {}
 impl RObject for GetApplicationConfig {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getApplicationConfig" }
-  fn td_type(&self) -> TDType { TDType::GetApplicationConfig }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetApplicationConfig }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -58131,8 +58136,8 @@ pub struct GetArchivedStickerSets {
 impl Object for GetArchivedStickerSets {}
 impl RObject for GetArchivedStickerSets {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getArchivedStickerSets" }
-  fn td_type(&self) -> TDType { TDType::GetArchivedStickerSets }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetArchivedStickerSets }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -58208,8 +58213,8 @@ pub struct GetAttachedStickerSets {
 impl Object for GetAttachedStickerSets {}
 impl RObject for GetAttachedStickerSets {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getAttachedStickerSets" }
-  fn td_type(&self) -> TDType { TDType::GetAttachedStickerSets }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetAttachedStickerSets }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -58267,8 +58272,8 @@ pub struct GetAuthorizationState {
 impl Object for GetAuthorizationState {}
 impl RObject for GetAuthorizationState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getAuthorizationState" }
-  fn td_type(&self) -> TDType { TDType::GetAuthorizationState }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetAuthorizationState }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -58320,8 +58325,8 @@ pub struct GetBasicGroup {
 impl Object for GetBasicGroup {}
 impl RObject for GetBasicGroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getBasicGroup" }
-  fn td_type(&self) -> TDType { TDType::GetBasicGroup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetBasicGroup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -58381,8 +58386,8 @@ pub struct GetBasicGroupFullInfo {
 impl Object for GetBasicGroupFullInfo {}
 impl RObject for GetBasicGroupFullInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getBasicGroupFullInfo" }
-  fn td_type(&self) -> TDType { TDType::GetBasicGroupFullInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetBasicGroupFullInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -58444,8 +58449,8 @@ pub struct GetBlockedUsers {
 impl Object for GetBlockedUsers {}
 impl RObject for GetBlockedUsers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getBlockedUsers" }
-  fn td_type(&self) -> TDType { TDType::GetBlockedUsers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetBlockedUsers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -58524,8 +58529,8 @@ impl Clone for GetCallbackQueryAnswer {
 impl Object for GetCallbackQueryAnswer {}
 impl RObject for GetCallbackQueryAnswer {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getCallbackQueryAnswer" }
-  fn td_type(&self) -> TDType { TDType::GetCallbackQueryAnswer }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetCallbackQueryAnswer }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -58601,8 +58606,8 @@ pub struct GetChat {
 impl Object for GetChat {}
 impl RObject for GetChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getChat" }
-  fn td_type(&self) -> TDType { TDType::GetChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -58662,8 +58667,8 @@ pub struct GetChatAdministrators {
 impl Object for GetChatAdministrators {}
 impl RObject for GetChatAdministrators {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getChatAdministrators" }
-  fn td_type(&self) -> TDType { TDType::GetChatAdministrators }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetChatAdministrators }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -58733,8 +58738,8 @@ pub struct GetChatEventLog {
 impl Object for GetChatEventLog {}
 impl RObject for GetChatEventLog {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getChatEventLog" }
-  fn td_type(&self) -> TDType { TDType::GetChatEventLog }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetChatEventLog }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -58842,8 +58847,8 @@ pub struct GetChatHistory {
 impl Object for GetChatHistory {}
 impl RObject for GetChatHistory {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getChatHistory" }
-  fn td_type(&self) -> TDType { TDType::GetChatHistory }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetChatHistory }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -58937,8 +58942,8 @@ pub struct GetChatMember {
 impl Object for GetChatMember {}
 impl RObject for GetChatMember {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getChatMember" }
-  fn td_type(&self) -> TDType { TDType::GetChatMember }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetChatMember }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59008,8 +59013,8 @@ pub struct GetChatMessageByDate {
 impl Object for GetChatMessageByDate {}
 impl RObject for GetChatMessageByDate {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getChatMessageByDate" }
-  fn td_type(&self) -> TDType { TDType::GetChatMessageByDate }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetChatMessageByDate }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59088,8 +59093,8 @@ impl Clone for GetChatMessageCount {
 impl Object for GetChatMessageCount {}
 impl RObject for GetChatMessageCount {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getChatMessageCount" }
-  fn td_type(&self) -> TDType { TDType::GetChatMessageCount }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetChatMessageCount }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59174,8 +59179,8 @@ impl Clone for GetChatNotificationSettingsExceptions {
 impl Object for GetChatNotificationSettingsExceptions {}
 impl RObject for GetChatNotificationSettingsExceptions {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getChatNotificationSettingsExceptions" }
-  fn td_type(&self) -> TDType { TDType::GetChatNotificationSettingsExceptions }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetChatNotificationSettingsExceptions }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59243,8 +59248,8 @@ pub struct GetChatPinnedMessage {
 impl Object for GetChatPinnedMessage {}
 impl RObject for GetChatPinnedMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getChatPinnedMessage" }
-  fn td_type(&self) -> TDType { TDType::GetChatPinnedMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetChatPinnedMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59304,8 +59309,8 @@ pub struct GetChatReportSpamState {
 impl Object for GetChatReportSpamState {}
 impl RObject for GetChatReportSpamState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getChatReportSpamState" }
-  fn td_type(&self) -> TDType { TDType::GetChatReportSpamState }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetChatReportSpamState }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59369,8 +59374,8 @@ pub struct GetChatStatisticsUrl {
 impl Object for GetChatStatisticsUrl {}
 impl RObject for GetChatStatisticsUrl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getChatStatisticsUrl" }
-  fn td_type(&self) -> TDType { TDType::GetChatStatisticsUrl }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetChatStatisticsUrl }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59450,8 +59455,8 @@ pub struct GetChats {
 impl Object for GetChats {}
 impl RObject for GetChats {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getChats" }
-  fn td_type(&self) -> TDType { TDType::GetChats }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetChats }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59525,8 +59530,8 @@ pub struct GetConnectedWebsites {
 impl Object for GetConnectedWebsites {}
 impl RObject for GetConnectedWebsites {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getConnectedWebsites" }
-  fn td_type(&self) -> TDType { TDType::GetConnectedWebsites }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetConnectedWebsites }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59576,8 +59581,8 @@ pub struct GetContacts {
 impl Object for GetContacts {}
 impl RObject for GetContacts {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getContacts" }
-  fn td_type(&self) -> TDType { TDType::GetContacts }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetContacts }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59627,8 +59632,8 @@ pub struct GetCountryCode {
 impl Object for GetCountryCode {}
 impl RObject for GetCountryCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getCountryCode" }
-  fn td_type(&self) -> TDType { TDType::GetCountryCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetCountryCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59678,8 +59683,8 @@ pub struct GetCreatedPublicChats {
 impl Object for GetCreatedPublicChats {}
 impl RObject for GetCreatedPublicChats {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getCreatedPublicChats" }
-  fn td_type(&self) -> TDType { TDType::GetCreatedPublicChats }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetCreatedPublicChats }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59729,8 +59734,8 @@ pub struct GetCurrentState {
 impl Object for GetCurrentState {}
 impl RObject for GetCurrentState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getCurrentState" }
-  fn td_type(&self) -> TDType { TDType::GetCurrentState }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetCurrentState }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59780,8 +59785,8 @@ pub struct GetDatabaseStatistics {
 impl Object for GetDatabaseStatistics {}
 impl RObject for GetDatabaseStatistics {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getDatabaseStatistics" }
-  fn td_type(&self) -> TDType { TDType::GetDatabaseStatistics }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetDatabaseStatistics }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59833,8 +59838,8 @@ pub struct GetDeepLinkInfo {
 impl Object for GetDeepLinkInfo {}
 impl RObject for GetDeepLinkInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getDeepLinkInfo" }
-  fn td_type(&self) -> TDType { TDType::GetDeepLinkInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetDeepLinkInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59892,8 +59897,8 @@ pub struct GetFavoriteStickers {
 impl Object for GetFavoriteStickers {}
 impl RObject for GetFavoriteStickers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getFavoriteStickers" }
-  fn td_type(&self) -> TDType { TDType::GetFavoriteStickers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetFavoriteStickers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -59945,8 +59950,8 @@ pub struct GetFile {
 impl Object for GetFile {}
 impl RObject for GetFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getFile" }
-  fn td_type(&self) -> TDType { TDType::GetFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -60008,8 +60013,8 @@ pub struct GetFileDownloadedPrefixSize {
 impl Object for GetFileDownloadedPrefixSize {}
 impl RObject for GetFileDownloadedPrefixSize {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getFileDownloadedPrefixSize" }
-  fn td_type(&self) -> TDType { TDType::GetFileDownloadedPrefixSize }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetFileDownloadedPrefixSize }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -60077,8 +60082,8 @@ pub struct GetFileExtension {
 impl Object for GetFileExtension {}
 impl RObject for GetFileExtension {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getFileExtension" }
-  fn td_type(&self) -> TDType { TDType::GetFileExtension }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetFileExtension }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -60138,8 +60143,8 @@ pub struct GetFileMimeType {
 impl Object for GetFileMimeType {}
 impl RObject for GetFileMimeType {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getFileMimeType" }
-  fn td_type(&self) -> TDType { TDType::GetFileMimeType }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetFileMimeType }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -60203,8 +60208,8 @@ pub struct GetGameHighScores {
 impl Object for GetGameHighScores {}
 impl RObject for GetGameHighScores {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getGameHighScores" }
-  fn td_type(&self) -> TDType { TDType::GetGameHighScores }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetGameHighScores }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -60284,8 +60289,8 @@ pub struct GetGroupsInCommon {
 impl Object for GetGroupsInCommon {}
 impl RObject for GetGroupsInCommon {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getGroupsInCommon" }
-  fn td_type(&self) -> TDType { TDType::GetGroupsInCommon }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetGroupsInCommon }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -60359,8 +60364,8 @@ pub struct GetImportedContactCount {
 impl Object for GetImportedContactCount {}
 impl RObject for GetImportedContactCount {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getImportedContactCount" }
-  fn td_type(&self) -> TDType { TDType::GetImportedContactCount }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetImportedContactCount }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -60414,8 +60419,8 @@ pub struct GetInlineGameHighScores {
 impl Object for GetInlineGameHighScores {}
 impl RObject for GetInlineGameHighScores {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getInlineGameHighScores" }
-  fn td_type(&self) -> TDType { TDType::GetInlineGameHighScores }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetInlineGameHighScores }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -60491,8 +60496,8 @@ pub struct GetInlineQueryResults {
 impl Object for GetInlineQueryResults {}
 impl RObject for GetInlineQueryResults {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getInlineQueryResults" }
-  fn td_type(&self) -> TDType { TDType::GetInlineQueryResults }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetInlineQueryResults }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -60584,8 +60589,8 @@ pub struct GetInstalledStickerSets {
 impl Object for GetInstalledStickerSets {}
 impl RObject for GetInstalledStickerSets {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getInstalledStickerSets" }
-  fn td_type(&self) -> TDType { TDType::GetInstalledStickerSets }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetInstalledStickerSets }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -60643,8 +60648,8 @@ pub struct GetInviteText {
 impl Object for GetInviteText {}
 impl RObject for GetInviteText {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getInviteText" }
-  fn td_type(&self) -> TDType { TDType::GetInviteText }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetInviteText }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -60696,8 +60701,8 @@ pub struct GetLanguagePackInfo {
 impl Object for GetLanguagePackInfo {}
 impl RObject for GetLanguagePackInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getLanguagePackInfo" }
-  fn td_type(&self) -> TDType { TDType::GetLanguagePackInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetLanguagePackInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -60763,8 +60768,8 @@ pub struct GetLanguagePackString {
 impl Object for GetLanguagePackString {}
 impl RObject for GetLanguagePackString {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getLanguagePackString" }
-  fn td_type(&self) -> TDType { TDType::GetLanguagePackString }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetLanguagePackString }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -60850,8 +60855,8 @@ pub struct GetLanguagePackStrings {
 impl Object for GetLanguagePackStrings {}
 impl RObject for GetLanguagePackStrings {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getLanguagePackStrings" }
-  fn td_type(&self) -> TDType { TDType::GetLanguagePackStrings }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetLanguagePackStrings }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -60919,8 +60924,8 @@ pub struct GetLocalizationTargetInfo {
 impl Object for GetLocalizationTargetInfo {}
 impl RObject for GetLocalizationTargetInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getLocalizationTargetInfo" }
-  fn td_type(&self) -> TDType { TDType::GetLocalizationTargetInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetLocalizationTargetInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -60978,8 +60983,8 @@ pub struct GetLogStream {
 impl Object for GetLogStream {}
 impl RObject for GetLogStream {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getLogStream" }
-  fn td_type(&self) -> TDType { TDType::GetLogStream }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetLogStream }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -61031,8 +61036,8 @@ pub struct GetLogTagVerbosityLevel {
 impl Object for GetLogTagVerbosityLevel {}
 impl RObject for GetLogTagVerbosityLevel {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getLogTagVerbosityLevel" }
-  fn td_type(&self) -> TDType { TDType::GetLogTagVerbosityLevel }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetLogTagVerbosityLevel }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -61090,8 +61095,8 @@ pub struct GetLogTags {
 impl Object for GetLogTags {}
 impl RObject for GetLogTags {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getLogTags" }
-  fn td_type(&self) -> TDType { TDType::GetLogTags }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetLogTags }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -61141,8 +61146,8 @@ pub struct GetLogVerbosityLevel {
 impl Object for GetLogVerbosityLevel {}
 impl RObject for GetLogVerbosityLevel {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getLogVerbosityLevel" }
-  fn td_type(&self) -> TDType { TDType::GetLogVerbosityLevel }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetLogVerbosityLevel }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -61204,8 +61209,8 @@ pub struct GetMapThumbnailFile {
 impl Object for GetMapThumbnailFile {}
 impl RObject for GetMapThumbnailFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getMapThumbnailFile" }
-  fn td_type(&self) -> TDType { TDType::GetMapThumbnailFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetMapThumbnailFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -61303,8 +61308,8 @@ pub struct GetMe {
 impl Object for GetMe {}
 impl RObject for GetMe {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getMe" }
-  fn td_type(&self) -> TDType { TDType::GetMe }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetMe }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -61358,8 +61363,8 @@ pub struct GetMessage {
 impl Object for GetMessage {}
 impl RObject for GetMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getMessage" }
-  fn td_type(&self) -> TDType { TDType::GetMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -61429,8 +61434,8 @@ pub struct GetMessageLink {
 impl Object for GetMessageLink {}
 impl RObject for GetMessageLink {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getMessageLink" }
-  fn td_type(&self) -> TDType { TDType::GetMessageLink }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetMessageLink }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -61500,8 +61505,8 @@ pub struct GetMessageLocally {
 impl Object for GetMessageLocally {}
 impl RObject for GetMessageLocally {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getMessageLocally" }
-  fn td_type(&self) -> TDType { TDType::GetMessageLocally }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetMessageLocally }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -61571,8 +61576,8 @@ pub struct GetMessages {
 impl Object for GetMessages {}
 impl RObject for GetMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getMessages" }
-  fn td_type(&self) -> TDType { TDType::GetMessages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetMessages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -61640,8 +61645,8 @@ pub struct GetNetworkStatistics {
 impl Object for GetNetworkStatistics {}
 impl RObject for GetNetworkStatistics {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getNetworkStatistics" }
-  fn td_type(&self) -> TDType { TDType::GetNetworkStatistics }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetNetworkStatistics }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -61701,8 +61706,8 @@ pub struct GetOption {
 impl Object for GetOption {}
 impl RObject for GetOption {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getOption" }
-  fn td_type(&self) -> TDType { TDType::GetOption }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetOption }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -61768,8 +61773,8 @@ pub struct GetPassportAuthorizationForm {
 impl Object for GetPassportAuthorizationForm {}
 impl RObject for GetPassportAuthorizationForm {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getPassportAuthorizationForm" }
-  fn td_type(&self) -> TDType { TDType::GetPassportAuthorizationForm }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetPassportAuthorizationForm }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -61855,8 +61860,8 @@ pub struct GetPassportAuthorizationFormAvailableElements {
 impl Object for GetPassportAuthorizationFormAvailableElements {}
 impl RObject for GetPassportAuthorizationFormAvailableElements {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getPassportAuthorizationFormAvailableElements" }
-  fn td_type(&self) -> TDType { TDType::GetPassportAuthorizationFormAvailableElements }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetPassportAuthorizationFormAvailableElements }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -61933,8 +61938,8 @@ impl Clone for GetPassportElement {
 impl Object for GetPassportElement {}
 impl RObject for GetPassportElement {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getPassportElement" }
-  fn td_type(&self) -> TDType { TDType::GetPassportElement }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetPassportElement }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62000,8 +62005,8 @@ pub struct GetPasswordState {
 impl Object for GetPasswordState {}
 impl RObject for GetPasswordState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getPasswordState" }
-  fn td_type(&self) -> TDType { TDType::GetPasswordState }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetPasswordState }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62055,8 +62060,8 @@ pub struct GetPaymentForm {
 impl Object for GetPaymentForm {}
 impl RObject for GetPaymentForm {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getPaymentForm" }
-  fn td_type(&self) -> TDType { TDType::GetPaymentForm }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetPaymentForm }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62126,8 +62131,8 @@ pub struct GetPaymentReceipt {
 impl Object for GetPaymentReceipt {}
 impl RObject for GetPaymentReceipt {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getPaymentReceipt" }
-  fn td_type(&self) -> TDType { TDType::GetPaymentReceipt }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetPaymentReceipt }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62195,8 +62200,8 @@ pub struct GetPreferredCountryLanguage {
 impl Object for GetPreferredCountryLanguage {}
 impl RObject for GetPreferredCountryLanguage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getPreferredCountryLanguage" }
-  fn td_type(&self) -> TDType { TDType::GetPreferredCountryLanguage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetPreferredCountryLanguage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62254,8 +62259,8 @@ pub struct GetProxies {
 impl Object for GetProxies {}
 impl RObject for GetProxies {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getProxies" }
-  fn td_type(&self) -> TDType { TDType::GetProxies }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetProxies }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62307,8 +62312,8 @@ pub struct GetProxyLink {
 impl Object for GetProxyLink {}
 impl RObject for GetProxyLink {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getProxyLink" }
-  fn td_type(&self) -> TDType { TDType::GetProxyLink }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetProxyLink }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62372,8 +62377,8 @@ pub struct GetPublicMessageLink {
 impl Object for GetPublicMessageLink {}
 impl RObject for GetPublicMessageLink {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getPublicMessageLink" }
-  fn td_type(&self) -> TDType { TDType::GetPublicMessageLink }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetPublicMessageLink }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62449,8 +62454,8 @@ pub struct GetPushReceiverId {
 impl Object for GetPushReceiverId {}
 impl RObject for GetPushReceiverId {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getPushReceiverId" }
-  fn td_type(&self) -> TDType { TDType::GetPushReceiverId }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetPushReceiverId }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62508,8 +62513,8 @@ pub struct GetRecentInlineBots {
 impl Object for GetRecentInlineBots {}
 impl RObject for GetRecentInlineBots {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getRecentInlineBots" }
-  fn td_type(&self) -> TDType { TDType::GetRecentInlineBots }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetRecentInlineBots }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62561,8 +62566,8 @@ pub struct GetRecentStickers {
 impl Object for GetRecentStickers {}
 impl RObject for GetRecentStickers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getRecentStickers" }
-  fn td_type(&self) -> TDType { TDType::GetRecentStickers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetRecentStickers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62622,8 +62627,8 @@ pub struct GetRecentlyVisitedTMeUrls {
 impl Object for GetRecentlyVisitedTMeUrls {}
 impl RObject for GetRecentlyVisitedTMeUrls {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getRecentlyVisitedTMeUrls" }
-  fn td_type(&self) -> TDType { TDType::GetRecentlyVisitedTMeUrls }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetRecentlyVisitedTMeUrls }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62683,8 +62688,8 @@ pub struct GetRecoveryEmailAddress {
 impl Object for GetRecoveryEmailAddress {}
 impl RObject for GetRecoveryEmailAddress {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getRecoveryEmailAddress" }
-  fn td_type(&self) -> TDType { TDType::GetRecoveryEmailAddress }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetRecoveryEmailAddress }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62753,8 +62758,8 @@ impl Clone for GetRemoteFile {
 impl Object for GetRemoteFile {}
 impl RObject for GetRemoteFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getRemoteFile" }
-  fn td_type(&self) -> TDType { TDType::GetRemoteFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetRemoteFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62824,8 +62829,8 @@ pub struct GetRepliedMessage {
 impl Object for GetRepliedMessage {}
 impl RObject for GetRepliedMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getRepliedMessage" }
-  fn td_type(&self) -> TDType { TDType::GetRepliedMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetRepliedMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62891,8 +62896,8 @@ pub struct GetSavedAnimations {
 impl Object for GetSavedAnimations {}
 impl RObject for GetSavedAnimations {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getSavedAnimations" }
-  fn td_type(&self) -> TDType { TDType::GetSavedAnimations }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetSavedAnimations }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -62942,8 +62947,8 @@ pub struct GetSavedOrderInfo {
 impl Object for GetSavedOrderInfo {}
 impl RObject for GetSavedOrderInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getSavedOrderInfo" }
-  fn td_type(&self) -> TDType { TDType::GetSavedOrderInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetSavedOrderInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63002,8 +63007,8 @@ impl Clone for GetScopeNotificationSettings {
 impl Object for GetScopeNotificationSettings {}
 impl RObject for GetScopeNotificationSettings {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getScopeNotificationSettings" }
-  fn td_type(&self) -> TDType { TDType::GetScopeNotificationSettings }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetScopeNotificationSettings }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63063,8 +63068,8 @@ pub struct GetSecretChat {
 impl Object for GetSecretChat {}
 impl RObject for GetSecretChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getSecretChat" }
-  fn td_type(&self) -> TDType { TDType::GetSecretChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetSecretChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63131,8 +63136,8 @@ impl Clone for GetStickerEmojis {
 impl Object for GetStickerEmojis {}
 impl RObject for GetStickerEmojis {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getStickerEmojis" }
-  fn td_type(&self) -> TDType { TDType::GetStickerEmojis }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetStickerEmojis }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63192,8 +63197,8 @@ pub struct GetStickerSet {
 impl Object for GetStickerSet {}
 impl RObject for GetStickerSet {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getStickerSet" }
-  fn td_type(&self) -> TDType { TDType::GetStickerSet }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetStickerSet }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63255,8 +63260,8 @@ pub struct GetStickers {
 impl Object for GetStickers {}
 impl RObject for GetStickers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getStickers" }
-  fn td_type(&self) -> TDType { TDType::GetStickers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetStickers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63324,8 +63329,8 @@ pub struct GetStorageStatistics {
 impl Object for GetStorageStatistics {}
 impl RObject for GetStorageStatistics {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getStorageStatistics" }
-  fn td_type(&self) -> TDType { TDType::GetStorageStatistics }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetStorageStatistics }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63383,8 +63388,8 @@ pub struct GetStorageStatisticsFast {
 impl Object for GetStorageStatisticsFast {}
 impl RObject for GetStorageStatisticsFast {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getStorageStatisticsFast" }
-  fn td_type(&self) -> TDType { TDType::GetStorageStatisticsFast }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetStorageStatisticsFast }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63436,8 +63441,8 @@ pub struct GetSupergroup {
 impl Object for GetSupergroup {}
 impl RObject for GetSupergroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getSupergroup" }
-  fn td_type(&self) -> TDType { TDType::GetSupergroup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetSupergroup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63497,8 +63502,8 @@ pub struct GetSupergroupFullInfo {
 impl Object for GetSupergroupFullInfo {}
 impl RObject for GetSupergroupFullInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getSupergroupFullInfo" }
-  fn td_type(&self) -> TDType { TDType::GetSupergroupFullInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetSupergroupFullInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63571,8 +63576,8 @@ impl Clone for GetSupergroupMembers {
 impl Object for GetSupergroupMembers {}
 impl RObject for GetSupergroupMembers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getSupergroupMembers" }
-  fn td_type(&self) -> TDType { TDType::GetSupergroupMembers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetSupergroupMembers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63654,8 +63659,8 @@ pub struct GetSupportUser {
 impl Object for GetSupportUser {}
 impl RObject for GetSupportUser {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getSupportUser" }
-  fn td_type(&self) -> TDType { TDType::GetSupportUser }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetSupportUser }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63705,8 +63710,8 @@ pub struct GetTemporaryPasswordState {
 impl Object for GetTemporaryPasswordState {}
 impl RObject for GetTemporaryPasswordState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getTemporaryPasswordState" }
-  fn td_type(&self) -> TDType { TDType::GetTemporaryPasswordState }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetTemporaryPasswordState }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63758,8 +63763,8 @@ pub struct GetTextEntities {
 impl Object for GetTextEntities {}
 impl RObject for GetTextEntities {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getTextEntities" }
-  fn td_type(&self) -> TDType { TDType::GetTextEntities }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetTextEntities }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63828,8 +63833,8 @@ impl Clone for GetTopChats {
 impl Object for GetTopChats {}
 impl RObject for GetTopChats {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getTopChats" }
-  fn td_type(&self) -> TDType { TDType::GetTopChats }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetTopChats }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63895,8 +63900,8 @@ pub struct GetTrendingStickerSets {
 impl Object for GetTrendingStickerSets {}
 impl RObject for GetTrendingStickerSets {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getTrendingStickerSets" }
-  fn td_type(&self) -> TDType { TDType::GetTrendingStickerSets }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetTrendingStickerSets }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -63948,8 +63953,8 @@ pub struct GetUser {
 impl Object for GetUser {}
 impl RObject for GetUser {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getUser" }
-  fn td_type(&self) -> TDType { TDType::GetUser }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetUser }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -64009,8 +64014,8 @@ pub struct GetUserFullInfo {
 impl Object for GetUserFullInfo {}
 impl RObject for GetUserFullInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getUserFullInfo" }
-  fn td_type(&self) -> TDType { TDType::GetUserFullInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetUserFullInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -64077,8 +64082,8 @@ impl Clone for GetUserPrivacySettingRules {
 impl Object for GetUserPrivacySettingRules {}
 impl RObject for GetUserPrivacySettingRules {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getUserPrivacySettingRules" }
-  fn td_type(&self) -> TDType { TDType::GetUserPrivacySettingRules }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetUserPrivacySettingRules }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -64142,8 +64147,8 @@ pub struct GetUserProfilePhotos {
 impl Object for GetUserProfilePhotos {}
 impl RObject for GetUserProfilePhotos {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getUserProfilePhotos" }
-  fn td_type(&self) -> TDType { TDType::GetUserProfilePhotos }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetUserProfilePhotos }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -64217,8 +64222,8 @@ pub struct GetWallpapers {
 impl Object for GetWallpapers {}
 impl RObject for GetWallpapers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getWallpapers" }
-  fn td_type(&self) -> TDType { TDType::GetWallpapers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetWallpapers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -64272,8 +64277,8 @@ pub struct GetWebPageInstantView {
 impl Object for GetWebPageInstantView {}
 impl RObject for GetWebPageInstantView {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getWebPageInstantView" }
-  fn td_type(&self) -> TDType { TDType::GetWebPageInstantView }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetWebPageInstantView }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -64341,8 +64346,8 @@ pub struct GetWebPagePreview {
 impl Object for GetWebPagePreview {}
 impl RObject for GetWebPagePreview {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "getWebPagePreview" }
-  fn td_type(&self) -> TDType { TDType::GetWebPagePreview }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::GetWebPagePreview }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -64402,8 +64407,8 @@ pub struct ImportContacts {
 impl Object for ImportContacts {}
 impl RObject for ImportContacts {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "importContacts" }
-  fn td_type(&self) -> TDType { TDType::ImportContacts }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ImportContacts }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -64463,8 +64468,8 @@ pub struct JoinChat {
 impl Object for JoinChat {}
 impl RObject for JoinChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "joinChat" }
-  fn td_type(&self) -> TDType { TDType::JoinChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::JoinChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -64524,8 +64529,8 @@ pub struct JoinChatByInviteLink {
 impl Object for JoinChatByInviteLink {}
 impl RObject for JoinChatByInviteLink {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "joinChatByInviteLink" }
-  fn td_type(&self) -> TDType { TDType::JoinChatByInviteLink }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::JoinChatByInviteLink }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -64585,8 +64590,8 @@ pub struct LeaveChat {
 impl Object for LeaveChat {}
 impl RObject for LeaveChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "leaveChat" }
-  fn td_type(&self) -> TDType { TDType::LeaveChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LeaveChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -64644,8 +64649,8 @@ pub struct LogOut {
 impl Object for LogOut {}
 impl RObject for LogOut {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "logOut" }
-  fn td_type(&self) -> TDType { TDType::LogOut }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::LogOut }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -64697,8 +64702,8 @@ pub struct OpenChat {
 impl Object for OpenChat {}
 impl RObject for OpenChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "openChat" }
-  fn td_type(&self) -> TDType { TDType::OpenChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::OpenChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -64760,8 +64765,8 @@ pub struct OpenMessageContent {
 impl Object for OpenMessageContent {}
 impl RObject for OpenMessageContent {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "openMessageContent" }
-  fn td_type(&self) -> TDType { TDType::OpenMessageContent }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::OpenMessageContent }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -64850,8 +64855,8 @@ impl Clone for OptimizeStorage {
 impl Object for OptimizeStorage {}
 impl RObject for OptimizeStorage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "optimizeStorage" }
-  fn td_type(&self) -> TDType { TDType::OptimizeStorage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::OptimizeStorage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -64976,8 +64981,8 @@ impl Clone for ParseTextEntities {
 impl Object for ParseTextEntities {}
 impl RObject for ParseTextEntities {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "parseTextEntities" }
-  fn td_type(&self) -> TDType { TDType::ParseTextEntities }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ParseTextEntities }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -65049,8 +65054,8 @@ pub struct PinChatMessage {
 impl Object for PinChatMessage {}
 impl RObject for PinChatMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pinChatMessage" }
-  fn td_type(&self) -> TDType { TDType::PinChatMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PinChatMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -65126,8 +65131,8 @@ pub struct PingProxy {
 impl Object for PingProxy {}
 impl RObject for PingProxy {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pingProxy" }
-  fn td_type(&self) -> TDType { TDType::PingProxy }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::PingProxy }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -65187,8 +65192,8 @@ pub struct ProcessPushNotification {
 impl Object for ProcessPushNotification {}
 impl RObject for ProcessPushNotification {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "processPushNotification" }
-  fn td_type(&self) -> TDType { TDType::ProcessPushNotification }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ProcessPushNotification }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -65248,8 +65253,8 @@ pub struct ReadAllChatMentions {
 impl Object for ReadAllChatMentions {}
 impl RObject for ReadAllChatMentions {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "readAllChatMentions" }
-  fn td_type(&self) -> TDType { TDType::ReadAllChatMentions }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ReadAllChatMentions }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -65313,8 +65318,8 @@ pub struct ReadFilePart {
 impl Object for ReadFilePart {}
 impl RObject for ReadFilePart {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "readFilePart" }
-  fn td_type(&self) -> TDType { TDType::ReadFilePart }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ReadFilePart }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -65390,8 +65395,8 @@ pub struct RecoverAuthenticationPassword {
 impl Object for RecoverAuthenticationPassword {}
 impl RObject for RecoverAuthenticationPassword {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "recoverAuthenticationPassword" }
-  fn td_type(&self) -> TDType { TDType::RecoverAuthenticationPassword }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RecoverAuthenticationPassword }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -65451,8 +65456,8 @@ pub struct RecoverPassword {
 impl Object for RecoverPassword {}
 impl RObject for RecoverPassword {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "recoverPassword" }
-  fn td_type(&self) -> TDType { TDType::RecoverPassword }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RecoverPassword }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -65521,8 +65526,8 @@ impl Clone for RegisterDevice {
 impl Object for RegisterDevice {}
 impl RObject for RegisterDevice {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "registerDevice" }
-  fn td_type(&self) -> TDType { TDType::RegisterDevice }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RegisterDevice }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -65590,8 +65595,8 @@ pub struct RemoveContacts {
 impl Object for RemoveContacts {}
 impl RObject for RemoveContacts {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "removeContacts" }
-  fn td_type(&self) -> TDType { TDType::RemoveContacts }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RemoveContacts }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -65658,8 +65663,8 @@ impl Clone for RemoveFavoriteSticker {
 impl Object for RemoveFavoriteSticker {}
 impl RObject for RemoveFavoriteSticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "removeFavoriteSticker" }
-  fn td_type(&self) -> TDType { TDType::RemoveFavoriteSticker }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RemoveFavoriteSticker }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -65721,8 +65726,8 @@ pub struct RemoveNotification {
 impl Object for RemoveNotification {}
 impl RObject for RemoveNotification {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "removeNotification" }
-  fn td_type(&self) -> TDType { TDType::RemoveNotification }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RemoveNotification }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -65792,8 +65797,8 @@ pub struct RemoveNotificationGroup {
 impl Object for RemoveNotificationGroup {}
 impl RObject for RemoveNotificationGroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "removeNotificationGroup" }
-  fn td_type(&self) -> TDType { TDType::RemoveNotificationGroup }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RemoveNotificationGroup }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -65861,8 +65866,8 @@ pub struct RemoveProxy {
 impl Object for RemoveProxy {}
 impl RObject for RemoveProxy {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "removeProxy" }
-  fn td_type(&self) -> TDType { TDType::RemoveProxy }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RemoveProxy }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -65922,8 +65927,8 @@ pub struct RemoveRecentHashtag {
 impl Object for RemoveRecentHashtag {}
 impl RObject for RemoveRecentHashtag {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "removeRecentHashtag" }
-  fn td_type(&self) -> TDType { TDType::RemoveRecentHashtag }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RemoveRecentHashtag }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -65992,8 +65997,8 @@ impl Clone for RemoveRecentSticker {
 impl Object for RemoveRecentSticker {}
 impl RObject for RemoveRecentSticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "removeRecentSticker" }
-  fn td_type(&self) -> TDType { TDType::RemoveRecentSticker }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RemoveRecentSticker }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66061,8 +66066,8 @@ pub struct RemoveRecentlyFoundChat {
 impl Object for RemoveRecentlyFoundChat {}
 impl RObject for RemoveRecentlyFoundChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "removeRecentlyFoundChat" }
-  fn td_type(&self) -> TDType { TDType::RemoveRecentlyFoundChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RemoveRecentlyFoundChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66129,8 +66134,8 @@ impl Clone for RemoveSavedAnimation {
 impl Object for RemoveSavedAnimation {}
 impl RObject for RemoveSavedAnimation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "removeSavedAnimation" }
-  fn td_type(&self) -> TDType { TDType::RemoveSavedAnimation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RemoveSavedAnimation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66197,8 +66202,8 @@ impl Clone for RemoveStickerFromSet {
 impl Object for RemoveStickerFromSet {}
 impl RObject for RemoveStickerFromSet {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "removeStickerFromSet" }
-  fn td_type(&self) -> TDType { TDType::RemoveStickerFromSet }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RemoveStickerFromSet }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66267,8 +66272,8 @@ impl Clone for RemoveTopChat {
 impl Object for RemoveTopChat {}
 impl RObject for RemoveTopChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "removeTopChat" }
-  fn td_type(&self) -> TDType { TDType::RemoveTopChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RemoveTopChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66338,8 +66343,8 @@ pub struct ReorderInstalledStickerSets {
 impl Object for ReorderInstalledStickerSets {}
 impl RObject for ReorderInstalledStickerSets {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "reorderInstalledStickerSets" }
-  fn td_type(&self) -> TDType { TDType::ReorderInstalledStickerSets }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ReorderInstalledStickerSets }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66418,8 +66423,8 @@ impl Clone for ReportChat {
 impl Object for ReportChat {}
 impl RObject for ReportChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "reportChat" }
-  fn td_type(&self) -> TDType { TDType::ReportChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ReportChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66499,8 +66504,8 @@ pub struct ReportSupergroupSpam {
 impl Object for ReportSupergroupSpam {}
 impl RObject for ReportSupergroupSpam {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "reportSupergroupSpam" }
-  fn td_type(&self) -> TDType { TDType::ReportSupergroupSpam }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ReportSupergroupSpam }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66574,8 +66579,8 @@ pub struct RequestAuthenticationPasswordRecovery {
 impl Object for RequestAuthenticationPasswordRecovery {}
 impl RObject for RequestAuthenticationPasswordRecovery {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "requestAuthenticationPasswordRecovery" }
-  fn td_type(&self) -> TDType { TDType::RequestAuthenticationPasswordRecovery }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RequestAuthenticationPasswordRecovery }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66625,8 +66630,8 @@ pub struct RequestPasswordRecovery {
 impl Object for RequestPasswordRecovery {}
 impl RObject for RequestPasswordRecovery {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "requestPasswordRecovery" }
-  fn td_type(&self) -> TDType { TDType::RequestPasswordRecovery }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::RequestPasswordRecovery }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66676,8 +66681,8 @@ pub struct ResendAuthenticationCode {
 impl Object for ResendAuthenticationCode {}
 impl RObject for ResendAuthenticationCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "resendAuthenticationCode" }
-  fn td_type(&self) -> TDType { TDType::ResendAuthenticationCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ResendAuthenticationCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66727,8 +66732,8 @@ pub struct ResendChangePhoneNumberCode {
 impl Object for ResendChangePhoneNumberCode {}
 impl RObject for ResendChangePhoneNumberCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "resendChangePhoneNumberCode" }
-  fn td_type(&self) -> TDType { TDType::ResendChangePhoneNumberCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ResendChangePhoneNumberCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66778,8 +66783,8 @@ pub struct ResendEmailAddressVerificationCode {
 impl Object for ResendEmailAddressVerificationCode {}
 impl RObject for ResendEmailAddressVerificationCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "resendEmailAddressVerificationCode" }
-  fn td_type(&self) -> TDType { TDType::ResendEmailAddressVerificationCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ResendEmailAddressVerificationCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66829,8 +66834,8 @@ pub struct ResendPhoneNumberConfirmationCode {
 impl Object for ResendPhoneNumberConfirmationCode {}
 impl RObject for ResendPhoneNumberConfirmationCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "resendPhoneNumberConfirmationCode" }
-  fn td_type(&self) -> TDType { TDType::ResendPhoneNumberConfirmationCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ResendPhoneNumberConfirmationCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66880,8 +66885,8 @@ pub struct ResendPhoneNumberVerificationCode {
 impl Object for ResendPhoneNumberVerificationCode {}
 impl RObject for ResendPhoneNumberVerificationCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "resendPhoneNumberVerificationCode" }
-  fn td_type(&self) -> TDType { TDType::ResendPhoneNumberVerificationCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ResendPhoneNumberVerificationCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66931,8 +66936,8 @@ pub struct ResendRecoveryEmailAddressCode {
 impl Object for ResendRecoveryEmailAddressCode {}
 impl RObject for ResendRecoveryEmailAddressCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "resendRecoveryEmailAddressCode" }
-  fn td_type(&self) -> TDType { TDType::ResendRecoveryEmailAddressCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ResendRecoveryEmailAddressCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -66982,8 +66987,8 @@ pub struct ResetAllNotificationSettings {
 impl Object for ResetAllNotificationSettings {}
 impl RObject for ResetAllNotificationSettings {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "resetAllNotificationSettings" }
-  fn td_type(&self) -> TDType { TDType::ResetAllNotificationSettings }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ResetAllNotificationSettings }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -67033,8 +67038,8 @@ pub struct ResetNetworkStatistics {
 impl Object for ResetNetworkStatistics {}
 impl RObject for ResetNetworkStatistics {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "resetNetworkStatistics" }
-  fn td_type(&self) -> TDType { TDType::ResetNetworkStatistics }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ResetNetworkStatistics }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -67090,8 +67095,8 @@ pub struct SearchCallMessages {
 impl Object for SearchCallMessages {}
 impl RObject for SearchCallMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchCallMessages" }
-  fn td_type(&self) -> TDType { TDType::SearchCallMessages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchCallMessages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -67180,8 +67185,8 @@ impl Clone for SearchChatMembers {
 impl Object for SearchChatMembers {}
 impl RObject for SearchChatMembers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchChatMembers" }
-  fn td_type(&self) -> TDType { TDType::SearchChatMembers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchChatMembers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -67284,8 +67289,8 @@ impl Clone for SearchChatMessages {
 impl Object for SearchChatMessages {}
 impl RObject for SearchChatMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchChatMessages" }
-  fn td_type(&self) -> TDType { TDType::SearchChatMessages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchChatMessages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -67395,8 +67400,8 @@ pub struct SearchChatRecentLocationMessages {
 impl Object for SearchChatRecentLocationMessages {}
 impl RObject for SearchChatRecentLocationMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchChatRecentLocationMessages" }
-  fn td_type(&self) -> TDType { TDType::SearchChatRecentLocationMessages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchChatRecentLocationMessages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -67466,8 +67471,8 @@ pub struct SearchChats {
 impl Object for SearchChats {}
 impl RObject for SearchChats {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchChats" }
-  fn td_type(&self) -> TDType { TDType::SearchChats }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchChats }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -67537,8 +67542,8 @@ pub struct SearchChatsOnServer {
 impl Object for SearchChatsOnServer {}
 impl RObject for SearchChatsOnServer {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchChatsOnServer" }
-  fn td_type(&self) -> TDType { TDType::SearchChatsOnServer }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchChatsOnServer }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -67608,8 +67613,8 @@ pub struct SearchContacts {
 impl Object for SearchContacts {}
 impl RObject for SearchContacts {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchContacts" }
-  fn td_type(&self) -> TDType { TDType::SearchContacts }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchContacts }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -67679,8 +67684,8 @@ pub struct SearchHashtags {
 impl Object for SearchHashtags {}
 impl RObject for SearchHashtags {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchHashtags" }
-  fn td_type(&self) -> TDType { TDType::SearchHashtags }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchHashtags }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -67752,8 +67757,8 @@ pub struct SearchInstalledStickerSets {
 impl Object for SearchInstalledStickerSets {}
 impl RObject for SearchInstalledStickerSets {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchInstalledStickerSets" }
-  fn td_type(&self) -> TDType { TDType::SearchInstalledStickerSets }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchInstalledStickerSets }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -67837,8 +67842,8 @@ pub struct SearchMessages {
 impl Object for SearchMessages {}
 impl RObject for SearchMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessages" }
-  fn td_type(&self) -> TDType { TDType::SearchMessages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchMessages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -67930,8 +67935,8 @@ pub struct SearchPublicChat {
 impl Object for SearchPublicChat {}
 impl RObject for SearchPublicChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchPublicChat" }
-  fn td_type(&self) -> TDType { TDType::SearchPublicChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchPublicChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -67991,8 +67996,8 @@ pub struct SearchPublicChats {
 impl Object for SearchPublicChats {}
 impl RObject for SearchPublicChats {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchPublicChats" }
-  fn td_type(&self) -> TDType { TDType::SearchPublicChats }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchPublicChats }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -68067,8 +68072,8 @@ impl Clone for SearchSecretMessages {
 impl Object for SearchSecretMessages {}
 impl RObject for SearchSecretMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchSecretMessages" }
-  fn td_type(&self) -> TDType { TDType::SearchSecretMessages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchSecretMessages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -68160,8 +68165,8 @@ pub struct SearchStickerSet {
 impl Object for SearchStickerSet {}
 impl RObject for SearchStickerSet {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchStickerSet" }
-  fn td_type(&self) -> TDType { TDType::SearchStickerSet }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchStickerSet }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -68221,8 +68226,8 @@ pub struct SearchStickerSets {
 impl Object for SearchStickerSets {}
 impl RObject for SearchStickerSets {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchStickerSets" }
-  fn td_type(&self) -> TDType { TDType::SearchStickerSets }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchStickerSets }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -68284,8 +68289,8 @@ pub struct SearchStickers {
 impl Object for SearchStickers {}
 impl RObject for SearchStickers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "searchStickers" }
-  fn td_type(&self) -> TDType { TDType::SearchStickers }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SearchStickers }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -68357,8 +68362,8 @@ pub struct SendBotStartMessage {
 impl Object for SendBotStartMessage {}
 impl RObject for SendBotStartMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sendBotStartMessage" }
-  fn td_type(&self) -> TDType { TDType::SendBotStartMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SendBotStartMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -68436,8 +68441,8 @@ pub struct SendCallDebugInformation {
 impl Object for SendCallDebugInformation {}
 impl RObject for SendCallDebugInformation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sendCallDebugInformation" }
-  fn td_type(&self) -> TDType { TDType::SendCallDebugInformation }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SendCallDebugInformation }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -68509,8 +68514,8 @@ pub struct SendCallRating {
 impl Object for SendCallRating {}
 impl RObject for SendCallRating {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sendCallRating" }
-  fn td_type(&self) -> TDType { TDType::SendCallRating }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SendCallRating }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -68595,8 +68600,8 @@ impl Clone for SendChatAction {
 impl Object for SendChatAction {}
 impl RObject for SendChatAction {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sendChatAction" }
-  fn td_type(&self) -> TDType { TDType::SendChatAction }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SendChatAction }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -68664,8 +68669,8 @@ pub struct SendChatScreenshotTakenNotification {
 impl Object for SendChatScreenshotTakenNotification {}
 impl RObject for SendChatScreenshotTakenNotification {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sendChatScreenshotTakenNotification" }
-  fn td_type(&self) -> TDType { TDType::SendChatScreenshotTakenNotification }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SendChatScreenshotTakenNotification }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -68727,8 +68732,8 @@ pub struct SendChatSetTtlMessage {
 impl Object for SendChatSetTtlMessage {}
 impl RObject for SendChatSetTtlMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sendChatSetTtlMessage" }
-  fn td_type(&self) -> TDType { TDType::SendChatSetTtlMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SendChatSetTtlMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -68798,8 +68803,8 @@ pub struct SendCustomRequest {
 impl Object for SendCustomRequest {}
 impl RObject for SendCustomRequest {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sendCustomRequest" }
-  fn td_type(&self) -> TDType { TDType::SendCustomRequest }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SendCustomRequest }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -68867,8 +68872,8 @@ pub struct SendEmailAddressVerificationCode {
 impl Object for SendEmailAddressVerificationCode {}
 impl RObject for SendEmailAddressVerificationCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sendEmailAddressVerificationCode" }
-  fn td_type(&self) -> TDType { TDType::SendEmailAddressVerificationCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SendEmailAddressVerificationCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -68940,8 +68945,8 @@ pub struct SendInlineQueryResultMessage {
 impl Object for SendInlineQueryResultMessage {}
 impl RObject for SendInlineQueryResultMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sendInlineQueryResultMessage" }
-  fn td_type(&self) -> TDType { TDType::SendInlineQueryResultMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SendInlineQueryResultMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -69066,8 +69071,8 @@ impl Clone for SendMessage {
 impl Object for SendMessage {}
 impl RObject for SendMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sendMessage" }
-  fn td_type(&self) -> TDType { TDType::SendMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SendMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -69182,8 +69187,8 @@ impl Clone for SendMessageAlbum {
 impl Object for SendMessageAlbum {}
 impl RObject for SendMessageAlbum {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sendMessageAlbum" }
-  fn td_type(&self) -> TDType { TDType::SendMessageAlbum }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SendMessageAlbum }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -69284,8 +69289,8 @@ impl Clone for SendPassportAuthorizationForm {
 impl Object for SendPassportAuthorizationForm {}
 impl RObject for SendPassportAuthorizationForm {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sendPassportAuthorizationForm" }
-  fn td_type(&self) -> TDType { TDType::SendPassportAuthorizationForm }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SendPassportAuthorizationForm }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -69368,8 +69373,8 @@ impl Clone for SendPaymentForm {
 impl Object for SendPaymentForm {}
 impl RObject for SendPaymentForm {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sendPaymentForm" }
-  fn td_type(&self) -> TDType { TDType::SendPaymentForm }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SendPaymentForm }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -69467,8 +69472,8 @@ pub struct SendPhoneNumberConfirmationCode {
 impl Object for SendPhoneNumberConfirmationCode {}
 impl RObject for SendPhoneNumberConfirmationCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sendPhoneNumberConfirmationCode" }
-  fn td_type(&self) -> TDType { TDType::SendPhoneNumberConfirmationCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SendPhoneNumberConfirmationCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -69556,8 +69561,8 @@ pub struct SendPhoneNumberVerificationCode {
 impl Object for SendPhoneNumberVerificationCode {}
 impl RObject for SendPhoneNumberVerificationCode {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sendPhoneNumberVerificationCode" }
-  fn td_type(&self) -> TDType { TDType::SendPhoneNumberVerificationCode }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SendPhoneNumberVerificationCode }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -69633,8 +69638,8 @@ pub struct SetAccountTtl {
 impl Object for SetAccountTtl {}
 impl RObject for SetAccountTtl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setAccountTtl" }
-  fn td_type(&self) -> TDType { TDType::SetAccountTtl }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetAccountTtl }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -69694,8 +69699,8 @@ pub struct SetAlarm {
 impl Object for SetAlarm {}
 impl RObject for SetAlarm {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setAlarm" }
-  fn td_type(&self) -> TDType { TDType::SetAlarm }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetAlarm }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -69759,8 +69764,8 @@ pub struct SetAuthenticationPhoneNumber {
 impl Object for SetAuthenticationPhoneNumber {}
 impl RObject for SetAuthenticationPhoneNumber {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setAuthenticationPhoneNumber" }
-  fn td_type(&self) -> TDType { TDType::SetAuthenticationPhoneNumber }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetAuthenticationPhoneNumber }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -69836,8 +69841,8 @@ pub struct SetBio {
 impl Object for SetBio {}
 impl RObject for SetBio {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setBio" }
-  fn td_type(&self) -> TDType { TDType::SetBio }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetBio }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -69899,8 +69904,8 @@ pub struct SetBotUpdatesStatus {
 impl Object for SetBotUpdatesStatus {}
 impl RObject for SetBotUpdatesStatus {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setBotUpdatesStatus" }
-  fn td_type(&self) -> TDType { TDType::SetBotUpdatesStatus }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetBotUpdatesStatus }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -69970,8 +69975,8 @@ pub struct SetChatClientData {
 impl Object for SetChatClientData {}
 impl RObject for SetChatClientData {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setChatClientData" }
-  fn td_type(&self) -> TDType { TDType::SetChatClientData }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetChatClientData }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -70041,8 +70046,8 @@ pub struct SetChatDraftMessage {
 impl Object for SetChatDraftMessage {}
 impl RObject for SetChatDraftMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setChatDraftMessage" }
-  fn td_type(&self) -> TDType { TDType::SetChatDraftMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetChatDraftMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -70121,8 +70126,8 @@ impl Clone for SetChatMemberStatus {
 impl Object for SetChatMemberStatus {}
 impl RObject for SetChatMemberStatus {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setChatMemberStatus" }
-  fn td_type(&self) -> TDType { TDType::SetChatMemberStatus }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetChatMemberStatus }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -70200,8 +70205,8 @@ pub struct SetChatNotificationSettings {
 impl Object for SetChatNotificationSettings {}
 impl RObject for SetChatNotificationSettings {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setChatNotificationSettings" }
-  fn td_type(&self) -> TDType { TDType::SetChatNotificationSettings }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetChatNotificationSettings }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -70278,8 +70283,8 @@ impl Clone for SetChatPhoto {
 impl Object for SetChatPhoto {}
 impl RObject for SetChatPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setChatPhoto" }
-  fn td_type(&self) -> TDType { TDType::SetChatPhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetChatPhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -70349,8 +70354,8 @@ pub struct SetChatTitle {
 impl Object for SetChatTitle {}
 impl RObject for SetChatTitle {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setChatTitle" }
-  fn td_type(&self) -> TDType { TDType::SetChatTitle }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetChatTitle }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -70420,8 +70425,8 @@ pub struct SetCustomLanguagePack {
 impl Object for SetCustomLanguagePack {}
 impl RObject for SetCustomLanguagePack {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setCustomLanguagePack" }
-  fn td_type(&self) -> TDType { TDType::SetCustomLanguagePack }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetCustomLanguagePack }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -70491,8 +70496,8 @@ pub struct SetCustomLanguagePackString {
 impl Object for SetCustomLanguagePackString {}
 impl RObject for SetCustomLanguagePackString {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setCustomLanguagePackString" }
-  fn td_type(&self) -> TDType { TDType::SetCustomLanguagePackString }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetCustomLanguagePackString }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -70560,8 +70565,8 @@ pub struct SetDatabaseEncryptionKey {
 impl Object for SetDatabaseEncryptionKey {}
 impl RObject for SetDatabaseEncryptionKey {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setDatabaseEncryptionKey" }
-  fn td_type(&self) -> TDType { TDType::SetDatabaseEncryptionKey }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetDatabaseEncryptionKey }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -70625,8 +70630,8 @@ pub struct SetFileGenerationProgress {
 impl Object for SetFileGenerationProgress {}
 impl RObject for SetFileGenerationProgress {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setFileGenerationProgress" }
-  fn td_type(&self) -> TDType { TDType::SetFileGenerationProgress }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetFileGenerationProgress }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -70712,8 +70717,8 @@ pub struct SetGameScore {
 impl Object for SetGameScore {}
 impl RObject for SetGameScore {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setGameScore" }
-  fn td_type(&self) -> TDType { TDType::SetGameScore }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetGameScore }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -70821,8 +70826,8 @@ pub struct SetInlineGameScore {
 impl Object for SetInlineGameScore {}
 impl RObject for SetInlineGameScore {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setInlineGameScore" }
-  fn td_type(&self) -> TDType { TDType::SetInlineGameScore }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetInlineGameScore }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -70921,8 +70926,8 @@ impl Clone for SetLogStream {
 impl Object for SetLogStream {}
 impl RObject for SetLogStream {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setLogStream" }
-  fn td_type(&self) -> TDType { TDType::SetLogStream }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetLogStream }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -70984,8 +70989,8 @@ pub struct SetLogTagVerbosityLevel {
 impl Object for SetLogTagVerbosityLevel {}
 impl RObject for SetLogTagVerbosityLevel {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setLogTagVerbosityLevel" }
-  fn td_type(&self) -> TDType { TDType::SetLogTagVerbosityLevel }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetLogTagVerbosityLevel }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -71053,8 +71058,8 @@ pub struct SetLogVerbosityLevel {
 impl Object for SetLogVerbosityLevel {}
 impl RObject for SetLogVerbosityLevel {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setLogVerbosityLevel" }
-  fn td_type(&self) -> TDType { TDType::SetLogVerbosityLevel }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetLogVerbosityLevel }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -71116,8 +71121,8 @@ pub struct SetName {
 impl Object for SetName {}
 impl RObject for SetName {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setName" }
-  fn td_type(&self) -> TDType { TDType::SetName }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetName }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -71192,8 +71197,8 @@ impl Clone for SetNetworkType {
 impl Object for SetNetworkType {}
 impl RObject for SetNetworkType {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setNetworkType" }
-  fn td_type(&self) -> TDType { TDType::SetNetworkType }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetNetworkType }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -71262,8 +71267,8 @@ impl Clone for SetOption {
 impl Object for SetOption {}
 impl RObject for SetOption {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setOption" }
-  fn td_type(&self) -> TDType { TDType::SetOption }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetOption }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -71340,8 +71345,8 @@ impl Clone for SetPassportElement {
 impl Object for SetPassportElement {}
 impl RObject for SetPassportElement {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setPassportElement" }
-  fn td_type(&self) -> TDType { TDType::SetPassportElement }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetPassportElement }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -71411,8 +71416,8 @@ pub struct SetPassportElementErrors {
 impl Object for SetPassportElementErrors {}
 impl RObject for SetPassportElementErrors {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setPassportElementErrors" }
-  fn td_type(&self) -> TDType { TDType::SetPassportElementErrors }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetPassportElementErrors }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -71488,8 +71493,8 @@ pub struct SetPassword {
 impl Object for SetPassword {}
 impl RObject for SetPassword {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setPassword" }
-  fn td_type(&self) -> TDType { TDType::SetPassword }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetPassword }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -71581,8 +71586,8 @@ pub struct SetPinnedChats {
 impl Object for SetPinnedChats {}
 impl RObject for SetPinnedChats {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setPinnedChats" }
-  fn td_type(&self) -> TDType { TDType::SetPinnedChats }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetPinnedChats }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -71646,8 +71651,8 @@ pub struct SetPollAnswer {
 impl Object for SetPollAnswer {}
 impl RObject for SetPollAnswer {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setPollAnswer" }
-  fn td_type(&self) -> TDType { TDType::SetPollAnswer }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetPollAnswer }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -71730,8 +71735,8 @@ impl Clone for SetProfilePhoto {
 impl Object for SetProfilePhoto {}
 impl RObject for SetProfilePhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setProfilePhoto" }
-  fn td_type(&self) -> TDType { TDType::SetProfilePhoto }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetProfilePhoto }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -71793,8 +71798,8 @@ pub struct SetRecoveryEmailAddress {
 impl Object for SetRecoveryEmailAddress {}
 impl RObject for SetRecoveryEmailAddress {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setRecoveryEmailAddress" }
-  fn td_type(&self) -> TDType { TDType::SetRecoveryEmailAddress }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetRecoveryEmailAddress }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -71871,8 +71876,8 @@ impl Clone for SetScopeNotificationSettings {
 impl Object for SetScopeNotificationSettings {}
 impl RObject for SetScopeNotificationSettings {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setScopeNotificationSettings" }
-  fn td_type(&self) -> TDType { TDType::SetScopeNotificationSettings }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetScopeNotificationSettings }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -71949,8 +71954,8 @@ impl Clone for SetStickerPositionInSet {
 impl Object for SetStickerPositionInSet {}
 impl RObject for SetStickerPositionInSet {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setStickerPositionInSet" }
-  fn td_type(&self) -> TDType { TDType::SetStickerPositionInSet }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetStickerPositionInSet }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72020,8 +72025,8 @@ pub struct SetSupergroupDescription {
 impl Object for SetSupergroupDescription {}
 impl RObject for SetSupergroupDescription {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setSupergroupDescription" }
-  fn td_type(&self) -> TDType { TDType::SetSupergroupDescription }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetSupergroupDescription }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72091,8 +72096,8 @@ pub struct SetSupergroupStickerSet {
 impl Object for SetSupergroupStickerSet {}
 impl RObject for SetSupergroupStickerSet {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setSupergroupStickerSet" }
-  fn td_type(&self) -> TDType { TDType::SetSupergroupStickerSet }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetSupergroupStickerSet }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72162,8 +72167,8 @@ pub struct SetSupergroupUsername {
 impl Object for SetSupergroupUsername {}
 impl RObject for SetSupergroupUsername {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setSupergroupUsername" }
-  fn td_type(&self) -> TDType { TDType::SetSupergroupUsername }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetSupergroupUsername }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72231,8 +72236,8 @@ pub struct SetTdlibParameters {
 impl Object for SetTdlibParameters {}
 impl RObject for SetTdlibParameters {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setTdlibParameters" }
-  fn td_type(&self) -> TDType { TDType::SetTdlibParameters }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetTdlibParameters }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72301,8 +72306,8 @@ impl Clone for SetUserPrivacySettingRules {
 impl Object for SetUserPrivacySettingRules {}
 impl RObject for SetUserPrivacySettingRules {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setUserPrivacySettingRules" }
-  fn td_type(&self) -> TDType { TDType::SetUserPrivacySettingRules }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetUserPrivacySettingRules }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72370,8 +72375,8 @@ pub struct SetUsername {
 impl Object for SetUsername {}
 impl RObject for SetUsername {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "setUsername" }
-  fn td_type(&self) -> TDType { TDType::SetUsername }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SetUsername }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72442,8 +72447,8 @@ impl Clone for StopPoll {
 impl Object for StopPoll {}
 impl RObject for StopPoll {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "stopPoll" }
-  fn td_type(&self) -> TDType { TDType::StopPoll }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::StopPoll }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72519,8 +72524,8 @@ pub struct SynchronizeLanguagePack {
 impl Object for SynchronizeLanguagePack {}
 impl RObject for SynchronizeLanguagePack {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "synchronizeLanguagePack" }
-  fn td_type(&self) -> TDType { TDType::SynchronizeLanguagePack }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::SynchronizeLanguagePack }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72578,8 +72583,8 @@ pub struct TerminateAllOtherSessions {
 impl Object for TerminateAllOtherSessions {}
 impl RObject for TerminateAllOtherSessions {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "terminateAllOtherSessions" }
-  fn td_type(&self) -> TDType { TDType::TerminateAllOtherSessions }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TerminateAllOtherSessions }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72631,8 +72636,8 @@ pub struct TerminateSession {
 impl Object for TerminateSession {}
 impl RObject for TerminateSession {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "terminateSession" }
-  fn td_type(&self) -> TDType { TDType::TerminateSession }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TerminateSession }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72692,8 +72697,8 @@ pub struct TestCallBytes {
 impl Object for TestCallBytes {}
 impl RObject for TestCallBytes {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testCallBytes" }
-  fn td_type(&self) -> TDType { TDType::TestCallBytes }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestCallBytes }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72751,8 +72756,8 @@ pub struct TestCallEmpty {
 impl Object for TestCallEmpty {}
 impl RObject for TestCallEmpty {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testCallEmpty" }
-  fn td_type(&self) -> TDType { TDType::TestCallEmpty }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestCallEmpty }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72804,8 +72809,8 @@ pub struct TestCallString {
 impl Object for TestCallString {}
 impl RObject for TestCallString {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testCallString" }
-  fn td_type(&self) -> TDType { TDType::TestCallString }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestCallString }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72865,8 +72870,8 @@ pub struct TestCallVectorInt {
 impl Object for TestCallVectorInt {}
 impl RObject for TestCallVectorInt {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testCallVectorInt" }
-  fn td_type(&self) -> TDType { TDType::TestCallVectorInt }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestCallVectorInt }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72926,8 +72931,8 @@ pub struct TestCallVectorIntObject {
 impl Object for TestCallVectorIntObject {}
 impl RObject for TestCallVectorIntObject {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testCallVectorIntObject" }
-  fn td_type(&self) -> TDType { TDType::TestCallVectorIntObject }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestCallVectorIntObject }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -72987,8 +72992,8 @@ pub struct TestCallVectorString {
 impl Object for TestCallVectorString {}
 impl RObject for TestCallVectorString {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testCallVectorString" }
-  fn td_type(&self) -> TDType { TDType::TestCallVectorString }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestCallVectorString }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73048,8 +73053,8 @@ pub struct TestCallVectorStringObject {
 impl Object for TestCallVectorStringObject {}
 impl RObject for TestCallVectorStringObject {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testCallVectorStringObject" }
-  fn td_type(&self) -> TDType { TDType::TestCallVectorStringObject }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestCallVectorStringObject }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73107,8 +73112,8 @@ pub struct TestGetDifference {
 impl Object for TestGetDifference {}
 impl RObject for TestGetDifference {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testGetDifference" }
-  fn td_type(&self) -> TDType { TDType::TestGetDifference }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestGetDifference }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73158,8 +73163,8 @@ pub struct TestNetwork {
 impl Object for TestNetwork {}
 impl RObject for TestNetwork {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testNetwork" }
-  fn td_type(&self) -> TDType { TDType::TestNetwork }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestNetwork }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73211,8 +73216,8 @@ pub struct TestSquareInt {
 impl Object for TestSquareInt {}
 impl RObject for TestSquareInt {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testSquareInt" }
-  fn td_type(&self) -> TDType { TDType::TestSquareInt }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestSquareInt }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73270,8 +73275,8 @@ pub struct TestUseError {
 impl Object for TestUseError {}
 impl RObject for TestUseError {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testUseError" }
-  fn td_type(&self) -> TDType { TDType::TestUseError }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestUseError }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73321,8 +73326,8 @@ pub struct TestUseUpdate {
 impl Object for TestUseUpdate {}
 impl RObject for TestUseUpdate {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testUseUpdate" }
-  fn td_type(&self) -> TDType { TDType::TestUseUpdate }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::TestUseUpdate }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73376,8 +73381,8 @@ pub struct ToggleBasicGroupAdministrators {
 impl Object for ToggleBasicGroupAdministrators {}
 impl RObject for ToggleBasicGroupAdministrators {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "toggleBasicGroupAdministrators" }
-  fn td_type(&self) -> TDType { TDType::ToggleBasicGroupAdministrators }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ToggleBasicGroupAdministrators }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73447,8 +73452,8 @@ pub struct ToggleChatDefaultDisableNotification {
 impl Object for ToggleChatDefaultDisableNotification {}
 impl RObject for ToggleChatDefaultDisableNotification {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "toggleChatDefaultDisableNotification" }
-  fn td_type(&self) -> TDType { TDType::ToggleChatDefaultDisableNotification }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ToggleChatDefaultDisableNotification }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73518,8 +73523,8 @@ pub struct ToggleChatIsMarkedAsUnread {
 impl Object for ToggleChatIsMarkedAsUnread {}
 impl RObject for ToggleChatIsMarkedAsUnread {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "toggleChatIsMarkedAsUnread" }
-  fn td_type(&self) -> TDType { TDType::ToggleChatIsMarkedAsUnread }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ToggleChatIsMarkedAsUnread }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73589,8 +73594,8 @@ pub struct ToggleChatIsPinned {
 impl Object for ToggleChatIsPinned {}
 impl RObject for ToggleChatIsPinned {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "toggleChatIsPinned" }
-  fn td_type(&self) -> TDType { TDType::ToggleChatIsPinned }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ToggleChatIsPinned }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73660,8 +73665,8 @@ pub struct ToggleSupergroupInvites {
 impl Object for ToggleSupergroupInvites {}
 impl RObject for ToggleSupergroupInvites {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "toggleSupergroupInvites" }
-  fn td_type(&self) -> TDType { TDType::ToggleSupergroupInvites }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ToggleSupergroupInvites }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73731,8 +73736,8 @@ pub struct ToggleSupergroupIsAllHistoryAvailable {
 impl Object for ToggleSupergroupIsAllHistoryAvailable {}
 impl RObject for ToggleSupergroupIsAllHistoryAvailable {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "toggleSupergroupIsAllHistoryAvailable" }
-  fn td_type(&self) -> TDType { TDType::ToggleSupergroupIsAllHistoryAvailable }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ToggleSupergroupIsAllHistoryAvailable }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73802,8 +73807,8 @@ pub struct ToggleSupergroupSignMessages {
 impl Object for ToggleSupergroupSignMessages {}
 impl RObject for ToggleSupergroupSignMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "toggleSupergroupSignMessages" }
-  fn td_type(&self) -> TDType { TDType::ToggleSupergroupSignMessages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ToggleSupergroupSignMessages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73871,8 +73876,8 @@ pub struct UnblockUser {
 impl Object for UnblockUser {}
 impl RObject for UnblockUser {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "unblockUser" }
-  fn td_type(&self) -> TDType { TDType::UnblockUser }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UnblockUser }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73932,8 +73937,8 @@ pub struct UnpinChatMessage {
 impl Object for UnpinChatMessage {}
 impl RObject for UnpinChatMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "unpinChatMessage" }
-  fn td_type(&self) -> TDType { TDType::UnpinChatMessage }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UnpinChatMessage }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -73993,8 +73998,8 @@ pub struct UpgradeBasicGroupChatToSupergroupChat {
 impl Object for UpgradeBasicGroupChatToSupergroupChat {}
 impl RObject for UpgradeBasicGroupChatToSupergroupChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "upgradeBasicGroupChatToSupergroupChat" }
-  fn td_type(&self) -> TDType { TDType::UpgradeBasicGroupChatToSupergroupChat }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UpgradeBasicGroupChatToSupergroupChat }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -74065,8 +74070,8 @@ impl Clone for UploadFile {
 impl Object for UploadFile {}
 impl RObject for UploadFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "uploadFile" }
-  fn td_type(&self) -> TDType { TDType::UploadFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UploadFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -74151,8 +74156,8 @@ impl Clone for UploadStickerFile {
 impl Object for UploadStickerFile {}
 impl RObject for UploadStickerFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "uploadStickerFile" }
-  fn td_type(&self) -> TDType { TDType::UploadStickerFile }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::UploadStickerFile }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -74226,8 +74231,8 @@ pub struct ValidateOrderInfo {
 impl Object for ValidateOrderInfo {}
 impl RObject for ValidateOrderInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "validateOrderInfo" }
-  fn td_type(&self) -> TDType { TDType::ValidateOrderInfo }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ValidateOrderInfo }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -74315,8 +74320,8 @@ pub struct ViewMessages {
 impl Object for ViewMessages {}
 impl RObject for ViewMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "viewMessages" }
-  fn td_type(&self) -> TDType { TDType::ViewMessages }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ViewMessages }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -74392,8 +74397,8 @@ pub struct ViewTrendingStickerSets {
 impl Object for ViewTrendingStickerSets {}
 impl RObject for ViewTrendingStickerSets {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "viewTrendingStickerSets" }
-  fn td_type(&self) -> TDType { TDType::ViewTrendingStickerSets }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::ViewTrendingStickerSets }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
@@ -74457,8 +74462,8 @@ pub struct WriteGeneratedFilePart {
 impl Object for WriteGeneratedFilePart {}
 impl RObject for WriteGeneratedFilePart {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "writeGeneratedFilePart" }
-  fn td_type(&self) -> TDType { TDType::WriteGeneratedFilePart }
-  fn to_json(&self) -> String { serde_json::to_string(self).unwrap() }
+  fn td_type(&self) -> RTDType { RTDType::WriteGeneratedFilePart }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 
 
