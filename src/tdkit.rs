@@ -197,16 +197,16 @@ pub(crate) fn uppercase_first_char<S: AsRef<str>>(s: S) -> String {
 
 #[cfg(test)]
 mod rdtest {
-//  use crate::types::{RObject, UpdateAuthorizationState};
-//
-//  #[test]
-//  fn test_fill_json_struct() {
-//    let json = r#"{"@type":"updateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters"}}"#;
-//    let json = super::fill_json_struct(json);
-//    assert_eq!(json, r#"{"@type":"updateAuthorizationState","@struct":"UpdateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters","@struct":"AuthorizationStateWaitTdlibParameters"}}"#);
-//    let state: UpdateAuthorizationState = serde_json::from_str(&json[..]).expect("Json fail");
-//    assert_eq!("updateAuthorizationState", state.td_name());
-//  }
+  use crate::types::{RObject, UpdateAuthorizationState};
+
+  #[test]
+  fn test_fill_json_struct() {
+    let json = r#"{"@type":"updateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters"}}"#;
+    let json = super::fill_json_struct(json);
+    assert_eq!(json, r#"{"@type":"updateAuthorizationState","@struct":"UpdateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters","@struct":"AuthorizationStateWaitTdlibParameters"}}"#);
+    let state: UpdateAuthorizationState = serde_json::from_str(&json[..]).expect("Json fail");
+    assert_eq!("updateAuthorizationState", state.td_name());
+  }
 
   #[test]
   fn test_fill_lose_struct() {
