@@ -155,7 +155,7 @@ fn rawtd_path<S: AsRef<str>>(write_to: S) -> PathBuf {
   Path::new("src/{}")
     .canonicalize()
     .expect("Can not get rawtd path")
-    .join(write_to)
+    .join(write_to.as_ref())
 }
 
 fn gen_rs(czs: Vec<(String, PathBuf)>) {

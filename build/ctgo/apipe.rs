@@ -237,11 +237,11 @@ impl Apipe {
       .is_empty()
   }
 
-  fn path<S: AsRef<str>>(&self, name: S) -> Option<String> {
+  fn path<S: AsRef<str>>(&self, name: S) -> Option<PathBuf> {
     self.czs.iter()
       .filter(|(cname, _)| name.as_ref().to_lowercase() == cname.to_lowercase())
       .map(|(_, cpath)| cpath)
-      .collect::<Vec<&String>>()
+      .collect::<Vec<&PathBuf>>()
       .first()
       .map(|&cpath| cpath.clone())
   }

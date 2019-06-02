@@ -22,12 +22,12 @@ impl Level {
 }
 
 pub fn clear() {
-  let log_file = Path::new(&toolkit::path::root_dir()[..]).join("build/build.log");
+  let log_file = toolkit::path::root_dir().join("build/build.log");
   fs::remove_file(log_file).expect("Can not remove build log file.");
 }
 
 fn println<S: AsRef<str>>(level: Level, log: S) {
-  let log_file = Path::new(&toolkit::path::root_dir()[..]).join("build/build.log");
+  let log_file = toolkit::path::root_dir().join("build/build.log");
   toolkit::fs::append(log_file, format!("[{}] -> {}", level.string(), log.as_ref())).unwrap();
 }
 
