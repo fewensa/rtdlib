@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::fs;
+use std::path::PathBuf;
 
 use rstring_builder::StringBuilder;
 use scraper::{ElementRef, Html, Selector};
@@ -27,7 +28,7 @@ impl FieldINF {
 }
 
 pub struct Apipe {
-  czs: Vec<(String, String)>,
+  czs: Vec<(String, PathBuf)>,
   cache_document: HashMap<String, Html>,
   cache_is_trait: HashMap<String, bool>,
   cache_description: HashMap<String, String>,
@@ -37,9 +38,9 @@ pub struct Apipe {
 }
 
 impl Apipe {
-  pub fn new(czs: Vec<(String, String)>) -> Self {
+  pub fn new(czs: Vec<(String, PathBuf)>) -> Self {
     let mut apipe = Self {
-      czs: czs.clone(),
+      czs,
       cache_document: HashMap::new(),
       cache_is_trait: HashMap::new(),
       cache_description: HashMap::new(),
@@ -62,10 +63,10 @@ impl Apipe {
     apipe
   }
 
-  fn cache_document(&mut self, name: &String, path: &String) {
-    let content = fs::read_to_string(&path[..]).unwrap();
+  fn cache_document(&mut self, name: &String, path: &PathBuf) {
+    let content = fs::read_to_string(path).unwrap();
     let document = Html::parse_fragment(&content[..]);
-    bog::info(format!("Found html {}", path));
+    bog::info(format!("Found html {:?}", path));
     self.cache_document.insert(name.to_lowercase(), document);
   }
 

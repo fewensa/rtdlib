@@ -23,8 +23,8 @@ fn main() {
 fn build_tdapi() {
   bog::clear();
 
-  let dpath = Path::new(&toolkit::path::out_dir()[..]).join("tg_api");
-//  let dpath = Path::new(&toolkit::path::root_dir()[..]).join("_tmp");
+  let dpath = toolkit::path::out_dir().join("tg_api");
+//  let dpath = toolkit::path::root_dir().join("_tmp");
   ctgo::tdapibuilder::build(dpath);
 }
 

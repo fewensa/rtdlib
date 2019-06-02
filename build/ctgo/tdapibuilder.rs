@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::fs;
 use std::fs::{File, OpenOptions};
 use std::io::Write;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use curl::easy::{Easy, ProxyType};
 use scraper::{Html, Selector};
@@ -13,7 +13,7 @@ use crate::ctgo::apipe::{Apipe, FieldINF};
 
 const TG_API_DOC_BASE_URL: &'static str = "https://core.telegram.org/tdlib/docs/";
 
-fn download_page<S: AsRef<str>, P: AsRef<Path>>(url: S, save_path: P, save_name: S) -> String {
+fn download_page<S: AsRef<str>, P: AsRef<Path>>(url: S, save_path: P, save_name: S) -> PathBuf {
   let path = save_path.as_ref();
   let save_name = save_name.as_ref();
   let url = &format!("{}{}", TG_API_DOC_BASE_URL, url.as_ref())[..];
@@ -23,16 +23,16 @@ fn download_page<S: AsRef<str>, P: AsRef<Path>>(url: S, save_path: P, save_name:
   }
   let fpath = path.join(save_name);
   if fpath.exists() {
-    bog::debug(format!("exists {}/{} file, use cache.", toolkit::path::canonicalize_path(path).expect("Can not get tdpi document path"), save_name));
-    return toolkit::path::canonicalize_path(path.join(save_name)).expect("Can not get tdapi document file");
+    bog::debug(format!("exists {:?} file, use cache.", fpath.canonicalize().expect("Can not get tdapi save path")));
+    return fpath;
   }
 
-  bog::debug(format!("Download {} ==> {}/{}", url, toolkit::path::canonicalize_path(path).expect("Can not get tdapi save path."), save_name));
+  bog::debug(format!("Download {} ==> {:?}", url, fpath.canonicalize().expect("Can not get tdapi save path")));
 
   let mut easy = Easy::new();
   let hostname: Option<String> = hostname::get_hostname();
   if let Some(name) = hostname {
-    if let "amip" = &name[..] {
+    if "amip" == &name[..] {
       easy.proxy("127.0.0.1").expect("Proxy host fail.");
       easy.proxy_port(1080).expect("Proxy port fail.");
       easy.proxy_type(ProxyType::Socks5).expect("Proxy type fail.");
@@ -52,8 +52,8 @@ fn download_page<S: AsRef<str>, P: AsRef<Path>>(url: S, save_path: P, save_name:
 
 
   let content = String::from_utf8(all).expect("Can not get response body");
-  fs::write(&fpath, content).expect(&format!("Can not write conten to => {:?}", toolkit::path::canonicalize_path(&fpath).expect("Not found save path"))[..]);
-  return toolkit::path::canonicalize_path(fpath).expect("Can not get tdapi document file");
+  fs::write(&fpath, content).expect(&format!("Can not write conten to => {:?}", fpath.canonicalize().expect("Not found save path"))[..]);
+  return fpath;
 
 //  println!("===> {}", easy.response_code().unwrap());
 }
@@ -124,10 +124,10 @@ fn is_skip(cname: String) -> bool {
 
 fn write_rawtd<S: AsRef<str>>(content: S, write_to: S) {
   let write_to = write_to.as_ref();
-  let path = Path::new(rawtd_path(write_to));
+  let path = rawtd_path(write_to);
   if !path.exists() {
-    File::create(path.clone()).expect(&format!("Can not create {}", write_to)[..]);
-    bog::debug(format!("Create {}", toolkit::path::canonicalize_path(path.clone()).expect("Ca not get save path.")));
+    File::create(&path).expect(&format!("Can not create {}", write_to)[..]);
+    bog::debug(format!("Create {:?}", path));
   }
   bog::info(format!("Append code to {} ```rust\\n{}\\n```", write_to, content.as_ref().trim().replace("\n", "\\n")));
 
@@ -145,26 +145,28 @@ fn write_rawtd<S: AsRef<str>>(content: S, write_to: S) {
 
 fn rm_rawtd<S: AsRef<str>>(write_to: S) {
   let write_to = write_to.as_ref();
-  let path = Path::new(rawtd_path(write_to));
+  let path = rawtd_path(write_to);
   if path.exists() {
-    fs::remove_file(path).expect(&format!("Can not remove {} file", write_to)[..]);
+    fs::remove_file(&path).expect(&format!("Can not remove {} file", write_to)[..]);
   }
 }
 
-fn rawtd_path<S: AsRef<str>>(write_to: S) -> &'static str {
-  let path = format!("{}/src/{}", toolkit::path::root_dir(), write_to.as_ref());
-  Box::leak(path.into_boxed_str())
+fn rawtd_path<S: AsRef<str>>(write_to: S) -> PathBuf {
+  Path::new("src/{}")
+    .canonicalize()
+    .expect("Can not get rawtd path")
+    .join(write_to)
 }
 
-fn gen_rs(czs: Vec<(String, String)>) {
+fn gen_rs(czs: Vec<(String, PathBuf)>) {
   let write_to_types = "types.rs";
   let write_to_supplement = "tdsupplement.rs";
 
-  let tpl_path = &format!("{}/build/tpl/**/*", toolkit::path::root_dir())[..];
+  let tpl_path = "build/tpl/**/*";
   bog::debug(format!("Template path: {}", tpl_path));
   let tera = Tera::new(tpl_path).expect("Can not create Tera template engine.");
 
-  let apipe = Apipe::new(czs.clone());
+  let apipe = Apipe::new(czs);
 
   self::gen_common(&apipe, &tera, write_to_types);
 
