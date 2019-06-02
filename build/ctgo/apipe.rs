@@ -40,7 +40,7 @@ pub struct Apipe {
 impl Apipe {
   pub fn new(czs: Vec<(String, PathBuf)>) -> Self {
     let mut apipe = Self {
-      czs,
+      czs: czs.clone(),
       cache_document: HashMap::new(),
       cache_is_trait: HashMap::new(),
       cache_description: HashMap::new(),
