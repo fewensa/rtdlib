@@ -152,7 +152,7 @@ fn rm_rawtd<S: AsRef<str>>(write_to: S) {
 }
 
 fn rawtd_path<S: AsRef<str>>(write_to: S) -> PathBuf {
-  Path::new("src/{}")
+  Path::new("src")
     .canonicalize()
     .expect("Can not get rawtd path")
     .join(write_to.as_ref())

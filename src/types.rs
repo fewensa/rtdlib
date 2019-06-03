@@ -19,7 +19,7 @@ pub trait RObject {
 trait TlObject: Debug + Clone {}
 
 /// TDLib all class name mappers
-#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum RTDType {
   Object,
   Function,
@@ -1101,6 +1101,10 @@ pub enum RTDType {
   ViewTrendingStickerSets,
   WriteGeneratedFilePart,
   
+}
+
+impl RTDType {
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 
 /// This class is a base class for all TDLib API classes. 

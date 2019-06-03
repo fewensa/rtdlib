@@ -23,7 +23,9 @@ impl Level {
 
 pub fn clear() {
   let log_file = toolkit::path::root_dir().join("build/build.log");
-  fs::remove_file(log_file).expect("Can not remove build log file.");
+  if log_file.exists() {
+    fs::remove_file(log_file).expect("Can not remove build log file.");
+  }
 }
 
 fn println<S: AsRef<str>>(level: Level, log: S) {

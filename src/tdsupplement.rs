@@ -41,7 +41,7 @@ impl Object {
   pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<Object>> {
     let struct_name = tdkit::extra_struct(json.as_ref());
     if struct_name.is_none() {
-      eprintln!("JSON FAIL {}", json.as_ref());
+      eprintln!("JSON FAIL => {}", json.as_ref());
       return None;
     }
     let struct_name = struct_name.unwrap();
@@ -1075,7 +1075,7 @@ impl Function {
   pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<Function>> {
     let struct_name = tdkit::extra_struct(json.as_ref());
     if struct_name.is_none() {
-      eprintln!("JSON FAIL {}", json.as_ref());
+      eprintln!("JSON FAIL => {}", json.as_ref());
       return None;
     }
     let struct_name = struct_name.unwrap();
