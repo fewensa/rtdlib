@@ -20,13 +20,44 @@ pub fn filter_field_type(value: Value, arg: HashMap<String, Value>) -> tera::Res
   let field_type = match &td.clz_name[..] {
     "ProfilePhoto" => {
       match field_name {
-        // On the telegram api document website, this type is std::int64_t,
+        // On the telegram api document website, this type is std::int64_t   https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1profile_photo.html,
         // So rtdlib use i64, but libtdjson return json is a string.
-        // {"@type":"updateUser","user":{"@type":"user","id":743550508,"first_name":"Jo","last_name":"ho","username":"laocaimi","phone_number":"","status":{"@type":"userStatusOffline","was_online":1556077825},"profile_photo":{"@type":"profilePhoto","id":"3193525115240425385","small":{"@type":"file","id":1,"size":0,"expected_size":0,"local":{"@type":"localFile","path":"","can_be_downloaded":true,"can_be_deleted":false,"is_downloading_active":false,"is_downloading_completed":false,"download_offset":0,"downloaded_prefix_size":0,"downloaded_size":0},"remote":{"@type":"remoteFile","id":"AQADAQADqacxGyyuUSwACL8DCzAABFCmbbpR8R0fdAoDAAEC","is_uploading_active":false,"is_uploading_completed":true,"uploaded_size":0}},"big":{"@type":"file","id":2,"size":0,"expected_size":0,"local":{"@type":"localFile","path":"","can_be_downloaded":true,"can_be_deleted":false,"is_downloading_active":false,"is_downloading_completed":false,"download_offset":0,"downloaded_prefix_size":0,"downloaded_size":0},"remote":{"@type":"remoteFile","id":"AQADAQADqacxGyyuUSwACL8DCzAABHLmUqWpsqcqdgoDAAEC","is_uploading_active":false,"is_uploading_completed":true,"uploaded_size":0}}},"outgoing_link":{"@type":"linkStateNone"},"incoming_link":{"@type":"linkStateNone"},"is_verified":false,"is_support":false,"restriction_reason":"","have_access":true,"type":{"@type":"userTypeRegular"},"language_code":""}}
+        // {"@type":"updateUser","user":{"@type":"user","profile_photo":{"@type":"profilePhoto","id":"3193525115240425385",..}}
         // {"@type":"profilePhoto","id":"3193525115240425385", ...}
         // is not "id": 3193525115240425385
         // if use Option<i64> serde_json deserialize will throw error.
         "id" => "String",
+        _ => origin_field_type
+      }
+    }
+    "Chat" => {
+      match field_name {
+        // https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1chat.html
+        // order is std::int64_t
+        // but libtdjson return data is string
+        // sample
+        // {"@type":"updateNewChat","chat":{"@type":"chat","id":690763082,"type":{"@type":"chatTypePrivate","user_id":190363082},"title":"Fnunkuy","order":"0","is_pinned":false, ...}
+        "order" => "String",
+        _ => origin_field_type
+      }
+    }
+    "Message" => {
+      match field_name {
+        // https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1message.html
+        // media_album_id is std::int64_t
+        // sample
+        // {"@type":"updateNewMessage","message":{"@type":"message","id":139460608,"media_album_id":"0", ...}}
+        "media_album_id" => "String",
+        _ => origin_field_type
+      }
+    }
+    "UpdateChatLastMessage" => {
+      match field_name {
+        // https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1update_chat_last_message.html
+        // order is std::int64_t
+        // sample
+        // {"@type":"updateChatLastMessage","chat_id":690763082,"last_message":{"@type":"message",...},"order":"0"}
+        "order" => "String",
         _ => origin_field_type
       }
     }

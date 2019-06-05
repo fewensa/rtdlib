@@ -4378,7 +4378,7 @@ pub struct Chat {
   /// Last message in the chat; may be null.
   last_message: Option<Message>,
   /// Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined.
-  order: Option<i64>,
+  order: Option<String>,
   /// True, if the chat is pinned.
   is_pinned: Option<bool>,
   /// True, if the chat is marked as unread.
@@ -4475,7 +4475,7 @@ impl Chat {
   
   pub fn last_message(&self) -> Option<Message> { self.last_message.clone() }
   
-  pub fn order(&self) -> Option<i64> { self.order.clone() }
+  pub fn order(&self) -> Option<String> { self.order.clone() }
   
   pub fn is_pinned(&self) -> Option<bool> { self.is_pinned.clone() }
   
@@ -4548,8 +4548,8 @@ impl RTDChatBuilder {
     self
   }
   
-  pub fn order(&mut self, order: i64) -> &mut Self {
-    self.instance.order = Some(order);
+  pub fn order<S: AsRef<str>>(&mut self, order: S) -> &mut Self {
+    self.instance.order = Some(order.as_ref().to_string());
     self
   }
   
@@ -23050,7 +23050,7 @@ pub struct Message {
   /// Number of times this message was viewed.
   views: Option<i32>,
   /// Unique identifier of an album this message belongs to. Only photos and videos can be grouped together in albums.
-  media_album_id: Option<i64>,
+  media_album_id: Option<String>,
   /// Content of the message.
   content: Option<Box<MessageContent>>,
   /// Reply markup for the message; may be null.
@@ -23150,7 +23150,7 @@ impl Message {
   
   pub fn views(&self) -> Option<i32> { self.views.clone() }
   
-  pub fn media_album_id(&self) -> Option<i64> { self.media_album_id.clone() }
+  pub fn media_album_id(&self) -> Option<String> { self.media_album_id.clone() }
   
   pub fn content(&self) -> Option<Box<MessageContent>> { self.content.clone() }
   
@@ -23270,8 +23270,8 @@ impl RTDMessageBuilder {
     self
   }
   
-  pub fn media_album_id(&mut self, media_album_id: i64) -> &mut Self {
-    self.instance.media_album_id = Some(media_album_id);
+  pub fn media_album_id<S: AsRef<str>>(&mut self, media_album_id: S) -> &mut Self {
+    self.instance.media_album_id = Some(media_album_id.as_ref().to_string());
     self
   }
   
@@ -46061,7 +46061,7 @@ pub struct UpdateChatLastMessage {
   /// The new last message in the chat; may be null.
   last_message: Option<Message>,
   /// New value of the chat order.
-  order: Option<i64>,
+  order: Option<String>,
   
 }
 
@@ -46085,7 +46085,7 @@ impl UpdateChatLastMessage {
   
   pub fn last_message(&self) -> Option<Message> { self.last_message.clone() }
   
-  pub fn order(&self) -> Option<i64> { self.order.clone() }
+  pub fn order(&self) -> Option<String> { self.order.clone() }
   
   pub fn from_json<S: AsRef<str>>(json: S) -> Option<UpdateChatLastMessage> {
     match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
