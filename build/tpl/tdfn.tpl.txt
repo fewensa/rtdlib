@@ -41,7 +41,7 @@ impl {{ clz_name }} {
   }
   {% endif %}
   {% if fields %}{% for field in fields %}
-  pub fn {{field.name}}(&self) -> &Option<{{field.type}}> { &self.{{field.name}} }
+  pub fn {{field.name}}(&self) -> Option<{{field.type}}> { self.{{field.name}}.clone() }
   {% endfor %}{% endif %}
   pub fn from_json<S: AsRef<str>>(json: S) -> Option<{{ clz_name }}> {
     match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
