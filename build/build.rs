@@ -1,5 +1,7 @@
 #[macro_use]
 extern crate tera;
+#[macro_use]
+extern crate serde_derive;
 
 use std::env;
 use std::path::Path;

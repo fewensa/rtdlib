@@ -46,7 +46,7 @@ impl Object {
     }
     let struct_name = struct_name.unwrap();
     let ret: Option<Box<Object>> = match &struct_name[..] {
-      {% for item in object_classes %}{% if item.is_trait == "false" %}"{{item.clz_name}}" => { match serde_json::from_str::<Box<types::{{item.clz_name}}>>(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } },
+      {% for item in sp.objects %}{% if not item.is_trait %}"{{item.clz_name}}" => { match serde_json::from_str::<Box<types::{{item.clz_name}}>>(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => Some(t), Err(e) => { eprintln!("{:?}", e); None } } },
       {% endif %}{% endfor %}
       _ => None
     };
@@ -63,7 +63,7 @@ impl Function {
     }
     let struct_name = struct_name.unwrap();
     let ret: Option<Box<Function>> = match &struct_name[..] {
-      {% for item in function_classes %}{% if item.is_trait == "false" %}"{{item.clz_name}}" => { match serde_json::from_str::<Box<types::{{item.clz_name}}>>(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } },
+      {% for item in sp.functions %}{% if not item.is_trait %}"{{item.clz_name}}" => { match serde_json::from_str::<Box<types::{{item.clz_name}}>>(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => Some(t), Err(e) => { eprintln!("{:?}", e); None } } },
       {% endif %}{% endfor %}
       _ => None
     };

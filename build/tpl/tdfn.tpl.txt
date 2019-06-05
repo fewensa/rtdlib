@@ -1,90 +1,91 @@
-{% if clz_description %}/// {{ clz_description }}{% endif %}
-{% if clz_is_trait %}{% if set_trait_typetag %}#[typetag::serde(tag = "@struct")]{% endif %}{% else %}#[derive(Debug, {% if not has_trait_field %}Clone, {% endif %}Serialize, Deserialize)]{% endif %}
-{% if not is_private %}pub {% endif %}{% if clz_is_trait %}trait{% else %}struct{% endif %} {{ clz_name }}{% if clz_is_trait %}: {% if clz_name != 'Object' %}Object + {% endif %}RObject + Debug {}{% else %} {
+{% if td.clz_description %}/// {{ td.clz_description }}{% endif %}
+{% if td.clz_is_trait %}{% if td.set_trait_typetag %}#[typetag::serde(tag = "@struct")]{% endif %}{% else %}#[derive(Debug, {% if not td.has_trait_field %}Clone, {% endif %}Serialize, Deserialize)]{% endif %}
+{% if not td.is_private %}pub {% endif %}{% if td.clz_is_trait %}trait{% else %}struct{% endif %} {{ td.clz_name }}{% if td.clz_is_trait %}: {% if td.clz_name != 'Object' %}Object + {% endif %}RObject + Debug {}{% else %} {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // {{origin_name}}
-  {% if fields %}{% for field in fields %}/// {{field.description}}
-  {% if field.name == 'type_' %}#[serde(rename(serialize = "type", deserialize = "type"))] {% endif %}{{field.name}}: Option<{{field.type}}>,
+  td_name: String, // {{ td.origin_name }}
+  {% if td.fields %}{% for field in td.fields %}/// {{field.description}}
+  {% if field.name == 'type_' %}#[serde(rename(serialize = "type", deserialize = "type"))] {% endif %}{{field.name}}: {{field.class | field_type(td = td, field_name = field.name, wrap_option = true)}},
   {% endfor %}{% endif %}
 }
 {% endif %}
-{% if has_trait_field %}
-impl Clone for {{ clz_name }} {
+{% if td.has_trait_field %}
+impl Clone for {{ td.clz_name }} {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
     serde_json::from_str(&json[..]).unwrap()
   }
 }
 {% endif %}
-{% if not clz_is_trait %}
-impl Object for {{ clz_name }} {}
-impl RObject for {{ clz_name }} {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "{{ origin_name }}" }
-  fn td_type(&self) -> RTDType { RTDType::{{ clz_name }} }
+{% if not td.clz_is_trait %}
+impl Object for {{ td.clz_name }} {}
+impl RObject for {{ td.clz_name }} {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "{{ td.origin_name }}" }
+  fn td_type(&self) -> RTDType { RTDType::{{ td.clz_name }} }
   fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 {% endif %}
-{% if clz_super and clz_super != 'Object' and clz_super != 'TlObject' %}
-{% if impl_trait_typetag %}#[typetag::serde] {% endif %}impl {{ clz_super }} for {{ clz_name }} {}
+{% if td.clz_super and td.clz_super != 'Object' and td.clz_super != 'TlObject' %}
+{% if td.impl_trait_typetag %}#[typetag::serde] {% endif %}impl {{ td.clz_super }} for {{ td.clz_name }} {}
 {% endif %}
-{% if not is_private and not clz_is_trait %}
-impl {{ clz_name }} {
-  {% if has_builder_struct %}
-  pub fn builder() -> RTD{{ clz_name }}Builder {
+{% if not td.is_private and not td.clz_is_trait %}
+impl {{ td.clz_name }} {
+  {% if td.has_builder_struct %}
+  pub fn builder() -> RTD{{ td.clz_name }}Builder {
     let instance = Self {
-      td_name: "{{origin_name}}".to_string(),
-      {% if fields %}{% for field in fields %}{{field.name}}: None,
+      td_name: "{{ td.origin_name }}".to_string(),
+      {% if td.fields %}{% for field in td.fields %}{{field.name}}: None,
       {% endfor %}{% endif %}
     };
-    RTD{{ clz_name }}Builder::new(instance)
+    RTD{{ td.clz_name }}Builder::new(instance)
   }
   {% endif %}
-  {% if fields %}{% for field in fields %}
-  pub fn {{field.name}}(&self) -> Option<{{field.type}}> { self.{{field.name}}.clone() }
+  {% if td.fields %}{% for field in td.fields %}
+  pub fn {{field.name}}(&self) -> {{field.class | field_type(td = td, field_name = field.name, wrap_option = true)}} { self.{{field.name}}.clone() }
   {% endfor %}{% endif %}
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<{{ clz_name }}> {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<{{ td.clz_name }}> {
     match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
   }
 }
 {% endif %}
-{% if has_builder_struct %}
+{% if td.has_builder_struct %}
 #[derive(Debug)]
-pub struct RTD{{ clz_name }}Builder { instance: {{ clz_name }} }
+pub struct RTD{{ td.clz_name }}Builder { instance: {{ td.clz_name }} }
 
-impl RTD{{ clz_name }}Builder {
-  fn new(instance: {{ clz_name }}) -> Self { Self { instance } }
+impl RTD{{ td.clz_name }}Builder {
+  fn new(instance: {{ td.clz_name }}) -> Self { Self { instance } }
 
-  pub fn build(&self) -> {{ clz_name }} { self.instance.clone() }
-  {% if fields %}{% for field in fields %}
-  pub fn {{field.name}}{% if field.type == 'String' %}<S: AsRef<str>>{% endif %}(&mut self, {{field.name}}: {% if field.type == 'String' %}S{% else %}{{field.type}}{% endif %}) -> &mut Self {
-    self.instance.{{field.name}} = Some({{field.name}}{% if field.type == 'String' %}.as_ref().to_string(){% endif %});
+  pub fn build(&self) -> {{ td.clz_name }} { self.instance.clone() }
+  {% if td.fields %}{% for field in td.fields %}
+  {% set field_class = field.class | field_type(td = td, field_name = field.name, wrap_option = false) -%}
+  pub fn {{field.name}}{% if field_class == 'String' %}<S: AsRef<str>>{% endif %}(&mut self, {{field.name}}: {% if field_class == 'String' %}S{% else %}{{field_class}}{% endif %}) -> &mut Self {
+    self.instance.{{field.name}} = Some({{field.name}}{% if field_class == 'String' %}.as_ref().to_string(){% endif %});
     self
   }
   {% endfor %}{% endif %}
 }
 {% endif %}
-{% if clz_is_trait %}
-{% if clz_name != 'Object' and clz_name != 'Function' %}
-impl {{ clz_name }} {
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<{{ clz_name }}>> {
+{% if td.clz_is_trait %}
+{% if td.clz_name != 'Object' and td.clz_name != 'Function' %}
+impl {{ td.clz_name }} {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<{{ td.clz_name }}>> {
     match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
   }
 }
-impl Clone for Box<{{clz_name}}> {
+impl Clone for Box<{{td.clz_name}}> {
   fn clone(&self) -> Self {
     let json = serde_json::to_string(self).unwrap();
     serde_json::from_str(&json[..]).unwrap()
   }
 }
 {% endif %}
-{% if has_subclasses and clz_name != 'Object' %}
+{% if td.has_subclasses and td.clz_name != 'Object' %}
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum RTD{{clz_name}}Type {
-  {% for sub in sub_classes %}{{ sub }},
+pub enum RTD{{td.clz_name}}Type {
+  {% for sub in td.sub_classes %}{{ sub }},
   {% endfor %}
 }
-impl RTD{{clz_name}}Type {
+impl RTD{{td.clz_name}}Type {
   pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(_) => None } }
 }
 {% endif %}

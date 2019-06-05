@@ -21,7 +21,7 @@ trait TlObject: Debug + Clone {}
 /// TDLib all class name mappers
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
 pub enum RTDType {
-  {% for name in clz_names %}{{ name }},
+  {% for name in common.clz_names %}{{ name }},
   {% endfor %}
 }
 

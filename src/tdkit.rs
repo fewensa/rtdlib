@@ -85,6 +85,19 @@ pub fn fill_json_struct<S: AsRef<str>>(json: S) -> String {
           match reader.next() {
             Some(':') => {
               builder.append(':');
+              while reader.has_next() {
+                match reader.next() {
+                  Some('"') => {
+                    reader.back();
+                    break
+                  }
+                  Some(ch) => {
+                    builder.append(ch);
+                    continue
+                  },
+                  None => continue
+                }
+              }
               continue;
             }
             Some('"') => {

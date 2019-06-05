@@ -7,25 +7,26 @@ use scraper::{ElementRef, Html, Selector};
 use text_reader::TextReader;
 
 use crate::bog;
+use crate::ctgo::types::TdTypeField;
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Hash)]
-pub enum FieldINF {
-  Type,
-  Name,
-  Description,
-  IsTrait,
-}
-
-impl FieldINF {
-  pub fn string(&self) -> &'static str {
-    match self {
-      FieldINF::Type => "type",
-      FieldINF::Name => "name",
-      FieldINF::Description => "description",
-      FieldINF::IsTrait => "is_trait",
-    }
-  }
-}
+//#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Hash)]
+//pub enum FieldINF {
+//  Type,
+//  Name,
+//  Description,
+//  IsTrait,
+//}
+//
+//impl FieldINF {
+//  pub fn string(&self) -> &'static str {
+//    match self {
+//      FieldINF::Type => "type",
+//      FieldINF::Name => "name",
+//      FieldINF::Description => "description",
+//      FieldINF::IsTrait => "is_trait",
+//    }
+//  }
+//}
 
 pub struct Apipe {
   czs: Vec<(String, PathBuf)>,
@@ -34,7 +35,7 @@ pub struct Apipe {
   cache_description: HashMap<String, String>,
   cache_subclasses: HashMap<String, Vec<String>>,
   cache_fatherclass: HashMap<String, String>,
-  cache_fields: HashMap<String, Vec<HashMap<FieldINF, String>>>,
+  cache_fields: HashMap<String, Vec<TdTypeField>>,
 }
 
 impl Apipe {
@@ -189,7 +190,13 @@ impl Apipe {
     };
 
 
-    let mut tdpf = HashMap::new();
+//    let mut tdpf = HashMap::new();
+    let mut tdtype_field = TdTypeField {
+      name: "".to_string(),
+      description: "".to_string(),
+      is_trait: false,
+      class: "".to_string(),
+    };
 
     let fields = pf.select(&selector_tr).map(|tr| {
       let ele = tr.value();
@@ -206,23 +213,28 @@ impl Apipe {
         let field_name = self::rs_field_name(self::ele_text_rule(&tr, ".memItemRight"));
         let field_type = self::rs_type(self::ele_text_rule(&tr, ".memItemLeft"));
         let is_trait = self::field_is_trait(self, &field_type);
-        tdpf.insert(FieldINF::Name, field_name);
-        tdpf.insert(FieldINF::IsTrait, if is_trait { 1 } else { 0 }.to_string());
-        tdpf.insert(FieldINF::Type, self::box_trait_field_type(self, field_type, is_trait));
+//        tdpf.insert(FieldINF::Name, field_name);
+//        tdpf.insert(FieldINF::IsTrait, if is_trait { 1 } else { 0 }.to_string());
+//        tdpf.insert(FieldINF::Type, self::box_trait_field_type(self, field_type, is_trait));
+        tdtype_field.name = field_name;
+        tdtype_field.is_trait = is_trait;
+        tdtype_field.class = self::box_trait_field_type(self, field_type, is_trait);
         return None;
       }
       if css_class.starts_with("memdesc") {
-        tdpf.insert(FieldINF::Description, self::ele_text_rule(&tr, ".mdescRight"));
-        bog::info(format!("FOUND FIELD => {:?}", tdpf));
-        let s = Some(tdpf.clone());
-        tdpf.clear();
-        return s;
+//        tdpf.insert(FieldINF::Description, self::ele_text_rule(&tr, ".mdescRight"));
+        tdtype_field.description = self::ele_text_rule(&tr, ".mdescRight");
+        bog::info(format!("FOUND FIELD => {:?}", tdtype_field));
+//        let s = Some(tdpf.clone());
+//        tdpf.clear();
+//        return s;
+        return Some(tdtype_field.clone());
       }
       None
     })
       .filter(|item| item.is_some())
       .map(|item| item.unwrap())
-      .collect::<Vec<HashMap<FieldINF, String>>>();
+      .collect::<Vec<TdTypeField>>();
 
     bog::info(format!("[{}] has those fields {:?}", name, fields));
     self.cache_fields.insert(name.to_lowercase(), fields);
@@ -288,7 +300,7 @@ impl Apipe {
     self.cache_subclasses.get(&name.as_ref().to_lowercase()[..])
   }
 
-  pub fn fields<S: AsRef<str>>(&self, name: S) -> Option<&Vec<HashMap<FieldINF, String>>> {
+  pub fn fields<S: AsRef<str>>(&self, name: S) -> Option<&Vec<TdTypeField>> {
     if !self.exists_name(name.as_ref()) {
       return None;
     }
