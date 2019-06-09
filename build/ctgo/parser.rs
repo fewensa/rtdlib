@@ -1,15 +1,20 @@
 use crate::ctgo::apipe::Apipe;
-use crate::ctgo::types::{TdType, TdTypeClassMapper, TdTypeCommon, TdTypeSupplement};
+use crate::ctgo::types::{TdType, TdTypeClassMapper, TdTypeCommon, TdTypeSupplement, TdClz};
 
 pub fn td_common(apipe: &Apipe) -> TdTypeCommon {
   let names = apipe.names();
   let clznames = names.clone().iter()
-    .map(|item| toolkit::text::uppercase_first_char(item))
-    .collect::<Vec<String>>();
+    .map(|item| {
+      TdClz {
+        name: toolkit::text::uppercase_first_char(&item),
+        is_trait: apipe.is_trait(&item)
+      }
+    })
+    .collect::<Vec<TdClz>>();
   let len = names.len();
   TdTypeCommon {
     origin_names: names,
-    clz_names: clznames,
+    clzs: clznames,
     len,
   }
 }
@@ -81,7 +86,10 @@ fn td_type_trait(apipe: &Apipe, tdtype: &mut TdType, name: &String) {
   if is_trait {
     let mut has_subclasses = false;
     if let Some(sub_classes) = apipe.sub_classes(name) {
-      tdtype.sub_classes = Some(sub_classes.clone());
+      let scs = sub_classes.iter()
+        .map(|v| TdClz { name: v.clone(), is_trait: apipe.is_trait(v) })
+        .collect::<Vec<TdClz>>();
+      tdtype.sub_classes = Some(scs);
       has_subclasses = sub_classes.len() > 0;
     }
     tdtype.has_subclasses = has_subclasses;

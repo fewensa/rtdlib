@@ -1,0 +1,154 @@
+
+[define]
+
+uses = [
+  "std::fmt::Debug",
+  "std::str::FromStr",
+  "crate::tdkit"
+]
+
+macros = [
+"""
+macro_rules! from_json {
+  () => {
+    |json| match serde_json::from_str(&tdkit::fill_json_struct(json)[..]) {
+      Ok(t) => t,
+      Err(e) => {
+        eprintln!("{:?}", e);
+        None
+      }
+    }
+  };
+}
+""",
+"""
+macro_rules! rtd_of {
+  ($rtd_type:ident) => {
+    |text| match $rtd_type::from_str(&tdkit::uppercase_first_char(text)[..]) {
+      Ok(t) => Some(t),
+      Err(e) => {
+        eprintln!("{:?}", e);
+        None
+      }
+    }
+  };
+}
+""",
+"""
+macro_rules! rtd_clone {
+  () => {
+    |obj| {
+      let json = serde_json::to_string(obj).unwrap();
+      serde_json::from_str(&json[..]).unwrap()
+    }
+  }
+}
+""",
+"""
+macro_rules! rtd_to_json {
+  () => {
+    |obj| tdkit::fill_json_struct(serde_json::to_string(obj).unwrap())
+  }
+}
+""",
+]
+
+
+[rtd]
+
+[rtd.__OBJECT_NAME__]
+origin_name = "__OBJECT_NAME__"
+clz_name = "__OBJECT_NAME__"
+is_private = false
+clz_is_trait = true
+clz_description = """ All tdlib type abstract class defined the same behavior """
+has_subclasses = true
+sub_classes = [
+  { name = "AuthenticationCodeTypeCall", is_trait = false },
+  { name = "AuthenticationCodeTypeFlashCall", is_trait = false },
+  { name = "AuthenticationCodeTypeSms", is_trait = false },
+  { name = "AuthenticationCodeTypeTelegramMessage", is_trait = false },
+]
+fields = [
+  { doc_hidden = true, name = "td_name", class = "String", rename = "@type", tags = [ """ #[serde(rename(serialize = "@type", deserialize = "@type"))] """ ] }, # If rename not null, need set
+  { doc_hidden = false, name =  "length", class = "Option<i32>", description = """ Length of the code. """ }
+]
+fields_size = 2
+has_trait_field = false
+set_trait_typetag = false # If true, need set #[typetag::serde(tag = "@struct")] to this trait
+has_builder_struct = false # deprecated
+trait_tags = [ """ #[typetag::serde(tag = "@struct")] """ ] # set_trait_typetag == true
+dna = "trait" # trait struct enum
+derives = [ "Debug", "Clone" ]
+extra_fns = [
+"""
+impl {{ td.clz_name }} {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { // if trait Option<Box<Self>>
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(_) => None }
+  }
+}
+"""
+]
+
+[[rtd.__OBJECT_NAME__.trait_fns]]
+doc_hidden = true
+name = "td_name"
+ret = "&'static str"
+
+[[rtd.__OBJECT_NAME__.trait_fns]]
+doc_hidden = false
+name = "td_type"
+ret = "RTDType"
+description = "convert TDLib type to rust enum RTDType"
+
+[[rtd.__OBJECT_NAME__.trait_fns]]
+doc_hidden = false
+name = "to_json"
+ret = "RTDType"
+description = """
+The string that implements the return of to_json should be called `tdkit::fill_json_struct` for optimization,
+appending the `@struct` field, although usually struct will actively generate `@struct`, but not in `Object` and `Function`,
+because the implementation of typetag cannot be automatically generated.
+"""
+
+[[rtd.__OBJECT_NAME__.supers]]
+name = "Object"
+impl_trait_typetag = false
+
+[[rtd.__OBJECT_NAME__.supers]]
+name = "RObject"
+impl_trait_typetag = false
+fns = [
+  { doc_hidden = true, name = "td_name", ret = "&'static str", body = """ "authenticationCodeTypeSms" """ },
+  { doc_hidden = false, name = "td_type", ret = "RTDType", body = """ RTDType::AuthenticationCodeTypeSms """},
+  { doc_hidden = false, name = "to_json", ret = "String", body = """ tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) """ },
+]
+
+[[rtd.__OBJECT_NAME__.supers]]
+name = "AuthenticationCodeType"
+impl_trait_typetag = true # If true, need set  #[typetag::serde]
+impl_tags = [ # impl_trait_typetag == true
+  "#[typetag::serde]"
+]
+
+
+[rtd.__OBJECT_NAME__]
+clz_name = "__OBJECT_NAME__"
+is_private = false
+clz_is_trait = false
+has_subclasses = false
+fields = [
+  { name = "__FIELD__", is_trait = false },
+]
+fields_size = 1
+dna = "enum"
+derives = [ "Debug", "Clone", "PartialEq", "PartialOrd", "Eq", "Ord", "Hash", "EnumString" ]
+extra_fns = [
+"""
+impl __OBJECT_NAME__ {
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { rtd_of!(__OBJECT_NAME__)(text.as_ref()) }
+}
+""",
+]
+
+

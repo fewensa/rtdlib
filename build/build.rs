@@ -20,14 +20,14 @@ fn main() {
     }
     Err(_) => {}
   }
-//  build_tdapi();
+  build_tdapi();
 }
 
 fn build_tdapi() {
   bog::clear();
 
-  let dpath = toolkit::path::out_dir().join("tg_api");
-//  let dpath = toolkit::path::root_dir().join("_tmp");
+//  let dpath = toolkit::path::out_dir().join("tg_api");
+  let dpath = toolkit::path::root_dir().join("_tmp");
   ctgo::tdapibuilder::build(dpath);
 }
 
