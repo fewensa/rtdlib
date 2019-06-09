@@ -64,6 +64,18 @@ impl Apipe {
     apipe
   }
 
+  pub fn is_skip<S: AsRef<str>>(name: S) -> bool {
+    let name = name.as_ref().to_lowercase();
+
+    if name.starts_with("json") {
+      return true;
+    }
+
+    name.contains("getjsonstring") ||
+      name.contains("saveapplicationlogevent") ||
+      name.contains("getjsonvalue")
+  }
+
   fn cache_document(&mut self, name: &String, path: &PathBuf) {
     let content = fs::read_to_string(path).unwrap();
     let document = Html::parse_fragment(&content[..]);
@@ -265,9 +277,9 @@ impl Apipe {
     self.cache_document.get(&name.as_ref().to_lowercase()[..])
   }
 
-
   pub fn names(&self) -> Vec<String> {
     self.czs.iter()
+      .filter(|(cname, _)| !Self::is_skip(cname))
       .map(|(cname, _)| cname.clone())
       .collect::<Vec<String>>()
   }

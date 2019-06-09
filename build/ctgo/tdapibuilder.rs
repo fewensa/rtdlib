@@ -43,7 +43,8 @@ fn handle_main<P: AsRef<Path>>(main_page: &'static str, save_path: P) {
     };
 
     // skip some class
-    if is_skip(cname) {
+    if Apipe::is_skip(cname) {
+      bog::info(format!("Skip => {}", cname));
       return;
     }
 
@@ -109,7 +110,6 @@ fn download_page<S: AsRef<str>, P: AsRef<Path>>(url: S, save_path: P, save_name:
 
 
 fn gen_rs2(czs: Vec<(String, PathBuf)>) {
-
   let write_to_types = Path::new("src")
     .canonicalize()
     .expect("Can not get rawtd path")
@@ -165,25 +165,6 @@ fn gen_rs2(czs: Vec<(String, PathBuf)>) {
   context_supplement.insert("sp", &td_supplement);
   render(&tera, "tdsupplement.tpl.txt", &context_supplement, &write_to_supplement, "rust");
 }
-
-
-fn is_skip<S: AsRef<str>>(cname: S) -> bool {
-  let low_cname = cname.as_ref().to_lowercase();
-  // skip jsonObjectMember JsonValue jsonValueNull jsonValueBoolean jsonValueNumber jsonValueString jsonValueArray jsonValueObject
-  if low_cname.starts_with("json") {
-    return true;
-  }
-  // skip GetJsonString
-  if low_cname.contains("getjsonstring") ||
-    low_cname.contains("saveapplicationlogevent") ||
-    low_cname.contains("getjsonvalue") {
-    bog::info(format!("Skip => {}", cname.as_ref()));
-    return true;
-  }
-  false
-}
-
-
 
 
 fn render<P: AsRef<Path>>(tera: &Tera, tpl: &str, context: &Context, write_to: P, code_type: &str) {
