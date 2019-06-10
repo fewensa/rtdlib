@@ -2380,8 +2380,6 @@ sub_classes = [
   { name = "InputSticker", is_trait = false },
   { name = "InputThumbnail", is_trait = false },
   { name = "Invoice", is_trait = false },
-  { name = "JsonObjectMember", is_trait = false },
-  { name = "JsonValue", is_trait = false },
   { name = "KeyboardButton", is_trait = false },
   { name = "KeyboardButtonType", is_trait = true },
   { name = "LabeledPricePart", is_trait = false },
@@ -2688,8 +2686,6 @@ sub_classes = [
   { name = "GetInlineQueryResults", is_trait = false },
   { name = "GetInstalledStickerSets", is_trait = false },
   { name = "GetInviteText", is_trait = false },
-  { name = "GetJsonString", is_trait = false },
-  { name = "GetJsonValue", is_trait = false },
   { name = "GetLanguagePackInfo", is_trait = false },
   { name = "GetLanguagePackString", is_trait = false },
   { name = "GetLanguagePackStrings", is_trait = false },
@@ -2788,7 +2784,6 @@ sub_classes = [
   { name = "ResendRecoveryEmailAddressCode", is_trait = false },
   { name = "ResetAllNotificationSettings", is_trait = false },
   { name = "ResetNetworkStatistics", is_trait = false },
-  { name = "SaveApplicationLogEvent", is_trait = false },
   { name = "SearchCallMessages", is_trait = false },
   { name = "SearchChatMembers", is_trait = false },
   { name = "SearchChatMessages", is_trait = false },
@@ -3061,8 +3056,6 @@ fields = [
   { name = "GetInlineQueryResults", is_trait = false },
   { name = "GetInstalledStickerSets", is_trait = false },
   { name = "GetInviteText", is_trait = false },
-  { name = "GetJsonString", is_trait = false },
-  { name = "GetJsonValue", is_trait = false },
   { name = "GetLanguagePackInfo", is_trait = false },
   { name = "GetLanguagePackString", is_trait = false },
   { name = "GetLanguagePackStrings", is_trait = false },
@@ -3161,7 +3154,6 @@ fields = [
   { name = "ResendRecoveryEmailAddressCode", is_trait = false },
   { name = "ResetAllNotificationSettings", is_trait = false },
   { name = "ResetNetworkStatistics", is_trait = false },
-  { name = "SaveApplicationLogEvent", is_trait = false },
   { name = "SearchCallMessages", is_trait = false },
   { name = "SearchChatMembers", is_trait = false },
   { name = "SearchChatMessages", is_trait = false },
@@ -3265,7 +3257,7 @@ fields = [
   { name = "WriteGeneratedFilePart", is_trait = false },
   
 ]
-fields_size = 334
+fields_size = 331
 dna = "enum"
 derives = [ "Debug", "Clone", "PartialEq", "PartialOrd", "Eq", "Ord", "Hash", "EnumString" ]
 extra_fns = [

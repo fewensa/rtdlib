@@ -160,6 +160,7 @@ impl Apipe {
         let mut rets = vec![];
         ele.select(&selector_subel).for_each(|subclzele| {
           let text = self::ele_text(&subclzele);
+          if Self::is_skip(&text) { return; }
           rets.push(toolkit::text::uppercase_first_char(text));
         });
         Some(rets)
