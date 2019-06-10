@@ -16,8 +16,6 @@ const TG_API_DOC_BASE_URL: &'static str = "https://core.telegram.org/tdlib/docs/
 
 
 pub fn build<P: AsRef<Path>>(save_path: P) {
-  rm_rawtd("types.rs");
-  rm_rawtd("tdsupplement.rs");
   handle_main("td__api_8h.html", save_path);
   bog::info("Generate complete.");
 }
@@ -45,7 +43,8 @@ fn handle_main<P: AsRef<Path>>(main_page: &'static str, save_path: P) {
     };
 
     // skip some class
-    if is_skip(cname.to_lowercase()) {
+    if Apipe::is_skip(cname) {
+      bog::info(format!("Skip => {}", cname));
       return;
     }
 
@@ -111,8 +110,28 @@ fn download_page<S: AsRef<str>, P: AsRef<Path>>(url: S, save_path: P, save_name:
 
 
 fn gen_rs2(czs: Vec<(String, PathBuf)>) {
-  let write_to_types = "types.rs";
-  let write_to_supplement = "tdsupplement.rs";
+  let write_to_types = Path::new("src")
+    .canonicalize()
+    .expect("Can not get rawtd path")
+    .join("types.rs");
+  let write_to_supplement = Path::new("src")
+    .canonicalize()
+    .expect("Can not get rawtd path")
+    .join("tdsupplement.rs");
+  let write_to_schema = Path::new("schema")
+    .canonicalize()
+    .expect("Can not get rawtd path")
+    .join("schema.toml");
+  if write_to_types.exists() {
+    fs::remove_file(&write_to_types).expect(&format!("Can not remove {:?} file", write_to_types)[..]);
+  }
+  if write_to_supplement.exists() {
+    fs::remove_file(&write_to_supplement).expect(&format!("Can not remove {:?} file", write_to_supplement)[..]);
+  }
+  if write_to_schema.exists() {
+    fs::remove_file(&write_to_schema).expect(&format!("Can not remove {:?} file", write_to_schema)[..]);
+  }
+
 
   let tpl_path = "build/tpl/**/*";
   bog::debug(format!("Template path: {}", tpl_path));
@@ -122,89 +141,38 @@ fn gen_rs2(czs: Vec<(String, PathBuf)>) {
   let apipe = Apipe::new(czs);
 
 
-
+  // common
   let td_common = parser::td_common(&apipe);
   let mut context_common = Context::new();
   context_common.insert("common", &td_common);
-  render(&tera, "tdcm.tpl.txt", &context_common, write_to_types);
+  render(&tera, "tdcm.tpl.txt", &context_common, &write_to_types, "rust");
+  // schema
+  render(&tera, "schema.common.tpl.toml", &context_common, &write_to_schema, "toml");
 
-
-
+  // rtd types
   let td_all_types = parser::td_all_types(&apipe);
   td_all_types.iter().for_each(|td| {
     let mut context = Context::new();
     context.insert("td", &td);
-    render(&tera, "tdfn.tpl.txt", &context, write_to_types);
+    render(&tera, "tdfn.tpl.txt", &context, &write_to_types, "rust");
+    // schema
+    render(&tera, "schema.rtd.tpl.toml", &context, &write_to_schema, "toml");
   });
 
-
+  // supplement
   let td_supplement = parser::td_supplement(&apipe);
   let mut context_supplement = Context::new();
   context_supplement.insert("sp", &td_supplement);
-  render(&tera, "tdsupplement.tpl.txt", &context_supplement, write_to_supplement);
+  render(&tera, "tdsupplement.tpl.txt", &context_supplement, &write_to_supplement, "rust");
 }
 
 
-fn is_skip(cname: String) -> bool {
-  // skip jsonObjectMember JsonValue jsonValueNull jsonValueBoolean jsonValueNumber jsonValueString jsonValueArray jsonValueObject
-  if cname.starts_with("json") {
-    return true;
-  }
-  // skip GetJsonString
-  if cname.contains("getjsonstring") ||
-    cname.contains("saveapplicationlogevent") ||
-    cname.contains("getjsonvalue") {
-    return true;
-  }
-  false
-}
-
-fn write_rawtd<S: AsRef<str>>(content: S, write_to: S) {
-  let write_to = write_to.as_ref();
-  let path = rawtd_path(write_to);
-  if !path.exists() {
-    File::create(&path).expect(&format!("Can not create {}", write_to)[..]);
-    bog::debug(format!("Create {:?}", path));
-  }
-  bog::info(format!("Append code to {} ```rust\\n{}\\n```", write_to, content.as_ref().trim().replace("\n", "\\n")));
-
-  let mut file = OpenOptions::new()
-    .write(true)
-    .append(true)
-    .open(path)
-    .unwrap();
-
-
-  if let Err(e) = writeln!(file, "{}", content.as_ref()) {
-    panic!("Couldn't write to file: {:?}", e);
-  }
-}
-
-fn rm_rawtd<S: AsRef<str>>(write_to: S) {
-  let write_to = write_to.as_ref();
-  let path = rawtd_path(write_to);
-  if path.exists() {
-    fs::remove_file(&path).expect(&format!("Can not remove {} file", write_to)[..]);
-  }
-}
-
-fn rawtd_path<S: AsRef<str>>(write_to: S) -> PathBuf {
-  Path::new("src")
-    .canonicalize()
-    .expect("Can not get rawtd path")
-    .join(write_to.as_ref())
-}
-
-
-fn render(tera: &Tera, tpl: &str, context: &Context, write_to: &str) {
-  match tera.render(tpl, &context) {
-    Ok(s) => write_rawtd(s, write_to.to_string()),
-    Err(e) => {
-      println!("Error: {}", e);
-      for e in e.iter().skip(1) {
-        println!("Reason: {}", e);
-      }
-      panic!("Can not gen rawfn => {:?}", e);
-    }
-  }
+fn render<P: AsRef<Path>>(tera: &Tera, tpl: &str, context: &Context, write_to: P, code_type: &str) {
+  let body = tera.render(tpl, &context).unwrap();
+  bog::info(format!("Append code to {} ```{}\\n{}\\n```",
+                    write_to.as_ref().to_str().unwrap(),
+                    code_type,
+                    body.trim().replace("\n", "\\n"))
+  );
+  toolkit::fs::append(write_to, &body[..]).unwrap();
 }

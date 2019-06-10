@@ -11,7 +11,10 @@
 {% endif %}
 {% if td.has_trait_field %}
 impl Clone for {{ td.clz_name }} {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
 }
 {% endif %}
 {% if not td.clz_is_trait %}
@@ -19,7 +22,7 @@ impl Object for {{ td.clz_name }} {}
 impl RObject for {{ td.clz_name }} {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "{{ td.origin_name }}" }
   fn td_type(&self) -> RTDType { RTDType::{{ td.clz_name }} }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> String { tdkit::fill_json_struct(serde_json::to_string(self).unwrap()) }
 }
 {% endif %}
 {% if td.clz_super and td.clz_super != 'Object' and td.clz_super != 'TlObject' %}
@@ -27,19 +30,53 @@ impl RObject for {{ td.clz_name }} {
 {% endif %}
 {% if not td.is_private and not td.clz_is_trait %}
 impl {{ td.clz_name }} {
+  {% if td.has_builder_struct %}
+  pub fn builder() -> RTD{{ td.clz_name }}Builder {
+    let instance = Self {
+      td_name: "{{ td.origin_name }}".to_string(),
+      {% if td.fields %}{% for field in td.fields %}{{field.name}}: None,
+      {% endfor %}{% endif %}
+    };
+    RTD{{ td.clz_name }}Builder::new(instance)
+  }
+  {% endif %}
   {% if td.fields %}{% for field in td.fields %}
   pub fn {{field.name}}(&self) -> {{field.class | field_type(td = td, field_name = field.name, wrap_option = true)}} { self.{{field.name}}.clone() }
   {% endfor %}{% endif %}
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(e) => { eprintln!("{:?}", e); None } }
+  }
+}
+{% endif %}
+{% if td.has_builder_struct %}
+#[derive(Debug)]
+pub struct RTD{{ td.clz_name }}Builder { instance: {{ td.clz_name }} }
+
+impl RTD{{ td.clz_name }}Builder {
+  fn new(instance: {{ td.clz_name }}) -> Self { Self { instance } }
+
+  pub fn build(&self) -> {{ td.clz_name }} { self.instance.clone() }
+  {% if td.fields %}{% for field in td.fields %}
+  {% set field_class = field.class | field_type(td = td, field_name = field.name, wrap_option = false) -%}
+  pub fn {{field.name}}{% if field_class == 'String' %}<S: AsRef<str>>{% endif %}(&mut self, {{field.name}}: {% if field_class == 'String' %}S{% else %}{{field_class}}{% endif %}) -> &mut Self {
+    self.instance.{{field.name}} = Some({{field.name}}{% if field_class == 'String' %}.as_ref().to_string(){% endif %});
+    self
+  }
+  {% endfor %}{% endif %}
 }
 {% endif %}
 {% if td.clz_is_trait %}
 {% if td.clz_name != 'Object' and td.clz_name != 'Function' %}
 impl {{ td.clz_name }} {
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<Self>> { from_json!()(json.as_ref()) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<Self>> {
+    match serde_json::from_str(&tdkit::fill_json_struct(json.as_ref())[..]) { Ok(t) => t, Err(e) => { eprintln!("{:?}", e); None } }
+  }
 }
 impl Clone for Box<{{td.clz_name}}> {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
+  fn clone(&self) -> Self {
+    let json = serde_json::to_string(self).unwrap();
+    serde_json::from_str(&json[..]).unwrap()
+  }
 }
 {% endif %}
 {% if td.has_subclasses and td.clz_name != 'Object' %}
@@ -49,7 +86,7 @@ pub enum RTD{{td.clz_name}}Type {
   {% endfor %}
 }
 impl RTD{{td.clz_name}}Type {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { rtd_of!(RTD{{td.clz_name}}Type)(text.as_ref()) }
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { match Self::from_str(&tdkit::uppercase_first_char(text.as_ref())[..]) { Ok(t) => Some(t), Err(e) => { eprintln!("{:?}", e); None } } }
 }
 {% endif %}
 {% endif %}
