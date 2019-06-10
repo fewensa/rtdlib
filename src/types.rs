@@ -1511,13 +1511,14 @@ impl RTDFunctionType {
 
 
 /// Contains information about the period of inactivity after which the current user's account will automatically be deleted. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AccountTtl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="accountTtl".to_string())]
   td_name: String, // accountTtl
   /// Number of days of inactivity before the account will be flagged for deletion; should range from 30-366 days.
-  days: Option<i32>,
+  #[builder(default)] days: Option<i32>,
   
 }
 
@@ -1542,23 +1543,24 @@ impl AccountTtl {
 
 
 /// Describes an address. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Address {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="address".to_string())]
   td_name: String, // address
   /// A two-letter ISO 3166-1 alpha-2 country code.
-  country_code: Option<String>,
+  #[builder(default)] country_code: Option<String>,
   /// State, if applicable.
-  state: Option<String>,
+  #[builder(default)] state: Option<String>,
   /// City.
-  city: Option<String>,
+  #[builder(default)] city: Option<String>,
   /// First line of the address.
-  street_line1: Option<String>,
+  #[builder(default)] street_line1: Option<String>,
   /// Second line of the address.
-  street_line2: Option<String>,
+  #[builder(default)] street_line2: Option<String>,
   /// Address postal code.
-  postal_code: Option<String>,
+  #[builder(default)] postal_code: Option<String>,
   
 }
 
@@ -1593,25 +1595,26 @@ impl Address {
 
 
 /// Describes an animation file. The animation must be encoded in GIF or MPEG4 format. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Animation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="animation".to_string())]
   td_name: String, // animation
   /// Duration of the animation, in seconds; as defined by the sender.
-  duration: Option<i32>,
+  #[builder(default)] duration: Option<i32>,
   /// Width of the animation.
-  width: Option<i32>,
+  #[builder(default)] width: Option<i32>,
   /// Height of the animation.
-  height: Option<i32>,
+  #[builder(default)] height: Option<i32>,
   /// Original name of the file; as defined by the sender.
-  file_name: Option<String>,
+  #[builder(default)] file_name: Option<String>,
   /// MIME type of the file, usually "image/gif" or "video/mp4".
-  mime_type: Option<String>,
+  #[builder(default)] mime_type: Option<String>,
   /// Animation thumbnail; may be null.
-  thumbnail: Option<PhotoSize>,
+  #[builder(default)] thumbnail: Option<PhotoSize>,
   /// File containing the animation.
-  animation: Option<File>,
+  #[builder(default)] animation: Option<File>,
   
 }
 
@@ -1648,13 +1651,14 @@ impl Animation {
 
 
 /// Represents a list of animations. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Animations {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="animations".to_string())]
   td_name: String, // animations
   /// List of animations.
-  animations: Option<Vec<Animation>>,
+  #[builder(default)] animations: Option<Vec<Animation>>,
   
 }
 
@@ -1679,25 +1683,26 @@ impl Animations {
 
 
 /// Describes an audio file. Audio is usually in MP3 format. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Audio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="audio".to_string())]
   td_name: String, // audio
   /// Duration of the audio, in seconds; as defined by the sender.
-  duration: Option<i32>,
+  #[builder(default)] duration: Option<i32>,
   /// Title of the audio; as defined by the sender.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Performer of the audio; as defined by the sender.
-  performer: Option<String>,
+  #[builder(default)] performer: Option<String>,
   /// Original name of the file; as defined by the sender.
-  file_name: Option<String>,
+  #[builder(default)] file_name: Option<String>,
   /// The MIME type of the file; as defined by the sender.
-  mime_type: Option<String>,
+  #[builder(default)] mime_type: Option<String>,
   /// The thumbnail of the album cover; as defined by the sender. The full size thumbnail should be extracted from the downloaded file; may be null.
-  album_cover_thumbnail: Option<PhotoSize>,
+  #[builder(default)] album_cover_thumbnail: Option<PhotoSize>,
   /// File containing the audio.
-  audio: Option<File>,
+  #[builder(default)] audio: Option<File>,
   
 }
 
@@ -1734,19 +1739,20 @@ impl Audio {
 
 
 /// Information about the authentication code that was sent. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct AuthenticationCodeInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="authenticationCodeInfo".to_string())]
   td_name: String, // authenticationCodeInfo
   /// A phone number that is being authenticated.
-  phone_number: Option<String>,
+  #[builder(default)] phone_number: Option<String>,
   /// Describes the way the code was sent to the user.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<AuthenticationCodeType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<AuthenticationCodeType>>,
   /// Describes the way the next code will be sent to the user; may be null.
-  next_type: Option<Box<AuthenticationCodeType>>,
+  #[builder(default)] next_type: Option<Box<AuthenticationCodeType>>,
   /// Timeout before the code should be re-sent, in seconds.
-  timeout: Option<i32>,
+  #[builder(default)] timeout: Option<i32>,
   
 }
 
@@ -1812,13 +1818,14 @@ impl RTDAuthenticationCodeTypeType {
 
 
 /// An authentication code is delivered via a private Telegram message, which can be viewed in another client. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AuthenticationCodeTypeTelegramMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="authenticationCodeTypeTelegramMessage".to_string())]
   td_name: String, // authenticationCodeTypeTelegramMessage
   /// Length of the code.
-  length: Option<i32>,
+  #[builder(default)] length: Option<i32>,
   
 }
 
@@ -1845,13 +1852,14 @@ impl AuthenticationCodeTypeTelegramMessage {
 
 
 /// An authentication code is delivered via an SMS message to the specified phone number. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AuthenticationCodeTypeSms {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="authenticationCodeTypeSms".to_string())]
   td_name: String, // authenticationCodeTypeSms
   /// Length of the code.
-  length: Option<i32>,
+  #[builder(default)] length: Option<i32>,
   
 }
 
@@ -1878,13 +1886,14 @@ impl AuthenticationCodeTypeSms {
 
 
 /// An authentication code is delivered via a phone call to the specified phone number. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AuthenticationCodeTypeCall {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="authenticationCodeTypeCall".to_string())]
   td_name: String, // authenticationCodeTypeCall
   /// Length of the code.
-  length: Option<i32>,
+  #[builder(default)] length: Option<i32>,
   
 }
 
@@ -1911,13 +1920,14 @@ impl AuthenticationCodeTypeCall {
 
 
 /// An authentication code is delivered by an immediately cancelled call to the specified phone number. The number from which the call was made is the code. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AuthenticationCodeTypeFlashCall {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="authenticationCodeTypeFlashCall".to_string())]
   td_name: String, // authenticationCodeTypeFlashCall
   /// Pattern of the phone number from which the call will be made.
-  pattern: Option<String>,
+  #[builder(default)] pattern: Option<String>,
   
 }
 
@@ -1980,10 +1990,11 @@ impl RTDAuthorizationStateType {
 
 
 /// TDLib needs TdlibParameters for initialization. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AuthorizationStateWaitTdlibParameters {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="authorizationStateWaitTdlibParameters".to_string())]
   td_name: String, // authorizationStateWaitTdlibParameters
   
 }
@@ -2009,13 +2020,14 @@ impl AuthorizationStateWaitTdlibParameters {
 
 
 /// TDLib needs an encryption key to decrypt the local database. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AuthorizationStateWaitEncryptionKey {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="authorizationStateWaitEncryptionKey".to_string())]
   td_name: String, // authorizationStateWaitEncryptionKey
   /// True, if the database is currently encrypted.
-  is_encrypted: Option<bool>,
+  #[builder(default)] is_encrypted: Option<bool>,
   
 }
 
@@ -2042,10 +2054,11 @@ impl AuthorizationStateWaitEncryptionKey {
 
 
 /// TDLib needs the user's phone number to authorize. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AuthorizationStateWaitPhoneNumber {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="authorizationStateWaitPhoneNumber".to_string())]
   td_name: String, // authorizationStateWaitPhoneNumber
   
 }
@@ -2071,17 +2084,18 @@ impl AuthorizationStateWaitPhoneNumber {
 
 
 /// TDLib needs the user's authentication code to finalize authorization. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AuthorizationStateWaitCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="authorizationStateWaitCode".to_string())]
   td_name: String, // authorizationStateWaitCode
   /// True, if the user is already registered.
-  is_registered: Option<bool>,
+  #[builder(default)] is_registered: Option<bool>,
   /// Telegram terms of service, which should be accepted before user can continue registration; may be null.
-  terms_of_service: Option<TermsOfService>,
+  #[builder(default)] terms_of_service: Option<TermsOfService>,
   /// Information about the authorization code that was sent.
-  code_info: Option<AuthenticationCodeInfo>,
+  #[builder(default)] code_info: Option<AuthenticationCodeInfo>,
   
 }
 
@@ -2112,17 +2126,18 @@ impl AuthorizationStateWaitCode {
 
 
 /// The user has been authorized, but needs to enter a password to start using the application. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AuthorizationStateWaitPassword {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="authorizationStateWaitPassword".to_string())]
   td_name: String, // authorizationStateWaitPassword
   /// Hint for the password; may be empty.
-  password_hint: Option<String>,
+  #[builder(default)] password_hint: Option<String>,
   /// True if a recovery email address has been set up.
-  has_recovery_email_address: Option<bool>,
+  #[builder(default)] has_recovery_email_address: Option<bool>,
   /// Pattern of the email address to which the recovery email was sent; empty until a recovery email has been sent.
-  recovery_email_address_pattern: Option<String>,
+  #[builder(default)] recovery_email_address_pattern: Option<String>,
   
 }
 
@@ -2153,10 +2168,11 @@ impl AuthorizationStateWaitPassword {
 
 
 /// The user has been successfully authorized. TDLib is now ready to answer queries. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AuthorizationStateReady {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="authorizationStateReady".to_string())]
   td_name: String, // authorizationStateReady
   
 }
@@ -2182,10 +2198,11 @@ impl AuthorizationStateReady {
 
 
 /// The user is currently logging out. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AuthorizationStateLoggingOut {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="authorizationStateLoggingOut".to_string())]
   td_name: String, // authorizationStateLoggingOut
   
 }
@@ -2211,10 +2228,11 @@ impl AuthorizationStateLoggingOut {
 
 
 /// TDLib is closing, all subsequent queries will be answered with the error 500. Note that closing TDLib can take a while. All resources will be freed only after 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AuthorizationStateClosing {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="authorizationStateClosing".to_string())]
   td_name: String, // authorizationStateClosing
   
 }
@@ -2240,10 +2258,11 @@ impl AuthorizationStateClosing {
 
 
 /// TDLib client is in its final state. All databases are closed and all resources are released. No other updates will be received after this. All queries will be responded to with error code 500. To continue working, one should create a new instance of the TDLib client. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AuthorizationStateClosed {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="authorizationStateClosed".to_string())]
   td_name: String, // authorizationStateClosed
   
 }
@@ -2269,23 +2288,24 @@ impl AuthorizationStateClosed {
 
 
 /// Represents a basic group of 0-200 users (must be upgraded to a supergroup to accommodate more than 200 users). 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct BasicGroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="basicGroup".to_string())]
   td_name: String, // basicGroup
   /// Group identifier.
-  id: Option<i32>,
+  #[builder(default)] id: Option<i32>,
   /// Number of members in the group.
-  member_count: Option<i32>,
+  #[builder(default)] member_count: Option<i32>,
   /// Status of the current user in the group.
-  status: Option<Box<ChatMemberStatus>>,
+  #[builder(default)] status: Option<Box<ChatMemberStatus>>,
   /// True, if all members have been granted administrator rights in the group.
-  everyone_is_administrator: Option<bool>,
+  #[builder(default)] everyone_is_administrator: Option<bool>,
   /// True, if the group is active.
-  is_active: Option<bool>,
+  #[builder(default)] is_active: Option<bool>,
   /// Identifier of the supergroup to which this group was upgraded; 0 if none.
-  upgraded_to_supergroup_id: Option<i32>,
+  #[builder(default)] upgraded_to_supergroup_id: Option<i32>,
   
 }
 
@@ -2324,17 +2344,18 @@ impl BasicGroup {
 
 
 /// Contains full information about a basic group. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct BasicGroupFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="basicGroupFullInfo".to_string())]
   td_name: String, // basicGroupFullInfo
   /// User identifier of the creator of the group; 0 if unknown.
-  creator_user_id: Option<i32>,
+  #[builder(default)] creator_user_id: Option<i32>,
   /// Group members.
-  members: Option<Vec<ChatMember>>,
+  #[builder(default)] members: Option<Vec<ChatMember>>,
   /// Invite link for this group; available only for the group creator and only after it has been generated at least once.
-  invite_link: Option<String>,
+  #[builder(default)] invite_link: Option<String>,
   
 }
 
@@ -2363,15 +2384,16 @@ impl BasicGroupFullInfo {
 
 
 /// Represents commands supported by a bot. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct BotCommand {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="botCommand".to_string())]
   td_name: String, // botCommand
   /// Text of the bot command.
-  command: Option<String>,
+  #[builder(default)] command: Option<String>,
   /// Description of the bot command.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   
 }
 
@@ -2398,15 +2420,16 @@ impl BotCommand {
 
 
 /// Provides information about a bot and its supported commands. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct BotInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="botInfo".to_string())]
   td_name: String, // botInfo
   /// Long description shown on the user info page.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   /// A list of commands supported by the bot.
-  commands: Option<Vec<BotCommand>>,
+  #[builder(default)] commands: Option<Vec<BotCommand>>,
   
 }
 
@@ -2433,19 +2456,20 @@ impl BotInfo {
 
 
 /// Describes a call. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct Call {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="call".to_string())]
   td_name: String, // call
   /// Call identifier, not persistent.
-  id: Option<i32>,
+  #[builder(default)] id: Option<i32>,
   /// Peer user identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// True, if the call is outgoing.
-  is_outgoing: Option<bool>,
+  #[builder(default)] is_outgoing: Option<bool>,
   /// Call state.
-  state: Option<Box<CallState>>,
+  #[builder(default)] state: Option<Box<CallState>>,
   
 }
 
@@ -2480,21 +2504,22 @@ impl Call {
 
 
 /// Describes the address of UDP reflectors. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallConnection {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callConnection".to_string())]
   td_name: String, // callConnection
   /// Reflector identifier.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// IPv4 reflector address.
-  ip: Option<String>,
+  #[builder(default)] ip: Option<String>,
   /// IPv6 reflector address.
-  ipv6: Option<String>,
+  #[builder(default)] ipv6: Option<String>,
   /// Reflector port number.
-  port: Option<i32>,
+  #[builder(default)] port: Option<i32>,
   /// Connection peer tag.
-  peer_tag: Option<String>,
+  #[builder(default)] peer_tag: Option<String>,
   
 }
 
@@ -2559,10 +2584,11 @@ impl RTDCallDiscardReasonType {
 
 
 /// The call wasn't discarded, or the reason is unknown. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallDiscardReasonEmpty {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callDiscardReasonEmpty".to_string())]
   td_name: String, // callDiscardReasonEmpty
   
 }
@@ -2588,10 +2614,11 @@ impl CallDiscardReasonEmpty {
 
 
 /// The call was ended before the conversation started. It was cancelled by the caller or missed by the other party. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallDiscardReasonMissed {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callDiscardReasonMissed".to_string())]
   td_name: String, // callDiscardReasonMissed
   
 }
@@ -2617,10 +2644,11 @@ impl CallDiscardReasonMissed {
 
 
 /// The call was ended before the conversation started. It was declined by the other party. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallDiscardReasonDeclined {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callDiscardReasonDeclined".to_string())]
   td_name: String, // callDiscardReasonDeclined
   
 }
@@ -2646,10 +2674,11 @@ impl CallDiscardReasonDeclined {
 
 
 /// The call was ended during the conversation because the users were disconnected. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallDiscardReasonDisconnected {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callDiscardReasonDisconnected".to_string())]
   td_name: String, // callDiscardReasonDisconnected
   
 }
@@ -2675,10 +2704,11 @@ impl CallDiscardReasonDisconnected {
 
 
 /// The call was ended because one of the parties hung up. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallDiscardReasonHungUp {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callDiscardReasonHungUp".to_string())]
   td_name: String, // callDiscardReasonHungUp
   
 }
@@ -2704,13 +2734,14 @@ impl CallDiscardReasonHungUp {
 
 
 /// Contains the call identifier. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallId {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callId".to_string())]
   td_name: String, // callId
   /// Call identifier.
-  id: Option<i32>,
+  #[builder(default)] id: Option<i32>,
   
 }
 
@@ -2735,19 +2766,20 @@ impl CallId {
 
 
 /// Specifies the supported call protocols. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallProtocol {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callProtocol".to_string())]
   td_name: String, // callProtocol
   /// True, if UDP peer-to-peer connections are supported.
-  udp_p2p: Option<bool>,
+  #[builder(default)] udp_p2p: Option<bool>,
   /// True, if connection through UDP reflectors is supported.
-  udp_reflector: Option<bool>,
+  #[builder(default)] udp_reflector: Option<bool>,
   /// Minimum supported API layer; use 65.
-  min_layer: Option<i32>,
+  #[builder(default)] min_layer: Option<i32>,
   /// Maximum supported API layer; use 65.
-  max_layer: Option<i32>,
+  #[builder(default)] max_layer: Option<i32>,
   
 }
 
@@ -2811,15 +2843,16 @@ impl RTDCallStateType {
 
 
 /// The call is pending, waiting to be accepted by a user. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallStatePending {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callStatePending".to_string())]
   td_name: String, // callStatePending
   /// True, if the call has already been created by the server.
-  is_created: Option<bool>,
+  #[builder(default)] is_created: Option<bool>,
   /// True, if the call has already been received by the other party.
-  is_received: Option<bool>,
+  #[builder(default)] is_received: Option<bool>,
   
 }
 
@@ -2848,10 +2881,11 @@ impl CallStatePending {
 
 
 /// The call has been answered and encryption keys are being exchanged. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallStateExchangingKeys {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callStateExchangingKeys".to_string())]
   td_name: String, // callStateExchangingKeys
   
 }
@@ -2877,23 +2911,24 @@ impl CallStateExchangingKeys {
 
 
 /// The call is ready to use. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallStateReady {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callStateReady".to_string())]
   td_name: String, // callStateReady
   /// Call protocols supported by the peer.
-  protocol: Option<CallProtocol>,
+  #[builder(default)] protocol: Option<CallProtocol>,
   /// Available UDP reflectors.
-  connections: Option<Vec<CallConnection>>,
+  #[builder(default)] connections: Option<Vec<CallConnection>>,
   /// A JSON-encoded call config.
-  config: Option<String>,
+  #[builder(default)] config: Option<String>,
   /// Call encryption key.
-  encryption_key: Option<String>,
+  #[builder(default)] encryption_key: Option<String>,
   /// Encryption key emojis fingerprint.
-  emojis: Option<Vec<String>>,
+  #[builder(default)] emojis: Option<Vec<String>>,
   /// True, if peer-to-peer connection is allowed by users privacy settings.
-  allow_p2p: Option<bool>,
+  #[builder(default)] allow_p2p: Option<bool>,
   
 }
 
@@ -2930,10 +2965,11 @@ impl CallStateReady {
 
 
 /// The call is hanging up after 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallStateHangingUp {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callStateHangingUp".to_string())]
   td_name: String, // callStateHangingUp
   
 }
@@ -2959,17 +2995,18 @@ impl CallStateHangingUp {
 
 
 /// The call has ended successfully. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct CallStateDiscarded {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callStateDiscarded".to_string())]
   td_name: String, // callStateDiscarded
   /// The reason, why the call has ended.
-  reason: Option<Box<CallDiscardReason>>,
+  #[builder(default)] reason: Option<Box<CallDiscardReason>>,
   /// True, if the call rating should be sent to the server.
-  need_rating: Option<bool>,
+  #[builder(default)] need_rating: Option<bool>,
   /// True, if the call debug information should be sent to the server.
-  need_debug_information: Option<bool>,
+  #[builder(default)] need_debug_information: Option<bool>,
   
 }
 
@@ -3004,13 +3041,14 @@ impl CallStateDiscarded {
 
 
 /// The call has ended with an error. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallStateError {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callStateError".to_string())]
   td_name: String, // callStateError
   /// Error. An error with the code 4005000 will be returned if an outgoing call is missed because of an expired timeout.
-  error: Option<Error>,
+  #[builder(default)] error: Option<Error>,
   
 }
 
@@ -3037,17 +3075,18 @@ impl CallStateError {
 
 
 /// Contains a bot's answer to a callback query. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallbackQueryAnswer {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callbackQueryAnswer".to_string())]
   td_name: String, // callbackQueryAnswer
   /// Text of the answer.
-  text: Option<String>,
+  #[builder(default)] text: Option<String>,
   /// True, if an alert should be shown to the user instead of a toast notification.
-  show_alert: Option<bool>,
+  #[builder(default)] show_alert: Option<bool>,
   /// URL to be opened.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   
 }
 
@@ -3105,13 +3144,14 @@ impl RTDCallbackQueryPayloadType {
 
 
 /// The payload from a general callback button. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallbackQueryPayloadData {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callbackQueryPayloadData".to_string())]
   td_name: String, // callbackQueryPayloadData
   /// Data that was attached to the callback button.
-  data: Option<String>,
+  #[builder(default)] data: Option<String>,
   
 }
 
@@ -3138,13 +3178,14 @@ impl CallbackQueryPayloadData {
 
 
 /// The payload from a game callback button. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CallbackQueryPayloadGame {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="callbackQueryPayloadGame".to_string())]
   td_name: String, // callbackQueryPayloadGame
   /// A short name of the game that was attached to the callback button.
-  game_short_name: Option<String>,
+  #[builder(default)] game_short_name: Option<String>,
   
 }
 
@@ -3171,55 +3212,56 @@ impl CallbackQueryPayloadGame {
 
 
 /// A chat. (Can be a private chat, basic group, supergroup, or secret chat.) 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct Chat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chat".to_string())]
   td_name: String, // chat
   /// Chat unique identifier.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// Type of the chat.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<ChatType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<ChatType>>,
   /// Chat title.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Chat photo; may be null.
-  photo: Option<ChatPhoto>,
+  #[builder(default)] photo: Option<ChatPhoto>,
   /// Last message in the chat; may be null.
-  last_message: Option<Message>,
+  #[builder(default)] last_message: Option<Message>,
   /// Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined.
-  order: Option<String>,
+  #[builder(default)] order: Option<String>,
   /// True, if the chat is pinned.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   /// True, if the chat is marked as unread.
-  is_marked_as_unread: Option<bool>,
+  #[builder(default)] is_marked_as_unread: Option<bool>,
   /// True, if the chat is sponsored by the user's MTProxy server.
-  is_sponsored: Option<bool>,
+  #[builder(default)] is_sponsored: Option<bool>,
   /// True, if the chat messages can be deleted only for the current user while other users will continue to see the messages.
-  can_be_deleted_only_for_self: Option<bool>,
+  #[builder(default)] can_be_deleted_only_for_self: Option<bool>,
   /// True, if the chat messages can be deleted for all users.
-  can_be_deleted_for_all_users: Option<bool>,
+  #[builder(default)] can_be_deleted_for_all_users: Option<bool>,
   /// True, if the chat can be reported to Telegram moderators through reportChat.
-  can_be_reported: Option<bool>,
+  #[builder(default)] can_be_reported: Option<bool>,
   /// Default value of the disable_notification parameter, used when a message is sent to the chat.
-  default_disable_notification: Option<bool>,
+  #[builder(default)] default_disable_notification: Option<bool>,
   /// Number of unread messages in the chat.
-  unread_count: Option<i32>,
+  #[builder(default)] unread_count: Option<i32>,
   /// Identifier of the last read incoming message.
-  last_read_inbox_message_id: Option<i64>,
+  #[builder(default)] last_read_inbox_message_id: Option<i64>,
   /// Identifier of the last read outgoing message.
-  last_read_outbox_message_id: Option<i64>,
+  #[builder(default)] last_read_outbox_message_id: Option<i64>,
   /// Number of unread messages with a mention/reply in the chat.
-  unread_mention_count: Option<i32>,
+  #[builder(default)] unread_mention_count: Option<i32>,
   /// Notification settings for this chat.
-  notification_settings: Option<ChatNotificationSettings>,
+  #[builder(default)] notification_settings: Option<ChatNotificationSettings>,
   /// Identifier of the pinned message in the chat; 0 if none.
-  pinned_message_id: Option<i64>,
+  #[builder(default)] pinned_message_id: Option<i64>,
   /// Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat.
-  reply_markup_message_id: Option<i64>,
+  #[builder(default)] reply_markup_message_id: Option<i64>,
   /// A draft of a message in the chat; may be null.
-  draft_message: Option<DraftMessage>,
+  #[builder(default)] draft_message: Option<DraftMessage>,
   /// Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used.
-  client_data: Option<String>,
+  #[builder(default)] client_data: Option<String>,
   
 }
 
@@ -3330,10 +3372,11 @@ impl RTDChatActionType {
 
 
 /// The user is typing a message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatActionTyping {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatActionTyping".to_string())]
   td_name: String, // chatActionTyping
   
 }
@@ -3359,10 +3402,11 @@ impl ChatActionTyping {
 
 
 /// The user is recording a video. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatActionRecordingVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatActionRecordingVideo".to_string())]
   td_name: String, // chatActionRecordingVideo
   
 }
@@ -3388,13 +3432,14 @@ impl ChatActionRecordingVideo {
 
 
 /// The user is uploading a video. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatActionUploadingVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatActionUploadingVideo".to_string())]
   td_name: String, // chatActionUploadingVideo
   /// Upload progress, as a percentage.
-  progress: Option<i32>,
+  #[builder(default)] progress: Option<i32>,
   
 }
 
@@ -3421,10 +3466,11 @@ impl ChatActionUploadingVideo {
 
 
 /// The user is recording a voice note. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatActionRecordingVoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatActionRecordingVoiceNote".to_string())]
   td_name: String, // chatActionRecordingVoiceNote
   
 }
@@ -3450,13 +3496,14 @@ impl ChatActionRecordingVoiceNote {
 
 
 /// The user is uploading a voice note. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatActionUploadingVoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatActionUploadingVoiceNote".to_string())]
   td_name: String, // chatActionUploadingVoiceNote
   /// Upload progress, as a percentage.
-  progress: Option<i32>,
+  #[builder(default)] progress: Option<i32>,
   
 }
 
@@ -3483,13 +3530,14 @@ impl ChatActionUploadingVoiceNote {
 
 
 /// The user is uploading a photo. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatActionUploadingPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatActionUploadingPhoto".to_string())]
   td_name: String, // chatActionUploadingPhoto
   /// Upload progress, as a percentage.
-  progress: Option<i32>,
+  #[builder(default)] progress: Option<i32>,
   
 }
 
@@ -3516,13 +3564,14 @@ impl ChatActionUploadingPhoto {
 
 
 /// The user is uploading a document. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatActionUploadingDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatActionUploadingDocument".to_string())]
   td_name: String, // chatActionUploadingDocument
   /// Upload progress, as a percentage.
-  progress: Option<i32>,
+  #[builder(default)] progress: Option<i32>,
   
 }
 
@@ -3549,10 +3598,11 @@ impl ChatActionUploadingDocument {
 
 
 /// The user is picking a location or venue to send. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatActionChoosingLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatActionChoosingLocation".to_string())]
   td_name: String, // chatActionChoosingLocation
   
 }
@@ -3578,10 +3628,11 @@ impl ChatActionChoosingLocation {
 
 
 /// The user is picking a contact to send. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatActionChoosingContact {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatActionChoosingContact".to_string())]
   td_name: String, // chatActionChoosingContact
   
 }
@@ -3607,10 +3658,11 @@ impl ChatActionChoosingContact {
 
 
 /// The user has started to play a game. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatActionStartPlayingGame {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatActionStartPlayingGame".to_string())]
   td_name: String, // chatActionStartPlayingGame
   
 }
@@ -3636,10 +3688,11 @@ impl ChatActionStartPlayingGame {
 
 
 /// The user is recording a video note. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatActionRecordingVideoNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatActionRecordingVideoNote".to_string())]
   td_name: String, // chatActionRecordingVideoNote
   
 }
@@ -3665,13 +3718,14 @@ impl ChatActionRecordingVideoNote {
 
 
 /// The user is uploading a video note. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatActionUploadingVideoNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatActionUploadingVideoNote".to_string())]
   td_name: String, // chatActionUploadingVideoNote
   /// Upload progress, as a percentage.
-  progress: Option<i32>,
+  #[builder(default)] progress: Option<i32>,
   
 }
 
@@ -3698,10 +3752,11 @@ impl ChatActionUploadingVideoNote {
 
 
 /// The user has cancelled the previous action. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatActionCancel {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatActionCancel".to_string())]
   td_name: String, // chatActionCancel
   
 }
@@ -3727,19 +3782,20 @@ impl ChatActionCancel {
 
 
 /// Represents a chat event. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEvent {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEvent".to_string())]
   td_name: String, // chatEvent
   /// Chat event identifier.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// Point in time (Unix timestamp) when the event happened.
-  date: Option<i32>,
+  #[builder(default)] date: Option<i32>,
   /// Identifier of the user who performed the action that triggered the event.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// Action performed by the user.
-  action: Option<Box<ChatEventAction>>,
+  #[builder(default)] action: Option<Box<ChatEventAction>>,
   
 }
 
@@ -3818,15 +3874,16 @@ impl RTDChatEventActionType {
 
 
 /// A message was edited. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventMessageEdited {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventMessageEdited".to_string())]
   td_name: String, // chatEventMessageEdited
   /// The original message before the edit.
-  old_message: Option<Message>,
+  #[builder(default)] old_message: Option<Message>,
   /// The message after it was edited.
-  new_message: Option<Message>,
+  #[builder(default)] new_message: Option<Message>,
   
 }
 
@@ -3855,13 +3912,14 @@ impl ChatEventMessageEdited {
 
 
 /// A message was deleted. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventMessageDeleted {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventMessageDeleted".to_string())]
   td_name: String, // chatEventMessageDeleted
   /// Deleted message.
-  message: Option<Message>,
+  #[builder(default)] message: Option<Message>,
   
 }
 
@@ -3888,13 +3946,14 @@ impl ChatEventMessageDeleted {
 
 
 /// A message was pinned. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventMessagePinned {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventMessagePinned".to_string())]
   td_name: String, // chatEventMessagePinned
   /// Pinned message.
-  message: Option<Message>,
+  #[builder(default)] message: Option<Message>,
   
 }
 
@@ -3921,10 +3980,11 @@ impl ChatEventMessagePinned {
 
 
 /// A message was unpinned. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventMessageUnpinned {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventMessageUnpinned".to_string())]
   td_name: String, // chatEventMessageUnpinned
   
 }
@@ -3950,10 +4010,11 @@ impl ChatEventMessageUnpinned {
 
 
 /// A new member joined the chat. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventMemberJoined {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventMemberJoined".to_string())]
   td_name: String, // chatEventMemberJoined
   
 }
@@ -3979,10 +4040,11 @@ impl ChatEventMemberJoined {
 
 
 /// A member left the chat. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventMemberLeft {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventMemberLeft".to_string())]
   td_name: String, // chatEventMemberLeft
   
 }
@@ -4008,15 +4070,16 @@ impl ChatEventMemberLeft {
 
 
 /// A new chat member was invited. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventMemberInvited {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventMemberInvited".to_string())]
   td_name: String, // chatEventMemberInvited
   /// New member user identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// New member status.
-  status: Option<Box<ChatMemberStatus>>,
+  #[builder(default)] status: Option<Box<ChatMemberStatus>>,
   
 }
 
@@ -4049,17 +4112,18 @@ impl ChatEventMemberInvited {
 
 
 /// A chat member has gained/lost administrator status, or the list of their administrator privileges has changed. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventMemberPromoted {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventMemberPromoted".to_string())]
   td_name: String, // chatEventMemberPromoted
   /// Chat member user identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// Previous status of the chat member.
-  old_status: Option<Box<ChatMemberStatus>>,
+  #[builder(default)] old_status: Option<Box<ChatMemberStatus>>,
   /// New status of the chat member.
-  new_status: Option<Box<ChatMemberStatus>>,
+  #[builder(default)] new_status: Option<Box<ChatMemberStatus>>,
   
 }
 
@@ -4094,17 +4158,18 @@ impl ChatEventMemberPromoted {
 
 
 /// A chat member was restricted/unrestricted or banned/unbanned, or the list of their restrictions has changed. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventMemberRestricted {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventMemberRestricted".to_string())]
   td_name: String, // chatEventMemberRestricted
   /// Chat member user identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// Previous status of the chat member.
-  old_status: Option<Box<ChatMemberStatus>>,
+  #[builder(default)] old_status: Option<Box<ChatMemberStatus>>,
   /// New status of the chat member.
-  new_status: Option<Box<ChatMemberStatus>>,
+  #[builder(default)] new_status: Option<Box<ChatMemberStatus>>,
   
 }
 
@@ -4139,15 +4204,16 @@ impl ChatEventMemberRestricted {
 
 
 /// The chat title was changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventTitleChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventTitleChanged".to_string())]
   td_name: String, // chatEventTitleChanged
   /// Previous chat title.
-  old_title: Option<String>,
+  #[builder(default)] old_title: Option<String>,
   /// New chat title.
-  new_title: Option<String>,
+  #[builder(default)] new_title: Option<String>,
   
 }
 
@@ -4176,15 +4242,16 @@ impl ChatEventTitleChanged {
 
 
 /// The chat description was changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventDescriptionChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventDescriptionChanged".to_string())]
   td_name: String, // chatEventDescriptionChanged
   /// Previous chat description.
-  old_description: Option<String>,
+  #[builder(default)] old_description: Option<String>,
   /// New chat description.
-  new_description: Option<String>,
+  #[builder(default)] new_description: Option<String>,
   
 }
 
@@ -4213,15 +4280,16 @@ impl ChatEventDescriptionChanged {
 
 
 /// The chat username was changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventUsernameChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventUsernameChanged".to_string())]
   td_name: String, // chatEventUsernameChanged
   /// Previous chat username.
-  old_username: Option<String>,
+  #[builder(default)] old_username: Option<String>,
   /// New chat username.
-  new_username: Option<String>,
+  #[builder(default)] new_username: Option<String>,
   
 }
 
@@ -4250,15 +4318,16 @@ impl ChatEventUsernameChanged {
 
 
 /// The chat photo was changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventPhotoChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventPhotoChanged".to_string())]
   td_name: String, // chatEventPhotoChanged
   /// Previous chat photo value; may be null.
-  old_photo: Option<ChatPhoto>,
+  #[builder(default)] old_photo: Option<ChatPhoto>,
   /// New chat photo value; may be null.
-  new_photo: Option<ChatPhoto>,
+  #[builder(default)] new_photo: Option<ChatPhoto>,
   
 }
 
@@ -4287,13 +4356,14 @@ impl ChatEventPhotoChanged {
 
 
 /// The anyone_can_invite setting of a supergroup chat was toggled. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventInvitesToggled {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventInvitesToggled".to_string())]
   td_name: String, // chatEventInvitesToggled
   /// New value of anyone_can_invite.
-  anyone_can_invite: Option<bool>,
+  #[builder(default)] anyone_can_invite: Option<bool>,
   
 }
 
@@ -4320,13 +4390,14 @@ impl ChatEventInvitesToggled {
 
 
 /// The sign_messages setting of a channel was toggled. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventSignMessagesToggled {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventSignMessagesToggled".to_string())]
   td_name: String, // chatEventSignMessagesToggled
   /// New value of sign_messages.
-  sign_messages: Option<bool>,
+  #[builder(default)] sign_messages: Option<bool>,
   
 }
 
@@ -4353,15 +4424,16 @@ impl ChatEventSignMessagesToggled {
 
 
 /// The supergroup sticker set was changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventStickerSetChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventStickerSetChanged".to_string())]
   td_name: String, // chatEventStickerSetChanged
   /// Previous identifier of the chat sticker set; 0 if none.
-  old_sticker_set_id: Option<i64>,
+  #[builder(default)] old_sticker_set_id: Option<i64>,
   /// New identifier of the chat sticker set; 0 if none.
-  new_sticker_set_id: Option<i64>,
+  #[builder(default)] new_sticker_set_id: Option<i64>,
   
 }
 
@@ -4390,13 +4462,14 @@ impl ChatEventStickerSetChanged {
 
 
 /// The is_all_history_available setting of a supergroup was toggled. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventIsAllHistoryAvailableToggled {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventIsAllHistoryAvailableToggled".to_string())]
   td_name: String, // chatEventIsAllHistoryAvailableToggled
   /// New value of is_all_history_available.
-  is_all_history_available: Option<bool>,
+  #[builder(default)] is_all_history_available: Option<bool>,
   
 }
 
@@ -4423,31 +4496,32 @@ impl ChatEventIsAllHistoryAvailableToggled {
 
 
 /// Represents a set of filters used to obtain a chat event log. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEventLogFilters {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEventLogFilters".to_string())]
   td_name: String, // chatEventLogFilters
   /// True, if message edits should be returned.
-  message_edits: Option<bool>,
+  #[builder(default)] message_edits: Option<bool>,
   /// True, if message deletions should be returned.
-  message_deletions: Option<bool>,
+  #[builder(default)] message_deletions: Option<bool>,
   /// True, if pin/unpin events should be returned.
-  message_pins: Option<bool>,
+  #[builder(default)] message_pins: Option<bool>,
   /// True, if members joining events should be returned.
-  member_joins: Option<bool>,
+  #[builder(default)] member_joins: Option<bool>,
   /// True, if members leaving events should be returned.
-  member_leaves: Option<bool>,
+  #[builder(default)] member_leaves: Option<bool>,
   /// True, if invited member events should be returned.
-  member_invites: Option<bool>,
+  #[builder(default)] member_invites: Option<bool>,
   /// True, if member promotion/demotion events should be returned.
-  member_promotions: Option<bool>,
+  #[builder(default)] member_promotions: Option<bool>,
   /// True, if member restricted/unrestricted/banned/unbanned events should be returned.
-  member_restrictions: Option<bool>,
+  #[builder(default)] member_restrictions: Option<bool>,
   /// True, if changes in chat information should be returned.
-  info_changes: Option<bool>,
+  #[builder(default)] info_changes: Option<bool>,
   /// True, if changes in chat settings should be returned.
-  setting_changes: Option<bool>,
+  #[builder(default)] setting_changes: Option<bool>,
   
 }
 
@@ -4490,13 +4564,14 @@ impl ChatEventLogFilters {
 
 
 /// Contains a list of chat events. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatEvents {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatEvents".to_string())]
   td_name: String, // chatEvents
   /// List of events.
-  events: Option<Vec<ChatEvent>>,
+  #[builder(default)] events: Option<Vec<ChatEvent>>,
   
 }
 
@@ -4521,13 +4596,14 @@ impl ChatEvents {
 
 
 /// Contains a chat invite link. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatInviteLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatInviteLink".to_string())]
   td_name: String, // chatInviteLink
   /// Chat invite link.
-  invite_link: Option<String>,
+  #[builder(default)] invite_link: Option<String>,
   
 }
 
@@ -4552,25 +4628,26 @@ impl ChatInviteLink {
 
 
 /// Contains information about a chat invite link. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatInviteLinkInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatInviteLinkInfo".to_string())]
   td_name: String, // chatInviteLinkInfo
   /// Chat identifier of the invite link; 0 if the user is not a member of this chat.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Contains information about the type of the chat.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<ChatType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<ChatType>>,
   /// Title of the chat.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Chat photo; may be null.
-  photo: Option<ChatPhoto>,
+  #[builder(default)] photo: Option<ChatPhoto>,
   /// Number of members.
-  member_count: Option<i32>,
+  #[builder(default)] member_count: Option<i32>,
   /// User identifiers of some chat members that may be known to the current user.
-  member_user_ids: Option<Vec<i32>>,
+  #[builder(default)] member_user_ids: Option<Vec<i32>>,
   /// True, if the chat is a public supergroup or channel with a username.
-  is_public: Option<bool>,
+  #[builder(default)] is_public: Option<bool>,
   
 }
 
@@ -4611,21 +4688,22 @@ impl ChatInviteLinkInfo {
 
 
 /// A user with information about joining/leaving a chat. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatMember {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatMember".to_string())]
   td_name: String, // chatMember
   /// User identifier of the chat member.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown.
-  inviter_user_id: Option<i32>,
+  #[builder(default)] inviter_user_id: Option<i32>,
   /// Point in time (Unix timestamp) when the user joined a chat.
-  joined_chat_date: Option<i32>,
+  #[builder(default)] joined_chat_date: Option<i32>,
   /// Status of the member in the chat.
-  status: Option<Box<ChatMemberStatus>>,
+  #[builder(default)] status: Option<Box<ChatMemberStatus>>,
   /// If the user is a bot, information about the bot; may be null. Can be null even for a bot if the bot is not a chat member.
-  bot_info: Option<BotInfo>,
+  #[builder(default)] bot_info: Option<BotInfo>,
   
 }
 
@@ -4695,13 +4773,14 @@ impl RTDChatMemberStatusType {
 
 
 /// The user is the creator of a chat and has all the administrator privileges. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatMemberStatusCreator {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatMemberStatusCreator".to_string())]
   td_name: String, // chatMemberStatusCreator
   /// True, if the user is a member of the chat.
-  is_member: Option<bool>,
+  #[builder(default)] is_member: Option<bool>,
   
 }
 
@@ -4728,29 +4807,30 @@ impl ChatMemberStatusCreator {
 
 
 /// The user is a member of a chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, and ban unprivileged members. In supergroups and channels, there are more detailed options for administrator privileges. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatMemberStatusAdministrator {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatMemberStatusAdministrator".to_string())]
   td_name: String, // chatMemberStatusAdministrator
   /// True, if the current user can edit the administrator privileges for the called user.
-  can_be_edited: Option<bool>,
+  #[builder(default)] can_be_edited: Option<bool>,
   /// True, if the administrator can change the chat title, photo, and other settings.
-  can_change_info: Option<bool>,
+  #[builder(default)] can_change_info: Option<bool>,
   /// True, if the administrator can create channel posts; applicable to channels only.
-  can_post_messages: Option<bool>,
+  #[builder(default)] can_post_messages: Option<bool>,
   /// True, if the administrator can edit messages of other users and pin messages; applicable to channels only.
-  can_edit_messages: Option<bool>,
+  #[builder(default)] can_edit_messages: Option<bool>,
   /// True, if the administrator can delete messages of other users.
-  can_delete_messages: Option<bool>,
+  #[builder(default)] can_delete_messages: Option<bool>,
   /// True, if the administrator can invite new users to the chat.
-  can_invite_users: Option<bool>,
+  #[builder(default)] can_invite_users: Option<bool>,
   /// True, if the administrator can restrict, ban, or unban chat members.
-  can_restrict_members: Option<bool>,
+  #[builder(default)] can_restrict_members: Option<bool>,
   /// True, if the administrator can pin messages; applicable to groups only.
-  can_pin_messages: Option<bool>,
+  #[builder(default)] can_pin_messages: Option<bool>,
   /// True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that were directly or indirectly promoted by him.
-  can_promote_members: Option<bool>,
+  #[builder(default)] can_promote_members: Option<bool>,
   
 }
 
@@ -4793,10 +4873,11 @@ impl ChatMemberStatusAdministrator {
 
 
 /// The user is a member of a chat, without any additional privileges or restrictions. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatMemberStatusMember {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatMemberStatusMember".to_string())]
   td_name: String, // chatMemberStatusMember
   
 }
@@ -4822,23 +4903,24 @@ impl ChatMemberStatusMember {
 
 
 /// The user is under certain restrictions in the chat. Not supported in basic groups and channels. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatMemberStatusRestricted {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatMemberStatusRestricted".to_string())]
   td_name: String, // chatMemberStatusRestricted
   /// True, if the user is a member of the chat.
-  is_member: Option<bool>,
+  #[builder(default)] is_member: Option<bool>,
   /// Point in time (Unix timestamp) when restrictions will be lifted from the user; 0 if never. If the user is restricted for more than 366 days or for less than 30 seconds from the current time, the user is considered to be restricted forever.
-  restricted_until_date: Option<i32>,
+  #[builder(default)] restricted_until_date: Option<i32>,
   /// True, if the user can send text messages, contacts, locations, and venues.
-  can_send_messages: Option<bool>,
+  #[builder(default)] can_send_messages: Option<bool>,
   /// True, if the user can send audio files, documents, photos, videos, video notes, and voice notes. Implies can_send_messages permissions.
-  can_send_media_messages: Option<bool>,
+  #[builder(default)] can_send_media_messages: Option<bool>,
   /// True, if the user can send animations, games, and stickers and use inline bots. Implies can_send_media_messages permissions.
-  can_send_other_messages: Option<bool>,
+  #[builder(default)] can_send_other_messages: Option<bool>,
   /// True, if the user may add a web page preview to his messages. Implies can_send_messages permissions.
-  can_add_web_page_previews: Option<bool>,
+  #[builder(default)] can_add_web_page_previews: Option<bool>,
   
 }
 
@@ -4875,10 +4957,11 @@ impl ChatMemberStatusRestricted {
 
 
 /// The user is not a chat member. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatMemberStatusLeft {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatMemberStatusLeft".to_string())]
   td_name: String, // chatMemberStatusLeft
   
 }
@@ -4904,13 +4987,14 @@ impl ChatMemberStatusLeft {
 
 
 /// The user was banned (and hence is not a member of the chat). Implies the user can't return to the chat or view messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatMemberStatusBanned {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatMemberStatusBanned".to_string())]
   td_name: String, // chatMemberStatusBanned
   /// Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever.
-  banned_until_date: Option<i32>,
+  #[builder(default)] banned_until_date: Option<i32>,
   
 }
 
@@ -4937,15 +5021,16 @@ impl ChatMemberStatusBanned {
 
 
 /// Contains a list of chat members. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatMembers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatMembers".to_string())]
   td_name: String, // chatMembers
   /// Approximate total count of chat members found.
-  total_count: Option<i32>,
+  #[builder(default)] total_count: Option<i32>,
   /// A list of chat members.
-  members: Option<Vec<ChatMember>>,
+  #[builder(default)] members: Option<Vec<ChatMember>>,
   
 }
 
@@ -5004,10 +5089,11 @@ impl RTDChatMembersFilterType {
 
 
 /// Returns the creator and administrators. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatMembersFilterAdministrators {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatMembersFilterAdministrators".to_string())]
   td_name: String, // chatMembersFilterAdministrators
   
 }
@@ -5033,10 +5119,11 @@ impl ChatMembersFilterAdministrators {
 
 
 /// Returns all chat members, including restricted chat members. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatMembersFilterMembers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatMembersFilterMembers".to_string())]
   td_name: String, // chatMembersFilterMembers
   
 }
@@ -5062,10 +5149,11 @@ impl ChatMembersFilterMembers {
 
 
 /// Returns users under certain restrictions in the chat; can be used only by administrators in a supergroup. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatMembersFilterRestricted {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatMembersFilterRestricted".to_string())]
   td_name: String, // chatMembersFilterRestricted
   
 }
@@ -5091,10 +5179,11 @@ impl ChatMembersFilterRestricted {
 
 
 /// Returns users banned from the chat; can be used only by administrators in a supergroup or in a channel. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatMembersFilterBanned {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatMembersFilterBanned".to_string())]
   td_name: String, // chatMembersFilterBanned
   
 }
@@ -5120,10 +5209,11 @@ impl ChatMembersFilterBanned {
 
 
 /// Returns bot members of the chat. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatMembersFilterBots {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatMembersFilterBots".to_string())]
   td_name: String, // chatMembersFilterBots
   
 }
@@ -5149,31 +5239,32 @@ impl ChatMembersFilterBots {
 
 
 /// Contains information about notification settings for a chat. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatNotificationSettings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatNotificationSettings".to_string())]
   td_name: String, // chatNotificationSettings
   /// If true, mute_for is ignored and the value for the relevant type of chat is used instead.
-  use_default_mute_for: Option<bool>,
+  #[builder(default)] use_default_mute_for: Option<bool>,
   /// Time left before notifications will be unmuted, in seconds.
-  mute_for: Option<i32>,
+  #[builder(default)] mute_for: Option<i32>,
   /// If true, sound is ignored and the value for the relevant type of chat is used instead.
-  use_default_sound: Option<bool>,
+  #[builder(default)] use_default_sound: Option<bool>,
   /// The name of an audio file to be used for notification sounds; only applies to iOS applications.
-  sound: Option<String>,
+  #[builder(default)] sound: Option<String>,
   /// If true, show_preview is ignored and the value for the relevant type of chat is used instead.
-  use_default_show_preview: Option<bool>,
+  #[builder(default)] use_default_show_preview: Option<bool>,
   /// True, if message content should be displayed in notifications.
-  show_preview: Option<bool>,
+  #[builder(default)] show_preview: Option<bool>,
   /// If true, disable_pinned_message_notifications is ignored and the value for the relevant type of chat is used instead.
-  use_default_disable_pinned_message_notifications: Option<bool>,
+  #[builder(default)] use_default_disable_pinned_message_notifications: Option<bool>,
   /// If true, notifications for incoming pinned messages will be created as for an ordinary unread message.
-  disable_pinned_message_notifications: Option<bool>,
+  #[builder(default)] disable_pinned_message_notifications: Option<bool>,
   /// If true, disable_mention_notifications is ignored and the value for the relevant type of chat is used instead.
-  use_default_disable_mention_notifications: Option<bool>,
+  #[builder(default)] use_default_disable_mention_notifications: Option<bool>,
   /// If true, notifications for messages with mentions will be created as for an ordinary unread message.
-  disable_mention_notifications: Option<bool>,
+  #[builder(default)] disable_mention_notifications: Option<bool>,
   
 }
 
@@ -5216,15 +5307,16 @@ impl ChatNotificationSettings {
 
 
 /// Describes the photo of a chat. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatPhoto".to_string())]
   td_name: String, // chatPhoto
   /// A small (160x160) chat photo.
-  small: Option<File>,
+  #[builder(default)] small: Option<File>,
   /// A big (640x640) chat photo.
-  big: Option<File>,
+  #[builder(default)] big: Option<File>,
   
 }
 
@@ -5284,10 +5376,11 @@ impl RTDChatReportReasonType {
 
 
 /// The chat contains spam messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatReportReasonSpam {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatReportReasonSpam".to_string())]
   td_name: String, // chatReportReasonSpam
   
 }
@@ -5313,10 +5406,11 @@ impl ChatReportReasonSpam {
 
 
 /// The chat promotes violence. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatReportReasonViolence {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatReportReasonViolence".to_string())]
   td_name: String, // chatReportReasonViolence
   
 }
@@ -5342,10 +5436,11 @@ impl ChatReportReasonViolence {
 
 
 /// The chat contains pornographic messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatReportReasonPornography {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatReportReasonPornography".to_string())]
   td_name: String, // chatReportReasonPornography
   
 }
@@ -5371,10 +5466,11 @@ impl ChatReportReasonPornography {
 
 
 /// The chat has child abuse related content. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatReportReasonChildAbuse {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatReportReasonChildAbuse".to_string())]
   td_name: String, // chatReportReasonChildAbuse
   
 }
@@ -5400,10 +5496,11 @@ impl ChatReportReasonChildAbuse {
 
 
 /// The chat contains copyrighted content. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatReportReasonCopyright {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatReportReasonCopyright".to_string())]
   td_name: String, // chatReportReasonCopyright
   
 }
@@ -5429,13 +5526,14 @@ impl ChatReportReasonCopyright {
 
 
 /// A custom reason provided by the user. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatReportReasonCustom {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatReportReasonCustom".to_string())]
   td_name: String, // chatReportReasonCustom
   /// Report text.
-  text: Option<String>,
+  #[builder(default)] text: Option<String>,
   
 }
 
@@ -5462,13 +5560,14 @@ impl ChatReportReasonCustom {
 
 
 /// Contains information about the availability of the "Report spam" action for a chat. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatReportSpamState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatReportSpamState".to_string())]
   td_name: String, // chatReportSpamState
   /// True, if a prompt with the "Report spam" action should be shown to the user.
-  can_report_spam: Option<bool>,
+  #[builder(default)] can_report_spam: Option<bool>,
   
 }
 
@@ -5524,13 +5623,14 @@ impl RTDChatTypeType {
 
 
 /// An ordinary chat with a user. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatTypePrivate {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatTypePrivate".to_string())]
   td_name: String, // chatTypePrivate
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   
 }
 
@@ -5557,13 +5657,14 @@ impl ChatTypePrivate {
 
 
 /// A basic group (i.e., a chat with 0-200 other users). 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatTypeBasicGroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatTypeBasicGroup".to_string())]
   td_name: String, // chatTypeBasicGroup
   /// Basic group identifier.
-  basic_group_id: Option<i32>,
+  #[builder(default)] basic_group_id: Option<i32>,
   
 }
 
@@ -5590,15 +5691,16 @@ impl ChatTypeBasicGroup {
 
 
 /// A supergroup (i.e. a chat with up to GetOption("supergroup_max_size") other users), or channel (with unlimited members). 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatTypeSupergroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatTypeSupergroup".to_string())]
   td_name: String, // chatTypeSupergroup
   /// Supergroup or channel identifier.
-  supergroup_id: Option<i32>,
+  #[builder(default)] supergroup_id: Option<i32>,
   /// True, if the supergroup is a channel.
-  is_channel: Option<bool>,
+  #[builder(default)] is_channel: Option<bool>,
   
 }
 
@@ -5627,15 +5729,16 @@ impl ChatTypeSupergroup {
 
 
 /// A secret chat with a user. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChatTypeSecret {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chatTypeSecret".to_string())]
   td_name: String, // chatTypeSecret
   /// Secret chat identifier.
-  secret_chat_id: Option<i32>,
+  #[builder(default)] secret_chat_id: Option<i32>,
   /// User identifier of the secret chat peer.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   
 }
 
@@ -5664,13 +5767,14 @@ impl ChatTypeSecret {
 
 
 /// Represents a list of chats. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Chats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="chats".to_string())]
   td_name: String, // chats
   /// List of chat identifiers.
-  chat_ids: Option<Vec<i64>>,
+  #[builder(default)] chat_ids: Option<Vec<i64>>,
   
 }
 
@@ -5727,10 +5831,11 @@ impl RTDCheckChatUsernameResultType {
 
 
 /// The username can be set. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckChatUsernameResultOk {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkChatUsernameResultOk".to_string())]
   td_name: String, // checkChatUsernameResultOk
   
 }
@@ -5756,10 +5861,11 @@ impl CheckChatUsernameResultOk {
 
 
 /// The username is invalid. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckChatUsernameResultUsernameInvalid {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkChatUsernameResultUsernameInvalid".to_string())]
   td_name: String, // checkChatUsernameResultUsernameInvalid
   
 }
@@ -5785,10 +5891,11 @@ impl CheckChatUsernameResultUsernameInvalid {
 
 
 /// The username is occupied. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckChatUsernameResultUsernameOccupied {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkChatUsernameResultUsernameOccupied".to_string())]
   td_name: String, // checkChatUsernameResultUsernameOccupied
   
 }
@@ -5814,10 +5921,11 @@ impl CheckChatUsernameResultUsernameOccupied {
 
 
 /// The user has too much public chats, one of them should be made private first. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckChatUsernameResultPublicChatsTooMuch {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkChatUsernameResultPublicChatsTooMuch".to_string())]
   td_name: String, // checkChatUsernameResultPublicChatsTooMuch
   
 }
@@ -5843,10 +5951,11 @@ impl CheckChatUsernameResultPublicChatsTooMuch {
 
 
 /// The user can't be a member of a public supergroup. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckChatUsernameResultPublicGroupsUnavailable {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkChatUsernameResultPublicGroupsUnavailable".to_string())]
   td_name: String, // checkChatUsernameResultPublicGroupsUnavailable
   
 }
@@ -5872,29 +5981,30 @@ impl CheckChatUsernameResultPublicGroupsUnavailable {
 
 
 /// Contains information about one website the current user is logged in with Telegram. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ConnectedWebsite {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="connectedWebsite".to_string())]
   td_name: String, // connectedWebsite
   /// Website identifier.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// The domain name of the website.
-  domain_name: Option<String>,
+  #[builder(default)] domain_name: Option<String>,
   /// User identifier of a bot linked with the website.
-  bot_user_id: Option<i32>,
+  #[builder(default)] bot_user_id: Option<i32>,
   /// The version of a browser used to log in.
-  browser: Option<String>,
+  #[builder(default)] browser: Option<String>,
   /// Operating system the browser is running on.
-  platform: Option<String>,
+  #[builder(default)] platform: Option<String>,
   /// Point in time (Unix timestamp) when the user was logged in.
-  log_in_date: Option<i32>,
+  #[builder(default)] log_in_date: Option<i32>,
   /// Point in time (Unix timestamp) when obtained authorization was last used.
-  last_active_date: Option<i32>,
+  #[builder(default)] last_active_date: Option<i32>,
   /// IP address from which the user was logged in, in human-readable format.
-  ip: Option<String>,
+  #[builder(default)] ip: Option<String>,
   /// Human-readable description of a country and a region, from which the user was logged in, based on the IP address.
-  location: Option<String>,
+  #[builder(default)] location: Option<String>,
   
 }
 
@@ -5935,13 +6045,14 @@ impl ConnectedWebsite {
 
 
 /// Contains a list of websites the current user is logged in with Telegram. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ConnectedWebsites {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="connectedWebsites".to_string())]
   td_name: String, // connectedWebsites
   /// List of connected websites.
-  websites: Option<Vec<ConnectedWebsite>>,
+  #[builder(default)] websites: Option<Vec<ConnectedWebsite>>,
   
 }
 
@@ -5998,10 +6109,11 @@ impl RTDConnectionStateType {
 
 
 /// Currently waiting for the network to become available. Use SetNetworkType to change the available network type. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ConnectionStateWaitingForNetwork {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="connectionStateWaitingForNetwork".to_string())]
   td_name: String, // connectionStateWaitingForNetwork
   
 }
@@ -6027,10 +6139,11 @@ impl ConnectionStateWaitingForNetwork {
 
 
 /// Currently establishing a connection with a proxy server. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ConnectionStateConnectingToProxy {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="connectionStateConnectingToProxy".to_string())]
   td_name: String, // connectionStateConnectingToProxy
   
 }
@@ -6056,10 +6169,11 @@ impl ConnectionStateConnectingToProxy {
 
 
 /// Currently establishing a connection to the Telegram servers. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ConnectionStateConnecting {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="connectionStateConnecting".to_string())]
   td_name: String, // connectionStateConnecting
   
 }
@@ -6085,10 +6199,11 @@ impl ConnectionStateConnecting {
 
 
 /// Downloading data received while the client was offline. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ConnectionStateUpdating {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="connectionStateUpdating".to_string())]
   td_name: String, // connectionStateUpdating
   
 }
@@ -6114,10 +6229,11 @@ impl ConnectionStateUpdating {
 
 
 /// There is a working connection to the Telegram servers. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ConnectionStateReady {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="connectionStateReady".to_string())]
   td_name: String, // connectionStateReady
   
 }
@@ -6143,21 +6259,22 @@ impl ConnectionStateReady {
 
 
 /// Describes a user contact. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Contact {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="contact".to_string())]
   td_name: String, // contact
   /// Phone number of the user.
-  phone_number: Option<String>,
+  #[builder(default)] phone_number: Option<String>,
   /// First name of the user; 1-255 characters in length.
-  first_name: Option<String>,
+  #[builder(default)] first_name: Option<String>,
   /// Last name of the user.
-  last_name: Option<String>,
+  #[builder(default)] last_name: Option<String>,
   /// Additional data about the user in a form of vCard; 0-2048 bytes in length.
-  vcard: Option<String>,
+  #[builder(default)] vcard: Option<String>,
   /// Identifier of the user, if known; otherwise 0.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   
 }
 
@@ -6190,13 +6307,14 @@ impl Contact {
 
 
 /// Contains a counter. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Count {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="count".to_string())]
   td_name: String, // count
   /// Count.
-  count: Option<i32>,
+  #[builder(default)] count: Option<i32>,
   
 }
 
@@ -6221,13 +6339,14 @@ impl Count {
 
 
 /// Contains the result of a custom request. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CustomRequestResult {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="customRequestResult".to_string())]
   td_name: String, // customRequestResult
   /// A JSON-serialized result.
-  result: Option<String>,
+  #[builder(default)] result: Option<String>,
   
 }
 
@@ -6252,13 +6371,14 @@ impl CustomRequestResult {
 
 
 /// Contains database statistics. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DatabaseStatistics {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="databaseStatistics".to_string())]
   td_name: String, // databaseStatistics
   /// Database statistics in an unspecified human-readable format.
-  statistics: Option<String>,
+  #[builder(default)] statistics: Option<String>,
   
 }
 
@@ -6283,17 +6403,18 @@ impl DatabaseStatistics {
 
 
 /// Represents a date according to the Gregorian calendar. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Date {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="date".to_string())]
   td_name: String, // date
   /// Day of the month, 1-31.
-  day: Option<i32>,
+  #[builder(default)] day: Option<i32>,
   /// Month, 1-12.
-  month: Option<i32>,
+  #[builder(default)] month: Option<i32>,
   /// Year, 1-9999.
-  year: Option<i32>,
+  #[builder(default)] year: Option<i32>,
   
 }
 
@@ -6322,15 +6443,16 @@ impl Date {
 
 
 /// File with the date it was uploaded. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DatedFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="datedFile".to_string())]
   td_name: String, // datedFile
   /// The file.
-  file: Option<File>,
+  #[builder(default)] file: Option<File>,
   /// Point in time (Unix timestamp) when the file was uploaded.
-  date: Option<i32>,
+  #[builder(default)] date: Option<i32>,
   
 }
 
@@ -6357,15 +6479,16 @@ impl DatedFile {
 
 
 /// Contains information about a tg:// deep link. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeepLinkInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deepLinkInfo".to_string())]
   td_name: String, // deepLinkInfo
   /// Text to be shown to the user.
-  text: Option<FormattedText>,
+  #[builder(default)] text: Option<FormattedText>,
   /// True, if user should be asked to update the application.
-  need_update_application: Option<bool>,
+  #[builder(default)] need_update_application: Option<bool>,
   
 }
 
@@ -6430,15 +6553,16 @@ impl RTDDeviceTokenType {
 
 
 /// A token for Firebase Cloud Messaging. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeviceTokenFirebaseCloudMessaging {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deviceTokenFirebaseCloudMessaging".to_string())]
   td_name: String, // deviceTokenFirebaseCloudMessaging
   /// Device registration token; may be empty to de-register a device.
-  token: Option<String>,
+  #[builder(default)] token: Option<String>,
   /// True, if push notifications should be additionally encrypted.
-  encrypt: Option<bool>,
+  #[builder(default)] encrypt: Option<bool>,
   
 }
 
@@ -6467,15 +6591,16 @@ impl DeviceTokenFirebaseCloudMessaging {
 
 
 /// A token for Apple Push Notification service. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeviceTokenApplePush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deviceTokenApplePush".to_string())]
   td_name: String, // deviceTokenApplePush
   /// Device token; may be empty to de-register a device.
-  device_token: Option<String>,
+  #[builder(default)] device_token: Option<String>,
   /// True, if App Sandbox is enabled.
-  is_app_sandbox: Option<bool>,
+  #[builder(default)] is_app_sandbox: Option<bool>,
   
 }
 
@@ -6504,17 +6629,18 @@ impl DeviceTokenApplePush {
 
 
 /// A token for Apple Push Notification service VoIP notifications. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeviceTokenApplePushVoIP {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deviceTokenApplePushVoIP".to_string())]
   td_name: String, // deviceTokenApplePushVoIP
   /// Device token; may be empty to de-register a device.
-  device_token: Option<String>,
+  #[builder(default)] device_token: Option<String>,
   /// True, if App Sandbox is enabled.
-  is_app_sandbox: Option<bool>,
+  #[builder(default)] is_app_sandbox: Option<bool>,
   /// True, if push notifications should be additionally encrypted.
-  encrypt: Option<bool>,
+  #[builder(default)] encrypt: Option<bool>,
   
 }
 
@@ -6545,13 +6671,14 @@ impl DeviceTokenApplePushVoIP {
 
 
 /// A token for Windows Push Notification Services. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeviceTokenWindowsPush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deviceTokenWindowsPush".to_string())]
   td_name: String, // deviceTokenWindowsPush
   /// The access token that will be used to send notifications; may be empty to de-register a device.
-  access_token: Option<String>,
+  #[builder(default)] access_token: Option<String>,
   
 }
 
@@ -6578,13 +6705,14 @@ impl DeviceTokenWindowsPush {
 
 
 /// A token for Microsoft Push Notification Service. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeviceTokenMicrosoftPush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deviceTokenMicrosoftPush".to_string())]
   td_name: String, // deviceTokenMicrosoftPush
   /// Push notification channel URI; may be empty to de-register a device.
-  channel_uri: Option<String>,
+  #[builder(default)] channel_uri: Option<String>,
   
 }
 
@@ -6611,13 +6739,14 @@ impl DeviceTokenMicrosoftPush {
 
 
 /// A token for Microsoft Push Notification Service VoIP channel. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeviceTokenMicrosoftPushVoIP {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deviceTokenMicrosoftPushVoIP".to_string())]
   td_name: String, // deviceTokenMicrosoftPushVoIP
   /// Push notification channel URI; may be empty to de-register a device.
-  channel_uri: Option<String>,
+  #[builder(default)] channel_uri: Option<String>,
   
 }
 
@@ -6644,17 +6773,18 @@ impl DeviceTokenMicrosoftPushVoIP {
 
 
 /// A token for web Push API. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeviceTokenWebPush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deviceTokenWebPush".to_string())]
   td_name: String, // deviceTokenWebPush
   /// Absolute URL exposed by the push service where the application server can send push messages; may be empty to de-register a device.
-  endpoint: Option<String>,
+  #[builder(default)] endpoint: Option<String>,
   /// Base64url-encoded P-256 elliptic curve Diffie-Hellman public key.
-  p256dh_base64url: Option<String>,
+  #[builder(default)] p256dh_base64url: Option<String>,
   /// Base64url-encoded authentication secret.
-  auth_base64url: Option<String>,
+  #[builder(default)] auth_base64url: Option<String>,
   
 }
 
@@ -6685,13 +6815,14 @@ impl DeviceTokenWebPush {
 
 
 /// A token for Simple Push API for Firefox OS. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeviceTokenSimplePush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deviceTokenSimplePush".to_string())]
   td_name: String, // deviceTokenSimplePush
   /// Absolute URL exposed by the push service where the application server can send push messages; may be empty to de-register a device.
-  endpoint: Option<String>,
+  #[builder(default)] endpoint: Option<String>,
   
 }
 
@@ -6718,13 +6849,14 @@ impl DeviceTokenSimplePush {
 
 
 /// A token for Ubuntu Push 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeviceTokenUbuntuPush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deviceTokenUbuntuPush".to_string())]
   td_name: String, // deviceTokenUbuntuPush
   /// Token; may be empty to de-register a device.
-  token: Option<String>,
+  #[builder(default)] token: Option<String>,
   
 }
 
@@ -6751,13 +6883,14 @@ impl DeviceTokenUbuntuPush {
 
 
 /// A token for BlackBerry Push Service. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeviceTokenBlackBerryPush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deviceTokenBlackBerryPush".to_string())]
   td_name: String, // deviceTokenBlackBerryPush
   /// Token; may be empty to de-register a device.
-  token: Option<String>,
+  #[builder(default)] token: Option<String>,
   
 }
 
@@ -6784,13 +6917,14 @@ impl DeviceTokenBlackBerryPush {
 
 
 /// A token for Tizen Push Service. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeviceTokenTizenPush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deviceTokenTizenPush".to_string())]
   td_name: String, // deviceTokenTizenPush
   /// Push service registration identifier; may be empty to de-register a device.
-  reg_id: Option<String>,
+  #[builder(default)] reg_id: Option<String>,
   
 }
 
@@ -6817,19 +6951,20 @@ impl DeviceTokenTizenPush {
 
 
 /// Describes a document of any type. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Document {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="document".to_string())]
   td_name: String, // document
   /// Original name of the file; as defined by the sender.
-  file_name: Option<String>,
+  #[builder(default)] file_name: Option<String>,
   /// MIME type of the file; as defined by the sender.
-  mime_type: Option<String>,
+  #[builder(default)] mime_type: Option<String>,
   /// Document thumbnail; as defined by the sender; may be null.
-  thumbnail: Option<PhotoSize>,
+  #[builder(default)] thumbnail: Option<PhotoSize>,
   /// File containing the document.
-  document: Option<File>,
+  #[builder(default)] document: Option<File>,
   
 }
 
@@ -6860,15 +6995,16 @@ impl Document {
 
 
 /// Contains information about a message draft. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct DraftMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="draftMessage".to_string())]
   td_name: String, // draftMessage
   /// Identifier of the message to reply to; 0 if none.
-  reply_to_message_id: Option<i64>,
+  #[builder(default)] reply_to_message_id: Option<i64>,
   /// Content of the message draft; this should always be of type inputMessageText.
-  input_message_text: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_text: Option<Box<InputMessageContent>>,
   
 }
 
@@ -6899,15 +7035,16 @@ impl DraftMessage {
 
 
 /// Information about the email address authentication code that was sent. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct EmailAddressAuthenticationCodeInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="emailAddressAuthenticationCodeInfo".to_string())]
   td_name: String, // emailAddressAuthenticationCodeInfo
   /// Pattern of the email address to which an authentication code was sent.
-  email_address_pattern: Option<String>,
+  #[builder(default)] email_address_pattern: Option<String>,
   /// Length of the code; 0 if unknown.
-  length: Option<i32>,
+  #[builder(default)] length: Option<i32>,
   
 }
 
@@ -6934,17 +7071,18 @@ impl EmailAddressAuthenticationCodeInfo {
 
 
 /// Contains encrypted Telegram Passport data credentials. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct EncryptedCredentials {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="encryptedCredentials".to_string())]
   td_name: String, // encryptedCredentials
   /// The encrypted credentials.
-  data: Option<String>,
+  #[builder(default)] data: Option<String>,
   /// The decrypted data hash.
-  hash: Option<String>,
+  #[builder(default)] hash: Option<String>,
   /// Secret for data decryption, encrypted with the service's public key.
-  secret: Option<String>,
+  #[builder(default)] secret: Option<String>,
   
 }
 
@@ -6973,29 +7111,30 @@ impl EncryptedCredentials {
 
 
 /// Contains information about an encrypted Telegram Passport element; for bots only. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct EncryptedPassportElement {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="encryptedPassportElement".to_string())]
   td_name: String, // encryptedPassportElement
   /// Type of Telegram Passport element.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<PassportElementType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<PassportElementType>>,
   /// Encrypted JSON-encoded data about the user.
-  data: Option<String>,
+  #[builder(default)] data: Option<String>,
   /// The front side of an identity document.
-  front_side: Option<DatedFile>,
+  #[builder(default)] front_side: Option<DatedFile>,
   /// The reverse side of an identity document; may be null.
-  reverse_side: Option<DatedFile>,
+  #[builder(default)] reverse_side: Option<DatedFile>,
   /// Selfie with the document; may be null.
-  selfie: Option<DatedFile>,
+  #[builder(default)] selfie: Option<DatedFile>,
   /// List of files containing a certified English translation of the document.
-  translation: Option<Vec<DatedFile>>,
+  #[builder(default)] translation: Option<Vec<DatedFile>>,
   /// List of attached files.
-  files: Option<Vec<DatedFile>>,
+  #[builder(default)] files: Option<Vec<DatedFile>>,
   /// Unencrypted data, phone number or email address.
-  value: Option<String>,
+  #[builder(default)] value: Option<String>,
   /// Hash of the entire element.
-  hash: Option<String>,
+  #[builder(default)] hash: Option<String>,
   
 }
 
@@ -7040,15 +7179,16 @@ impl EncryptedPassportElement {
 
 
 /// An object of this type can be returned on every function call, in case of an error. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Error {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="error".to_string())]
   td_name: String, // error
   /// Error code; subject to future changes. If the error code is 406, the error message must not be processed in any way and must not be displayed to the user.
-  code: Option<i32>,
+  #[builder(default)] code: Option<i32>,
   /// Error message; subject to future changes.
-  message: Option<String>,
+  #[builder(default)] message: Option<String>,
   
 }
 
@@ -7075,21 +7215,22 @@ impl Error {
 
 
 /// Represents a file. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct File {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="file".to_string())]
   td_name: String, // file
   /// Unique file identifier.
-  id: Option<i32>,
+  #[builder(default)] id: Option<i32>,
   /// File size; 0 if unknown.
-  size: Option<i32>,
+  #[builder(default)] size: Option<i32>,
   /// Expected file size in case the exact file size is unknown, but an approximate size is known. Can be used to show download/upload progress.
-  expected_size: Option<i32>,
+  #[builder(default)] expected_size: Option<i32>,
   /// Information about the local copy of the file.
-  local: Option<LocalFile>,
+  #[builder(default)] local: Option<LocalFile>,
   /// Information about the remote copy of the file.
-  remote: Option<RemoteFile>,
+  #[builder(default)] remote: Option<RemoteFile>,
   
 }
 
@@ -7122,13 +7263,14 @@ impl File {
 
 
 /// Contains a part of a file. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FilePart {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="filePart".to_string())]
   td_name: String, // filePart
   /// File bytes.
-  data: Option<String>,
+  #[builder(default)] data: Option<String>,
   
 }
 
@@ -7196,10 +7338,11 @@ impl RTDFileTypeType {
 
 
 /// The data is not a file. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypeNone {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypeNone".to_string())]
   td_name: String, // fileTypeNone
   
 }
@@ -7225,10 +7368,11 @@ impl FileTypeNone {
 
 
 /// The file is an animation. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypeAnimation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypeAnimation".to_string())]
   td_name: String, // fileTypeAnimation
   
 }
@@ -7254,10 +7398,11 @@ impl FileTypeAnimation {
 
 
 /// The file is an audio file. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypeAudio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypeAudio".to_string())]
   td_name: String, // fileTypeAudio
   
 }
@@ -7283,10 +7428,11 @@ impl FileTypeAudio {
 
 
 /// The file is a document. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypeDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypeDocument".to_string())]
   td_name: String, // fileTypeDocument
   
 }
@@ -7312,10 +7458,11 @@ impl FileTypeDocument {
 
 
 /// The file is a photo. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypePhoto".to_string())]
   td_name: String, // fileTypePhoto
   
 }
@@ -7341,10 +7488,11 @@ impl FileTypePhoto {
 
 
 /// The file is a profile photo. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypeProfilePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypeProfilePhoto".to_string())]
   td_name: String, // fileTypeProfilePhoto
   
 }
@@ -7370,10 +7518,11 @@ impl FileTypeProfilePhoto {
 
 
 /// The file was sent to a secret chat (the file type is not known to the server). 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypeSecret {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypeSecret".to_string())]
   td_name: String, // fileTypeSecret
   
 }
@@ -7399,10 +7548,11 @@ impl FileTypeSecret {
 
 
 /// The file is a thumbnail of a file from a secret chat. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypeSecretThumbnail {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypeSecretThumbnail".to_string())]
   td_name: String, // fileTypeSecretThumbnail
   
 }
@@ -7428,10 +7578,11 @@ impl FileTypeSecretThumbnail {
 
 
 /// The file is a file from Secure storage used for storing Telegram Passport files. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypeSecure {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypeSecure".to_string())]
   td_name: String, // fileTypeSecure
   
 }
@@ -7457,10 +7608,11 @@ impl FileTypeSecure {
 
 
 /// The file is a sticker. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypeSticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypeSticker".to_string())]
   td_name: String, // fileTypeSticker
   
 }
@@ -7486,10 +7638,11 @@ impl FileTypeSticker {
 
 
 /// The file is a thumbnail of another file. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypeThumbnail {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypeThumbnail".to_string())]
   td_name: String, // fileTypeThumbnail
   
 }
@@ -7515,10 +7668,11 @@ impl FileTypeThumbnail {
 
 
 /// The file type is not yet known. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypeUnknown {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypeUnknown".to_string())]
   td_name: String, // fileTypeUnknown
   
 }
@@ -7544,10 +7698,11 @@ impl FileTypeUnknown {
 
 
 /// The file is a video. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypeVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypeVideo".to_string())]
   td_name: String, // fileTypeVideo
   
 }
@@ -7573,10 +7728,11 @@ impl FileTypeVideo {
 
 
 /// The file is a video note. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypeVideoNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypeVideoNote".to_string())]
   td_name: String, // fileTypeVideoNote
   
 }
@@ -7602,10 +7758,11 @@ impl FileTypeVideoNote {
 
 
 /// The file is a voice note. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypeVoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypeVoiceNote".to_string())]
   td_name: String, // fileTypeVoiceNote
   
 }
@@ -7631,10 +7788,11 @@ impl FileTypeVoiceNote {
 
 
 /// The file is a wallpaper. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FileTypeWallpaper {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="fileTypeWallpaper".to_string())]
   td_name: String, // fileTypeWallpaper
   
 }
@@ -7660,15 +7818,16 @@ impl FileTypeWallpaper {
 
 
 /// A text with some entities. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FormattedText {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="formattedText".to_string())]
   td_name: String, // formattedText
   /// The text.
-  text: Option<String>,
+  #[builder(default)] text: Option<String>,
   /// Entities contained in the text.
-  entities: Option<Vec<TextEntity>>,
+  #[builder(default)] entities: Option<Vec<TextEntity>>,
   
 }
 
@@ -7695,15 +7854,16 @@ impl FormattedText {
 
 
 /// Contains a list of messages found by a search. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FoundMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="foundMessages".to_string())]
   td_name: String, // foundMessages
   /// List of messages.
-  messages: Option<Vec<Message>>,
+  #[builder(default)] messages: Option<Vec<Message>>,
   /// Value to pass as from_search_id to get more results.
-  next_from_search_id: Option<i64>,
+  #[builder(default)] next_from_search_id: Option<i64>,
   
 }
 
@@ -7730,25 +7890,26 @@ impl FoundMessages {
 
 
 /// Describes a game. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Game {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="game".to_string())]
   td_name: String, // game
   /// Game ID.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// Game short name. To share a game use the URL https://t.me/{bot_username}?game={game_short_name}.
-  short_name: Option<String>,
+  #[builder(default)] short_name: Option<String>,
   /// Game title.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Game text, usually containing scoreboards for a game.
-  text: Option<FormattedText>,
+  #[builder(default)] text: Option<FormattedText>,
   /// Game description.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   /// Game photo.
-  photo: Option<Photo>,
+  #[builder(default)] photo: Option<Photo>,
   /// Game animation; may be null.
-  animation: Option<Animation>,
+  #[builder(default)] animation: Option<Animation>,
   
 }
 
@@ -7785,17 +7946,18 @@ impl Game {
 
 
 /// Contains one row of the game high score table. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GameHighScore {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="gameHighScore".to_string())]
   td_name: String, // gameHighScore
   /// Position in the high score table.
-  position: Option<i32>,
+  #[builder(default)] position: Option<i32>,
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// User score.
-  score: Option<i32>,
+  #[builder(default)] score: Option<i32>,
   
 }
 
@@ -7824,13 +7986,14 @@ impl GameHighScore {
 
 
 /// Contains a list of game high scores. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GameHighScores {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="gameHighScores".to_string())]
   td_name: String, // gameHighScores
   /// A list of game high scores.
-  scores: Option<Vec<GameHighScore>>,
+  #[builder(default)] scores: Option<Vec<GameHighScore>>,
   
 }
 
@@ -7855,13 +8018,14 @@ impl GameHighScores {
 
 
 /// Contains a list of hashtags. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Hashtags {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="hashtags".to_string())]
   td_name: String, // hashtags
   /// A list of hashtags.
-  hashtags: Option<Vec<String>>,
+  #[builder(default)] hashtags: Option<Vec<String>>,
   
 }
 
@@ -7886,13 +8050,14 @@ impl Hashtags {
 
 
 /// Contains an HTTP URL. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct HttpUrl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="httpUrl".to_string())]
   td_name: String, // httpUrl
   /// The URL.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   
 }
 
@@ -7917,23 +8082,24 @@ impl HttpUrl {
 
 
 /// An identity document. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct IdentityDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="identityDocument".to_string())]
   td_name: String, // identityDocument
   /// Document number; 1-24 characters.
-  number: Option<String>,
+  #[builder(default)] number: Option<String>,
   /// Document expiry date; may be null.
-  expiry_date: Option<Date>,
+  #[builder(default)] expiry_date: Option<Date>,
   /// Front side of the document.
-  front_side: Option<DatedFile>,
+  #[builder(default)] front_side: Option<DatedFile>,
   /// Reverse side of the document; only for driver license and identity card.
-  reverse_side: Option<DatedFile>,
+  #[builder(default)] reverse_side: Option<DatedFile>,
   /// Selfie with the document; may be null.
-  selfie: Option<DatedFile>,
+  #[builder(default)] selfie: Option<DatedFile>,
   /// List of files containing a certified English translation of the document.
-  translation: Option<Vec<DatedFile>>,
+  #[builder(default)] translation: Option<Vec<DatedFile>>,
   
 }
 
@@ -7968,15 +8134,16 @@ impl IdentityDocument {
 
 
 /// Represents the result of an ImportContacts request. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ImportedContacts {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="importedContacts".to_string())]
   td_name: String, // importedContacts
   /// User identifiers of the imported contacts in the same order as they were specified in the request; 0 if the contact is not yet a registered user.
-  user_ids: Option<Vec<i32>>,
+  #[builder(default)] user_ids: Option<Vec<i32>>,
   /// The number of users that imported the corresponding contact; 0 for already registered users or if unavailable.
-  importer_count: Option<Vec<i32>>,
+  #[builder(default)] importer_count: Option<Vec<i32>>,
   
 }
 
@@ -8003,15 +8170,16 @@ impl ImportedContacts {
 
 
 /// Represents a single button in an inline keyboard. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineKeyboardButton {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineKeyboardButton".to_string())]
   td_name: String, // inlineKeyboardButton
   /// Text of the button.
-  text: Option<String>,
+  #[builder(default)] text: Option<String>,
   /// Type of the button.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<InlineKeyboardButtonType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<InlineKeyboardButtonType>>,
   
 }
 
@@ -8074,13 +8242,14 @@ impl RTDInlineKeyboardButtonTypeType {
 
 
 /// A button that opens a specified URL. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineKeyboardButtonTypeUrl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineKeyboardButtonTypeUrl".to_string())]
   td_name: String, // inlineKeyboardButtonTypeUrl
   /// HTTP or tg:// URL to open.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   
 }
 
@@ -8107,13 +8276,14 @@ impl InlineKeyboardButtonTypeUrl {
 
 
 /// A button that sends a special callback query to a bot. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineKeyboardButtonTypeCallback {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineKeyboardButtonTypeCallback".to_string())]
   td_name: String, // inlineKeyboardButtonTypeCallback
   /// Data to be sent to the bot via a callback query.
-  data: Option<String>,
+  #[builder(default)] data: Option<String>,
   
 }
 
@@ -8140,10 +8310,11 @@ impl InlineKeyboardButtonTypeCallback {
 
 
 /// A button with a game that sends a special callback query to a bot. This button must be in the first column and row of the keyboard and can be attached only to a message with content of the type 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineKeyboardButtonTypeCallbackGame {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineKeyboardButtonTypeCallbackGame".to_string())]
   td_name: String, // inlineKeyboardButtonTypeCallbackGame
   
 }
@@ -8169,15 +8340,16 @@ impl InlineKeyboardButtonTypeCallbackGame {
 
 
 /// A button that forces an inline query to the bot to be inserted in the input field. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineKeyboardButtonTypeSwitchInline {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineKeyboardButtonTypeSwitchInline".to_string())]
   td_name: String, // inlineKeyboardButtonTypeSwitchInline
   /// Inline query to be sent to the bot.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   /// True, if the inline query should be sent from the current chat.
-  in_current_chat: Option<bool>,
+  #[builder(default)] in_current_chat: Option<bool>,
   
 }
 
@@ -8206,10 +8378,11 @@ impl InlineKeyboardButtonTypeSwitchInline {
 
 
 /// A button to buy something. This button must be in the first column and row of the keyboard and can be attached only to a message with content of the type 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineKeyboardButtonTypeBuy {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineKeyboardButtonTypeBuy".to_string())]
   td_name: String, // inlineKeyboardButtonTypeBuy
   
 }
@@ -8274,23 +8447,24 @@ impl RTDInlineQueryResultType {
 
 
 /// Represents a link to an article or web page. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineQueryResultArticle {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineQueryResultArticle".to_string())]
   td_name: String, // inlineQueryResultArticle
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// URL of the result, if it exists.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   /// True, if the URL must be not shown.
-  hide_url: Option<bool>,
+  #[builder(default)] hide_url: Option<bool>,
   /// Title of the result.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// A short description of the result.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   /// Result thumbnail; may be null.
-  thumbnail: Option<PhotoSize>,
+  #[builder(default)] thumbnail: Option<PhotoSize>,
   
 }
 
@@ -8327,17 +8501,18 @@ impl InlineQueryResultArticle {
 
 
 /// Represents a user contact. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineQueryResultContact {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineQueryResultContact".to_string())]
   td_name: String, // inlineQueryResultContact
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// A user contact.
-  contact: Option<Contact>,
+  #[builder(default)] contact: Option<Contact>,
   /// Result thumbnail; may be null.
-  thumbnail: Option<PhotoSize>,
+  #[builder(default)] thumbnail: Option<PhotoSize>,
   
 }
 
@@ -8368,19 +8543,20 @@ impl InlineQueryResultContact {
 
 
 /// Represents a point on the map. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineQueryResultLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineQueryResultLocation".to_string())]
   td_name: String, // inlineQueryResultLocation
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Location result.
-  location: Option<Location>,
+  #[builder(default)] location: Option<Location>,
   /// Title of the result.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Result thumbnail; may be null.
-  thumbnail: Option<PhotoSize>,
+  #[builder(default)] thumbnail: Option<PhotoSize>,
   
 }
 
@@ -8413,17 +8589,18 @@ impl InlineQueryResultLocation {
 
 
 /// Represents information about a venue. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineQueryResultVenue {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineQueryResultVenue".to_string())]
   td_name: String, // inlineQueryResultVenue
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Venue result.
-  venue: Option<Venue>,
+  #[builder(default)] venue: Option<Venue>,
   /// Result thumbnail; may be null.
-  thumbnail: Option<PhotoSize>,
+  #[builder(default)] thumbnail: Option<PhotoSize>,
   
 }
 
@@ -8454,15 +8631,16 @@ impl InlineQueryResultVenue {
 
 
 /// Represents information about a game. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineQueryResultGame {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineQueryResultGame".to_string())]
   td_name: String, // inlineQueryResultGame
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Game result.
-  game: Option<Game>,
+  #[builder(default)] game: Option<Game>,
   
 }
 
@@ -8491,17 +8669,18 @@ impl InlineQueryResultGame {
 
 
 /// Represents an animation file. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineQueryResultAnimation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineQueryResultAnimation".to_string())]
   td_name: String, // inlineQueryResultAnimation
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Animation file.
-  animation: Option<Animation>,
+  #[builder(default)] animation: Option<Animation>,
   /// Animation title.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   
 }
 
@@ -8532,15 +8711,16 @@ impl InlineQueryResultAnimation {
 
 
 /// Represents an audio file. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineQueryResultAudio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineQueryResultAudio".to_string())]
   td_name: String, // inlineQueryResultAudio
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Audio file.
-  audio: Option<Audio>,
+  #[builder(default)] audio: Option<Audio>,
   
 }
 
@@ -8569,19 +8749,20 @@ impl InlineQueryResultAudio {
 
 
 /// Represents a document. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineQueryResultDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineQueryResultDocument".to_string())]
   td_name: String, // inlineQueryResultDocument
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Document.
-  document: Option<Document>,
+  #[builder(default)] document: Option<Document>,
   /// Document title.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Document description.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   
 }
 
@@ -8614,19 +8795,20 @@ impl InlineQueryResultDocument {
 
 
 /// Represents a photo. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineQueryResultPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineQueryResultPhoto".to_string())]
   td_name: String, // inlineQueryResultPhoto
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Photo.
-  photo: Option<Photo>,
+  #[builder(default)] photo: Option<Photo>,
   /// Title of the result, if known.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// A short description of the result, if known.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   
 }
 
@@ -8659,15 +8841,16 @@ impl InlineQueryResultPhoto {
 
 
 /// Represents a sticker. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineQueryResultSticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineQueryResultSticker".to_string())]
   td_name: String, // inlineQueryResultSticker
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Sticker.
-  sticker: Option<Sticker>,
+  #[builder(default)] sticker: Option<Sticker>,
   
 }
 
@@ -8696,19 +8879,20 @@ impl InlineQueryResultSticker {
 
 
 /// Represents a video. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineQueryResultVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineQueryResultVideo".to_string())]
   td_name: String, // inlineQueryResultVideo
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Video.
-  video: Option<Video>,
+  #[builder(default)] video: Option<Video>,
   /// Title of the video.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Description of the video.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   
 }
 
@@ -8741,17 +8925,18 @@ impl InlineQueryResultVideo {
 
 
 /// Represents a voice note. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineQueryResultVoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineQueryResultVoiceNote".to_string())]
   td_name: String, // inlineQueryResultVoiceNote
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Voice note.
-  voice_note: Option<VoiceNote>,
+  #[builder(default)] voice_note: Option<VoiceNote>,
   /// Title of the voice note.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   
 }
 
@@ -8782,21 +8967,22 @@ impl InlineQueryResultVoiceNote {
 
 
 /// Represents the results of the inline query. Use 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InlineQueryResults {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inlineQueryResults".to_string())]
   td_name: String, // inlineQueryResults
   /// Unique identifier of the inline query.
-  inline_query_id: Option<i64>,
+  #[builder(default)] inline_query_id: Option<i64>,
   /// The offset for the next request. If empty, there are no more results.
-  next_offset: Option<String>,
+  #[builder(default)] next_offset: Option<String>,
   /// Results of the query.
-  results: Option<Vec<Box<InlineQueryResult>>>,
+  #[builder(default)] results: Option<Vec<Box<InlineQueryResult>>>,
   /// If non-empty, this text should be shown on the button, which opens a private chat with the bot and sends the bot a start message with the switch_pm_parameter.
-  switch_pm_text: Option<String>,
+  #[builder(default)] switch_pm_text: Option<String>,
   /// Parameter for the bot start message.
-  switch_pm_parameter: Option<String>,
+  #[builder(default)] switch_pm_parameter: Option<String>,
   
 }
 
@@ -8864,13 +9050,14 @@ impl RTDInputCredentialsType {
 
 
 /// Applies if a user chooses some previously saved payment credentials. To use their previously saved credentials, the user must have a valid temporary password. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputCredentialsSaved {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputCredentialsSaved".to_string())]
   td_name: String, // inputCredentialsSaved
   /// Identifier of the saved credentials.
-  saved_credentials_id: Option<String>,
+  #[builder(default)] saved_credentials_id: Option<String>,
   
 }
 
@@ -8897,15 +9084,16 @@ impl InputCredentialsSaved {
 
 
 /// Applies if a user enters new credentials on a payment provider website. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputCredentialsNew {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputCredentialsNew".to_string())]
   td_name: String, // inputCredentialsNew
   /// Contains JSON-encoded data with a credential identifier from the payment provider.
-  data: Option<String>,
+  #[builder(default)] data: Option<String>,
   /// True, if the credential identifier can be saved on the server side.
-  allow_save: Option<bool>,
+  #[builder(default)] allow_save: Option<bool>,
   
 }
 
@@ -8934,13 +9122,14 @@ impl InputCredentialsNew {
 
 
 /// Applies if a user enters new credentials using Android Pay. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputCredentialsAndroidPay {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputCredentialsAndroidPay".to_string())]
   td_name: String, // inputCredentialsAndroidPay
   /// JSON-encoded data with the credential identifier.
-  data: Option<String>,
+  #[builder(default)] data: Option<String>,
   
 }
 
@@ -8967,13 +9156,14 @@ impl InputCredentialsAndroidPay {
 
 
 /// Applies if a user enters new credentials using Apple Pay. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputCredentialsApplePay {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputCredentialsApplePay".to_string())]
   td_name: String, // inputCredentialsApplePay
   /// JSON-encoded data with the credential identifier.
-  data: Option<String>,
+  #[builder(default)] data: Option<String>,
   
 }
 
@@ -9031,13 +9221,14 @@ impl RTDInputFileType {
 
 
 /// A file defined by its unique ID. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputFileId {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputFileId".to_string())]
   td_name: String, // inputFileId
   /// Unique file identifier.
-  id: Option<i32>,
+  #[builder(default)] id: Option<i32>,
   
 }
 
@@ -9064,13 +9255,14 @@ impl InputFileId {
 
 
 /// A file defined by its remote ID. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputFileRemote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputFileRemote".to_string())]
   td_name: String, // inputFileRemote
   /// Remote file identifier.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   
 }
 
@@ -9097,13 +9289,14 @@ impl InputFileRemote {
 
 
 /// A file defined by a local path. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputFileLocal {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputFileLocal".to_string())]
   td_name: String, // inputFileLocal
   /// Local path to the file.
-  path: Option<String>,
+  #[builder(default)] path: Option<String>,
   
 }
 
@@ -9130,17 +9323,18 @@ impl InputFileLocal {
 
 
 /// A file generated by the client. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputFileGenerated {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputFileGenerated".to_string())]
   td_name: String, // inputFileGenerated
   /// Local path to a file from which the file is generated; may be empty if there is no such file.
-  original_path: Option<String>,
+  #[builder(default)] original_path: Option<String>,
   /// String specifying the conversion applied to the original file; should be persistent across application restarts. Conversions beginning with '#' are reserved for internal TDLib usage.
-  conversion: Option<String>,
+  #[builder(default)] conversion: Option<String>,
   /// Expected size of the generated file; 0 if unknown.
-  expected_size: Option<i32>,
+  #[builder(default)] expected_size: Option<i32>,
   
 }
 
@@ -9171,23 +9365,24 @@ impl InputFileGenerated {
 
 
 /// An identity document to be saved to Telegram Passport. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputIdentityDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputIdentityDocument".to_string())]
   td_name: String, // inputIdentityDocument
   /// Document number; 1-24 characters.
-  number: Option<String>,
+  #[builder(default)] number: Option<String>,
   /// Document expiry date, if available.
-  expiry_date: Option<Date>,
+  #[builder(default)] expiry_date: Option<Date>,
   /// Front side of the document.
-  front_side: Option<Box<InputFile>>,
+  #[builder(default)] front_side: Option<Box<InputFile>>,
   /// Reverse side of the document; only for driver license and identity card.
-  reverse_side: Option<Box<InputFile>>,
+  #[builder(default)] reverse_side: Option<Box<InputFile>>,
   /// Selfie with the document, if available.
-  selfie: Option<Box<InputFile>>,
+  #[builder(default)] selfie: Option<Box<InputFile>>,
   /// List of files containing a certified English translation of the document.
-  translation: Option<Vec<Box<InputFile>>>,
+  #[builder(default)] translation: Option<Vec<Box<InputFile>>>,
   
 }
 
@@ -9266,29 +9461,30 @@ impl RTDInputInlineQueryResultType {
 
 
 /// Represents a link to an animated GIF. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputInlineQueryResultAnimatedGif {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputInlineQueryResultAnimatedGif".to_string())]
   td_name: String, // inputInlineQueryResultAnimatedGif
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Title of the query result.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// URL of the static result thumbnail (JPEG or GIF), if it exists.
-  thumbnail_url: Option<String>,
+  #[builder(default)] thumbnail_url: Option<String>,
   /// The URL of the GIF-file (file size must not exceed 1MB).
-  gif_url: Option<String>,
+  #[builder(default)] gif_url: Option<String>,
   /// Duration of the GIF, in seconds.
-  gif_duration: Option<i32>,
+  #[builder(default)] gif_duration: Option<i32>,
   /// Width of the GIF.
-  gif_width: Option<i32>,
+  #[builder(default)] gif_width: Option<i32>,
   /// Height of the GIF.
-  gif_height: Option<i32>,
+  #[builder(default)] gif_height: Option<i32>,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAnimation, InputMessageLocation, InputMessageVenue or InputMessageContact.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -9335,29 +9531,30 @@ impl InputInlineQueryResultAnimatedGif {
 
 
 /// Represents a link to an animated (i.e. without sound) H.264/MPEG-4 AVC video. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputInlineQueryResultAnimatedMpeg4 {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputInlineQueryResultAnimatedMpeg4".to_string())]
   td_name: String, // inputInlineQueryResultAnimatedMpeg4
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Title of the result.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// URL of the static result thumbnail (JPEG or GIF), if it exists.
-  thumbnail_url: Option<String>,
+  #[builder(default)] thumbnail_url: Option<String>,
   /// The URL of the MPEG4-file (file size must not exceed 1MB).
-  mpeg4_url: Option<String>,
+  #[builder(default)] mpeg4_url: Option<String>,
   /// Duration of the video, in seconds.
-  mpeg4_duration: Option<i32>,
+  #[builder(default)] mpeg4_duration: Option<i32>,
   /// Width of the video.
-  mpeg4_width: Option<i32>,
+  #[builder(default)] mpeg4_width: Option<i32>,
   /// Height of the video.
-  mpeg4_height: Option<i32>,
+  #[builder(default)] mpeg4_height: Option<i32>,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAnimation, InputMessageLocation, InputMessageVenue or InputMessageContact.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -9404,31 +9601,32 @@ impl InputInlineQueryResultAnimatedMpeg4 {
 
 
 /// Represents a link to an article or web page. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputInlineQueryResultArticle {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputInlineQueryResultArticle".to_string())]
   td_name: String, // inputInlineQueryResultArticle
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// URL of the result, if it exists.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   /// True, if the URL must be not shown.
-  hide_url: Option<bool>,
+  #[builder(default)] hide_url: Option<bool>,
   /// Title of the result.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// A short description of the result.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   /// URL of the result thumbnail, if it exists.
-  thumbnail_url: Option<String>,
+  #[builder(default)] thumbnail_url: Option<String>,
   /// Thumbnail width, if known.
-  thumbnail_width: Option<i32>,
+  #[builder(default)] thumbnail_width: Option<i32>,
   /// Thumbnail height, if known.
-  thumbnail_height: Option<i32>,
+  #[builder(default)] thumbnail_height: Option<i32>,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -9477,25 +9675,26 @@ impl InputInlineQueryResultArticle {
 
 
 /// Represents a link to an MP3 audio file. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputInlineQueryResultAudio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputInlineQueryResultAudio".to_string())]
   td_name: String, // inputInlineQueryResultAudio
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Title of the audio file.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Performer of the audio file.
-  performer: Option<String>,
+  #[builder(default)] performer: Option<String>,
   /// The URL of the audio file.
-  audio_url: Option<String>,
+  #[builder(default)] audio_url: Option<String>,
   /// Audio file duration, in seconds.
-  audio_duration: Option<i32>,
+  #[builder(default)] audio_duration: Option<i32>,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAudio, InputMessageLocation, InputMessageVenue or InputMessageContact.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -9538,25 +9737,26 @@ impl InputInlineQueryResultAudio {
 
 
 /// Represents a user contact. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputInlineQueryResultContact {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputInlineQueryResultContact".to_string())]
   td_name: String, // inputInlineQueryResultContact
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// User contact.
-  contact: Option<Contact>,
+  #[builder(default)] contact: Option<Contact>,
   /// URL of the result thumbnail, if it exists.
-  thumbnail_url: Option<String>,
+  #[builder(default)] thumbnail_url: Option<String>,
   /// Thumbnail width, if known.
-  thumbnail_width: Option<i32>,
+  #[builder(default)] thumbnail_width: Option<i32>,
   /// Thumbnail height, if known.
-  thumbnail_height: Option<i32>,
+  #[builder(default)] thumbnail_height: Option<i32>,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -9599,31 +9799,32 @@ impl InputInlineQueryResultContact {
 
 
 /// Represents a link to a file. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputInlineQueryResultDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputInlineQueryResultDocument".to_string())]
   td_name: String, // inputInlineQueryResultDocument
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Title of the resulting file.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Short description of the result, if known.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   /// URL of the file.
-  document_url: Option<String>,
+  #[builder(default)] document_url: Option<String>,
   /// MIME type of the file content; only "application/pdf" and "application/zip" are currently allowed.
-  mime_type: Option<String>,
+  #[builder(default)] mime_type: Option<String>,
   /// The URL of the file thumbnail, if it exists.
-  thumbnail_url: Option<String>,
+  #[builder(default)] thumbnail_url: Option<String>,
   /// Width of the thumbnail.
-  thumbnail_width: Option<i32>,
+  #[builder(default)] thumbnail_width: Option<i32>,
   /// Height of the thumbnail.
-  thumbnail_height: Option<i32>,
+  #[builder(default)] thumbnail_height: Option<i32>,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageDocument, InputMessageLocation, InputMessageVenue or InputMessageContact.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -9672,17 +9873,18 @@ impl InputInlineQueryResultDocument {
 
 
 /// Represents a game. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputInlineQueryResultGame {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputInlineQueryResultGame".to_string())]
   td_name: String, // inputInlineQueryResultGame
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Short name of the game.
-  game_short_name: Option<String>,
+  #[builder(default)] game_short_name: Option<String>,
   /// Message reply markup. Must be of type replyMarkupInlineKeyboard or null.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   
 }
 
@@ -9717,29 +9919,30 @@ impl InputInlineQueryResultGame {
 
 
 /// Represents a point on the map. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputInlineQueryResultLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputInlineQueryResultLocation".to_string())]
   td_name: String, // inputInlineQueryResultLocation
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Location result.
-  location: Option<Location>,
+  #[builder(default)] location: Option<Location>,
   /// Amount of time relative to the message sent time until the location can be updated, in seconds.
-  live_period: Option<i32>,
+  #[builder(default)] live_period: Option<i32>,
   /// Title of the result.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// URL of the result thumbnail, if it exists.
-  thumbnail_url: Option<String>,
+  #[builder(default)] thumbnail_url: Option<String>,
   /// Thumbnail width, if known.
-  thumbnail_width: Option<i32>,
+  #[builder(default)] thumbnail_width: Option<i32>,
   /// Thumbnail height, if known.
-  thumbnail_height: Option<i32>,
+  #[builder(default)] thumbnail_height: Option<i32>,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -9786,29 +9989,30 @@ impl InputInlineQueryResultLocation {
 
 
 /// Represents link to a JPEG image. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputInlineQueryResultPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputInlineQueryResultPhoto".to_string())]
   td_name: String, // inputInlineQueryResultPhoto
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Title of the result, if known.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// A short description of the result, if known.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   /// URL of the photo thumbnail, if it exists.
-  thumbnail_url: Option<String>,
+  #[builder(default)] thumbnail_url: Option<String>,
   /// The URL of the JPEG photo (photo size must not exceed 5MB).
-  photo_url: Option<String>,
+  #[builder(default)] photo_url: Option<String>,
   /// Width of the photo.
-  photo_width: Option<i32>,
+  #[builder(default)] photo_width: Option<i32>,
   /// Height of the photo.
-  photo_height: Option<i32>,
+  #[builder(default)] photo_height: Option<i32>,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessagePhoto, InputMessageLocation, InputMessageVenue or InputMessageContact.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -9855,25 +10059,26 @@ impl InputInlineQueryResultPhoto {
 
 
 /// Represents a link to a WEBP sticker. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputInlineQueryResultSticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputInlineQueryResultSticker".to_string())]
   td_name: String, // inputInlineQueryResultSticker
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// URL of the sticker thumbnail, if it exists.
-  thumbnail_url: Option<String>,
+  #[builder(default)] thumbnail_url: Option<String>,
   /// The URL of the WEBP sticker (sticker file size must not exceed 5MB).
-  sticker_url: Option<String>,
+  #[builder(default)] sticker_url: Option<String>,
   /// Width of the sticker.
-  sticker_width: Option<i32>,
+  #[builder(default)] sticker_width: Option<i32>,
   /// Height of the sticker.
-  sticker_height: Option<i32>,
+  #[builder(default)] sticker_height: Option<i32>,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, inputMessageSticker, InputMessageLocation, InputMessageVenue or InputMessageContact.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -9916,25 +10121,26 @@ impl InputInlineQueryResultSticker {
 
 
 /// Represents information about a venue. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputInlineQueryResultVenue {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputInlineQueryResultVenue".to_string())]
   td_name: String, // inputInlineQueryResultVenue
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Venue result.
-  venue: Option<Venue>,
+  #[builder(default)] venue: Option<Venue>,
   /// URL of the result thumbnail, if it exists.
-  thumbnail_url: Option<String>,
+  #[builder(default)] thumbnail_url: Option<String>,
   /// Thumbnail width, if known.
-  thumbnail_width: Option<i32>,
+  #[builder(default)] thumbnail_width: Option<i32>,
   /// Thumbnail height, if known.
-  thumbnail_height: Option<i32>,
+  #[builder(default)] thumbnail_height: Option<i32>,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -9977,33 +10183,34 @@ impl InputInlineQueryResultVenue {
 
 
 /// Represents a link to a page containing an embedded video player or a video file. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputInlineQueryResultVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputInlineQueryResultVideo".to_string())]
   td_name: String, // inputInlineQueryResultVideo
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Title of the result.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// A short description of the result, if known.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   /// The URL of the video thumbnail (JPEG), if it exists.
-  thumbnail_url: Option<String>,
+  #[builder(default)] thumbnail_url: Option<String>,
   /// URL of the embedded video player or video file.
-  video_url: Option<String>,
+  #[builder(default)] video_url: Option<String>,
   /// MIME type of the content of the video URL, only "text/html" or "video/mp4" are currently supported.
-  mime_type: Option<String>,
+  #[builder(default)] mime_type: Option<String>,
   /// Width of the video.
-  video_width: Option<i32>,
+  #[builder(default)] video_width: Option<i32>,
   /// Height of the video.
-  video_height: Option<i32>,
+  #[builder(default)] video_height: Option<i32>,
   /// Video duration, in seconds.
-  video_duration: Option<i32>,
+  #[builder(default)] video_duration: Option<i32>,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageVideo, InputMessageLocation, InputMessageVenue or InputMessageContact.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -10054,23 +10261,24 @@ impl InputInlineQueryResultVideo {
 
 
 /// Represents a link to an opus-encoded audio file within an OGG container, single channel audio. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputInlineQueryResultVoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputInlineQueryResultVoiceNote".to_string())]
   td_name: String, // inputInlineQueryResultVoiceNote
   /// Unique identifier of the query result.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Title of the voice note.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// The URL of the voice note file.
-  voice_note_url: Option<String>,
+  #[builder(default)] voice_note_url: Option<String>,
   /// Duration of the voice note, in seconds.
-  voice_note_duration: Option<i32>,
+  #[builder(default)] voice_note_duration: Option<i32>,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageVoiceNote, InputMessageLocation, InputMessageVenue or InputMessageContact.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -10154,17 +10362,18 @@ impl RTDInputMessageContentType {
 
 
 /// A text message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessageText {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessageText".to_string())]
   td_name: String, // inputMessageText
   /// Formatted text to be sent; 1-GetOption("message_text_length_max") characters. Only Bold, Italic, Code, Pre, PreCode and TextUrl entities are allowed to be specified manually.
-  text: Option<FormattedText>,
+  #[builder(default)] text: Option<FormattedText>,
   /// True, if rich web page previews for URLs in the message text should be disabled.
-  disable_web_page_preview: Option<bool>,
+  #[builder(default)] disable_web_page_preview: Option<bool>,
   /// True, if a chat message draft should be deleted.
-  clear_draft: Option<bool>,
+  #[builder(default)] clear_draft: Option<bool>,
   
 }
 
@@ -10195,23 +10404,24 @@ impl InputMessageText {
 
 
 /// An animation message (GIF-style). 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessageAnimation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessageAnimation".to_string())]
   td_name: String, // inputMessageAnimation
   /// Animation file to be sent.
-  animation: Option<Box<InputFile>>,
+  #[builder(default)] animation: Option<Box<InputFile>>,
   /// Animation thumbnail, if available.
-  thumbnail: Option<InputThumbnail>,
+  #[builder(default)] thumbnail: Option<InputThumbnail>,
   /// Duration of the animation, in seconds.
-  duration: Option<i32>,
+  #[builder(default)] duration: Option<i32>,
   /// Width of the animation; may be replaced by the server.
-  width: Option<i32>,
+  #[builder(default)] width: Option<i32>,
   /// Height of the animation; may be replaced by the server.
-  height: Option<i32>,
+  #[builder(default)] height: Option<i32>,
   /// Animation caption; 0-GetOption("message_caption_length_max") characters.
-  caption: Option<FormattedText>,
+  #[builder(default)] caption: Option<FormattedText>,
   
 }
 
@@ -10252,23 +10462,24 @@ impl InputMessageAnimation {
 
 
 /// An audio message. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessageAudio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessageAudio".to_string())]
   td_name: String, // inputMessageAudio
   /// Audio file to be sent.
-  audio: Option<Box<InputFile>>,
+  #[builder(default)] audio: Option<Box<InputFile>>,
   /// Thumbnail of the cover for the album, if available.
-  album_cover_thumbnail: Option<InputThumbnail>,
+  #[builder(default)] album_cover_thumbnail: Option<InputThumbnail>,
   /// Duration of the audio, in seconds; may be replaced by the server.
-  duration: Option<i32>,
+  #[builder(default)] duration: Option<i32>,
   /// Title of the audio; 0-64 characters; may be replaced by the server.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Performer of the audio; 0-64 characters, may be replaced by the server.
-  performer: Option<String>,
+  #[builder(default)] performer: Option<String>,
   /// Audio caption; 0-GetOption("message_caption_length_max") characters.
-  caption: Option<FormattedText>,
+  #[builder(default)] caption: Option<FormattedText>,
   
 }
 
@@ -10309,17 +10520,18 @@ impl InputMessageAudio {
 
 
 /// A document message (general file). 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessageDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessageDocument".to_string())]
   td_name: String, // inputMessageDocument
   /// Document to be sent.
-  document: Option<Box<InputFile>>,
+  #[builder(default)] document: Option<Box<InputFile>>,
   /// Document thumbnail, if available.
-  thumbnail: Option<InputThumbnail>,
+  #[builder(default)] thumbnail: Option<InputThumbnail>,
   /// Document caption; 0-GetOption("message_caption_length_max") characters.
-  caption: Option<FormattedText>,
+  #[builder(default)] caption: Option<FormattedText>,
   
 }
 
@@ -10354,25 +10566,26 @@ impl InputMessageDocument {
 
 
 /// A photo message. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessagePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessagePhoto".to_string())]
   td_name: String, // inputMessagePhoto
   /// Photo to send.
-  photo: Option<Box<InputFile>>,
+  #[builder(default)] photo: Option<Box<InputFile>>,
   /// Photo thumbnail to be sent, this is sent to the other party in secret chats only.
-  thumbnail: Option<InputThumbnail>,
+  #[builder(default)] thumbnail: Option<InputThumbnail>,
   /// File identifiers of the stickers added to the photo, if applicable.
-  added_sticker_file_ids: Option<Vec<i32>>,
+  #[builder(default)] added_sticker_file_ids: Option<Vec<i32>>,
   /// Photo width.
-  width: Option<i32>,
+  #[builder(default)] width: Option<i32>,
   /// Photo height.
-  height: Option<i32>,
+  #[builder(default)] height: Option<i32>,
   /// Photo caption; 0-GetOption("message_caption_length_max") characters.
-  caption: Option<FormattedText>,
+  #[builder(default)] caption: Option<FormattedText>,
   /// Photo TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats.
-  ttl: Option<i32>,
+  #[builder(default)] ttl: Option<i32>,
   
 }
 
@@ -10415,19 +10628,20 @@ impl InputMessagePhoto {
 
 
 /// A sticker message. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessageSticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessageSticker".to_string())]
   td_name: String, // inputMessageSticker
   /// Sticker to be sent.
-  sticker: Option<Box<InputFile>>,
+  #[builder(default)] sticker: Option<Box<InputFile>>,
   /// Sticker thumbnail, if available.
-  thumbnail: Option<InputThumbnail>,
+  #[builder(default)] thumbnail: Option<InputThumbnail>,
   /// Sticker width.
-  width: Option<i32>,
+  #[builder(default)] width: Option<i32>,
   /// Sticker height.
-  height: Option<i32>,
+  #[builder(default)] height: Option<i32>,
   
 }
 
@@ -10464,29 +10678,30 @@ impl InputMessageSticker {
 
 
 /// A video message. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessageVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessageVideo".to_string())]
   td_name: String, // inputMessageVideo
   /// Video to be sent.
-  video: Option<Box<InputFile>>,
+  #[builder(default)] video: Option<Box<InputFile>>,
   /// Video thumbnail, if available.
-  thumbnail: Option<InputThumbnail>,
+  #[builder(default)] thumbnail: Option<InputThumbnail>,
   /// File identifiers of the stickers added to the video, if applicable.
-  added_sticker_file_ids: Option<Vec<i32>>,
+  #[builder(default)] added_sticker_file_ids: Option<Vec<i32>>,
   /// Duration of the video, in seconds.
-  duration: Option<i32>,
+  #[builder(default)] duration: Option<i32>,
   /// Video width.
-  width: Option<i32>,
+  #[builder(default)] width: Option<i32>,
   /// Video height.
-  height: Option<i32>,
+  #[builder(default)] height: Option<i32>,
   /// True, if the video should be tried to be streamed.
-  supports_streaming: Option<bool>,
+  #[builder(default)] supports_streaming: Option<bool>,
   /// Video caption; 0-GetOption("message_caption_length_max") characters.
-  caption: Option<FormattedText>,
+  #[builder(default)] caption: Option<FormattedText>,
   /// Video TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats.
-  ttl: Option<i32>,
+  #[builder(default)] ttl: Option<i32>,
   
 }
 
@@ -10533,19 +10748,20 @@ impl InputMessageVideo {
 
 
 /// A video note message. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessageVideoNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessageVideoNote".to_string())]
   td_name: String, // inputMessageVideoNote
   /// Video note to be sent.
-  video_note: Option<Box<InputFile>>,
+  #[builder(default)] video_note: Option<Box<InputFile>>,
   /// Video thumbnail, if available.
-  thumbnail: Option<InputThumbnail>,
+  #[builder(default)] thumbnail: Option<InputThumbnail>,
   /// Duration of the video, in seconds.
-  duration: Option<i32>,
+  #[builder(default)] duration: Option<i32>,
   /// Video width and height; must be positive and not greater than 640.
-  length: Option<i32>,
+  #[builder(default)] length: Option<i32>,
   
 }
 
@@ -10582,19 +10798,20 @@ impl InputMessageVideoNote {
 
 
 /// A voice note message. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessageVoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessageVoiceNote".to_string())]
   td_name: String, // inputMessageVoiceNote
   /// Voice note to be sent.
-  voice_note: Option<Box<InputFile>>,
+  #[builder(default)] voice_note: Option<Box<InputFile>>,
   /// Duration of the voice note, in seconds.
-  duration: Option<i32>,
+  #[builder(default)] duration: Option<i32>,
   /// Waveform representation of the voice note, in 5-bit format.
-  waveform: Option<String>,
+  #[builder(default)] waveform: Option<String>,
   /// Voice note caption; 0-GetOption("message_caption_length_max") characters.
-  caption: Option<FormattedText>,
+  #[builder(default)] caption: Option<FormattedText>,
   
 }
 
@@ -10631,15 +10848,16 @@ impl InputMessageVoiceNote {
 
 
 /// A message with a location. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessageLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessageLocation".to_string())]
   td_name: String, // inputMessageLocation
   /// Location to be sent.
-  location: Option<Location>,
+  #[builder(default)] location: Option<Location>,
   /// Period for which the location can be updated, in seconds; should bebetween 60 and 86400 for a live location and 0 otherwise.
-  live_period: Option<i32>,
+  #[builder(default)] live_period: Option<i32>,
   
 }
 
@@ -10668,13 +10886,14 @@ impl InputMessageLocation {
 
 
 /// A message with information about a venue. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessageVenue {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessageVenue".to_string())]
   td_name: String, // inputMessageVenue
   /// Venue to send.
-  venue: Option<Venue>,
+  #[builder(default)] venue: Option<Venue>,
   
 }
 
@@ -10701,13 +10920,14 @@ impl InputMessageVenue {
 
 
 /// A message containing a user contact. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessageContact {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessageContact".to_string())]
   td_name: String, // inputMessageContact
   /// Contact to send.
-  contact: Option<Contact>,
+  #[builder(default)] contact: Option<Contact>,
   
 }
 
@@ -10734,15 +10954,16 @@ impl InputMessageContact {
 
 
 /// A message with a game; not supported for channels or secret chats. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessageGame {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessageGame".to_string())]
   td_name: String, // inputMessageGame
   /// User identifier of the bot that owns the game.
-  bot_user_id: Option<i32>,
+  #[builder(default)] bot_user_id: Option<i32>,
   /// Short name of the game.
-  game_short_name: Option<String>,
+  #[builder(default)] game_short_name: Option<String>,
   
 }
 
@@ -10771,33 +10992,34 @@ impl InputMessageGame {
 
 
 /// A message with an invoice; can be used only by bots and only in private chats. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessageInvoice {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessageInvoice".to_string())]
   td_name: String, // inputMessageInvoice
   /// Invoice.
-  invoice: Option<Invoice>,
+  #[builder(default)] invoice: Option<Invoice>,
   /// Product title; 1-32 characters.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Product description; 0-255 characters.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   /// Product photo URL; optional.
-  photo_url: Option<String>,
+  #[builder(default)] photo_url: Option<String>,
   /// Product photo size.
-  photo_size: Option<i32>,
+  #[builder(default)] photo_size: Option<i32>,
   /// Product photo width.
-  photo_width: Option<i32>,
+  #[builder(default)] photo_width: Option<i32>,
   /// Product photo height.
-  photo_height: Option<i32>,
+  #[builder(default)] photo_height: Option<i32>,
   /// The invoice payload.
-  payload: Option<String>,
+  #[builder(default)] payload: Option<String>,
   /// Payment provider token.
-  provider_token: Option<String>,
+  #[builder(default)] provider_token: Option<String>,
   /// JSON-encoded data about the invoice, which will be shared with the payment provider.
-  provider_data: Option<String>,
+  #[builder(default)] provider_data: Option<String>,
   /// Unique invoice bot start_parameter for the generation of this invoice.
-  start_parameter: Option<String>,
+  #[builder(default)] start_parameter: Option<String>,
   
 }
 
@@ -10844,15 +11066,16 @@ impl InputMessageInvoice {
 
 
 /// A message with a poll. Polls can't be sent to private or secret chats. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessagePoll {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessagePoll".to_string())]
   td_name: String, // inputMessagePoll
   /// Poll question, 1-255 characters.
-  question: Option<String>,
+  #[builder(default)] question: Option<String>,
   /// List of poll answer options, 2-10 strings 1-100 characters each.
-  options: Option<Vec<String>>,
+  #[builder(default)] options: Option<Vec<String>>,
   
 }
 
@@ -10881,17 +11104,18 @@ impl InputMessagePoll {
 
 
 /// A forwarded message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputMessageForwarded {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputMessageForwarded".to_string())]
   td_name: String, // inputMessageForwarded
   /// Identifier for the chat this forwarded message came from.
-  from_chat_id: Option<i64>,
+  #[builder(default)] from_chat_id: Option<i64>,
   /// Identifier of the message to forward.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// True, if a game message should be shared within a launched game; applies only to game messages.
-  in_game_share: Option<bool>,
+  #[builder(default)] in_game_share: Option<bool>,
   
 }
 
@@ -10962,13 +11186,14 @@ impl RTDInputPassportElementType {
 
 
 /// A Telegram Passport element to be saved containing the user's personal details. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementPersonalDetails {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementPersonalDetails".to_string())]
   td_name: String, // inputPassportElementPersonalDetails
   /// Personal details of the user.
-  personal_details: Option<PersonalDetails>,
+  #[builder(default)] personal_details: Option<PersonalDetails>,
   
 }
 
@@ -10995,13 +11220,14 @@ impl InputPassportElementPersonalDetails {
 
 
 /// A Telegram Passport element to be saved containing the user's passport. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementPassport {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementPassport".to_string())]
   td_name: String, // inputPassportElementPassport
   /// The passport to be saved.
-  passport: Option<InputIdentityDocument>,
+  #[builder(default)] passport: Option<InputIdentityDocument>,
   
 }
 
@@ -11028,13 +11254,14 @@ impl InputPassportElementPassport {
 
 
 /// A Telegram Passport element to be saved containing the user's driver license. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementDriverLicense {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementDriverLicense".to_string())]
   td_name: String, // inputPassportElementDriverLicense
   /// The driver license to be saved.
-  driver_license: Option<InputIdentityDocument>,
+  #[builder(default)] driver_license: Option<InputIdentityDocument>,
   
 }
 
@@ -11061,13 +11288,14 @@ impl InputPassportElementDriverLicense {
 
 
 /// A Telegram Passport element to be saved containing the user's identity card. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementIdentityCard {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementIdentityCard".to_string())]
   td_name: String, // inputPassportElementIdentityCard
   /// The identity card to be saved.
-  identity_card: Option<InputIdentityDocument>,
+  #[builder(default)] identity_card: Option<InputIdentityDocument>,
   
 }
 
@@ -11094,13 +11322,14 @@ impl InputPassportElementIdentityCard {
 
 
 /// A Telegram Passport element to be saved containing the user's internal passport. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementInternalPassport {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementInternalPassport".to_string())]
   td_name: String, // inputPassportElementInternalPassport
   /// The internal passport to be saved.
-  internal_passport: Option<InputIdentityDocument>,
+  #[builder(default)] internal_passport: Option<InputIdentityDocument>,
   
 }
 
@@ -11127,13 +11356,14 @@ impl InputPassportElementInternalPassport {
 
 
 /// A Telegram Passport element to be saved containing the user's address. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementAddress {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementAddress".to_string())]
   td_name: String, // inputPassportElementAddress
   /// The address to be saved.
-  address: Option<Address>,
+  #[builder(default)] address: Option<Address>,
   
 }
 
@@ -11160,13 +11390,14 @@ impl InputPassportElementAddress {
 
 
 /// A Telegram Passport element to be saved containing the user's utility bill. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementUtilityBill {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementUtilityBill".to_string())]
   td_name: String, // inputPassportElementUtilityBill
   /// The utility bill to be saved.
-  utility_bill: Option<InputPersonalDocument>,
+  #[builder(default)] utility_bill: Option<InputPersonalDocument>,
   
 }
 
@@ -11193,13 +11424,14 @@ impl InputPassportElementUtilityBill {
 
 
 /// A Telegram Passport element to be saved containing the user's bank statement. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementBankStatement {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementBankStatement".to_string())]
   td_name: String, // inputPassportElementBankStatement
   /// The bank statement to be saved.
-  bank_statement: Option<InputPersonalDocument>,
+  #[builder(default)] bank_statement: Option<InputPersonalDocument>,
   
 }
 
@@ -11226,13 +11458,14 @@ impl InputPassportElementBankStatement {
 
 
 /// A Telegram Passport element to be saved containing the user's rental agreement. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementRentalAgreement {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementRentalAgreement".to_string())]
   td_name: String, // inputPassportElementRentalAgreement
   /// The rental agreement to be saved.
-  rental_agreement: Option<InputPersonalDocument>,
+  #[builder(default)] rental_agreement: Option<InputPersonalDocument>,
   
 }
 
@@ -11259,13 +11492,14 @@ impl InputPassportElementRentalAgreement {
 
 
 /// A Telegram Passport element to be saved containing the user's passport registration. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementPassportRegistration {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementPassportRegistration".to_string())]
   td_name: String, // inputPassportElementPassportRegistration
   /// The passport registration page to be saved.
-  passport_registration: Option<InputPersonalDocument>,
+  #[builder(default)] passport_registration: Option<InputPersonalDocument>,
   
 }
 
@@ -11292,13 +11526,14 @@ impl InputPassportElementPassportRegistration {
 
 
 /// A Telegram Passport element to be saved containing the user's temporary registration. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementTemporaryRegistration {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementTemporaryRegistration".to_string())]
   td_name: String, // inputPassportElementTemporaryRegistration
   /// The temporary registration document to be saved.
-  temporary_registration: Option<InputPersonalDocument>,
+  #[builder(default)] temporary_registration: Option<InputPersonalDocument>,
   
 }
 
@@ -11325,13 +11560,14 @@ impl InputPassportElementTemporaryRegistration {
 
 
 /// A Telegram Passport element to be saved containing the user's phone number. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementPhoneNumber {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementPhoneNumber".to_string())]
   td_name: String, // inputPassportElementPhoneNumber
   /// The phone number to be saved.
-  phone_number: Option<String>,
+  #[builder(default)] phone_number: Option<String>,
   
 }
 
@@ -11358,13 +11594,14 @@ impl InputPassportElementPhoneNumber {
 
 
 /// A Telegram Passport element to be saved containing the user's email address. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementEmailAddress {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementEmailAddress".to_string())]
   td_name: String, // inputPassportElementEmailAddress
   /// The email address to be saved.
-  email_address: Option<String>,
+  #[builder(default)] email_address: Option<String>,
   
 }
 
@@ -11391,17 +11628,18 @@ impl InputPassportElementEmailAddress {
 
 
 /// Contains the description of an error in a Telegram Passport element; for bots only. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementError {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementError".to_string())]
   td_name: String, // inputPassportElementError
   /// Type of Telegram Passport element that has the error.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<PassportElementType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<PassportElementType>>,
   /// Error message.
-  message: Option<String>,
+  #[builder(default)] message: Option<String>,
   /// Error source.
-  source: Option<Box<InputPassportElementErrorSource>>,
+  #[builder(default)] source: Option<Box<InputPassportElementErrorSource>>,
   
 }
 
@@ -11470,13 +11708,14 @@ impl RTDInputPassportElementErrorSourceType {
 
 
 /// The element contains an error in an unspecified place. The error will be considered resolved when new data is added. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementErrorSourceUnspecified {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementErrorSourceUnspecified".to_string())]
   td_name: String, // inputPassportElementErrorSourceUnspecified
   /// Current hash of the entire element.
-  element_hash: Option<String>,
+  #[builder(default)] element_hash: Option<String>,
   
 }
 
@@ -11503,15 +11742,16 @@ impl InputPassportElementErrorSourceUnspecified {
 
 
 /// A data field contains an error. The error is considered resolved when the field's value changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementErrorSourceDataField {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementErrorSourceDataField".to_string())]
   td_name: String, // inputPassportElementErrorSourceDataField
   /// Field name.
-  field_name: Option<String>,
+  #[builder(default)] field_name: Option<String>,
   /// Current data hash.
-  data_hash: Option<String>,
+  #[builder(default)] data_hash: Option<String>,
   
 }
 
@@ -11540,13 +11780,14 @@ impl InputPassportElementErrorSourceDataField {
 
 
 /// The front side of the document contains an error. The error is considered resolved when the file with the front side of the document changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementErrorSourceFrontSide {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementErrorSourceFrontSide".to_string())]
   td_name: String, // inputPassportElementErrorSourceFrontSide
   /// Current hash of the file containing the front side.
-  file_hash: Option<String>,
+  #[builder(default)] file_hash: Option<String>,
   
 }
 
@@ -11573,13 +11814,14 @@ impl InputPassportElementErrorSourceFrontSide {
 
 
 /// The reverse side of the document contains an error. The error is considered resolved when the file with the reverse side of the document changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementErrorSourceReverseSide {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementErrorSourceReverseSide".to_string())]
   td_name: String, // inputPassportElementErrorSourceReverseSide
   /// Current hash of the file containing the reverse side.
-  file_hash: Option<String>,
+  #[builder(default)] file_hash: Option<String>,
   
 }
 
@@ -11606,13 +11848,14 @@ impl InputPassportElementErrorSourceReverseSide {
 
 
 /// The selfie contains an error. The error is considered resolved when the file with the selfie changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementErrorSourceSelfie {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementErrorSourceSelfie".to_string())]
   td_name: String, // inputPassportElementErrorSourceSelfie
   /// Current hash of the file containing the selfie.
-  file_hash: Option<String>,
+  #[builder(default)] file_hash: Option<String>,
   
 }
 
@@ -11639,13 +11882,14 @@ impl InputPassportElementErrorSourceSelfie {
 
 
 /// One of the files containing the translation of the document contains an error. The error is considered resolved when the file with the translation changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementErrorSourceTranslationFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementErrorSourceTranslationFile".to_string())]
   td_name: String, // inputPassportElementErrorSourceTranslationFile
   /// Current hash of the file containing the translation.
-  file_hash: Option<String>,
+  #[builder(default)] file_hash: Option<String>,
   
 }
 
@@ -11672,13 +11916,14 @@ impl InputPassportElementErrorSourceTranslationFile {
 
 
 /// The translation of the document contains an error. The error is considered resolved when the list of files changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementErrorSourceTranslationFiles {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementErrorSourceTranslationFiles".to_string())]
   td_name: String, // inputPassportElementErrorSourceTranslationFiles
   /// Current hashes of all files with the translation.
-  file_hashes: Option<Vec<String>>,
+  #[builder(default)] file_hashes: Option<Vec<String>>,
   
 }
 
@@ -11705,13 +11950,14 @@ impl InputPassportElementErrorSourceTranslationFiles {
 
 
 /// The file contains an error. The error is considered resolved when the file changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementErrorSourceFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementErrorSourceFile".to_string())]
   td_name: String, // inputPassportElementErrorSourceFile
   /// Current hash of the file which has the error.
-  file_hash: Option<String>,
+  #[builder(default)] file_hash: Option<String>,
   
 }
 
@@ -11738,13 +11984,14 @@ impl InputPassportElementErrorSourceFile {
 
 
 /// The list of attached files contains an error. The error is considered resolved when the file list changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPassportElementErrorSourceFiles {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPassportElementErrorSourceFiles".to_string())]
   td_name: String, // inputPassportElementErrorSourceFiles
   /// Current hashes of all attached files.
-  file_hashes: Option<Vec<String>>,
+  #[builder(default)] file_hashes: Option<Vec<String>>,
   
 }
 
@@ -11771,15 +12018,16 @@ impl InputPassportElementErrorSourceFiles {
 
 
 /// A personal document to be saved to Telegram Passport. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputPersonalDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputPersonalDocument".to_string())]
   td_name: String, // inputPersonalDocument
   /// List of files containing the pages of the document.
-  files: Option<Vec<Box<InputFile>>>,
+  #[builder(default)] files: Option<Vec<Box<InputFile>>>,
   /// List of files containing a certified English translation of the document.
-  translation: Option<Vec<Box<InputFile>>>,
+  #[builder(default)] translation: Option<Vec<Box<InputFile>>>,
   
 }
 
@@ -11810,17 +12058,18 @@ impl InputPersonalDocument {
 
 
 /// Describes a sticker that should be added to a sticker set. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputSticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputSticker".to_string())]
   td_name: String, // inputSticker
   /// PNG image with the sticker; must be up to 512 kB in size and fit in a 512x512 square.
-  png_sticker: Option<Box<InputFile>>,
+  #[builder(default)] png_sticker: Option<Box<InputFile>>,
   /// Emoji corresponding to the sticker.
-  emojis: Option<String>,
+  #[builder(default)] emojis: Option<String>,
   /// For masks, position where the mask should be placed; may be null.
-  mask_position: Option<MaskPosition>,
+  #[builder(default)] mask_position: Option<MaskPosition>,
   
 }
 
@@ -11853,17 +12102,18 @@ impl InputSticker {
 
 
 /// A thumbnail to be sent along with a file; should be in JPEG or WEBP format for stickers, and less than 200 kB in size. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct InputThumbnail {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="inputThumbnail".to_string())]
   td_name: String, // inputThumbnail
   /// Thumbnail file to send. Sending thumbnails by file_id is currently not supported.
-  thumbnail: Option<Box<InputFile>>,
+  #[builder(default)] thumbnail: Option<Box<InputFile>>,
   /// Thumbnail width, usually shouldn't exceed 320. Use 0 if unknown.
-  width: Option<i32>,
+  #[builder(default)] width: Option<i32>,
   /// Thumbnail height, usually shouldn't exceed 320. Use 0 if unknown.
-  height: Option<i32>,
+  #[builder(default)] height: Option<i32>,
   
 }
 
@@ -11896,31 +12146,32 @@ impl InputThumbnail {
 
 
 /// Product invoice. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Invoice {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="invoice".to_string())]
   td_name: String, // invoice
   /// ISO 4217 currency code.
-  currency: Option<String>,
+  #[builder(default)] currency: Option<String>,
   /// A list of objects used to calculate the total price of the product.
-  price_parts: Option<Vec<LabeledPricePart>>,
+  #[builder(default)] price_parts: Option<Vec<LabeledPricePart>>,
   /// True, if the payment is a test payment.
-  is_test: Option<bool>,
+  #[builder(default)] is_test: Option<bool>,
   /// True, if the user's name is needed for payment.
-  need_name: Option<bool>,
+  #[builder(default)] need_name: Option<bool>,
   /// True, if the user's phone number is needed for payment.
-  need_phone_number: Option<bool>,
+  #[builder(default)] need_phone_number: Option<bool>,
   /// True, if the user's email address is needed for payment.
-  need_email_address: Option<bool>,
+  #[builder(default)] need_email_address: Option<bool>,
   /// True, if the user's shipping address is needed for payment.
-  need_shipping_address: Option<bool>,
+  #[builder(default)] need_shipping_address: Option<bool>,
   /// True, if the user's phone number will be sent to the provider.
-  send_phone_number_to_provider: Option<bool>,
+  #[builder(default)] send_phone_number_to_provider: Option<bool>,
   /// True, if the user's email address will be sent to the provider.
-  send_email_address_to_provider: Option<bool>,
+  #[builder(default)] send_email_address_to_provider: Option<bool>,
   /// True, if the total price depends on the shipping method.
-  is_flexible: Option<bool>,
+  #[builder(default)] is_flexible: Option<bool>,
   
 }
 
@@ -11963,15 +12214,16 @@ impl Invoice {
 
 
 /// Represents a single button in a bot keyboard. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct KeyboardButton {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="keyboardButton".to_string())]
   td_name: String, // keyboardButton
   /// Text of the button.
-  text: Option<String>,
+  #[builder(default)] text: Option<String>,
   /// Type of the button.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<KeyboardButtonType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<KeyboardButtonType>>,
   
 }
 
@@ -12032,10 +12284,11 @@ impl RTDKeyboardButtonTypeType {
 
 
 /// A simple button, with text that should be sent when the button is pressed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct KeyboardButtonTypeText {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="keyboardButtonTypeText".to_string())]
   td_name: String, // keyboardButtonTypeText
   
 }
@@ -12061,10 +12314,11 @@ impl KeyboardButtonTypeText {
 
 
 /// A button that sends the user's phone number when pressed; available only in private chats. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct KeyboardButtonTypeRequestPhoneNumber {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="keyboardButtonTypeRequestPhoneNumber".to_string())]
   td_name: String, // keyboardButtonTypeRequestPhoneNumber
   
 }
@@ -12090,10 +12344,11 @@ impl KeyboardButtonTypeRequestPhoneNumber {
 
 
 /// A button that sends the user's location when pressed; available only in private chats. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct KeyboardButtonTypeRequestLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="keyboardButtonTypeRequestLocation".to_string())]
   td_name: String, // keyboardButtonTypeRequestLocation
   
 }
@@ -12119,15 +12374,16 @@ impl KeyboardButtonTypeRequestLocation {
 
 
 /// Portion of the price of a product (e.g., "delivery cost", "tax amount"). 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LabeledPricePart {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="labeledPricePart".to_string())]
   td_name: String, // labeledPricePart
   /// Label for this portion of the product price.
-  label: Option<String>,
+  #[builder(default)] label: Option<String>,
   /// Currency amount in minimal quantity of the currency.
-  amount: Option<i64>,
+  #[builder(default)] amount: Option<i64>,
   
 }
 
@@ -12154,37 +12410,38 @@ impl LabeledPricePart {
 
 
 /// Contains information about a language pack. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LanguagePackInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="languagePackInfo".to_string())]
   td_name: String, // languagePackInfo
   /// Unique language pack identifier.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Identifier of a base language pack; may be empty. If a string is missed in the language pack, then it should be fetched from base language pack. Unsupported in custom language packs.
-  base_language_pack_id: Option<String>,
+  #[builder(default)] base_language_pack_id: Option<String>,
   /// Language name.
-  name: Option<String>,
+  #[builder(default)] name: Option<String>,
   /// Name of the language in that language.
-  native_name: Option<String>,
+  #[builder(default)] native_name: Option<String>,
   /// A language code to be used to apply plural forms. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more info.
-  plural_code: Option<String>,
+  #[builder(default)] plural_code: Option<String>,
   /// True, if the language pack is official.
-  is_official: Option<bool>,
+  #[builder(default)] is_official: Option<bool>,
   /// True, if the language pack strings are RTL.
-  is_rtl: Option<bool>,
+  #[builder(default)] is_rtl: Option<bool>,
   /// True, if the language pack is a beta language pack.
-  is_beta: Option<bool>,
+  #[builder(default)] is_beta: Option<bool>,
   /// True, if the language pack is installed by the current user.
-  is_installed: Option<bool>,
+  #[builder(default)] is_installed: Option<bool>,
   /// Total number of non-deleted strings from the language pack.
-  total_string_count: Option<i32>,
+  #[builder(default)] total_string_count: Option<i32>,
   /// Total number of translated strings from the language pack.
-  translated_string_count: Option<i32>,
+  #[builder(default)] translated_string_count: Option<i32>,
   /// Total number of non-deleted strings from the language pack available locally.
-  local_string_count: Option<i32>,
+  #[builder(default)] local_string_count: Option<i32>,
   /// Link to language translation interface; empty for custom local language packs.
-  translation_url: Option<String>,
+  #[builder(default)] translation_url: Option<String>,
   
 }
 
@@ -12233,15 +12490,16 @@ impl LanguagePackInfo {
 
 
 /// Represents one language pack string. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct LanguagePackString {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="languagePackString".to_string())]
   td_name: String, // languagePackString
   /// String key.
-  key: Option<String>,
+  #[builder(default)] key: Option<String>,
   /// String value.
-  value: Option<Box<LanguagePackStringValue>>,
+  #[builder(default)] value: Option<Box<LanguagePackStringValue>>,
   
 }
 
@@ -12302,13 +12560,14 @@ impl RTDLanguagePackStringValueType {
 
 
 /// An ordinary language pack string. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LanguagePackStringValueOrdinary {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="languagePackStringValueOrdinary".to_string())]
   td_name: String, // languagePackStringValueOrdinary
   /// String value.
-  value: Option<String>,
+  #[builder(default)] value: Option<String>,
   
 }
 
@@ -12335,23 +12594,24 @@ impl LanguagePackStringValueOrdinary {
 
 
 /// A language pack string which has different forms based on the number of some object it mentions. See 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LanguagePackStringValuePluralized {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="languagePackStringValuePluralized".to_string())]
   td_name: String, // languagePackStringValuePluralized
   /// Value for zero objects.
-  zero_value: Option<String>,
+  #[builder(default)] zero_value: Option<String>,
   /// Value for one object.
-  one_value: Option<String>,
+  #[builder(default)] one_value: Option<String>,
   /// Value for two objects.
-  two_value: Option<String>,
+  #[builder(default)] two_value: Option<String>,
   /// Value for few objects.
-  few_value: Option<String>,
+  #[builder(default)] few_value: Option<String>,
   /// Value for many objects.
-  many_value: Option<String>,
+  #[builder(default)] many_value: Option<String>,
   /// Default value.
-  other_value: Option<String>,
+  #[builder(default)] other_value: Option<String>,
   
 }
 
@@ -12388,10 +12648,11 @@ impl LanguagePackStringValuePluralized {
 
 
 /// A deleted language pack string, the value should be taken from the built-in english language pack. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LanguagePackStringValueDeleted {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="languagePackStringValueDeleted".to_string())]
   td_name: String, // languagePackStringValueDeleted
   
 }
@@ -12417,13 +12678,14 @@ impl LanguagePackStringValueDeleted {
 
 
 /// Contains a list of language pack strings. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LanguagePackStrings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="languagePackStrings".to_string())]
   td_name: String, // languagePackStrings
   /// A list of language pack strings.
-  strings: Option<Vec<LanguagePackString>>,
+  #[builder(default)] strings: Option<Vec<LanguagePackString>>,
   
 }
 
@@ -12478,10 +12740,11 @@ impl RTDLinkStateType {
 
 
 /// The phone number of user A is not known to user B. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LinkStateNone {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="linkStateNone".to_string())]
   td_name: String, // linkStateNone
   
 }
@@ -12507,10 +12770,11 @@ impl LinkStateNone {
 
 
 /// The phone number of user A is known but that number has not been saved to the contact list of user B. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LinkStateKnowsPhoneNumber {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="linkStateKnowsPhoneNumber".to_string())]
   td_name: String, // linkStateKnowsPhoneNumber
   
 }
@@ -12536,10 +12800,11 @@ impl LinkStateKnowsPhoneNumber {
 
 
 /// The phone number of user A has been saved to the contact list of user B. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LinkStateIsContact {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="linkStateIsContact".to_string())]
   td_name: String, // linkStateIsContact
   
 }
@@ -12565,27 +12830,28 @@ impl LinkStateIsContact {
 
 
 /// Represents a local file. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LocalFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="localFile".to_string())]
   td_name: String, // localFile
   /// Local path to the locally available file part; may be empty.
-  path: Option<String>,
+  #[builder(default)] path: Option<String>,
   /// True, if it is possible to try to download or generate the file.
-  can_be_downloaded: Option<bool>,
+  #[builder(default)] can_be_downloaded: Option<bool>,
   /// True, if the file can be deleted.
-  can_be_deleted: Option<bool>,
+  #[builder(default)] can_be_deleted: Option<bool>,
   /// True, if the file is currently being downloaded (or a local copy is being generated by some other means).
-  is_downloading_active: Option<bool>,
+  #[builder(default)] is_downloading_active: Option<bool>,
   /// True, if the local copy is fully available.
-  is_downloading_completed: Option<bool>,
+  #[builder(default)] is_downloading_completed: Option<bool>,
   /// Download will be started from this offset. downloaded_prefix_size is calculated from this offset.
-  download_offset: Option<i32>,
+  #[builder(default)] download_offset: Option<i32>,
   /// If is_downloading_completed is false, then only some prefix of the file starting from download_offset is ready to be read. downloaded_prefix_size is the size of that prefix.
-  downloaded_prefix_size: Option<i32>,
+  #[builder(default)] downloaded_prefix_size: Option<i32>,
   /// Total downloaded file bytes. Should be used only for calculating download progress. The actual file size may be bigger, and some parts of it may contain garbage.
-  downloaded_size: Option<i32>,
+  #[builder(default)] downloaded_size: Option<i32>,
   
 }
 
@@ -12624,13 +12890,14 @@ impl LocalFile {
 
 
 /// Contains information about the current localization target. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LocalizationTargetInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="localizationTargetInfo".to_string())]
   td_name: String, // localizationTargetInfo
   /// List of available language packs for this application.
-  language_packs: Option<Vec<LanguagePackInfo>>,
+  #[builder(default)] language_packs: Option<Vec<LanguagePackInfo>>,
   
 }
 
@@ -12655,15 +12922,16 @@ impl LocalizationTargetInfo {
 
 
 /// Describes a location on planet Earth. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Location {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="location".to_string())]
   td_name: String, // location
   /// Latitude of the location in degrees; as defined by the sender.
-  latitude: Option<f64>,
+  #[builder(default)] latitude: Option<f64>,
   /// Longitude of the location, in degrees; as defined by the sender.
-  longitude: Option<f64>,
+  #[builder(default)] longitude: Option<f64>,
   
 }
 
@@ -12720,10 +12988,11 @@ impl RTDLogStreamType {
 
 
 /// The log is written to stderr or an OS specific log. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LogStreamDefault {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="logStreamDefault".to_string())]
   td_name: String, // logStreamDefault
   
 }
@@ -12749,15 +13018,16 @@ impl LogStreamDefault {
 
 
 /// The log is written to a file. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LogStreamFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="logStreamFile".to_string())]
   td_name: String, // logStreamFile
   /// Path to the file to where the internal TDLib log will be written.
-  path: Option<String>,
+  #[builder(default)] path: Option<String>,
   /// Maximum size of the file to where the internal TDLib log is written before the file will be auto-rotated.
-  max_file_size: Option<i64>,
+  #[builder(default)] max_file_size: Option<i64>,
   
 }
 
@@ -12786,10 +13056,11 @@ impl LogStreamFile {
 
 
 /// The log is written nowhere. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LogStreamEmpty {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="logStreamEmpty".to_string())]
   td_name: String, // logStreamEmpty
   
 }
@@ -12815,13 +13086,14 @@ impl LogStreamEmpty {
 
 
 /// Contains a list of available TDLib internal log tags. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LogTags {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="logTags".to_string())]
   td_name: String, // logTags
   /// List of log tags.
-  tags: Option<Vec<String>>,
+  #[builder(default)] tags: Option<Vec<String>>,
   
 }
 
@@ -12846,13 +13118,14 @@ impl LogTags {
 
 
 /// Contains a TDLib internal log verbosity level. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LogVerbosityLevel {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="logVerbosityLevel".to_string())]
   td_name: String, // logVerbosityLevel
   /// Log verbosity level.
-  verbosity_level: Option<i32>,
+  #[builder(default)] verbosity_level: Option<i32>,
   
 }
 
@@ -12908,10 +13181,11 @@ impl RTDMaskPointType {
 
 
 /// A mask should be placed relatively to the forehead. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MaskPointForehead {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="maskPointForehead".to_string())]
   td_name: String, // maskPointForehead
   
 }
@@ -12937,10 +13211,11 @@ impl MaskPointForehead {
 
 
 /// A mask should be placed relatively to the eyes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MaskPointEyes {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="maskPointEyes".to_string())]
   td_name: String, // maskPointEyes
   
 }
@@ -12966,10 +13241,11 @@ impl MaskPointEyes {
 
 
 /// A mask should be placed relatively to the mouth. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MaskPointMouth {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="maskPointMouth".to_string())]
   td_name: String, // maskPointMouth
   
 }
@@ -12995,10 +13271,11 @@ impl MaskPointMouth {
 
 
 /// A mask should be placed relatively to the chin. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MaskPointChin {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="maskPointChin".to_string())]
   td_name: String, // maskPointChin
   
 }
@@ -13024,19 +13301,20 @@ impl MaskPointChin {
 
 
 /// Position on a photo where a mask should be placed. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct MaskPosition {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="maskPosition".to_string())]
   td_name: String, // maskPosition
   /// Part of the face, relative to which the mask should be placed.
-  point: Option<Box<MaskPoint>>,
+  #[builder(default)] point: Option<Box<MaskPoint>>,
   /// Shift by X-axis measured in widths of the mask scaled to the face size, from left to right. (For example, -1.0 will place the mask just to the left of the default mask position.)
-  x_shift: Option<f64>,
+  #[builder(default)] x_shift: Option<f64>,
   /// Shift by Y-axis measured in heights of the mask scaled to the face size, from top to bottom. (For example, 1.0 will place the mask just below the default mask position.)
-  y_shift: Option<f64>,
+  #[builder(default)] y_shift: Option<f64>,
   /// Mask scaling coefficient. (For example, 2.0 means a doubled size.)
-  scale: Option<f64>,
+  #[builder(default)] scale: Option<f64>,
   
 }
 
@@ -13071,57 +13349,58 @@ impl MaskPosition {
 
 
 /// Describes a message. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct Message {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="message".to_string())]
   td_name: String, // message
   /// Message identifier, unique for the chat to which the message belongs.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// Identifier of the user who sent the message; 0 if unknown. It is unknown for channel posts.
-  sender_user_id: Option<i32>,
+  #[builder(default)] sender_user_id: Option<i32>,
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Information about the sending state of the message; may be null.
-  sending_state: Option<Box<MessageSendingState>>,
+  #[builder(default)] sending_state: Option<Box<MessageSendingState>>,
   /// True, if the message is outgoing.
-  is_outgoing: Option<bool>,
+  #[builder(default)] is_outgoing: Option<bool>,
   /// True, if the message can be edited. For live location and poll messages this fields shows, whether editMessageLiveLocation or stopPoll can be used with this message by the client.
-  can_be_edited: Option<bool>,
+  #[builder(default)] can_be_edited: Option<bool>,
   /// True, if the message can be forwarded.
-  can_be_forwarded: Option<bool>,
+  #[builder(default)] can_be_forwarded: Option<bool>,
   /// True, if the message can be deleted only for the current user while other users will continue to see it.
-  can_be_deleted_only_for_self: Option<bool>,
+  #[builder(default)] can_be_deleted_only_for_self: Option<bool>,
   /// True, if the message can be deleted for all users.
-  can_be_deleted_for_all_users: Option<bool>,
+  #[builder(default)] can_be_deleted_for_all_users: Option<bool>,
   /// True, if the message is a channel post. All messages to channels are channel posts, all other messages are not channel posts.
-  is_channel_post: Option<bool>,
+  #[builder(default)] is_channel_post: Option<bool>,
   /// True, if the message contains an unread mention for the current user.
-  contains_unread_mention: Option<bool>,
+  #[builder(default)] contains_unread_mention: Option<bool>,
   /// Point in time (Unix timestamp) when the message was sent.
-  date: Option<i32>,
+  #[builder(default)] date: Option<i32>,
   /// Point in time (Unix timestamp) when the message was last edited.
-  edit_date: Option<i32>,
+  #[builder(default)] edit_date: Option<i32>,
   /// Information about the initial message sender; may be null.
-  forward_info: Option<MessageForwardInfo>,
+  #[builder(default)] forward_info: Option<MessageForwardInfo>,
   /// If non-zero, the identifier of the message this message is replying to; can be the identifier of a deleted message.
-  reply_to_message_id: Option<i64>,
+  #[builder(default)] reply_to_message_id: Option<i64>,
   /// For self-destructing messages, the message's TTL (Time To Live), in seconds; 0 if none. TDLib will send updateDeleteMessages or updateMessageContent once the TTL expires.
-  ttl: Option<i32>,
+  #[builder(default)] ttl: Option<i32>,
   /// Time left before the message expires, in seconds.
-  ttl_expires_in: Option<f64>,
+  #[builder(default)] ttl_expires_in: Option<f64>,
   /// If non-zero, the user identifier of the bot through which this message was sent.
-  via_bot_user_id: Option<i32>,
+  #[builder(default)] via_bot_user_id: Option<i32>,
   /// For channel posts, optional author signature.
-  author_signature: Option<String>,
+  #[builder(default)] author_signature: Option<String>,
   /// Number of times this message was viewed.
-  views: Option<i32>,
+  #[builder(default)] views: Option<i32>,
   /// Unique identifier of an album this message belongs to. Only photos and videos can be grouped together in albums.
-  media_album_id: Option<String>,
+  #[builder(default)] media_album_id: Option<String>,
   /// Content of the message.
-  content: Option<Box<MessageContent>>,
+  #[builder(default)] content: Option<Box<MessageContent>>,
   /// Reply markup for the message; may be null.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   
 }
 
@@ -13261,15 +13540,16 @@ impl RTDMessageContentType {
 
 
 /// A text message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageText {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageText".to_string())]
   td_name: String, // messageText
   /// Text of the message.
-  text: Option<FormattedText>,
+  #[builder(default)] text: Option<FormattedText>,
   /// A preview of the web page that's mentioned in the text; may be null.
-  web_page: Option<WebPage>,
+  #[builder(default)] web_page: Option<WebPage>,
   
 }
 
@@ -13298,17 +13578,18 @@ impl MessageText {
 
 
 /// An animation message (GIF-style). 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageAnimation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageAnimation".to_string())]
   td_name: String, // messageAnimation
   /// Message content.
-  animation: Option<Animation>,
+  #[builder(default)] animation: Option<Animation>,
   /// Animation caption.
-  caption: Option<FormattedText>,
+  #[builder(default)] caption: Option<FormattedText>,
   /// True, if the animation thumbnail must be blurred and the animation must be shown only while tapped.
-  is_secret: Option<bool>,
+  #[builder(default)] is_secret: Option<bool>,
   
 }
 
@@ -13339,15 +13620,16 @@ impl MessageAnimation {
 
 
 /// An audio message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageAudio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageAudio".to_string())]
   td_name: String, // messageAudio
   /// Message content.
-  audio: Option<Audio>,
+  #[builder(default)] audio: Option<Audio>,
   /// Audio caption.
-  caption: Option<FormattedText>,
+  #[builder(default)] caption: Option<FormattedText>,
   
 }
 
@@ -13376,15 +13658,16 @@ impl MessageAudio {
 
 
 /// A document message (general file). 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageDocument".to_string())]
   td_name: String, // messageDocument
   /// Message content.
-  document: Option<Document>,
+  #[builder(default)] document: Option<Document>,
   /// Document caption.
-  caption: Option<FormattedText>,
+  #[builder(default)] caption: Option<FormattedText>,
   
 }
 
@@ -13413,17 +13696,18 @@ impl MessageDocument {
 
 
 /// A photo message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessagePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messagePhoto".to_string())]
   td_name: String, // messagePhoto
   /// Message content.
-  photo: Option<Photo>,
+  #[builder(default)] photo: Option<Photo>,
   /// Photo caption.
-  caption: Option<FormattedText>,
+  #[builder(default)] caption: Option<FormattedText>,
   /// True, if the photo must be blurred and must be shown only while tapped.
-  is_secret: Option<bool>,
+  #[builder(default)] is_secret: Option<bool>,
   
 }
 
@@ -13454,10 +13738,11 @@ impl MessagePhoto {
 
 
 /// An expired photo message (self-destructed after TTL has elapsed). 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageExpiredPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageExpiredPhoto".to_string())]
   td_name: String, // messageExpiredPhoto
   
 }
@@ -13483,13 +13768,14 @@ impl MessageExpiredPhoto {
 
 
 /// A sticker message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageSticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageSticker".to_string())]
   td_name: String, // messageSticker
   /// Message content.
-  sticker: Option<Sticker>,
+  #[builder(default)] sticker: Option<Sticker>,
   
 }
 
@@ -13516,17 +13802,18 @@ impl MessageSticker {
 
 
 /// A video message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageVideo".to_string())]
   td_name: String, // messageVideo
   /// Message content.
-  video: Option<Video>,
+  #[builder(default)] video: Option<Video>,
   /// Video caption.
-  caption: Option<FormattedText>,
+  #[builder(default)] caption: Option<FormattedText>,
   /// True, if the video thumbnail must be blurred and the video must be shown only while tapped.
-  is_secret: Option<bool>,
+  #[builder(default)] is_secret: Option<bool>,
   
 }
 
@@ -13557,10 +13844,11 @@ impl MessageVideo {
 
 
 /// An expired video message (self-destructed after TTL has elapsed). 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageExpiredVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageExpiredVideo".to_string())]
   td_name: String, // messageExpiredVideo
   
 }
@@ -13586,17 +13874,18 @@ impl MessageExpiredVideo {
 
 
 /// A video note message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageVideoNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageVideoNote".to_string())]
   td_name: String, // messageVideoNote
   /// Message content.
-  video_note: Option<VideoNote>,
+  #[builder(default)] video_note: Option<VideoNote>,
   /// True, if at least one of the recipients has viewed the video note.
-  is_viewed: Option<bool>,
+  #[builder(default)] is_viewed: Option<bool>,
   /// True, if the video note thumbnail must be blurred and the video note must be shown only while tapped.
-  is_secret: Option<bool>,
+  #[builder(default)] is_secret: Option<bool>,
   
 }
 
@@ -13627,17 +13916,18 @@ impl MessageVideoNote {
 
 
 /// A voice note message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageVoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageVoiceNote".to_string())]
   td_name: String, // messageVoiceNote
   /// Message content.
-  voice_note: Option<VoiceNote>,
+  #[builder(default)] voice_note: Option<VoiceNote>,
   /// Voice note caption.
-  caption: Option<FormattedText>,
+  #[builder(default)] caption: Option<FormattedText>,
   /// True, if at least one of the recipients has listened to the voice note.
-  is_listened: Option<bool>,
+  #[builder(default)] is_listened: Option<bool>,
   
 }
 
@@ -13668,17 +13958,18 @@ impl MessageVoiceNote {
 
 
 /// A message with a location. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageLocation".to_string())]
   td_name: String, // messageLocation
   /// Message content.
-  location: Option<Location>,
+  #[builder(default)] location: Option<Location>,
   /// Time relative to the message sent date until which the location can be updated, in seconds.
-  live_period: Option<i32>,
+  #[builder(default)] live_period: Option<i32>,
   /// Left time for which the location can be updated, in seconds. updateMessageContent is not sent when this field changes.
-  expires_in: Option<i32>,
+  #[builder(default)] expires_in: Option<i32>,
   
 }
 
@@ -13709,13 +14000,14 @@ impl MessageLocation {
 
 
 /// A message with information about a venue. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageVenue {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageVenue".to_string())]
   td_name: String, // messageVenue
   /// Message content.
-  venue: Option<Venue>,
+  #[builder(default)] venue: Option<Venue>,
   
 }
 
@@ -13742,13 +14034,14 @@ impl MessageVenue {
 
 
 /// A message with a user contact. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageContact {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageContact".to_string())]
   td_name: String, // messageContact
   /// Message content.
-  contact: Option<Contact>,
+  #[builder(default)] contact: Option<Contact>,
   
 }
 
@@ -13775,13 +14068,14 @@ impl MessageContact {
 
 
 /// A message with a game. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageGame {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageGame".to_string())]
   td_name: String, // messageGame
   /// Game.
-  game: Option<Game>,
+  #[builder(default)] game: Option<Game>,
   
 }
 
@@ -13808,13 +14102,14 @@ impl MessageGame {
 
 
 /// A message with a poll. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessagePoll {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messagePoll".to_string())]
   td_name: String, // messagePoll
   /// Poll.
-  poll: Option<Poll>,
+  #[builder(default)] poll: Option<Poll>,
   
 }
 
@@ -13841,29 +14136,30 @@ impl MessagePoll {
 
 
 /// A message with an invoice from a bot. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageInvoice {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageInvoice".to_string())]
   td_name: String, // messageInvoice
   /// Product title.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Product description.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   /// Product photo; may be null.
-  photo: Option<Photo>,
+  #[builder(default)] photo: Option<Photo>,
   /// Currency for the product price.
-  currency: Option<String>,
+  #[builder(default)] currency: Option<String>,
   /// Product total price in the minimal quantity of the currency.
-  total_amount: Option<i64>,
+  #[builder(default)] total_amount: Option<i64>,
   /// Unique invoice bot start_parameter. To share an invoice use the URL https://t.me/{bot_username}?start={start_parameter}.
-  start_parameter: Option<String>,
+  #[builder(default)] start_parameter: Option<String>,
   /// True, if the invoice is a test invoice.
-  is_test: Option<bool>,
+  #[builder(default)] is_test: Option<bool>,
   /// True, if the shipping address should be specified.
-  need_shipping_address: Option<bool>,
+  #[builder(default)] need_shipping_address: Option<bool>,
   /// The identifier of the message with the receipt, after the product has been purchased.
-  receipt_message_id: Option<i64>,
+  #[builder(default)] receipt_message_id: Option<i64>,
   
 }
 
@@ -13906,15 +14202,16 @@ impl MessageInvoice {
 
 
 /// A message with information about an ended call. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageCall {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageCall".to_string())]
   td_name: String, // messageCall
   /// Reason why the call was discarded.
-  discard_reason: Option<Box<CallDiscardReason>>,
+  #[builder(default)] discard_reason: Option<Box<CallDiscardReason>>,
   /// Call duration, in seconds.
-  duration: Option<i32>,
+  #[builder(default)] duration: Option<i32>,
   
 }
 
@@ -13947,15 +14244,16 @@ impl MessageCall {
 
 
 /// A newly created basic group. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageBasicGroupChatCreate {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageBasicGroupChatCreate".to_string())]
   td_name: String, // messageBasicGroupChatCreate
   /// Title of the basic group.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// User identifiers of members in the basic group.
-  member_user_ids: Option<Vec<i32>>,
+  #[builder(default)] member_user_ids: Option<Vec<i32>>,
   
 }
 
@@ -13984,13 +14282,14 @@ impl MessageBasicGroupChatCreate {
 
 
 /// A newly created supergroup or channel. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageSupergroupChatCreate {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageSupergroupChatCreate".to_string())]
   td_name: String, // messageSupergroupChatCreate
   /// Title of the supergroup or channel.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   
 }
 
@@ -14017,13 +14316,14 @@ impl MessageSupergroupChatCreate {
 
 
 /// An updated chat title. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageChatChangeTitle {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageChatChangeTitle".to_string())]
   td_name: String, // messageChatChangeTitle
   /// New chat title.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   
 }
 
@@ -14050,13 +14350,14 @@ impl MessageChatChangeTitle {
 
 
 /// An updated chat photo. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageChatChangePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageChatChangePhoto".to_string())]
   td_name: String, // messageChatChangePhoto
   /// New chat photo.
-  photo: Option<Photo>,
+  #[builder(default)] photo: Option<Photo>,
   
 }
 
@@ -14083,10 +14384,11 @@ impl MessageChatChangePhoto {
 
 
 /// A deleted chat photo. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageChatDeletePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageChatDeletePhoto".to_string())]
   td_name: String, // messageChatDeletePhoto
   
 }
@@ -14112,13 +14414,14 @@ impl MessageChatDeletePhoto {
 
 
 /// New chat members were added. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageChatAddMembers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageChatAddMembers".to_string())]
   td_name: String, // messageChatAddMembers
   /// User identifiers of the new members.
-  member_user_ids: Option<Vec<i32>>,
+  #[builder(default)] member_user_ids: Option<Vec<i32>>,
   
 }
 
@@ -14145,10 +14448,11 @@ impl MessageChatAddMembers {
 
 
 /// A new member joined the chat by invite link. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageChatJoinByLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageChatJoinByLink".to_string())]
   td_name: String, // messageChatJoinByLink
   
 }
@@ -14174,13 +14478,14 @@ impl MessageChatJoinByLink {
 
 
 /// A chat member was deleted. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageChatDeleteMember {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageChatDeleteMember".to_string())]
   td_name: String, // messageChatDeleteMember
   /// User identifier of the deleted chat member.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   
 }
 
@@ -14207,13 +14512,14 @@ impl MessageChatDeleteMember {
 
 
 /// A basic group was upgraded to a supergroup and was deactivated as the result. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageChatUpgradeTo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageChatUpgradeTo".to_string())]
   td_name: String, // messageChatUpgradeTo
   /// Identifier of the supergroup to which the basic group was upgraded.
-  supergroup_id: Option<i32>,
+  #[builder(default)] supergroup_id: Option<i32>,
   
 }
 
@@ -14240,15 +14546,16 @@ impl MessageChatUpgradeTo {
 
 
 /// A supergroup has been created from a basic group. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageChatUpgradeFrom {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageChatUpgradeFrom".to_string())]
   td_name: String, // messageChatUpgradeFrom
   /// Title of the newly created supergroup.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// The identifier of the original basic group.
-  basic_group_id: Option<i32>,
+  #[builder(default)] basic_group_id: Option<i32>,
   
 }
 
@@ -14277,13 +14584,14 @@ impl MessageChatUpgradeFrom {
 
 
 /// A message has been pinned. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessagePinMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messagePinMessage".to_string())]
   td_name: String, // messagePinMessage
   /// Identifier of the pinned message, can be an identifier of a deleted message or 0.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   
 }
 
@@ -14310,10 +14618,11 @@ impl MessagePinMessage {
 
 
 /// A screenshot of a message in the chat has been taken. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageScreenshotTaken {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageScreenshotTaken".to_string())]
   td_name: String, // messageScreenshotTaken
   
 }
@@ -14339,13 +14648,14 @@ impl MessageScreenshotTaken {
 
 
 /// The TTL (Time To Live) setting messages in a secret chat has been changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageChatSetTtl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageChatSetTtl".to_string())]
   td_name: String, // messageChatSetTtl
   /// New TTL.
-  ttl: Option<i32>,
+  #[builder(default)] ttl: Option<i32>,
   
 }
 
@@ -14372,13 +14682,14 @@ impl MessageChatSetTtl {
 
 
 /// A non-standard action has happened in the chat. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageCustomServiceAction {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageCustomServiceAction".to_string())]
   td_name: String, // messageCustomServiceAction
   /// Message text to be shown in the chat.
-  text: Option<String>,
+  #[builder(default)] text: Option<String>,
   
 }
 
@@ -14405,17 +14716,18 @@ impl MessageCustomServiceAction {
 
 
 /// A new high score was achieved in a game. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageGameScore {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageGameScore".to_string())]
   td_name: String, // messageGameScore
   /// Identifier of the message with the game, can be an identifier of a deleted message.
-  game_message_id: Option<i64>,
+  #[builder(default)] game_message_id: Option<i64>,
   /// Identifier of the game; may be different from the games presented in the message with the game.
-  game_id: Option<i64>,
+  #[builder(default)] game_id: Option<i64>,
   /// New score.
-  score: Option<i32>,
+  #[builder(default)] score: Option<i32>,
   
 }
 
@@ -14446,17 +14758,18 @@ impl MessageGameScore {
 
 
 /// A payment has been completed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessagePaymentSuccessful {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messagePaymentSuccessful".to_string())]
   td_name: String, // messagePaymentSuccessful
   /// Identifier of the message with the corresponding invoice; can be an identifier of a deleted message.
-  invoice_message_id: Option<i64>,
+  #[builder(default)] invoice_message_id: Option<i64>,
   /// Currency for the price of the product.
-  currency: Option<String>,
+  #[builder(default)] currency: Option<String>,
   /// Total price for the product, in the minimal quantity of the currency.
-  total_amount: Option<i64>,
+  #[builder(default)] total_amount: Option<i64>,
   
 }
 
@@ -14487,27 +14800,28 @@ impl MessagePaymentSuccessful {
 
 
 /// A payment has been completed; for bots only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessagePaymentSuccessfulBot {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messagePaymentSuccessfulBot".to_string())]
   td_name: String, // messagePaymentSuccessfulBot
   /// Identifier of the message with the corresponding invoice; can be an identifier of a deleted message.
-  invoice_message_id: Option<i64>,
+  #[builder(default)] invoice_message_id: Option<i64>,
   /// Currency for price of the product.
-  currency: Option<String>,
+  #[builder(default)] currency: Option<String>,
   /// Total price for the product, in the minimal quantity of the currency.
-  total_amount: Option<i64>,
+  #[builder(default)] total_amount: Option<i64>,
   /// Invoice payload.
-  invoice_payload: Option<String>,
+  #[builder(default)] invoice_payload: Option<String>,
   /// Identifier of the shipping option chosen by the user; may be empty if not applicable.
-  shipping_option_id: Option<String>,
+  #[builder(default)] shipping_option_id: Option<String>,
   /// Information about the order; may be null.
-  order_info: Option<OrderInfo>,
+  #[builder(default)] order_info: Option<OrderInfo>,
   /// Telegram payment identifier.
-  telegram_payment_charge_id: Option<String>,
+  #[builder(default)] telegram_payment_charge_id: Option<String>,
   /// Provider payment identifier.
-  provider_payment_charge_id: Option<String>,
+  #[builder(default)] provider_payment_charge_id: Option<String>,
   
 }
 
@@ -14548,10 +14862,11 @@ impl MessagePaymentSuccessfulBot {
 
 
 /// A contact has registered with Telegram. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageContactRegistered {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageContactRegistered".to_string())]
   td_name: String, // messageContactRegistered
   
 }
@@ -14577,13 +14892,14 @@ impl MessageContactRegistered {
 
 
 /// The current user has connected a website by logging in using Telegram Login Widget on it. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageWebsiteConnected {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageWebsiteConnected".to_string())]
   td_name: String, // messageWebsiteConnected
   /// Domain name of the connected website.
-  domain_name: Option<String>,
+  #[builder(default)] domain_name: Option<String>,
   
 }
 
@@ -14610,13 +14926,14 @@ impl MessageWebsiteConnected {
 
 
 /// Telegram Passport data has been sent. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct MessagePassportDataSent {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messagePassportDataSent".to_string())]
   td_name: String, // messagePassportDataSent
   /// List of Telegram Passport element types sent.
-  types: Option<Vec<Box<PassportElementType>>>,
+  #[builder(default)] types: Option<Vec<Box<PassportElementType>>>,
   
 }
 
@@ -14647,15 +14964,16 @@ impl MessagePassportDataSent {
 
 
 /// Telegram Passport data has been received; for bots only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessagePassportDataReceived {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messagePassportDataReceived".to_string())]
   td_name: String, // messagePassportDataReceived
   /// List of received Telegram Passport elements.
-  elements: Option<Vec<EncryptedPassportElement>>,
+  #[builder(default)] elements: Option<Vec<EncryptedPassportElement>>,
   /// Encrypted data credentials.
-  credentials: Option<EncryptedCredentials>,
+  #[builder(default)] credentials: Option<EncryptedCredentials>,
   
 }
 
@@ -14684,10 +15002,11 @@ impl MessagePassportDataReceived {
 
 
 /// Message content that is not supported by the client. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageUnsupported {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageUnsupported".to_string())]
   td_name: String, // messageUnsupported
   
 }
@@ -14713,19 +15032,20 @@ impl MessageUnsupported {
 
 
 /// Contains information about a forwarded message. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageForwardInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageForwardInfo".to_string())]
   td_name: String, // messageForwardInfo
   /// Origin of a forwarded message.
-  origin: Option<Box<MessageForwardOrigin>>,
+  #[builder(default)] origin: Option<Box<MessageForwardOrigin>>,
   /// Point in time (Unix timestamp) when the message was originally sent.
-  date: Option<i32>,
+  #[builder(default)] date: Option<i32>,
   /// For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded last time; 0 if unknown.
-  from_chat_id: Option<i64>,
+  #[builder(default)] from_chat_id: Option<i64>,
   /// For messages forwarded to the chat with the current user (saved messages), the identifier of the original message from which the new message was forwarded last time; 0 if unknown.
-  from_message_id: Option<i64>,
+  #[builder(default)] from_message_id: Option<i64>,
   
 }
 
@@ -14790,13 +15110,14 @@ impl RTDMessageForwardOriginType {
 
 
 /// The message was originally written by a known user. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageForwardOriginUser {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageForwardOriginUser".to_string())]
   td_name: String, // messageForwardOriginUser
   /// Identifier of the user that originally sent the message.
-  sender_user_id: Option<i32>,
+  #[builder(default)] sender_user_id: Option<i32>,
   
 }
 
@@ -14823,13 +15144,14 @@ impl MessageForwardOriginUser {
 
 
 /// The message was originally written by a user, which is hidden by his privacy settings. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageForwardOriginHiddenUser {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageForwardOriginHiddenUser".to_string())]
   td_name: String, // messageForwardOriginHiddenUser
   /// Name of the sender.
-  sender_name: Option<String>,
+  #[builder(default)] sender_name: Option<String>,
   
 }
 
@@ -14856,17 +15178,18 @@ impl MessageForwardOriginHiddenUser {
 
 
 /// The message was originally a post in a channel. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageForwardOriginChannel {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageForwardOriginChannel".to_string())]
   td_name: String, // messageForwardOriginChannel
   /// Identifier of the chat from which the message was originally forwarded.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Message identifier of the original message; 0 if unknown.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// Original post author signature.
-  author_signature: Option<String>,
+  #[builder(default)] author_signature: Option<String>,
   
 }
 
@@ -14926,10 +15249,11 @@ impl RTDMessageSendingStateType {
 
 
 /// The message is being sent now, but has not yet been delivered to the server. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageSendingStatePending {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageSendingStatePending".to_string())]
   td_name: String, // messageSendingStatePending
   
 }
@@ -14955,10 +15279,11 @@ impl MessageSendingStatePending {
 
 
 /// The message failed to be sent. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct MessageSendingStateFailed {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messageSendingStateFailed".to_string())]
   td_name: String, // messageSendingStateFailed
   
 }
@@ -14984,15 +15309,16 @@ impl MessageSendingStateFailed {
 
 
 /// Contains a list of messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Messages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="messages".to_string())]
   td_name: String, // messages
   /// Approximate total count of messages found.
-  total_count: Option<i32>,
+  #[builder(default)] total_count: Option<i32>,
   /// List of messages; messages may be null.
-  messages: Option<Vec<Message>>,
+  #[builder(default)] messages: Option<Vec<Message>>,
   
 }
 
@@ -15019,15 +15345,16 @@ impl Messages {
 
 
 /// A full list of available network statistic entries. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct NetworkStatistics {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="networkStatistics".to_string())]
   td_name: String, // networkStatistics
   /// Point in time (Unix timestamp) when the app began collecting statistics.
-  since_date: Option<i32>,
+  #[builder(default)] since_date: Option<i32>,
   /// Network statistics entries.
-  entries: Option<Vec<Box<NetworkStatisticsEntry>>>,
+  #[builder(default)] entries: Option<Vec<Box<NetworkStatisticsEntry>>>,
   
 }
 
@@ -15087,19 +15414,20 @@ impl RTDNetworkStatisticsEntryType {
 
 
 /// Contains information about the total amount of data that was used to send and receive files. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct NetworkStatisticsEntryFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="networkStatisticsEntryFile".to_string())]
   td_name: String, // networkStatisticsEntryFile
   /// Type of the file the data is part of.
-  file_type: Option<Box<FileType>>,
+  #[builder(default)] file_type: Option<Box<FileType>>,
   /// Type of the network the data was sent through. Call setNetworkType to maintain the actual network type.
-  network_type: Option<Box<NetworkType>>,
+  #[builder(default)] network_type: Option<Box<NetworkType>>,
   /// Total number of bytes sent.
-  sent_bytes: Option<i64>,
+  #[builder(default)] sent_bytes: Option<i64>,
   /// Total number of bytes received.
-  received_bytes: Option<i64>,
+  #[builder(default)] received_bytes: Option<i64>,
   
 }
 
@@ -15136,19 +15464,20 @@ impl NetworkStatisticsEntryFile {
 
 
 /// Contains information about the total amount of data that was used for calls. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct NetworkStatisticsEntryCall {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="networkStatisticsEntryCall".to_string())]
   td_name: String, // networkStatisticsEntryCall
   /// Type of the network the data was sent through. Call setNetworkType to maintain the actual network type.
-  network_type: Option<Box<NetworkType>>,
+  #[builder(default)] network_type: Option<Box<NetworkType>>,
   /// Total number of bytes sent.
-  sent_bytes: Option<i64>,
+  #[builder(default)] sent_bytes: Option<i64>,
   /// Total number of bytes received.
-  received_bytes: Option<i64>,
+  #[builder(default)] received_bytes: Option<i64>,
   /// Total call duration, in seconds.
-  duration: Option<f64>,
+  #[builder(default)] duration: Option<f64>,
   
 }
 
@@ -15217,10 +15546,11 @@ impl RTDNetworkTypeType {
 
 
 /// The network is not available. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct NetworkTypeNone {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="networkTypeNone".to_string())]
   td_name: String, // networkTypeNone
   
 }
@@ -15246,10 +15576,11 @@ impl NetworkTypeNone {
 
 
 /// A mobile network. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct NetworkTypeMobile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="networkTypeMobile".to_string())]
   td_name: String, // networkTypeMobile
   
 }
@@ -15275,10 +15606,11 @@ impl NetworkTypeMobile {
 
 
 /// A mobile roaming network. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct NetworkTypeMobileRoaming {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="networkTypeMobileRoaming".to_string())]
   td_name: String, // networkTypeMobileRoaming
   
 }
@@ -15304,10 +15636,11 @@ impl NetworkTypeMobileRoaming {
 
 
 /// A Wi-Fi network. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct NetworkTypeWiFi {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="networkTypeWiFi".to_string())]
   td_name: String, // networkTypeWiFi
   
 }
@@ -15333,10 +15666,11 @@ impl NetworkTypeWiFi {
 
 
 /// A different network type (e.g., Ethernet network). 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct NetworkTypeOther {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="networkTypeOther".to_string())]
   td_name: String, // networkTypeOther
   
 }
@@ -15362,17 +15696,18 @@ impl NetworkTypeOther {
 
 
 /// Contains information about a notification. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct Notification {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="notification".to_string())]
   td_name: String, // notification
   /// Unique persistent identifier of this notification.
-  id: Option<i32>,
+  #[builder(default)] id: Option<i32>,
   /// Notification date.
-  date: Option<i32>,
+  #[builder(default)] date: Option<i32>,
   /// Notification type.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<NotificationType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<NotificationType>>,
   
 }
 
@@ -15405,21 +15740,22 @@ impl Notification {
 
 
 /// Describes a group of notifications. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct NotificationGroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="notificationGroup".to_string())]
   td_name: String, // notificationGroup
   /// Unique persistent auto-incremented from 1 identifier of the notification group.
-  id: Option<i32>,
+  #[builder(default)] id: Option<i32>,
   /// Type of the group.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<NotificationGroupType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<NotificationGroupType>>,
   /// Identifier of a chat to which all notifications in the group belong.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Total number of active notifications in the group.
-  total_count: Option<i32>,
+  #[builder(default)] total_count: Option<i32>,
   /// The list of active notifications.
-  notifications: Option<Vec<Notification>>,
+  #[builder(default)] notifications: Option<Vec<Notification>>,
   
 }
 
@@ -15487,10 +15823,11 @@ impl RTDNotificationGroupTypeType {
 
 
 /// A group containing notifications of type 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct NotificationGroupTypeMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="notificationGroupTypeMessages".to_string())]
   td_name: String, // notificationGroupTypeMessages
   
 }
@@ -15516,10 +15853,11 @@ impl NotificationGroupTypeMessages {
 
 
 /// A group containing notifications of type 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct NotificationGroupTypeMentions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="notificationGroupTypeMentions".to_string())]
   td_name: String, // notificationGroupTypeMentions
   
 }
@@ -15545,10 +15883,11 @@ impl NotificationGroupTypeMentions {
 
 
 /// A group containing a notification of type 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct NotificationGroupTypeSecretChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="notificationGroupTypeSecretChat".to_string())]
   td_name: String, // notificationGroupTypeSecretChat
   
 }
@@ -15574,10 +15913,11 @@ impl NotificationGroupTypeSecretChat {
 
 
 /// A group containing notifications of type 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct NotificationGroupTypeCalls {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="notificationGroupTypeCalls".to_string())]
   td_name: String, // notificationGroupTypeCalls
   
 }
@@ -15633,10 +15973,11 @@ impl RTDNotificationSettingsScopeType {
 
 
 /// Notification settings applied to all private and secret chats when the corresponding chat setting has a default value. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct NotificationSettingsScopePrivateChats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="notificationSettingsScopePrivateChats".to_string())]
   td_name: String, // notificationSettingsScopePrivateChats
   
 }
@@ -15662,10 +16003,11 @@ impl NotificationSettingsScopePrivateChats {
 
 
 /// Notification settings applied to all basic groups and supergroups when the corresponding chat setting has a default value. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct NotificationSettingsScopeGroupChats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="notificationSettingsScopeGroupChats".to_string())]
   td_name: String, // notificationSettingsScopeGroupChats
   
 }
@@ -15691,10 +16033,11 @@ impl NotificationSettingsScopeGroupChats {
 
 
 /// Notification settings applied to all channels when the corresponding chat setting has a default value. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct NotificationSettingsScopeChannelChats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="notificationSettingsScopeChannelChats".to_string())]
   td_name: String, // notificationSettingsScopeChannelChats
   
 }
@@ -15751,13 +16094,14 @@ impl RTDNotificationTypeType {
 
 
 /// New message was received. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct NotificationTypeNewMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="notificationTypeNewMessage".to_string())]
   td_name: String, // notificationTypeNewMessage
   /// The message.
-  message: Option<Message>,
+  #[builder(default)] message: Option<Message>,
   
 }
 
@@ -15784,10 +16128,11 @@ impl NotificationTypeNewMessage {
 
 
 /// New secret chat was created. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct NotificationTypeNewSecretChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="notificationTypeNewSecretChat".to_string())]
   td_name: String, // notificationTypeNewSecretChat
   
 }
@@ -15813,13 +16158,14 @@ impl NotificationTypeNewSecretChat {
 
 
 /// New call was received. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct NotificationTypeNewCall {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="notificationTypeNewCall".to_string())]
   td_name: String, // notificationTypeNewCall
   /// Call identifier.
-  call_id: Option<i32>,
+  #[builder(default)] call_id: Option<i32>,
   
 }
 
@@ -15846,17 +16192,18 @@ impl NotificationTypeNewCall {
 
 
 /// New message was received through a push notification. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct NotificationTypeNewPushMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="notificationTypeNewPushMessage".to_string())]
   td_name: String, // notificationTypeNewPushMessage
   /// The message identifier. The message will not be available in the chat history, but the ID can be used in viewMessages and as reply_to_message_id.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// Sender of the message. Corresponding user may be inaccessible.
-  sender_user_id: Option<i32>,
+  #[builder(default)] sender_user_id: Option<i32>,
   /// Push message content.
-  content: Option<Box<PushMessageContent>>,
+  #[builder(default)] content: Option<Box<PushMessageContent>>,
   
 }
 
@@ -15891,10 +16238,11 @@ impl NotificationTypeNewPushMessage {
 
 
 /// An object of this type is returned on a successful function call for certain functions. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Ok {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="ok".to_string())]
   td_name: String, // ok
   
 }
@@ -15949,13 +16297,14 @@ impl RTDOptionValueType {
 
 
 /// Represents a boolean option. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct OptionValueBoolean {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="optionValueBoolean".to_string())]
   td_name: String, // optionValueBoolean
   /// The value of the option.
-  value: Option<bool>,
+  #[builder(default)] value: Option<bool>,
   
 }
 
@@ -15982,10 +16331,11 @@ impl OptionValueBoolean {
 
 
 /// Represents an unknown option or an option which has a default value. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct OptionValueEmpty {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="optionValueEmpty".to_string())]
   td_name: String, // optionValueEmpty
   
 }
@@ -16011,13 +16361,14 @@ impl OptionValueEmpty {
 
 
 /// Represents an integer option. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct OptionValueInteger {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="optionValueInteger".to_string())]
   td_name: String, // optionValueInteger
   /// The value of the option.
-  value: Option<i32>,
+  #[builder(default)] value: Option<i32>,
   
 }
 
@@ -16044,13 +16395,14 @@ impl OptionValueInteger {
 
 
 /// Represents a string option. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct OptionValueString {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="optionValueString".to_string())]
   td_name: String, // optionValueString
   /// The value of the option.
-  value: Option<String>,
+  #[builder(default)] value: Option<String>,
   
 }
 
@@ -16077,19 +16429,20 @@ impl OptionValueString {
 
 
 /// Order information. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct OrderInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="orderInfo".to_string())]
   td_name: String, // orderInfo
   /// Name of the user.
-  name: Option<String>,
+  #[builder(default)] name: Option<String>,
   /// Phone number of the user.
-  phone_number: Option<String>,
+  #[builder(default)] phone_number: Option<String>,
   /// Email address of the user.
-  email_address: Option<String>,
+  #[builder(default)] email_address: Option<String>,
   /// Shipping address for this order; may be null.
-  shipping_address: Option<Address>,
+  #[builder(default)] shipping_address: Option<Address>,
   
 }
 
@@ -16175,13 +16528,14 @@ impl RTDPageBlockType {
 
 
 /// The title of a page. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockTitle {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockTitle".to_string())]
   td_name: String, // pageBlockTitle
   /// Title.
-  title: Option<Box<RichText>>,
+  #[builder(default)] title: Option<Box<RichText>>,
   
 }
 
@@ -16212,13 +16566,14 @@ impl PageBlockTitle {
 
 
 /// The subtitle of a page. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockSubtitle {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockSubtitle".to_string())]
   td_name: String, // pageBlockSubtitle
   /// Subtitle.
-  subtitle: Option<Box<RichText>>,
+  #[builder(default)] subtitle: Option<Box<RichText>>,
   
 }
 
@@ -16249,15 +16604,16 @@ impl PageBlockSubtitle {
 
 
 /// The author and publishing date of a page. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockAuthorDate {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockAuthorDate".to_string())]
   td_name: String, // pageBlockAuthorDate
   /// Author.
-  author: Option<Box<RichText>>,
+  #[builder(default)] author: Option<Box<RichText>>,
   /// Point in time (Unix timestamp) when the article was published; 0 if unknown.
-  publish_date: Option<i32>,
+  #[builder(default)] publish_date: Option<i32>,
   
 }
 
@@ -16290,13 +16646,14 @@ impl PageBlockAuthorDate {
 
 
 /// A header. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockHeader {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockHeader".to_string())]
   td_name: String, // pageBlockHeader
   /// Header.
-  header: Option<Box<RichText>>,
+  #[builder(default)] header: Option<Box<RichText>>,
   
 }
 
@@ -16327,13 +16684,14 @@ impl PageBlockHeader {
 
 
 /// A subheader. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockSubheader {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockSubheader".to_string())]
   td_name: String, // pageBlockSubheader
   /// Subheader.
-  subheader: Option<Box<RichText>>,
+  #[builder(default)] subheader: Option<Box<RichText>>,
   
 }
 
@@ -16364,13 +16722,14 @@ impl PageBlockSubheader {
 
 
 /// A kicker. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockKicker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockKicker".to_string())]
   td_name: String, // pageBlockKicker
   /// Kicker.
-  kicker: Option<Box<RichText>>,
+  #[builder(default)] kicker: Option<Box<RichText>>,
   
 }
 
@@ -16401,13 +16760,14 @@ impl PageBlockKicker {
 
 
 /// A text paragraph. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockParagraph {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockParagraph".to_string())]
   td_name: String, // pageBlockParagraph
   /// Paragraph text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   
 }
 
@@ -16438,15 +16798,16 @@ impl PageBlockParagraph {
 
 
 /// A preformatted text paragraph. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockPreformatted {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockPreformatted".to_string())]
   td_name: String, // pageBlockPreformatted
   /// Paragraph text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   /// Programming language for which the text should be formatted.
-  language: Option<String>,
+  #[builder(default)] language: Option<String>,
   
 }
 
@@ -16479,13 +16840,14 @@ impl PageBlockPreformatted {
 
 
 /// The footer of a page. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockFooter {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockFooter".to_string())]
   td_name: String, // pageBlockFooter
   /// Footer.
-  footer: Option<Box<RichText>>,
+  #[builder(default)] footer: Option<Box<RichText>>,
   
 }
 
@@ -16516,10 +16878,11 @@ impl PageBlockFooter {
 
 
 /// An empty block separating a page. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockDivider {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockDivider".to_string())]
   td_name: String, // pageBlockDivider
   
 }
@@ -16545,13 +16908,14 @@ impl PageBlockDivider {
 
 
 /// An invisible anchor on a page, which can be used in a URL to open the page from the specified anchor. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockAnchor {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockAnchor".to_string())]
   td_name: String, // pageBlockAnchor
   /// Name of the anchor.
-  name: Option<String>,
+  #[builder(default)] name: Option<String>,
   
 }
 
@@ -16578,13 +16942,14 @@ impl PageBlockAnchor {
 
 
 /// A list of data blocks. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockList {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockList".to_string())]
   td_name: String, // pageBlockList
   /// The items of the list.
-  items: Option<Vec<PageBlockListItem>>,
+  #[builder(default)] items: Option<Vec<PageBlockListItem>>,
   
 }
 
@@ -16611,15 +16976,16 @@ impl PageBlockList {
 
 
 /// A block quote. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockBlockQuote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockBlockQuote".to_string())]
   td_name: String, // pageBlockBlockQuote
   /// Quote text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   /// Quote credit.
-  credit: Option<Box<RichText>>,
+  #[builder(default)] credit: Option<Box<RichText>>,
   
 }
 
@@ -16652,15 +17018,16 @@ impl PageBlockBlockQuote {
 
 
 /// A pull quote. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockPullQuote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockPullQuote".to_string())]
   td_name: String, // pageBlockPullQuote
   /// Quote text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   /// Quote credit.
-  credit: Option<Box<RichText>>,
+  #[builder(default)] credit: Option<Box<RichText>>,
   
 }
 
@@ -16693,17 +17060,18 @@ impl PageBlockPullQuote {
 
 
 /// An animation. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockAnimation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockAnimation".to_string())]
   td_name: String, // pageBlockAnimation
   /// Animation file; may be null.
-  animation: Option<Animation>,
+  #[builder(default)] animation: Option<Animation>,
   /// Animation caption.
-  caption: Option<PageBlockCaption>,
+  #[builder(default)] caption: Option<PageBlockCaption>,
   /// True, if the animation should be played automatically.
-  need_autoplay: Option<bool>,
+  #[builder(default)] need_autoplay: Option<bool>,
   
 }
 
@@ -16734,15 +17102,16 @@ impl PageBlockAnimation {
 
 
 /// An audio file. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockAudio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockAudio".to_string())]
   td_name: String, // pageBlockAudio
   /// Audio file; may be null.
-  audio: Option<Audio>,
+  #[builder(default)] audio: Option<Audio>,
   /// Audio file caption.
-  caption: Option<PageBlockCaption>,
+  #[builder(default)] caption: Option<PageBlockCaption>,
   
 }
 
@@ -16771,17 +17140,18 @@ impl PageBlockAudio {
 
 
 /// A photo. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockPhoto".to_string())]
   td_name: String, // pageBlockPhoto
   /// Photo file; may be null.
-  photo: Option<Photo>,
+  #[builder(default)] photo: Option<Photo>,
   /// Photo caption.
-  caption: Option<PageBlockCaption>,
+  #[builder(default)] caption: Option<PageBlockCaption>,
   /// URL that needs to be opened when the photo is clicked.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   
 }
 
@@ -16812,19 +17182,20 @@ impl PageBlockPhoto {
 
 
 /// A video. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockVideo".to_string())]
   td_name: String, // pageBlockVideo
   /// Video file; may be null.
-  video: Option<Video>,
+  #[builder(default)] video: Option<Video>,
   /// Video caption.
-  caption: Option<PageBlockCaption>,
+  #[builder(default)] caption: Option<PageBlockCaption>,
   /// True, if the video should be played automatically.
-  need_autoplay: Option<bool>,
+  #[builder(default)] need_autoplay: Option<bool>,
   /// True, if the video should be looped.
-  is_looped: Option<bool>,
+  #[builder(default)] is_looped: Option<bool>,
   
 }
 
@@ -16857,13 +17228,14 @@ impl PageBlockVideo {
 
 
 /// A page cover. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockCover {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockCover".to_string())]
   td_name: String, // pageBlockCover
   /// Cover.
-  cover: Option<Box<PageBlock>>,
+  #[builder(default)] cover: Option<Box<PageBlock>>,
   
 }
 
@@ -16894,27 +17266,28 @@ impl PageBlockCover {
 
 
 /// An embedded web page. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockEmbedded {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockEmbedded".to_string())]
   td_name: String, // pageBlockEmbedded
   /// Web page URL, if available.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   /// HTML-markup of the embedded page.
-  html: Option<String>,
+  #[builder(default)] html: Option<String>,
   /// Poster photo, if available; may be null.
-  poster_photo: Option<Photo>,
+  #[builder(default)] poster_photo: Option<Photo>,
   /// Block width, 0 if unknown.
-  width: Option<i32>,
+  #[builder(default)] width: Option<i32>,
   /// Block height, 0 if unknown.
-  height: Option<i32>,
+  #[builder(default)] height: Option<i32>,
   /// Block caption.
-  caption: Option<PageBlockCaption>,
+  #[builder(default)] caption: Option<PageBlockCaption>,
   /// True, if the block should be full width.
-  is_full_width: Option<bool>,
+  #[builder(default)] is_full_width: Option<bool>,
   /// True, if scrolling should be allowed.
-  allow_scrolling: Option<bool>,
+  #[builder(default)] allow_scrolling: Option<bool>,
   
 }
 
@@ -16955,23 +17328,24 @@ impl PageBlockEmbedded {
 
 
 /// An embedded post. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockEmbeddedPost {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockEmbeddedPost".to_string())]
   td_name: String, // pageBlockEmbeddedPost
   /// Web page URL.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   /// Post author.
-  author: Option<String>,
+  #[builder(default)] author: Option<String>,
   /// Post author photo.
-  author_photo: Option<Photo>,
+  #[builder(default)] author_photo: Option<Photo>,
   /// Point in time (Unix timestamp) when the post was created; 0 if unknown.
-  date: Option<i32>,
+  #[builder(default)] date: Option<i32>,
   /// Post content.
-  page_blocks: Option<Vec<Box<PageBlock>>>,
+  #[builder(default)] page_blocks: Option<Vec<Box<PageBlock>>>,
   /// Post caption.
-  caption: Option<PageBlockCaption>,
+  #[builder(default)] caption: Option<PageBlockCaption>,
   
 }
 
@@ -17012,15 +17386,16 @@ impl PageBlockEmbeddedPost {
 
 
 /// A collage. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockCollage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockCollage".to_string())]
   td_name: String, // pageBlockCollage
   /// Collage item contents.
-  page_blocks: Option<Vec<Box<PageBlock>>>,
+  #[builder(default)] page_blocks: Option<Vec<Box<PageBlock>>>,
   /// Block caption.
-  caption: Option<PageBlockCaption>,
+  #[builder(default)] caption: Option<PageBlockCaption>,
   
 }
 
@@ -17053,15 +17428,16 @@ impl PageBlockCollage {
 
 
 /// A slideshow. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockSlideshow {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockSlideshow".to_string())]
   td_name: String, // pageBlockSlideshow
   /// Slideshow item contents.
-  page_blocks: Option<Vec<Box<PageBlock>>>,
+  #[builder(default)] page_blocks: Option<Vec<Box<PageBlock>>>,
   /// Block caption.
-  caption: Option<PageBlockCaption>,
+  #[builder(default)] caption: Option<PageBlockCaption>,
   
 }
 
@@ -17094,17 +17470,18 @@ impl PageBlockSlideshow {
 
 
 /// A link to a chat. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockChatLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockChatLink".to_string())]
   td_name: String, // pageBlockChatLink
   /// Chat title.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Chat photo; may be null.
-  photo: Option<ChatPhoto>,
+  #[builder(default)] photo: Option<ChatPhoto>,
   /// Chat username, by which all other information about the chat should be resolved.
-  username: Option<String>,
+  #[builder(default)] username: Option<String>,
   
 }
 
@@ -17135,19 +17512,20 @@ impl PageBlockChatLink {
 
 
 /// A table. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockTable {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockTable".to_string())]
   td_name: String, // pageBlockTable
   /// Table caption.
-  caption: Option<Box<RichText>>,
+  #[builder(default)] caption: Option<Box<RichText>>,
   /// Table cells.
-  cells: Option<Vec<Vec<PageBlockTableCell>>>,
+  #[builder(default)] cells: Option<Vec<Vec<PageBlockTableCell>>>,
   /// True, if the table is bordered.
-  is_bordered: Option<bool>,
+  #[builder(default)] is_bordered: Option<bool>,
   /// True, if the table is striped.
-  is_striped: Option<bool>,
+  #[builder(default)] is_striped: Option<bool>,
   
 }
 
@@ -17184,17 +17562,18 @@ impl PageBlockTable {
 
 
 /// A collapsible block. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockDetails {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockDetails".to_string())]
   td_name: String, // pageBlockDetails
   /// Always visible heading for the block.
-  header: Option<Box<RichText>>,
+  #[builder(default)] header: Option<Box<RichText>>,
   /// Block contents.
-  page_blocks: Option<Vec<Box<PageBlock>>>,
+  #[builder(default)] page_blocks: Option<Vec<Box<PageBlock>>>,
   /// True, if the block is open by default.
-  is_open: Option<bool>,
+  #[builder(default)] is_open: Option<bool>,
   
 }
 
@@ -17229,15 +17608,16 @@ impl PageBlockDetails {
 
 
 /// Related articles. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockRelatedArticles {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockRelatedArticles".to_string())]
   td_name: String, // pageBlockRelatedArticles
   /// Block header.
-  header: Option<Box<RichText>>,
+  #[builder(default)] header: Option<Box<RichText>>,
   /// List of related articles.
-  articles: Option<Vec<PageBlockRelatedArticle>>,
+  #[builder(default)] articles: Option<Vec<PageBlockRelatedArticle>>,
   
 }
 
@@ -17270,21 +17650,22 @@ impl PageBlockRelatedArticles {
 
 
 /// A map. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockMap {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockMap".to_string())]
   td_name: String, // pageBlockMap
   /// Location of the map center.
-  location: Option<Location>,
+  #[builder(default)] location: Option<Location>,
   /// Map zoom level.
-  zoom: Option<i32>,
+  #[builder(default)] zoom: Option<i32>,
   /// Map width.
-  width: Option<i32>,
+  #[builder(default)] width: Option<i32>,
   /// Map height.
-  height: Option<i32>,
+  #[builder(default)] height: Option<i32>,
   /// Block caption.
-  caption: Option<PageBlockCaption>,
+  #[builder(default)] caption: Option<PageBlockCaption>,
   
 }
 
@@ -17319,15 +17700,16 @@ impl PageBlockMap {
 
 
 /// Contains a caption of an instant view web page block, consisting of a text and a trailing credit. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockCaption {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockCaption".to_string())]
   td_name: String, // pageBlockCaption
   /// Content of the caption.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   /// Block credit (like HTML tag <cite>).
-  credit: Option<Box<RichText>>,
+  #[builder(default)] credit: Option<Box<RichText>>,
   
 }
 
@@ -17388,10 +17770,11 @@ impl RTDPageBlockHorizontalAlignmentType {
 
 
 /// The content should be left-aligned. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockHorizontalAlignmentLeft {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockHorizontalAlignmentLeft".to_string())]
   td_name: String, // pageBlockHorizontalAlignmentLeft
   
 }
@@ -17417,10 +17800,11 @@ impl PageBlockHorizontalAlignmentLeft {
 
 
 /// The content should be center-aligned. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockHorizontalAlignmentCenter {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockHorizontalAlignmentCenter".to_string())]
   td_name: String, // pageBlockHorizontalAlignmentCenter
   
 }
@@ -17446,10 +17830,11 @@ impl PageBlockHorizontalAlignmentCenter {
 
 
 /// The content should be right-aligned. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockHorizontalAlignmentRight {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockHorizontalAlignmentRight".to_string())]
   td_name: String, // pageBlockHorizontalAlignmentRight
   
 }
@@ -17475,15 +17860,16 @@ impl PageBlockHorizontalAlignmentRight {
 
 
 /// Describes an item of a list page block. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockListItem {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockListItem".to_string())]
   td_name: String, // pageBlockListItem
   /// Item label.
-  label: Option<String>,
+  #[builder(default)] label: Option<String>,
   /// Item blocks.
-  page_blocks: Option<Vec<Box<PageBlock>>>,
+  #[builder(default)] page_blocks: Option<Vec<Box<PageBlock>>>,
   
 }
 
@@ -17514,23 +17900,24 @@ impl PageBlockListItem {
 
 
 /// Contains information about a related article. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockRelatedArticle {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockRelatedArticle".to_string())]
   td_name: String, // pageBlockRelatedArticle
   /// Related article URL.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   /// Article title; may be empty.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Article description; may be empty.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   /// Article photo; may be null.
-  photo: Option<Photo>,
+  #[builder(default)] photo: Option<Photo>,
   /// Article author; may be empty.
-  author: Option<String>,
+  #[builder(default)] author: Option<String>,
   /// Point in time (Unix timestamp) when the article was published; 0 if unknown.
-  publish_date: Option<i32>,
+  #[builder(default)] publish_date: Option<i32>,
   
 }
 
@@ -17565,23 +17952,24 @@ impl PageBlockRelatedArticle {
 
 
 /// Represents a cell of a table. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockTableCell {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockTableCell".to_string())]
   td_name: String, // pageBlockTableCell
   /// Cell text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   /// True, if it is a header cell.
-  is_header: Option<bool>,
+  #[builder(default)] is_header: Option<bool>,
   /// The number of columns the cell should span.
-  colspan: Option<i32>,
+  #[builder(default)] colspan: Option<i32>,
   /// The number of rows the cell should span.
-  rowspan: Option<i32>,
+  #[builder(default)] rowspan: Option<i32>,
   /// Horizontal cell content alignment.
-  align: Option<Box<PageBlockHorizontalAlignment>>,
+  #[builder(default)] align: Option<Box<PageBlockHorizontalAlignment>>,
   /// Vertical cell content alignment.
-  valign: Option<Box<PageBlockVerticalAlignment>>,
+  #[builder(default)] valign: Option<Box<PageBlockVerticalAlignment>>,
   
 }
 
@@ -17650,10 +18038,11 @@ impl RTDPageBlockVerticalAlignmentType {
 
 
 /// The content should be top-aligned. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockVerticalAlignmentTop {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockVerticalAlignmentTop".to_string())]
   td_name: String, // pageBlockVerticalAlignmentTop
   
 }
@@ -17679,10 +18068,11 @@ impl PageBlockVerticalAlignmentTop {
 
 
 /// The content should be middle-aligned. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockVerticalAlignmentMiddle {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockVerticalAlignmentMiddle".to_string())]
   td_name: String, // pageBlockVerticalAlignmentMiddle
   
 }
@@ -17708,10 +18098,11 @@ impl PageBlockVerticalAlignmentMiddle {
 
 
 /// The content should be bottom-aligned. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PageBlockVerticalAlignmentBottom {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pageBlockVerticalAlignmentBottom".to_string())]
   td_name: String, // pageBlockVerticalAlignmentBottom
   
 }
@@ -17737,17 +18128,18 @@ impl PageBlockVerticalAlignmentBottom {
 
 
 /// Contains information about a Telegram Passport authorization form that was requested. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportAuthorizationForm {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportAuthorizationForm".to_string())]
   td_name: String, // passportAuthorizationForm
   /// Unique identifier of the authorization form.
-  id: Option<i32>,
+  #[builder(default)] id: Option<i32>,
   /// Information about the Telegram Passport elements that need to be provided to complete the form.
-  required_elements: Option<Vec<PassportRequiredElement>>,
+  #[builder(default)] required_elements: Option<Vec<PassportRequiredElement>>,
   /// URL for the privacy policy of the service; may be empty.
-  privacy_policy_url: Option<String>,
+  #[builder(default)] privacy_policy_url: Option<String>,
   
 }
 
@@ -17816,13 +18208,14 @@ impl RTDPassportElementType {
 
 
 /// A Telegram Passport element containing the user's personal details. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementPersonalDetails {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementPersonalDetails".to_string())]
   td_name: String, // passportElementPersonalDetails
   /// Personal details of the user.
-  personal_details: Option<PersonalDetails>,
+  #[builder(default)] personal_details: Option<PersonalDetails>,
   
 }
 
@@ -17849,13 +18242,14 @@ impl PassportElementPersonalDetails {
 
 
 /// A Telegram Passport element containing the user's passport. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementPassport {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementPassport".to_string())]
   td_name: String, // passportElementPassport
   /// Passport.
-  passport: Option<IdentityDocument>,
+  #[builder(default)] passport: Option<IdentityDocument>,
   
 }
 
@@ -17882,13 +18276,14 @@ impl PassportElementPassport {
 
 
 /// A Telegram Passport element containing the user's driver license. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementDriverLicense {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementDriverLicense".to_string())]
   td_name: String, // passportElementDriverLicense
   /// Driver license.
-  driver_license: Option<IdentityDocument>,
+  #[builder(default)] driver_license: Option<IdentityDocument>,
   
 }
 
@@ -17915,13 +18310,14 @@ impl PassportElementDriverLicense {
 
 
 /// A Telegram Passport element containing the user's identity card. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementIdentityCard {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementIdentityCard".to_string())]
   td_name: String, // passportElementIdentityCard
   /// Identity card.
-  identity_card: Option<IdentityDocument>,
+  #[builder(default)] identity_card: Option<IdentityDocument>,
   
 }
 
@@ -17948,13 +18344,14 @@ impl PassportElementIdentityCard {
 
 
 /// A Telegram Passport element containing the user's internal passport. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementInternalPassport {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementInternalPassport".to_string())]
   td_name: String, // passportElementInternalPassport
   /// Internal passport.
-  internal_passport: Option<IdentityDocument>,
+  #[builder(default)] internal_passport: Option<IdentityDocument>,
   
 }
 
@@ -17981,13 +18378,14 @@ impl PassportElementInternalPassport {
 
 
 /// A Telegram Passport element containing the user's address. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementAddress {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementAddress".to_string())]
   td_name: String, // passportElementAddress
   /// Address.
-  address: Option<Address>,
+  #[builder(default)] address: Option<Address>,
   
 }
 
@@ -18014,13 +18412,14 @@ impl PassportElementAddress {
 
 
 /// A Telegram Passport element containing the user's utility bill. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementUtilityBill {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementUtilityBill".to_string())]
   td_name: String, // passportElementUtilityBill
   /// Utility bill.
-  utility_bill: Option<PersonalDocument>,
+  #[builder(default)] utility_bill: Option<PersonalDocument>,
   
 }
 
@@ -18047,13 +18446,14 @@ impl PassportElementUtilityBill {
 
 
 /// A Telegram Passport element containing the user's bank statement. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementBankStatement {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementBankStatement".to_string())]
   td_name: String, // passportElementBankStatement
   /// Bank statement.
-  bank_statement: Option<PersonalDocument>,
+  #[builder(default)] bank_statement: Option<PersonalDocument>,
   
 }
 
@@ -18080,13 +18480,14 @@ impl PassportElementBankStatement {
 
 
 /// A Telegram Passport element containing the user's rental agreement. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementRentalAgreement {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementRentalAgreement".to_string())]
   td_name: String, // passportElementRentalAgreement
   /// Rental agreement.
-  rental_agreement: Option<PersonalDocument>,
+  #[builder(default)] rental_agreement: Option<PersonalDocument>,
   
 }
 
@@ -18113,13 +18514,14 @@ impl PassportElementRentalAgreement {
 
 
 /// A Telegram Passport element containing the user's passport registration pages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementPassportRegistration {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementPassportRegistration".to_string())]
   td_name: String, // passportElementPassportRegistration
   /// Passport registration pages.
-  passport_registration: Option<PersonalDocument>,
+  #[builder(default)] passport_registration: Option<PersonalDocument>,
   
 }
 
@@ -18146,13 +18548,14 @@ impl PassportElementPassportRegistration {
 
 
 /// A Telegram Passport element containing the user's temporary registration. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementTemporaryRegistration {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementTemporaryRegistration".to_string())]
   td_name: String, // passportElementTemporaryRegistration
   /// Temporary registration.
-  temporary_registration: Option<PersonalDocument>,
+  #[builder(default)] temporary_registration: Option<PersonalDocument>,
   
 }
 
@@ -18179,13 +18582,14 @@ impl PassportElementTemporaryRegistration {
 
 
 /// A Telegram Passport element containing the user's phone number. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementPhoneNumber {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementPhoneNumber".to_string())]
   td_name: String, // passportElementPhoneNumber
   /// Phone number.
-  phone_number: Option<String>,
+  #[builder(default)] phone_number: Option<String>,
   
 }
 
@@ -18212,13 +18616,14 @@ impl PassportElementPhoneNumber {
 
 
 /// A Telegram Passport element containing the user's email address. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementEmailAddress {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementEmailAddress".to_string())]
   td_name: String, // passportElementEmailAddress
   /// Email address.
-  email_address: Option<String>,
+  #[builder(default)] email_address: Option<String>,
   
 }
 
@@ -18245,17 +18650,18 @@ impl PassportElementEmailAddress {
 
 
 /// Contains the description of an error in a Telegram Passport element. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementError {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementError".to_string())]
   td_name: String, // passportElementError
   /// Type of the Telegram Passport element which has the error.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<PassportElementType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<PassportElementType>>,
   /// Error message.
-  message: Option<String>,
+  #[builder(default)] message: Option<String>,
   /// Error source.
-  source: Option<Box<PassportElementErrorSource>>,
+  #[builder(default)] source: Option<Box<PassportElementErrorSource>>,
   
 }
 
@@ -18324,10 +18730,11 @@ impl RTDPassportElementErrorSourceType {
 
 
 /// The element contains an error in an unspecified place. The error will be considered resolved when new data is added. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementErrorSourceUnspecified {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementErrorSourceUnspecified".to_string())]
   td_name: String, // passportElementErrorSourceUnspecified
   
 }
@@ -18353,13 +18760,14 @@ impl PassportElementErrorSourceUnspecified {
 
 
 /// One of the data fields contains an error. The error will be considered resolved when the value of the field changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementErrorSourceDataField {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementErrorSourceDataField".to_string())]
   td_name: String, // passportElementErrorSourceDataField
   /// Field name.
-  field_name: Option<String>,
+  #[builder(default)] field_name: Option<String>,
   
 }
 
@@ -18386,10 +18794,11 @@ impl PassportElementErrorSourceDataField {
 
 
 /// The front side of the document contains an error. The error will be considered resolved when the file with the front side changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementErrorSourceFrontSide {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementErrorSourceFrontSide".to_string())]
   td_name: String, // passportElementErrorSourceFrontSide
   
 }
@@ -18415,10 +18824,11 @@ impl PassportElementErrorSourceFrontSide {
 
 
 /// The reverse side of the document contains an error. The error will be considered resolved when the file with the reverse side changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementErrorSourceReverseSide {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementErrorSourceReverseSide".to_string())]
   td_name: String, // passportElementErrorSourceReverseSide
   
 }
@@ -18444,10 +18854,11 @@ impl PassportElementErrorSourceReverseSide {
 
 
 /// The selfie with the document contains an error. The error will be considered resolved when the file with the selfie changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementErrorSourceSelfie {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementErrorSourceSelfie".to_string())]
   td_name: String, // passportElementErrorSourceSelfie
   
 }
@@ -18473,13 +18884,14 @@ impl PassportElementErrorSourceSelfie {
 
 
 /// One of files with the translation of the document contains an error. The error will be considered resolved when the file changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementErrorSourceTranslationFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementErrorSourceTranslationFile".to_string())]
   td_name: String, // passportElementErrorSourceTranslationFile
   /// Index of a file with the error.
-  file_index: Option<i32>,
+  #[builder(default)] file_index: Option<i32>,
   
 }
 
@@ -18506,10 +18918,11 @@ impl PassportElementErrorSourceTranslationFile {
 
 
 /// The translation of the document contains an error. The error will be considered resolved when the list of translation files changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementErrorSourceTranslationFiles {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementErrorSourceTranslationFiles".to_string())]
   td_name: String, // passportElementErrorSourceTranslationFiles
   
 }
@@ -18535,13 +18948,14 @@ impl PassportElementErrorSourceTranslationFiles {
 
 
 /// The file contains an error. The error will be considered resolved when the file changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementErrorSourceFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementErrorSourceFile".to_string())]
   td_name: String, // passportElementErrorSourceFile
   /// Index of a file with the error.
-  file_index: Option<i32>,
+  #[builder(default)] file_index: Option<i32>,
   
 }
 
@@ -18568,10 +18982,11 @@ impl PassportElementErrorSourceFile {
 
 
 /// The list of attached files contains an error. The error will be considered resolved when the list of files changes. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementErrorSourceFiles {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementErrorSourceFiles".to_string())]
   td_name: String, // passportElementErrorSourceFiles
   
 }
@@ -18637,10 +19052,11 @@ impl RTDPassportElementTypeType {
 
 
 /// A Telegram Passport element containing the user's personal details. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementTypePersonalDetails {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementTypePersonalDetails".to_string())]
   td_name: String, // passportElementTypePersonalDetails
   
 }
@@ -18666,10 +19082,11 @@ impl PassportElementTypePersonalDetails {
 
 
 /// A Telegram Passport element containing the user's passport. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementTypePassport {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementTypePassport".to_string())]
   td_name: String, // passportElementTypePassport
   
 }
@@ -18695,10 +19112,11 @@ impl PassportElementTypePassport {
 
 
 /// A Telegram Passport element containing the user's driver license. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementTypeDriverLicense {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementTypeDriverLicense".to_string())]
   td_name: String, // passportElementTypeDriverLicense
   
 }
@@ -18724,10 +19142,11 @@ impl PassportElementTypeDriverLicense {
 
 
 /// A Telegram Passport element containing the user's identity card. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementTypeIdentityCard {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementTypeIdentityCard".to_string())]
   td_name: String, // passportElementTypeIdentityCard
   
 }
@@ -18753,10 +19172,11 @@ impl PassportElementTypeIdentityCard {
 
 
 /// A Telegram Passport element containing the user's internal passport. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementTypeInternalPassport {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementTypeInternalPassport".to_string())]
   td_name: String, // passportElementTypeInternalPassport
   
 }
@@ -18782,10 +19202,11 @@ impl PassportElementTypeInternalPassport {
 
 
 /// A Telegram Passport element containing the user's address. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementTypeAddress {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementTypeAddress".to_string())]
   td_name: String, // passportElementTypeAddress
   
 }
@@ -18811,10 +19232,11 @@ impl PassportElementTypeAddress {
 
 
 /// A Telegram Passport element containing the user's utility bill. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementTypeUtilityBill {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementTypeUtilityBill".to_string())]
   td_name: String, // passportElementTypeUtilityBill
   
 }
@@ -18840,10 +19262,11 @@ impl PassportElementTypeUtilityBill {
 
 
 /// A Telegram Passport element containing the user's bank statement. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementTypeBankStatement {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementTypeBankStatement".to_string())]
   td_name: String, // passportElementTypeBankStatement
   
 }
@@ -18869,10 +19292,11 @@ impl PassportElementTypeBankStatement {
 
 
 /// A Telegram Passport element containing the user's rental agreement. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementTypeRentalAgreement {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementTypeRentalAgreement".to_string())]
   td_name: String, // passportElementTypeRentalAgreement
   
 }
@@ -18898,10 +19322,11 @@ impl PassportElementTypeRentalAgreement {
 
 
 /// A Telegram Passport element containing the registration page of the user's passport. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementTypePassportRegistration {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementTypePassportRegistration".to_string())]
   td_name: String, // passportElementTypePassportRegistration
   
 }
@@ -18927,10 +19352,11 @@ impl PassportElementTypePassportRegistration {
 
 
 /// A Telegram Passport element containing the user's temporary registration. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementTypeTemporaryRegistration {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementTypeTemporaryRegistration".to_string())]
   td_name: String, // passportElementTypeTemporaryRegistration
   
 }
@@ -18956,10 +19382,11 @@ impl PassportElementTypeTemporaryRegistration {
 
 
 /// A Telegram Passport element containing the user's phone number. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementTypePhoneNumber {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementTypePhoneNumber".to_string())]
   td_name: String, // passportElementTypePhoneNumber
   
 }
@@ -18985,10 +19412,11 @@ impl PassportElementTypePhoneNumber {
 
 
 /// A Telegram Passport element containing the user's email address. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementTypeEmailAddress {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementTypeEmailAddress".to_string())]
   td_name: String, // passportElementTypeEmailAddress
   
 }
@@ -19014,13 +19442,14 @@ impl PassportElementTypeEmailAddress {
 
 
 /// Contains information about saved Telegram Passport elements. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElements {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElements".to_string())]
   td_name: String, // passportElements
   /// Telegram Passport elements.
-  elements: Option<Vec<Box<PassportElement>>>,
+  #[builder(default)] elements: Option<Vec<Box<PassportElement>>>,
   
 }
 
@@ -19049,15 +19478,16 @@ impl PassportElements {
 
 
 /// Contains information about a Telegram Passport elements and corresponding errors. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportElementsWithErrors {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportElementsWithErrors".to_string())]
   td_name: String, // passportElementsWithErrors
   /// Telegram Passport elements.
-  elements: Option<Vec<Box<PassportElement>>>,
+  #[builder(default)] elements: Option<Vec<Box<PassportElement>>>,
   /// Errors in the elements that are already available.
-  errors: Option<Vec<PassportElementError>>,
+  #[builder(default)] errors: Option<Vec<PassportElementError>>,
   
 }
 
@@ -19088,13 +19518,14 @@ impl PassportElementsWithErrors {
 
 
 /// Contains a description of the required Telegram Passport element that was requested by a service. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportRequiredElement {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportRequiredElement".to_string())]
   td_name: String, // passportRequiredElement
   /// List of Telegram Passport elements any of which is enough to provide.
-  suitable_elements: Option<Vec<PassportSuitableElement>>,
+  #[builder(default)] suitable_elements: Option<Vec<PassportSuitableElement>>,
   
 }
 
@@ -19119,19 +19550,20 @@ impl PassportRequiredElement {
 
 
 /// Contains information about a Telegram Passport element that was requested by a service. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct PassportSuitableElement {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passportSuitableElement".to_string())]
   td_name: String, // passportSuitableElement
   /// Type of the element.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<PassportElementType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<PassportElementType>>,
   /// True, if a selfie is required with the identity document.
-  is_selfie_required: Option<bool>,
+  #[builder(default)] is_selfie_required: Option<bool>,
   /// True, if a certified English translation is required with the document.
-  is_translation_required: Option<bool>,
+  #[builder(default)] is_translation_required: Option<bool>,
   /// True, if personal details must include the user's name in the language of their country of residence.
-  is_native_name_required: Option<bool>,
+  #[builder(default)] is_native_name_required: Option<bool>,
   
 }
 
@@ -19166,21 +19598,22 @@ impl PassportSuitableElement {
 
 
 /// Represents the current state of 2-step verification. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PasswordState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="passwordState".to_string())]
   td_name: String, // passwordState
   /// True, if a 2-step verification password is set.
-  has_password: Option<bool>,
+  #[builder(default)] has_password: Option<bool>,
   /// Hint for the password; may be empty.
-  password_hint: Option<String>,
+  #[builder(default)] password_hint: Option<String>,
   /// True, if a recovery email is set.
-  has_recovery_email_address: Option<bool>,
+  #[builder(default)] has_recovery_email_address: Option<bool>,
   /// True, if some Telegram Passport elements were saved.
-  has_passport_data: Option<bool>,
+  #[builder(default)] has_passport_data: Option<bool>,
   /// Information about the recovery email address to which the confirmation email was sent; may be null.
-  recovery_email_address_code_info: Option<EmailAddressAuthenticationCodeInfo>,
+  #[builder(default)] recovery_email_address_code_info: Option<EmailAddressAuthenticationCodeInfo>,
   
 }
 
@@ -19213,25 +19646,26 @@ impl PasswordState {
 
 
 /// Contains information about an invoice payment form. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PaymentForm {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="paymentForm".to_string())]
   td_name: String, // paymentForm
   /// Full information of the invoice.
-  invoice: Option<Invoice>,
+  #[builder(default)] invoice: Option<Invoice>,
   /// Payment form URL.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   /// Contains information about the payment provider, if available, to support it natively without the need for opening the URL; may be null.
-  payments_provider: Option<PaymentsProviderStripe>,
+  #[builder(default)] payments_provider: Option<PaymentsProviderStripe>,
   /// Saved server-side order information; may be null.
-  saved_order_info: Option<OrderInfo>,
+  #[builder(default)] saved_order_info: Option<OrderInfo>,
   /// Contains information about saved card credentials; may be null.
-  saved_credentials: Option<SavedCredentials>,
+  #[builder(default)] saved_credentials: Option<SavedCredentials>,
   /// True, if the user can choose to save credentials.
-  can_save_credentials: Option<bool>,
+  #[builder(default)] can_save_credentials: Option<bool>,
   /// True, if the user will be able to save credentials protected by a password they set up.
-  need_password: Option<bool>,
+  #[builder(default)] need_password: Option<bool>,
   
 }
 
@@ -19268,23 +19702,24 @@ impl PaymentForm {
 
 
 /// Contains information about a successful payment. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PaymentReceipt {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="paymentReceipt".to_string())]
   td_name: String, // paymentReceipt
   /// Point in time (Unix timestamp) when the payment was made.
-  date: Option<i32>,
+  #[builder(default)] date: Option<i32>,
   /// User identifier of the payment provider bot.
-  payments_provider_user_id: Option<i32>,
+  #[builder(default)] payments_provider_user_id: Option<i32>,
   /// Contains information about the invoice.
-  invoice: Option<Invoice>,
+  #[builder(default)] invoice: Option<Invoice>,
   /// Contains order information; may be null.
-  order_info: Option<OrderInfo>,
+  #[builder(default)] order_info: Option<OrderInfo>,
   /// Chosen shipping option; may be null.
-  shipping_option: Option<ShippingOption>,
+  #[builder(default)] shipping_option: Option<ShippingOption>,
   /// Title of the saved credentials.
-  credentials_title: Option<String>,
+  #[builder(default)] credentials_title: Option<String>,
   
 }
 
@@ -19319,15 +19754,16 @@ impl PaymentReceipt {
 
 
 /// Contains the result of a payment request. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PaymentResult {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="paymentResult".to_string())]
   td_name: String, // paymentResult
   /// True, if the payment request was successful; otherwise the verification_url will be not empty.
-  success: Option<bool>,
+  #[builder(default)] success: Option<bool>,
   /// URL for additional payment credentials verification.
-  verification_url: Option<String>,
+  #[builder(default)] verification_url: Option<String>,
   
 }
 
@@ -19354,19 +19790,20 @@ impl PaymentResult {
 
 
 /// Stripe payment provider. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PaymentsProviderStripe {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="paymentsProviderStripe".to_string())]
   td_name: String, // paymentsProviderStripe
   /// Stripe API publishable key.
-  publishable_key: Option<String>,
+  #[builder(default)] publishable_key: Option<String>,
   /// True, if the user country must be provided.
-  need_country: Option<bool>,
+  #[builder(default)] need_country: Option<bool>,
   /// True, if the user ZIP/postal code must be provided.
-  need_postal_code: Option<bool>,
+  #[builder(default)] need_postal_code: Option<bool>,
   /// True, if the cardholder name must be provided.
-  need_cardholder_name: Option<bool>,
+  #[builder(default)] need_cardholder_name: Option<bool>,
   
 }
 
@@ -19397,31 +19834,32 @@ impl PaymentsProviderStripe {
 
 
 /// Contains the user's personal details. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PersonalDetails {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="personalDetails".to_string())]
   td_name: String, // personalDetails
   /// First name of the user written in English; 1-255 characters.
-  first_name: Option<String>,
+  #[builder(default)] first_name: Option<String>,
   /// Middle name of the user written in English; 0-255 characters.
-  middle_name: Option<String>,
+  #[builder(default)] middle_name: Option<String>,
   /// Last name of the user written in English; 1-255 characters.
-  last_name: Option<String>,
+  #[builder(default)] last_name: Option<String>,
   /// Native first name of the user; 1-255 characters.
-  native_first_name: Option<String>,
+  #[builder(default)] native_first_name: Option<String>,
   /// Native middle name of the user; 0-255 characters.
-  native_middle_name: Option<String>,
+  #[builder(default)] native_middle_name: Option<String>,
   /// Native last name of the user; 1-255 characters.
-  native_last_name: Option<String>,
+  #[builder(default)] native_last_name: Option<String>,
   /// Birthdate of the user.
-  birthdate: Option<Date>,
+  #[builder(default)] birthdate: Option<Date>,
   /// Gender of the user, "male" or "female".
-  gender: Option<String>,
+  #[builder(default)] gender: Option<String>,
   /// A two-letter ISO 3166-1 alpha-2 country code of the user's country.
-  country_code: Option<String>,
+  #[builder(default)] country_code: Option<String>,
   /// A two-letter ISO 3166-1 alpha-2 country code of the user's residence country.
-  residence_country_code: Option<String>,
+  #[builder(default)] residence_country_code: Option<String>,
   
 }
 
@@ -19464,15 +19902,16 @@ impl PersonalDetails {
 
 
 /// A personal document, containing some information about a user. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PersonalDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="personalDocument".to_string())]
   td_name: String, // personalDocument
   /// List of files containing the pages of the document.
-  files: Option<Vec<DatedFile>>,
+  #[builder(default)] files: Option<Vec<DatedFile>>,
   /// List of files containing a certified English translation of the document.
-  translation: Option<Vec<DatedFile>>,
+  #[builder(default)] translation: Option<Vec<DatedFile>>,
   
 }
 
@@ -19499,15 +19938,16 @@ impl PersonalDocument {
 
 
 /// Describes a photo. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Photo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="photo".to_string())]
   td_name: String, // photo
   /// True, if stickers were added to the photo.
-  has_stickers: Option<bool>,
+  #[builder(default)] has_stickers: Option<bool>,
   /// Available variants of the photo, in different sizes.
-  sizes: Option<Vec<PhotoSize>>,
+  #[builder(default)] sizes: Option<Vec<PhotoSize>>,
   
 }
 
@@ -19534,19 +19974,20 @@ impl Photo {
 
 
 /// Photo description. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PhotoSize {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="photoSize".to_string())]
   td_name: String, // photoSize
   /// Thumbnail type (see https://core.telegram.org/constructor/photoSize).
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<String>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<String>,
   /// Information about the photo file.
-  photo: Option<File>,
+  #[builder(default)] photo: Option<File>,
   /// Photo width.
-  width: Option<i32>,
+  #[builder(default)] width: Option<i32>,
   /// Photo height.
-  height: Option<i32>,
+  #[builder(default)] height: Option<i32>,
   
 }
 
@@ -19577,21 +20018,22 @@ impl PhotoSize {
 
 
 /// Describes a poll. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Poll {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="poll".to_string())]
   td_name: String, // poll
   /// Unique poll identifier.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// Poll question, 1-255 characters.
-  question: Option<String>,
+  #[builder(default)] question: Option<String>,
   /// List of poll answer options.
-  options: Option<Vec<PollOption>>,
+  #[builder(default)] options: Option<Vec<PollOption>>,
   /// Total number of voters, participating in the poll.
-  total_voter_count: Option<i32>,
+  #[builder(default)] total_voter_count: Option<i32>,
   /// True, if the poll is closed.
-  is_closed: Option<bool>,
+  #[builder(default)] is_closed: Option<bool>,
   
 }
 
@@ -19624,21 +20066,22 @@ impl Poll {
 
 
 /// Describes one answer option of a poll. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PollOption {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pollOption".to_string())]
   td_name: String, // pollOption
   /// Option text, 1-100 characters.
-  text: Option<String>,
+  #[builder(default)] text: Option<String>,
   /// Number of voters for this option, available only for closed or voted polls.
-  voter_count: Option<i32>,
+  #[builder(default)] voter_count: Option<i32>,
   /// The percentage of votes for this option, 0-100.
-  vote_percentage: Option<i32>,
+  #[builder(default)] vote_percentage: Option<i32>,
   /// True, if the option was chosen by the user.
-  is_chosen: Option<bool>,
+  #[builder(default)] is_chosen: Option<bool>,
   /// True, if the option is being chosen by a pending setPollAnswer request.
-  is_being_chosen: Option<bool>,
+  #[builder(default)] is_being_chosen: Option<bool>,
   
 }
 
@@ -19671,17 +20114,18 @@ impl PollOption {
 
 
 /// Describes a user profile photo. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ProfilePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="profilePhoto".to_string())]
   td_name: String, // profilePhoto
   /// Photo identifier; 0 for an empty photo. Can be used to find a photo in a list of userProfilePhotos.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// A small (160x160) user profile photo.
-  small: Option<File>,
+  #[builder(default)] small: Option<File>,
   /// A big (640x640) user profile photo.
-  big: Option<File>,
+  #[builder(default)] big: Option<File>,
   
 }
 
@@ -19710,13 +20154,14 @@ impl ProfilePhoto {
 
 
 /// Represents a list of proxy servers. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Proxies {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="proxies".to_string())]
   td_name: String, // proxies
   /// List of proxy servers.
-  proxies: Option<Vec<Proxy>>,
+  #[builder(default)] proxies: Option<Vec<Proxy>>,
   
 }
 
@@ -19741,23 +20186,24 @@ impl Proxies {
 
 
 /// Contains information about a proxy server. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct Proxy {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="proxy".to_string())]
   td_name: String, // proxy
   /// Unique identifier of the proxy.
-  id: Option<i32>,
+  #[builder(default)] id: Option<i32>,
   /// Proxy server IP address.
-  server: Option<String>,
+  #[builder(default)] server: Option<String>,
   /// Proxy server port.
-  port: Option<i32>,
+  #[builder(default)] port: Option<i32>,
   /// Point in time (Unix timestamp) when the proxy was last used; 0 if never.
-  last_used_date: Option<i32>,
+  #[builder(default)] last_used_date: Option<i32>,
   /// True, if the proxy is enabled now.
-  is_enabled: Option<bool>,
+  #[builder(default)] is_enabled: Option<bool>,
   /// Type of the proxy.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<ProxyType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<ProxyType>>,
   
 }
 
@@ -19826,15 +20272,16 @@ impl RTDProxyTypeType {
 
 
 /// A SOCKS5 proxy server. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ProxyTypeSocks5 {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="proxyTypeSocks5".to_string())]
   td_name: String, // proxyTypeSocks5
   /// Username for logging in; may be empty.
-  username: Option<String>,
+  #[builder(default)] username: Option<String>,
   /// Password for logging in; may be empty.
-  password: Option<String>,
+  #[builder(default)] password: Option<String>,
   
 }
 
@@ -19863,17 +20310,18 @@ impl ProxyTypeSocks5 {
 
 
 /// A HTTP transparent proxy server. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ProxyTypeHttp {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="proxyTypeHttp".to_string())]
   td_name: String, // proxyTypeHttp
   /// Username for logging in; may be empty.
-  username: Option<String>,
+  #[builder(default)] username: Option<String>,
   /// Password for logging in; may be empty.
-  password: Option<String>,
+  #[builder(default)] password: Option<String>,
   /// Pass true, if the proxy supports only HTTP requests and doesn't support transparent TCP connections via HTTP CONNECT method.
-  http_only: Option<bool>,
+  #[builder(default)] http_only: Option<bool>,
   
 }
 
@@ -19904,13 +20352,14 @@ impl ProxyTypeHttp {
 
 
 /// An MTProto proxy server. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ProxyTypeMtproto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="proxyTypeMtproto".to_string())]
   td_name: String, // proxyTypeMtproto
   /// The proxy's secret in hexadecimal encoding.
-  secret: Option<String>,
+  #[builder(default)] secret: Option<String>,
   
 }
 
@@ -19937,15 +20386,16 @@ impl ProxyTypeMtproto {
 
 
 /// Contains a public HTTPS link to a message in a public supergroup or channel. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PublicMessageLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="publicMessageLink".to_string())]
   td_name: String, // publicMessageLink
   /// Message link.
-  link: Option<String>,
+  #[builder(default)] link: Option<String>,
   /// HTML-code for embedding the message.
-  html: Option<String>,
+  #[builder(default)] html: Option<String>,
   
 }
 
@@ -20025,13 +20475,14 @@ impl RTDPushMessageContentType {
 
 
 /// A general message with hidden content. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentHidden {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentHidden".to_string())]
   td_name: String, // pushMessageContentHidden
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20058,17 +20509,18 @@ impl PushMessageContentHidden {
 
 
 /// An animation message (GIF-style.) 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentAnimation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentAnimation".to_string())]
   td_name: String, // pushMessageContentAnimation
   /// Message content; may be null.
-  animation: Option<Animation>,
+  #[builder(default)] animation: Option<Animation>,
   /// Animation caption.
-  caption: Option<String>,
+  #[builder(default)] caption: Option<String>,
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20099,15 +20551,16 @@ impl PushMessageContentAnimation {
 
 
 /// An audio message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentAudio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentAudio".to_string())]
   td_name: String, // pushMessageContentAudio
   /// Message content; may be null.
-  audio: Option<Audio>,
+  #[builder(default)] audio: Option<Audio>,
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20136,15 +20589,16 @@ impl PushMessageContentAudio {
 
 
 /// A message with a user contact. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentContact {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentContact".to_string())]
   td_name: String, // pushMessageContentContact
   /// Contact's name.
-  name: Option<String>,
+  #[builder(default)] name: Option<String>,
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20173,10 +20627,11 @@ impl PushMessageContentContact {
 
 
 /// A contact has registered with Telegram. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentContactRegistered {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentContactRegistered".to_string())]
   td_name: String, // pushMessageContentContactRegistered
   
 }
@@ -20202,15 +20657,16 @@ impl PushMessageContentContactRegistered {
 
 
 /// A document message (a general file). 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentDocument".to_string())]
   td_name: String, // pushMessageContentDocument
   /// Message content; may be null.
-  document: Option<Document>,
+  #[builder(default)] document: Option<Document>,
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20239,15 +20695,16 @@ impl PushMessageContentDocument {
 
 
 /// A message with a game. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentGame {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentGame".to_string())]
   td_name: String, // pushMessageContentGame
   /// Game title, empty for pinned game message.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20276,17 +20733,18 @@ impl PushMessageContentGame {
 
 
 /// A new high score was achieved in a game. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentGameScore {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentGameScore".to_string())]
   td_name: String, // pushMessageContentGameScore
   /// Game title, empty for pinned message.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// New score, 0 for pinned message.
-  score: Option<i32>,
+  #[builder(default)] score: Option<i32>,
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20317,15 +20775,16 @@ impl PushMessageContentGameScore {
 
 
 /// A message with an invoice from a bot. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentInvoice {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentInvoice".to_string())]
   td_name: String, // pushMessageContentInvoice
   /// Product price.
-  price: Option<String>,
+  #[builder(default)] price: Option<String>,
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20354,15 +20813,16 @@ impl PushMessageContentInvoice {
 
 
 /// A message with a location. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentLocation".to_string())]
   td_name: String, // pushMessageContentLocation
   /// True, if the location is live.
-  is_live: Option<bool>,
+  #[builder(default)] is_live: Option<bool>,
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20391,19 +20851,20 @@ impl PushMessageContentLocation {
 
 
 /// A photo message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentPhoto".to_string())]
   td_name: String, // pushMessageContentPhoto
   /// Message content; may be null.
-  photo: Option<Photo>,
+  #[builder(default)] photo: Option<Photo>,
   /// Photo caption.
-  caption: Option<String>,
+  #[builder(default)] caption: Option<String>,
   /// True, if the photo is secret.
-  is_secret: Option<bool>,
+  #[builder(default)] is_secret: Option<bool>,
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20436,15 +20897,16 @@ impl PushMessageContentPhoto {
 
 
 /// A message with a poll. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentPoll {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentPoll".to_string())]
   td_name: String, // pushMessageContentPoll
   /// Poll question.
-  question: Option<String>,
+  #[builder(default)] question: Option<String>,
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20473,10 +20935,11 @@ impl PushMessageContentPoll {
 
 
 /// A screenshot of a message in the chat has been taken. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentScreenshotTaken {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentScreenshotTaken".to_string())]
   td_name: String, // pushMessageContentScreenshotTaken
   
 }
@@ -20502,17 +20965,18 @@ impl PushMessageContentScreenshotTaken {
 
 
 /// A message with a sticker. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentSticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentSticker".to_string())]
   td_name: String, // pushMessageContentSticker
   /// Message content; may be null.
-  sticker: Option<Sticker>,
+  #[builder(default)] sticker: Option<Sticker>,
   /// Emoji corresponding to the sticker; may be empty.
-  emoji: Option<String>,
+  #[builder(default)] emoji: Option<String>,
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20543,15 +21007,16 @@ impl PushMessageContentSticker {
 
 
 /// A text message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentText {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentText".to_string())]
   td_name: String, // pushMessageContentText
   /// Message text.
-  text: Option<String>,
+  #[builder(default)] text: Option<String>,
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20580,19 +21045,20 @@ impl PushMessageContentText {
 
 
 /// A video message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentVideo".to_string())]
   td_name: String, // pushMessageContentVideo
   /// Message content; may be null.
-  video: Option<Video>,
+  #[builder(default)] video: Option<Video>,
   /// Video caption.
-  caption: Option<String>,
+  #[builder(default)] caption: Option<String>,
   /// True, if the video is secret.
-  is_secret: Option<bool>,
+  #[builder(default)] is_secret: Option<bool>,
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20625,15 +21091,16 @@ impl PushMessageContentVideo {
 
 
 /// A video note message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentVideoNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentVideoNote".to_string())]
   td_name: String, // pushMessageContentVideoNote
   /// Message content; may be null.
-  video_note: Option<VideoNote>,
+  #[builder(default)] video_note: Option<VideoNote>,
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20662,15 +21129,16 @@ impl PushMessageContentVideoNote {
 
 
 /// A voice note message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentVoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentVoiceNote".to_string())]
   td_name: String, // pushMessageContentVoiceNote
   /// Message content; may be null.
-  voice_note: Option<VoiceNote>,
+  #[builder(default)] voice_note: Option<VoiceNote>,
   /// True, if the message is a pinned message with the specified content.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -20699,10 +21167,11 @@ impl PushMessageContentVoiceNote {
 
 
 /// A newly created basic group. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentBasicGroupChatCreate {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentBasicGroupChatCreate".to_string())]
   td_name: String, // pushMessageContentBasicGroupChatCreate
   
 }
@@ -20728,17 +21197,18 @@ impl PushMessageContentBasicGroupChatCreate {
 
 
 /// New chat members were invited to a group. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentChatAddMembers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentChatAddMembers".to_string())]
   td_name: String, // pushMessageContentChatAddMembers
   /// Name of the added member.
-  member_name: Option<String>,
+  #[builder(default)] member_name: Option<String>,
   /// True, if the current user was added to the group.
-  is_current_user: Option<bool>,
+  #[builder(default)] is_current_user: Option<bool>,
   /// True, if the user has returned to the group himself.
-  is_returned: Option<bool>,
+  #[builder(default)] is_returned: Option<bool>,
   
 }
 
@@ -20769,10 +21239,11 @@ impl PushMessageContentChatAddMembers {
 
 
 /// A chat photo was edited. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentChatChangePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentChatChangePhoto".to_string())]
   td_name: String, // pushMessageContentChatChangePhoto
   
 }
@@ -20798,13 +21269,14 @@ impl PushMessageContentChatChangePhoto {
 
 
 /// A chat title was edited. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentChatChangeTitle {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentChatChangeTitle".to_string())]
   td_name: String, // pushMessageContentChatChangeTitle
   /// New chat title.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   
 }
 
@@ -20831,17 +21303,18 @@ impl PushMessageContentChatChangeTitle {
 
 
 /// A chat member was deleted. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentChatDeleteMember {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentChatDeleteMember".to_string())]
   td_name: String, // pushMessageContentChatDeleteMember
   /// Name of the deleted member.
-  member_name: Option<String>,
+  #[builder(default)] member_name: Option<String>,
   /// True, if the current user was deleted from the group.
-  is_current_user: Option<bool>,
+  #[builder(default)] is_current_user: Option<bool>,
   /// True, if the user has left the group himself.
-  is_left: Option<bool>,
+  #[builder(default)] is_left: Option<bool>,
   
 }
 
@@ -20872,10 +21345,11 @@ impl PushMessageContentChatDeleteMember {
 
 
 /// A new member joined the chat by invite link. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentChatJoinByLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentChatJoinByLink".to_string())]
   td_name: String, // pushMessageContentChatJoinByLink
   
 }
@@ -20901,13 +21375,14 @@ impl PushMessageContentChatJoinByLink {
 
 
 /// A forwarded messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentMessageForwards {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentMessageForwards".to_string())]
   td_name: String, // pushMessageContentMessageForwards
   /// Number of forwarded messages.
-  total_count: Option<i32>,
+  #[builder(default)] total_count: Option<i32>,
   
 }
 
@@ -20934,17 +21409,18 @@ impl PushMessageContentMessageForwards {
 
 
 /// A media album. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushMessageContentMediaAlbum {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushMessageContentMediaAlbum".to_string())]
   td_name: String, // pushMessageContentMediaAlbum
   /// Number of messages in the album.
-  total_count: Option<i32>,
+  #[builder(default)] total_count: Option<i32>,
   /// True, if the album has at least one photo.
-  has_photos: Option<bool>,
+  #[builder(default)] has_photos: Option<bool>,
   /// True, if the album has at least one video.
-  has_videos: Option<bool>,
+  #[builder(default)] has_videos: Option<bool>,
   
 }
 
@@ -20975,13 +21451,14 @@ impl PushMessageContentMediaAlbum {
 
 
 /// Contains a globally unique push receiver identifier, which can be used to identify which account has received a push notification. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PushReceiverId {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pushReceiverId".to_string())]
   td_name: String, // pushReceiverId
   /// The globally unique identifier of push notification subscription.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   
 }
 
@@ -21006,13 +21483,14 @@ impl PushReceiverId {
 
 
 /// Contains information about the current recovery email address. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct RecoveryEmailAddress {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="recoveryEmailAddress".to_string())]
   td_name: String, // recoveryEmailAddress
   /// Recovery email address.
-  recovery_email_address: Option<String>,
+  #[builder(default)] recovery_email_address: Option<String>,
   
 }
 
@@ -21037,19 +21515,20 @@ impl RecoveryEmailAddress {
 
 
 /// Represents a remote file. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct RemoteFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="remoteFile".to_string())]
   td_name: String, // remoteFile
   /// Remote file identifier; may be empty. Can be used across application restarts or even from other devices for the current user. If the ID starts with "http://" or "https://", it represents the HTTP URL of the file. TDLib is currently unable to download files if only their URL is known. If downloadFile is called on such a file or if it is sent to a secret chat, TDLib starts a file generation process by sending updateFileGenerationStart to the client with the HTTP URL in the original_path and "#url#" as the conversion string. Clients should generate the file by downloading it to the specified location.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// True, if the file is currently being uploaded (or a remote copy is being generated by some other means).
-  is_uploading_active: Option<bool>,
+  #[builder(default)] is_uploading_active: Option<bool>,
   /// True, if a remote copy is fully available.
-  is_uploading_completed: Option<bool>,
+  #[builder(default)] is_uploading_completed: Option<bool>,
   /// Size of the remote available part of the file; 0 if unknown.
-  uploaded_size: Option<i32>,
+  #[builder(default)] uploaded_size: Option<i32>,
   
 }
 
@@ -21111,13 +21590,14 @@ impl RTDReplyMarkupType {
 
 
 /// Instructs clients to remove the keyboard once this message has been received. This kind of keyboard can't be received in an incoming message; instead, UpdateChatReplyMarkup with message_id == 0 will be sent. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ReplyMarkupRemoveKeyboard {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="replyMarkupRemoveKeyboard".to_string())]
   td_name: String, // replyMarkupRemoveKeyboard
   /// True, if the keyboard is removed only for the mentioned users or the target user of a reply.
-  is_personal: Option<bool>,
+  #[builder(default)] is_personal: Option<bool>,
   
 }
 
@@ -21144,13 +21624,14 @@ impl ReplyMarkupRemoveKeyboard {
 
 
 /// Instructs clients to force a reply to this message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ReplyMarkupForceReply {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="replyMarkupForceReply".to_string())]
   td_name: String, // replyMarkupForceReply
   /// True, if a forced reply must automatically be shown to the current user. For outgoing messages, specify true to show the forced reply only for the mentioned users and for the target user of a reply.
-  is_personal: Option<bool>,
+  #[builder(default)] is_personal: Option<bool>,
   
 }
 
@@ -21177,19 +21658,20 @@ impl ReplyMarkupForceReply {
 
 
 /// Contains a custom keyboard layout to quickly reply to bots. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ReplyMarkupShowKeyboard {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="replyMarkupShowKeyboard".to_string())]
   td_name: String, // replyMarkupShowKeyboard
   /// A list of rows of bot keyboard buttons.
-  rows: Option<Vec<Vec<KeyboardButton>>>,
+  #[builder(default)] rows: Option<Vec<Vec<KeyboardButton>>>,
   /// True, if the client needs to resize the keyboard vertically.
-  resize_keyboard: Option<bool>,
+  #[builder(default)] resize_keyboard: Option<bool>,
   /// True, if the client needs to hide the keyboard after use.
-  one_time: Option<bool>,
+  #[builder(default)] one_time: Option<bool>,
   /// True, if the keyboard must automatically be shown to the current user. For outgoing messages, specify true to show the keyboard only for the mentioned users and for the target user of a reply.
-  is_personal: Option<bool>,
+  #[builder(default)] is_personal: Option<bool>,
   
 }
 
@@ -21222,13 +21704,14 @@ impl ReplyMarkupShowKeyboard {
 
 
 /// Contains an inline keyboard layout. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ReplyMarkupInlineKeyboard {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="replyMarkupInlineKeyboard".to_string())]
   td_name: String, // replyMarkupInlineKeyboard
   /// A list of rows of inline keyboard buttons.
-  rows: Option<Vec<Vec<InlineKeyboardButton>>>,
+  #[builder(default)] rows: Option<Vec<Vec<InlineKeyboardButton>>>,
   
 }
 
@@ -21297,13 +21780,14 @@ impl RTDRichTextType {
 
 
 /// A plain text. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct RichTextPlain {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="richTextPlain".to_string())]
   td_name: String, // richTextPlain
   /// Text.
-  text: Option<String>,
+  #[builder(default)] text: Option<String>,
   
 }
 
@@ -21330,13 +21814,14 @@ impl RichTextPlain {
 
 
 /// A bold rich text. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RichTextBold {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="richTextBold".to_string())]
   td_name: String, // richTextBold
   /// Text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   
 }
 
@@ -21367,13 +21852,14 @@ impl RichTextBold {
 
 
 /// An italicized rich text. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RichTextItalic {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="richTextItalic".to_string())]
   td_name: String, // richTextItalic
   /// Text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   
 }
 
@@ -21404,13 +21890,14 @@ impl RichTextItalic {
 
 
 /// An underlined rich text. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RichTextUnderline {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="richTextUnderline".to_string())]
   td_name: String, // richTextUnderline
   /// Text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   
 }
 
@@ -21441,13 +21928,14 @@ impl RichTextUnderline {
 
 
 /// A strike-through rich text. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RichTextStrikethrough {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="richTextStrikethrough".to_string())]
   td_name: String, // richTextStrikethrough
   /// Text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   
 }
 
@@ -21478,13 +21966,14 @@ impl RichTextStrikethrough {
 
 
 /// A fixed-width rich text. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RichTextFixed {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="richTextFixed".to_string())]
   td_name: String, // richTextFixed
   /// Text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   
 }
 
@@ -21515,15 +22004,16 @@ impl RichTextFixed {
 
 
 /// A rich text URL link. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RichTextUrl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="richTextUrl".to_string())]
   td_name: String, // richTextUrl
   /// Text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   /// URL.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   
 }
 
@@ -21556,15 +22046,16 @@ impl RichTextUrl {
 
 
 /// A rich text email link. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RichTextEmailAddress {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="richTextEmailAddress".to_string())]
   td_name: String, // richTextEmailAddress
   /// Text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   /// Email address.
-  email_address: Option<String>,
+  #[builder(default)] email_address: Option<String>,
   
 }
 
@@ -21597,13 +22088,14 @@ impl RichTextEmailAddress {
 
 
 /// A subscript rich text. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RichTextSubscript {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="richTextSubscript".to_string())]
   td_name: String, // richTextSubscript
   /// Text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   
 }
 
@@ -21634,13 +22126,14 @@ impl RichTextSubscript {
 
 
 /// A superscript rich text. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RichTextSuperscript {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="richTextSuperscript".to_string())]
   td_name: String, // richTextSuperscript
   /// Text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   
 }
 
@@ -21671,13 +22164,14 @@ impl RichTextSuperscript {
 
 
 /// A marked rich text. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RichTextMarked {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="richTextMarked".to_string())]
   td_name: String, // richTextMarked
   /// Text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   
 }
 
@@ -21708,15 +22202,16 @@ impl RichTextMarked {
 
 
 /// A rich text phone number. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RichTextPhoneNumber {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="richTextPhoneNumber".to_string())]
   td_name: String, // richTextPhoneNumber
   /// Text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   /// Phone number.
-  phone_number: Option<String>,
+  #[builder(default)] phone_number: Option<String>,
   
 }
 
@@ -21749,17 +22244,18 @@ impl RichTextPhoneNumber {
 
 
 /// A small image inside the text. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct RichTextIcon {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="richTextIcon".to_string())]
   td_name: String, // richTextIcon
   /// The image represented as a document. The image can be in GIF, JPEG or PNG format.
-  document: Option<Document>,
+  #[builder(default)] document: Option<Document>,
   /// Width of a bounding box in which the image should be shown, 0 if unknown.
-  width: Option<i32>,
+  #[builder(default)] width: Option<i32>,
   /// Height of a bounding box in which the image should be shown, 0 if unknown.
-  height: Option<i32>,
+  #[builder(default)] height: Option<i32>,
   
 }
 
@@ -21790,15 +22286,16 @@ impl RichTextIcon {
 
 
 /// A rich text anchor. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RichTextAnchor {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="richTextAnchor".to_string())]
   td_name: String, // richTextAnchor
   /// Text.
-  text: Option<Box<RichText>>,
+  #[builder(default)] text: Option<Box<RichText>>,
   /// Anchor name.
-  name: Option<String>,
+  #[builder(default)] name: Option<String>,
   
 }
 
@@ -21831,13 +22328,14 @@ impl RichTextAnchor {
 
 
 /// A concatenation of rich texts. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RichTexts {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="richTexts".to_string())]
   td_name: String, // richTexts
   /// Texts.
-  texts: Option<Vec<Box<RichText>>>,
+  #[builder(default)] texts: Option<Vec<Box<RichText>>>,
   
 }
 
@@ -21868,15 +22366,16 @@ impl RichTexts {
 
 
 /// Contains information about saved card credentials. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SavedCredentials {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="savedCredentials".to_string())]
   td_name: String, // savedCredentials
   /// Unique identifier of the saved credentials.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Title of the saved credentials.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   
 }
 
@@ -21903,21 +22402,22 @@ impl SavedCredentials {
 
 
 /// Contains information about notification settings for several chats. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ScopeNotificationSettings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="scopeNotificationSettings".to_string())]
   td_name: String, // scopeNotificationSettings
   /// Time left before notifications will be unmuted, in seconds.
-  mute_for: Option<i32>,
+  #[builder(default)] mute_for: Option<i32>,
   /// The name of an audio file to be used for notification sounds; only applies to iOS applications.
-  sound: Option<String>,
+  #[builder(default)] sound: Option<String>,
   /// True, if message content should be displayed in notifications.
-  show_preview: Option<bool>,
+  #[builder(default)] show_preview: Option<bool>,
   /// True, if notifications for incoming pinned messages will be created as for an ordinary unread message.
-  disable_pinned_message_notifications: Option<bool>,
+  #[builder(default)] disable_pinned_message_notifications: Option<bool>,
   /// True, if notifications for messages with mentions will be created as for an ordinary unread message.
-  disable_mention_notifications: Option<bool>,
+  #[builder(default)] disable_mention_notifications: Option<bool>,
   
 }
 
@@ -21993,10 +22493,11 @@ impl RTDSearchMessagesFilterType {
 
 
 /// Returns all found messages, no filter is applied. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterEmpty {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterEmpty".to_string())]
   td_name: String, // searchMessagesFilterEmpty
   
 }
@@ -22022,10 +22523,11 @@ impl SearchMessagesFilterEmpty {
 
 
 /// Returns only animation messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterAnimation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterAnimation".to_string())]
   td_name: String, // searchMessagesFilterAnimation
   
 }
@@ -22051,10 +22553,11 @@ impl SearchMessagesFilterAnimation {
 
 
 /// Returns only audio messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterAudio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterAudio".to_string())]
   td_name: String, // searchMessagesFilterAudio
   
 }
@@ -22080,10 +22583,11 @@ impl SearchMessagesFilterAudio {
 
 
 /// Returns only document messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterDocument".to_string())]
   td_name: String, // searchMessagesFilterDocument
   
 }
@@ -22109,10 +22613,11 @@ impl SearchMessagesFilterDocument {
 
 
 /// Returns only photo messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterPhoto".to_string())]
   td_name: String, // searchMessagesFilterPhoto
   
 }
@@ -22138,10 +22643,11 @@ impl SearchMessagesFilterPhoto {
 
 
 /// Returns only video messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterVideo".to_string())]
   td_name: String, // searchMessagesFilterVideo
   
 }
@@ -22167,10 +22673,11 @@ impl SearchMessagesFilterVideo {
 
 
 /// Returns only voice note messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterVoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterVoiceNote".to_string())]
   td_name: String, // searchMessagesFilterVoiceNote
   
 }
@@ -22196,10 +22703,11 @@ impl SearchMessagesFilterVoiceNote {
 
 
 /// Returns only photo and video messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterPhotoAndVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterPhotoAndVideo".to_string())]
   td_name: String, // searchMessagesFilterPhotoAndVideo
   
 }
@@ -22225,10 +22733,11 @@ impl SearchMessagesFilterPhotoAndVideo {
 
 
 /// Returns only messages containing URLs. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterUrl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterUrl".to_string())]
   td_name: String, // searchMessagesFilterUrl
   
 }
@@ -22254,10 +22763,11 @@ impl SearchMessagesFilterUrl {
 
 
 /// Returns only messages containing chat photos. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterChatPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterChatPhoto".to_string())]
   td_name: String, // searchMessagesFilterChatPhoto
   
 }
@@ -22283,10 +22793,11 @@ impl SearchMessagesFilterChatPhoto {
 
 
 /// Returns only call messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterCall {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterCall".to_string())]
   td_name: String, // searchMessagesFilterCall
   
 }
@@ -22312,10 +22823,11 @@ impl SearchMessagesFilterCall {
 
 
 /// Returns only incoming call messages with missed/declined discard reasons. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterMissedCall {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterMissedCall".to_string())]
   td_name: String, // searchMessagesFilterMissedCall
   
 }
@@ -22341,10 +22853,11 @@ impl SearchMessagesFilterMissedCall {
 
 
 /// Returns only video note messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterVideoNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterVideoNote".to_string())]
   td_name: String, // searchMessagesFilterVideoNote
   
 }
@@ -22370,10 +22883,11 @@ impl SearchMessagesFilterVideoNote {
 
 
 /// Returns only voice and video note messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterVoiceAndVideoNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterVoiceAndVideoNote".to_string())]
   td_name: String, // searchMessagesFilterVoiceAndVideoNote
   
 }
@@ -22399,10 +22913,11 @@ impl SearchMessagesFilterVoiceAndVideoNote {
 
 
 /// Returns only messages with mentions of the current user, or messages that are replies to their messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterMention {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterMention".to_string())]
   td_name: String, // searchMessagesFilterMention
   
 }
@@ -22428,10 +22943,11 @@ impl SearchMessagesFilterMention {
 
 
 /// Returns only messages with unread mentions of the current user, or messages that are replies to their messages. When using this filter the results can't be additionally filtered by a query or by the sending user. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessagesFilterUnreadMention {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessagesFilterUnreadMention".to_string())]
   td_name: String, // searchMessagesFilterUnreadMention
   
 }
@@ -22457,13 +22973,14 @@ impl SearchMessagesFilterUnreadMention {
 
 
 /// Contains a value representing a number of seconds. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Seconds {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="seconds".to_string())]
   td_name: String, // seconds
   /// Number of seconds.
-  seconds: Option<f64>,
+  #[builder(default)] seconds: Option<f64>,
   
 }
 
@@ -22488,25 +23005,26 @@ impl Seconds {
 
 
 /// Represents a secret chat. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SecretChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="secretChat".to_string())]
   td_name: String, // secretChat
   /// Secret chat identifier.
-  id: Option<i32>,
+  #[builder(default)] id: Option<i32>,
   /// Identifier of the chat partner.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// State of the secret chat.
-  state: Option<Box<SecretChatState>>,
+  #[builder(default)] state: Option<Box<SecretChatState>>,
   /// True, if the chat was created by the current user; otherwise false.
-  is_outbound: Option<bool>,
+  #[builder(default)] is_outbound: Option<bool>,
   /// Current message Time To Live setting (self-destruct timer) for the chat, in seconds.
-  ttl: Option<i32>,
+  #[builder(default)] ttl: Option<i32>,
   /// Hash of the currently used key for comparison with the hash of the chat partner's key. This is a string of 36 bytes, which must be used to make a 12x12 square image with a color depth of 4. The first 16 bytes should be used to make a central 8x8 square, while the remaining 20 bytes should be used to construct a 2-pixel-wide border around that square. Alternatively, the first 32 bytes of the hash can be converted to the hexadecimal format and printed as 32 2-digit hex numbers.
-  key_hash: Option<String>,
+  #[builder(default)] key_hash: Option<String>,
   /// Secret chat layer; determines features supported by the other client. Video notes are supported if the layer >= 66.
-  layer: Option<i32>,
+  #[builder(default)] layer: Option<i32>,
   
 }
 
@@ -22577,10 +23095,11 @@ impl RTDSecretChatStateType {
 
 
 /// The secret chat is not yet created; waiting for the other user to get online. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SecretChatStatePending {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="secretChatStatePending".to_string())]
   td_name: String, // secretChatStatePending
   
 }
@@ -22606,10 +23125,11 @@ impl SecretChatStatePending {
 
 
 /// The secret chat is ready to use. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SecretChatStateReady {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="secretChatStateReady".to_string())]
   td_name: String, // secretChatStateReady
   
 }
@@ -22635,10 +23155,11 @@ impl SecretChatStateReady {
 
 
 /// The secret chat is closed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SecretChatStateClosed {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="secretChatStateClosed".to_string())]
   td_name: String, // secretChatStateClosed
   
 }
@@ -22664,41 +23185,42 @@ impl SecretChatStateClosed {
 
 
 /// Contains information about one session in a Telegram application used by the current user. Sessions should be shown to the user in the returned order. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Session {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="session".to_string())]
   td_name: String, // session
   /// Session identifier.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// True, if this session is the current session.
-  is_current: Option<bool>,
+  #[builder(default)] is_current: Option<bool>,
   /// True, if a password is needed to complete authorization of the session.
-  is_password_pending: Option<bool>,
+  #[builder(default)] is_password_pending: Option<bool>,
   /// Telegram API identifier, as provided by the application.
-  api_id: Option<i32>,
+  #[builder(default)] api_id: Option<i32>,
   /// Name of the application, as provided by the application.
-  application_name: Option<String>,
+  #[builder(default)] application_name: Option<String>,
   /// The version of the application, as provided by the application.
-  application_version: Option<String>,
+  #[builder(default)] application_version: Option<String>,
   /// True, if the application is an official application or uses the api_id of an official application.
-  is_official_application: Option<bool>,
+  #[builder(default)] is_official_application: Option<bool>,
   /// Model of the device the application has been run or is running on, as provided by the application.
-  device_model: Option<String>,
+  #[builder(default)] device_model: Option<String>,
   /// Operating system the application has been run or is running on, as provided by the application.
-  platform: Option<String>,
+  #[builder(default)] platform: Option<String>,
   /// Version of the operating system the application has been run or is running on, as provided by the application.
-  system_version: Option<String>,
+  #[builder(default)] system_version: Option<String>,
   /// Point in time (Unix timestamp) when the user has logged in.
-  log_in_date: Option<i32>,
+  #[builder(default)] log_in_date: Option<i32>,
   /// Point in time (Unix timestamp) when the session was last used.
-  last_active_date: Option<i32>,
+  #[builder(default)] last_active_date: Option<i32>,
   /// IP address from which the session was created, in human-readable format.
-  ip: Option<String>,
+  #[builder(default)] ip: Option<String>,
   /// A two-letter country code for the country from which the session was created, based on the IP address.
-  country: Option<String>,
+  #[builder(default)] country: Option<String>,
   /// Region code from which the session was created, based on the IP address.
-  region: Option<String>,
+  #[builder(default)] region: Option<String>,
   
 }
 
@@ -22751,13 +23273,14 @@ impl Session {
 
 
 /// Contains a list of sessions. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Sessions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sessions".to_string())]
   td_name: String, // sessions
   /// List of sessions.
-  sessions: Option<Vec<Session>>,
+  #[builder(default)] sessions: Option<Vec<Session>>,
   
 }
 
@@ -22782,17 +23305,18 @@ impl Sessions {
 
 
 /// One shipping option. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ShippingOption {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="shippingOption".to_string())]
   td_name: String, // shippingOption
   /// Shipping option identifier.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Option title.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// A list of objects used to calculate the total shipping costs.
-  price_parts: Option<Vec<LabeledPricePart>>,
+  #[builder(default)] price_parts: Option<Vec<LabeledPricePart>>,
   
 }
 
@@ -22821,27 +23345,28 @@ impl ShippingOption {
 
 
 /// Describes a sticker. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Sticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sticker".to_string())]
   td_name: String, // sticker
   /// The identifier of the sticker set to which the sticker belongs; 0 if none.
-  set_id: Option<i64>,
+  #[builder(default)] set_id: Option<i64>,
   /// Sticker width; as defined by the sender.
-  width: Option<i32>,
+  #[builder(default)] width: Option<i32>,
   /// Sticker height; as defined by the sender.
-  height: Option<i32>,
+  #[builder(default)] height: Option<i32>,
   /// Emoji corresponding to the sticker.
-  emoji: Option<String>,
+  #[builder(default)] emoji: Option<String>,
   /// True, if the sticker is a mask.
-  is_mask: Option<bool>,
+  #[builder(default)] is_mask: Option<bool>,
   /// Position where the mask should be placed; may be null.
-  mask_position: Option<MaskPosition>,
+  #[builder(default)] mask_position: Option<MaskPosition>,
   /// Sticker thumbnail in WEBP or JPEG format; may be null.
-  thumbnail: Option<PhotoSize>,
+  #[builder(default)] thumbnail: Option<PhotoSize>,
   /// File containing the sticker.
-  sticker: Option<File>,
+  #[builder(default)] sticker: Option<File>,
   
 }
 
@@ -22880,13 +23405,14 @@ impl Sticker {
 
 
 /// Represents a list of all emoji corresponding to a sticker in a sticker set. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct StickerEmojis {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="stickerEmojis".to_string())]
   td_name: String, // stickerEmojis
   /// List of emojis.
-  emojis: Option<Vec<String>>,
+  #[builder(default)] emojis: Option<Vec<String>>,
   
 }
 
@@ -22911,31 +23437,32 @@ impl StickerEmojis {
 
 
 /// Represents a sticker set. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct StickerSet {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="stickerSet".to_string())]
   td_name: String, // stickerSet
   /// Identifier of the sticker set.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// Title of the sticker set.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Name of the sticker set.
-  name: Option<String>,
+  #[builder(default)] name: Option<String>,
   /// True, if the sticker set has been installed by the current user.
-  is_installed: Option<bool>,
+  #[builder(default)] is_installed: Option<bool>,
   /// True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously.
-  is_archived: Option<bool>,
+  #[builder(default)] is_archived: Option<bool>,
   /// True, if the sticker set is official.
-  is_official: Option<bool>,
+  #[builder(default)] is_official: Option<bool>,
   /// True, if the stickers in the set are masks.
-  is_masks: Option<bool>,
+  #[builder(default)] is_masks: Option<bool>,
   /// True for already viewed trending sticker sets.
-  is_viewed: Option<bool>,
+  #[builder(default)] is_viewed: Option<bool>,
   /// List of stickers in this set.
-  stickers: Option<Vec<Sticker>>,
+  #[builder(default)] stickers: Option<Vec<Sticker>>,
   /// A list of emoji corresponding to the stickers in the same order.
-  emojis: Option<Vec<StickerEmojis>>,
+  #[builder(default)] emojis: Option<Vec<StickerEmojis>>,
   
 }
 
@@ -22978,31 +23505,32 @@ impl StickerSet {
 
 
 /// Represents short information about a sticker set. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct StickerSetInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="stickerSetInfo".to_string())]
   td_name: String, // stickerSetInfo
   /// Identifier of the sticker set.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// Title of the sticker set.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Name of the sticker set.
-  name: Option<String>,
+  #[builder(default)] name: Option<String>,
   /// True, if the sticker set has been installed by current user.
-  is_installed: Option<bool>,
+  #[builder(default)] is_installed: Option<bool>,
   /// True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously.
-  is_archived: Option<bool>,
+  #[builder(default)] is_archived: Option<bool>,
   /// True, if the sticker set is official.
-  is_official: Option<bool>,
+  #[builder(default)] is_official: Option<bool>,
   /// True, if the stickers in the set are masks.
-  is_masks: Option<bool>,
+  #[builder(default)] is_masks: Option<bool>,
   /// True for already viewed trending sticker sets.
-  is_viewed: Option<bool>,
+  #[builder(default)] is_viewed: Option<bool>,
   /// Total number of stickers in the set.
-  size: Option<i32>,
+  #[builder(default)] size: Option<i32>,
   /// Contains up to the first 5 stickers from the set, depending on the context. If the client needs more stickers the full set should be requested.
-  covers: Option<Vec<Sticker>>,
+  #[builder(default)] covers: Option<Vec<Sticker>>,
   
 }
 
@@ -23045,15 +23573,16 @@ impl StickerSetInfo {
 
 
 /// Represents a list of sticker sets. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct StickerSets {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="stickerSets".to_string())]
   td_name: String, // stickerSets
   /// Approximate total number of sticker sets found.
-  total_count: Option<i32>,
+  #[builder(default)] total_count: Option<i32>,
   /// List of sticker sets.
-  sets: Option<Vec<StickerSetInfo>>,
+  #[builder(default)] sets: Option<Vec<StickerSetInfo>>,
   
 }
 
@@ -23080,13 +23609,14 @@ impl StickerSets {
 
 
 /// Represents a list of stickers. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Stickers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="stickers".to_string())]
   td_name: String, // stickers
   /// List of stickers.
-  stickers: Option<Vec<Sticker>>,
+  #[builder(default)] stickers: Option<Vec<Sticker>>,
   
 }
 
@@ -23111,17 +23641,18 @@ impl Stickers {
 
 
 /// Contains the exact storage usage statistics split by chats and file type. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct StorageStatistics {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="storageStatistics".to_string())]
   td_name: String, // storageStatistics
   /// Total size of files.
-  size: Option<i64>,
+  #[builder(default)] size: Option<i64>,
   /// Total number of files.
-  count: Option<i32>,
+  #[builder(default)] count: Option<i32>,
   /// Statistics split by chats.
-  by_chat: Option<Vec<StorageStatisticsByChat>>,
+  #[builder(default)] by_chat: Option<Vec<StorageStatisticsByChat>>,
   
 }
 
@@ -23150,19 +23681,20 @@ impl StorageStatistics {
 
 
 /// Contains the storage usage statistics for a specific chat. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct StorageStatisticsByChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="storageStatisticsByChat".to_string())]
   td_name: String, // storageStatisticsByChat
   /// Chat identifier; 0 if none.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Total size of the files in the chat.
-  size: Option<i64>,
+  #[builder(default)] size: Option<i64>,
   /// Total number of files in the chat.
-  count: Option<i32>,
+  #[builder(default)] count: Option<i32>,
   /// Statistics split by file types.
-  by_file_type: Option<Vec<StorageStatisticsByFileType>>,
+  #[builder(default)] by_file_type: Option<Vec<StorageStatisticsByFileType>>,
   
 }
 
@@ -23193,17 +23725,18 @@ impl StorageStatisticsByChat {
 
 
 /// Contains the storage usage statistics for a specific file type. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct StorageStatisticsByFileType {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="storageStatisticsByFileType".to_string())]
   td_name: String, // storageStatisticsByFileType
   /// File type.
-  file_type: Option<Box<FileType>>,
+  #[builder(default)] file_type: Option<Box<FileType>>,
   /// Total size of the files.
-  size: Option<i64>,
+  #[builder(default)] size: Option<i64>,
   /// Total number of files.
-  count: Option<i32>,
+  #[builder(default)] count: Option<i32>,
   
 }
 
@@ -23236,21 +23769,22 @@ impl StorageStatisticsByFileType {
 
 
 /// Contains approximate storage usage statistics, excluding files of unknown file type. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct StorageStatisticsFast {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="storageStatisticsFast".to_string())]
   td_name: String, // storageStatisticsFast
   /// Approximate total size of files.
-  files_size: Option<i64>,
+  #[builder(default)] files_size: Option<i64>,
   /// Approximate number of files.
-  file_count: Option<i32>,
+  #[builder(default)] file_count: Option<i32>,
   /// Size of the database.
-  database_size: Option<i64>,
+  #[builder(default)] database_size: Option<i64>,
   /// Size of the language pack database.
-  language_pack_database_size: Option<i64>,
+  #[builder(default)] language_pack_database_size: Option<i64>,
   /// Size of the TDLib internal log.
-  log_size: Option<i64>,
+  #[builder(default)] log_size: Option<i64>,
   
 }
 
@@ -23283,31 +23817,32 @@ impl StorageStatisticsFast {
 
 
 /// Represents a supergroup or channel with zero or more members (subscribers in the case of channels). From the point of view of the system, a channel is a special kind of a supergroup: only administrators can post and see the list of members, and posts from all administrators use the name and photo of the channel instead of individual names and profile photos. Unlike supergroups, channels can have an unlimited number of subscribers. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct Supergroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="supergroup".to_string())]
   td_name: String, // supergroup
   /// Supergroup or channel identifier.
-  id: Option<i32>,
+  #[builder(default)] id: Option<i32>,
   /// Username of the supergroup or channel; empty for private supergroups or channels.
-  username: Option<String>,
+  #[builder(default)] username: Option<String>,
   /// Point in time (Unix timestamp) when the current user joined, or the point in time when the supergroup or channel was created, in case the user is not a member.
-  date: Option<i32>,
+  #[builder(default)] date: Option<i32>,
   /// Status of the current user in the supergroup or channel.
-  status: Option<Box<ChatMemberStatus>>,
+  #[builder(default)] status: Option<Box<ChatMemberStatus>>,
   /// Member count; 0 if unknown. Currently it is guaranteed to be known only if the supergroup or channel was found through SearchPublicChats.
-  member_count: Option<i32>,
+  #[builder(default)] member_count: Option<i32>,
   /// True, if any member of the supergroup can invite other members. This field has no meaning for channels.
-  anyone_can_invite: Option<bool>,
+  #[builder(default)] anyone_can_invite: Option<bool>,
   /// True, if messages sent to the channel should contain information about the sender. This field is only applicable to channels.
-  sign_messages: Option<bool>,
+  #[builder(default)] sign_messages: Option<bool>,
   /// True, if the supergroup is a channel.
-  is_channel: Option<bool>,
+  #[builder(default)] is_channel: Option<bool>,
   /// True, if the supergroup or channel is verified.
-  is_verified: Option<bool>,
+  #[builder(default)] is_verified: Option<bool>,
   /// If non-empty, contains the reason why access to this supergroup or channel must be restricted. Format of the string is "{type}: {description}". {type} Contains the type of the restriction and at least one of the suffixes "-all", "-ios", "-android", or "-wp", which describe the platforms on which access should be restricted. (For example, "terms-ios-android". {description} contains a human-readable description of the restriction, which can be shown to the user.)
-  restriction_reason: Option<String>,
+  #[builder(default)] restriction_reason: Option<String>,
   
 }
 
@@ -23354,39 +23889,40 @@ impl Supergroup {
 
 
 /// Contains full information about a supergroup or channel. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SupergroupFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="supergroupFullInfo".to_string())]
   td_name: String, // supergroupFullInfo
   /// Supergroup or channel description.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   /// Number of members in the supergroup or channel; 0 if unknown.
-  member_count: Option<i32>,
+  #[builder(default)] member_count: Option<i32>,
   /// Number of privileged users in the supergroup or channel; 0 if unknown.
-  administrator_count: Option<i32>,
+  #[builder(default)] administrator_count: Option<i32>,
   /// Number of restricted users in the supergroup; 0 if unknown.
-  restricted_count: Option<i32>,
+  #[builder(default)] restricted_count: Option<i32>,
   /// Number of users banned from chat; 0 if unknown.
-  banned_count: Option<i32>,
+  #[builder(default)] banned_count: Option<i32>,
   /// True, if members of the chat can be retrieved.
-  can_get_members: Option<bool>,
+  #[builder(default)] can_get_members: Option<bool>,
   /// True, if the chat can be made public.
-  can_set_username: Option<bool>,
+  #[builder(default)] can_set_username: Option<bool>,
   /// True, if the supergroup sticker set can be changed.
-  can_set_sticker_set: Option<bool>,
+  #[builder(default)] can_set_sticker_set: Option<bool>,
   /// True, if the channel statistics is available through getChatStatisticsUrl.
-  can_view_statistics: Option<bool>,
+  #[builder(default)] can_view_statistics: Option<bool>,
   /// True, if new chat members will have access to old messages. In public supergroups and both public and private channels, old messages are always available, so this option affects only private supergroups. The value of this field is only available for chat administrators.
-  is_all_history_available: Option<bool>,
+  #[builder(default)] is_all_history_available: Option<bool>,
   /// Identifier of the supergroup sticker set; 0 if none.
-  sticker_set_id: Option<i64>,
+  #[builder(default)] sticker_set_id: Option<i64>,
   /// Invite link for this chat.
-  invite_link: Option<String>,
+  #[builder(default)] invite_link: Option<String>,
   /// Identifier of the basic group from which supergroup was upgraded; 0 if none.
-  upgraded_from_basic_group_id: Option<i32>,
+  #[builder(default)] upgraded_from_basic_group_id: Option<i32>,
   /// Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none.
-  upgraded_from_max_message_id: Option<i64>,
+  #[builder(default)] upgraded_from_max_message_id: Option<i64>,
   
 }
 
@@ -23470,10 +24006,11 @@ impl RTDSupergroupMembersFilterType {
 
 
 /// Returns recently active users in reverse chronological order. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SupergroupMembersFilterRecent {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="supergroupMembersFilterRecent".to_string())]
   td_name: String, // supergroupMembersFilterRecent
   
 }
@@ -23499,10 +24036,11 @@ impl SupergroupMembersFilterRecent {
 
 
 /// Returns the creator and administrators. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SupergroupMembersFilterAdministrators {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="supergroupMembersFilterAdministrators".to_string())]
   td_name: String, // supergroupMembersFilterAdministrators
   
 }
@@ -23528,13 +24066,14 @@ impl SupergroupMembersFilterAdministrators {
 
 
 /// Used to search for supergroup or channel members via a (string) query. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SupergroupMembersFilterSearch {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="supergroupMembersFilterSearch".to_string())]
   td_name: String, // supergroupMembersFilterSearch
   /// Query to search for.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   
 }
 
@@ -23561,13 +24100,14 @@ impl SupergroupMembersFilterSearch {
 
 
 /// Returns restricted supergroup members; can be used only by administrators. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SupergroupMembersFilterRestricted {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="supergroupMembersFilterRestricted".to_string())]
   td_name: String, // supergroupMembersFilterRestricted
   /// Query to search for.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   
 }
 
@@ -23594,13 +24134,14 @@ impl SupergroupMembersFilterRestricted {
 
 
 /// Returns users banned from the supergroup or channel; can be used only by administrators. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SupergroupMembersFilterBanned {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="supergroupMembersFilterBanned".to_string())]
   td_name: String, // supergroupMembersFilterBanned
   /// Query to search for.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   
 }
 
@@ -23627,10 +24168,11 @@ impl SupergroupMembersFilterBanned {
 
 
 /// Returns bot members of the supergroup or channel. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SupergroupMembersFilterBots {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="supergroupMembersFilterBots".to_string())]
   td_name: String, // supergroupMembersFilterBots
   
 }
@@ -23656,15 +24198,16 @@ impl SupergroupMembersFilterBots {
 
 
 /// Represents a URL linking to an internal Telegram entity. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct TMeUrl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="tMeUrl".to_string())]
   td_name: String, // tMeUrl
   /// URL.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   /// Type of the URL.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<TMeUrlType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<TMeUrlType>>,
   
 }
 
@@ -23726,13 +24269,14 @@ impl RTDTMeUrlTypeType {
 
 
 /// A URL linking to a user. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TMeUrlTypeUser {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="tMeUrlTypeUser".to_string())]
   td_name: String, // tMeUrlTypeUser
   /// Identifier of the user.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   
 }
 
@@ -23759,13 +24303,14 @@ impl TMeUrlTypeUser {
 
 
 /// A URL linking to a public supergroup or channel. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TMeUrlTypeSupergroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="tMeUrlTypeSupergroup".to_string())]
   td_name: String, // tMeUrlTypeSupergroup
   /// Identifier of the supergroup or channel.
-  supergroup_id: Option<i64>,
+  #[builder(default)] supergroup_id: Option<i64>,
   
 }
 
@@ -23792,13 +24337,14 @@ impl TMeUrlTypeSupergroup {
 
 
 /// A chat invite link. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TMeUrlTypeChatInvite {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="tMeUrlTypeChatInvite".to_string())]
   td_name: String, // tMeUrlTypeChatInvite
   /// Chat invite link info.
-  info: Option<ChatInviteLinkInfo>,
+  #[builder(default)] info: Option<ChatInviteLinkInfo>,
   
 }
 
@@ -23825,13 +24371,14 @@ impl TMeUrlTypeChatInvite {
 
 
 /// A URL linking to a sticker set. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TMeUrlTypeStickerSet {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="tMeUrlTypeStickerSet".to_string())]
   td_name: String, // tMeUrlTypeStickerSet
   /// Identifier of the sticker set.
-  sticker_set_id: Option<i64>,
+  #[builder(default)] sticker_set_id: Option<i64>,
   
 }
 
@@ -23858,13 +24405,14 @@ impl TMeUrlTypeStickerSet {
 
 
 /// Contains a list of t.me URLs. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TMeUrls {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="tMeUrls".to_string())]
   td_name: String, // tMeUrls
   /// List of URLs.
-  urls: Option<Vec<TMeUrl>>,
+  #[builder(default)] urls: Option<Vec<TMeUrl>>,
   
 }
 
@@ -23889,41 +24437,42 @@ impl TMeUrls {
 
 
 /// Contains parameters for TDLib initialization. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TdlibParameters {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="tdlibParameters".to_string())]
   td_name: String, // tdlibParameters
   /// If set to true, the Telegram test environment will be used instead of the production environment.
-  use_test_dc: Option<bool>,
+  #[builder(default)] use_test_dc: Option<bool>,
   /// The path to the directory for the persistent database; if empty, the current working directory will be used.
-  database_directory: Option<String>,
+  #[builder(default)] database_directory: Option<String>,
   /// The path to the directory for storing files; if empty, database_directory will be used.
-  files_directory: Option<String>,
+  #[builder(default)] files_directory: Option<String>,
   /// If set to true, information about downloaded and uploaded files will be saved between application restarts.
-  use_file_database: Option<bool>,
+  #[builder(default)] use_file_database: Option<bool>,
   /// If set to true, the library will maintain a cache of users, basic groups, supergroups, channels and secret chats. Implies use_file_database.
-  use_chat_info_database: Option<bool>,
+  #[builder(default)] use_chat_info_database: Option<bool>,
   /// If set to true, the library will maintain a cache of chats and messages. Implies use_chat_info_database.
-  use_message_database: Option<bool>,
+  #[builder(default)] use_message_database: Option<bool>,
   /// If set to true, support for secret chats will be enabled.
-  use_secret_chats: Option<bool>,
+  #[builder(default)] use_secret_chats: Option<bool>,
   /// Application identifier for Telegram API access, which can be obtained at https://my.telegram.org.
-  api_id: Option<i32>,
+  #[builder(default)] api_id: Option<i32>,
   /// Application identifier hash for Telegram API access, which can be obtained at https://my.telegram.org.
-  api_hash: Option<String>,
+  #[builder(default)] api_hash: Option<String>,
   /// IETF language tag of the user's operating system language; must be non-empty.
-  system_language_code: Option<String>,
+  #[builder(default)] system_language_code: Option<String>,
   /// Model of the device the application is being run on; must be non-empty.
-  device_model: Option<String>,
+  #[builder(default)] device_model: Option<String>,
   /// Version of the operating system the application is being run on; must be non-empty.
-  system_version: Option<String>,
+  #[builder(default)] system_version: Option<String>,
   /// Application version; must be non-empty.
-  application_version: Option<String>,
+  #[builder(default)] application_version: Option<String>,
   /// If set to true, old files will automatically be deleted.
-  enable_storage_optimizer: Option<bool>,
+  #[builder(default)] enable_storage_optimizer: Option<bool>,
   /// If set to true, original file names will be ignored. Otherwise, downloaded files will be saved under names as close as possible to the original name.
-  ignore_file_names: Option<bool>,
+  #[builder(default)] ignore_file_names: Option<bool>,
   
 }
 
@@ -23976,15 +24525,16 @@ impl TdlibParameters {
 
 
 /// Returns information about the availability of a temporary password, which can be used for payments. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TemporaryPasswordState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="temporaryPasswordState".to_string())]
   td_name: String, // temporaryPasswordState
   /// True, if a temporary password is available.
-  has_password: Option<bool>,
+  #[builder(default)] has_password: Option<bool>,
   /// Time left before the temporary password expires, in seconds.
-  valid_for: Option<i32>,
+  #[builder(default)] valid_for: Option<i32>,
   
 }
 
@@ -24011,17 +24561,18 @@ impl TemporaryPasswordState {
 
 
 /// Contains Telegram terms of service. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TermsOfService {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="termsOfService".to_string())]
   td_name: String, // termsOfService
   /// Text of the terms of service.
-  text: Option<FormattedText>,
+  #[builder(default)] text: Option<FormattedText>,
   /// Mininum age of a user to be able to accept the terms; 0 if any.
-  min_user_age: Option<i32>,
+  #[builder(default)] min_user_age: Option<i32>,
   /// True, if a blocking popup with terms of service must be shown to the user.
-  show_popup: Option<bool>,
+  #[builder(default)] show_popup: Option<bool>,
   
 }
 
@@ -24050,13 +24601,14 @@ impl TermsOfService {
 
 
 /// A simple object containing a sequence of bytes; for testing only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestBytes {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testBytes".to_string())]
   td_name: String, // testBytes
   /// Bytes.
-  value: Option<String>,
+  #[builder(default)] value: Option<String>,
   
 }
 
@@ -24081,13 +24633,14 @@ impl TestBytes {
 
 
 /// A simple object containing a number; for testing only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestInt {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testInt".to_string())]
   td_name: String, // testInt
   /// Number.
-  value: Option<i32>,
+  #[builder(default)] value: Option<i32>,
   
 }
 
@@ -24112,13 +24665,14 @@ impl TestInt {
 
 
 /// A simple object containing a string; for testing only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestString {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testString".to_string())]
   td_name: String, // testString
   /// String.
-  value: Option<String>,
+  #[builder(default)] value: Option<String>,
   
 }
 
@@ -24143,13 +24697,14 @@ impl TestString {
 
 
 /// A simple object containing a vector of numbers; for testing only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestVectorInt {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testVectorInt".to_string())]
   td_name: String, // testVectorInt
   /// Vector of numbers.
-  value: Option<Vec<i32>>,
+  #[builder(default)] value: Option<Vec<i32>>,
   
 }
 
@@ -24174,13 +24729,14 @@ impl TestVectorInt {
 
 
 /// A simple object containing a vector of objects that hold a number; for testing only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestVectorIntObject {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testVectorIntObject".to_string())]
   td_name: String, // testVectorIntObject
   /// Vector of objects.
-  value: Option<Vec<TestInt>>,
+  #[builder(default)] value: Option<Vec<TestInt>>,
   
 }
 
@@ -24205,13 +24761,14 @@ impl TestVectorIntObject {
 
 
 /// A simple object containing a vector of strings; for testing only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestVectorString {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testVectorString".to_string())]
   td_name: String, // testVectorString
   /// Vector of strings.
-  value: Option<Vec<String>>,
+  #[builder(default)] value: Option<Vec<String>>,
   
 }
 
@@ -24236,13 +24793,14 @@ impl TestVectorString {
 
 
 /// A simple object containing a vector of objects that hold a string; for testing only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestVectorStringObject {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testVectorStringObject".to_string())]
   td_name: String, // testVectorStringObject
   /// Vector of objects.
-  value: Option<Vec<TestString>>,
+  #[builder(default)] value: Option<Vec<TestString>>,
   
 }
 
@@ -24267,13 +24825,14 @@ impl TestVectorStringObject {
 
 
 /// Contains some text. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Text {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="text".to_string())]
   td_name: String, // text
   /// Text.
-  text: Option<String>,
+  #[builder(default)] text: Option<String>,
   
 }
 
@@ -24298,13 +24857,14 @@ impl Text {
 
 
 /// Contains a list of text entities. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntities {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntities".to_string())]
   td_name: String, // textEntities
   /// List of text entities.
-  entities: Option<Vec<TextEntity>>,
+  #[builder(default)] entities: Option<Vec<TextEntity>>,
   
 }
 
@@ -24329,17 +24889,18 @@ impl TextEntities {
 
 
 /// Represents a part of the text that needs to be formatted in some unusual way. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntity {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntity".to_string())]
   td_name: String, // textEntity
   /// Offset of the entity in UTF-16 code points.
-  offset: Option<i32>,
+  #[builder(default)] offset: Option<i32>,
   /// Length of the entity, in UTF-16 code points.
-  length: Option<i32>,
+  #[builder(default)] length: Option<i32>,
   /// Type of the entity.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<TextEntityType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<TextEntityType>>,
   
 }
 
@@ -24413,10 +24974,11 @@ impl RTDTextEntityTypeType {
 
 
 /// A mention of a user by their username. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntityTypeMention {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntityTypeMention".to_string())]
   td_name: String, // textEntityTypeMention
   
 }
@@ -24442,10 +25004,11 @@ impl TextEntityTypeMention {
 
 
 /// A hashtag text, beginning with "#". 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntityTypeHashtag {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntityTypeHashtag".to_string())]
   td_name: String, // textEntityTypeHashtag
   
 }
@@ -24471,10 +25034,11 @@ impl TextEntityTypeHashtag {
 
 
 /// A cashtag text, beginning with "$" and consisting of capital english letters (i.e. "$USD"). 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntityTypeCashtag {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntityTypeCashtag".to_string())]
   td_name: String, // textEntityTypeCashtag
   
 }
@@ -24500,10 +25064,11 @@ impl TextEntityTypeCashtag {
 
 
 /// A bot command, beginning with "/". This shouldn't be highlighted if there are no bots in the chat. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntityTypeBotCommand {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntityTypeBotCommand".to_string())]
   td_name: String, // textEntityTypeBotCommand
   
 }
@@ -24529,10 +25094,11 @@ impl TextEntityTypeBotCommand {
 
 
 /// An HTTP URL. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntityTypeUrl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntityTypeUrl".to_string())]
   td_name: String, // textEntityTypeUrl
   
 }
@@ -24558,10 +25124,11 @@ impl TextEntityTypeUrl {
 
 
 /// An email address. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntityTypeEmailAddress {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntityTypeEmailAddress".to_string())]
   td_name: String, // textEntityTypeEmailAddress
   
 }
@@ -24587,10 +25154,11 @@ impl TextEntityTypeEmailAddress {
 
 
 /// A bold text. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntityTypeBold {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntityTypeBold".to_string())]
   td_name: String, // textEntityTypeBold
   
 }
@@ -24616,10 +25184,11 @@ impl TextEntityTypeBold {
 
 
 /// An italic text. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntityTypeItalic {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntityTypeItalic".to_string())]
   td_name: String, // textEntityTypeItalic
   
 }
@@ -24645,10 +25214,11 @@ impl TextEntityTypeItalic {
 
 
 /// Text that must be formatted as if inside a code HTML tag. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntityTypeCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntityTypeCode".to_string())]
   td_name: String, // textEntityTypeCode
   
 }
@@ -24674,10 +25244,11 @@ impl TextEntityTypeCode {
 
 
 /// Text that must be formatted as if inside a pre HTML tag. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntityTypePre {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntityTypePre".to_string())]
   td_name: String, // textEntityTypePre
   
 }
@@ -24703,13 +25274,14 @@ impl TextEntityTypePre {
 
 
 /// Text that must be formatted as if inside pre, and code HTML tags. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntityTypePreCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntityTypePreCode".to_string())]
   td_name: String, // textEntityTypePreCode
   /// Programming language of the code; as defined by the sender.
-  language: Option<String>,
+  #[builder(default)] language: Option<String>,
   
 }
 
@@ -24736,13 +25308,14 @@ impl TextEntityTypePreCode {
 
 
 /// A text description shown instead of a raw URL. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntityTypeTextUrl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntityTypeTextUrl".to_string())]
   td_name: String, // textEntityTypeTextUrl
   /// HTTP or tg:// URL to be opened when the link is clicked.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   
 }
 
@@ -24769,13 +25342,14 @@ impl TextEntityTypeTextUrl {
 
 
 /// A text shows instead of a raw mention of the user (e.g., when the user has no username). 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntityTypeMentionName {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntityTypeMentionName".to_string())]
   td_name: String, // textEntityTypeMentionName
   /// Identifier of the mentioned user.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   
 }
 
@@ -24802,10 +25376,11 @@ impl TextEntityTypeMentionName {
 
 
 /// A phone number. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextEntityTypePhoneNumber {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textEntityTypePhoneNumber".to_string())]
   td_name: String, // textEntityTypePhoneNumber
   
 }
@@ -24860,10 +25435,11 @@ impl RTDTextParseModeType {
 
 
 /// The text should be parsed in markdown-style. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextParseModeMarkdown {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textParseModeMarkdown".to_string())]
   td_name: String, // textParseModeMarkdown
   
 }
@@ -24889,10 +25465,11 @@ impl TextParseModeMarkdown {
 
 
 /// The text should be parsed in HTML-style. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TextParseModeHTML {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="textParseModeHTML".to_string())]
   td_name: String, // textParseModeHTML
   
 }
@@ -24951,10 +25528,11 @@ impl RTDTopChatCategoryType {
 
 
 /// A category containing frequently used private chats with non-bot users. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TopChatCategoryUsers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="topChatCategoryUsers".to_string())]
   td_name: String, // topChatCategoryUsers
   
 }
@@ -24980,10 +25558,11 @@ impl TopChatCategoryUsers {
 
 
 /// A category containing frequently used private chats with bot users. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TopChatCategoryBots {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="topChatCategoryBots".to_string())]
   td_name: String, // topChatCategoryBots
   
 }
@@ -25009,10 +25588,11 @@ impl TopChatCategoryBots {
 
 
 /// A category containing frequently used basic groups and supergroups. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TopChatCategoryGroups {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="topChatCategoryGroups".to_string())]
   td_name: String, // topChatCategoryGroups
   
 }
@@ -25038,10 +25618,11 @@ impl TopChatCategoryGroups {
 
 
 /// A category containing frequently used channels. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TopChatCategoryChannels {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="topChatCategoryChannels".to_string())]
   td_name: String, // topChatCategoryChannels
   
 }
@@ -25067,10 +25648,11 @@ impl TopChatCategoryChannels {
 
 
 /// A category containing frequently used chats with inline bots sorted by their usage in inline mode. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TopChatCategoryInlineBots {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="topChatCategoryInlineBots".to_string())]
   td_name: String, // topChatCategoryInlineBots
   
 }
@@ -25096,10 +25678,11 @@ impl TopChatCategoryInlineBots {
 
 
 /// A category containing frequently used chats used for calls. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TopChatCategoryCalls {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="topChatCategoryCalls".to_string())]
   td_name: String, // topChatCategoryCalls
   
 }
@@ -25220,13 +25803,14 @@ impl RTDUpdateType {
 
 
 /// The user authorization state has changed. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateAuthorizationState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateAuthorizationState".to_string())]
   td_name: String, // updateAuthorizationState
   /// New authorization state.
-  authorization_state: Option<Box<AuthorizationState>>,
+  #[builder(default)] authorization_state: Option<Box<AuthorizationState>>,
   
 }
 
@@ -25257,13 +25841,14 @@ impl UpdateAuthorizationState {
 
 
 /// A new message was received; can also be an outgoing message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateNewMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateNewMessage".to_string())]
   td_name: String, // updateNewMessage
   /// The new message.
-  message: Option<Message>,
+  #[builder(default)] message: Option<Message>,
   
 }
 
@@ -25290,15 +25875,16 @@ impl UpdateNewMessage {
 
 
 /// A request to send a message has reached the Telegram server. This doesn't mean that the message will be sent successfully or even that the send message request will be processed. This update will be sent only if the option "use_quick_ack" is set to true. This update may be sent multiple times for the same message. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateMessageSendAcknowledged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateMessageSendAcknowledged".to_string())]
   td_name: String, // updateMessageSendAcknowledged
   /// The chat identifier of the sent message.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// A temporary message identifier.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   
 }
 
@@ -25327,15 +25913,16 @@ impl UpdateMessageSendAcknowledged {
 
 
 /// A message has been successfully sent. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateMessageSendSucceeded {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateMessageSendSucceeded".to_string())]
   td_name: String, // updateMessageSendSucceeded
   /// Information about the sent message. Usually only the message identifier, date, and content are changed, but almost all other fields can also change.
-  message: Option<Message>,
+  #[builder(default)] message: Option<Message>,
   /// The previous temporary message identifier.
-  old_message_id: Option<i64>,
+  #[builder(default)] old_message_id: Option<i64>,
   
 }
 
@@ -25364,19 +25951,20 @@ impl UpdateMessageSendSucceeded {
 
 
 /// A message failed to send. Be aware that some messages being sent can be irrecoverably deleted, in which case 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateMessageSendFailed {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateMessageSendFailed".to_string())]
   td_name: String, // updateMessageSendFailed
   /// Contains information about the message that failed to send.
-  message: Option<Message>,
+  #[builder(default)] message: Option<Message>,
   /// The previous temporary message identifier.
-  old_message_id: Option<i64>,
+  #[builder(default)] old_message_id: Option<i64>,
   /// An error code.
-  error_code: Option<i32>,
+  #[builder(default)] error_code: Option<i32>,
   /// Error message.
-  error_message: Option<String>,
+  #[builder(default)] error_message: Option<String>,
   
 }
 
@@ -25409,17 +25997,18 @@ impl UpdateMessageSendFailed {
 
 
 /// The message content has changed. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateMessageContent {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateMessageContent".to_string())]
   td_name: String, // updateMessageContent
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Message identifier.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// New message content.
-  new_content: Option<Box<MessageContent>>,
+  #[builder(default)] new_content: Option<Box<MessageContent>>,
   
 }
 
@@ -25454,19 +26043,20 @@ impl UpdateMessageContent {
 
 
 /// A message was edited. Changes in the message content will come in a separate 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateMessageEdited {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateMessageEdited".to_string())]
   td_name: String, // updateMessageEdited
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Message identifier.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// Point in time (Unix timestamp) when the message was edited.
-  edit_date: Option<i32>,
+  #[builder(default)] edit_date: Option<i32>,
   /// New message reply markup; may be null.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   
 }
 
@@ -25503,17 +26093,18 @@ impl UpdateMessageEdited {
 
 
 /// The view count of the message has changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateMessageViews {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateMessageViews".to_string())]
   td_name: String, // updateMessageViews
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Message identifier.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// New value of the view count.
-  views: Option<i32>,
+  #[builder(default)] views: Option<i32>,
   
 }
 
@@ -25544,15 +26135,16 @@ impl UpdateMessageViews {
 
 
 /// The message content was opened. Updates voice note messages to "listened", video note messages to "viewed" and starts the TTL timer for self-destructing messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateMessageContentOpened {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateMessageContentOpened".to_string())]
   td_name: String, // updateMessageContentOpened
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Message identifier.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   
 }
 
@@ -25581,17 +26173,18 @@ impl UpdateMessageContentOpened {
 
 
 /// A message with an unread mention was read. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateMessageMentionRead {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateMessageMentionRead".to_string())]
   td_name: String, // updateMessageMentionRead
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Message identifier.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// The new number of unread mention messages left in the chat.
-  unread_mention_count: Option<i32>,
+  #[builder(default)] unread_mention_count: Option<i32>,
   
 }
 
@@ -25622,13 +26215,14 @@ impl UpdateMessageMentionRead {
 
 
 /// A new chat has been loaded/created. This update is guaranteed to come before the chat identifier is returned to the client. The chat field changes will be reported through separate updates. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateNewChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateNewChat".to_string())]
   td_name: String, // updateNewChat
   /// The chat.
-  chat: Option<Chat>,
+  #[builder(default)] chat: Option<Chat>,
   
 }
 
@@ -25655,15 +26249,16 @@ impl UpdateNewChat {
 
 
 /// The title of a chat was changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatTitle {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatTitle".to_string())]
   td_name: String, // updateChatTitle
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// The new chat title.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   
 }
 
@@ -25692,15 +26287,16 @@ impl UpdateChatTitle {
 
 
 /// A chat photo was changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatPhoto".to_string())]
   td_name: String, // updateChatPhoto
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// The new chat photo; may be null.
-  photo: Option<ChatPhoto>,
+  #[builder(default)] photo: Option<ChatPhoto>,
   
 }
 
@@ -25729,17 +26325,18 @@ impl UpdateChatPhoto {
 
 
 /// The last message of a chat was changed. If last_message is null then the last message in the chat became unknown. Some new unknown messages might be added to the chat in this case. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatLastMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatLastMessage".to_string())]
   td_name: String, // updateChatLastMessage
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// The new last message in the chat; may be null.
-  last_message: Option<Message>,
+  #[builder(default)] last_message: Option<Message>,
   /// New value of the chat order.
-  order: Option<String>,
+  #[builder(default)] order: Option<String>,
   
 }
 
@@ -25770,15 +26367,16 @@ impl UpdateChatLastMessage {
 
 
 /// The order of the chat in the chat list has changed. Instead of this update 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatOrder {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatOrder".to_string())]
   td_name: String, // updateChatOrder
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// New value of the order.
-  order: Option<i64>,
+  #[builder(default)] order: Option<i64>,
   
 }
 
@@ -25807,17 +26405,18 @@ impl UpdateChatOrder {
 
 
 /// A chat was pinned or unpinned. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatIsPinned {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatIsPinned".to_string())]
   td_name: String, // updateChatIsPinned
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// New value of is_pinned.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   /// New value of the chat order.
-  order: Option<i64>,
+  #[builder(default)] order: Option<i64>,
   
 }
 
@@ -25848,15 +26447,16 @@ impl UpdateChatIsPinned {
 
 
 /// A chat was marked as unread or was read. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatIsMarkedAsUnread {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatIsMarkedAsUnread".to_string())]
   td_name: String, // updateChatIsMarkedAsUnread
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// New value of is_marked_as_unread.
-  is_marked_as_unread: Option<bool>,
+  #[builder(default)] is_marked_as_unread: Option<bool>,
   
 }
 
@@ -25885,17 +26485,18 @@ impl UpdateChatIsMarkedAsUnread {
 
 
 /// A chat's is_sponsored field has changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatIsSponsored {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatIsSponsored".to_string())]
   td_name: String, // updateChatIsSponsored
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// New value of is_sponsored.
-  is_sponsored: Option<bool>,
+  #[builder(default)] is_sponsored: Option<bool>,
   /// New value of chat order.
-  order: Option<i64>,
+  #[builder(default)] order: Option<i64>,
   
 }
 
@@ -25926,15 +26527,16 @@ impl UpdateChatIsSponsored {
 
 
 /// The value of the default disable_notification parameter, used when a message is sent to the chat, was changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatDefaultDisableNotification {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatDefaultDisableNotification".to_string())]
   td_name: String, // updateChatDefaultDisableNotification
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// The new default_disable_notification value.
-  default_disable_notification: Option<bool>,
+  #[builder(default)] default_disable_notification: Option<bool>,
   
 }
 
@@ -25963,17 +26565,18 @@ impl UpdateChatDefaultDisableNotification {
 
 
 /// Incoming messages were read or number of unread messages has been changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatReadInbox {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatReadInbox".to_string())]
   td_name: String, // updateChatReadInbox
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the last read incoming message.
-  last_read_inbox_message_id: Option<i64>,
+  #[builder(default)] last_read_inbox_message_id: Option<i64>,
   /// The number of unread messages left in the chat.
-  unread_count: Option<i32>,
+  #[builder(default)] unread_count: Option<i32>,
   
 }
 
@@ -26004,15 +26607,16 @@ impl UpdateChatReadInbox {
 
 
 /// Outgoing messages were read. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatReadOutbox {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatReadOutbox".to_string())]
   td_name: String, // updateChatReadOutbox
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of last read outgoing message.
-  last_read_outbox_message_id: Option<i64>,
+  #[builder(default)] last_read_outbox_message_id: Option<i64>,
   
 }
 
@@ -26041,15 +26645,16 @@ impl UpdateChatReadOutbox {
 
 
 /// The chat unread_mention_count has changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatUnreadMentionCount {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatUnreadMentionCount".to_string())]
   td_name: String, // updateChatUnreadMentionCount
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// The number of unread mention messages left in the chat.
-  unread_mention_count: Option<i32>,
+  #[builder(default)] unread_mention_count: Option<i32>,
   
 }
 
@@ -26078,15 +26683,16 @@ impl UpdateChatUnreadMentionCount {
 
 
 /// Notification settings for a chat were changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatNotificationSettings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatNotificationSettings".to_string())]
   td_name: String, // updateChatNotificationSettings
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// The new notification settings.
-  notification_settings: Option<ChatNotificationSettings>,
+  #[builder(default)] notification_settings: Option<ChatNotificationSettings>,
   
 }
 
@@ -26115,15 +26721,16 @@ impl UpdateChatNotificationSettings {
 
 
 /// Notification settings for some type of chats were updated. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateScopeNotificationSettings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateScopeNotificationSettings".to_string())]
   td_name: String, // updateScopeNotificationSettings
   /// Types of chats for which notification settings were updated.
-  scope: Option<Box<NotificationSettingsScope>>,
+  #[builder(default)] scope: Option<Box<NotificationSettingsScope>>,
   /// The new notification settings.
-  notification_settings: Option<ScopeNotificationSettings>,
+  #[builder(default)] notification_settings: Option<ScopeNotificationSettings>,
   
 }
 
@@ -26156,15 +26763,16 @@ impl UpdateScopeNotificationSettings {
 
 
 /// The chat pinned message was changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatPinnedMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatPinnedMessage".to_string())]
   td_name: String, // updateChatPinnedMessage
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// The new identifier of the pinned message; 0 if there is no pinned message in the chat.
-  pinned_message_id: Option<i64>,
+  #[builder(default)] pinned_message_id: Option<i64>,
   
 }
 
@@ -26193,15 +26801,16 @@ impl UpdateChatPinnedMessage {
 
 
 /// The default chat reply markup was changed. Can occur because new messages with reply markup were received or because an old reply markup was hidden by the user. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatReplyMarkup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatReplyMarkup".to_string())]
   td_name: String, // updateChatReplyMarkup
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat.
-  reply_markup_message_id: Option<i64>,
+  #[builder(default)] reply_markup_message_id: Option<i64>,
   
 }
 
@@ -26230,17 +26839,18 @@ impl UpdateChatReplyMarkup {
 
 
 /// A chat draft has changed. Be aware that the update may come in the currently opened chat but with old content of the draft. If the user has changed the content of the draft, this update shouldn't be applied. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatDraftMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatDraftMessage".to_string())]
   td_name: String, // updateChatDraftMessage
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// The new draft message; may be null.
-  draft_message: Option<DraftMessage>,
+  #[builder(default)] draft_message: Option<DraftMessage>,
   /// New value of the chat order.
-  order: Option<i64>,
+  #[builder(default)] order: Option<i64>,
   
 }
 
@@ -26271,15 +26881,16 @@ impl UpdateChatDraftMessage {
 
 
 /// The number of online group members has changed. This update with non-zero count is sent only for currently opened chats. There is no guarantee that it will be sent just after the count has changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateChatOnlineMemberCount {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateChatOnlineMemberCount".to_string())]
   td_name: String, // updateChatOnlineMemberCount
   /// Identifier of the chat.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// New number of online members in the chat, or 0 if unknown.
-  online_member_count: Option<i32>,
+  #[builder(default)] online_member_count: Option<i32>,
   
 }
 
@@ -26308,15 +26919,16 @@ impl UpdateChatOnlineMemberCount {
 
 
 /// A notification was changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateNotification {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateNotification".to_string())]
   td_name: String, // updateNotification
   /// Unique notification group identifier.
-  notification_group_id: Option<i32>,
+  #[builder(default)] notification_group_id: Option<i32>,
   /// Changed notification.
-  notification: Option<Notification>,
+  #[builder(default)] notification: Option<Notification>,
   
 }
 
@@ -26345,27 +26957,28 @@ impl UpdateNotification {
 
 
 /// A list of active notifications in a notification group has changed. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateNotificationGroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateNotificationGroup".to_string())]
   td_name: String, // updateNotificationGroup
   /// Unique notification group identifier.
-  notification_group_id: Option<i32>,
+  #[builder(default)] notification_group_id: Option<i32>,
   /// New type of the notification group.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<NotificationGroupType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<NotificationGroupType>>,
   /// Identifier of a chat to which all notifications in the group belong.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Chat identifier, which notification settings must be applied to the added notifications.
-  notification_settings_chat_id: Option<i64>,
+  #[builder(default)] notification_settings_chat_id: Option<i64>,
   /// True, if the notifications should be shown without sound.
-  is_silent: Option<bool>,
+  #[builder(default)] is_silent: Option<bool>,
   /// Total number of unread notifications in the group, can be bigger than number of active notifications.
-  total_count: Option<i32>,
+  #[builder(default)] total_count: Option<i32>,
   /// List of added group notifications, sorted by notification ID.
-  added_notifications: Option<Vec<Notification>>,
+  #[builder(default)] added_notifications: Option<Vec<Notification>>,
   /// Identifiers of removed group notifications, sorted by notification ID.
-  removed_notification_ids: Option<Vec<i32>>,
+  #[builder(default)] removed_notification_ids: Option<Vec<i32>>,
   
 }
 
@@ -26410,13 +27023,14 @@ impl UpdateNotificationGroup {
 
 
 /// Contains active notifications that was shown on previous application launches. This update is sent only if a message database is used. In that case it comes once before any 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateActiveNotifications {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateActiveNotifications".to_string())]
   td_name: String, // updateActiveNotifications
   /// Lists of active notification groups.
-  groups: Option<Vec<NotificationGroup>>,
+  #[builder(default)] groups: Option<Vec<NotificationGroup>>,
   
 }
 
@@ -26443,15 +27057,16 @@ impl UpdateActiveNotifications {
 
 
 /// Describes, whether there are some pending notification updates. Can be used to prevent application from killing, while there are some pending notifications. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateHavePendingNotifications {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateHavePendingNotifications".to_string())]
   td_name: String, // updateHavePendingNotifications
   /// True, if there are some delayed notification updates, which will be sent soon.
-  have_delayed_notifications: Option<bool>,
+  #[builder(default)] have_delayed_notifications: Option<bool>,
   /// True, if there can be some yet unreceived notifications, which are being fetched from the server.
-  have_unreceived_notifications: Option<bool>,
+  #[builder(default)] have_unreceived_notifications: Option<bool>,
   
 }
 
@@ -26480,19 +27095,20 @@ impl UpdateHavePendingNotifications {
 
 
 /// Some messages were deleted. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateDeleteMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateDeleteMessages".to_string())]
   td_name: String, // updateDeleteMessages
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifiers of the deleted messages.
-  message_ids: Option<Vec<i64>>,
+  #[builder(default)] message_ids: Option<Vec<i64>>,
   /// True, if the messages are permanently deleted by a user (as opposed to just becoming inaccessible).
-  is_permanent: Option<bool>,
+  #[builder(default)] is_permanent: Option<bool>,
   /// True, if the messages are deleted only from the cache and can possibly be retrieved again in the future.
-  from_cache: Option<bool>,
+  #[builder(default)] from_cache: Option<bool>,
   
 }
 
@@ -26525,17 +27141,18 @@ impl UpdateDeleteMessages {
 
 
 /// User activity in the chat has changed. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateUserChatAction {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateUserChatAction".to_string())]
   td_name: String, // updateUserChatAction
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of a user performing an action.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// The action description.
-  action: Option<Box<ChatAction>>,
+  #[builder(default)] action: Option<Box<ChatAction>>,
   
 }
 
@@ -26570,15 +27187,16 @@ impl UpdateUserChatAction {
 
 
 /// The user went online or offline. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateUserStatus {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateUserStatus".to_string())]
   td_name: String, // updateUserStatus
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// New status of the user.
-  status: Option<Box<UserStatus>>,
+  #[builder(default)] status: Option<Box<UserStatus>>,
   
 }
 
@@ -26611,13 +27229,14 @@ impl UpdateUserStatus {
 
 
 /// Some data of a user has changed. This update is guaranteed to come before the user identifier is returned to the client. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateUser {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateUser".to_string())]
   td_name: String, // updateUser
   /// New data about the user.
-  user: Option<User>,
+  #[builder(default)] user: Option<User>,
   
 }
 
@@ -26644,13 +27263,14 @@ impl UpdateUser {
 
 
 /// Some data of a basic group has changed. This update is guaranteed to come before the basic group identifier is returned to the client. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateBasicGroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateBasicGroup".to_string())]
   td_name: String, // updateBasicGroup
   /// New data about the group.
-  basic_group: Option<BasicGroup>,
+  #[builder(default)] basic_group: Option<BasicGroup>,
   
 }
 
@@ -26677,13 +27297,14 @@ impl UpdateBasicGroup {
 
 
 /// Some data of a supergroup or a channel has changed. This update is guaranteed to come before the supergroup identifier is returned to the client. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateSupergroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateSupergroup".to_string())]
   td_name: String, // updateSupergroup
   /// New data about the supergroup.
-  supergroup: Option<Supergroup>,
+  #[builder(default)] supergroup: Option<Supergroup>,
   
 }
 
@@ -26710,13 +27331,14 @@ impl UpdateSupergroup {
 
 
 /// Some data of a secret chat has changed. This update is guaranteed to come before the secret chat identifier is returned to the client. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateSecretChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateSecretChat".to_string())]
   td_name: String, // updateSecretChat
   /// New data about the secret chat.
-  secret_chat: Option<SecretChat>,
+  #[builder(default)] secret_chat: Option<SecretChat>,
   
 }
 
@@ -26743,15 +27365,16 @@ impl UpdateSecretChat {
 
 
 /// Some data from 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateUserFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateUserFullInfo".to_string())]
   td_name: String, // updateUserFullInfo
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// New full information about the user.
-  user_full_info: Option<UserFullInfo>,
+  #[builder(default)] user_full_info: Option<UserFullInfo>,
   
 }
 
@@ -26780,15 +27403,16 @@ impl UpdateUserFullInfo {
 
 
 /// Some data from 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateBasicGroupFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateBasicGroupFullInfo".to_string())]
   td_name: String, // updateBasicGroupFullInfo
   /// Identifier of a basic group.
-  basic_group_id: Option<i32>,
+  #[builder(default)] basic_group_id: Option<i32>,
   /// New full information about the group.
-  basic_group_full_info: Option<BasicGroupFullInfo>,
+  #[builder(default)] basic_group_full_info: Option<BasicGroupFullInfo>,
   
 }
 
@@ -26817,15 +27441,16 @@ impl UpdateBasicGroupFullInfo {
 
 
 /// Some data from 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateSupergroupFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateSupergroupFullInfo".to_string())]
   td_name: String, // updateSupergroupFullInfo
   /// Identifier of the supergroup or channel.
-  supergroup_id: Option<i32>,
+  #[builder(default)] supergroup_id: Option<i32>,
   /// New full information about the supergroup.
-  supergroup_full_info: Option<SupergroupFullInfo>,
+  #[builder(default)] supergroup_full_info: Option<SupergroupFullInfo>,
   
 }
 
@@ -26854,15 +27479,16 @@ impl UpdateSupergroupFullInfo {
 
 
 /// Service notification from the server. Upon receiving this the client must show a popup with the content of the notification. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateServiceNotification {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateServiceNotification".to_string())]
   td_name: String, // updateServiceNotification
   /// Notification type. If type begins with "AUTH_KEY_DROP_", then two buttons "Cancel" and "Log out" should be shown under notification; if user presses the second, all local data should be destroyed using Destroy method.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<String>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<String>,
   /// Notification content.
-  content: Option<Box<MessageContent>>,
+  #[builder(default)] content: Option<Box<MessageContent>>,
   
 }
 
@@ -26895,13 +27521,14 @@ impl UpdateServiceNotification {
 
 
 /// Information about a file was updated. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateFile".to_string())]
   td_name: String, // updateFile
   /// New data about the file.
-  file: Option<File>,
+  #[builder(default)] file: Option<File>,
   
 }
 
@@ -26928,19 +27555,20 @@ impl UpdateFile {
 
 
 /// The file generation process needs to be started by the client. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateFileGenerationStart {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateFileGenerationStart".to_string())]
   td_name: String, // updateFileGenerationStart
   /// Unique identifier for the generation process.
-  generation_id: Option<i64>,
+  #[builder(default)] generation_id: Option<i64>,
   /// The path to a file from which a new file is generated; may be empty.
-  original_path: Option<String>,
+  #[builder(default)] original_path: Option<String>,
   /// The path to a file that should be created and where the new file should be generated.
-  destination_path: Option<String>,
+  #[builder(default)] destination_path: Option<String>,
   /// String specifying the conversion applied to the original file. If conversion is "#url#" than original_path contains an HTTP/HTTPS URL of a file, which should be downloaded by the client.
-  conversion: Option<String>,
+  #[builder(default)] conversion: Option<String>,
   
 }
 
@@ -26973,13 +27601,14 @@ impl UpdateFileGenerationStart {
 
 
 /// File generation is no longer needed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateFileGenerationStop {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateFileGenerationStop".to_string())]
   td_name: String, // updateFileGenerationStop
   /// Unique identifier for the generation process.
-  generation_id: Option<i64>,
+  #[builder(default)] generation_id: Option<i64>,
   
 }
 
@@ -27006,13 +27635,14 @@ impl UpdateFileGenerationStop {
 
 
 /// New call was created or information about a call was updated. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateCall {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateCall".to_string())]
   td_name: String, // updateCall
   /// New data about a call.
-  call: Option<Call>,
+  #[builder(default)] call: Option<Call>,
   
 }
 
@@ -27039,15 +27669,16 @@ impl UpdateCall {
 
 
 /// Some privacy setting rules have been changed. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateUserPrivacySettingRules {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateUserPrivacySettingRules".to_string())]
   td_name: String, // updateUserPrivacySettingRules
   /// The privacy setting.
-  setting: Option<Box<UserPrivacySetting>>,
+  #[builder(default)] setting: Option<Box<UserPrivacySetting>>,
   /// New privacy rules.
-  rules: Option<UserPrivacySettingRules>,
+  #[builder(default)] rules: Option<UserPrivacySettingRules>,
   
 }
 
@@ -27080,15 +27711,16 @@ impl UpdateUserPrivacySettingRules {
 
 
 /// Number of unread messages has changed. This update is sent only if a message database is used. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateUnreadMessageCount {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateUnreadMessageCount".to_string())]
   td_name: String, // updateUnreadMessageCount
   /// Total number of unread messages.
-  unread_count: Option<i32>,
+  #[builder(default)] unread_count: Option<i32>,
   /// Total number of unread messages in unmuted chats.
-  unread_unmuted_count: Option<i32>,
+  #[builder(default)] unread_unmuted_count: Option<i32>,
   
 }
 
@@ -27117,19 +27749,20 @@ impl UpdateUnreadMessageCount {
 
 
 /// Number of unread chats, i.e. with unread messages or marked as unread, has changed. This update is sent only if a message database is used. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateUnreadChatCount {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateUnreadChatCount".to_string())]
   td_name: String, // updateUnreadChatCount
   /// Total number of unread chats.
-  unread_count: Option<i32>,
+  #[builder(default)] unread_count: Option<i32>,
   /// Total number of unread unmuted chats.
-  unread_unmuted_count: Option<i32>,
+  #[builder(default)] unread_unmuted_count: Option<i32>,
   /// Total number of chats marked as unread.
-  marked_as_unread_count: Option<i32>,
+  #[builder(default)] marked_as_unread_count: Option<i32>,
   /// Total number of unmuted chats marked as unread.
-  marked_as_unread_unmuted_count: Option<i32>,
+  #[builder(default)] marked_as_unread_unmuted_count: Option<i32>,
   
 }
 
@@ -27162,15 +27795,16 @@ impl UpdateUnreadChatCount {
 
 
 /// An option changed its value. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateOption {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateOption".to_string())]
   td_name: String, // updateOption
   /// The option name.
-  name: Option<String>,
+  #[builder(default)] name: Option<String>,
   /// The new option value.
-  value: Option<Box<OptionValue>>,
+  #[builder(default)] value: Option<Box<OptionValue>>,
   
 }
 
@@ -27203,15 +27837,16 @@ impl UpdateOption {
 
 
 /// The list of installed sticker sets was updated. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateInstalledStickerSets {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateInstalledStickerSets".to_string())]
   td_name: String, // updateInstalledStickerSets
   /// True, if the list of installed mask sticker sets was updated.
-  is_masks: Option<bool>,
+  #[builder(default)] is_masks: Option<bool>,
   /// The new list of installed ordinary sticker sets.
-  sticker_set_ids: Option<Vec<i64>>,
+  #[builder(default)] sticker_set_ids: Option<Vec<i64>>,
   
 }
 
@@ -27240,13 +27875,14 @@ impl UpdateInstalledStickerSets {
 
 
 /// The list of trending sticker sets was updated or some of them were viewed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateTrendingStickerSets {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateTrendingStickerSets".to_string())]
   td_name: String, // updateTrendingStickerSets
   /// The new list of trending sticker sets.
-  sticker_sets: Option<StickerSets>,
+  #[builder(default)] sticker_sets: Option<StickerSets>,
   
 }
 
@@ -27273,15 +27909,16 @@ impl UpdateTrendingStickerSets {
 
 
 /// The list of recently used stickers was updated. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateRecentStickers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateRecentStickers".to_string())]
   td_name: String, // updateRecentStickers
   /// True, if the list of stickers attached to photo or video files was updated, otherwise the list of sent stickers is updated.
-  is_attached: Option<bool>,
+  #[builder(default)] is_attached: Option<bool>,
   /// The new list of file identifiers of recently used stickers.
-  sticker_ids: Option<Vec<i32>>,
+  #[builder(default)] sticker_ids: Option<Vec<i32>>,
   
 }
 
@@ -27310,13 +27947,14 @@ impl UpdateRecentStickers {
 
 
 /// The list of favorite stickers was updated. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateFavoriteStickers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateFavoriteStickers".to_string())]
   td_name: String, // updateFavoriteStickers
   /// The new list of file identifiers of favorite stickers.
-  sticker_ids: Option<Vec<i32>>,
+  #[builder(default)] sticker_ids: Option<Vec<i32>>,
   
 }
 
@@ -27343,13 +27981,14 @@ impl UpdateFavoriteStickers {
 
 
 /// The list of saved animations was updated. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateSavedAnimations {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateSavedAnimations".to_string())]
   td_name: String, // updateSavedAnimations
   /// The new list of file identifiers of saved animations.
-  animation_ids: Option<Vec<i32>>,
+  #[builder(default)] animation_ids: Option<Vec<i32>>,
   
 }
 
@@ -27376,17 +28015,18 @@ impl UpdateSavedAnimations {
 
 
 /// Some language pack strings have been updated. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateLanguagePackStrings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateLanguagePackStrings".to_string())]
   td_name: String, // updateLanguagePackStrings
   /// Localization target to which the language pack belongs.
-  localization_target: Option<String>,
+  #[builder(default)] localization_target: Option<String>,
   /// Identifier of the updated language pack.
-  language_pack_id: Option<String>,
+  #[builder(default)] language_pack_id: Option<String>,
   /// List of changed language pack strings.
-  strings: Option<Vec<LanguagePackString>>,
+  #[builder(default)] strings: Option<Vec<LanguagePackString>>,
   
 }
 
@@ -27417,13 +28057,14 @@ impl UpdateLanguagePackStrings {
 
 
 /// The connection state has changed. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateConnectionState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateConnectionState".to_string())]
   td_name: String, // updateConnectionState
   /// The new connection state.
-  state: Option<Box<ConnectionState>>,
+  #[builder(default)] state: Option<Box<ConnectionState>>,
   
 }
 
@@ -27454,15 +28095,16 @@ impl UpdateConnectionState {
 
 
 /// New terms of service must be accepted by the user. If the terms of service are declined, then the 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateTermsOfService {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateTermsOfService".to_string())]
   td_name: String, // updateTermsOfService
   /// Identifier of the terms of service.
-  terms_of_service_id: Option<String>,
+  #[builder(default)] terms_of_service_id: Option<String>,
   /// The new terms of service.
-  terms_of_service: Option<TermsOfService>,
+  #[builder(default)] terms_of_service: Option<TermsOfService>,
   
 }
 
@@ -27491,21 +28133,22 @@ impl UpdateTermsOfService {
 
 
 /// A new incoming inline query; for bots only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateNewInlineQuery {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateNewInlineQuery".to_string())]
   td_name: String, // updateNewInlineQuery
   /// Unique query identifier.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// Identifier of the user who sent the query.
-  sender_user_id: Option<i32>,
+  #[builder(default)] sender_user_id: Option<i32>,
   /// User location, provided by the client; may be null.
-  user_location: Option<Location>,
+  #[builder(default)] user_location: Option<Location>,
   /// Text of the query.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   /// Offset of the first entry to return.
-  offset: Option<String>,
+  #[builder(default)] offset: Option<String>,
   
 }
 
@@ -27540,21 +28183,22 @@ impl UpdateNewInlineQuery {
 
 
 /// The user has chosen a result of an inline query; for bots only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateNewChosenInlineResult {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateNewChosenInlineResult".to_string())]
   td_name: String, // updateNewChosenInlineResult
   /// Identifier of the user who sent the query.
-  sender_user_id: Option<i32>,
+  #[builder(default)] sender_user_id: Option<i32>,
   /// User location, provided by the client; may be null.
-  user_location: Option<Location>,
+  #[builder(default)] user_location: Option<Location>,
   /// Text of the query.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   /// Identifier of the chosen result.
-  result_id: Option<String>,
+  #[builder(default)] result_id: Option<String>,
   /// Identifier of the sent inline message, if known.
-  inline_message_id: Option<String>,
+  #[builder(default)] inline_message_id: Option<String>,
   
 }
 
@@ -27589,23 +28233,24 @@ impl UpdateNewChosenInlineResult {
 
 
 /// A new incoming callback query; for bots only. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateNewCallbackQuery {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateNewCallbackQuery".to_string())]
   td_name: String, // updateNewCallbackQuery
   /// Unique query identifier.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// Identifier of the user who sent the query.
-  sender_user_id: Option<i32>,
+  #[builder(default)] sender_user_id: Option<i32>,
   /// Identifier of the chat, in which the query was sent.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message, from which the query originated.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// Identifier that uniquely corresponds to the chat to which the message was sent.
-  chat_instance: Option<i64>,
+  #[builder(default)] chat_instance: Option<i64>,
   /// Query payload.
-  payload: Option<Box<CallbackQueryPayload>>,
+  #[builder(default)] payload: Option<Box<CallbackQueryPayload>>,
   
 }
 
@@ -27646,21 +28291,22 @@ impl UpdateNewCallbackQuery {
 
 
 /// A new incoming callback query from a message sent via a bot; for bots only. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateNewInlineCallbackQuery {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateNewInlineCallbackQuery".to_string())]
   td_name: String, // updateNewInlineCallbackQuery
   /// Unique query identifier.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// Identifier of the user who sent the query.
-  sender_user_id: Option<i32>,
+  #[builder(default)] sender_user_id: Option<i32>,
   /// Identifier of the inline message, from which the query originated.
-  inline_message_id: Option<String>,
+  #[builder(default)] inline_message_id: Option<String>,
   /// An identifier uniquely corresponding to the chat a message was sent to.
-  chat_instance: Option<i64>,
+  #[builder(default)] chat_instance: Option<i64>,
   /// Query payload.
-  payload: Option<Box<CallbackQueryPayload>>,
+  #[builder(default)] payload: Option<Box<CallbackQueryPayload>>,
   
 }
 
@@ -27699,19 +28345,20 @@ impl UpdateNewInlineCallbackQuery {
 
 
 /// A new incoming shipping query; for bots only. Only for invoices with flexible price. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateNewShippingQuery {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateNewShippingQuery".to_string())]
   td_name: String, // updateNewShippingQuery
   /// Unique query identifier.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// Identifier of the user who sent the query.
-  sender_user_id: Option<i32>,
+  #[builder(default)] sender_user_id: Option<i32>,
   /// Invoice payload.
-  invoice_payload: Option<String>,
+  #[builder(default)] invoice_payload: Option<String>,
   /// User shipping address.
-  shipping_address: Option<Address>,
+  #[builder(default)] shipping_address: Option<Address>,
   
 }
 
@@ -27744,25 +28391,26 @@ impl UpdateNewShippingQuery {
 
 
 /// A new incoming pre-checkout query; for bots only. Contains full information about a checkout. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateNewPreCheckoutQuery {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateNewPreCheckoutQuery".to_string())]
   td_name: String, // updateNewPreCheckoutQuery
   /// Unique query identifier.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// Identifier of the user who sent the query.
-  sender_user_id: Option<i32>,
+  #[builder(default)] sender_user_id: Option<i32>,
   /// Currency for the product price.
-  currency: Option<String>,
+  #[builder(default)] currency: Option<String>,
   /// Total price for the product, in the minimal quantity of the currency.
-  total_amount: Option<i64>,
+  #[builder(default)] total_amount: Option<i64>,
   /// Invoice payload.
-  invoice_payload: Option<String>,
+  #[builder(default)] invoice_payload: Option<String>,
   /// Identifier of a shipping option chosen by the user; may be empty if not applicable.
-  shipping_option_id: Option<String>,
+  #[builder(default)] shipping_option_id: Option<String>,
   /// Information about the order; may be null.
-  order_info: Option<OrderInfo>,
+  #[builder(default)] order_info: Option<OrderInfo>,
   
 }
 
@@ -27801,13 +28449,14 @@ impl UpdateNewPreCheckoutQuery {
 
 
 /// A new incoming event; for bots only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateNewCustomEvent {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateNewCustomEvent".to_string())]
   td_name: String, // updateNewCustomEvent
   /// A JSON-serialized event.
-  event: Option<String>,
+  #[builder(default)] event: Option<String>,
   
 }
 
@@ -27834,17 +28483,18 @@ impl UpdateNewCustomEvent {
 
 
 /// A new incoming query; for bots only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdateNewCustomQuery {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updateNewCustomQuery".to_string())]
   td_name: String, // updateNewCustomQuery
   /// The query identifier.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// JSON-serialized query data.
-  data: Option<String>,
+  #[builder(default)] data: Option<String>,
   /// Query timeout.
-  timeout: Option<i32>,
+  #[builder(default)] timeout: Option<i32>,
   
 }
 
@@ -27875,13 +28525,14 @@ impl UpdateNewCustomQuery {
 
 
 /// Information about a poll was updated; for bots only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpdatePoll {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updatePoll".to_string())]
   td_name: String, // updatePoll
   /// New data about the poll.
-  poll: Option<Poll>,
+  #[builder(default)] poll: Option<Poll>,
   
 }
 
@@ -27908,13 +28559,14 @@ impl UpdatePoll {
 
 
 /// Contains a list of updates. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct Updates {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="updates".to_string())]
   td_name: String, // updates
   /// List of updates.
-  updates: Option<Vec<Box<Update>>>,
+  #[builder(default)] updates: Option<Vec<Box<Update>>>,
   
 }
 
@@ -27943,41 +28595,42 @@ impl Updates {
 
 
 /// Represents a user. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct User {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="user".to_string())]
   td_name: String, // user
   /// User identifier.
-  id: Option<i32>,
+  #[builder(default)] id: Option<i32>,
   /// First name of the user.
-  first_name: Option<String>,
+  #[builder(default)] first_name: Option<String>,
   /// Last name of the user.
-  last_name: Option<String>,
+  #[builder(default)] last_name: Option<String>,
   /// Username of the user.
-  username: Option<String>,
+  #[builder(default)] username: Option<String>,
   /// Phone number of the user.
-  phone_number: Option<String>,
+  #[builder(default)] phone_number: Option<String>,
   /// Current online status of the user.
-  status: Option<Box<UserStatus>>,
+  #[builder(default)] status: Option<Box<UserStatus>>,
   /// Profile photo of the user; may be null.
-  profile_photo: Option<ProfilePhoto>,
+  #[builder(default)] profile_photo: Option<ProfilePhoto>,
   /// Relationship from the current user to the other user.
-  outgoing_link: Option<Box<LinkState>>,
+  #[builder(default)] outgoing_link: Option<Box<LinkState>>,
   /// Relationship from the other user to the current user.
-  incoming_link: Option<Box<LinkState>>,
+  #[builder(default)] incoming_link: Option<Box<LinkState>>,
   /// True, if the user is verified.
-  is_verified: Option<bool>,
+  #[builder(default)] is_verified: Option<bool>,
   /// True, if the user is Telegram support account.
-  is_support: Option<bool>,
+  #[builder(default)] is_support: Option<bool>,
   /// If non-empty, it contains the reason why access to this user must be restricted. The format of the string is "{type}: {description}". {type} contains the type of the restriction and at least one of the suffixes "-all", "-ios", "-android", or "-wp", which describe the platforms on which access should be restricted. (For example, "terms-ios-android". {description} contains a human-readable description of the restriction, which can be shown to the user.)
-  restriction_reason: Option<String>,
+  #[builder(default)] restriction_reason: Option<String>,
   /// If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser.
-  have_access: Option<bool>,
+  #[builder(default)] have_access: Option<bool>,
   /// Type of the user.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<UserType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<UserType>>,
   /// IETF language tag of the user's language; only available to bots.
-  language_code: Option<String>,
+  #[builder(default)] language_code: Option<String>,
   
 }
 
@@ -28034,25 +28687,26 @@ impl User {
 
 
 /// Contains full information about a user (except the full list of profile photos). 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userFullInfo".to_string())]
   td_name: String, // userFullInfo
   /// True, if the user is blacklisted by the current user.
-  is_blocked: Option<bool>,
+  #[builder(default)] is_blocked: Option<bool>,
   /// True, if the user can be called.
-  can_be_called: Option<bool>,
+  #[builder(default)] can_be_called: Option<bool>,
   /// True, if the user can't be called due to their privacy settings.
-  has_private_calls: Option<bool>,
+  #[builder(default)] has_private_calls: Option<bool>,
   /// A short user bio.
-  bio: Option<String>,
+  #[builder(default)] bio: Option<String>,
   /// For bots, the text that is included with the link when users share the bot.
-  share_text: Option<String>,
+  #[builder(default)] share_text: Option<String>,
   /// Number of group chats where both the other user and the current user are a member; 0 for the current user.
-  group_in_common_count: Option<i32>,
+  #[builder(default)] group_in_common_count: Option<i32>,
   /// If the user is a bot, information about the bot; may be null.
-  bot_info: Option<BotInfo>,
+  #[builder(default)] bot_info: Option<BotInfo>,
   
 }
 
@@ -28120,10 +28774,11 @@ impl RTDUserPrivacySettingType {
 
 
 /// A privacy setting for managing whether the user's online status is visible. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserPrivacySettingShowStatus {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userPrivacySettingShowStatus".to_string())]
   td_name: String, // userPrivacySettingShowStatus
   
 }
@@ -28149,10 +28804,11 @@ impl UserPrivacySettingShowStatus {
 
 
 /// A privacy setting for managing whether the user can be invited to chats. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserPrivacySettingAllowChatInvites {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userPrivacySettingAllowChatInvites".to_string())]
   td_name: String, // userPrivacySettingAllowChatInvites
   
 }
@@ -28178,10 +28834,11 @@ impl UserPrivacySettingAllowChatInvites {
 
 
 /// A privacy setting for managing whether the user can be called. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserPrivacySettingAllowCalls {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userPrivacySettingAllowCalls".to_string())]
   td_name: String, // userPrivacySettingAllowCalls
   
 }
@@ -28207,10 +28864,11 @@ impl UserPrivacySettingAllowCalls {
 
 
 /// A privacy setting for managing whether peer-to-peer connections can be used for calls. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserPrivacySettingAllowPeerToPeerCalls {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userPrivacySettingAllowPeerToPeerCalls".to_string())]
   td_name: String, // userPrivacySettingAllowPeerToPeerCalls
   
 }
@@ -28269,10 +28927,11 @@ impl RTDUserPrivacySettingRuleType {
 
 
 /// A rule to allow all users to do something. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserPrivacySettingRuleAllowAll {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userPrivacySettingRuleAllowAll".to_string())]
   td_name: String, // userPrivacySettingRuleAllowAll
   
 }
@@ -28298,10 +28957,11 @@ impl UserPrivacySettingRuleAllowAll {
 
 
 /// A rule to allow all of a user's contacts to do something. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserPrivacySettingRuleAllowContacts {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userPrivacySettingRuleAllowContacts".to_string())]
   td_name: String, // userPrivacySettingRuleAllowContacts
   
 }
@@ -28327,13 +28987,14 @@ impl UserPrivacySettingRuleAllowContacts {
 
 
 /// A rule to allow certain specified users to do something. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserPrivacySettingRuleAllowUsers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userPrivacySettingRuleAllowUsers".to_string())]
   td_name: String, // userPrivacySettingRuleAllowUsers
   /// The user identifiers.
-  user_ids: Option<Vec<i32>>,
+  #[builder(default)] user_ids: Option<Vec<i32>>,
   
 }
 
@@ -28360,10 +29021,11 @@ impl UserPrivacySettingRuleAllowUsers {
 
 
 /// A rule to restrict all users from doing something. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserPrivacySettingRuleRestrictAll {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userPrivacySettingRuleRestrictAll".to_string())]
   td_name: String, // userPrivacySettingRuleRestrictAll
   
 }
@@ -28389,10 +29051,11 @@ impl UserPrivacySettingRuleRestrictAll {
 
 
 /// A rule to restrict all contacts of a user from doing something. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserPrivacySettingRuleRestrictContacts {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userPrivacySettingRuleRestrictContacts".to_string())]
   td_name: String, // userPrivacySettingRuleRestrictContacts
   
 }
@@ -28418,13 +29081,14 @@ impl UserPrivacySettingRuleRestrictContacts {
 
 
 /// A rule to restrict all specified users from doing something. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserPrivacySettingRuleRestrictUsers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userPrivacySettingRuleRestrictUsers".to_string())]
   td_name: String, // userPrivacySettingRuleRestrictUsers
   /// The user identifiers.
-  user_ids: Option<Vec<i32>>,
+  #[builder(default)] user_ids: Option<Vec<i32>>,
   
 }
 
@@ -28451,13 +29115,14 @@ impl UserPrivacySettingRuleRestrictUsers {
 
 
 /// A list of privacy rules. Rules are matched in the specified order. The first matched rule defines the privacy setting for a given user. If no rule matches, the action is not allowed. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UserPrivacySettingRules {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userPrivacySettingRules".to_string())]
   td_name: String, // userPrivacySettingRules
   /// A list of rules.
-  rules: Option<Vec<Box<UserPrivacySettingRule>>>,
+  #[builder(default)] rules: Option<Vec<Box<UserPrivacySettingRule>>>,
   
 }
 
@@ -28486,17 +29151,18 @@ impl UserPrivacySettingRules {
 
 
 /// Contains full information about a user profile photo. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserProfilePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userProfilePhoto".to_string())]
   td_name: String, // userProfilePhoto
   /// Unique user profile photo identifier.
-  id: Option<i64>,
+  #[builder(default)] id: Option<i64>,
   /// Point in time (Unix timestamp) when the photo has been added.
-  added_date: Option<i32>,
+  #[builder(default)] added_date: Option<i32>,
   /// Available variants of the user photo, in different sizes.
-  sizes: Option<Vec<PhotoSize>>,
+  #[builder(default)] sizes: Option<Vec<PhotoSize>>,
   
 }
 
@@ -28525,15 +29191,16 @@ impl UserProfilePhoto {
 
 
 /// Contains part of the list of user photos. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserProfilePhotos {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userProfilePhotos".to_string())]
   td_name: String, // userProfilePhotos
   /// Total number of user profile photos.
-  total_count: Option<i32>,
+  #[builder(default)] total_count: Option<i32>,
   /// A list of photos.
-  photos: Option<Vec<UserProfilePhoto>>,
+  #[builder(default)] photos: Option<Vec<UserProfilePhoto>>,
   
 }
 
@@ -28593,10 +29260,11 @@ impl RTDUserStatusType {
 
 
 /// The user status was never changed. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserStatusEmpty {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userStatusEmpty".to_string())]
   td_name: String, // userStatusEmpty
   
 }
@@ -28622,13 +29290,14 @@ impl UserStatusEmpty {
 
 
 /// The user is online. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserStatusOnline {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userStatusOnline".to_string())]
   td_name: String, // userStatusOnline
   /// Point in time (Unix timestamp) when the user's online status will expire.
-  expires: Option<i32>,
+  #[builder(default)] expires: Option<i32>,
   
 }
 
@@ -28655,13 +29324,14 @@ impl UserStatusOnline {
 
 
 /// The user is offline. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserStatusOffline {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userStatusOffline".to_string())]
   td_name: String, // userStatusOffline
   /// Point in time (Unix timestamp) when the user was last online.
-  was_online: Option<i32>,
+  #[builder(default)] was_online: Option<i32>,
   
 }
 
@@ -28688,10 +29358,11 @@ impl UserStatusOffline {
 
 
 /// The user was online recently. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserStatusRecently {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userStatusRecently".to_string())]
   td_name: String, // userStatusRecently
   
 }
@@ -28717,10 +29388,11 @@ impl UserStatusRecently {
 
 
 /// The user is offline, but was online last week. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserStatusLastWeek {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userStatusLastWeek".to_string())]
   td_name: String, // userStatusLastWeek
   
 }
@@ -28746,10 +29418,11 @@ impl UserStatusLastWeek {
 
 
 /// The user is offline, but was online last month. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserStatusLastMonth {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userStatusLastMonth".to_string())]
   td_name: String, // userStatusLastMonth
   
 }
@@ -28806,10 +29479,11 @@ impl RTDUserTypeType {
 
 
 /// A regular user. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserTypeRegular {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userTypeRegular".to_string())]
   td_name: String, // userTypeRegular
   
 }
@@ -28835,10 +29509,11 @@ impl UserTypeRegular {
 
 
 /// A deleted user or deleted bot. No information on the user besides the user_id is available. It is not possible to perform any active actions on this type of user. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserTypeDeleted {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userTypeDeleted".to_string())]
   td_name: String, // userTypeDeleted
   
 }
@@ -28864,21 +29539,22 @@ impl UserTypeDeleted {
 
 
 /// A bot (see 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserTypeBot {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userTypeBot".to_string())]
   td_name: String, // userTypeBot
   /// True, if the bot can be invited to basic group and supergroup chats.
-  can_join_groups: Option<bool>,
+  #[builder(default)] can_join_groups: Option<bool>,
   /// True, if the bot can read all messages in basic group or supergroup chats and not just those addressed to the bot. In private and channel chats a bot can always read all messages.
-  can_read_all_group_messages: Option<bool>,
+  #[builder(default)] can_read_all_group_messages: Option<bool>,
   /// True, if the bot supports inline queries.
-  is_inline: Option<bool>,
+  #[builder(default)] is_inline: Option<bool>,
   /// Placeholder for inline queries (displayed on the client input field).
-  inline_query_placeholder: Option<String>,
+  #[builder(default)] inline_query_placeholder: Option<String>,
   /// True, if the location of the user should be sent with every inline query to this bot.
-  need_location: Option<bool>,
+  #[builder(default)] need_location: Option<bool>,
   
 }
 
@@ -28913,10 +29589,11 @@ impl UserTypeBot {
 
 
 /// No information on the user besides the user_id is available, yet this user has not been deleted. This object is extremely rare and must be handled like a deleted user. It is not possible to perform any actions on users of this type. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UserTypeUnknown {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="userTypeUnknown".to_string())]
   td_name: String, // userTypeUnknown
   
 }
@@ -28942,15 +29619,16 @@ impl UserTypeUnknown {
 
 
 /// Represents a list of users. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Users {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="users".to_string())]
   td_name: String, // users
   /// Approximate total count of users found.
-  total_count: Option<i32>,
+  #[builder(default)] total_count: Option<i32>,
   /// A list of user identifiers.
-  user_ids: Option<Vec<i32>>,
+  #[builder(default)] user_ids: Option<Vec<i32>>,
   
 }
 
@@ -28977,15 +29655,16 @@ impl Users {
 
 
 /// Contains a temporary identifier of validated order information, which is stored for one hour. Also contains the available shipping options. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ValidatedOrderInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="validatedOrderInfo".to_string())]
   td_name: String, // validatedOrderInfo
   /// Temporary identifier of the order information.
-  order_info_id: Option<String>,
+  #[builder(default)] order_info_id: Option<String>,
   /// Available shipping options.
-  shipping_options: Option<Vec<ShippingOption>>,
+  #[builder(default)] shipping_options: Option<Vec<ShippingOption>>,
   
 }
 
@@ -29012,23 +29691,24 @@ impl ValidatedOrderInfo {
 
 
 /// Describes a venue. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Venue {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="venue".to_string())]
   td_name: String, // venue
   /// Venue location; as defined by the sender.
-  location: Option<Location>,
+  #[builder(default)] location: Option<Location>,
   /// Venue name; as defined by the sender.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Venue address; as defined by the sender.
-  address: Option<String>,
+  #[builder(default)] address: Option<String>,
   /// Provider of the venue database; as defined by the sender. Currently only "foursquare" needs to be supported.
-  provider: Option<String>,
+  #[builder(default)] provider: Option<String>,
   /// Identifier of the venue in the provider database; as defined by the sender.
-  id: Option<String>,
+  #[builder(default)] id: Option<String>,
   /// Type of the venue in the provider database; as defined by the sender.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<String>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<String>,
   
 }
 
@@ -29063,29 +29743,30 @@ impl Venue {
 
 
 /// Describes a video file. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Video {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="video".to_string())]
   td_name: String, // video
   /// Duration of the video, in seconds; as defined by the sender.
-  duration: Option<i32>,
+  #[builder(default)] duration: Option<i32>,
   /// Video width; as defined by the sender.
-  width: Option<i32>,
+  #[builder(default)] width: Option<i32>,
   /// Video height; as defined by the sender.
-  height: Option<i32>,
+  #[builder(default)] height: Option<i32>,
   /// Original name of the file; as defined by the sender.
-  file_name: Option<String>,
+  #[builder(default)] file_name: Option<String>,
   /// MIME type of the file; as defined by the sender.
-  mime_type: Option<String>,
+  #[builder(default)] mime_type: Option<String>,
   /// True, if stickers were added to the photo.
-  has_stickers: Option<bool>,
+  #[builder(default)] has_stickers: Option<bool>,
   /// True, if the video should be tried to be streamed.
-  supports_streaming: Option<bool>,
+  #[builder(default)] supports_streaming: Option<bool>,
   /// Video thumbnail; as defined by the sender; may be null.
-  thumbnail: Option<PhotoSize>,
+  #[builder(default)] thumbnail: Option<PhotoSize>,
   /// File containing the video.
-  video: Option<File>,
+  #[builder(default)] video: Option<File>,
   
 }
 
@@ -29126,19 +29807,20 @@ impl Video {
 
 
 /// Describes a video note. The video must be equal in width and height, cropped to a circle, and stored in MPEG4 format. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct VideoNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="videoNote".to_string())]
   td_name: String, // videoNote
   /// Duration of the video, in seconds; as defined by the sender.
-  duration: Option<i32>,
+  #[builder(default)] duration: Option<i32>,
   /// Video width and height; as defined by the sender.
-  length: Option<i32>,
+  #[builder(default)] length: Option<i32>,
   /// Video thumbnail; as defined by the sender; may be null.
-  thumbnail: Option<PhotoSize>,
+  #[builder(default)] thumbnail: Option<PhotoSize>,
   /// File containing the video.
-  video: Option<File>,
+  #[builder(default)] video: Option<File>,
   
 }
 
@@ -29169,19 +29851,20 @@ impl VideoNote {
 
 
 /// Describes a voice note. The voice note must be encoded with the Opus codec, and stored inside an OGG container. Voice notes can have only a single audio channel. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct VoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="voiceNote".to_string())]
   td_name: String, // voiceNote
   /// Duration of the voice note, in seconds; as defined by the sender.
-  duration: Option<i32>,
+  #[builder(default)] duration: Option<i32>,
   /// A waveform representation of the voice note in 5-bit format.
-  waveform: Option<String>,
+  #[builder(default)] waveform: Option<String>,
   /// MIME type of the file; as defined by the sender.
-  mime_type: Option<String>,
+  #[builder(default)] mime_type: Option<String>,
   /// File containing the voice note.
-  voice: Option<File>,
+  #[builder(default)] voice: Option<File>,
   
 }
 
@@ -29212,17 +29895,18 @@ impl VoiceNote {
 
 
 /// Contains information about a wallpaper. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Wallpaper {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="wallpaper".to_string())]
   td_name: String, // wallpaper
   /// Unique persistent wallpaper identifier.
-  id: Option<i32>,
+  #[builder(default)] id: Option<i32>,
   /// Available variants of the wallpaper in different sizes. These photos can only be downloaded; they can't be sent in a message.
-  sizes: Option<Vec<PhotoSize>>,
+  #[builder(default)] sizes: Option<Vec<PhotoSize>>,
   /// Main color of the wallpaper in RGB24 format; should be treated as background color if no photos are specified.
-  color: Option<i32>,
+  #[builder(default)] color: Option<i32>,
   
 }
 
@@ -29251,13 +29935,14 @@ impl Wallpaper {
 
 
 /// Contains a list of wallpapers. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Wallpapers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="wallpapers".to_string())]
   td_name: String, // wallpapers
   /// A list of wallpapers.
-  wallpapers: Option<Vec<Wallpaper>>,
+  #[builder(default)] wallpapers: Option<Vec<Wallpaper>>,
   
 }
 
@@ -29282,53 +29967,54 @@ impl Wallpapers {
 
 
 /// Describes a web page preview. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct WebPage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="webPage".to_string())]
   td_name: String, // webPage
   /// Original URL of the link.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   /// URL to display.
-  display_url: Option<String>,
+  #[builder(default)] display_url: Option<String>,
   /// Type of the web page. Can be: article, photo, audio, video, document, profile, app, or something else.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<String>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<String>,
   /// Short name of the site (e.g., Google Docs, App Store).
-  site_name: Option<String>,
+  #[builder(default)] site_name: Option<String>,
   /// Title of the content.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Description of the content.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   /// Image representing the content; may be null.
-  photo: Option<Photo>,
+  #[builder(default)] photo: Option<Photo>,
   /// URL to show in the embedded preview.
-  embed_url: Option<String>,
+  #[builder(default)] embed_url: Option<String>,
   /// MIME type of the embedded preview, (e.g., text/html or video/mp4).
-  embed_type: Option<String>,
+  #[builder(default)] embed_type: Option<String>,
   /// Width of the embedded preview.
-  embed_width: Option<i32>,
+  #[builder(default)] embed_width: Option<i32>,
   /// Height of the embedded preview.
-  embed_height: Option<i32>,
+  #[builder(default)] embed_height: Option<i32>,
   /// Duration of the content, in seconds.
-  duration: Option<i32>,
+  #[builder(default)] duration: Option<i32>,
   /// Author of the content.
-  author: Option<String>,
+  #[builder(default)] author: Option<String>,
   /// Preview of the content as an animation, if available; may be null.
-  animation: Option<Animation>,
+  #[builder(default)] animation: Option<Animation>,
   /// Preview of the content as an audio file, if available; may be null.
-  audio: Option<Audio>,
+  #[builder(default)] audio: Option<Audio>,
   /// Preview of the content as a document, if available (currently only available for small PDF files and ZIP archives); may be null.
-  document: Option<Document>,
+  #[builder(default)] document: Option<Document>,
   /// Preview of the content as a sticker for small WEBP files, if available; may be null.
-  sticker: Option<Sticker>,
+  #[builder(default)] sticker: Option<Sticker>,
   /// Preview of the content as a video, if available; may be null.
-  video: Option<Video>,
+  #[builder(default)] video: Option<Video>,
   /// Preview of the content as a video note, if available; may be null.
-  video_note: Option<VideoNote>,
+  #[builder(default)] video_note: Option<VideoNote>,
   /// Preview of the content as a voice note, if available; may be null.
-  voice_note: Option<VoiceNote>,
+  #[builder(default)] voice_note: Option<VoiceNote>,
   /// Version of instant view, available for the web page (currently can be 1 or 2), 0 if none.
-  instant_view_version: Option<i32>,
+  #[builder(default)] instant_view_version: Option<i32>,
   
 }
 
@@ -29393,21 +30079,22 @@ impl WebPage {
 
 
 /// Describes an instant view page for a web page. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct WebPageInstantView {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="webPageInstantView".to_string())]
   td_name: String, // webPageInstantView
   /// Content of the web page.
-  page_blocks: Option<Vec<Box<PageBlock>>>,
+  #[builder(default)] page_blocks: Option<Vec<Box<PageBlock>>>,
   /// Version of the instant view, currently can be 1 or 2.
-  version: Option<i32>,
+  #[builder(default)] version: Option<i32>,
   /// Instant view URL; may be different from WebPage.url and must be used for the correct anchors handling.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   /// True, if the instant view must be shown from right to left.
-  is_rtl: Option<bool>,
+  #[builder(default)] is_rtl: Option<bool>,
   /// True, if the instant view contains the full page. A network request might be needed to get the full web page instant view.
-  is_full: Option<bool>,
+  #[builder(default)] is_full: Option<bool>,
   
 }
 
@@ -29444,15 +30131,16 @@ impl WebPageInstantView {
 
 
 /// Accepts an incoming call.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AcceptCall {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="acceptCall".to_string())]
   td_name: String, // acceptCall
   /// Call identifier.
-  call_id: Option<i32>,
+  #[builder(default)] call_id: Option<i32>,
   /// Description of the call protocols supported by the client.
-  protocol: Option<CallProtocol>,
+  #[builder(default)] protocol: Option<CallProtocol>,
   
 }
 
@@ -29481,13 +30169,14 @@ impl AcceptCall {
 
 
 /// Accepts Telegram terms of services.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AcceptTermsOfService {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="acceptTermsOfService".to_string())]
   td_name: String, // acceptTermsOfService
   /// Terms of service identifier.
-  terms_of_service_id: Option<String>,
+  #[builder(default)] terms_of_service_id: Option<String>,
   
 }
 
@@ -29514,17 +30203,18 @@ impl AcceptTermsOfService {
 
 
 /// Adds a new member to a chat. Members can't be added to private or secret chats. Members will not be added until the chat state has been synchronized with the server.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AddChatMember {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="addChatMember".to_string())]
   td_name: String, // addChatMember
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the user.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// The number of earlier messages from the chat to be forwarded to the new member; up to 100. Ignored for supergroups and channels.
-  forward_limit: Option<i32>,
+  #[builder(default)] forward_limit: Option<i32>,
   
 }
 
@@ -29555,15 +30245,16 @@ impl AddChatMember {
 
 
 /// Adds multiple new members to a chat. Currently this option is only available for supergroups and channels. This option can't be used to join a chat. Members can't be added to a channel if it has more than 200 members. Members will not be added until the chat state has been synchronized with the server.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AddChatMembers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="addChatMembers".to_string())]
   td_name: String, // addChatMembers
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifiers of the users to be added to the chat.
-  user_ids: Option<Vec<i32>>,
+  #[builder(default)] user_ids: Option<Vec<i32>>,
   
 }
 
@@ -29592,13 +30283,14 @@ impl AddChatMembers {
 
 
 /// Adds a custom server language pack to the list of installed language packs in current localization target. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AddCustomServerLanguagePack {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="addCustomServerLanguagePack".to_string())]
   td_name: String, // addCustomServerLanguagePack
   /// Identifier of a language pack to be added; may be different from a name that is used in an "https://t.me/setlanguage/" link.
-  language_pack_id: Option<String>,
+  #[builder(default)] language_pack_id: Option<String>,
   
 }
 
@@ -29625,13 +30317,14 @@ impl AddCustomServerLanguagePack {
 
 
 /// Adds a new sticker to the list of favorite stickers. The new sticker is added to the top of the list. If the sticker was already in the list, it is removed from the list first. Only stickers belonging to a sticker set can be added to this list.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct AddFavoriteSticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="addFavoriteSticker".to_string())]
   td_name: String, // addFavoriteSticker
   /// Sticker file to add.
-  sticker: Option<Box<InputFile>>,
+  #[builder(default)] sticker: Option<Box<InputFile>>,
   
 }
 
@@ -29662,21 +30355,22 @@ impl AddFavoriteSticker {
 
 
 /// Adds a local message to a chat. The message is persistent across application restarts only if the message database is used. Returns the added message.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct AddLocalMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="addLocalMessage".to_string())]
   td_name: String, // addLocalMessage
   /// Target chat.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the user who will be shown as the sender of the message; may be 0 for channel posts.
-  sender_user_id: Option<i32>,
+  #[builder(default)] sender_user_id: Option<i32>,
   /// Identifier of the message to reply to or 0.
-  reply_to_message_id: Option<i64>,
+  #[builder(default)] reply_to_message_id: Option<i64>,
   /// Pass true to disable notification for the message.
-  disable_notification: Option<bool>,
+  #[builder(default)] disable_notification: Option<bool>,
   /// The content of the message to be added.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -29715,15 +30409,16 @@ impl AddLocalMessage {
 
 
 /// Adds a message to TDLib internal log. This is an offline method. Can be called before authorization. Can be called synchronously.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AddLogMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="addLogMessage".to_string())]
   td_name: String, // addLogMessage
   /// Minimum verbosity level needed for the message to be logged, 0-1023.
-  verbosity_level: Option<i32>,
+  #[builder(default)] verbosity_level: Option<i32>,
   /// Text of a message to log.
-  text: Option<String>,
+  #[builder(default)] text: Option<String>,
   
 }
 
@@ -29752,13 +30447,14 @@ impl AddLogMessage {
 
 
 /// Adds the specified data to data usage statistics. Can be called before authorization.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct AddNetworkStatistics {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="addNetworkStatistics".to_string())]
   td_name: String, // addNetworkStatistics
   /// The network statistics entry with the data to be added to statistics.
-  entry: Option<Box<NetworkStatisticsEntry>>,
+  #[builder(default)] entry: Option<Box<NetworkStatisticsEntry>>,
   
 }
 
@@ -29789,19 +30485,20 @@ impl AddNetworkStatistics {
 
 
 /// Adds a proxy server for network requests. Can be called before authorization.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct AddProxy {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="addProxy".to_string())]
   td_name: String, // addProxy
   /// Proxy server IP address.
-  server: Option<String>,
+  #[builder(default)] server: Option<String>,
   /// Proxy server port.
-  port: Option<i32>,
+  #[builder(default)] port: Option<i32>,
   /// True, if the proxy should be enabled.
-  enable: Option<bool>,
+  #[builder(default)] enable: Option<bool>,
   /// Proxy type.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<ProxyType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<ProxyType>>,
   
 }
 
@@ -29838,15 +30535,16 @@ impl AddProxy {
 
 
 /// Manually adds a new sticker to the list of recently used stickers. The new sticker is added to the top of the list. If the sticker was already in the list, it is removed from the list first. Only stickers belonging to a sticker set can be added to this list.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct AddRecentSticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="addRecentSticker".to_string())]
   td_name: String, // addRecentSticker
   /// Pass true to add the sticker to the list of stickers recently attached to photo or video files; pass false to add the sticker to the list of recently sent stickers.
-  is_attached: Option<bool>,
+  #[builder(default)] is_attached: Option<bool>,
   /// Sticker file to add.
-  sticker: Option<Box<InputFile>>,
+  #[builder(default)] sticker: Option<Box<InputFile>>,
   
 }
 
@@ -29879,13 +30577,14 @@ impl AddRecentSticker {
 
 
 /// Adds a chat to the list of recently found chats. The chat is added to the beginning of the list. If the chat is already in the list, it will be removed from the list first.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AddRecentlyFoundChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="addRecentlyFoundChat".to_string())]
   td_name: String, // addRecentlyFoundChat
   /// Identifier of the chat to add.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -29912,13 +30611,14 @@ impl AddRecentlyFoundChat {
 
 
 /// Manually adds a new animation to the list of saved animations. The new animation is added to the beginning of the list. If the animation was already in the list, it is removed first. Only non-secret video animations with MIME type "video/mp4" can be added to the list.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct AddSavedAnimation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="addSavedAnimation".to_string())]
   td_name: String, // addSavedAnimation
   /// The animation file to be added. Only animations known to the server (i.e. successfully sent via a message) can be added to the list.
-  animation: Option<Box<InputFile>>,
+  #[builder(default)] animation: Option<Box<InputFile>>,
   
 }
 
@@ -29949,17 +30649,18 @@ impl AddSavedAnimation {
 
 
 /// Adds a new sticker to a set; for bots only. Returns the sticker set.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AddStickerToSet {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="addStickerToSet".to_string())]
   td_name: String, // addStickerToSet
   /// Sticker set owner.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// Sticker set name.
-  name: Option<String>,
+  #[builder(default)] name: Option<String>,
   /// Sticker to add to the set.
-  sticker: Option<InputSticker>,
+  #[builder(default)] sticker: Option<InputSticker>,
   
 }
 
@@ -29990,21 +30691,22 @@ impl AddStickerToSet {
 
 
 /// Sets the result of a callback query; for bots only.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AnswerCallbackQuery {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="answerCallbackQuery".to_string())]
   td_name: String, // answerCallbackQuery
   /// Identifier of the callback query.
-  callback_query_id: Option<i64>,
+  #[builder(default)] callback_query_id: Option<i64>,
   /// Text of the answer.
-  text: Option<String>,
+  #[builder(default)] text: Option<String>,
   /// If true, an alert should be shown to the user instead of a toast notification.
-  show_alert: Option<bool>,
+  #[builder(default)] show_alert: Option<bool>,
   /// URL to be opened.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   /// Time during which the result of the query can be cached, in seconds.
-  cache_time: Option<i32>,
+  #[builder(default)] cache_time: Option<i32>,
   
 }
 
@@ -30039,15 +30741,16 @@ impl AnswerCallbackQuery {
 
 
 /// Answers a custom query; for bots only.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AnswerCustomQuery {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="answerCustomQuery".to_string())]
   td_name: String, // answerCustomQuery
   /// Identifier of a custom query.
-  custom_query_id: Option<i64>,
+  #[builder(default)] custom_query_id: Option<i64>,
   /// JSON-serialized answer to the query.
-  data: Option<String>,
+  #[builder(default)] data: Option<String>,
   
 }
 
@@ -30076,25 +30779,26 @@ impl AnswerCustomQuery {
 
 
 /// Sets the result of an inline query; for bots only.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct AnswerInlineQuery {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="answerInlineQuery".to_string())]
   td_name: String, // answerInlineQuery
   /// Identifier of the inline query.
-  inline_query_id: Option<i64>,
+  #[builder(default)] inline_query_id: Option<i64>,
   /// True, if the result of the query can be cached for the specified user.
-  is_personal: Option<bool>,
+  #[builder(default)] is_personal: Option<bool>,
   /// The results of the query.
-  results: Option<Vec<Box<InputInlineQueryResult>>>,
+  #[builder(default)] results: Option<Vec<Box<InputInlineQueryResult>>>,
   /// Allowed time to cache the results of the query, in seconds.
-  cache_time: Option<i32>,
+  #[builder(default)] cache_time: Option<i32>,
   /// Offset for the next inline query; pass an empty string if there are no more results.
-  next_offset: Option<String>,
+  #[builder(default)] next_offset: Option<String>,
   /// If non-empty, this text should be shown on the button that opens a private chat with the bot and sends a start message to the bot with the parameter switch_pm_parameter.
-  switch_pm_text: Option<String>,
+  #[builder(default)] switch_pm_text: Option<String>,
   /// The parameter for the bot start message.
-  switch_pm_parameter: Option<String>,
+  #[builder(default)] switch_pm_parameter: Option<String>,
   
 }
 
@@ -30137,15 +30841,16 @@ impl AnswerInlineQuery {
 
 
 /// Sets the result of a pre-checkout query; for bots only.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AnswerPreCheckoutQuery {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="answerPreCheckoutQuery".to_string())]
   td_name: String, // answerPreCheckoutQuery
   /// Identifier of the pre-checkout query.
-  pre_checkout_query_id: Option<i64>,
+  #[builder(default)] pre_checkout_query_id: Option<i64>,
   /// An error message, empty on success.
-  error_message: Option<String>,
+  #[builder(default)] error_message: Option<String>,
   
 }
 
@@ -30174,17 +30879,18 @@ impl AnswerPreCheckoutQuery {
 
 
 /// Sets the result of a shipping query; for bots only.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct AnswerShippingQuery {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="answerShippingQuery".to_string())]
   td_name: String, // answerShippingQuery
   /// Identifier of the shipping query.
-  shipping_query_id: Option<i64>,
+  #[builder(default)] shipping_query_id: Option<i64>,
   /// Available shipping options.
-  shipping_options: Option<Vec<ShippingOption>>,
+  #[builder(default)] shipping_options: Option<Vec<ShippingOption>>,
   /// An error message, empty on success.
-  error_message: Option<String>,
+  #[builder(default)] error_message: Option<String>,
   
 }
 
@@ -30215,13 +30921,14 @@ impl AnswerShippingQuery {
 
 
 /// Adds a user to the blacklist.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct BlockUser {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="blockUser".to_string())]
   td_name: String, // blockUser
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   
 }
 
@@ -30248,15 +30955,16 @@ impl BlockUser {
 
 
 /// Stops the downloading of a file. If a file has already been downloaded, does nothing.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CancelDownloadFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="cancelDownloadFile".to_string())]
   td_name: String, // cancelDownloadFile
   /// Identifier of a file to stop downloading.
-  file_id: Option<i32>,
+  #[builder(default)] file_id: Option<i32>,
   /// Pass true to stop downloading only if it hasn't been started, i.e. request hasn't been sent to server.
-  only_if_pending: Option<bool>,
+  #[builder(default)] only_if_pending: Option<bool>,
   
 }
 
@@ -30285,13 +30993,14 @@ impl CancelDownloadFile {
 
 
 /// Stops the uploading of a file. Supported only for files uploaded by using 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CancelUploadFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="cancelUploadFile".to_string())]
   td_name: String, // cancelUploadFile
   /// Identifier of the file to stop uploading.
-  file_id: Option<i32>,
+  #[builder(default)] file_id: Option<i32>,
   
 }
 
@@ -30318,15 +31027,16 @@ impl CancelUploadFile {
 
 
 /// Reports to the server whether a chat is a spam chat or not. Can be used only if ChatReportSpamState.can_report_spam is true. After this request, ChatReportSpamState.can_report_spam becomes false forever.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChangeChatReportSpamState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="changeChatReportSpamState".to_string())]
   td_name: String, // changeChatReportSpamState
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// If true, the chat will be reported as spam; otherwise it will be marked as not spam.
-  is_spam_chat: Option<bool>,
+  #[builder(default)] is_spam_chat: Option<bool>,
   
 }
 
@@ -30355,13 +31065,14 @@ impl ChangeChatReportSpamState {
 
 
 /// Changes imported contacts using the list of current user contacts saved on the device. Imports newly added contacts and, if at least the file database is enabled, deletes recently deleted contacts. Query result depends on the result of the previous query, so only one query is possible at the same time.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChangeImportedContacts {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="changeImportedContacts".to_string())]
   td_name: String, // changeImportedContacts
   /// The new list of contacts, contact's vCard are ignored and are not imported.
-  contacts: Option<Vec<Contact>>,
+  #[builder(default)] contacts: Option<Vec<Contact>>,
   
 }
 
@@ -30388,17 +31099,18 @@ impl ChangeImportedContacts {
 
 
 /// Changes the phone number of the user and sends an authentication code to the user's new phone number. On success, returns information about the sent code.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChangePhoneNumber {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="changePhoneNumber".to_string())]
   td_name: String, // changePhoneNumber
   /// The new phone number of the user in international format.
-  phone_number: Option<String>,
+  #[builder(default)] phone_number: Option<String>,
   /// Pass true if the code can be sent via flash call to the specified phone number.
-  allow_flash_call: Option<bool>,
+  #[builder(default)] allow_flash_call: Option<bool>,
   /// Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false.
-  is_current_phone_number: Option<bool>,
+  #[builder(default)] is_current_phone_number: Option<bool>,
   
 }
 
@@ -30429,17 +31141,18 @@ impl ChangePhoneNumber {
 
 
 /// Installs/uninstalls or activates/archives a sticker set.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ChangeStickerSet {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="changeStickerSet".to_string())]
   td_name: String, // changeStickerSet
   /// Identifier of the sticker set.
-  set_id: Option<i64>,
+  #[builder(default)] set_id: Option<i64>,
   /// The new value of is_installed.
-  is_installed: Option<bool>,
+  #[builder(default)] is_installed: Option<bool>,
   /// The new value of is_archived. A sticker set can't be installed and archived simultaneously.
-  is_archived: Option<bool>,
+  #[builder(default)] is_archived: Option<bool>,
   
 }
 
@@ -30470,13 +31183,14 @@ impl ChangeStickerSet {
 
 
 /// Checks the authentication token of a bot; to log in as a bot. Works only when the current authorization state is 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckAuthenticationBotToken {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkAuthenticationBotToken".to_string())]
   td_name: String, // checkAuthenticationBotToken
   /// The bot token.
-  token: Option<String>,
+  #[builder(default)] token: Option<String>,
   
 }
 
@@ -30503,17 +31217,18 @@ impl CheckAuthenticationBotToken {
 
 
 /// Checks the authentication code. Works only when the current authorization state is 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckAuthenticationCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkAuthenticationCode".to_string())]
   td_name: String, // checkAuthenticationCode
   /// The verification code received via SMS, Telegram message, phone call, or flash call.
-  code: Option<String>,
+  #[builder(default)] code: Option<String>,
   /// If the user is not yet registered, the first name of the user; 1-64 characters. You can also pass an empty string for unregistered user there to check verification code validness. In the latter case PHONE_NUMBER_UNOCCUPIED error will be returned for a valid code.
-  first_name: Option<String>,
+  #[builder(default)] first_name: Option<String>,
   /// If the user is not yet registered; the last name of the user; optional; 0-64 characters.
-  last_name: Option<String>,
+  #[builder(default)] last_name: Option<String>,
   
 }
 
@@ -30544,13 +31259,14 @@ impl CheckAuthenticationCode {
 
 
 /// Checks the authentication password for correctness. Works only when the current authorization state is 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckAuthenticationPassword {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkAuthenticationPassword".to_string())]
   td_name: String, // checkAuthenticationPassword
   /// The password to check.
-  password: Option<String>,
+  #[builder(default)] password: Option<String>,
   
 }
 
@@ -30577,13 +31293,14 @@ impl CheckAuthenticationPassword {
 
 
 /// Checks the authentication code sent to confirm a new phone number of the user.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckChangePhoneNumberCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkChangePhoneNumberCode".to_string())]
   td_name: String, // checkChangePhoneNumberCode
   /// Verification code received by SMS, phone call or flash call.
-  code: Option<String>,
+  #[builder(default)] code: Option<String>,
   
 }
 
@@ -30610,13 +31327,14 @@ impl CheckChangePhoneNumberCode {
 
 
 /// Checks the validity of an invite link for a chat and returns information about the corresponding chat.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckChatInviteLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkChatInviteLink".to_string())]
   td_name: String, // checkChatInviteLink
   /// Invite link to be checked; should begin with "https://t.me/joinchat/", "https://telegram.me/joinchat/", or "https://telegram.dog/joinchat/".
-  invite_link: Option<String>,
+  #[builder(default)] invite_link: Option<String>,
   
 }
 
@@ -30643,15 +31361,16 @@ impl CheckChatInviteLink {
 
 
 /// Checks whether a username can be set for a chat.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckChatUsername {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkChatUsername".to_string())]
   td_name: String, // checkChatUsername
   /// Chat identifier; should be identifier of a supergroup chat, or a channel chat, or a private chat with self, or zero if chat is being created.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Username to be checked.
-  username: Option<String>,
+  #[builder(default)] username: Option<String>,
   
 }
 
@@ -30680,13 +31399,14 @@ impl CheckChatUsername {
 
 
 /// Checks the database encryption key for correctness. Works only when the current authorization state is 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckDatabaseEncryptionKey {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkDatabaseEncryptionKey".to_string())]
   td_name: String, // checkDatabaseEncryptionKey
   /// Encryption key to check or set up.
-  encryption_key: Option<String>,
+  #[builder(default)] encryption_key: Option<String>,
   
 }
 
@@ -30713,13 +31433,14 @@ impl CheckDatabaseEncryptionKey {
 
 
 /// Checks the email address verification code for Telegram Passport.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckEmailAddressVerificationCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkEmailAddressVerificationCode".to_string())]
   td_name: String, // checkEmailAddressVerificationCode
   /// Verification code.
-  code: Option<String>,
+  #[builder(default)] code: Option<String>,
   
 }
 
@@ -30746,13 +31467,14 @@ impl CheckEmailAddressVerificationCode {
 
 
 /// Checks phone number confirmation code.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckPhoneNumberConfirmationCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkPhoneNumberConfirmationCode".to_string())]
   td_name: String, // checkPhoneNumberConfirmationCode
   /// The phone number confirmation code.
-  code: Option<String>,
+  #[builder(default)] code: Option<String>,
   
 }
 
@@ -30779,13 +31501,14 @@ impl CheckPhoneNumberConfirmationCode {
 
 
 /// Checks the phone number verification code for Telegram Passport.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckPhoneNumberVerificationCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkPhoneNumberVerificationCode".to_string())]
   td_name: String, // checkPhoneNumberVerificationCode
   /// Verification code.
-  code: Option<String>,
+  #[builder(default)] code: Option<String>,
   
 }
 
@@ -30812,13 +31535,14 @@ impl CheckPhoneNumberVerificationCode {
 
 
 /// Checks the 2-step verification recovery email address verification code.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CheckRecoveryEmailAddressCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="checkRecoveryEmailAddressCode".to_string())]
   td_name: String, // checkRecoveryEmailAddressCode
   /// Verification code.
-  code: Option<String>,
+  #[builder(default)] code: Option<String>,
   
 }
 
@@ -30845,13 +31569,14 @@ impl CheckRecoveryEmailAddressCode {
 
 
 /// Removes potentially dangerous characters from the name of a file. The encoding of the file name is supposed to be UTF-8. Returns an empty string on failure. This is an offline method. Can be called before authorization. Can be called synchronously.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CleanFileName {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="cleanFileName".to_string())]
   td_name: String, // cleanFileName
   /// File name or path to the file.
-  file_name: Option<String>,
+  #[builder(default)] file_name: Option<String>,
   
 }
 
@@ -30878,13 +31603,14 @@ impl CleanFileName {
 
 
 /// Clears draft messages in all chats.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ClearAllDraftMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="clearAllDraftMessages".to_string())]
   td_name: String, // clearAllDraftMessages
   /// If true, local draft messages in secret chats will not be cleared.
-  exclude_secret_chats: Option<bool>,
+  #[builder(default)] exclude_secret_chats: Option<bool>,
   
 }
 
@@ -30911,10 +31637,11 @@ impl ClearAllDraftMessages {
 
 
 /// Clears all imported contacts, contact list remains unchanged.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ClearImportedContacts {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="clearImportedContacts".to_string())]
   td_name: String, // clearImportedContacts
   
 }
@@ -30940,13 +31667,14 @@ impl ClearImportedContacts {
 
 
 /// Clears the list of recently used stickers.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ClearRecentStickers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="clearRecentStickers".to_string())]
   td_name: String, // clearRecentStickers
   /// Pass true to clear the list of stickers recently attached to photo or video files; pass false to clear the list of recently sent stickers.
-  is_attached: Option<bool>,
+  #[builder(default)] is_attached: Option<bool>,
   
 }
 
@@ -30973,10 +31701,11 @@ impl ClearRecentStickers {
 
 
 /// Clears the list of recently found chats.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ClearRecentlyFoundChats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="clearRecentlyFoundChats".to_string())]
   td_name: String, // clearRecentlyFoundChats
   
 }
@@ -31002,10 +31731,11 @@ impl ClearRecentlyFoundChats {
 
 
 /// Closes the TDLib instance. All databases will be flushed to disk and properly closed. After the close completes, 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Close {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="close".to_string())]
   td_name: String, // close
   
 }
@@ -31031,13 +31761,14 @@ impl Close {
 
 
 /// Informs TDLib that the chat is closed by the user. Many useful activities depend on the chat being opened or closed.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CloseChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="closeChat".to_string())]
   td_name: String, // closeChat
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -31064,13 +31795,14 @@ impl CloseChat {
 
 
 /// Closes a secret chat, effectively transfering its state to 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CloseSecretChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="closeSecretChat".to_string())]
   td_name: String, // closeSecretChat
   /// Secret chat identifier.
-  secret_chat_id: Option<i32>,
+  #[builder(default)] secret_chat_id: Option<i32>,
   
 }
 
@@ -31097,15 +31829,16 @@ impl CloseSecretChat {
 
 
 /// Returns an existing chat corresponding to a known basic group.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CreateBasicGroupChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="createBasicGroupChat".to_string())]
   td_name: String, // createBasicGroupChat
   /// Basic group identifier.
-  basic_group_id: Option<i32>,
+  #[builder(default)] basic_group_id: Option<i32>,
   /// If true, the chat will be created without network request. In this case all information about the chat except its type, title and photo can be incorrect.
-  force: Option<bool>,
+  #[builder(default)] force: Option<bool>,
   
 }
 
@@ -31134,15 +31867,16 @@ impl CreateBasicGroupChat {
 
 
 /// Creates a new call.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CreateCall {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="createCall".to_string())]
   td_name: String, // createCall
   /// Identifier of the user to be called.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// Description of the call protocols supported by the client.
-  protocol: Option<CallProtocol>,
+  #[builder(default)] protocol: Option<CallProtocol>,
   
 }
 
@@ -31171,15 +31905,16 @@ impl CreateCall {
 
 
 /// Creates a new basic group and sends a corresponding 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CreateNewBasicGroupChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="createNewBasicGroupChat".to_string())]
   td_name: String, // createNewBasicGroupChat
   /// Identifiers of users to be added to the basic group.
-  user_ids: Option<Vec<i32>>,
+  #[builder(default)] user_ids: Option<Vec<i32>>,
   /// Title of the new basic group; 1-128 characters.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   
 }
 
@@ -31208,13 +31943,14 @@ impl CreateNewBasicGroupChat {
 
 
 /// Creates a new secret chat. Returns the newly created chat.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CreateNewSecretChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="createNewSecretChat".to_string())]
   td_name: String, // createNewSecretChat
   /// Identifier of the target user.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   
 }
 
@@ -31241,21 +31977,22 @@ impl CreateNewSecretChat {
 
 
 /// Creates a new sticker set; for bots only. Returns the newly created sticker set.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CreateNewStickerSet {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="createNewStickerSet".to_string())]
   td_name: String, // createNewStickerSet
   /// Sticker set owner.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// Sticker set title; 1-64 characters.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// Sticker set name. Can contain only English letters, digits and underscores. Must end with "by<bot username>" (<bot_username> is case insensitive); 1-64 characters.
-  name: Option<String>,
+  #[builder(default)] name: Option<String>,
   /// True, if stickers are masks.
-  is_masks: Option<bool>,
+  #[builder(default)] is_masks: Option<bool>,
   /// List of stickers to be added to the set.
-  stickers: Option<Vec<InputSticker>>,
+  #[builder(default)] stickers: Option<Vec<InputSticker>>,
   
 }
 
@@ -31290,17 +32027,18 @@ impl CreateNewStickerSet {
 
 
 /// Creates a new supergroup or channel and sends a corresponding 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CreateNewSupergroupChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="createNewSupergroupChat".to_string())]
   td_name: String, // createNewSupergroupChat
   /// Title of the new chat; 1-128 characters.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   /// True, if a channel chat should be created.
-  is_channel: Option<bool>,
+  #[builder(default)] is_channel: Option<bool>,
   /// Chat description; 0-255 characters.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   
 }
 
@@ -31331,15 +32069,16 @@ impl CreateNewSupergroupChat {
 
 
 /// Returns an existing chat corresponding to a given user.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CreatePrivateChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="createPrivateChat".to_string())]
   td_name: String, // createPrivateChat
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// If true, the chat will be created without network request. In this case all information about the chat except its type, title and photo can be incorrect.
-  force: Option<bool>,
+  #[builder(default)] force: Option<bool>,
   
 }
 
@@ -31368,13 +32107,14 @@ impl CreatePrivateChat {
 
 
 /// Returns an existing chat corresponding to a known secret chat.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CreateSecretChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="createSecretChat".to_string())]
   td_name: String, // createSecretChat
   /// Secret chat identifier.
-  secret_chat_id: Option<i32>,
+  #[builder(default)] secret_chat_id: Option<i32>,
   
 }
 
@@ -31401,15 +32141,16 @@ impl CreateSecretChat {
 
 
 /// Returns an existing chat corresponding to a known supergroup or channel.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CreateSupergroupChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="createSupergroupChat".to_string())]
   td_name: String, // createSupergroupChat
   /// Supergroup or channel identifier.
-  supergroup_id: Option<i32>,
+  #[builder(default)] supergroup_id: Option<i32>,
   /// If true, the chat will be created without network request. In this case all information about the chat except its type, title and photo can be incorrect.
-  force: Option<bool>,
+  #[builder(default)] force: Option<bool>,
   
 }
 
@@ -31438,15 +32179,16 @@ impl CreateSupergroupChat {
 
 
 /// Creates a new temporary password for processing payments.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct CreateTemporaryPassword {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="createTemporaryPassword".to_string())]
   td_name: String, // createTemporaryPassword
   /// Persistent user password.
-  password: Option<String>,
+  #[builder(default)] password: Option<String>,
   /// Time during which the temporary password will be valid, in seconds; should be between 60 and 86400.
-  valid_for: Option<i32>,
+  #[builder(default)] valid_for: Option<i32>,
   
 }
 
@@ -31475,13 +32217,14 @@ impl CreateTemporaryPassword {
 
 
 /// Deletes the account of the current user, deleting all information associated with the user from the server. The phone number of the account can be used to create a new account. Can be called before authorization when the current authorization state is 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeleteAccount {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deleteAccount".to_string())]
   td_name: String, // deleteAccount
   /// The reason why the account was deleted; optional.
-  reason: Option<String>,
+  #[builder(default)] reason: Option<String>,
   
 }
 
@@ -31508,17 +32251,18 @@ impl DeleteAccount {
 
 
 /// Deletes all messages in the chat. Use Chat.can_be_deleted_only_for_self and Chat.can_be_deleted_for_all_users fields to find whether and how the method can be applied to the chat.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeleteChatHistory {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deleteChatHistory".to_string())]
   td_name: String, // deleteChatHistory
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Pass true if the chat should be removed from the chat list.
-  remove_from_chat_list: Option<bool>,
+  #[builder(default)] remove_from_chat_list: Option<bool>,
   /// Pass true to try to delete chat history for all users.
-  revoke: Option<bool>,
+  #[builder(default)] revoke: Option<bool>,
   
 }
 
@@ -31549,15 +32293,16 @@ impl DeleteChatHistory {
 
 
 /// Deletes all messages sent by the specified user to a chat. Supported only in supergroups; requires can_delete_messages administrator privileges.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeleteChatMessagesFromUser {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deleteChatMessagesFromUser".to_string())]
   td_name: String, // deleteChatMessagesFromUser
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   
 }
 
@@ -31586,15 +32331,16 @@ impl DeleteChatMessagesFromUser {
 
 
 /// Deletes the default reply markup from a chat. Must be called after a one-time keyboard or a ForceReply reply markup has been used. UpdateChatReplyMarkup will be sent if the reply markup will be changed.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeleteChatReplyMarkup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deleteChatReplyMarkup".to_string())]
   td_name: String, // deleteChatReplyMarkup
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// The message identifier of the used keyboard.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   
 }
 
@@ -31623,13 +32369,14 @@ impl DeleteChatReplyMarkup {
 
 
 /// Deletes a file from the TDLib file cache.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeleteFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deleteFile".to_string())]
   td_name: String, // deleteFile
   /// Identifier of the file to delete.
-  file_id: Option<i32>,
+  #[builder(default)] file_id: Option<i32>,
   
 }
 
@@ -31656,13 +32403,14 @@ impl DeleteFile {
 
 
 /// Deletes all information about a language pack in the current localization target. The language pack which is currently in use (including base language pack) or is being synchronized can't be deleted. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeleteLanguagePack {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deleteLanguagePack".to_string())]
   td_name: String, // deleteLanguagePack
   /// Identifier of the language pack to delete.
-  language_pack_id: Option<String>,
+  #[builder(default)] language_pack_id: Option<String>,
   
 }
 
@@ -31689,17 +32437,18 @@ impl DeleteLanguagePack {
 
 
 /// Deletes messages.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeleteMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deleteMessages".to_string())]
   td_name: String, // deleteMessages
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifiers of the messages to be deleted.
-  message_ids: Option<Vec<i64>>,
+  #[builder(default)] message_ids: Option<Vec<i64>>,
   /// Pass true to try to delete messages for all chat members. Always true for supergroups, channels and secret chats.
-  revoke: Option<bool>,
+  #[builder(default)] revoke: Option<bool>,
   
 }
 
@@ -31730,13 +32479,14 @@ impl DeleteMessages {
 
 
 /// Deletes a Telegram Passport element.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct DeletePassportElement {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deletePassportElement".to_string())]
   td_name: String, // deletePassportElement
   /// Element type.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<PassportElementType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<PassportElementType>>,
   
 }
 
@@ -31767,13 +32517,14 @@ impl DeletePassportElement {
 
 
 /// Deletes a profile photo. If something changes, 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeleteProfilePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deleteProfilePhoto".to_string())]
   td_name: String, // deleteProfilePhoto
   /// Identifier of the profile photo to delete.
-  profile_photo_id: Option<i64>,
+  #[builder(default)] profile_photo_id: Option<i64>,
   
 }
 
@@ -31800,10 +32551,11 @@ impl DeleteProfilePhoto {
 
 
 /// Deletes saved credentials for all payment provider bots.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeleteSavedCredentials {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deleteSavedCredentials".to_string())]
   td_name: String, // deleteSavedCredentials
   
 }
@@ -31829,10 +32581,11 @@ impl DeleteSavedCredentials {
 
 
 /// Deletes saved order info.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeleteSavedOrderInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deleteSavedOrderInfo".to_string())]
   td_name: String, // deleteSavedOrderInfo
   
 }
@@ -31858,13 +32611,14 @@ impl DeleteSavedOrderInfo {
 
 
 /// Deletes a supergroup or channel along with all messages in the corresponding chat. This will release the supergroup or channel username and remove all members; requires creator privileges in the supergroup or channel. Chats with more than 1000 members can't be deleted using this method.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DeleteSupergroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="deleteSupergroup".to_string())]
   td_name: String, // deleteSupergroup
   /// Identifier of the supergroup or channel.
-  supergroup_id: Option<i32>,
+  #[builder(default)] supergroup_id: Option<i32>,
   
 }
 
@@ -31891,10 +32645,11 @@ impl DeleteSupergroup {
 
 
 /// Closes the TDLib instance, destroying all local data without a proper logout. The current user session will remain in the list of all active sessions. All local data will be destroyed. After the destruction completes 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct Destroy {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="destroy".to_string())]
   td_name: String, // destroy
   
 }
@@ -31920,10 +32675,11 @@ impl Destroy {
 
 
 /// Disables the currently enabled proxy. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DisableProxy {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="disableProxy".to_string())]
   td_name: String, // disableProxy
   
 }
@@ -31949,19 +32705,20 @@ impl DisableProxy {
 
 
 /// Discards a call.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DiscardCall {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="discardCall".to_string())]
   td_name: String, // discardCall
   /// Call identifier.
-  call_id: Option<i32>,
+  #[builder(default)] call_id: Option<i32>,
   /// True, if the user was disconnected.
-  is_disconnected: Option<bool>,
+  #[builder(default)] is_disconnected: Option<bool>,
   /// The call duration, in seconds.
-  duration: Option<i32>,
+  #[builder(default)] duration: Option<i32>,
   /// Identifier of the connection used during the call.
-  connection_id: Option<i64>,
+  #[builder(default)] connection_id: Option<i64>,
   
 }
 
@@ -31994,10 +32751,11 @@ impl DiscardCall {
 
 
 /// Disconnects all websites from the current user's Telegram account.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DisconnectAllWebsites {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="disconnectAllWebsites".to_string())]
   td_name: String, // disconnectAllWebsites
   
 }
@@ -32023,13 +32781,14 @@ impl DisconnectAllWebsites {
 
 
 /// Disconnects website from the current user's Telegram account.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DisconnectWebsite {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="disconnectWebsite".to_string())]
   td_name: String, // disconnectWebsite
   /// Website identifier.
-  website_id: Option<i64>,
+  #[builder(default)] website_id: Option<i64>,
   
 }
 
@@ -32056,21 +32815,22 @@ impl DisconnectWebsite {
 
 
 /// Downloads a file from the cloud. Download progress and completion of the download will be notified through 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct DownloadFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="downloadFile".to_string())]
   td_name: String, // downloadFile
   /// Identifier of the file to download.
-  file_id: Option<i32>,
+  #[builder(default)] file_id: Option<i32>,
   /// Priority of the download (1-32). The higher the priority, the earlier the file will be downloaded. If the priorities of two files are equal, then the last one for which downloadFile was called will be downloaded first.
-  priority: Option<i32>,
+  #[builder(default)] priority: Option<i32>,
   /// The starting position from which the file should be downloaded.
-  offset: Option<i32>,
+  #[builder(default)] offset: Option<i32>,
   /// Number of bytes which should be downloaded starting from the "offset" position before the download will be automatically cancelled; use 0 to download without a limit.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   /// If false, this request returns file state just after the download has been started. If true, this request returns file state only after the download has succeeded, has failed, has been cancelled or a new downloadFile request with different offset/limit parameters was sent.
-  synchronous: Option<bool>,
+  #[builder(default)] synchronous: Option<bool>,
   
 }
 
@@ -32105,13 +32865,14 @@ impl DownloadFile {
 
 
 /// Edits information about a custom local language pack in the current localization target. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct EditCustomLanguagePackInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="editCustomLanguagePackInfo".to_string())]
   td_name: String, // editCustomLanguagePackInfo
   /// New information about the custom local language pack.
-  info: Option<LanguagePackInfo>,
+  #[builder(default)] info: Option<LanguagePackInfo>,
   
 }
 
@@ -32138,17 +32899,18 @@ impl EditCustomLanguagePackInfo {
 
 
 /// Edits the caption of an inline message sent via a bot; for bots only.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct EditInlineMessageCaption {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="editInlineMessageCaption".to_string())]
   td_name: String, // editInlineMessageCaption
   /// Inline message identifier.
-  inline_message_id: Option<String>,
+  #[builder(default)] inline_message_id: Option<String>,
   /// The new message reply markup.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// New message content caption; 0-GetOption("message_caption_length_max") characters.
-  caption: Option<FormattedText>,
+  #[builder(default)] caption: Option<FormattedText>,
   
 }
 
@@ -32183,17 +32945,18 @@ impl EditInlineMessageCaption {
 
 
 /// Edits the content of a live location in an inline message sent via a bot; for bots only.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct EditInlineMessageLiveLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="editInlineMessageLiveLocation".to_string())]
   td_name: String, // editInlineMessageLiveLocation
   /// Inline message identifier.
-  inline_message_id: Option<String>,
+  #[builder(default)] inline_message_id: Option<String>,
   /// The new message reply markup.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// New location content of the message; may be null. Pass null to stop sharing the live location.
-  location: Option<Location>,
+  #[builder(default)] location: Option<Location>,
   
 }
 
@@ -32228,17 +32991,18 @@ impl EditInlineMessageLiveLocation {
 
 
 /// Edits the content of a message with an animation, an audio, a document, a photo or a video in an inline message sent via a bot; for bots only.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct EditInlineMessageMedia {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="editInlineMessageMedia".to_string())]
   td_name: String, // editInlineMessageMedia
   /// Inline message identifier.
-  inline_message_id: Option<String>,
+  #[builder(default)] inline_message_id: Option<String>,
   /// The new message reply markup; for bots only.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// New content of the message. Must be one of the following types: InputMessageAnimation, InputMessageAudio, InputMessageDocument, InputMessagePhoto or InputMessageVideo.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -32273,15 +33037,16 @@ impl EditInlineMessageMedia {
 
 
 /// Edits the reply markup of an inline message sent via a bot; for bots only.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct EditInlineMessageReplyMarkup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="editInlineMessageReplyMarkup".to_string())]
   td_name: String, // editInlineMessageReplyMarkup
   /// Inline message identifier.
-  inline_message_id: Option<String>,
+  #[builder(default)] inline_message_id: Option<String>,
   /// The new message reply markup.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   
 }
 
@@ -32314,17 +33079,18 @@ impl EditInlineMessageReplyMarkup {
 
 
 /// Edits the text of an inline text or game message sent via a bot; for bots only.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct EditInlineMessageText {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="editInlineMessageText".to_string())]
   td_name: String, // editInlineMessageText
   /// Inline message identifier.
-  inline_message_id: Option<String>,
+  #[builder(default)] inline_message_id: Option<String>,
   /// The new message reply markup.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// New text content of the message. Should be of type InputMessageText.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -32359,19 +33125,20 @@ impl EditInlineMessageText {
 
 
 /// Edits the message content caption. Returns the edited message after the edit is completed on the server side.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct EditMessageCaption {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="editMessageCaption".to_string())]
   td_name: String, // editMessageCaption
   /// The chat the message belongs to.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// The new message reply markup; for bots only.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// New message content caption; 0-GetOption("message_caption_length_max") characters.
-  caption: Option<FormattedText>,
+  #[builder(default)] caption: Option<FormattedText>,
   
 }
 
@@ -32408,19 +33175,20 @@ impl EditMessageCaption {
 
 
 /// Edits the message content of a live location. Messages can be edited for a limited period of time specified in the live location. Returns the edited message after the edit is completed on the server side.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct EditMessageLiveLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="editMessageLiveLocation".to_string())]
   td_name: String, // editMessageLiveLocation
   /// The chat the message belongs to.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// The new message reply markup; for bots only.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// New location content of the message; may be null. Pass null to stop sharing the live location.
-  location: Option<Location>,
+  #[builder(default)] location: Option<Location>,
   
 }
 
@@ -32457,19 +33225,20 @@ impl EditMessageLiveLocation {
 
 
 /// Edits the content of a message with an animation, an audio, a document, a photo or a video. The media in the message can't be replaced if the message was set to self-destruct. Media can't be replaced by self-destructing media. Media in an album can be edited only to contain a photo or a video. Returns the edited message after the edit is completed on the server side.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct EditMessageMedia {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="editMessageMedia".to_string())]
   td_name: String, // editMessageMedia
   /// The chat the message belongs to.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// The new message reply markup; for bots only.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// New content of the message. Must be one of the following types: InputMessageAnimation, InputMessageAudio, InputMessageDocument, InputMessagePhoto or InputMessageVideo.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -32506,17 +33275,18 @@ impl EditMessageMedia {
 
 
 /// Edits the message reply markup; for bots only. Returns the edited message after the edit is completed on the server side.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct EditMessageReplyMarkup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="editMessageReplyMarkup".to_string())]
   td_name: String, // editMessageReplyMarkup
   /// The chat the message belongs to.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// The new message reply markup.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   
 }
 
@@ -32551,19 +33321,20 @@ impl EditMessageReplyMarkup {
 
 
 /// Edits the text of a message (or a text of a game message). Returns the edited message after the edit is completed on the server side.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct EditMessageText {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="editMessageText".to_string())]
   td_name: String, // editMessageText
   /// The chat the message belongs to.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// The new message reply markup; for bots only.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// New text content of the message. Should be of type InputMessageText.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -32600,21 +33371,22 @@ impl EditMessageText {
 
 
 /// Edits an existing proxy server for network requests. Can be called before authorization.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct EditProxy {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="editProxy".to_string())]
   td_name: String, // editProxy
   /// Proxy identifier.
-  proxy_id: Option<i32>,
+  #[builder(default)] proxy_id: Option<i32>,
   /// Proxy server IP address.
-  server: Option<String>,
+  #[builder(default)] server: Option<String>,
   /// Proxy server port.
-  port: Option<i32>,
+  #[builder(default)] port: Option<i32>,
   /// True, if the proxy should be enabled.
-  enable: Option<bool>,
+  #[builder(default)] enable: Option<bool>,
   /// Proxy type.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<ProxyType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<ProxyType>>,
   
 }
 
@@ -32653,13 +33425,14 @@ impl EditProxy {
 
 
 /// Enables a proxy. Only one proxy can be enabled at a time. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct EnableProxy {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="enableProxy".to_string())]
   td_name: String, // enableProxy
   /// Proxy identifier.
-  proxy_id: Option<i32>,
+  #[builder(default)] proxy_id: Option<i32>,
   
 }
 
@@ -32686,15 +33459,16 @@ impl EnableProxy {
 
 
 /// Finishes the file generation.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct FinishFileGeneration {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="finishFileGeneration".to_string())]
   td_name: String, // finishFileGeneration
   /// The identifier of the generation process.
-  generation_id: Option<i64>,
+  #[builder(default)] generation_id: Option<i64>,
   /// If set, means that file generation has failed and should be terminated.
-  error: Option<Error>,
+  #[builder(default)] error: Option<Error>,
   
 }
 
@@ -32723,23 +33497,24 @@ impl FinishFileGeneration {
 
 
 /// Forwards previously sent messages. Returns the forwarded messages in the same order as the message identifiers passed in message_ids. If a message can't be forwarded, null will be returned instead of the message.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ForwardMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="forwardMessages".to_string())]
   td_name: String, // forwardMessages
   /// Identifier of the chat to which to forward messages.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the chat from which to forward messages.
-  from_chat_id: Option<i64>,
+  #[builder(default)] from_chat_id: Option<i64>,
   /// Identifiers of the messages to forward.
-  message_ids: Option<Vec<i64>>,
+  #[builder(default)] message_ids: Option<Vec<i64>>,
   /// Pass true to disable notification for the message, doesn't work if messages are forwarded to a secret chat.
-  disable_notification: Option<bool>,
+  #[builder(default)] disable_notification: Option<bool>,
   /// Pass true if the message is sent from the background.
-  from_background: Option<bool>,
+  #[builder(default)] from_background: Option<bool>,
   /// True, if the messages should be grouped into an album after forwarding. For this to work, no more than 10 messages may be forwarded, and all of them must be photo or video messages.
-  as_album: Option<bool>,
+  #[builder(default)] as_album: Option<bool>,
   
 }
 
@@ -32776,13 +33551,14 @@ impl ForwardMessages {
 
 
 /// Generates a new invite link for a chat; the previously generated link is revoked. Available for basic groups, supergroups, and channels. In basic groups this can be called only by the group's creator; in supergroups and channels this requires appropriate administrator rights.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GenerateChatInviteLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="generateChatInviteLink".to_string())]
   td_name: String, // generateChatInviteLink
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -32809,10 +33585,11 @@ impl GenerateChatInviteLink {
 
 
 /// Returns the period of inactivity after which the account of the current user will automatically be deleted.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetAccountTtl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getAccountTtl".to_string())]
   td_name: String, // getAccountTtl
   
 }
@@ -32838,10 +33615,11 @@ impl GetAccountTtl {
 
 
 /// Returns all active live locations that should be updated by the client. The list is persistent across application restarts only if the message database is used.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetActiveLiveLocationMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getActiveLiveLocationMessages".to_string())]
   td_name: String, // getActiveLiveLocationMessages
   
 }
@@ -32867,10 +33645,11 @@ impl GetActiveLiveLocationMessages {
 
 
 /// Returns all active sessions of the current user.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetActiveSessions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getActiveSessions".to_string())]
   td_name: String, // getActiveSessions
   
 }
@@ -32896,13 +33675,14 @@ impl GetActiveSessions {
 
 
 /// Returns all available Telegram Passport elements.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetAllPassportElements {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getAllPassportElements".to_string())]
   td_name: String, // getAllPassportElements
   /// Password of the current user.
-  password: Option<String>,
+  #[builder(default)] password: Option<String>,
   
 }
 
@@ -32929,10 +33709,11 @@ impl GetAllPassportElements {
 
 
 /// Returns application config, provided by the server. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetApplicationConfig {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getApplicationConfig".to_string())]
   td_name: String, // getApplicationConfig
   
 }
@@ -32958,17 +33739,18 @@ impl GetApplicationConfig {
 
 
 /// Returns a list of archived sticker sets.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetArchivedStickerSets {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getArchivedStickerSets".to_string())]
   td_name: String, // getArchivedStickerSets
   /// Pass true to return mask stickers sets; pass false to return ordinary sticker sets.
-  is_masks: Option<bool>,
+  #[builder(default)] is_masks: Option<bool>,
   /// Identifier of the sticker set from which to return the result.
-  offset_sticker_set_id: Option<i64>,
+  #[builder(default)] offset_sticker_set_id: Option<i64>,
   /// Maximum number of sticker sets to return.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -32999,13 +33781,14 @@ impl GetArchivedStickerSets {
 
 
 /// Returns a list of sticker sets attached to a file. Currently only photos and videos can have attached sticker sets.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetAttachedStickerSets {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getAttachedStickerSets".to_string())]
   td_name: String, // getAttachedStickerSets
   /// File identifier.
-  file_id: Option<i32>,
+  #[builder(default)] file_id: Option<i32>,
   
 }
 
@@ -33032,10 +33815,11 @@ impl GetAttachedStickerSets {
 
 
 /// Returns the current authorization state; this is an offline request. For informational purposes only. Use 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetAuthorizationState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getAuthorizationState".to_string())]
   td_name: String, // getAuthorizationState
   
 }
@@ -33061,13 +33845,14 @@ impl GetAuthorizationState {
 
 
 /// Returns information about a basic group by its identifier. This is an offline request if the current user is not a bot.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetBasicGroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getBasicGroup".to_string())]
   td_name: String, // getBasicGroup
   /// Basic group identifier.
-  basic_group_id: Option<i32>,
+  #[builder(default)] basic_group_id: Option<i32>,
   
 }
 
@@ -33094,13 +33879,14 @@ impl GetBasicGroup {
 
 
 /// Returns full information about a basic group by its identifier.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetBasicGroupFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getBasicGroupFullInfo".to_string())]
   td_name: String, // getBasicGroupFullInfo
   /// Basic group identifier.
-  basic_group_id: Option<i32>,
+  #[builder(default)] basic_group_id: Option<i32>,
   
 }
 
@@ -33127,15 +33913,16 @@ impl GetBasicGroupFullInfo {
 
 
 /// Returns users that were blocked by the current user.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetBlockedUsers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getBlockedUsers".to_string())]
   td_name: String, // getBlockedUsers
   /// Number of users to skip in the result; must be non-negative.
-  offset: Option<i32>,
+  #[builder(default)] offset: Option<i32>,
   /// Maximum number of users to return; up to 100.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -33164,17 +33951,18 @@ impl GetBlockedUsers {
 
 
 /// Sends a callback query to a bot and returns an answer. Returns an error with code 502 if the bot fails to answer the query before the query timeout expires.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct GetCallbackQueryAnswer {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getCallbackQueryAnswer".to_string())]
   td_name: String, // getCallbackQueryAnswer
   /// Identifier of the chat with the message.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message from which the query originated.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// Query payload.
-  payload: Option<Box<CallbackQueryPayload>>,
+  #[builder(default)] payload: Option<Box<CallbackQueryPayload>>,
   
 }
 
@@ -33209,13 +33997,14 @@ impl GetCallbackQueryAnswer {
 
 
 /// Returns information about a chat by its identifier, this is an offline request if the current user is not a bot.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getChat".to_string())]
   td_name: String, // getChat
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -33242,13 +34031,14 @@ impl GetChat {
 
 
 /// Returns a list of users who are administrators of the chat.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetChatAdministrators {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getChatAdministrators".to_string())]
   td_name: String, // getChatAdministrators
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -33275,23 +34065,24 @@ impl GetChatAdministrators {
 
 
 /// Returns a list of service actions taken by chat members and administrators in the last 48 hours. Available only in supergroups and channels. Requires administrator rights. Returns results in reverse chronological order (i. e., in order of decreasing event_id).
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetChatEventLog {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getChatEventLog".to_string())]
   td_name: String, // getChatEventLog
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Search query by which to filter events.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   /// Identifier of an event from which to return results. Use 0 to get results from the latest events.
-  from_event_id: Option<i64>,
+  #[builder(default)] from_event_id: Option<i64>,
   /// Maximum number of events to return; up to 100.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   /// The types of events to return. By default, all types will be returned.
-  filters: Option<ChatEventLogFilters>,
+  #[builder(default)] filters: Option<ChatEventLogFilters>,
   /// User identifiers by which to filter events. By default, events relating to all users will be returned.
-  user_ids: Option<Vec<i32>>,
+  #[builder(default)] user_ids: Option<Vec<i32>>,
   
 }
 
@@ -33328,21 +34119,22 @@ impl GetChatEventLog {
 
 
 /// Returns messages in a chat. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id). For optimal performance the number of returned messages is chosen by the library. This is an offline request if only_local is true.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetChatHistory {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getChatHistory".to_string())]
   td_name: String, // getChatHistory
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message starting from which history must be fetched; use 0 to get results from the last message.
-  from_message_id: Option<i64>,
+  #[builder(default)] from_message_id: Option<i64>,
   /// Specify 0 to get results from exactly the from_message_id or a negative offset up to 99 to get additionally some newer messages.
-  offset: Option<i32>,
+  #[builder(default)] offset: Option<i32>,
   /// The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater or equal to -offset. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   /// If true, returns only messages that are available locally without sending network requests.
-  only_local: Option<bool>,
+  #[builder(default)] only_local: Option<bool>,
   
 }
 
@@ -33377,15 +34169,16 @@ impl GetChatHistory {
 
 
 /// Returns information about a single member of a chat.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetChatMember {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getChatMember".to_string())]
   td_name: String, // getChatMember
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   
 }
 
@@ -33414,15 +34207,16 @@ impl GetChatMember {
 
 
 /// Returns the last message sent in a chat no later than the specified date.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetChatMessageByDate {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getChatMessageByDate".to_string())]
   td_name: String, // getChatMessageByDate
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Point in time (Unix timestamp) relative to which to search for messages.
-  date: Option<i32>,
+  #[builder(default)] date: Option<i32>,
   
 }
 
@@ -33451,17 +34245,18 @@ impl GetChatMessageByDate {
 
 
 /// Returns approximate number of messages of the specified type in the chat.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct GetChatMessageCount {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getChatMessageCount".to_string())]
   td_name: String, // getChatMessageCount
   /// Identifier of the chat in which to count messages.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Filter for message content; searchMessagesFilterEmpty is unsupported in this function.
-  filter: Option<Box<SearchMessagesFilter>>,
+  #[builder(default)] filter: Option<Box<SearchMessagesFilter>>,
   /// If true, returns count that is available locally without sending network requests, returning -1 if the number of messages is unknown.
-  return_local: Option<bool>,
+  #[builder(default)] return_local: Option<bool>,
   
 }
 
@@ -33496,15 +34291,16 @@ impl GetChatMessageCount {
 
 
 /// Returns list of chats with non-default notification settings.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct GetChatNotificationSettingsExceptions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getChatNotificationSettingsExceptions".to_string())]
   td_name: String, // getChatNotificationSettingsExceptions
   /// If specified, only chats from the specified scope will be returned.
-  scope: Option<Box<NotificationSettingsScope>>,
+  #[builder(default)] scope: Option<Box<NotificationSettingsScope>>,
   /// If true, also chats with non-default sound will be returned.
-  compare_sound: Option<bool>,
+  #[builder(default)] compare_sound: Option<bool>,
   
 }
 
@@ -33537,13 +34333,14 @@ impl GetChatNotificationSettingsExceptions {
 
 
 /// Returns information about a pinned chat message.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetChatPinnedMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getChatPinnedMessage".to_string())]
   td_name: String, // getChatPinnedMessage
   /// Identifier of the chat the message belongs to.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -33570,13 +34367,14 @@ impl GetChatPinnedMessage {
 
 
 /// Returns information on whether the current chat can be reported as spam.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetChatReportSpamState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getChatReportSpamState".to_string())]
   td_name: String, // getChatReportSpamState
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -33603,17 +34401,18 @@ impl GetChatReportSpamState {
 
 
 /// Returns URL with the chat statistics. Currently this method can be used only for channels.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetChatStatisticsUrl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getChatStatisticsUrl".to_string())]
   td_name: String, // getChatStatisticsUrl
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Parameters from "tg://statsrefresh?params=******" link.
-  parameters: Option<String>,
+  #[builder(default)] parameters: Option<String>,
   /// Pass true if a URL with the dark theme must be returned.
-  is_dark: Option<bool>,
+  #[builder(default)] is_dark: Option<bool>,
   
 }
 
@@ -33644,17 +34443,18 @@ impl GetChatStatisticsUrl {
 
 
 /// Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63 - 1). For optimal performance the number of returned chats is chosen by the library.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetChats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getChats".to_string())]
   td_name: String, // getChats
   /// Chat order to return chats from.
-  offset_order: Option<i64>,
+  #[builder(default)] offset_order: Option<i64>,
   /// Chat identifier to return chats from.
-  offset_chat_id: Option<i64>,
+  #[builder(default)] offset_chat_id: Option<i64>,
   /// The maximum number of chats to be returned. It is possible that fewer chats than the limit are returned even if the end of the list is not reached.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -33685,10 +34485,11 @@ impl GetChats {
 
 
 /// Returns all website where the current user used Telegram to log in.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetConnectedWebsites {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getConnectedWebsites".to_string())]
   td_name: String, // getConnectedWebsites
   
 }
@@ -33714,10 +34515,11 @@ impl GetConnectedWebsites {
 
 
 /// Returns all user contacts.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetContacts {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getContacts".to_string())]
   td_name: String, // getContacts
   
 }
@@ -33743,10 +34545,11 @@ impl GetContacts {
 
 
 /// Uses current user IP to found his country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetCountryCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getCountryCode".to_string())]
   td_name: String, // getCountryCode
   
 }
@@ -33772,10 +34575,11 @@ impl GetCountryCode {
 
 
 /// Returns a list of public chats created by the user.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetCreatedPublicChats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getCreatedPublicChats".to_string())]
   td_name: String, // getCreatedPublicChats
   
 }
@@ -33801,10 +34605,11 @@ impl GetCreatedPublicChats {
 
 
 /// Returns all updates needed to restore current TDLib state, i.e. all actual UpdateAuthorizationState/UpdateUser/UpdateNewChat and others. This is especially usefull if TDLib is run in a separate process. This is an offline method. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetCurrentState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getCurrentState".to_string())]
   td_name: String, // getCurrentState
   
 }
@@ -33830,10 +34635,11 @@ impl GetCurrentState {
 
 
 /// Returns database statistics.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetDatabaseStatistics {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getDatabaseStatistics".to_string())]
   td_name: String, // getDatabaseStatistics
   
 }
@@ -33859,13 +34665,14 @@ impl GetDatabaseStatistics {
 
 
 /// Returns information about a tg:// deep link. Use "tg://need_update_for_some_feature" or "tg:some_unsupported_feature" for testing. Returns a 404 error for unknown links. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetDeepLinkInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getDeepLinkInfo".to_string())]
   td_name: String, // getDeepLinkInfo
   /// The link.
-  link: Option<String>,
+  #[builder(default)] link: Option<String>,
   
 }
 
@@ -33892,10 +34699,11 @@ impl GetDeepLinkInfo {
 
 
 /// Returns favorite stickers.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetFavoriteStickers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getFavoriteStickers".to_string())]
   td_name: String, // getFavoriteStickers
   
 }
@@ -33921,13 +34729,14 @@ impl GetFavoriteStickers {
 
 
 /// Returns information about a file; this is an offline request.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getFile".to_string())]
   td_name: String, // getFile
   /// Identifier of the file to get.
-  file_id: Option<i32>,
+  #[builder(default)] file_id: Option<i32>,
   
 }
 
@@ -33954,15 +34763,16 @@ impl GetFile {
 
 
 /// Returns file downloaded prefix size from a given offset.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetFileDownloadedPrefixSize {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getFileDownloadedPrefixSize".to_string())]
   td_name: String, // getFileDownloadedPrefixSize
   /// Identifier of the file.
-  file_id: Option<i32>,
+  #[builder(default)] file_id: Option<i32>,
   /// Offset from which downloaded prefix size should be calculated.
-  offset: Option<i32>,
+  #[builder(default)] offset: Option<i32>,
   
 }
 
@@ -33991,13 +34801,14 @@ impl GetFileDownloadedPrefixSize {
 
 
 /// Returns the extension of a file, guessed by its MIME type. Returns an empty string on failure. This is an offline method. Can be called before authorization. Can be called synchronously.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetFileExtension {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getFileExtension".to_string())]
   td_name: String, // getFileExtension
   /// The MIME type of the file.
-  mime_type: Option<String>,
+  #[builder(default)] mime_type: Option<String>,
   
 }
 
@@ -34024,13 +34835,14 @@ impl GetFileExtension {
 
 
 /// Returns the MIME type of a file, guessed by its extension. Returns an empty string on failure. This is an offline method. Can be called before authorization. Can be called synchronously.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetFileMimeType {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getFileMimeType".to_string())]
   td_name: String, // getFileMimeType
   /// The name of the file or path to the file.
-  file_name: Option<String>,
+  #[builder(default)] file_name: Option<String>,
   
 }
 
@@ -34057,17 +34869,18 @@ impl GetFileMimeType {
 
 
 /// Returns the high scores for a game and some part of the high score table in the range of the specified user; for bots only.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetGameHighScores {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getGameHighScores".to_string())]
   td_name: String, // getGameHighScores
   /// The chat that contains the message with the game.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   
 }
 
@@ -34098,17 +34911,18 @@ impl GetGameHighScores {
 
 
 /// Returns a list of common group chats with a given user. Chats are sorted by their type and creation date.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetGroupsInCommon {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getGroupsInCommon".to_string())]
   td_name: String, // getGroupsInCommon
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// Chat identifier starting from which to return chats; use 0 for the first request.
-  offset_chat_id: Option<i64>,
+  #[builder(default)] offset_chat_id: Option<i64>,
   /// Maximum number of chats to be returned; up to 100.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -34139,10 +34953,11 @@ impl GetGroupsInCommon {
 
 
 /// Returns the total number of imported contacts.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetImportedContactCount {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getImportedContactCount".to_string())]
   td_name: String, // getImportedContactCount
   
 }
@@ -34168,15 +34983,16 @@ impl GetImportedContactCount {
 
 
 /// Returns game high scores and some part of the high score table in the range of the specified user; for bots only.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetInlineGameHighScores {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getInlineGameHighScores".to_string())]
   td_name: String, // getInlineGameHighScores
   /// Inline message identifier.
-  inline_message_id: Option<String>,
+  #[builder(default)] inline_message_id: Option<String>,
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   
 }
 
@@ -34205,21 +35021,22 @@ impl GetInlineGameHighScores {
 
 
 /// Sends an inline query to a bot and returns its results. Returns an error with code 502 if the bot fails to answer the query before the query timeout expires.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetInlineQueryResults {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getInlineQueryResults".to_string())]
   td_name: String, // getInlineQueryResults
   /// The identifier of the target bot.
-  bot_user_id: Option<i32>,
+  #[builder(default)] bot_user_id: Option<i32>,
   /// Identifier of the chat, where the query was sent.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Location of the user, only if needed.
-  user_location: Option<Location>,
+  #[builder(default)] user_location: Option<Location>,
   /// Text of the query.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   /// Offset of the first entry to return.
-  offset: Option<String>,
+  #[builder(default)] offset: Option<String>,
   
 }
 
@@ -34254,13 +35071,14 @@ impl GetInlineQueryResults {
 
 
 /// Returns a list of installed sticker sets.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetInstalledStickerSets {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getInstalledStickerSets".to_string())]
   td_name: String, // getInstalledStickerSets
   /// Pass true to return mask sticker sets; pass false to return ordinary sticker sets.
-  is_masks: Option<bool>,
+  #[builder(default)] is_masks: Option<bool>,
   
 }
 
@@ -34287,10 +35105,11 @@ impl GetInstalledStickerSets {
 
 
 /// Returns the default text for invitation messages to be used as a placeholder when the current user invites friends to Telegram.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetInviteText {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getInviteText".to_string())]
   td_name: String, // getInviteText
   
 }
@@ -34316,13 +35135,14 @@ impl GetInviteText {
 
 
 /// Returns information about a language pack. Returned language pack identifier may be different from a provided one. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetLanguagePackInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getLanguagePackInfo".to_string())]
   td_name: String, // getLanguagePackInfo
   /// Language pack identifier.
-  language_pack_id: Option<String>,
+  #[builder(default)] language_pack_id: Option<String>,
   
 }
 
@@ -34349,19 +35169,20 @@ impl GetLanguagePackInfo {
 
 
 /// Returns a string stored in the local database from the specified localization target and language pack by its key. Returns a 404 error if the string is not found. This is an offline method. Can be called before authorization. Can be called synchronously.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetLanguagePackString {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getLanguagePackString".to_string())]
   td_name: String, // getLanguagePackString
   /// Path to the language pack database in which strings are stored.
-  language_pack_database_path: Option<String>,
+  #[builder(default)] language_pack_database_path: Option<String>,
   /// Localization target to which the language pack belongs.
-  localization_target: Option<String>,
+  #[builder(default)] localization_target: Option<String>,
   /// Language pack identifier.
-  language_pack_id: Option<String>,
+  #[builder(default)] language_pack_id: Option<String>,
   /// Language pack key of the string to be returned.
-  key: Option<String>,
+  #[builder(default)] key: Option<String>,
   
 }
 
@@ -34394,15 +35215,16 @@ impl GetLanguagePackString {
 
 
 /// Returns strings from a language pack in the current localization target by their keys. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetLanguagePackStrings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getLanguagePackStrings".to_string())]
   td_name: String, // getLanguagePackStrings
   /// Language pack identifier of the strings to be returned.
-  language_pack_id: Option<String>,
+  #[builder(default)] language_pack_id: Option<String>,
   /// Language pack keys of the strings to be returned; leave empty to request all available strings.
-  keys: Option<Vec<String>>,
+  #[builder(default)] keys: Option<Vec<String>>,
   
 }
 
@@ -34431,13 +35253,14 @@ impl GetLanguagePackStrings {
 
 
 /// Returns information about the current localization target. This is an offline request if only_local is true. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetLocalizationTargetInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getLocalizationTargetInfo".to_string())]
   td_name: String, // getLocalizationTargetInfo
   /// If true, returns only locally available information without sending network requests.
-  only_local: Option<bool>,
+  #[builder(default)] only_local: Option<bool>,
   
 }
 
@@ -34464,10 +35287,11 @@ impl GetLocalizationTargetInfo {
 
 
 /// Returns information about currently used log stream for internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetLogStream {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getLogStream".to_string())]
   td_name: String, // getLogStream
   
 }
@@ -34493,13 +35317,14 @@ impl GetLogStream {
 
 
 /// Returns current verbosity level for a specified TDLib internal log tag. This is an offline method. Can be called before authorization. Can be called synchronously.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetLogTagVerbosityLevel {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getLogTagVerbosityLevel".to_string())]
   td_name: String, // getLogTagVerbosityLevel
   /// Logging tag to change verbosity level.
-  tag: Option<String>,
+  #[builder(default)] tag: Option<String>,
   
 }
 
@@ -34526,10 +35351,11 @@ impl GetLogTagVerbosityLevel {
 
 
 /// Returns list of available TDLib internal log tags, for example, ["actor", "binlog", "connections", "notifications", "proxy"]. This is an offline method. Can be called before authorization. Can be called synchronously.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetLogTags {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getLogTags".to_string())]
   td_name: String, // getLogTags
   
 }
@@ -34555,10 +35381,11 @@ impl GetLogTags {
 
 
 /// Returns current verbosity level of the internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetLogVerbosityLevel {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getLogVerbosityLevel".to_string())]
   td_name: String, // getLogVerbosityLevel
   
 }
@@ -34584,23 +35411,24 @@ impl GetLogVerbosityLevel {
 
 
 /// Returns information about a file with a map thumbnail in PNG format. Only map thumbnail files with size less than 1MB can be downloaded.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetMapThumbnailFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getMapThumbnailFile".to_string())]
   td_name: String, // getMapThumbnailFile
   /// Location of the map center.
-  location: Option<Location>,
+  #[builder(default)] location: Option<Location>,
   /// Map zoom level; 13-20.
-  zoom: Option<i32>,
+  #[builder(default)] zoom: Option<i32>,
   /// Map width in pixels before applying scale; 16-1024.
-  width: Option<i32>,
+  #[builder(default)] width: Option<i32>,
   /// Map height in pixels before applying scale; 16-1024.
-  height: Option<i32>,
+  #[builder(default)] height: Option<i32>,
   /// Map scale; 1-3.
-  scale: Option<i32>,
+  #[builder(default)] scale: Option<i32>,
   /// Identifier of a chat, in which the thumbnail will be shown. Use 0 if unknown.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -34637,10 +35465,11 @@ impl GetMapThumbnailFile {
 
 
 /// Returns the current user.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetMe {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getMe".to_string())]
   td_name: String, // getMe
   
 }
@@ -34666,15 +35495,16 @@ impl GetMe {
 
 
 /// Returns information about a message.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getMessage".to_string())]
   td_name: String, // getMessage
   /// Identifier of the chat the message belongs to.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message to get.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   
 }
 
@@ -34703,15 +35533,16 @@ impl GetMessage {
 
 
 /// Returns a private HTTPS link to a message in a chat. Available only for already sent messages in supergroups and channels. The link will work only for members of the chat.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetMessageLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getMessageLink".to_string())]
   td_name: String, // getMessageLink
   /// Identifier of the chat to which the message belongs.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   
 }
 
@@ -34740,15 +35571,16 @@ impl GetMessageLink {
 
 
 /// Returns information about a message, if it is available locally without sending network request. This is an offline request.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetMessageLocally {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getMessageLocally".to_string())]
   td_name: String, // getMessageLocally
   /// Identifier of the chat the message belongs to.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message to get.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   
 }
 
@@ -34777,15 +35609,16 @@ impl GetMessageLocally {
 
 
 /// Returns information about messages. If a message is not found, returns null on the corresponding position of the result.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getMessages".to_string())]
   td_name: String, // getMessages
   /// Identifier of the chat the messages belong to.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifiers of the messages to get.
-  message_ids: Option<Vec<i64>>,
+  #[builder(default)] message_ids: Option<Vec<i64>>,
   
 }
 
@@ -34814,13 +35647,14 @@ impl GetMessages {
 
 
 /// Returns network data usage statistics. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetNetworkStatistics {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getNetworkStatistics".to_string())]
   td_name: String, // getNetworkStatistics
   /// If true, returns only data for the current library launch.
-  only_current: Option<bool>,
+  #[builder(default)] only_current: Option<bool>,
   
 }
 
@@ -34847,13 +35681,14 @@ impl GetNetworkStatistics {
 
 
 /// Returns the value of an option by its name. (Check the list of available options on 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetOption {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getOption".to_string())]
   td_name: String, // getOption
   /// The name of the option.
-  name: Option<String>,
+  #[builder(default)] name: Option<String>,
   
 }
 
@@ -34880,19 +35715,20 @@ impl GetOption {
 
 
 /// Returns a Telegram Passport authorization form for sharing data with a service.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetPassportAuthorizationForm {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getPassportAuthorizationForm".to_string())]
   td_name: String, // getPassportAuthorizationForm
   /// User identifier of the service's bot.
-  bot_user_id: Option<i32>,
+  #[builder(default)] bot_user_id: Option<i32>,
   /// Telegram Passport element types requested by the service.
-  scope: Option<String>,
+  #[builder(default)] scope: Option<String>,
   /// Service's public_key.
-  public_key: Option<String>,
+  #[builder(default)] public_key: Option<String>,
   /// Authorization form nonce provided by the service.
-  nonce: Option<String>,
+  #[builder(default)] nonce: Option<String>,
   
 }
 
@@ -34925,15 +35761,16 @@ impl GetPassportAuthorizationForm {
 
 
 /// Returns already available Telegram Passport elements suitable for completing a Telegram Passport authorization form. Result can be received only once for each authorization form.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetPassportAuthorizationFormAvailableElements {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getPassportAuthorizationFormAvailableElements".to_string())]
   td_name: String, // getPassportAuthorizationFormAvailableElements
   /// Authorization form identifier.
-  autorization_form_id: Option<i32>,
+  #[builder(default)] autorization_form_id: Option<i32>,
   /// Password of the current user.
-  password: Option<String>,
+  #[builder(default)] password: Option<String>,
   
 }
 
@@ -34962,15 +35799,16 @@ impl GetPassportAuthorizationFormAvailableElements {
 
 
 /// Returns one of the available Telegram Passport elements.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct GetPassportElement {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getPassportElement".to_string())]
   td_name: String, // getPassportElement
   /// Telegram Passport element type.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<PassportElementType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<PassportElementType>>,
   /// Password of the current user.
-  password: Option<String>,
+  #[builder(default)] password: Option<String>,
   
 }
 
@@ -35003,10 +35841,11 @@ impl GetPassportElement {
 
 
 /// Returns the current state of 2-step verification.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetPasswordState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getPasswordState".to_string())]
   td_name: String, // getPasswordState
   
 }
@@ -35032,15 +35871,16 @@ impl GetPasswordState {
 
 
 /// Returns an invoice payment form. This method should be called when the user presses inlineKeyboardButtonBuy.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetPaymentForm {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getPaymentForm".to_string())]
   td_name: String, // getPaymentForm
   /// Chat identifier of the Invoice message.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Message identifier.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   
 }
 
@@ -35069,15 +35909,16 @@ impl GetPaymentForm {
 
 
 /// Returns information about a successful payment.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetPaymentReceipt {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getPaymentReceipt".to_string())]
   td_name: String, // getPaymentReceipt
   /// Chat identifier of the PaymentSuccessful message.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Message identifier.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   
 }
 
@@ -35106,13 +35947,14 @@ impl GetPaymentReceipt {
 
 
 /// Returns an IETF language tag of the language preferred in the country, which should be used to fill native fields in Telegram Passport personal details. Returns a 404 error if unknown.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetPreferredCountryLanguage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getPreferredCountryLanguage".to_string())]
   td_name: String, // getPreferredCountryLanguage
   /// A two-letter ISO 3166-1 alpha-2 country code.
-  country_code: Option<String>,
+  #[builder(default)] country_code: Option<String>,
   
 }
 
@@ -35139,10 +35981,11 @@ impl GetPreferredCountryLanguage {
 
 
 /// Returns list of proxies that are currently set up. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetProxies {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getProxies".to_string())]
   td_name: String, // getProxies
   
 }
@@ -35168,13 +36011,14 @@ impl GetProxies {
 
 
 /// Returns an HTTPS link, which can be used to add a proxy. Available only for SOCKS5 and MTProto proxies. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetProxyLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getProxyLink".to_string())]
   td_name: String, // getProxyLink
   /// Proxy identifier.
-  proxy_id: Option<i32>,
+  #[builder(default)] proxy_id: Option<i32>,
   
 }
 
@@ -35201,17 +36045,18 @@ impl GetProxyLink {
 
 
 /// Returns a public HTTPS link to a message. Available only for messages in public supergroups and channels.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetPublicMessageLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getPublicMessageLink".to_string())]
   td_name: String, // getPublicMessageLink
   /// Identifier of the chat to which the message belongs.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// Pass true if a link for a whole media album should be returned.
-  for_album: Option<bool>,
+  #[builder(default)] for_album: Option<bool>,
   
 }
 
@@ -35242,13 +36087,14 @@ impl GetPublicMessageLink {
 
 
 /// Returns a globally unique push notification subscription identifier for identification of an account, which has received a push notification. This is an offline method. Can be called before authorization. Can be called synchronously.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetPushReceiverId {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getPushReceiverId".to_string())]
   td_name: String, // getPushReceiverId
   /// JSON-encoded push notification payload.
-  payload: Option<String>,
+  #[builder(default)] payload: Option<String>,
   
 }
 
@@ -35275,10 +36121,11 @@ impl GetPushReceiverId {
 
 
 /// Returns up to 20 recently used inline bots in the order of their last usage.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetRecentInlineBots {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getRecentInlineBots".to_string())]
   td_name: String, // getRecentInlineBots
   
 }
@@ -35304,13 +36151,14 @@ impl GetRecentInlineBots {
 
 
 /// Returns a list of recently used stickers.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetRecentStickers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getRecentStickers".to_string())]
   td_name: String, // getRecentStickers
   /// Pass true to return stickers and masks that were recently attached to photos or video files; pass false to return recently sent stickers.
-  is_attached: Option<bool>,
+  #[builder(default)] is_attached: Option<bool>,
   
 }
 
@@ -35337,13 +36185,14 @@ impl GetRecentStickers {
 
 
 /// Returns t.me URLs recently visited by a newly registered user.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetRecentlyVisitedTMeUrls {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getRecentlyVisitedTMeUrls".to_string())]
   td_name: String, // getRecentlyVisitedTMeUrls
   /// Google Play referrer to identify the user.
-  referrer: Option<String>,
+  #[builder(default)] referrer: Option<String>,
   
 }
 
@@ -35370,13 +36219,14 @@ impl GetRecentlyVisitedTMeUrls {
 
 
 /// Returns a 2-step verification recovery email address that was previously set up. This method can be used to verify a password provided by the user.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetRecoveryEmailAddress {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getRecoveryEmailAddress".to_string())]
   td_name: String, // getRecoveryEmailAddress
   /// The password for the current user.
-  password: Option<String>,
+  #[builder(default)] password: Option<String>,
   
 }
 
@@ -35403,15 +36253,16 @@ impl GetRecoveryEmailAddress {
 
 
 /// Returns information about a file by its remote ID; this is an offline request. Can be used to register a URL as a file for further uploading, or sending as a message.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct GetRemoteFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getRemoteFile".to_string())]
   td_name: String, // getRemoteFile
   /// Remote identifier of the file to get.
-  remote_file_id: Option<String>,
+  #[builder(default)] remote_file_id: Option<String>,
   /// File type, if known.
-  file_type: Option<Box<FileType>>,
+  #[builder(default)] file_type: Option<Box<FileType>>,
   
 }
 
@@ -35444,15 +36295,16 @@ impl GetRemoteFile {
 
 
 /// Returns information about a message that is replied by given message.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetRepliedMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getRepliedMessage".to_string())]
   td_name: String, // getRepliedMessage
   /// Identifier of the chat the message belongs to.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message reply to which get.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   
 }
 
@@ -35481,10 +36333,11 @@ impl GetRepliedMessage {
 
 
 /// Returns saved animations.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetSavedAnimations {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getSavedAnimations".to_string())]
   td_name: String, // getSavedAnimations
   
 }
@@ -35510,10 +36363,11 @@ impl GetSavedAnimations {
 
 
 /// Returns saved order info, if any.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetSavedOrderInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getSavedOrderInfo".to_string())]
   td_name: String, // getSavedOrderInfo
   
 }
@@ -35539,13 +36393,14 @@ impl GetSavedOrderInfo {
 
 
 /// Returns the notification settings for chats of a given type.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct GetScopeNotificationSettings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getScopeNotificationSettings".to_string())]
   td_name: String, // getScopeNotificationSettings
   /// Types of chats for which to return the notification settings information.
-  scope: Option<Box<NotificationSettingsScope>>,
+  #[builder(default)] scope: Option<Box<NotificationSettingsScope>>,
   
 }
 
@@ -35576,13 +36431,14 @@ impl GetScopeNotificationSettings {
 
 
 /// Returns information about a secret chat by its identifier. This is an offline request.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetSecretChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getSecretChat".to_string())]
   td_name: String, // getSecretChat
   /// Secret chat identifier.
-  secret_chat_id: Option<i32>,
+  #[builder(default)] secret_chat_id: Option<i32>,
   
 }
 
@@ -35609,13 +36465,14 @@ impl GetSecretChat {
 
 
 /// Returns emoji corresponding to a sticker.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct GetStickerEmojis {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getStickerEmojis".to_string())]
   td_name: String, // getStickerEmojis
   /// Sticker file identifier.
-  sticker: Option<Box<InputFile>>,
+  #[builder(default)] sticker: Option<Box<InputFile>>,
   
 }
 
@@ -35646,13 +36503,14 @@ impl GetStickerEmojis {
 
 
 /// Returns information about a sticker set by its identifier.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetStickerSet {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getStickerSet".to_string())]
   td_name: String, // getStickerSet
   /// Identifier of the sticker set.
-  set_id: Option<i64>,
+  #[builder(default)] set_id: Option<i64>,
   
 }
 
@@ -35679,15 +36537,16 @@ impl GetStickerSet {
 
 
 /// Returns stickers from the installed sticker sets that correspond to a given emoji. If the emoji is not empty, favorite and recently used stickers may also be returned.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetStickers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getStickers".to_string())]
   td_name: String, // getStickers
   /// String representation of emoji. If empty, returns all known installed stickers.
-  emoji: Option<String>,
+  #[builder(default)] emoji: Option<String>,
   /// Maximum number of stickers to be returned.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -35716,13 +36575,14 @@ impl GetStickers {
 
 
 /// Returns storage usage statistics. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetStorageStatistics {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getStorageStatistics".to_string())]
   td_name: String, // getStorageStatistics
   /// Maximum number of chats with the largest storage usage for which separate statistics should be returned. All other chats will be grouped in entries with chat_id == 0. If the chat info database is not used, the chat_limit is ignored and is always set to 0.
-  chat_limit: Option<i32>,
+  #[builder(default)] chat_limit: Option<i32>,
   
 }
 
@@ -35749,10 +36609,11 @@ impl GetStorageStatistics {
 
 
 /// Quickly returns approximate storage usage statistics. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetStorageStatisticsFast {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getStorageStatisticsFast".to_string())]
   td_name: String, // getStorageStatisticsFast
   
 }
@@ -35778,13 +36639,14 @@ impl GetStorageStatisticsFast {
 
 
 /// Returns information about a supergroup or channel by its identifier. This is an offline request if the current user is not a bot.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetSupergroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getSupergroup".to_string())]
   td_name: String, // getSupergroup
   /// Supergroup or channel identifier.
-  supergroup_id: Option<i32>,
+  #[builder(default)] supergroup_id: Option<i32>,
   
 }
 
@@ -35811,13 +36673,14 @@ impl GetSupergroup {
 
 
 /// Returns full information about a supergroup or channel by its identifier, cached for up to 1 minute.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetSupergroupFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getSupergroupFullInfo".to_string())]
   td_name: String, // getSupergroupFullInfo
   /// Supergroup or channel identifier.
-  supergroup_id: Option<i32>,
+  #[builder(default)] supergroup_id: Option<i32>,
   
 }
 
@@ -35844,19 +36707,20 @@ impl GetSupergroupFullInfo {
 
 
 /// Returns information about members or banned users in a supergroup or channel. Can be used only if SupergroupFullInfo.can_get_members == true; additionally, administrator privileges may be required for some filters.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct GetSupergroupMembers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getSupergroupMembers".to_string())]
   td_name: String, // getSupergroupMembers
   /// Identifier of the supergroup or channel.
-  supergroup_id: Option<i32>,
+  #[builder(default)] supergroup_id: Option<i32>,
   /// The type of users to return. By default, supergroupMembersRecent.
-  filter: Option<Box<SupergroupMembersFilter>>,
+  #[builder(default)] filter: Option<Box<SupergroupMembersFilter>>,
   /// Number of users to skip.
-  offset: Option<i32>,
+  #[builder(default)] offset: Option<i32>,
   /// The maximum number of users be returned; up to 200.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -35893,10 +36757,11 @@ impl GetSupergroupMembers {
 
 
 /// Returns a user that can be contacted to get support.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetSupportUser {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getSupportUser".to_string())]
   td_name: String, // getSupportUser
   
 }
@@ -35922,10 +36787,11 @@ impl GetSupportUser {
 
 
 /// Returns information about the current temporary password.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetTemporaryPasswordState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getTemporaryPasswordState".to_string())]
   td_name: String, // getTemporaryPasswordState
   
 }
@@ -35951,13 +36817,14 @@ impl GetTemporaryPasswordState {
 
 
 /// Returns all entities (mentions, hashtags, cashtags, bot commands, URLs, and email addresses) contained in the text. This is an offline method. Can be called before authorization. Can be called synchronously.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetTextEntities {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getTextEntities".to_string())]
   td_name: String, // getTextEntities
   /// The text in which to look for entites.
-  text: Option<String>,
+  #[builder(default)] text: Option<String>,
   
 }
 
@@ -35984,15 +36851,16 @@ impl GetTextEntities {
 
 
 /// Returns a list of frequently used chats. Supported only if the chat info database is enabled.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct GetTopChats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getTopChats".to_string())]
   td_name: String, // getTopChats
   /// Category of chats to be returned.
-  category: Option<Box<TopChatCategory>>,
+  #[builder(default)] category: Option<Box<TopChatCategory>>,
   /// Maximum number of chats to be returned; up to 30.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -36025,10 +36893,11 @@ impl GetTopChats {
 
 
 /// Returns a list of trending sticker sets.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetTrendingStickerSets {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getTrendingStickerSets".to_string())]
   td_name: String, // getTrendingStickerSets
   
 }
@@ -36054,13 +36923,14 @@ impl GetTrendingStickerSets {
 
 
 /// Returns information about a user by their identifier. This is an offline request if the current user is not a bot.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetUser {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getUser".to_string())]
   td_name: String, // getUser
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   
 }
 
@@ -36087,13 +36957,14 @@ impl GetUser {
 
 
 /// Returns full information about a user by their identifier.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetUserFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getUserFullInfo".to_string())]
   td_name: String, // getUserFullInfo
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   
 }
 
@@ -36120,13 +36991,14 @@ impl GetUserFullInfo {
 
 
 /// Returns the current privacy settings.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct GetUserPrivacySettingRules {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getUserPrivacySettingRules".to_string())]
   td_name: String, // getUserPrivacySettingRules
   /// The privacy setting.
-  setting: Option<Box<UserPrivacySetting>>,
+  #[builder(default)] setting: Option<Box<UserPrivacySetting>>,
   
 }
 
@@ -36157,17 +37029,18 @@ impl GetUserPrivacySettingRules {
 
 
 /// Returns the profile photos of a user. The result of this query may be outdated: some photos might have been deleted already.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetUserProfilePhotos {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getUserProfilePhotos".to_string())]
   td_name: String, // getUserProfilePhotos
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// The number of photos to skip; must be non-negative.
-  offset: Option<i32>,
+  #[builder(default)] offset: Option<i32>,
   /// Maximum number of photos to be returned; up to 100.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -36198,10 +37071,11 @@ impl GetUserProfilePhotos {
 
 
 /// Returns background wallpapers.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetWallpapers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getWallpapers".to_string())]
   td_name: String, // getWallpapers
   
 }
@@ -36227,15 +37101,16 @@ impl GetWallpapers {
 
 
 /// Returns an instant view version of a web page if available. Returns a 404 error if the web page has no instant view page.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetWebPageInstantView {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getWebPageInstantView".to_string())]
   td_name: String, // getWebPageInstantView
   /// The web page URL.
-  url: Option<String>,
+  #[builder(default)] url: Option<String>,
   /// If true, the full instant view for the web page will be returned.
-  force_full: Option<bool>,
+  #[builder(default)] force_full: Option<bool>,
   
 }
 
@@ -36264,13 +37139,14 @@ impl GetWebPageInstantView {
 
 
 /// Returns a web page preview by the text of the message. Do not call this function too often. Returns a 404 error if the web page has no preview.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct GetWebPagePreview {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="getWebPagePreview".to_string())]
   td_name: String, // getWebPagePreview
   /// Message text with formatting.
-  text: Option<FormattedText>,
+  #[builder(default)] text: Option<FormattedText>,
   
 }
 
@@ -36297,13 +37173,14 @@ impl GetWebPagePreview {
 
 
 /// Adds new contacts or edits existing contacts; contacts' user identifiers are ignored.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ImportContacts {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="importContacts".to_string())]
   td_name: String, // importContacts
   /// The list of contacts to import or edit, contact's vCard are ignored and are not imported.
-  contacts: Option<Vec<Contact>>,
+  #[builder(default)] contacts: Option<Vec<Contact>>,
   
 }
 
@@ -36330,13 +37207,14 @@ impl ImportContacts {
 
 
 /// Adds current user as a new member to a chat. Private and secret chats can't be joined using this method.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct JoinChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="joinChat".to_string())]
   td_name: String, // joinChat
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -36363,13 +37241,14 @@ impl JoinChat {
 
 
 /// Uses an invite link to add the current user to the chat if possible. The new member will not be added until the chat state has been synchronized with the server.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct JoinChatByInviteLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="joinChatByInviteLink".to_string())]
   td_name: String, // joinChatByInviteLink
   /// Invite link to import; should begin with "https://t.me/joinchat/", "https://telegram.me/joinchat/", or "https://telegram.dog/joinchat/".
-  invite_link: Option<String>,
+  #[builder(default)] invite_link: Option<String>,
   
 }
 
@@ -36396,13 +37275,14 @@ impl JoinChatByInviteLink {
 
 
 /// Removes current user from chat members. Private and secret chats can't be left using this method.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LeaveChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="leaveChat".to_string())]
   td_name: String, // leaveChat
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -36429,10 +37309,11 @@ impl LeaveChat {
 
 
 /// Closes the TDLib instance after a proper logout. Requires an available network connection. All local data will be destroyed. After the logout completes, 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct LogOut {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="logOut".to_string())]
   td_name: String, // logOut
   
 }
@@ -36458,13 +37339,14 @@ impl LogOut {
 
 
 /// Informs TDLib that the chat is opened by the user. Many useful activities depend on the chat being opened or closed (e.g., in supergroups and channels all updates are received only for opened chats).
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct OpenChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="openChat".to_string())]
   td_name: String, // openChat
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -36491,15 +37373,16 @@ impl OpenChat {
 
 
 /// Informs TDLib that the message content has been opened (e.g., the user has opened a photo, video, document, location or venue, or has listened to an audio file or voice note message). An 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct OpenMessageContent {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="openMessageContent".to_string())]
   td_name: String, // openMessageContent
   /// Chat identifier of the message.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message with the opened content.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   
 }
 
@@ -36528,27 +37411,28 @@ impl OpenMessageContent {
 
 
 /// Optimizes storage usage, i.e. deletes some files and returns new storage usage statistics. Secret thumbnails can't be deleted.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct OptimizeStorage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="optimizeStorage".to_string())]
   td_name: String, // optimizeStorage
   /// Limit on the total size of files after deletion. Pass -1 to use the default limit.
-  size: Option<i64>,
+  #[builder(default)] size: Option<i64>,
   /// Limit on the time that has passed since the last time a file was accessed (or creation time for some filesystems). Pass -1 to use the default limit.
-  ttl: Option<i32>,
+  #[builder(default)] ttl: Option<i32>,
   /// Limit on the total count of files after deletion. Pass -1 to use the default limit.
-  count: Option<i32>,
+  #[builder(default)] count: Option<i32>,
   /// The amount of time after the creation of a file during which it can't be deleted, in seconds. Pass -1 to use the default value.
-  immunity_delay: Option<i32>,
+  #[builder(default)] immunity_delay: Option<i32>,
   /// If not empty, only files with the given type(s) are considered. By default, all types except thumbnails, profile photos, stickers and wallpapers are deleted.
-  file_types: Option<Vec<Box<FileType>>>,
+  #[builder(default)] file_types: Option<Vec<Box<FileType>>>,
   /// If not empty, only files from the given chats are considered. Use 0 as chat identifier to delete files not belonging to any chat (e.g., profile photos).
-  chat_ids: Option<Vec<i64>>,
+  #[builder(default)] chat_ids: Option<Vec<i64>>,
   /// If not empty, files from the given chats are excluded. Use 0 as chat identifier to exclude all files not belonging to any chat (e.g., profile photos).
-  exclude_chat_ids: Option<Vec<i64>>,
+  #[builder(default)] exclude_chat_ids: Option<Vec<i64>>,
   /// Same as in getStorageStatistics. Affects only returned statistics.
-  chat_limit: Option<i32>,
+  #[builder(default)] chat_limit: Option<i32>,
   
 }
 
@@ -36593,15 +37477,16 @@ impl OptimizeStorage {
 
 
 /// Parses Bold, Italic, Code, Pre, PreCode and TextUrl entities contained in the text. This is an offline method. Can be called before authorization. Can be called synchronously.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct ParseTextEntities {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="parseTextEntities".to_string())]
   td_name: String, // parseTextEntities
   /// The text which should be parsed.
-  text: Option<String>,
+  #[builder(default)] text: Option<String>,
   /// Text parse mode.
-  parse_mode: Option<Box<TextParseMode>>,
+  #[builder(default)] parse_mode: Option<Box<TextParseMode>>,
   
 }
 
@@ -36634,17 +37519,18 @@ impl ParseTextEntities {
 
 
 /// Pins a message in a chat; requires appropriate administrator rights in the group or channel.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PinChatMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pinChatMessage".to_string())]
   td_name: String, // pinChatMessage
   /// Identifier of the chat.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the new pinned message.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// True, if there should be no notification about the pinned message.
-  disable_notification: Option<bool>,
+  #[builder(default)] disable_notification: Option<bool>,
   
 }
 
@@ -36675,13 +37561,14 @@ impl PinChatMessage {
 
 
 /// Computes time needed to receive a response from a Telegram server through a proxy. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct PingProxy {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="pingProxy".to_string())]
   td_name: String, // pingProxy
   /// Proxy identifier. Use 0 to ping a Telegram server without a proxy.
-  proxy_id: Option<i32>,
+  #[builder(default)] proxy_id: Option<i32>,
   
 }
 
@@ -36708,13 +37595,14 @@ impl PingProxy {
 
 
 /// Handles a push notification. Returns error with code 406 if the push notification is not supported and connection to the server is required to fetch new data. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ProcessPushNotification {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="processPushNotification".to_string())]
   td_name: String, // processPushNotification
   /// JSON-encoded push notification payload with all fields sent by the server, and "google.sent_time" and "google.notification.sound" fields added.
-  payload: Option<String>,
+  #[builder(default)] payload: Option<String>,
   
 }
 
@@ -36741,13 +37629,14 @@ impl ProcessPushNotification {
 
 
 /// Marks all mentions in a chat as read.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ReadAllChatMentions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="readAllChatMentions".to_string())]
   td_name: String, // readAllChatMentions
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -36774,17 +37663,18 @@ impl ReadAllChatMentions {
 
 
 /// Reads a part of a file from the TDLib file cache and returns read bytes. This method is intended to be used only if the client has no direct access to TDLib's file system, because it is usually slower than a direct read from the file.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ReadFilePart {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="readFilePart".to_string())]
   td_name: String, // readFilePart
   /// Identifier of the file. The file must be located in the TDLib file cache.
-  file_id: Option<i32>,
+  #[builder(default)] file_id: Option<i32>,
   /// The offset from which to read the file.
-  offset: Option<i32>,
+  #[builder(default)] offset: Option<i32>,
   /// Number of bytes to read. An error will be returned if there are not enough bytes available in the file from the specified position. Pass 0 to read all available data from the specified position.
-  count: Option<i32>,
+  #[builder(default)] count: Option<i32>,
   
 }
 
@@ -36815,13 +37705,14 @@ impl ReadFilePart {
 
 
 /// Recovers the password with a password recovery code sent to an email address that was previously set up. Works only when the current authorization state is 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct RecoverAuthenticationPassword {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="recoverAuthenticationPassword".to_string())]
   td_name: String, // recoverAuthenticationPassword
   /// Recovery code to check.
-  recovery_code: Option<String>,
+  #[builder(default)] recovery_code: Option<String>,
   
 }
 
@@ -36848,13 +37739,14 @@ impl RecoverAuthenticationPassword {
 
 
 /// Recovers the password using a recovery code sent to an email address that was previously set up.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct RecoverPassword {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="recoverPassword".to_string())]
   td_name: String, // recoverPassword
   /// Recovery code to check.
-  recovery_code: Option<String>,
+  #[builder(default)] recovery_code: Option<String>,
   
 }
 
@@ -36881,15 +37773,16 @@ impl RecoverPassword {
 
 
 /// Registers the currently used device for receiving push notifications. Returns a globally unique identifier of the push notification subscription.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RegisterDevice {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="registerDevice".to_string())]
   td_name: String, // registerDevice
   /// Device token.
-  device_token: Option<Box<DeviceToken>>,
+  #[builder(default)] device_token: Option<Box<DeviceToken>>,
   /// List of user identifiers of other users currently using the client.
-  other_user_ids: Option<Vec<i32>>,
+  #[builder(default)] other_user_ids: Option<Vec<i32>>,
   
 }
 
@@ -36922,13 +37815,14 @@ impl RegisterDevice {
 
 
 /// Removes users from the contact list.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct RemoveContacts {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="removeContacts".to_string())]
   td_name: String, // removeContacts
   /// Identifiers of users to be deleted.
-  user_ids: Option<Vec<i32>>,
+  #[builder(default)] user_ids: Option<Vec<i32>>,
   
 }
 
@@ -36955,13 +37849,14 @@ impl RemoveContacts {
 
 
 /// Removes a sticker from the list of favorite stickers.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RemoveFavoriteSticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="removeFavoriteSticker".to_string())]
   td_name: String, // removeFavoriteSticker
   /// Sticker file to delete from the list.
-  sticker: Option<Box<InputFile>>,
+  #[builder(default)] sticker: Option<Box<InputFile>>,
   
 }
 
@@ -36992,15 +37887,16 @@ impl RemoveFavoriteSticker {
 
 
 /// Removes an active notification from notification list. Needs to be called only if the notification is removed by the current user.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct RemoveNotification {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="removeNotification".to_string())]
   td_name: String, // removeNotification
   /// Identifier of notification group to which the notification belongs.
-  notification_group_id: Option<i32>,
+  #[builder(default)] notification_group_id: Option<i32>,
   /// Identifier of removed notification.
-  notification_id: Option<i32>,
+  #[builder(default)] notification_id: Option<i32>,
   
 }
 
@@ -37029,15 +37925,16 @@ impl RemoveNotification {
 
 
 /// Removes a group of active notifications. Needs to be called only if the notification group is removed by the current user.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct RemoveNotificationGroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="removeNotificationGroup".to_string())]
   td_name: String, // removeNotificationGroup
   /// Notification group identifier.
-  notification_group_id: Option<i32>,
+  #[builder(default)] notification_group_id: Option<i32>,
   /// Maximum identifier of removed notifications.
-  max_notification_id: Option<i32>,
+  #[builder(default)] max_notification_id: Option<i32>,
   
 }
 
@@ -37066,13 +37963,14 @@ impl RemoveNotificationGroup {
 
 
 /// Removes a proxy server. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct RemoveProxy {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="removeProxy".to_string())]
   td_name: String, // removeProxy
   /// Proxy identifier.
-  proxy_id: Option<i32>,
+  #[builder(default)] proxy_id: Option<i32>,
   
 }
 
@@ -37099,13 +37997,14 @@ impl RemoveProxy {
 
 
 /// Removes a hashtag from the list of recently used hashtags.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct RemoveRecentHashtag {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="removeRecentHashtag".to_string())]
   td_name: String, // removeRecentHashtag
   /// Hashtag to delete.
-  hashtag: Option<String>,
+  #[builder(default)] hashtag: Option<String>,
   
 }
 
@@ -37132,15 +38031,16 @@ impl RemoveRecentHashtag {
 
 
 /// Removes a sticker from the list of recently used stickers.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RemoveRecentSticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="removeRecentSticker".to_string())]
   td_name: String, // removeRecentSticker
   /// Pass true to remove the sticker from the list of stickers recently attached to photo or video files; pass false to remove the sticker from the list of recently sent stickers.
-  is_attached: Option<bool>,
+  #[builder(default)] is_attached: Option<bool>,
   /// Sticker file to delete.
-  sticker: Option<Box<InputFile>>,
+  #[builder(default)] sticker: Option<Box<InputFile>>,
   
 }
 
@@ -37173,13 +38073,14 @@ impl RemoveRecentSticker {
 
 
 /// Removes a chat from the list of recently found chats.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct RemoveRecentlyFoundChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="removeRecentlyFoundChat".to_string())]
   td_name: String, // removeRecentlyFoundChat
   /// Identifier of the chat to be removed.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -37206,13 +38107,14 @@ impl RemoveRecentlyFoundChat {
 
 
 /// Removes an animation from the list of saved animations.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RemoveSavedAnimation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="removeSavedAnimation".to_string())]
   td_name: String, // removeSavedAnimation
   /// Animation file to be removed.
-  animation: Option<Box<InputFile>>,
+  #[builder(default)] animation: Option<Box<InputFile>>,
   
 }
 
@@ -37243,13 +38145,14 @@ impl RemoveSavedAnimation {
 
 
 /// Removes a sticker from the set to which it belongs; for bots only. The sticker set must have been created by the bot.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RemoveStickerFromSet {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="removeStickerFromSet".to_string())]
   td_name: String, // removeStickerFromSet
   /// Sticker.
-  sticker: Option<Box<InputFile>>,
+  #[builder(default)] sticker: Option<Box<InputFile>>,
   
 }
 
@@ -37280,15 +38183,16 @@ impl RemoveStickerFromSet {
 
 
 /// Removes a chat from the list of frequently used chats. Supported only if the chat info database is enabled.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct RemoveTopChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="removeTopChat".to_string())]
   td_name: String, // removeTopChat
   /// Category of frequently used chats.
-  category: Option<Box<TopChatCategory>>,
+  #[builder(default)] category: Option<Box<TopChatCategory>>,
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -37321,15 +38225,16 @@ impl RemoveTopChat {
 
 
 /// Changes the order of installed sticker sets.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ReorderInstalledStickerSets {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="reorderInstalledStickerSets".to_string())]
   td_name: String, // reorderInstalledStickerSets
   /// Pass true to change the order of mask sticker sets; pass false to change the order of ordinary sticker sets.
-  is_masks: Option<bool>,
+  #[builder(default)] is_masks: Option<bool>,
   /// Identifiers of installed sticker sets in the new correct order.
-  sticker_set_ids: Option<Vec<i64>>,
+  #[builder(default)] sticker_set_ids: Option<Vec<i64>>,
   
 }
 
@@ -37358,17 +38263,18 @@ impl ReorderInstalledStickerSets {
 
 
 /// Reports a chat to the Telegram moderators. Supported only for supergroups, channels, or private chats with bots, since other chats can't be checked by moderators.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct ReportChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="reportChat".to_string())]
   td_name: String, // reportChat
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// The reason for reporting the chat.
-  reason: Option<Box<ChatReportReason>>,
+  #[builder(default)] reason: Option<Box<ChatReportReason>>,
   /// Identifiers of reported messages, if any.
-  message_ids: Option<Vec<i64>>,
+  #[builder(default)] message_ids: Option<Vec<i64>>,
   
 }
 
@@ -37403,17 +38309,18 @@ impl ReportChat {
 
 
 /// Reports some messages from a user in a supergroup as spam; requires administrator rights in the supergroup.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ReportSupergroupSpam {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="reportSupergroupSpam".to_string())]
   td_name: String, // reportSupergroupSpam
   /// Supergroup identifier.
-  supergroup_id: Option<i32>,
+  #[builder(default)] supergroup_id: Option<i32>,
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// Identifiers of messages sent in the supergroup by the user. This list must be non-empty.
-  message_ids: Option<Vec<i64>>,
+  #[builder(default)] message_ids: Option<Vec<i64>>,
   
 }
 
@@ -37444,10 +38351,11 @@ impl ReportSupergroupSpam {
 
 
 /// Requests to send a password recovery code to an email address that was previously set up. Works only when the current authorization state is 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct RequestAuthenticationPasswordRecovery {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="requestAuthenticationPasswordRecovery".to_string())]
   td_name: String, // requestAuthenticationPasswordRecovery
   
 }
@@ -37473,10 +38381,11 @@ impl RequestAuthenticationPasswordRecovery {
 
 
 /// Requests to send a password recovery code to an email address that was previously set up.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct RequestPasswordRecovery {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="requestPasswordRecovery".to_string())]
   td_name: String, // requestPasswordRecovery
   
 }
@@ -37502,10 +38411,11 @@ impl RequestPasswordRecovery {
 
 
 /// Re-sends an authentication code to the user. Works only when the current authorization state is 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ResendAuthenticationCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="resendAuthenticationCode".to_string())]
   td_name: String, // resendAuthenticationCode
   
 }
@@ -37531,10 +38441,11 @@ impl ResendAuthenticationCode {
 
 
 /// Re-sends the authentication code sent to confirm a new phone number for the user. Works only if the previously received 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ResendChangePhoneNumberCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="resendChangePhoneNumberCode".to_string())]
   td_name: String, // resendChangePhoneNumberCode
   
 }
@@ -37560,10 +38471,11 @@ impl ResendChangePhoneNumberCode {
 
 
 /// Re-sends the code to verify an email address to be added to a user's Telegram Passport.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ResendEmailAddressVerificationCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="resendEmailAddressVerificationCode".to_string())]
   td_name: String, // resendEmailAddressVerificationCode
   
 }
@@ -37589,10 +38501,11 @@ impl ResendEmailAddressVerificationCode {
 
 
 /// Resends phone number confirmation code.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ResendPhoneNumberConfirmationCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="resendPhoneNumberConfirmationCode".to_string())]
   td_name: String, // resendPhoneNumberConfirmationCode
   
 }
@@ -37618,10 +38531,11 @@ impl ResendPhoneNumberConfirmationCode {
 
 
 /// Re-sends the code to verify a phone number to be added to a user's Telegram Passport.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ResendPhoneNumberVerificationCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="resendPhoneNumberVerificationCode".to_string())]
   td_name: String, // resendPhoneNumberVerificationCode
   
 }
@@ -37647,10 +38561,11 @@ impl ResendPhoneNumberVerificationCode {
 
 
 /// Resends the 2-step verification recovery email address verification code.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ResendRecoveryEmailAddressCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="resendRecoveryEmailAddressCode".to_string())]
   td_name: String, // resendRecoveryEmailAddressCode
   
 }
@@ -37676,10 +38591,11 @@ impl ResendRecoveryEmailAddressCode {
 
 
 /// Resets all notification settings to their default values. By default, all chats are unmuted, the sound is set to "default" and message previews are shown.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ResetAllNotificationSettings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="resetAllNotificationSettings".to_string())]
   td_name: String, // resetAllNotificationSettings
   
 }
@@ -37705,10 +38621,11 @@ impl ResetAllNotificationSettings {
 
 
 /// Resets all network data usage statistics to zero. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ResetNetworkStatistics {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="resetNetworkStatistics".to_string())]
   td_name: String, // resetNetworkStatistics
   
 }
@@ -37734,17 +38651,18 @@ impl ResetNetworkStatistics {
 
 
 /// Searches for call messages. Returns the results in reverse chronological order (i. e., in order of decreasing message_id). For optimal performance the number of returned messages is chosen by the library.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchCallMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchCallMessages".to_string())]
   td_name: String, // searchCallMessages
   /// Identifier of the message from which to search; use 0 to get results from the last message.
-  from_message_id: Option<i64>,
+  #[builder(default)] from_message_id: Option<i64>,
   /// The maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   /// If true, returns only messages with missed calls.
-  only_missed: Option<bool>,
+  #[builder(default)] only_missed: Option<bool>,
   
 }
 
@@ -37775,19 +38693,20 @@ impl SearchCallMessages {
 
 
 /// Searches for a specified query in the first name, last name and username of the members of a specified chat. Requires administrator rights in channels.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchChatMembers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchChatMembers".to_string())]
   td_name: String, // searchChatMembers
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Query to search for.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   /// The maximum number of users to be returned.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   /// The type of users to return. By default, chatMembersFilterMembers.
-  filter: Option<Box<ChatMembersFilter>>,
+  #[builder(default)] filter: Option<Box<ChatMembersFilter>>,
   
 }
 
@@ -37824,25 +38743,26 @@ impl SearchChatMembers {
 
 
 /// Searches for messages with given words in the chat. Returns the results in reverse chronological order, i.e. in order of decreasing message_id. Cannot be used in secret chats with a non-empty query (
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchChatMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchChatMessages".to_string())]
   td_name: String, // searchChatMessages
   /// Identifier of the chat in which to search messages.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Query to search for.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   /// If not 0, only messages sent by the specified user will be returned. Not supported in secret chats.
-  sender_user_id: Option<i32>,
+  #[builder(default)] sender_user_id: Option<i32>,
   /// Identifier of the message starting from which history must be fetched; use 0 to get results from the last message.
-  from_message_id: Option<i64>,
+  #[builder(default)] from_message_id: Option<i64>,
   /// Specify 0 to get results from exactly the from_message_id or a negative offset to get the specified message and some newer messages.
-  offset: Option<i32>,
+  #[builder(default)] offset: Option<i32>,
   /// The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than -offset. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   /// Filter for message content in the search results.
-  filter: Option<Box<SearchMessagesFilter>>,
+  #[builder(default)] filter: Option<Box<SearchMessagesFilter>>,
   
 }
 
@@ -37885,15 +38805,16 @@ impl SearchChatMessages {
 
 
 /// Returns information about the recent locations of chat members that were sent to the chat. Returns up to 1 location message per user.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchChatRecentLocationMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchChatRecentLocationMessages".to_string())]
   td_name: String, // searchChatRecentLocationMessages
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Maximum number of messages to be returned.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -37922,15 +38843,16 @@ impl SearchChatRecentLocationMessages {
 
 
 /// Searches for the specified query in the title and username of already known chats, this is an offline request. Returns chats in the order seen in the chat list.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchChats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchChats".to_string())]
   td_name: String, // searchChats
   /// Query to search for. If the query is empty, returns up to 20 recently found chats.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   /// Maximum number of chats to be returned.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -37959,15 +38881,16 @@ impl SearchChats {
 
 
 /// Searches for the specified query in the title and username of already known chats via request to the server. Returns chats in the order seen in the chat list.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchChatsOnServer {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchChatsOnServer".to_string())]
   td_name: String, // searchChatsOnServer
   /// Query to search for.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   /// Maximum number of chats to be returned.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -37996,15 +38919,16 @@ impl SearchChatsOnServer {
 
 
 /// Searches for the specified query in the first names, last names and usernames of the known user contacts.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchContacts {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchContacts".to_string())]
   td_name: String, // searchContacts
   /// Query to search for; may be empty to return all contacts.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   /// Maximum number of users to be returned.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -38033,15 +38957,16 @@ impl SearchContacts {
 
 
 /// Searches for recently used hashtags by their prefix.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchHashtags {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchHashtags".to_string())]
   td_name: String, // searchHashtags
   /// Hashtag prefix to search for.
-  prefix: Option<String>,
+  #[builder(default)] prefix: Option<String>,
   /// Maximum number of hashtags to be returned.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -38070,17 +38995,18 @@ impl SearchHashtags {
 
 
 /// Searches for installed sticker sets by looking for specified query in their title and name.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchInstalledStickerSets {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchInstalledStickerSets".to_string())]
   td_name: String, // searchInstalledStickerSets
   /// Pass true to return mask sticker sets; pass false to return ordinary sticker sets.
-  is_masks: Option<bool>,
+  #[builder(default)] is_masks: Option<bool>,
   /// Query to search for.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   /// Maximum number of sticker sets to return.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -38111,21 +39037,22 @@ impl SearchInstalledStickerSets {
 
 
 /// Searches for messages in all chats except secret chats. Returns the results in reverse chronological order (i.e., in order of decreasing (date, chat_id, message_id)). For optimal performance the number of returned messages is chosen by the library.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchMessages".to_string())]
   td_name: String, // searchMessages
   /// Query to search for.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   /// The date of the message starting from which the results should be fetched. Use 0 or any date in the future to get results from the last message.
-  offset_date: Option<i32>,
+  #[builder(default)] offset_date: Option<i32>,
   /// The chat identifier of the last found message, or 0 for the first request.
-  offset_chat_id: Option<i64>,
+  #[builder(default)] offset_chat_id: Option<i64>,
   /// The message identifier of the last found message, or 0 for the first request.
-  offset_message_id: Option<i64>,
+  #[builder(default)] offset_message_id: Option<i64>,
   /// The maximum number of messages to be returned, up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -38160,13 +39087,14 @@ impl SearchMessages {
 
 
 /// Searches a public chat by its username. Currently only private chats, supergroups and channels can be public. Returns the chat if found; otherwise an error is returned.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchPublicChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchPublicChat".to_string())]
   td_name: String, // searchPublicChat
   /// Username to be resolved.
-  username: Option<String>,
+  #[builder(default)] username: Option<String>,
   
 }
 
@@ -38193,13 +39121,14 @@ impl SearchPublicChat {
 
 
 /// Searches public chats by looking for specified query in their username and title. Currently only private chats, supergroups and channels can be public. Returns a meaningful number of results. Returns nothing if the length of the searched username prefix is less than 5. Excludes private chats with contacts and chats from the chat list from the results.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchPublicChats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchPublicChats".to_string())]
   td_name: String, // searchPublicChats
   /// Query to search for.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   
 }
 
@@ -38226,21 +39155,22 @@ impl SearchPublicChats {
 
 
 /// Searches for messages in secret chats. Returns the results in reverse chronological order. For optimal performance the number of returned messages is chosen by the library.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchSecretMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchSecretMessages".to_string())]
   td_name: String, // searchSecretMessages
   /// Identifier of the chat in which to search. Specify 0 to search in all secret chats.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Query to search for. If empty, searchChatMessages should be used instead.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   /// The identifier from the result of a previous request, use 0 to get results from the last message.
-  from_search_id: Option<i64>,
+  #[builder(default)] from_search_id: Option<i64>,
   /// Maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   /// A filter for the content of messages in the search results.
-  filter: Option<Box<SearchMessagesFilter>>,
+  #[builder(default)] filter: Option<Box<SearchMessagesFilter>>,
   
 }
 
@@ -38279,13 +39209,14 @@ impl SearchSecretMessages {
 
 
 /// Searches for a sticker set by its name.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchStickerSet {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchStickerSet".to_string())]
   td_name: String, // searchStickerSet
   /// Name of the sticker set.
-  name: Option<String>,
+  #[builder(default)] name: Option<String>,
   
 }
 
@@ -38312,13 +39243,14 @@ impl SearchStickerSet {
 
 
 /// Searches for ordinary sticker sets by looking for specified query in their title and name. Excludes installed sticker sets from the results.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchStickerSets {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchStickerSets".to_string())]
   td_name: String, // searchStickerSets
   /// Query to search for.
-  query: Option<String>,
+  #[builder(default)] query: Option<String>,
   
 }
 
@@ -38345,15 +39277,16 @@ impl SearchStickerSets {
 
 
 /// Searches for stickers from public sticker sets that correspond to a given emoji.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SearchStickers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="searchStickers".to_string())]
   td_name: String, // searchStickers
   /// String representation of emoji; must be non-empty.
-  emoji: Option<String>,
+  #[builder(default)] emoji: Option<String>,
   /// Maximum number of stickers to be returned.
-  limit: Option<i32>,
+  #[builder(default)] limit: Option<i32>,
   
 }
 
@@ -38382,17 +39315,18 @@ impl SearchStickers {
 
 
 /// Invites a bot to a chat (if it is not yet a member) and sends it the /start command. Bots can't be invited to a private chat other than the chat with the bot. Bots can't be invited to channels (although they can be added as admins) and secret chats. Returns the sent message.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SendBotStartMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sendBotStartMessage".to_string())]
   td_name: String, // sendBotStartMessage
   /// Identifier of the bot.
-  bot_user_id: Option<i32>,
+  #[builder(default)] bot_user_id: Option<i32>,
   /// Identifier of the target chat.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// A hidden parameter sent to the bot for deep linking purposes (https://api.telegram.org/bots#deep-linking).
-  parameter: Option<String>,
+  #[builder(default)] parameter: Option<String>,
   
 }
 
@@ -38423,15 +39357,16 @@ impl SendBotStartMessage {
 
 
 /// Sends debug information for a call.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SendCallDebugInformation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sendCallDebugInformation".to_string())]
   td_name: String, // sendCallDebugInformation
   /// Call identifier.
-  call_id: Option<i32>,
+  #[builder(default)] call_id: Option<i32>,
   /// Debug information in application-specific format.
-  debug_information: Option<String>,
+  #[builder(default)] debug_information: Option<String>,
   
 }
 
@@ -38460,17 +39395,18 @@ impl SendCallDebugInformation {
 
 
 /// Sends a call rating.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SendCallRating {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sendCallRating".to_string())]
   td_name: String, // sendCallRating
   /// Call identifier.
-  call_id: Option<i32>,
+  #[builder(default)] call_id: Option<i32>,
   /// Call rating; 1-5.
-  rating: Option<i32>,
+  #[builder(default)] rating: Option<i32>,
   /// An optional user comment if the rating is less than 5.
-  comment: Option<String>,
+  #[builder(default)] comment: Option<String>,
   
 }
 
@@ -38501,15 +39437,16 @@ impl SendCallRating {
 
 
 /// Sends a notification about user activity in a chat.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SendChatAction {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sendChatAction".to_string())]
   td_name: String, // sendChatAction
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// The action description.
-  action: Option<Box<ChatAction>>,
+  #[builder(default)] action: Option<Box<ChatAction>>,
   
 }
 
@@ -38542,13 +39479,14 @@ impl SendChatAction {
 
 
 /// Sends a notification about a screenshot taken in a chat. Supported only in private and secret chats.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SendChatScreenshotTakenNotification {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sendChatScreenshotTakenNotification".to_string())]
   td_name: String, // sendChatScreenshotTakenNotification
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -38575,15 +39513,16 @@ impl SendChatScreenshotTakenNotification {
 
 
 /// Changes the current TTL setting (sets a new self-destruct timer) in a secret chat and sends the corresponding message.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SendChatSetTtlMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sendChatSetTtlMessage".to_string())]
   td_name: String, // sendChatSetTtlMessage
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// New TTL value, in seconds.
-  ttl: Option<i32>,
+  #[builder(default)] ttl: Option<i32>,
   
 }
 
@@ -38612,15 +39551,16 @@ impl SendChatSetTtlMessage {
 
 
 /// Sends a custom request; for bots only.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SendCustomRequest {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sendCustomRequest".to_string())]
   td_name: String, // sendCustomRequest
   /// The method name.
-  method: Option<String>,
+  #[builder(default)] method: Option<String>,
   /// JSON-serialized method parameters.
-  parameters: Option<String>,
+  #[builder(default)] parameters: Option<String>,
   
 }
 
@@ -38649,13 +39589,14 @@ impl SendCustomRequest {
 
 
 /// Sends a code to verify an email address to be added to a user's Telegram Passport.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SendEmailAddressVerificationCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sendEmailAddressVerificationCode".to_string())]
   td_name: String, // sendEmailAddressVerificationCode
   /// Email address.
-  email_address: Option<String>,
+  #[builder(default)] email_address: Option<String>,
   
 }
 
@@ -38682,25 +39623,26 @@ impl SendEmailAddressVerificationCode {
 
 
 /// Sends the result of an inline query as a message. Returns the sent message. Always clears a chat draft message.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SendInlineQueryResultMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sendInlineQueryResultMessage".to_string())]
   td_name: String, // sendInlineQueryResultMessage
   /// Target chat.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of a message to reply to or 0.
-  reply_to_message_id: Option<i64>,
+  #[builder(default)] reply_to_message_id: Option<i64>,
   /// Pass true to disable notification for the message. Not supported in secret chats.
-  disable_notification: Option<bool>,
+  #[builder(default)] disable_notification: Option<bool>,
   /// Pass true if the message is sent from background.
-  from_background: Option<bool>,
+  #[builder(default)] from_background: Option<bool>,
   /// Identifier of the inline query.
-  query_id: Option<i64>,
+  #[builder(default)] query_id: Option<i64>,
   /// Identifier of the inline result.
-  result_id: Option<String>,
+  #[builder(default)] result_id: Option<String>,
   /// If true, there will be no mention of a bot, via which the message is sent. Can be used only for bots GetOption("animation_search_bot_username"), GetOption("photo_search_bot_username") and GetOption("venue_search_bot_username").
-  hide_via_bot: Option<bool>,
+  #[builder(default)] hide_via_bot: Option<bool>,
   
 }
 
@@ -38739,23 +39681,24 @@ impl SendInlineQueryResultMessage {
 
 
 /// Sends a message. Returns the sent message.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SendMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sendMessage".to_string())]
   td_name: String, // sendMessage
   /// Target chat.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message to reply to or 0.
-  reply_to_message_id: Option<i64>,
+  #[builder(default)] reply_to_message_id: Option<i64>,
   /// Pass true to disable notification for the message. Not supported in secret chats.
-  disable_notification: Option<bool>,
+  #[builder(default)] disable_notification: Option<bool>,
   /// Pass true if the message is sent from the background.
-  from_background: Option<bool>,
+  #[builder(default)] from_background: Option<bool>,
   /// Markup for replying to the message; for bots only.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   /// The content of the message to be sent.
-  input_message_content: Option<Box<InputMessageContent>>,
+  #[builder(default)] input_message_content: Option<Box<InputMessageContent>>,
   
 }
 
@@ -38796,21 +39739,22 @@ impl SendMessage {
 
 
 /// Sends messages grouped together into an album. Currently only photo and video messages can be grouped into an album. Returns sent messages.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SendMessageAlbum {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sendMessageAlbum".to_string())]
   td_name: String, // sendMessageAlbum
   /// Target chat.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of a message to reply to or 0.
-  reply_to_message_id: Option<i64>,
+  #[builder(default)] reply_to_message_id: Option<i64>,
   /// Pass true to disable notification for the messages. Not supported in secret chats.
-  disable_notification: Option<bool>,
+  #[builder(default)] disable_notification: Option<bool>,
   /// Pass true if the messages are sent from the background.
-  from_background: Option<bool>,
+  #[builder(default)] from_background: Option<bool>,
   /// Contents of messages to be sent.
-  input_message_contents: Option<Vec<Box<InputMessageContent>>>,
+  #[builder(default)] input_message_contents: Option<Vec<Box<InputMessageContent>>>,
   
 }
 
@@ -38849,15 +39793,16 @@ impl SendMessageAlbum {
 
 
 /// Sends a Telegram Passport authorization form, effectively sharing data with the service. This method must be called after 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SendPassportAuthorizationForm {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sendPassportAuthorizationForm".to_string())]
   td_name: String, // sendPassportAuthorizationForm
   /// Authorization form identifier.
-  autorization_form_id: Option<i32>,
+  #[builder(default)] autorization_form_id: Option<i32>,
   /// Types of Telegram Passport elements chosen by user to complete the authorization form.
-  types: Option<Vec<Box<PassportElementType>>>,
+  #[builder(default)] types: Option<Vec<Box<PassportElementType>>>,
   
 }
 
@@ -38890,21 +39835,22 @@ impl SendPassportAuthorizationForm {
 
 
 /// Sends a filled-out payment form to the bot for final verification.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SendPaymentForm {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sendPaymentForm".to_string())]
   td_name: String, // sendPaymentForm
   /// Chat identifier of the Invoice message.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Message identifier.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// Identifier returned by ValidateOrderInfo, or an empty string.
-  order_info_id: Option<String>,
+  #[builder(default)] order_info_id: Option<String>,
   /// Identifier of a chosen shipping option, if applicable.
-  shipping_option_id: Option<String>,
+  #[builder(default)] shipping_option_id: Option<String>,
   /// The credentials chosen by user for payment.
-  credentials: Option<Box<InputCredentials>>,
+  #[builder(default)] credentials: Option<Box<InputCredentials>>,
   
 }
 
@@ -38943,19 +39889,20 @@ impl SendPaymentForm {
 
 
 /// Sends phone number confirmation code. Should be called when user presses "
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SendPhoneNumberConfirmationCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sendPhoneNumberConfirmationCode".to_string())]
   td_name: String, // sendPhoneNumberConfirmationCode
   /// Value of the "hash" parameter from the link.
-  hash: Option<String>,
+  #[builder(default)] hash: Option<String>,
   /// Value of the "phone" parameter from the link.
-  phone_number: Option<String>,
+  #[builder(default)] phone_number: Option<String>,
   /// Pass true if the authentication code may be sent via flash call to the specified phone number.
-  allow_flash_call: Option<bool>,
+  #[builder(default)] allow_flash_call: Option<bool>,
   /// Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false.
-  is_current_phone_number: Option<bool>,
+  #[builder(default)] is_current_phone_number: Option<bool>,
   
 }
 
@@ -38988,17 +39935,18 @@ impl SendPhoneNumberConfirmationCode {
 
 
 /// Sends a code to verify a phone number to be added to a user's Telegram Passport.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SendPhoneNumberVerificationCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="sendPhoneNumberVerificationCode".to_string())]
   td_name: String, // sendPhoneNumberVerificationCode
   /// The phone number of the user, in international format.
-  phone_number: Option<String>,
+  #[builder(default)] phone_number: Option<String>,
   /// Pass true if the authentication code may be sent via flash call to the specified phone number.
-  allow_flash_call: Option<bool>,
+  #[builder(default)] allow_flash_call: Option<bool>,
   /// Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false.
-  is_current_phone_number: Option<bool>,
+  #[builder(default)] is_current_phone_number: Option<bool>,
   
 }
 
@@ -39029,13 +39977,14 @@ impl SendPhoneNumberVerificationCode {
 
 
 /// Changes the period of inactivity after which the account of the current user will automatically be deleted.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetAccountTtl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setAccountTtl".to_string())]
   td_name: String, // setAccountTtl
   /// New account TTL.
-  ttl: Option<AccountTtl>,
+  #[builder(default)] ttl: Option<AccountTtl>,
   
 }
 
@@ -39062,13 +40011,14 @@ impl SetAccountTtl {
 
 
 /// Succeeds after a specified amount of time has passed. Can be called before authorization. Can be called before initialization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetAlarm {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setAlarm".to_string())]
   td_name: String, // setAlarm
   /// Number of seconds before the function returns.
-  seconds: Option<f64>,
+  #[builder(default)] seconds: Option<f64>,
   
 }
 
@@ -39095,17 +40045,18 @@ impl SetAlarm {
 
 
 /// Sets the phone number of the user and sends an authentication code to the user. Works only when the current authorization state is 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetAuthenticationPhoneNumber {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setAuthenticationPhoneNumber".to_string())]
   td_name: String, // setAuthenticationPhoneNumber
   /// The phone number of the user, in international format.
-  phone_number: Option<String>,
+  #[builder(default)] phone_number: Option<String>,
   /// Pass true if the authentication code may be sent via flash call to the specified phone number.
-  allow_flash_call: Option<bool>,
+  #[builder(default)] allow_flash_call: Option<bool>,
   /// Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false.
-  is_current_phone_number: Option<bool>,
+  #[builder(default)] is_current_phone_number: Option<bool>,
   
 }
 
@@ -39136,13 +40087,14 @@ impl SetAuthenticationPhoneNumber {
 
 
 /// Changes the bio of the current user.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetBio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setBio".to_string())]
   td_name: String, // setBio
   /// The new value of the user bio; 0-70 characters without line feeds.
-  bio: Option<String>,
+  #[builder(default)] bio: Option<String>,
   
 }
 
@@ -39169,15 +40121,16 @@ impl SetBio {
 
 
 /// Informs the server about the number of pending bot updates if they haven't been processed for a long time; for bots only.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetBotUpdatesStatus {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setBotUpdatesStatus".to_string())]
   td_name: String, // setBotUpdatesStatus
   /// The number of pending updates.
-  pending_update_count: Option<i32>,
+  #[builder(default)] pending_update_count: Option<i32>,
   /// The last error message.
-  error_message: Option<String>,
+  #[builder(default)] error_message: Option<String>,
   
 }
 
@@ -39206,15 +40159,16 @@ impl SetBotUpdatesStatus {
 
 
 /// Changes client data associated with a chat.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetChatClientData {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setChatClientData".to_string())]
   td_name: String, // setChatClientData
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// New value of client_data.
-  client_data: Option<String>,
+  #[builder(default)] client_data: Option<String>,
   
 }
 
@@ -39243,15 +40197,16 @@ impl SetChatClientData {
 
 
 /// Changes the draft message in a chat.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetChatDraftMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setChatDraftMessage".to_string())]
   td_name: String, // setChatDraftMessage
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// New draft message; may be null.
-  draft_message: Option<DraftMessage>,
+  #[builder(default)] draft_message: Option<DraftMessage>,
   
 }
 
@@ -39280,17 +40235,18 @@ impl SetChatDraftMessage {
 
 
 /// Changes the status of a chat member, needs appropriate privileges. This function is currently not suitable for adding new members to the chat; instead, use 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SetChatMemberStatus {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setChatMemberStatus".to_string())]
   td_name: String, // setChatMemberStatus
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// The new status of the member in the chat.
-  status: Option<Box<ChatMemberStatus>>,
+  #[builder(default)] status: Option<Box<ChatMemberStatus>>,
   
 }
 
@@ -39325,15 +40281,16 @@ impl SetChatMemberStatus {
 
 
 /// Changes the notification settings of a chat.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetChatNotificationSettings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setChatNotificationSettings".to_string())]
   td_name: String, // setChatNotificationSettings
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// New notification settings for the chat.
-  notification_settings: Option<ChatNotificationSettings>,
+  #[builder(default)] notification_settings: Option<ChatNotificationSettings>,
   
 }
 
@@ -39362,15 +40319,16 @@ impl SetChatNotificationSettings {
 
 
 /// Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires administrator rights in basic groups and the appropriate administrator rights in supergroups and channels. The photo will not be changed before request to the server has been completed.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SetChatPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setChatPhoto".to_string())]
   td_name: String, // setChatPhoto
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// New chat photo. You can use a zero InputFileId to delete the chat photo. Files that are accessible only by HTTP URL are not acceptable.
-  photo: Option<Box<InputFile>>,
+  #[builder(default)] photo: Option<Box<InputFile>>,
   
 }
 
@@ -39403,15 +40361,16 @@ impl SetChatPhoto {
 
 
 /// Changes the chat title. Supported only for basic groups, supergroups and channels. Requires administrator rights in basic groups and the appropriate administrator rights in supergroups and channels. The title will not be changed until the request to the server has been completed.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetChatTitle {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setChatTitle".to_string())]
   td_name: String, // setChatTitle
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// New title of the chat; 1-128 characters.
-  title: Option<String>,
+  #[builder(default)] title: Option<String>,
   
 }
 
@@ -39440,15 +40399,16 @@ impl SetChatTitle {
 
 
 /// Adds or changes a custom local language pack to the current localization target.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetCustomLanguagePack {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setCustomLanguagePack".to_string())]
   td_name: String, // setCustomLanguagePack
   /// Information about the language pack. Language pack ID must start with 'X', consist only of English letters, digits and hyphens, and must not exceed 64 characters. Can be called before authorization.
-  info: Option<LanguagePackInfo>,
+  #[builder(default)] info: Option<LanguagePackInfo>,
   /// Strings of the new language pack.
-  strings: Option<Vec<LanguagePackString>>,
+  #[builder(default)] strings: Option<Vec<LanguagePackString>>,
   
 }
 
@@ -39477,15 +40437,16 @@ impl SetCustomLanguagePack {
 
 
 /// Adds, edits or deletes a string in a custom local language pack. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetCustomLanguagePackString {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setCustomLanguagePackString".to_string())]
   td_name: String, // setCustomLanguagePackString
   /// Identifier of a previously added custom local language pack in the current localization target.
-  language_pack_id: Option<String>,
+  #[builder(default)] language_pack_id: Option<String>,
   /// New language pack string.
-  new_string: Option<LanguagePackString>,
+  #[builder(default)] new_string: Option<LanguagePackString>,
   
 }
 
@@ -39514,13 +40475,14 @@ impl SetCustomLanguagePackString {
 
 
 /// Changes the database encryption key. Usually the encryption key is never changed and is stored in some OS keychain.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetDatabaseEncryptionKey {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setDatabaseEncryptionKey".to_string())]
   td_name: String, // setDatabaseEncryptionKey
   /// New encryption key.
-  new_encryption_key: Option<String>,
+  #[builder(default)] new_encryption_key: Option<String>,
   
 }
 
@@ -39547,17 +40509,18 @@ impl SetDatabaseEncryptionKey {
 
 
 /// Informs TDLib on a file generation prograss.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetFileGenerationProgress {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setFileGenerationProgress".to_string())]
   td_name: String, // setFileGenerationProgress
   /// The identifier of the generation process.
-  generation_id: Option<i64>,
+  #[builder(default)] generation_id: Option<i64>,
   /// Expected size of the generated file, in bytes; 0 if unknown.
-  expected_size: Option<i32>,
+  #[builder(default)] expected_size: Option<i32>,
   /// The number of bytes already generated.
-  local_prefix_size: Option<i32>,
+  #[builder(default)] local_prefix_size: Option<i32>,
   
 }
 
@@ -39588,23 +40551,24 @@ impl SetFileGenerationProgress {
 
 
 /// Updates the game score of the specified user in the game; for bots only.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetGameScore {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setGameScore".to_string())]
   td_name: String, // setGameScore
   /// The chat to which the message with the game belongs.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// True, if the message should be edited.
-  edit_message: Option<bool>,
+  #[builder(default)] edit_message: Option<bool>,
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// The new score.
-  score: Option<i32>,
+  #[builder(default)] score: Option<i32>,
   /// Pass true to update the score even if it decreases. If the score is 0, the user will be deleted from the high score table.
-  force: Option<bool>,
+  #[builder(default)] force: Option<bool>,
   
 }
 
@@ -39641,21 +40605,22 @@ impl SetGameScore {
 
 
 /// Updates the game score of the specified user in a game; for bots only.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetInlineGameScore {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setInlineGameScore".to_string())]
   td_name: String, // setInlineGameScore
   /// Inline message identifier.
-  inline_message_id: Option<String>,
+  #[builder(default)] inline_message_id: Option<String>,
   /// True, if the message should be edited.
-  edit_message: Option<bool>,
+  #[builder(default)] edit_message: Option<bool>,
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// The new score.
-  score: Option<i32>,
+  #[builder(default)] score: Option<i32>,
   /// Pass true to update the score even if it decreases. If the score is 0, the user will be deleted from the high score table.
-  force: Option<bool>,
+  #[builder(default)] force: Option<bool>,
   
 }
 
@@ -39690,13 +40655,14 @@ impl SetInlineGameScore {
 
 
 /// Sets new log stream for internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SetLogStream {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setLogStream".to_string())]
   td_name: String, // setLogStream
   /// New log stream.
-  log_stream: Option<Box<LogStream>>,
+  #[builder(default)] log_stream: Option<Box<LogStream>>,
   
 }
 
@@ -39727,15 +40693,16 @@ impl SetLogStream {
 
 
 /// Sets the verbosity level for a specified TDLib internal log tag. This is an offline method. Can be called before authorization. Can be called synchronously.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetLogTagVerbosityLevel {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setLogTagVerbosityLevel".to_string())]
   td_name: String, // setLogTagVerbosityLevel
   /// Logging tag to change verbosity level.
-  tag: Option<String>,
+  #[builder(default)] tag: Option<String>,
   /// New verbosity level; 1-1024.
-  new_verbosity_level: Option<i32>,
+  #[builder(default)] new_verbosity_level: Option<i32>,
   
 }
 
@@ -39764,13 +40731,14 @@ impl SetLogTagVerbosityLevel {
 
 
 /// Sets the verbosity level of the internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetLogVerbosityLevel {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setLogVerbosityLevel".to_string())]
   td_name: String, // setLogVerbosityLevel
   /// New value of the verbosity level for logging. Value 0 corresponds to fatal errors, value 1 corresponds to errors, value 2 corresponds to warnings and debug warnings, value 3 corresponds to informational, value 4 corresponds to debug, value 5 corresponds to verbose debug, value greater than 5 and up to 1023 can be used to enable even more logging.
-  new_verbosity_level: Option<i32>,
+  #[builder(default)] new_verbosity_level: Option<i32>,
   
 }
 
@@ -39797,15 +40765,16 @@ impl SetLogVerbosityLevel {
 
 
 /// Changes the first and last name of the current user. If something changes, 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetName {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setName".to_string())]
   td_name: String, // setName
   /// The new value of the first name for the user; 1-64 characters.
-  first_name: Option<String>,
+  #[builder(default)] first_name: Option<String>,
   /// The new value of the optional last name for the user; 0-64 characters.
-  last_name: Option<String>,
+  #[builder(default)] last_name: Option<String>,
   
 }
 
@@ -39834,13 +40803,14 @@ impl SetName {
 
 
 /// Sets the current network type. Can be called before authorization. Calling this method forces all network connections to reopen, mitigating the delay in switching between different networks, so it should be called whenever the network is changed, even if the network type remains the same. Network type is used to check whether the library can use the network at all and also for collecting detailed network data usage statistics.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SetNetworkType {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setNetworkType".to_string())]
   td_name: String, // setNetworkType
   /// The new network type. By default, networkTypeOther.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<NetworkType>>,
+  #[serde(rename(serialize = "type", deserialize = "type"))] #[builder(default)] type_: Option<Box<NetworkType>>,
   
 }
 
@@ -39871,15 +40841,16 @@ impl SetNetworkType {
 
 
 /// Sets the value of an option. (Check the list of available options on 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SetOption {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setOption".to_string())]
   td_name: String, // setOption
   /// The name of the option.
-  name: Option<String>,
+  #[builder(default)] name: Option<String>,
   /// The new value of the option.
-  value: Option<Box<OptionValue>>,
+  #[builder(default)] value: Option<Box<OptionValue>>,
   
 }
 
@@ -39912,15 +40883,16 @@ impl SetOption {
 
 
 /// Adds an element to the user's Telegram Passport. May return an error with a message "PHONE_VERIFICATION_NEEDED" or "EMAIL_VERIFICATION_NEEDED" if the chosen phone number or the chosen email address must be verified first.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SetPassportElement {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setPassportElement".to_string())]
   td_name: String, // setPassportElement
   /// Input Telegram Passport element.
-  element: Option<Box<InputPassportElement>>,
+  #[builder(default)] element: Option<Box<InputPassportElement>>,
   /// Password of the current user.
-  password: Option<String>,
+  #[builder(default)] password: Option<String>,
   
 }
 
@@ -39953,15 +40925,16 @@ impl SetPassportElement {
 
 
 /// Informs the user that some of the elements in their Telegram Passport contain errors; for bots only. The user will not be able to resend the elements, until the errors are fixed.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetPassportElementErrors {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setPassportElementErrors".to_string())]
   td_name: String, // setPassportElementErrors
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// The errors.
-  errors: Option<Vec<InputPassportElementError>>,
+  #[builder(default)] errors: Option<Vec<InputPassportElementError>>,
   
 }
 
@@ -39990,21 +40963,22 @@ impl SetPassportElementErrors {
 
 
 /// Changes the password for the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetPassword {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setPassword".to_string())]
   td_name: String, // setPassword
   /// Previous password of the user.
-  old_password: Option<String>,
+  #[builder(default)] old_password: Option<String>,
   /// New password of the user; may be empty to remove the password.
-  new_password: Option<String>,
+  #[builder(default)] new_password: Option<String>,
   /// New password hint; may be empty.
-  new_hint: Option<String>,
+  #[builder(default)] new_hint: Option<String>,
   /// Pass true if the recovery email address should be changed.
-  set_recovery_email_address: Option<bool>,
+  #[builder(default)] set_recovery_email_address: Option<bool>,
   /// New recovery email address; may be empty.
-  new_recovery_email_address: Option<String>,
+  #[builder(default)] new_recovery_email_address: Option<String>,
   
 }
 
@@ -40039,13 +41013,14 @@ impl SetPassword {
 
 
 /// Changes the order of pinned chats.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetPinnedChats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setPinnedChats".to_string())]
   td_name: String, // setPinnedChats
   /// The new list of pinned chats.
-  chat_ids: Option<Vec<i64>>,
+  #[builder(default)] chat_ids: Option<Vec<i64>>,
   
 }
 
@@ -40072,17 +41047,18 @@ impl SetPinnedChats {
 
 
 /// Changes user answer to a poll.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetPollAnswer {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setPollAnswer".to_string())]
   td_name: String, // setPollAnswer
   /// Identifier of the chat to which the poll belongs.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message containing the poll.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// 0-based identifiers of options, chosen by the user. Currently user can't choose more than 1 option.
-  option_ids: Option<Vec<i32>>,
+  #[builder(default)] option_ids: Option<Vec<i32>>,
   
 }
 
@@ -40113,13 +41089,14 @@ impl SetPollAnswer {
 
 
 /// Uploads a new profile photo for the current user. If something changes, 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SetProfilePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setProfilePhoto".to_string())]
   td_name: String, // setProfilePhoto
   /// Profile photo to set. inputFileId and inputFileRemote may still be unsupported.
-  photo: Option<Box<InputFile>>,
+  #[builder(default)] photo: Option<Box<InputFile>>,
   
 }
 
@@ -40150,15 +41127,16 @@ impl SetProfilePhoto {
 
 
 /// Changes the 2-step verification recovery email address of the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed If new_recovery_email_address is the same as the email address that is currently set up, this call succeeds immediately and aborts all other requests waiting for an email confirmation.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetRecoveryEmailAddress {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setRecoveryEmailAddress".to_string())]
   td_name: String, // setRecoveryEmailAddress
   /// Password of the current user.
-  password: Option<String>,
+  #[builder(default)] password: Option<String>,
   /// New recovery email address.
-  new_recovery_email_address: Option<String>,
+  #[builder(default)] new_recovery_email_address: Option<String>,
   
 }
 
@@ -40187,15 +41165,16 @@ impl SetRecoveryEmailAddress {
 
 
 /// Changes notification settings for chats of a given type.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SetScopeNotificationSettings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setScopeNotificationSettings".to_string())]
   td_name: String, // setScopeNotificationSettings
   /// Types of chats for which to change the notification settings.
-  scope: Option<Box<NotificationSettingsScope>>,
+  #[builder(default)] scope: Option<Box<NotificationSettingsScope>>,
   /// The new notification settings for the given scope.
-  notification_settings: Option<ScopeNotificationSettings>,
+  #[builder(default)] notification_settings: Option<ScopeNotificationSettings>,
   
 }
 
@@ -40228,15 +41207,16 @@ impl SetScopeNotificationSettings {
 
 
 /// Changes the position of a sticker in the set to which it belongs; for bots only. The sticker set must have been created by the bot.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SetStickerPositionInSet {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setStickerPositionInSet".to_string())]
   td_name: String, // setStickerPositionInSet
   /// Sticker.
-  sticker: Option<Box<InputFile>>,
+  #[builder(default)] sticker: Option<Box<InputFile>>,
   /// New position of the sticker in the set, zero-based.
-  position: Option<i32>,
+  #[builder(default)] position: Option<i32>,
   
 }
 
@@ -40269,15 +41249,16 @@ impl SetStickerPositionInSet {
 
 
 /// Changes information about a supergroup or channel; requires appropriate administrator rights.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetSupergroupDescription {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setSupergroupDescription".to_string())]
   td_name: String, // setSupergroupDescription
   /// Identifier of the supergroup or channel.
-  supergroup_id: Option<i32>,
+  #[builder(default)] supergroup_id: Option<i32>,
   /// New supergroup or channel description; 0-255 characters.
-  description: Option<String>,
+  #[builder(default)] description: Option<String>,
   
 }
 
@@ -40306,15 +41287,16 @@ impl SetSupergroupDescription {
 
 
 /// Changes the sticker set of a supergroup; requires appropriate rights in the supergroup.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetSupergroupStickerSet {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setSupergroupStickerSet".to_string())]
   td_name: String, // setSupergroupStickerSet
   /// Identifier of the supergroup.
-  supergroup_id: Option<i32>,
+  #[builder(default)] supergroup_id: Option<i32>,
   /// New value of the supergroup sticker set identifier. Use 0 to remove the supergroup sticker set.
-  sticker_set_id: Option<i64>,
+  #[builder(default)] sticker_set_id: Option<i64>,
   
 }
 
@@ -40343,15 +41325,16 @@ impl SetSupergroupStickerSet {
 
 
 /// Changes the username of a supergroup or channel, requires creator privileges in the supergroup or channel.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetSupergroupUsername {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setSupergroupUsername".to_string())]
   td_name: String, // setSupergroupUsername
   /// Identifier of the supergroup or channel.
-  supergroup_id: Option<i32>,
+  #[builder(default)] supergroup_id: Option<i32>,
   /// New value of the username. Use an empty string to remove the username.
-  username: Option<String>,
+  #[builder(default)] username: Option<String>,
   
 }
 
@@ -40380,13 +41363,14 @@ impl SetSupergroupUsername {
 
 
 /// Sets the parameters for TDLib initialization. Works only when the current authorization state is 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetTdlibParameters {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setTdlibParameters".to_string())]
   td_name: String, // setTdlibParameters
   /// Parameters.
-  parameters: Option<TdlibParameters>,
+  #[builder(default)] parameters: Option<TdlibParameters>,
   
 }
 
@@ -40413,15 +41397,16 @@ impl SetTdlibParameters {
 
 
 /// Changes user privacy settings.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct SetUserPrivacySettingRules {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setUserPrivacySettingRules".to_string())]
   td_name: String, // setUserPrivacySettingRules
   /// The privacy setting.
-  setting: Option<Box<UserPrivacySetting>>,
+  #[builder(default)] setting: Option<Box<UserPrivacySetting>>,
   /// The new privacy rules.
-  rules: Option<UserPrivacySettingRules>,
+  #[builder(default)] rules: Option<UserPrivacySettingRules>,
   
 }
 
@@ -40454,13 +41439,14 @@ impl SetUserPrivacySettingRules {
 
 
 /// Changes the username of the current user. If something changes, 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SetUsername {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="setUsername".to_string())]
   td_name: String, // setUsername
   /// The new value of the username. Use an empty string to remove the username.
-  username: Option<String>,
+  #[builder(default)] username: Option<String>,
   
 }
 
@@ -40487,17 +41473,18 @@ impl SetUsername {
 
 
 /// Stops a poll. A poll in a message can be stopped when the message has can_be_edited flag set.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct StopPoll {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="stopPoll".to_string())]
   td_name: String, // stopPoll
   /// Identifier of the chat to which the poll belongs.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Identifier of the message containing the poll.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// The new message reply markup; for bots only.
-  reply_markup: Option<Box<ReplyMarkup>>,
+  #[builder(default)] reply_markup: Option<Box<ReplyMarkup>>,
   
 }
 
@@ -40532,13 +41519,14 @@ impl StopPoll {
 
 
 /// Fetches the latest versions of all strings from a language pack in the current localization target from the server. This method doesn't need to be called explicitly for the current used/base language packs. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct SynchronizeLanguagePack {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="synchronizeLanguagePack".to_string())]
   td_name: String, // synchronizeLanguagePack
   /// Language pack identifier.
-  language_pack_id: Option<String>,
+  #[builder(default)] language_pack_id: Option<String>,
   
 }
 
@@ -40565,10 +41553,11 @@ impl SynchronizeLanguagePack {
 
 
 /// Terminates all other sessions of the current user.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TerminateAllOtherSessions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="terminateAllOtherSessions".to_string())]
   td_name: String, // terminateAllOtherSessions
   
 }
@@ -40594,13 +41583,14 @@ impl TerminateAllOtherSessions {
 
 
 /// Terminates a session of the current user.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TerminateSession {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="terminateSession".to_string())]
   td_name: String, // terminateSession
   /// Session identifier.
-  session_id: Option<i64>,
+  #[builder(default)] session_id: Option<i64>,
   
 }
 
@@ -40627,13 +41617,14 @@ impl TerminateSession {
 
 
 /// Returns the received bytes; for testing only. This is an offline method. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestCallBytes {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testCallBytes".to_string())]
   td_name: String, // testCallBytes
   /// Bytes to return.
-  x: Option<String>,
+  #[builder(default)] x: Option<String>,
   
 }
 
@@ -40660,10 +41651,11 @@ impl TestCallBytes {
 
 
 /// Does nothing; for testing only. This is an offline method. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestCallEmpty {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testCallEmpty".to_string())]
   td_name: String, // testCallEmpty
   
 }
@@ -40689,13 +41681,14 @@ impl TestCallEmpty {
 
 
 /// Returns the received string; for testing only. This is an offline method. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestCallString {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testCallString".to_string())]
   td_name: String, // testCallString
   /// String to return.
-  x: Option<String>,
+  #[builder(default)] x: Option<String>,
   
 }
 
@@ -40722,13 +41715,14 @@ impl TestCallString {
 
 
 /// Returns the received vector of numbers; for testing only. This is an offline method. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestCallVectorInt {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testCallVectorInt".to_string())]
   td_name: String, // testCallVectorInt
   /// Vector of numbers to return.
-  x: Option<Vec<i32>>,
+  #[builder(default)] x: Option<Vec<i32>>,
   
 }
 
@@ -40755,13 +41749,14 @@ impl TestCallVectorInt {
 
 
 /// Returns the received vector of objects containing a number; for testing only. This is an offline method. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestCallVectorIntObject {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testCallVectorIntObject".to_string())]
   td_name: String, // testCallVectorIntObject
   /// Vector of objects to return.
-  x: Option<Vec<TestInt>>,
+  #[builder(default)] x: Option<Vec<TestInt>>,
   
 }
 
@@ -40788,13 +41783,14 @@ impl TestCallVectorIntObject {
 
 
 /// Returns the received vector of strings; for testing only. This is an offline method. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestCallVectorString {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testCallVectorString".to_string())]
   td_name: String, // testCallVectorString
   /// Vector of strings to return.
-  x: Option<Vec<String>>,
+  #[builder(default)] x: Option<Vec<String>>,
   
 }
 
@@ -40821,13 +41817,14 @@ impl TestCallVectorString {
 
 
 /// Returns the received vector of objects containing a string; for testing only. This is an offline method. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestCallVectorStringObject {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testCallVectorStringObject".to_string())]
   td_name: String, // testCallVectorStringObject
   /// Vector of objects to return.
-  x: Option<Vec<TestString>>,
+  #[builder(default)] x: Option<Vec<TestString>>,
   
 }
 
@@ -40854,10 +41851,11 @@ impl TestCallVectorStringObject {
 
 
 /// Forces an updates.getDifference call to the Telegram servers; for testing only.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestGetDifference {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testGetDifference".to_string())]
   td_name: String, // testGetDifference
   
 }
@@ -40883,10 +41881,11 @@ impl TestGetDifference {
 
 
 /// Sends a simple network request to the Telegram servers; for testing only. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestNetwork {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testNetwork".to_string())]
   td_name: String, // testNetwork
   
 }
@@ -40912,13 +41911,14 @@ impl TestNetwork {
 
 
 /// Returns the squared received number; for testing only. This is an offline method. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestSquareInt {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testSquareInt".to_string())]
   td_name: String, // testSquareInt
   /// Number to square.
-  x: Option<i32>,
+  #[builder(default)] x: Option<i32>,
   
 }
 
@@ -40945,10 +41945,11 @@ impl TestSquareInt {
 
 
 /// Does nothing and ensures that the Error object is used; for testing only. This is an offline method. Can be called before authorization.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestUseError {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testUseError".to_string())]
   td_name: String, // testUseError
   
 }
@@ -40974,10 +41975,11 @@ impl TestUseError {
 
 
 /// Does nothing and ensures that the 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct TestUseUpdate {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="testUseUpdate".to_string())]
   td_name: String, // testUseUpdate
   
 }
@@ -41003,15 +42005,16 @@ impl TestUseUpdate {
 
 
 /// Toggles the "All members are admins" setting in basic groups; requires creator privileges in the group.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ToggleBasicGroupAdministrators {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="toggleBasicGroupAdministrators".to_string())]
   td_name: String, // toggleBasicGroupAdministrators
   /// Identifier of the basic group.
-  basic_group_id: Option<i32>,
+  #[builder(default)] basic_group_id: Option<i32>,
   /// New value of everyone_is_administrator.
-  everyone_is_administrator: Option<bool>,
+  #[builder(default)] everyone_is_administrator: Option<bool>,
   
 }
 
@@ -41040,15 +42043,16 @@ impl ToggleBasicGroupAdministrators {
 
 
 /// Changes the value of the default disable_notification parameter, used when a message is sent to a chat.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ToggleChatDefaultDisableNotification {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="toggleChatDefaultDisableNotification".to_string())]
   td_name: String, // toggleChatDefaultDisableNotification
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// New value of default_disable_notification.
-  default_disable_notification: Option<bool>,
+  #[builder(default)] default_disable_notification: Option<bool>,
   
 }
 
@@ -41077,15 +42081,16 @@ impl ToggleChatDefaultDisableNotification {
 
 
 /// Changes the marked as unread state of a chat.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ToggleChatIsMarkedAsUnread {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="toggleChatIsMarkedAsUnread".to_string())]
   td_name: String, // toggleChatIsMarkedAsUnread
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// New value of is_marked_as_unread.
-  is_marked_as_unread: Option<bool>,
+  #[builder(default)] is_marked_as_unread: Option<bool>,
   
 }
 
@@ -41114,15 +42119,16 @@ impl ToggleChatIsMarkedAsUnread {
 
 
 /// Changes the pinned state of a chat. You can pin up to GetOption("pinned_chat_count_max") non-secret chats and the same number of secret chats.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ToggleChatIsPinned {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="toggleChatIsPinned".to_string())]
   td_name: String, // toggleChatIsPinned
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// New value of is_pinned.
-  is_pinned: Option<bool>,
+  #[builder(default)] is_pinned: Option<bool>,
   
 }
 
@@ -41151,15 +42157,16 @@ impl ToggleChatIsPinned {
 
 
 /// Toggles whether all members of a supergroup can add new members; requires appropriate administrator rights in the supergroup.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ToggleSupergroupInvites {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="toggleSupergroupInvites".to_string())]
   td_name: String, // toggleSupergroupInvites
   /// Identifier of the supergroup.
-  supergroup_id: Option<i32>,
+  #[builder(default)] supergroup_id: Option<i32>,
   /// New value of anyone_can_invite.
-  anyone_can_invite: Option<bool>,
+  #[builder(default)] anyone_can_invite: Option<bool>,
   
 }
 
@@ -41188,15 +42195,16 @@ impl ToggleSupergroupInvites {
 
 
 /// Toggles whether the message history of a supergroup is available to new members; requires appropriate administrator rights in the supergroup.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ToggleSupergroupIsAllHistoryAvailable {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="toggleSupergroupIsAllHistoryAvailable".to_string())]
   td_name: String, // toggleSupergroupIsAllHistoryAvailable
   /// The identifier of the supergroup.
-  supergroup_id: Option<i32>,
+  #[builder(default)] supergroup_id: Option<i32>,
   /// The new value of is_all_history_available.
-  is_all_history_available: Option<bool>,
+  #[builder(default)] is_all_history_available: Option<bool>,
   
 }
 
@@ -41225,15 +42233,16 @@ impl ToggleSupergroupIsAllHistoryAvailable {
 
 
 /// Toggles sender signatures messages sent in a channel; requires appropriate administrator rights in the channel.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ToggleSupergroupSignMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="toggleSupergroupSignMessages".to_string())]
   td_name: String, // toggleSupergroupSignMessages
   /// Identifier of the channel.
-  supergroup_id: Option<i32>,
+  #[builder(default)] supergroup_id: Option<i32>,
   /// New value of sign_messages.
-  sign_messages: Option<bool>,
+  #[builder(default)] sign_messages: Option<bool>,
   
 }
 
@@ -41262,13 +42271,14 @@ impl ToggleSupergroupSignMessages {
 
 
 /// Removes a user from the blacklist.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UnblockUser {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="unblockUser".to_string())]
   td_name: String, // unblockUser
   /// User identifier.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   
 }
 
@@ -41295,13 +42305,14 @@ impl UnblockUser {
 
 
 /// Removes the pinned message from a chat; requires appropriate administrator rights in the group or channel.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UnpinChatMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="unpinChatMessage".to_string())]
   td_name: String, // unpinChatMessage
   /// Identifier of the chat.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -41328,13 +42339,14 @@ impl UnpinChatMessage {
 
 
 /// Creates a new supergroup from an existing basic group and sends a corresponding 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct UpgradeBasicGroupChatToSupergroupChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="upgradeBasicGroupChatToSupergroupChat".to_string())]
   td_name: String, // upgradeBasicGroupChatToSupergroupChat
   /// Identifier of the chat to upgrade.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   
 }
 
@@ -41361,17 +42373,18 @@ impl UpgradeBasicGroupChatToSupergroupChat {
 
 
 /// Asynchronously uploads a file to the cloud without sending it in a message. 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UploadFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="uploadFile".to_string())]
   td_name: String, // uploadFile
   /// File to upload.
-  file: Option<Box<InputFile>>,
+  #[builder(default)] file: Option<Box<InputFile>>,
   /// File type.
-  file_type: Option<Box<FileType>>,
+  #[builder(default)] file_type: Option<Box<FileType>>,
   /// Priority of the upload (1-32). The higher the priority, the earlier the file will be uploaded. If the priorities of two files are equal, then the first one for which uploadFile was called will be uploaded first.
-  priority: Option<i32>,
+  #[builder(default)] priority: Option<i32>,
   
 }
 
@@ -41406,15 +42419,16 @@ impl UploadFile {
 
 
 /// Uploads a PNG image with a sticker; for bots only; returns the uploaded file.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TypedBuilder)]
 pub struct UploadStickerFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="uploadStickerFile".to_string())]
   td_name: String, // uploadStickerFile
   /// Sticker file owner.
-  user_id: Option<i32>,
+  #[builder(default)] user_id: Option<i32>,
   /// PNG image with the sticker; must be up to 512 kB in size and fit in 512x512 square.
-  png_sticker: Option<Box<InputFile>>,
+  #[builder(default)] png_sticker: Option<Box<InputFile>>,
   
 }
 
@@ -41447,19 +42461,20 @@ impl UploadStickerFile {
 
 
 /// Validates the order information provided by a user and returns the available shipping options for a flexible invoice.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ValidateOrderInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="validateOrderInfo".to_string())]
   td_name: String, // validateOrderInfo
   /// Chat identifier of the Invoice message.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// Message identifier.
-  message_id: Option<i64>,
+  #[builder(default)] message_id: Option<i64>,
   /// The order information, provided by the user.
-  order_info: Option<OrderInfo>,
+  #[builder(default)] order_info: Option<OrderInfo>,
   /// True, if the order information can be saved.
-  allow_save: Option<bool>,
+  #[builder(default)] allow_save: Option<bool>,
   
 }
 
@@ -41492,17 +42507,18 @@ impl ValidateOrderInfo {
 
 
 /// Informs TDLib that messages are being viewed by the user. Many useful activities depend on whether the messages are currently being viewed or not (e.g., marking messages as read, incrementing a view counter, updating a view counter, removing deleted messages in supergroups and channels).
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ViewMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="viewMessages".to_string())]
   td_name: String, // viewMessages
   /// Chat identifier.
-  chat_id: Option<i64>,
+  #[builder(default)] chat_id: Option<i64>,
   /// The identifiers of the messages being viewed.
-  message_ids: Option<Vec<i64>>,
+  #[builder(default)] message_ids: Option<Vec<i64>>,
   /// True, if messages in closed chats should be marked as read.
-  force_read: Option<bool>,
+  #[builder(default)] force_read: Option<bool>,
   
 }
 
@@ -41533,13 +42549,14 @@ impl ViewMessages {
 
 
 /// Informs the server that some trending sticker sets have been viewed by the user.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct ViewTrendingStickerSets {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="viewTrendingStickerSets".to_string())]
   td_name: String, // viewTrendingStickerSets
   /// Identifiers of viewed trending sticker sets.
-  sticker_set_ids: Option<Vec<i64>>,
+  #[builder(default)] sticker_set_ids: Option<Vec<i64>>,
   
 }
 
@@ -41566,17 +42583,18 @@ impl ViewTrendingStickerSets {
 
 
 /// Writes a part of a generated file. This method is intended to be used only if the client has no direct access to TDLib's file system, because it is usually slower than a direct write to the destination file.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TypedBuilder)]
 pub struct WriteGeneratedFilePart {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  #[builder(default="writeGeneratedFilePart".to_string())]
   td_name: String, // writeGeneratedFilePart
   /// The identifier of the generation process.
-  generation_id: Option<i64>,
+  #[builder(default)] generation_id: Option<i64>,
   /// The offset from which to write the data to the file.
-  offset: Option<i32>,
+  #[builder(default)] offset: Option<i32>,
   /// The data to write.
-  data: Option<String>,
+  #[builder(default)] data: Option<String>,
   
 }
 
