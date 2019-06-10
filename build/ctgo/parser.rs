@@ -155,6 +155,14 @@ fn td_type_fill(apipe: &Apipe, tdtype: &mut TdType) {
     }
   }
 
+//  let mut has_builder_struct = false;
+//  if let Some(clz_super) = tdtype.clz_super.clone() {
+//    let clz_super = clz_super.to_lowercase();
+//    if &clz_super[..] == "function" {
+//      has_builder_struct = true;
+//    }
+//  }
+
   tdtype.has_builder_struct = has_builder_struct;
 }
 
