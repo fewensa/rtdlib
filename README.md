@@ -29,7 +29,7 @@ It depends on whether the document has changed.
 
 ```toml
 [dependencies]
-rtdlib = "0.1"
+rtdlib = "0.2"
 ```
 
 
