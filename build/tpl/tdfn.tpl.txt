@@ -1,12 +1,11 @@
 {% if td.clz_description %}/// {{ td.clz_description }}{% endif %}
-{% if td.clz_is_trait %}{% if td.set_trait_typetag %}#[typetag::serde(tag = "@struct")]{% endif %}{% else %}#[derive(Debug, {% if not td.has_trait_field %}Clone, {% endif %}Serialize, Deserialize, TypedBuilder)]{% endif %}
+{% if td.clz_is_trait %}{% if td.set_trait_typetag %}#[typetag::serde(tag = "@struct")]{% endif %}{% else %}#[derive(Debug, {% if not td.has_trait_field %}Clone, {% endif %}Serialize, Deserialize)]{% endif %}
 {% if not td.is_private %}pub {% endif %}{% if td.clz_is_trait %}trait{% else %}struct{% endif %} {{ td.clz_name }}{% if td.clz_is_trait %}: {% if td.clz_name != 'Object' %}Object + {% endif %}RObject + Debug {}{% else %} {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  #[builder(default="{{ td.origin_name }}".to_string())]
   td_name: String, // {{ td.origin_name }}
   {% if td.fields %}{% for field in td.fields %}/// {{field.description}}
-  {% if field.name == 'type_' %}#[serde(rename(serialize = "type", deserialize = "type"))] {% endif %}#[builder(default)] {{field.name}}: {{field.class | field_type(td = td, field_name = field.name, wrap_option = true)}},
+  {% if field.name == 'type_' %}#[serde(rename(serialize = "type", deserialize = "type"))] {% endif %}{{field.name}}: {{field.class | field_type(td = td, field_name = field.name, wrap_option = true)}},
   {% endfor %}{% endif %}
 }
 {% endif %}
@@ -28,8 +27,16 @@ impl RObject for {{ td.clz_name }} {
 {% endif %}
 {% if not td.is_private and not td.clz_is_trait %}
 impl {{ td.clz_name }} {
+  #[doc(hidden)] pub fn _new() -> Self {
+    Self {
+      td_name: "{{ td.origin_name }}".to_string(),
+      {% if td.fields %}{% for field in td.fields %}{{field.name}}: None,
+      {% endfor %}{% endif %}
+    }
+  }
   {% if td.fields %}{% for field in td.fields %}
   pub fn {{field.name}}(&self) -> {{field.class | field_type(td = td, field_name = field.name, wrap_option = true)}} { self.{{field.name}}.clone() }
+  #[doc(hidden)] pub fn _set_{{field.name}}(&mut self, {{field.name}}: {{field.class | field_type(td = td, field_name = field.name, wrap_option = false)}}) -> &mut Self { self.{{field.name}} = Some({{field.name}}); self }
   {% endfor %}{% endif %}
   pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
 }
