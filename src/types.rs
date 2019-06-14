@@ -24057,7 +24057,7 @@ pub struct Poll {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String, // poll
   /// Unique poll identifier.
-  id: Option<i64>,
+  id: Option<String>,
   /// Poll question, 1-255 characters.
   question: Option<String>,
   /// List of poll answer options.
@@ -24093,8 +24093,8 @@ impl Poll {
     }
   }
   
-  pub fn id(&self) -> Option<i64> { self.id.clone() }
-  #[doc(hidden)] pub fn _set_id(&mut self, id: i64) -> &mut Self { self.id = Some(id); self }
+  pub fn id(&self) -> Option<String> { self.id.clone() }
+  #[doc(hidden)] pub fn _set_id(&mut self, id: String) -> &mut Self { self.id = Some(id); self }
   
   pub fn question(&self) -> Option<String> { self.question.clone() }
   #[doc(hidden)] pub fn _set_question(&mut self, question: String) -> &mut Self { self.question = Some(question); self }
@@ -28089,7 +28089,7 @@ pub struct Sticker {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String, // sticker
   /// The identifier of the sticker set to which the sticker belongs; 0 if none.
-  set_id: Option<i64>,
+  set_id: Option<String>,
   /// Sticker width; as defined by the sender.
   width: Option<i32>,
   /// Sticker height; as defined by the sender.
@@ -28134,8 +28134,8 @@ impl Sticker {
     }
   }
   
-  pub fn set_id(&self) -> Option<i64> { self.set_id.clone() }
-  #[doc(hidden)] pub fn _set_set_id(&mut self, set_id: i64) -> &mut Self { self.set_id = Some(set_id); self }
+  pub fn set_id(&self) -> Option<String> { self.set_id.clone() }
+  #[doc(hidden)] pub fn _set_set_id(&mut self, set_id: String) -> &mut Self { self.set_id = Some(set_id); self }
   
   pub fn width(&self) -> Option<i32> { self.width.clone() }
   #[doc(hidden)] pub fn _set_width(&mut self, width: i32) -> &mut Self { self.width = Some(width); self }

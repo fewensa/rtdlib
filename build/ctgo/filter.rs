@@ -61,6 +61,24 @@ pub fn filter_field_type(value: Value, arg: HashMap<String, Value>) -> tera::Res
         _ => origin_field_type
       }
     }
+    "Poll" => {
+      match field_name {
+        // https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1poll.html
+        // sample
+        // "poll":{"@type":"poll","@struct":"Poll","id":"6233357861422891010", ... }
+        "id" => "String",
+        _ => origin_field_type,
+      }
+    }
+    "Sticker" => {
+      match field_name {
+        // https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1sticker.html
+        // sample
+        // "sticker":{"@type":"sticker","@struct":"Sticker","set_id":"2463557141785477121", ... }
+        "set_id" => "String",
+        _ => origin_field_type,
+      }
+    }
     _ => origin_field_type
   };
 

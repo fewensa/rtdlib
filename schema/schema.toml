@@ -33177,7 +33177,7 @@ has_subclasses = false
 
 fields = [
   { doc_hidden = true, name = "td_name", class = "String", tags = [ """ #[serde(rename(serialize = "@type", deserialize = "@type"))] """ ] },
-  { name = "id", class = "Option<i64>", description = """ Unique poll identifier. """, tags = [  ] },
+  { name = "id", class = "Option<String>", description = """ Unique poll identifier. """, tags = [  ] },
   { name = "question", class = "Option<String>", description = """ Poll question, 1-255 characters. """, tags = [  ] },
   { name = "options", class = "Option<Vec<PollOption>>", description = """ List of poll answer options. """, tags = [  ] },
   { name = "total_voter_count", class = "Option<i32>", description = """ Total number of voters, participating in the poll. """, tags = [  ] },
@@ -38641,7 +38641,7 @@ has_subclasses = false
 
 fields = [
   { doc_hidden = true, name = "td_name", class = "String", tags = [ """ #[serde(rename(serialize = "@type", deserialize = "@type"))] """ ] },
-  { name = "set_id", class = "Option<i64>", description = """ The identifier of the sticker set to which the sticker belongs; 0 if none. """, tags = [  ] },
+  { name = "set_id", class = "Option<String>", description = """ The identifier of the sticker set to which the sticker belongs; 0 if none. """, tags = [  ] },
   { name = "width", class = "Option<i32>", description = """ Sticker width; as defined by the sender. """, tags = [  ] },
   { name = "height", class = "Option<i32>", description = """ Sticker height; as defined by the sender. """, tags = [  ] },
   { name = "emoji", class = "Option<String>", description = """ Emoji corresponding to the sticker. """, tags = [  ] },
