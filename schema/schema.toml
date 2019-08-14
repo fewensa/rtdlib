@@ -39292,7 +39292,7 @@ fields = [
   { name = "can_set_sticker_set", class = "Option<bool>", description = """ True, if the supergroup sticker set can be changed. """, tags = [  ] },
   { name = "can_view_statistics", class = "Option<bool>", description = """ True, if the channel statistics is available through getChatStatisticsUrl. """, tags = [  ] },
   { name = "is_all_history_available", class = "Option<bool>", description = """ True, if new chat members will have access to old messages. In public supergroups and both public and private channels, old messages are always available, so this option affects only private supergroups. The value of this field is only available for chat administrators. """, tags = [  ] },
-  { name = "sticker_set_id", class = "Option<i64>", description = """ Identifier of the supergroup sticker set; 0 if none. """, tags = [  ] },
+  { name = "sticker_set_id", class = "Option<String>", description = """ Identifier of the supergroup sticker set; 0 if none. """, tags = [  ] },
   { name = "invite_link", class = "Option<String>", description = """ Invite link for this chat. """, tags = [  ] },
   { name = "upgraded_from_basic_group_id", class = "Option<i32>", description = """ Identifier of the basic group from which supergroup was upgraded; 0 if none. """, tags = [  ] },
   { name = "upgraded_from_max_message_id", class = "Option<i64>", description = """ Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none. """, tags = [  ] },

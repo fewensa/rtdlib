@@ -28822,7 +28822,7 @@ pub struct SupergroupFullInfo {
   /// True, if new chat members will have access to old messages. In public supergroups and both public and private channels, old messages are always available, so this option affects only private supergroups. The value of this field is only available for chat administrators.
   is_all_history_available: Option<bool>,
   /// Identifier of the supergroup sticker set; 0 if none.
-  sticker_set_id: Option<i64>,
+  sticker_set_id: Option<String>,
   /// Invite link for this chat.
   invite_link: Option<String>,
   /// Identifier of the basic group from which supergroup was upgraded; 0 if none.
@@ -28895,8 +28895,8 @@ impl SupergroupFullInfo {
   pub fn is_all_history_available(&self) -> Option<bool> { self.is_all_history_available.clone() }
   #[doc(hidden)] pub fn _set_is_all_history_available(&mut self, is_all_history_available: bool) -> &mut Self { self.is_all_history_available = Some(is_all_history_available); self }
   
-  pub fn sticker_set_id(&self) -> Option<i64> { self.sticker_set_id.clone() }
-  #[doc(hidden)] pub fn _set_sticker_set_id(&mut self, sticker_set_id: i64) -> &mut Self { self.sticker_set_id = Some(sticker_set_id); self }
+  pub fn sticker_set_id(&self) -> Option<String> { self.sticker_set_id.clone() }
+  #[doc(hidden)] pub fn _set_sticker_set_id(&mut self, sticker_set_id: String) -> &mut Self { self.sticker_set_id = Some(sticker_set_id); self }
   
   pub fn invite_link(&self) -> Option<String> { self.invite_link.clone() }
   #[doc(hidden)] pub fn _set_invite_link(&mut self, invite_link: String) -> &mut Self { self.invite_link = Some(invite_link); self }

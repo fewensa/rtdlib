@@ -78,7 +78,16 @@ pub fn filter_field_type(value: Value, arg: HashMap<String, Value>) -> tera::Res
         "set_id" => "String",
         _ => origin_field_type,
       }
-    }
+    },
+    "SupergroupFullInfo" => {
+      match field_name {
+        // https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1supergroup_full_info.html
+        // sample
+        // "supergroup_full_info":{"sticker_set_id": "0", ... }
+        "sticker_set_id" => "String",
+        _ => origin_field_type
+      }
+    },
     _ => origin_field_type
   };
 
