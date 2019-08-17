@@ -81,7 +81,18 @@ impl<P: AsRef<Path>> Generator<P> {
 
     td_all_types.iter().for_each(|td| {
       let snake_clz_name = td.clz_name.clone().to_snake();
-      modbuilder.append("pub use self::").append(snake_clz_name).append("::").append(td.clz_name.clone()).append(";\n");
+      let clz_name = td.clz_name.clone();
+      if td.clz_is_trait && &clz_name.to_lowercase()[..] != "object" {
+        modbuilder.append("pub use self::")
+          .append(snake_clz_name)
+          .append("::{")
+          .append(clz_name)
+          .append(", ")
+          .append("RTD").append(td.clz_name.clone()).append("Type}")
+          .append(";\n");
+      } else {
+        modbuilder.append("pub use self::").append(snake_clz_name).append("::").append(clz_name).append(";\n");
+      }
     });
     modbuilder.append("\n\n\n");
     td_all_types.iter().for_each(|td| {
