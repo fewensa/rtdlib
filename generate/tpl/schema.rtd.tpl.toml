@@ -1,0 +1,106 @@
+
+[rtd.{{td.clz_name}}]
+origin_name = "{{td.origin_name}}"
+clz_name = "{{td.clz_name}}"
+is_private = {{td.is_private}}
+clz_is_trait = {{td.clz_is_trait}}
+{% if td.clz_description %}clz_description = """ {{td.clz_description}} """{% endif %}
+has_subclasses = {{td.has_subclasses}}
+{% if td.has_subclasses %}sub_classes = [
+  {% for item in td.sub_classes %}{ name = "{{item.name}}", is_trait = {{item.is_trait}} },
+  {% endfor %}
+]{% endif %}
+fields = [
+  { doc_hidden = true, name = "td_name", class = "String", tags = [ """ #[serde(rename(serialize = "@type", deserialize = "@type"))] """ ] },
+  {% for field in td.fields %}{ name = "{{field.name}}", class = "{{field.class | field_type(td = td, field_name = field.name, wrap_option = true)}}", description = """ {{field.description}} """, tags = [ {% if field.name == 'type_' %}""" #[serde(rename(serialize = "type", deserialize = "type"))] """{% endif %} ] },
+  {% endfor %}
+]
+fields_size = {{td.fields_size + 1}}
+has_trait_field = {{td.has_trait_field}}
+set_trait_typetag = {% if td.clz_is_trait and td.set_trait_typetag %}{{td.set_trait_typetag}}{% else %}false{% endif %}
+has_builder_struct = false # deprecated
+trait_tags = [ {% if td.clz_is_trait and td.set_trait_typetag %}""" #[typetag::serde(tag = "@struct")] """{% endif %} ]
+dna = {% if td.clz_is_trait %}"trait"{% else %}"struct"{% endif %}
+{% if not td.clz_is_trait %}derives = [ "Debug", {% if not td.has_trait_field %}"Clone", {% endif %}"Serialize", "Deserialize" ]{%endif%}
+extra_fns = [
+{% if td.clz_is_trait %}{% if td.clz_name != 'Object' and td.clz_name != 'Function' %}
+"""
+impl {{ td.clz_name }} {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<Self>> { from_json!()(json.as_ref()) }
+}
+""",
+"""
+impl Clone for Box<{{td.clz_name}}> {
+  fn clone(&self) -> Self { rtd_clone!()(self) }
+}
+""",
+{% endif %}{% else %}
+"""
+impl {{ td.clz_name }} {
+  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+}
+""",
+{% if td.has_trait_field %}
+"""
+impl Clone for {{ td.clz_name }} {
+  fn clone(&self) -> Self { rtd_clone!()(self) }
+}
+""",
+{% endif %}{% endif %}
+]
+
+{% if td.clz_is_trait %}
+{% if td.clz_name != 'Object' %}
+[[rtd.{{td.clz_name}}.supers]]
+name = "Object"
+{% endif %}
+[[rtd.{{td.clz_name}}.supers]]
+name = "RObject"
+[[rtd.{{td.clz_name}}.supers]]
+name = "Debug"
+{% endif %}
+{% if not td.clz_is_trait %}
+[[rtd.{{td.clz_name}}.supers]]
+name = "Object"
+impl_trait_typetag = false
+
+[[rtd.{{td.clz_name}}.supers]]
+name = "RObject"
+impl_trait_typetag = false
+fns = [
+  { doc_hidden = true, name = "td_name", ret = "&'static str", body = """ "{{td.origin_name}}" """ },
+  { name = "td_type", ret = "RTDType", body = """ RTDType::{{td.clz_name}} """},
+  { name = "to_json", ret = "String", body = "rtd_to_json!()(self)" },
+]
+{% endif %}
+
+{% if td.clz_super and td.clz_super != 'Object' and td.clz_super != 'TlObject' %}
+[[rtd.{{td.clz_name}}.supers]]
+name = "{{ td.clz_super }}"
+impl_trait_typetag = {{td.impl_trait_typetag}}
+impl_tags = [ {%if td.impl_trait_typetag %}"#[typetag::serde]",{% endif %} ]
+{% endif %}
+
+
+{% if td.clz_is_trait %}{% if td.has_subclasses and td.clz_name != 'Object' %}
+[rtd.RTD{{td.clz_name}}Type]
+clz_name = "RTD{{td.clz_name}}Type"
+is_private = false
+clz_is_trait = false
+has_subclasses = false
+fields = [
+  {% for sub in td.sub_classes %}{ name = "{{ sub.name }}", is_trait = {{sub.is_trait}} },
+  {% endfor %}
+]
+fields_size = {{ td.sub_classes | length }}
+dna = "enum"
+derives = [ "Debug", "Clone", "PartialEq", "PartialOrd", "Eq", "Ord", "Hash", "EnumString" ]
+extra_fns = [
+"""
+impl RTD{{td.clz_name}}Type {
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { rtd_of!(RTD{{td.clz_name}}Type)(text.as_ref()) }
+}
+""",
+]
+{% endif %}{% endif %}
+

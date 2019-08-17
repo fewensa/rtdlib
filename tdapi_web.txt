@@ -7,3 +7,14 @@ https://core.telegram.org/tdlib/docs/td__api_8h_source.html
 
 
 https://core.telegram.org/tdlib/docs/annotated.html
+
+
+
+{% if td.clz_name != 'Object' or td.clz_name != 'Function' %}
+{% if td.clz_name != 'Object' %}use crate::types::Object;{% endif %}
+{% if td.clz_name != 'Function' %}use crate::types::Function;{% endif %}
+use crate::types::RObject;
+use crate::types::RTDType;
+{% else %}
+use crate::types::*;
+{% endif %}
