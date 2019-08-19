@@ -6,15 +6,17 @@ rtdlib
 
 `rtdlib` is [TDLib](https://github.com/tdlib/td) for rust.
 
-`rtdlib` crate have [TDLib](https://github.com/tdlib/td) type (classes). and `tdjson` [binding](./src/tdjson.rs). not have client api. so if use `rtdlib` you need include `libtdjson.so` to you build path.
+`rtdlib` crate have [TDLib](https://github.com/tdlib/td) type (classes). and `tdjson` [binding](./src/tdjson.rs). not have client api. if use `rtdlib` you need include `libtdjson.so` to you build path.
 
 
 
 # Build
 
-`rtdlib` include a prebuilt td types, you can check [types.rs](./src/types.rs), so `rtdlib` does not actively rebuild, if want. you can set an environment `BUILD_TDAPI=true`, when `rtdlib` check `BUILD_TDAPI` is true, will rebuild td type, and generate a new [types.rs](./src/types.rs).
+`rtdlib` include a prebuilt td types, you can check [types](./src/types). The version of `>0.3.0` not provide build code before run this crate, last support version is [0.2.1](https://github.com/fewensa/rtdlib/releases/tag/0.2.1), if want generate types from [telegram official document](https://core.telegram.org/tdlib/docs/td__api_8h.html) you can check [generate](./generate) project.
 
-**BUILD TYPE.RS IS VERY SLOW.**
+When build from official document, rtdlib will generate a td [schema](./schema/schema.toml) file, but this file not include in cargo package, if you need use this file, you need check [schema.toml](./schema/schema.toml).
+
+**BUILD TYPE.RS IS SLOWLY.**
 
 **Notice**
 
@@ -24,12 +26,13 @@ So there is a possibility of compilation failure.
 
 It depends on whether the document has changed.
 
+When rtdlib is stable, the use of code generation is not recommended.
 
 # Usage
 
 ```toml
 [dependencies]
-rtdlib = "0.2"
+rtdlib = "0.3"
 ```
 
 
