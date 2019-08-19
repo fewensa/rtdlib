@@ -1,0 +1,70 @@
+
+use std::fmt::Debug;
+use std::str::FromStr;
+use crate::tdkit;
+
+macro_rules! from_json {
+  () => {
+    |json| match serde_json::from_str(&tdkit::fill_json_struct(json)[..]) {
+      Ok(t) => t,
+      Err(e) => {
+        eprintln!("{:?}", e);
+        None
+      }
+    }
+  };
+}
+
+macro_rules! rtd_of {
+  ($rtd_type:ident) => {
+    |text| match $rtd_type::from_str(&tdkit::uppercase_first_char(text)[..]) {
+      Ok(t) => Some(t),
+      Err(e) => {
+        eprintln!("{:?}", e);
+        None
+      }
+    }
+  };
+}
+
+macro_rules! rtd_clone {
+  () => {
+    |obj| {
+      let json = serde_json::to_string(obj).unwrap();
+      serde_json::from_str(&json[..]).unwrap()
+    }
+  }
+}
+
+macro_rules! rtd_to_json {
+  () => {
+    |obj| tdkit::fill_json_struct(serde_json::to_string(obj).unwrap())
+  }
+}
+
+
+/// All tdlib type abstract class defined the same behavior
+pub trait RObject {
+ #[doc(hidden)] fn td_name(&self) -> &'static str;
+ /// convert TDLib type to rust enum RTDType
+ fn td_type(&self) -> RTDType;
+ /// The string that implements the return of to_json should be called `tdkit::fill_json_struct` for optimization,
+ /// appending the `@struct` field, although usually struct will actively generate `@struct`, but not in `Object` and `Function`,
+ /// because the implementation of typetag cannot be automatically generated.
+ fn to_json(&self) -> String;
+}
+
+/// This class is a base class for all TDLib TL-objects.
+/// This parent class is not important and will not be implemented for every class.
+trait TlObject: Debug + Clone {}
+
+/// TDLib all class name mappers
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
+pub enum RTDType {
+  {% for item in common.clzs %}{{ item.name }},
+  {% endfor %}
+}
+
+impl RTDType {
+  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { rtd_of!(RTDType)(text.as_ref()) }
+}
