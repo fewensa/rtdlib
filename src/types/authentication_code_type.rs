@@ -109,7 +109,7 @@ pub struct AuthenticationCodeTypeTelegramMessage {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Length of the code
-  length: i32,
+  length: i64,
   
 }
 
@@ -131,7 +131,7 @@ impl AuthenticationCodeTypeTelegramMessage {
     RTDAuthenticationCodeTypeTelegramMessageBuilder { inner }
   }
 
-  pub fn length(&self) -> i32 { self.length }
+  pub fn length(&self) -> i64 { self.length }
 
 }
 
@@ -144,7 +144,7 @@ impl RTDAuthenticationCodeTypeTelegramMessageBuilder {
   pub fn build(&self) -> AuthenticationCodeTypeTelegramMessage { self.inner.clone() }
 
    
-  pub fn length(&mut self, length: i32) -> &mut Self {
+  pub fn length(&mut self, length: i64) -> &mut Self {
     self.inner.length = length;
     self
   }
@@ -172,7 +172,7 @@ pub struct AuthenticationCodeTypeSms {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Length of the code
-  length: i32,
+  length: i64,
   
 }
 
@@ -194,7 +194,7 @@ impl AuthenticationCodeTypeSms {
     RTDAuthenticationCodeTypeSmsBuilder { inner }
   }
 
-  pub fn length(&self) -> i32 { self.length }
+  pub fn length(&self) -> i64 { self.length }
 
 }
 
@@ -207,7 +207,7 @@ impl RTDAuthenticationCodeTypeSmsBuilder {
   pub fn build(&self) -> AuthenticationCodeTypeSms { self.inner.clone() }
 
    
-  pub fn length(&mut self, length: i32) -> &mut Self {
+  pub fn length(&mut self, length: i64) -> &mut Self {
     self.inner.length = length;
     self
   }
@@ -235,7 +235,7 @@ pub struct AuthenticationCodeTypeCall {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Length of the code
-  length: i32,
+  length: i64,
   
 }
 
@@ -257,7 +257,7 @@ impl AuthenticationCodeTypeCall {
     RTDAuthenticationCodeTypeCallBuilder { inner }
   }
 
-  pub fn length(&self) -> i32 { self.length }
+  pub fn length(&self) -> i64 { self.length }
 
 }
 
@@ -270,7 +270,7 @@ impl RTDAuthenticationCodeTypeCallBuilder {
   pub fn build(&self) -> AuthenticationCodeTypeCall { self.inner.clone() }
 
    
-  pub fn length(&mut self, length: i32) -> &mut Self {
+  pub fn length(&mut self, length: i64) -> &mut Self {
     self.inner.length = length;
     self
   }

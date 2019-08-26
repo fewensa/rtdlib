@@ -584,7 +584,7 @@ pub struct ChatEventMemberInvited {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// New member user identifier
-  user_id: i32,
+  user_id: i64,
   /// New member status
   status: ChatMemberStatus,
   
@@ -608,7 +608,7 @@ impl ChatEventMemberInvited {
     RTDChatEventMemberInvitedBuilder { inner }
   }
 
-  pub fn user_id(&self) -> i32 { self.user_id }
+  pub fn user_id(&self) -> i64 { self.user_id }
 
   pub fn status(&self) -> &ChatMemberStatus { &self.status }
 
@@ -623,7 +623,7 @@ impl RTDChatEventMemberInvitedBuilder {
   pub fn build(&self) -> ChatEventMemberInvited { self.inner.clone() }
 
    
-  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
     self.inner.user_id = user_id;
     self
   }
@@ -657,7 +657,7 @@ pub struct ChatEventMemberPromoted {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat member user identifier
-  user_id: i32,
+  user_id: i64,
   /// Previous status of the chat member
   old_status: ChatMemberStatus,
   /// New status of the chat member
@@ -683,7 +683,7 @@ impl ChatEventMemberPromoted {
     RTDChatEventMemberPromotedBuilder { inner }
   }
 
-  pub fn user_id(&self) -> i32 { self.user_id }
+  pub fn user_id(&self) -> i64 { self.user_id }
 
   pub fn old_status(&self) -> &ChatMemberStatus { &self.old_status }
 
@@ -700,7 +700,7 @@ impl RTDChatEventMemberPromotedBuilder {
   pub fn build(&self) -> ChatEventMemberPromoted { self.inner.clone() }
 
    
-  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
     self.inner.user_id = user_id;
     self
   }
@@ -740,7 +740,7 @@ pub struct ChatEventMemberRestricted {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat member user identifier
-  user_id: i32,
+  user_id: i64,
   /// Previous status of the chat member
   old_status: ChatMemberStatus,
   /// New status of the chat member
@@ -766,7 +766,7 @@ impl ChatEventMemberRestricted {
     RTDChatEventMemberRestrictedBuilder { inner }
   }
 
-  pub fn user_id(&self) -> i32 { self.user_id }
+  pub fn user_id(&self) -> i64 { self.user_id }
 
   pub fn old_status(&self) -> &ChatMemberStatus { &self.old_status }
 
@@ -783,7 +783,7 @@ impl RTDChatEventMemberRestrictedBuilder {
   pub fn build(&self) -> ChatEventMemberRestricted { self.inner.clone() }
 
    
-  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
     self.inner.user_id = user_id;
     self
   }
@@ -1241,9 +1241,9 @@ pub struct ChatEventStickerSetChanged {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Previous identifier of the chat sticker set; 0 if none
-  old_sticker_set_id: i64,
+  old_sticker_set_id: isize,
   /// New identifier of the chat sticker set; 0 if none
-  new_sticker_set_id: i64,
+  new_sticker_set_id: isize,
   
 }
 
@@ -1265,9 +1265,9 @@ impl ChatEventStickerSetChanged {
     RTDChatEventStickerSetChangedBuilder { inner }
   }
 
-  pub fn old_sticker_set_id(&self) -> i64 { self.old_sticker_set_id }
+  pub fn old_sticker_set_id(&self) -> isize { self.old_sticker_set_id }
 
-  pub fn new_sticker_set_id(&self) -> i64 { self.new_sticker_set_id }
+  pub fn new_sticker_set_id(&self) -> isize { self.new_sticker_set_id }
 
 }
 
@@ -1280,13 +1280,13 @@ impl RTDChatEventStickerSetChangedBuilder {
   pub fn build(&self) -> ChatEventStickerSetChanged { self.inner.clone() }
 
    
-  pub fn old_sticker_set_id(&mut self, old_sticker_set_id: i64) -> &mut Self {
+  pub fn old_sticker_set_id(&mut self, old_sticker_set_id: isize) -> &mut Self {
     self.inner.old_sticker_set_id = old_sticker_set_id;
     self
   }
 
    
-  pub fn new_sticker_set_id(&mut self, new_sticker_set_id: i64) -> &mut Self {
+  pub fn new_sticker_set_id(&mut self, new_sticker_set_id: isize) -> &mut Self {
     self.inner.new_sticker_set_id = new_sticker_set_id;
     self
   }

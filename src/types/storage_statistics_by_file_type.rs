@@ -14,9 +14,9 @@ pub struct StorageStatisticsByFileType {
   /// File type
   file_type: FileType,
   /// Total size of the files
-  size: i32,
+  size: i64,
   /// Total number of files
-  count: i32,
+  count: i64,
   
 }
 
@@ -37,9 +37,9 @@ impl StorageStatisticsByFileType {
 
   pub fn file_type(&self) -> &FileType { &self.file_type }
 
-  pub fn size(&self) -> i32 { self.size }
+  pub fn size(&self) -> i64 { self.size }
 
-  pub fn count(&self) -> i32 { self.count }
+  pub fn count(&self) -> i64 { self.count }
 
 }
 
@@ -58,13 +58,13 @@ impl RTDStorageStatisticsByFileTypeBuilder {
   }
 
    
-  pub fn size(&mut self, size: i32) -> &mut Self {
+  pub fn size(&mut self, size: i64) -> &mut Self {
     self.inner.size = size;
     self
   }
 
    
-  pub fn count(&mut self, count: i32) -> &mut Self {
+  pub fn count(&mut self, count: i64) -> &mut Self {
     self.inner.count = count;
     self
   }

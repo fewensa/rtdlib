@@ -12,9 +12,9 @@ pub struct TextEntity {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Offset of the entity in UTF-16 code points
-  offset: i32,
+  offset: i64,
   /// Length of the entity, in UTF-16 code points
-  length: i32,
+  length: i64,
   /// Type of the entity
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: TextEntityType,
   
@@ -35,9 +35,9 @@ impl TextEntity {
     RTDTextEntityBuilder { inner }
   }
 
-  pub fn offset(&self) -> i32 { self.offset }
+  pub fn offset(&self) -> i64 { self.offset }
 
-  pub fn length(&self) -> i32 { self.length }
+  pub fn length(&self) -> i64 { self.length }
 
   pub fn type_(&self) -> &TextEntityType { &self.type_ }
 
@@ -52,13 +52,13 @@ impl RTDTextEntityBuilder {
   pub fn build(&self) -> TextEntity { self.inner.clone() }
 
    
-  pub fn offset(&mut self, offset: i32) -> &mut Self {
+  pub fn offset(&mut self, offset: i64) -> &mut Self {
     self.inner.offset = offset;
     self
   }
 
    
-  pub fn length(&mut self, length: i32) -> &mut Self {
+  pub fn length(&mut self, length: i64) -> &mut Self {
     self.inner.length = length;
     self
   }

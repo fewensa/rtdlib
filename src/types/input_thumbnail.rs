@@ -14,9 +14,9 @@ pub struct InputThumbnail {
   /// Thumbnail file to send. Sending thumbnails by file_id is currently not supported
   thumbnail: InputFile,
   /// Thumbnail width, usually shouldn't exceed 320. Use 0 if unknown
-  width: i32,
+  width: i64,
   /// Thumbnail height, usually shouldn't exceed 320. Use 0 if unknown
-  height: i32,
+  height: i64,
   
 }
 
@@ -37,9 +37,9 @@ impl InputThumbnail {
 
   pub fn thumbnail(&self) -> &InputFile { &self.thumbnail }
 
-  pub fn width(&self) -> i32 { self.width }
+  pub fn width(&self) -> i64 { self.width }
 
-  pub fn height(&self) -> i32 { self.height }
+  pub fn height(&self) -> i64 { self.height }
 
 }
 
@@ -58,13 +58,13 @@ impl RTDInputThumbnailBuilder {
   }
 
    
-  pub fn width(&mut self, width: i32) -> &mut Self {
+  pub fn width(&mut self, width: i64) -> &mut Self {
     self.inner.width = width;
     self
   }
 
    
-  pub fn height(&mut self, height: i32) -> &mut Self {
+  pub fn height(&mut self, height: i64) -> &mut Self {
     self.inner.height = height;
     self
   }

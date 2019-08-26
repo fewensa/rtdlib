@@ -95,9 +95,9 @@ pub struct NetworkStatisticsEntryFile {
   /// Type of the network the data was sent through. Call setNetworkType to maintain the actual network type
   network_type: NetworkType,
   /// Total number of bytes sent
-  sent_bytes: i32,
+  sent_bytes: i64,
   /// Total number of bytes received
-  received_bytes: i32,
+  received_bytes: i64,
   
 }
 
@@ -123,9 +123,9 @@ impl NetworkStatisticsEntryFile {
 
   pub fn network_type(&self) -> &NetworkType { &self.network_type }
 
-  pub fn sent_bytes(&self) -> i32 { self.sent_bytes }
+  pub fn sent_bytes(&self) -> i64 { self.sent_bytes }
 
-  pub fn received_bytes(&self) -> i32 { self.received_bytes }
+  pub fn received_bytes(&self) -> i64 { self.received_bytes }
 
 }
 
@@ -150,13 +150,13 @@ impl RTDNetworkStatisticsEntryFileBuilder {
   }
 
    
-  pub fn sent_bytes(&mut self, sent_bytes: i32) -> &mut Self {
+  pub fn sent_bytes(&mut self, sent_bytes: i64) -> &mut Self {
     self.inner.sent_bytes = sent_bytes;
     self
   }
 
    
-  pub fn received_bytes(&mut self, received_bytes: i32) -> &mut Self {
+  pub fn received_bytes(&mut self, received_bytes: i64) -> &mut Self {
     self.inner.received_bytes = received_bytes;
     self
   }
@@ -186,9 +186,9 @@ pub struct NetworkStatisticsEntryCall {
   /// Type of the network the data was sent through. Call setNetworkType to maintain the actual network type
   network_type: NetworkType,
   /// Total number of bytes sent
-  sent_bytes: i32,
+  sent_bytes: i64,
   /// Total number of bytes received
-  received_bytes: i32,
+  received_bytes: i64,
   /// Total call duration, in seconds
   duration: f32,
   
@@ -214,9 +214,9 @@ impl NetworkStatisticsEntryCall {
 
   pub fn network_type(&self) -> &NetworkType { &self.network_type }
 
-  pub fn sent_bytes(&self) -> i32 { self.sent_bytes }
+  pub fn sent_bytes(&self) -> i64 { self.sent_bytes }
 
-  pub fn received_bytes(&self) -> i32 { self.received_bytes }
+  pub fn received_bytes(&self) -> i64 { self.received_bytes }
 
   pub fn duration(&self) -> f32 { self.duration }
 
@@ -237,13 +237,13 @@ impl RTDNetworkStatisticsEntryCallBuilder {
   }
 
    
-  pub fn sent_bytes(&mut self, sent_bytes: i32) -> &mut Self {
+  pub fn sent_bytes(&mut self, sent_bytes: i64) -> &mut Self {
     self.inner.sent_bytes = sent_bytes;
     self
   }
 
    
-  pub fn received_bytes(&mut self, received_bytes: i32) -> &mut Self {
+  pub fn received_bytes(&mut self, received_bytes: i64) -> &mut Self {
     self.inner.received_bytes = received_bytes;
     self
   }

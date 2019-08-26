@@ -12,9 +12,9 @@ pub struct Users {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Approximate total count of users found
-  total_count: i32,
+  total_count: i64,
   /// A list of user identifiers
-  user_ids: Vec<i32>,
+  user_ids: Vec<i64>,
   
 }
 
@@ -33,9 +33,9 @@ impl Users {
     RTDUsersBuilder { inner }
   }
 
-  pub fn total_count(&self) -> i32 { self.total_count }
+  pub fn total_count(&self) -> i64 { self.total_count }
 
-  pub fn user_ids(&self) -> &Vec<i32> { &self.user_ids }
+  pub fn user_ids(&self) -> &Vec<i64> { &self.user_ids }
 
 }
 
@@ -48,13 +48,13 @@ impl RTDUsersBuilder {
   pub fn build(&self) -> Users { self.inner.clone() }
 
    
-  pub fn total_count(&mut self, total_count: i32) -> &mut Self {
+  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
     self.inner.total_count = total_count;
     self
   }
 
    
-  pub fn user_ids(&mut self, user_ids: Vec<i32>) -> &mut Self {
+  pub fn user_ids(&mut self, user_ids: Vec<i64>) -> &mut Self {
     self.inner.user_ids = user_ids;
     self
   }

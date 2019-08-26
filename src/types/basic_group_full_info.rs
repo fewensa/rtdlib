@@ -12,7 +12,7 @@ pub struct BasicGroupFullInfo {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// User identifier of the creator of the group; 0 if unknown
-  creator_user_id: i32,
+  creator_user_id: i64,
   /// Group members
   members: Vec<ChatMember>,
   /// Invite link for this group; available only for the group creator and only after it has been generated at least once
@@ -35,7 +35,7 @@ impl BasicGroupFullInfo {
     RTDBasicGroupFullInfoBuilder { inner }
   }
 
-  pub fn creator_user_id(&self) -> i32 { self.creator_user_id }
+  pub fn creator_user_id(&self) -> i64 { self.creator_user_id }
 
   pub fn members(&self) -> &Vec<ChatMember> { &self.members }
 
@@ -52,7 +52,7 @@ impl RTDBasicGroupFullInfoBuilder {
   pub fn build(&self) -> BasicGroupFullInfo { self.inner.clone() }
 
    
-  pub fn creator_user_id(&mut self, creator_user_id: i32) -> &mut Self {
+  pub fn creator_user_id(&mut self, creator_user_id: i64) -> &mut Self {
     self.inner.creator_user_id = creator_user_id;
     self
   }

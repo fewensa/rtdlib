@@ -12,7 +12,7 @@ pub struct ChatMembers {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Approximate total count of chat members found
-  total_count: i32,
+  total_count: i64,
   /// A list of chat members
   members: Vec<ChatMember>,
   
@@ -33,7 +33,7 @@ impl ChatMembers {
     RTDChatMembersBuilder { inner }
   }
 
-  pub fn total_count(&self) -> i32 { self.total_count }
+  pub fn total_count(&self) -> i64 { self.total_count }
 
   pub fn members(&self) -> &Vec<ChatMember> { &self.members }
 
@@ -48,7 +48,7 @@ impl RTDChatMembersBuilder {
   pub fn build(&self) -> ChatMembers { self.inner.clone() }
 
    
-  pub fn total_count(&mut self, total_count: i32) -> &mut Self {
+  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
     self.inner.total_count = total_count;
     self
   }

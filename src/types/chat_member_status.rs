@@ -388,7 +388,7 @@ pub struct ChatMemberStatusRestricted {
   /// True, if the user is a member of the chat
   is_member: bool,
   /// Point in time (Unix timestamp) when restrictions will be lifted from the user; 0 if never. If the user is restricted for more than 366 days or for less than 30 seconds from the current time, the user is considered to be restricted forever
-  restricted_until_date: i32,
+  restricted_until_date: i64,
   /// True, if the user can send text messages, contacts, locations, and venues
   can_send_messages: bool,
   /// True, if the user can send audio files, documents, photos, videos, video notes, and voice notes. Implies can_send_messages permissions
@@ -420,7 +420,7 @@ impl ChatMemberStatusRestricted {
 
   pub fn is_member(&self) -> bool { self.is_member }
 
-  pub fn restricted_until_date(&self) -> i32 { self.restricted_until_date }
+  pub fn restricted_until_date(&self) -> i64 { self.restricted_until_date }
 
   pub fn can_send_messages(&self) -> bool { self.can_send_messages }
 
@@ -447,7 +447,7 @@ impl RTDChatMemberStatusRestrictedBuilder {
   }
 
    
-  pub fn restricted_until_date(&mut self, restricted_until_date: i32) -> &mut Self {
+  pub fn restricted_until_date(&mut self, restricted_until_date: i64) -> &mut Self {
     self.inner.restricted_until_date = restricted_until_date;
     self
   }
@@ -552,7 +552,7 @@ pub struct ChatMemberStatusBanned {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever
-  banned_until_date: i32,
+  banned_until_date: i64,
   
 }
 
@@ -574,7 +574,7 @@ impl ChatMemberStatusBanned {
     RTDChatMemberStatusBannedBuilder { inner }
   }
 
-  pub fn banned_until_date(&self) -> i32 { self.banned_until_date }
+  pub fn banned_until_date(&self) -> i64 { self.banned_until_date }
 
 }
 
@@ -587,7 +587,7 @@ impl RTDChatMemberStatusBannedBuilder {
   pub fn build(&self) -> ChatMemberStatusBanned { self.inner.clone() }
 
    
-  pub fn banned_until_date(&mut self, banned_until_date: i32) -> &mut Self {
+  pub fn banned_until_date(&mut self, banned_until_date: i64) -> &mut Self {
     self.inner.banned_until_date = banned_until_date;
     self
   }

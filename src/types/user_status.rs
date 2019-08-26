@@ -180,7 +180,7 @@ pub struct UserStatusOnline {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Point in time (Unix timestamp) when the user's online status will expire
-  expires: i32,
+  expires: i64,
   
 }
 
@@ -202,7 +202,7 @@ impl UserStatusOnline {
     RTDUserStatusOnlineBuilder { inner }
   }
 
-  pub fn expires(&self) -> i32 { self.expires }
+  pub fn expires(&self) -> i64 { self.expires }
 
 }
 
@@ -215,7 +215,7 @@ impl RTDUserStatusOnlineBuilder {
   pub fn build(&self) -> UserStatusOnline { self.inner.clone() }
 
    
-  pub fn expires(&mut self, expires: i32) -> &mut Self {
+  pub fn expires(&mut self, expires: i64) -> &mut Self {
     self.inner.expires = expires;
     self
   }
@@ -243,7 +243,7 @@ pub struct UserStatusOffline {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Point in time (Unix timestamp) when the user was last online
-  was_online: i32,
+  was_online: i64,
   
 }
 
@@ -265,7 +265,7 @@ impl UserStatusOffline {
     RTDUserStatusOfflineBuilder { inner }
   }
 
-  pub fn was_online(&self) -> i32 { self.was_online }
+  pub fn was_online(&self) -> i64 { self.was_online }
 
 }
 
@@ -278,7 +278,7 @@ impl RTDUserStatusOfflineBuilder {
   pub fn build(&self) -> UserStatusOffline { self.inner.clone() }
 
    
-  pub fn was_online(&mut self, was_online: i32) -> &mut Self {
+  pub fn was_online(&mut self, was_online: i64) -> &mut Self {
     self.inner.was_online = was_online;
     self
   }

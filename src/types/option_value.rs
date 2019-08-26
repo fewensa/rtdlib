@@ -234,7 +234,7 @@ pub struct OptionValueInteger {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// The value of the option
-  value: i32,
+  value: i64,
   
 }
 
@@ -256,7 +256,7 @@ impl OptionValueInteger {
     RTDOptionValueIntegerBuilder { inner }
   }
 
-  pub fn value(&self) -> i32 { self.value }
+  pub fn value(&self) -> i64 { self.value }
 
 }
 
@@ -269,7 +269,7 @@ impl RTDOptionValueIntegerBuilder {
   pub fn build(&self) -> OptionValueInteger { self.inner.clone() }
 
    
-  pub fn value(&mut self, value: i32) -> &mut Self {
+  pub fn value(&mut self, value: i64) -> &mut Self {
     self.inner.value = value;
     self
   }

@@ -12,7 +12,7 @@ pub struct PassportAuthorizationForm {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique identifier of the authorization form
-  id: i32,
+  id: i64,
   /// Information about the Telegram Passport elements that need to be provided to complete the form
   required_elements: Vec<PassportRequiredElement>,
   /// URL for the privacy policy of the service; may be empty
@@ -35,7 +35,7 @@ impl PassportAuthorizationForm {
     RTDPassportAuthorizationFormBuilder { inner }
   }
 
-  pub fn id(&self) -> i32 { self.id }
+  pub fn id(&self) -> i64 { self.id }
 
   pub fn required_elements(&self) -> &Vec<PassportRequiredElement> { &self.required_elements }
 
@@ -52,7 +52,7 @@ impl RTDPassportAuthorizationFormBuilder {
   pub fn build(&self) -> PassportAuthorizationForm { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i32) -> &mut Self {
+  pub fn id(&mut self, id: i64) -> &mut Self {
     self.inner.id = id;
     self
   }

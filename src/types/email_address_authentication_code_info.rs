@@ -14,7 +14,7 @@ pub struct EmailAddressAuthenticationCodeInfo {
   /// Pattern of the email address to which an authentication code was sent
   email_address_pattern: String,
   /// Length of the code; 0 if unknown
-  length: i32,
+  length: i64,
   
 }
 
@@ -35,7 +35,7 @@ impl EmailAddressAuthenticationCodeInfo {
 
   pub fn email_address_pattern(&self) -> &String { &self.email_address_pattern }
 
-  pub fn length(&self) -> i32 { self.length }
+  pub fn length(&self) -> i64 { self.length }
 
 }
 
@@ -54,7 +54,7 @@ impl RTDEmailAddressAuthenticationCodeInfoBuilder {
   }
 
    
-  pub fn length(&mut self, length: i32) -> &mut Self {
+  pub fn length(&mut self, length: i64) -> &mut Self {
     self.inner.length = length;
     self
   }

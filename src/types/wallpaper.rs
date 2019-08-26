@@ -12,11 +12,11 @@ pub struct Wallpaper {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique persistent wallpaper identifier
-  id: i32,
+  id: i64,
   /// Available variants of the wallpaper in different sizes. These photos can only be downloaded; they can't be sent in a message
   sizes: Vec<PhotoSize>,
   /// Main color of the wallpaper in RGB24 format; should be treated as background color if no photos are specified
-  color: i32,
+  color: i64,
   
 }
 
@@ -35,11 +35,11 @@ impl Wallpaper {
     RTDWallpaperBuilder { inner }
   }
 
-  pub fn id(&self) -> i32 { self.id }
+  pub fn id(&self) -> i64 { self.id }
 
   pub fn sizes(&self) -> &Vec<PhotoSize> { &self.sizes }
 
-  pub fn color(&self) -> i32 { self.color }
+  pub fn color(&self) -> i64 { self.color }
 
 }
 
@@ -52,7 +52,7 @@ impl RTDWallpaperBuilder {
   pub fn build(&self) -> Wallpaper { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i32) -> &mut Self {
+  pub fn id(&mut self, id: i64) -> &mut Self {
     self.inner.id = id;
     self
   }
@@ -64,7 +64,7 @@ impl RTDWallpaperBuilder {
   }
 
    
-  pub fn color(&mut self, color: i32) -> &mut Self {
+  pub fn color(&mut self, color: i64) -> &mut Self {
     self.inner.color = color;
     self
   }

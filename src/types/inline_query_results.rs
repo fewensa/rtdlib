@@ -12,7 +12,7 @@ pub struct InlineQueryResults {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique identifier of the inline query
-  inline_query_id: i64,
+  inline_query_id: isize,
   /// The offset for the next request. If empty, there are no more results
   next_offset: String,
   /// Results of the query
@@ -39,7 +39,7 @@ impl InlineQueryResults {
     RTDInlineQueryResultsBuilder { inner }
   }
 
-  pub fn inline_query_id(&self) -> i64 { self.inline_query_id }
+  pub fn inline_query_id(&self) -> isize { self.inline_query_id }
 
   pub fn next_offset(&self) -> &String { &self.next_offset }
 
@@ -60,7 +60,7 @@ impl RTDInlineQueryResultsBuilder {
   pub fn build(&self) -> InlineQueryResults { self.inner.clone() }
 
    
-  pub fn inline_query_id(&mut self, inline_query_id: i64) -> &mut Self {
+  pub fn inline_query_id(&mut self, inline_query_id: isize) -> &mut Self {
     self.inner.inline_query_id = inline_query_id;
     self
   }

@@ -12,7 +12,7 @@ pub struct StickerSet {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the sticker set
-  id: i64,
+  id: isize,
   /// Title of the sticker set
   title: String,
   /// Name of the sticker set
@@ -49,7 +49,7 @@ impl StickerSet {
     RTDStickerSetBuilder { inner }
   }
 
-  pub fn id(&self) -> i64 { self.id }
+  pub fn id(&self) -> isize { self.id }
 
   pub fn title(&self) -> &String { &self.title }
 
@@ -80,7 +80,7 @@ impl RTDStickerSetBuilder {
   pub fn build(&self) -> StickerSet { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i64) -> &mut Self {
+  pub fn id(&mut self, id: isize) -> &mut Self {
     self.inner.id = id;
     self
   }

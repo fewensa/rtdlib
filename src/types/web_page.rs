@@ -30,11 +30,11 @@ pub struct WebPage {
   /// MIME type of the embedded preview, (e.g., text/html or video/mp4)
   embed_type: String,
   /// Width of the embedded preview
-  embed_width: i32,
+  embed_width: i64,
   /// Height of the embedded preview
-  embed_height: i32,
+  embed_height: i64,
   /// Duration of the content, in seconds
-  duration: i32,
+  duration: i64,
   /// Author of the content
   author: String,
   /// Preview of the content as an animation, if available; may be null
@@ -52,7 +52,7 @@ pub struct WebPage {
   /// Preview of the content as a voice note, if available; may be null
   voice_note: Option<VoiceNote>,
   /// Version of instant view, available for the web page (currently can be 1 or 2), 0 if none
-  instant_view_version: i32,
+  instant_view_version: i64,
   
 }
 
@@ -89,11 +89,11 @@ impl WebPage {
 
   pub fn embed_type(&self) -> &String { &self.embed_type }
 
-  pub fn embed_width(&self) -> i32 { self.embed_width }
+  pub fn embed_width(&self) -> i64 { self.embed_width }
 
-  pub fn embed_height(&self) -> i32 { self.embed_height }
+  pub fn embed_height(&self) -> i64 { self.embed_height }
 
-  pub fn duration(&self) -> i32 { self.duration }
+  pub fn duration(&self) -> i64 { self.duration }
 
   pub fn author(&self) -> &String { &self.author }
 
@@ -111,7 +111,7 @@ impl WebPage {
 
   pub fn voice_note(&self) -> &Option<VoiceNote> { &self.voice_note }
 
-  pub fn instant_view_version(&self) -> i32 { self.instant_view_version }
+  pub fn instant_view_version(&self) -> i64 { self.instant_view_version }
 
 }
 
@@ -178,19 +178,19 @@ impl RTDWebPageBuilder {
   }
 
    
-  pub fn embed_width(&mut self, embed_width: i32) -> &mut Self {
+  pub fn embed_width(&mut self, embed_width: i64) -> &mut Self {
     self.inner.embed_width = embed_width;
     self
   }
 
    
-  pub fn embed_height(&mut self, embed_height: i32) -> &mut Self {
+  pub fn embed_height(&mut self, embed_height: i64) -> &mut Self {
     self.inner.embed_height = embed_height;
     self
   }
 
    
-  pub fn duration(&mut self, duration: i32) -> &mut Self {
+  pub fn duration(&mut self, duration: i64) -> &mut Self {
     self.inner.duration = duration;
     self
   }
@@ -244,7 +244,7 @@ impl RTDWebPageBuilder {
   }
 
    
-  pub fn instant_view_version(&mut self, instant_view_version: i32) -> &mut Self {
+  pub fn instant_view_version(&mut self, instant_view_version: i64) -> &mut Self {
     self.inner.instant_view_version = instant_view_version;
     self
   }

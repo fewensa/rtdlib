@@ -12,7 +12,7 @@ pub struct DraftMessage {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the message to reply to; 0 if none
-  reply_to_message_id: i32,
+  reply_to_message_id: i64,
   /// Content of the message draft; this should always be of type inputMessageText
   input_message_text: InputMessageContent,
   
@@ -33,7 +33,7 @@ impl DraftMessage {
     RTDDraftMessageBuilder { inner }
   }
 
-  pub fn reply_to_message_id(&self) -> i32 { self.reply_to_message_id }
+  pub fn reply_to_message_id(&self) -> i64 { self.reply_to_message_id }
 
   pub fn input_message_text(&self) -> &InputMessageContent { &self.input_message_text }
 
@@ -48,7 +48,7 @@ impl RTDDraftMessageBuilder {
   pub fn build(&self) -> DraftMessage { self.inner.clone() }
 
    
-  pub fn reply_to_message_id(&mut self, reply_to_message_id: i32) -> &mut Self {
+  pub fn reply_to_message_id(&mut self, reply_to_message_id: i64) -> &mut Self {
     self.inner.reply_to_message_id = reply_to_message_id;
     self
   }

@@ -453,7 +453,7 @@ pub struct PageBlockAuthorDate {
   /// Author
   author: RichText,
   /// Point in time (Unix timestamp) when the article was published; 0 if unknown
-  publish_date: i32,
+  publish_date: i64,
   
 }
 
@@ -477,7 +477,7 @@ impl PageBlockAuthorDate {
 
   pub fn author(&self) -> &RichText { &self.author }
 
-  pub fn publish_date(&self) -> i32 { self.publish_date }
+  pub fn publish_date(&self) -> i64 { self.publish_date }
 
 }
 
@@ -496,7 +496,7 @@ impl RTDPageBlockAuthorDateBuilder {
   }
 
    
-  pub fn publish_date(&mut self, publish_date: i32) -> &mut Self {
+  pub fn publish_date(&mut self, publish_date: i64) -> &mut Self {
     self.inner.publish_date = publish_date;
     self
   }
@@ -1638,9 +1638,9 @@ pub struct PageBlockEmbedded {
   /// Poster photo, if available; may be null
   poster_photo: Option<Photo>,
   /// Block width, 0 if unknown
-  width: i32,
+  width: i64,
   /// Block height, 0 if unknown
-  height: i32,
+  height: i64,
   /// Block caption
   caption: PageBlockCaption,
   /// True, if the block should be full width
@@ -1674,9 +1674,9 @@ impl PageBlockEmbedded {
 
   pub fn poster_photo(&self) -> &Option<Photo> { &self.poster_photo }
 
-  pub fn width(&self) -> i32 { self.width }
+  pub fn width(&self) -> i64 { self.width }
 
-  pub fn height(&self) -> i32 { self.height }
+  pub fn height(&self) -> i64 { self.height }
 
   pub fn caption(&self) -> &PageBlockCaption { &self.caption }
 
@@ -1713,13 +1713,13 @@ impl RTDPageBlockEmbeddedBuilder {
   }
 
    
-  pub fn width(&mut self, width: i32) -> &mut Self {
+  pub fn width(&mut self, width: i64) -> &mut Self {
     self.inner.width = width;
     self
   }
 
    
-  pub fn height(&mut self, height: i32) -> &mut Self {
+  pub fn height(&mut self, height: i64) -> &mut Self {
     self.inner.height = height;
     self
   }
@@ -1771,7 +1771,7 @@ pub struct PageBlockEmbeddedPost {
   /// Post author photo
   author_photo: Photo,
   /// Point in time (Unix timestamp) when the post was created; 0 if unknown
-  date: i32,
+  date: i64,
   /// Post content
   page_blocks: Vec<PageBlock>,
   /// Post caption
@@ -1803,7 +1803,7 @@ impl PageBlockEmbeddedPost {
 
   pub fn author_photo(&self) -> &Photo { &self.author_photo }
 
-  pub fn date(&self) -> i32 { self.date }
+  pub fn date(&self) -> i64 { self.date }
 
   pub fn page_blocks(&self) -> &Vec<PageBlock> { &self.page_blocks }
 
@@ -1838,7 +1838,7 @@ impl RTDPageBlockEmbeddedPostBuilder {
   }
 
    
-  pub fn date(&mut self, date: i32) -> &mut Self {
+  pub fn date(&mut self, date: i64) -> &mut Self {
     self.inner.date = date;
     self
   }
@@ -2358,11 +2358,11 @@ pub struct PageBlockMap {
   /// Location of the map center
   location: Location,
   /// Map zoom level
-  zoom: i32,
+  zoom: i64,
   /// Map width
-  width: i32,
+  width: i64,
   /// Map height
-  height: i32,
+  height: i64,
   /// Block caption
   caption: PageBlockCaption,
   
@@ -2388,11 +2388,11 @@ impl PageBlockMap {
 
   pub fn location(&self) -> &Location { &self.location }
 
-  pub fn zoom(&self) -> i32 { self.zoom }
+  pub fn zoom(&self) -> i64 { self.zoom }
 
-  pub fn width(&self) -> i32 { self.width }
+  pub fn width(&self) -> i64 { self.width }
 
-  pub fn height(&self) -> i32 { self.height }
+  pub fn height(&self) -> i64 { self.height }
 
   pub fn caption(&self) -> &PageBlockCaption { &self.caption }
 
@@ -2413,19 +2413,19 @@ impl RTDPageBlockMapBuilder {
   }
 
    
-  pub fn zoom(&mut self, zoom: i32) -> &mut Self {
+  pub fn zoom(&mut self, zoom: i64) -> &mut Self {
     self.inner.zoom = zoom;
     self
   }
 
    
-  pub fn width(&mut self, width: i32) -> &mut Self {
+  pub fn width(&mut self, width: i64) -> &mut Self {
     self.inner.width = width;
     self
   }
 
    
-  pub fn height(&mut self, height: i32) -> &mut Self {
+  pub fn height(&mut self, height: i64) -> &mut Self {
     self.inner.height = height;
     self
   }

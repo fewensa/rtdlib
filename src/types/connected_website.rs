@@ -12,19 +12,19 @@ pub struct ConnectedWebsite {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Website identifier
-  id: i64,
+  id: isize,
   /// The domain name of the website
   domain_name: String,
   /// User identifier of a bot linked with the website
-  bot_user_id: i32,
+  bot_user_id: i64,
   /// The version of a browser used to log in
   browser: String,
   /// Operating system the browser is running on
   platform: String,
   /// Point in time (Unix timestamp) when the user was logged in
-  log_in_date: i32,
+  log_in_date: i64,
   /// Point in time (Unix timestamp) when obtained authorization was last used
-  last_active_date: i32,
+  last_active_date: i64,
   /// IP address from which the user was logged in, in human-readable format
   ip: String,
   /// Human-readable description of a country and a region, from which the user was logged in, based on the IP address
@@ -47,19 +47,19 @@ impl ConnectedWebsite {
     RTDConnectedWebsiteBuilder { inner }
   }
 
-  pub fn id(&self) -> i64 { self.id }
+  pub fn id(&self) -> isize { self.id }
 
   pub fn domain_name(&self) -> &String { &self.domain_name }
 
-  pub fn bot_user_id(&self) -> i32 { self.bot_user_id }
+  pub fn bot_user_id(&self) -> i64 { self.bot_user_id }
 
   pub fn browser(&self) -> &String { &self.browser }
 
   pub fn platform(&self) -> &String { &self.platform }
 
-  pub fn log_in_date(&self) -> i32 { self.log_in_date }
+  pub fn log_in_date(&self) -> i64 { self.log_in_date }
 
-  pub fn last_active_date(&self) -> i32 { self.last_active_date }
+  pub fn last_active_date(&self) -> i64 { self.last_active_date }
 
   pub fn ip(&self) -> &String { &self.ip }
 
@@ -76,7 +76,7 @@ impl RTDConnectedWebsiteBuilder {
   pub fn build(&self) -> ConnectedWebsite { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i64) -> &mut Self {
+  pub fn id(&mut self, id: isize) -> &mut Self {
     self.inner.id = id;
     self
   }
@@ -88,7 +88,7 @@ impl RTDConnectedWebsiteBuilder {
   }
 
    
-  pub fn bot_user_id(&mut self, bot_user_id: i32) -> &mut Self {
+  pub fn bot_user_id(&mut self, bot_user_id: i64) -> &mut Self {
     self.inner.bot_user_id = bot_user_id;
     self
   }
@@ -106,13 +106,13 @@ impl RTDConnectedWebsiteBuilder {
   }
 
    
-  pub fn log_in_date(&mut self, log_in_date: i32) -> &mut Self {
+  pub fn log_in_date(&mut self, log_in_date: i64) -> &mut Self {
     self.inner.log_in_date = log_in_date;
     self
   }
 
    
-  pub fn last_active_date(&mut self, last_active_date: i32) -> &mut Self {
+  pub fn last_active_date(&mut self, last_active_date: i64) -> &mut Self {
     self.inner.last_active_date = last_active_date;
     self
   }

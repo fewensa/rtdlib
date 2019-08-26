@@ -12,11 +12,11 @@ pub struct File {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique file identifier
-  id: i32,
+  id: i64,
   /// File size; 0 if unknown
-  size: i32,
+  size: i64,
   /// Expected file size in case the exact file size is unknown, but an approximate size is known. Can be used to show download/upload progress
-  expected_size: i32,
+  expected_size: i64,
   /// Information about the local copy of the file
   local: LocalFile,
   /// Information about the remote copy of the file
@@ -39,11 +39,11 @@ impl File {
     RTDFileBuilder { inner }
   }
 
-  pub fn id(&self) -> i32 { self.id }
+  pub fn id(&self) -> i64 { self.id }
 
-  pub fn size(&self) -> i32 { self.size }
+  pub fn size(&self) -> i64 { self.size }
 
-  pub fn expected_size(&self) -> i32 { self.expected_size }
+  pub fn expected_size(&self) -> i64 { self.expected_size }
 
   pub fn local(&self) -> &LocalFile { &self.local }
 
@@ -60,19 +60,19 @@ impl RTDFileBuilder {
   pub fn build(&self) -> File { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i32) -> &mut Self {
+  pub fn id(&mut self, id: i64) -> &mut Self {
     self.inner.id = id;
     self
   }
 
    
-  pub fn size(&mut self, size: i32) -> &mut Self {
+  pub fn size(&mut self, size: i64) -> &mut Self {
     self.inner.size = size;
     self
   }
 
    
-  pub fn expected_size(&mut self, expected_size: i32) -> &mut Self {
+  pub fn expected_size(&mut self, expected_size: i64) -> &mut Self {
     self.inner.expected_size = expected_size;
     self
   }

@@ -12,7 +12,7 @@ pub struct UserProfilePhotos {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Total number of user profile photos
-  total_count: i32,
+  total_count: i64,
   /// A list of photos
   photos: Vec<UserProfilePhoto>,
   
@@ -33,7 +33,7 @@ impl UserProfilePhotos {
     RTDUserProfilePhotosBuilder { inner }
   }
 
-  pub fn total_count(&self) -> i32 { self.total_count }
+  pub fn total_count(&self) -> i64 { self.total_count }
 
   pub fn photos(&self) -> &Vec<UserProfilePhoto> { &self.photos }
 
@@ -48,7 +48,7 @@ impl RTDUserProfilePhotosBuilder {
   pub fn build(&self) -> UserProfilePhotos { self.inner.clone() }
 
    
-  pub fn total_count(&mut self, total_count: i32) -> &mut Self {
+  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
     self.inner.total_count = total_count;
     self
   }

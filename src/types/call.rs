@@ -12,9 +12,9 @@ pub struct Call {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Call identifier, not persistent
-  id: i32,
+  id: i64,
   /// Peer user identifier
-  user_id: i32,
+  user_id: i64,
   /// True, if the call is outgoing
   is_outgoing: bool,
   /// Call state
@@ -37,9 +37,9 @@ impl Call {
     RTDCallBuilder { inner }
   }
 
-  pub fn id(&self) -> i32 { self.id }
+  pub fn id(&self) -> i64 { self.id }
 
-  pub fn user_id(&self) -> i32 { self.user_id }
+  pub fn user_id(&self) -> i64 { self.user_id }
 
   pub fn is_outgoing(&self) -> bool { self.is_outgoing }
 
@@ -56,13 +56,13 @@ impl RTDCallBuilder {
   pub fn build(&self) -> Call { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i32) -> &mut Self {
+  pub fn id(&mut self, id: i64) -> &mut Self {
     self.inner.id = id;
     self
   }
 
    
-  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
     self.inner.user_id = user_id;
     self
   }

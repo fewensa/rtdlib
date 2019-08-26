@@ -233,7 +233,7 @@ pub struct UserPrivacySettingRuleAllowUsers {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// The user identifiers
-  user_ids: Vec<i32>,
+  user_ids: Vec<i64>,
   
 }
 
@@ -255,7 +255,7 @@ impl UserPrivacySettingRuleAllowUsers {
     RTDUserPrivacySettingRuleAllowUsersBuilder { inner }
   }
 
-  pub fn user_ids(&self) -> &Vec<i32> { &self.user_ids }
+  pub fn user_ids(&self) -> &Vec<i64> { &self.user_ids }
 
 }
 
@@ -268,7 +268,7 @@ impl RTDUserPrivacySettingRuleAllowUsersBuilder {
   pub fn build(&self) -> UserPrivacySettingRuleAllowUsers { self.inner.clone() }
 
    
-  pub fn user_ids(&mut self, user_ids: Vec<i32>) -> &mut Self {
+  pub fn user_ids(&mut self, user_ids: Vec<i64>) -> &mut Self {
     self.inner.user_ids = user_ids;
     self
   }
@@ -402,7 +402,7 @@ pub struct UserPrivacySettingRuleRestrictUsers {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// The user identifiers
-  user_ids: Vec<i32>,
+  user_ids: Vec<i64>,
   
 }
 
@@ -424,7 +424,7 @@ impl UserPrivacySettingRuleRestrictUsers {
     RTDUserPrivacySettingRuleRestrictUsersBuilder { inner }
   }
 
-  pub fn user_ids(&self) -> &Vec<i32> { &self.user_ids }
+  pub fn user_ids(&self) -> &Vec<i64> { &self.user_ids }
 
 }
 
@@ -437,7 +437,7 @@ impl RTDUserPrivacySettingRuleRestrictUsersBuilder {
   pub fn build(&self) -> UserPrivacySettingRuleRestrictUsers { self.inner.clone() }
 
    
-  pub fn user_ids(&mut self, user_ids: Vec<i32>) -> &mut Self {
+  pub fn user_ids(&mut self, user_ids: Vec<i64>) -> &mut Self {
     self.inner.user_ids = user_ids;
     self
   }

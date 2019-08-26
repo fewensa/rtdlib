@@ -12,13 +12,13 @@ pub struct CallConnection {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Reflector identifier
-  id: i64,
+  id: isize,
   /// IPv4 reflector address
   ip: String,
   /// IPv6 reflector address
   ipv6: String,
   /// Reflector port number
-  port: i32,
+  port: i64,
   /// Connection peer tag
   peer_tag: String,
   
@@ -39,13 +39,13 @@ impl CallConnection {
     RTDCallConnectionBuilder { inner }
   }
 
-  pub fn id(&self) -> i64 { self.id }
+  pub fn id(&self) -> isize { self.id }
 
   pub fn ip(&self) -> &String { &self.ip }
 
   pub fn ipv6(&self) -> &String { &self.ipv6 }
 
-  pub fn port(&self) -> i32 { self.port }
+  pub fn port(&self) -> i64 { self.port }
 
   pub fn peer_tag(&self) -> &String { &self.peer_tag }
 
@@ -60,7 +60,7 @@ impl RTDCallConnectionBuilder {
   pub fn build(&self) -> CallConnection { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i64) -> &mut Self {
+  pub fn id(&mut self, id: isize) -> &mut Self {
     self.inner.id = id;
     self
   }
@@ -78,7 +78,7 @@ impl RTDCallConnectionBuilder {
   }
 
    
-  pub fn port(&mut self, port: i32) -> &mut Self {
+  pub fn port(&mut self, port: i64) -> &mut Self {
     self.inner.port = port;
     self
   }

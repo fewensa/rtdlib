@@ -12,11 +12,11 @@ pub struct Video {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Duration of the video, in seconds; as defined by the sender
-  duration: i32,
+  duration: i64,
   /// Video width; as defined by the sender
-  width: i32,
+  width: i64,
   /// Video height; as defined by the sender
-  height: i32,
+  height: i64,
   /// Original name of the file; as defined by the sender
   file_name: String,
   /// MIME type of the file; as defined by the sender
@@ -47,11 +47,11 @@ impl Video {
     RTDVideoBuilder { inner }
   }
 
-  pub fn duration(&self) -> i32 { self.duration }
+  pub fn duration(&self) -> i64 { self.duration }
 
-  pub fn width(&self) -> i32 { self.width }
+  pub fn width(&self) -> i64 { self.width }
 
-  pub fn height(&self) -> i32 { self.height }
+  pub fn height(&self) -> i64 { self.height }
 
   pub fn file_name(&self) -> &String { &self.file_name }
 
@@ -76,19 +76,19 @@ impl RTDVideoBuilder {
   pub fn build(&self) -> Video { self.inner.clone() }
 
    
-  pub fn duration(&mut self, duration: i32) -> &mut Self {
+  pub fn duration(&mut self, duration: i64) -> &mut Self {
     self.inner.duration = duration;
     self
   }
 
    
-  pub fn width(&mut self, width: i32) -> &mut Self {
+  pub fn width(&mut self, width: i64) -> &mut Self {
     self.inner.width = width;
     self
   }
 
    
-  pub fn height(&mut self, height: i32) -> &mut Self {
+  pub fn height(&mut self, height: i64) -> &mut Self {
     self.inner.height = height;
     self
   }

@@ -12,7 +12,7 @@ pub struct Count {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Count
-  count: i32,
+  count: i64,
   
 }
 
@@ -31,7 +31,7 @@ impl Count {
     RTDCountBuilder { inner }
   }
 
-  pub fn count(&self) -> i32 { self.count }
+  pub fn count(&self) -> i64 { self.count }
 
 }
 
@@ -44,7 +44,7 @@ impl RTDCountBuilder {
   pub fn build(&self) -> Count { self.inner.clone() }
 
    
-  pub fn count(&mut self, count: i32) -> &mut Self {
+  pub fn count(&mut self, count: i64) -> &mut Self {
     self.inner.count = count;
     self
   }

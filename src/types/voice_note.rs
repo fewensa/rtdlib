@@ -12,7 +12,7 @@ pub struct VoiceNote {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Duration of the voice note, in seconds; as defined by the sender
-  duration: i32,
+  duration: i64,
   /// A waveform representation of the voice note in 5-bit format
   waveform: String,
   /// MIME type of the file; as defined by the sender
@@ -37,7 +37,7 @@ impl VoiceNote {
     RTDVoiceNoteBuilder { inner }
   }
 
-  pub fn duration(&self) -> i32 { self.duration }
+  pub fn duration(&self) -> i64 { self.duration }
 
   pub fn waveform(&self) -> &String { &self.waveform }
 
@@ -56,7 +56,7 @@ impl RTDVoiceNoteBuilder {
   pub fn build(&self) -> VoiceNote { self.inner.clone() }
 
    
-  pub fn duration(&mut self, duration: i32) -> &mut Self {
+  pub fn duration(&mut self, duration: i64) -> &mut Self {
     self.inner.duration = duration;
     self
   }

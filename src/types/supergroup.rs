@@ -12,15 +12,15 @@ pub struct Supergroup {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Supergroup or channel identifier
-  id: i32,
+  id: i64,
   /// Username of the supergroup or channel; empty for private supergroups or channels
   username: String,
   /// Point in time (Unix timestamp) when the current user joined, or the point in time when the supergroup or channel was created, in case the user is not a member
-  date: i32,
+  date: i64,
   /// Status of the current user in the supergroup or channel
   status: ChatMemberStatus,
   /// Member count; 0 if unknown. Currently it is guaranteed to be known only if the supergroup or channel was found through SearchPublicChats
-  member_count: i32,
+  member_count: i64,
   /// True, if any member of the supergroup can invite other members. This field has no meaning for channels
   anyone_can_invite: bool,
   /// True, if messages sent to the channel should contain information about the sender. This field is only applicable to channels
@@ -49,15 +49,15 @@ impl Supergroup {
     RTDSupergroupBuilder { inner }
   }
 
-  pub fn id(&self) -> i32 { self.id }
+  pub fn id(&self) -> i64 { self.id }
 
   pub fn username(&self) -> &String { &self.username }
 
-  pub fn date(&self) -> i32 { self.date }
+  pub fn date(&self) -> i64 { self.date }
 
   pub fn status(&self) -> &ChatMemberStatus { &self.status }
 
-  pub fn member_count(&self) -> i32 { self.member_count }
+  pub fn member_count(&self) -> i64 { self.member_count }
 
   pub fn anyone_can_invite(&self) -> bool { self.anyone_can_invite }
 
@@ -80,7 +80,7 @@ impl RTDSupergroupBuilder {
   pub fn build(&self) -> Supergroup { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i32) -> &mut Self {
+  pub fn id(&mut self, id: i64) -> &mut Self {
     self.inner.id = id;
     self
   }
@@ -92,7 +92,7 @@ impl RTDSupergroupBuilder {
   }
 
    
-  pub fn date(&mut self, date: i32) -> &mut Self {
+  pub fn date(&mut self, date: i64) -> &mut Self {
     self.inner.date = date;
     self
   }
@@ -104,7 +104,7 @@ impl RTDSupergroupBuilder {
   }
 
    
-  pub fn member_count(&mut self, member_count: i32) -> &mut Self {
+  pub fn member_count(&mut self, member_count: i64) -> &mut Self {
     self.inner.member_count = member_count;
     self
   }

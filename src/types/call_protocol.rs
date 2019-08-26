@@ -16,9 +16,9 @@ pub struct CallProtocol {
   /// True, if connection through UDP reflectors is supported
   udp_reflector: bool,
   /// Minimum supported API layer; use 65
-  min_layer: i32,
+  min_layer: i64,
   /// Maximum supported API layer; use 65
-  max_layer: i32,
+  max_layer: i64,
   
 }
 
@@ -41,9 +41,9 @@ impl CallProtocol {
 
   pub fn udp_reflector(&self) -> bool { self.udp_reflector }
 
-  pub fn min_layer(&self) -> i32 { self.min_layer }
+  pub fn min_layer(&self) -> i64 { self.min_layer }
 
-  pub fn max_layer(&self) -> i32 { self.max_layer }
+  pub fn max_layer(&self) -> i64 { self.max_layer }
 
 }
 
@@ -68,13 +68,13 @@ impl RTDCallProtocolBuilder {
   }
 
    
-  pub fn min_layer(&mut self, min_layer: i32) -> &mut Self {
+  pub fn min_layer(&mut self, min_layer: i64) -> &mut Self {
     self.inner.min_layer = min_layer;
     self
   }
 
    
-  pub fn max_layer(&mut self, max_layer: i32) -> &mut Self {
+  pub fn max_layer(&mut self, max_layer: i64) -> &mut Self {
     self.inner.max_layer = max_layer;
     self
   }

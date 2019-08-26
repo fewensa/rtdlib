@@ -12,7 +12,7 @@ pub struct StickerSets {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Approximate total number of sticker sets found
-  total_count: i32,
+  total_count: i64,
   /// List of sticker sets
   sets: Vec<StickerSetInfo>,
   
@@ -33,7 +33,7 @@ impl StickerSets {
     RTDStickerSetsBuilder { inner }
   }
 
-  pub fn total_count(&self) -> i32 { self.total_count }
+  pub fn total_count(&self) -> i64 { self.total_count }
 
   pub fn sets(&self) -> &Vec<StickerSetInfo> { &self.sets }
 
@@ -48,7 +48,7 @@ impl RTDStickerSetsBuilder {
   pub fn build(&self) -> StickerSets { self.inner.clone() }
 
    
-  pub fn total_count(&mut self, total_count: i32) -> &mut Self {
+  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
     self.inner.total_count = total_count;
     self
   }

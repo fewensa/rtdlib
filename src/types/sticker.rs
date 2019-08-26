@@ -14,9 +14,9 @@ pub struct Sticker {
   /// The identifier of the sticker set to which the sticker belongs; 0 if none
   set_id: String,
   /// Sticker width; as defined by the sender
-  width: i32,
+  width: i64,
   /// Sticker height; as defined by the sender
-  height: i32,
+  height: i64,
   /// Emoji corresponding to the sticker
   emoji: String,
   /// True, if the sticker is a mask
@@ -47,9 +47,9 @@ impl Sticker {
 
   pub fn set_id(&self) -> &String { &self.set_id }
 
-  pub fn width(&self) -> i32 { self.width }
+  pub fn width(&self) -> i64 { self.width }
 
-  pub fn height(&self) -> i32 { self.height }
+  pub fn height(&self) -> i64 { self.height }
 
   pub fn emoji(&self) -> &String { &self.emoji }
 
@@ -78,13 +78,13 @@ impl RTDStickerBuilder {
   }
 
    
-  pub fn width(&mut self, width: i32) -> &mut Self {
+  pub fn width(&mut self, width: i64) -> &mut Self {
     self.inner.width = width;
     self
   }
 
    
-  pub fn height(&mut self, height: i32) -> &mut Self {
+  pub fn height(&mut self, height: i64) -> &mut Self {
     self.inner.height = height;
     self
   }

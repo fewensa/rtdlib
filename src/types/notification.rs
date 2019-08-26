@@ -12,9 +12,9 @@ pub struct Notification {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique persistent identifier of this notification
-  id: i32,
+  id: i64,
   /// Notification date
-  date: i32,
+  date: i64,
   /// Notification type
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: NotificationType,
   
@@ -35,9 +35,9 @@ impl Notification {
     RTDNotificationBuilder { inner }
   }
 
-  pub fn id(&self) -> i32 { self.id }
+  pub fn id(&self) -> i64 { self.id }
 
-  pub fn date(&self) -> i32 { self.date }
+  pub fn date(&self) -> i64 { self.date }
 
   pub fn type_(&self) -> &NotificationType { &self.type_ }
 
@@ -52,13 +52,13 @@ impl RTDNotificationBuilder {
   pub fn build(&self) -> Notification { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i32) -> &mut Self {
+  pub fn id(&mut self, id: i64) -> &mut Self {
     self.inner.id = id;
     self
   }
 
    
-  pub fn date(&mut self, date: i32) -> &mut Self {
+  pub fn date(&mut self, date: i64) -> &mut Self {
     self.inner.date = date;
     self
   }

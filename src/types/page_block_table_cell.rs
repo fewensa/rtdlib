@@ -16,9 +16,9 @@ pub struct PageBlockTableCell {
   /// True, if it is a header cell
   is_header: bool,
   /// The number of columns the cell should span
-  colspan: i32,
+  colspan: i64,
   /// The number of rows the cell should span
-  rowspan: i32,
+  rowspan: i64,
   /// Horizontal cell content alignment
   align: PageBlockHorizontalAlignment,
   /// Vertical cell content alignment
@@ -45,9 +45,9 @@ impl PageBlockTableCell {
 
   pub fn is_header(&self) -> bool { self.is_header }
 
-  pub fn colspan(&self) -> i32 { self.colspan }
+  pub fn colspan(&self) -> i64 { self.colspan }
 
-  pub fn rowspan(&self) -> i32 { self.rowspan }
+  pub fn rowspan(&self) -> i64 { self.rowspan }
 
   pub fn align(&self) -> &PageBlockHorizontalAlignment { &self.align }
 
@@ -76,13 +76,13 @@ impl RTDPageBlockTableCellBuilder {
   }
 
    
-  pub fn colspan(&mut self, colspan: i32) -> &mut Self {
+  pub fn colspan(&mut self, colspan: i64) -> &mut Self {
     self.inner.colspan = colspan;
     self
   }
 
    
-  pub fn rowspan(&mut self, rowspan: i32) -> &mut Self {
+  pub fn rowspan(&mut self, rowspan: i64) -> &mut Self {
     self.inner.rowspan = rowspan;
     self
   }

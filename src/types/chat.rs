@@ -12,7 +12,7 @@ pub struct Chat {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat unique identifier
-  id: i32,
+  id: i64,
   /// Type of the chat
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: ChatType,
   /// Chat title
@@ -38,19 +38,19 @@ pub struct Chat {
   /// Default value of the disable_notification parameter, used when a message is sent to the chat
   default_disable_notification: bool,
   /// Number of unread messages in the chat
-  unread_count: i32,
+  unread_count: i64,
   /// Identifier of the last read incoming message
-  last_read_inbox_message_id: i32,
+  last_read_inbox_message_id: i64,
   /// Identifier of the last read outgoing message
-  last_read_outbox_message_id: i32,
+  last_read_outbox_message_id: i64,
   /// Number of unread messages with a mention/reply in the chat
-  unread_mention_count: i32,
+  unread_mention_count: i64,
   /// Notification settings for this chat
   notification_settings: ChatNotificationSettings,
   /// Identifier of the pinned message in the chat; 0 if none
-  pinned_message_id: i32,
+  pinned_message_id: i64,
   /// Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
-  reply_markup_message_id: i32,
+  reply_markup_message_id: i64,
   /// A draft of a message in the chat; may be null
   draft_message: Option<DraftMessage>,
   /// Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used
@@ -73,7 +73,7 @@ impl Chat {
     RTDChatBuilder { inner }
   }
 
-  pub fn id(&self) -> i32 { self.id }
+  pub fn id(&self) -> i64 { self.id }
 
   pub fn type_(&self) -> &ChatType { &self.type_ }
 
@@ -99,19 +99,19 @@ impl Chat {
 
   pub fn default_disable_notification(&self) -> bool { self.default_disable_notification }
 
-  pub fn unread_count(&self) -> i32 { self.unread_count }
+  pub fn unread_count(&self) -> i64 { self.unread_count }
 
-  pub fn last_read_inbox_message_id(&self) -> i32 { self.last_read_inbox_message_id }
+  pub fn last_read_inbox_message_id(&self) -> i64 { self.last_read_inbox_message_id }
 
-  pub fn last_read_outbox_message_id(&self) -> i32 { self.last_read_outbox_message_id }
+  pub fn last_read_outbox_message_id(&self) -> i64 { self.last_read_outbox_message_id }
 
-  pub fn unread_mention_count(&self) -> i32 { self.unread_mention_count }
+  pub fn unread_mention_count(&self) -> i64 { self.unread_mention_count }
 
   pub fn notification_settings(&self) -> &ChatNotificationSettings { &self.notification_settings }
 
-  pub fn pinned_message_id(&self) -> i32 { self.pinned_message_id }
+  pub fn pinned_message_id(&self) -> i64 { self.pinned_message_id }
 
-  pub fn reply_markup_message_id(&self) -> i32 { self.reply_markup_message_id }
+  pub fn reply_markup_message_id(&self) -> i64 { self.reply_markup_message_id }
 
   pub fn draft_message(&self) -> &Option<DraftMessage> { &self.draft_message }
 
@@ -128,7 +128,7 @@ impl RTDChatBuilder {
   pub fn build(&self) -> Chat { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i32) -> &mut Self {
+  pub fn id(&mut self, id: i64) -> &mut Self {
     self.inner.id = id;
     self
   }
@@ -206,25 +206,25 @@ impl RTDChatBuilder {
   }
 
    
-  pub fn unread_count(&mut self, unread_count: i32) -> &mut Self {
+  pub fn unread_count(&mut self, unread_count: i64) -> &mut Self {
     self.inner.unread_count = unread_count;
     self
   }
 
    
-  pub fn last_read_inbox_message_id(&mut self, last_read_inbox_message_id: i32) -> &mut Self {
+  pub fn last_read_inbox_message_id(&mut self, last_read_inbox_message_id: i64) -> &mut Self {
     self.inner.last_read_inbox_message_id = last_read_inbox_message_id;
     self
   }
 
    
-  pub fn last_read_outbox_message_id(&mut self, last_read_outbox_message_id: i32) -> &mut Self {
+  pub fn last_read_outbox_message_id(&mut self, last_read_outbox_message_id: i64) -> &mut Self {
     self.inner.last_read_outbox_message_id = last_read_outbox_message_id;
     self
   }
 
    
-  pub fn unread_mention_count(&mut self, unread_mention_count: i32) -> &mut Self {
+  pub fn unread_mention_count(&mut self, unread_mention_count: i64) -> &mut Self {
     self.inner.unread_mention_count = unread_mention_count;
     self
   }
@@ -236,13 +236,13 @@ impl RTDChatBuilder {
   }
 
    
-  pub fn pinned_message_id(&mut self, pinned_message_id: i32) -> &mut Self {
+  pub fn pinned_message_id(&mut self, pinned_message_id: i64) -> &mut Self {
     self.inner.pinned_message_id = pinned_message_id;
     self
   }
 
    
-  pub fn reply_markup_message_id(&mut self, reply_markup_message_id: i32) -> &mut Self {
+  pub fn reply_markup_message_id(&mut self, reply_markup_message_id: i64) -> &mut Self {
     self.inner.reply_markup_message_id = reply_markup_message_id;
     self
   }

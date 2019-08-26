@@ -12,11 +12,11 @@ pub struct Date {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Day of the month, 1-31
-  day: i32,
+  day: i64,
   /// Month, 1-12
-  month: i32,
+  month: i64,
   /// Year, 1-9999
-  year: i32,
+  year: i64,
   
 }
 
@@ -35,11 +35,11 @@ impl Date {
     RTDDateBuilder { inner }
   }
 
-  pub fn day(&self) -> i32 { self.day }
+  pub fn day(&self) -> i64 { self.day }
 
-  pub fn month(&self) -> i32 { self.month }
+  pub fn month(&self) -> i64 { self.month }
 
-  pub fn year(&self) -> i32 { self.year }
+  pub fn year(&self) -> i64 { self.year }
 
 }
 
@@ -52,19 +52,19 @@ impl RTDDateBuilder {
   pub fn build(&self) -> Date { self.inner.clone() }
 
    
-  pub fn day(&mut self, day: i32) -> &mut Self {
+  pub fn day(&mut self, day: i64) -> &mut Self {
     self.inner.day = day;
     self
   }
 
    
-  pub fn month(&mut self, month: i32) -> &mut Self {
+  pub fn month(&mut self, month: i64) -> &mut Self {
     self.inner.month = month;
     self
   }
 
    
-  pub fn year(&mut self, year: i32) -> &mut Self {
+  pub fn year(&mut self, year: i64) -> &mut Self {
     self.inner.year = year;
     self
   }

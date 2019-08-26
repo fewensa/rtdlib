@@ -12,9 +12,9 @@ pub struct StorageStatistics {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Total size of files
-  size: i32,
+  size: i64,
   /// Total number of files
-  count: i32,
+  count: i64,
   /// Statistics split by chats
   by_chat: Vec<StorageStatisticsByChat>,
   
@@ -35,9 +35,9 @@ impl StorageStatistics {
     RTDStorageStatisticsBuilder { inner }
   }
 
-  pub fn size(&self) -> i32 { self.size }
+  pub fn size(&self) -> i64 { self.size }
 
-  pub fn count(&self) -> i32 { self.count }
+  pub fn count(&self) -> i64 { self.count }
 
   pub fn by_chat(&self) -> &Vec<StorageStatisticsByChat> { &self.by_chat }
 
@@ -52,13 +52,13 @@ impl RTDStorageStatisticsBuilder {
   pub fn build(&self) -> StorageStatistics { self.inner.clone() }
 
    
-  pub fn size(&mut self, size: i32) -> &mut Self {
+  pub fn size(&mut self, size: i64) -> &mut Self {
     self.inner.size = size;
     self
   }
 
    
-  pub fn count(&mut self, count: i32) -> &mut Self {
+  pub fn count(&mut self, count: i64) -> &mut Self {
     self.inner.count = count;
     self
   }

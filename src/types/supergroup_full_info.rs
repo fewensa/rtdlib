@@ -14,13 +14,13 @@ pub struct SupergroupFullInfo {
   /// Contains full information about a supergroup or channel
   description: String,
   /// Number of members in the supergroup or channel; 0 if unknown
-  member_count: i32,
+  member_count: i64,
   /// Number of privileged users in the supergroup or channel; 0 if unknown
-  administrator_count: i32,
+  administrator_count: i64,
   /// Number of restricted users in the supergroup; 0 if unknown
-  restricted_count: i32,
+  restricted_count: i64,
   /// Number of users banned from chat; 0 if unknown
-  banned_count: i32,
+  banned_count: i64,
   /// True, if members of the chat can be retrieved
   can_get_members: bool,
   /// True, if the chat can be made public
@@ -36,9 +36,9 @@ pub struct SupergroupFullInfo {
   /// Invite link for this chat
   invite_link: String,
   /// Identifier of the basic group from which supergroup was upgraded; 0 if none
-  upgraded_from_basic_group_id: i32,
+  upgraded_from_basic_group_id: i64,
   /// Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
-  upgraded_from_max_message_id: i32,
+  upgraded_from_max_message_id: i64,
   
 }
 
@@ -59,13 +59,13 @@ impl SupergroupFullInfo {
 
   pub fn description(&self) -> &String { &self.description }
 
-  pub fn member_count(&self) -> i32 { self.member_count }
+  pub fn member_count(&self) -> i64 { self.member_count }
 
-  pub fn administrator_count(&self) -> i32 { self.administrator_count }
+  pub fn administrator_count(&self) -> i64 { self.administrator_count }
 
-  pub fn restricted_count(&self) -> i32 { self.restricted_count }
+  pub fn restricted_count(&self) -> i64 { self.restricted_count }
 
-  pub fn banned_count(&self) -> i32 { self.banned_count }
+  pub fn banned_count(&self) -> i64 { self.banned_count }
 
   pub fn can_get_members(&self) -> bool { self.can_get_members }
 
@@ -81,9 +81,9 @@ impl SupergroupFullInfo {
 
   pub fn invite_link(&self) -> &String { &self.invite_link }
 
-  pub fn upgraded_from_basic_group_id(&self) -> i32 { self.upgraded_from_basic_group_id }
+  pub fn upgraded_from_basic_group_id(&self) -> i64 { self.upgraded_from_basic_group_id }
 
-  pub fn upgraded_from_max_message_id(&self) -> i32 { self.upgraded_from_max_message_id }
+  pub fn upgraded_from_max_message_id(&self) -> i64 { self.upgraded_from_max_message_id }
 
 }
 
@@ -102,25 +102,25 @@ impl RTDSupergroupFullInfoBuilder {
   }
 
    
-  pub fn member_count(&mut self, member_count: i32) -> &mut Self {
+  pub fn member_count(&mut self, member_count: i64) -> &mut Self {
     self.inner.member_count = member_count;
     self
   }
 
    
-  pub fn administrator_count(&mut self, administrator_count: i32) -> &mut Self {
+  pub fn administrator_count(&mut self, administrator_count: i64) -> &mut Self {
     self.inner.administrator_count = administrator_count;
     self
   }
 
    
-  pub fn restricted_count(&mut self, restricted_count: i32) -> &mut Self {
+  pub fn restricted_count(&mut self, restricted_count: i64) -> &mut Self {
     self.inner.restricted_count = restricted_count;
     self
   }
 
    
-  pub fn banned_count(&mut self, banned_count: i32) -> &mut Self {
+  pub fn banned_count(&mut self, banned_count: i64) -> &mut Self {
     self.inner.banned_count = banned_count;
     self
   }
@@ -168,13 +168,13 @@ impl RTDSupergroupFullInfoBuilder {
   }
 
    
-  pub fn upgraded_from_basic_group_id(&mut self, upgraded_from_basic_group_id: i32) -> &mut Self {
+  pub fn upgraded_from_basic_group_id(&mut self, upgraded_from_basic_group_id: i64) -> &mut Self {
     self.inner.upgraded_from_basic_group_id = upgraded_from_basic_group_id;
     self
   }
 
    
-  pub fn upgraded_from_max_message_id(&mut self, upgraded_from_max_message_id: i32) -> &mut Self {
+  pub fn upgraded_from_max_message_id(&mut self, upgraded_from_max_message_id: i64) -> &mut Self {
     self.inner.upgraded_from_max_message_id = upgraded_from_max_message_id;
     self
   }

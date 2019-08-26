@@ -12,13 +12,13 @@ pub struct NotificationGroup {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique persistent auto-incremented from 1 identifier of the notification group
-  id: i32,
+  id: i64,
   /// Type of the group
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: NotificationGroupType,
   /// Identifier of a chat to which all notifications in the group belong
-  chat_id: i32,
+  chat_id: i64,
   /// Total number of active notifications in the group
-  total_count: i32,
+  total_count: i64,
   /// The list of active notifications
   notifications: Vec<Notification>,
   
@@ -39,13 +39,13 @@ impl NotificationGroup {
     RTDNotificationGroupBuilder { inner }
   }
 
-  pub fn id(&self) -> i32 { self.id }
+  pub fn id(&self) -> i64 { self.id }
 
   pub fn type_(&self) -> &NotificationGroupType { &self.type_ }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn total_count(&self) -> i32 { self.total_count }
+  pub fn total_count(&self) -> i64 { self.total_count }
 
   pub fn notifications(&self) -> &Vec<Notification> { &self.notifications }
 
@@ -60,7 +60,7 @@ impl RTDNotificationGroupBuilder {
   pub fn build(&self) -> NotificationGroup { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i32) -> &mut Self {
+  pub fn id(&mut self, id: i64) -> &mut Self {
     self.inner.id = id;
     self
   }
@@ -72,13 +72,13 @@ impl RTDNotificationGroupBuilder {
   }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn total_count(&mut self, total_count: i32) -> &mut Self {
+  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
     self.inner.total_count = total_count;
     self
   }

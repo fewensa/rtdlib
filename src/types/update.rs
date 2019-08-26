@@ -820,9 +820,9 @@ pub struct UpdateMessageSendAcknowledged {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// The chat identifier of the sent message
-  chat_id: i32,
+  chat_id: i64,
   /// A temporary message identifier
-  message_id: i32,
+  message_id: i64,
   
 }
 
@@ -844,9 +844,9 @@ impl UpdateMessageSendAcknowledged {
     RTDUpdateMessageSendAcknowledgedBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn message_id(&self) -> i32 { self.message_id }
+  pub fn message_id(&self) -> i64 { self.message_id }
 
 }
 
@@ -859,13 +859,13 @@ impl RTDUpdateMessageSendAcknowledgedBuilder {
   pub fn build(&self) -> UpdateMessageSendAcknowledged { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn message_id(&mut self, message_id: i32) -> &mut Self {
+  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
     self.inner.message_id = message_id;
     self
   }
@@ -895,7 +895,7 @@ pub struct UpdateMessageSendSucceeded {
   /// Information about the sent message. Usually only the message identifier, date, and content are changed, but almost all other fields can also change
   message: Message,
   /// The previous temporary message identifier
-  old_message_id: i32,
+  old_message_id: i64,
   
 }
 
@@ -919,7 +919,7 @@ impl UpdateMessageSendSucceeded {
 
   pub fn message(&self) -> &Message { &self.message }
 
-  pub fn old_message_id(&self) -> i32 { self.old_message_id }
+  pub fn old_message_id(&self) -> i64 { self.old_message_id }
 
 }
 
@@ -938,7 +938,7 @@ impl RTDUpdateMessageSendSucceededBuilder {
   }
 
    
-  pub fn old_message_id(&mut self, old_message_id: i32) -> &mut Self {
+  pub fn old_message_id(&mut self, old_message_id: i64) -> &mut Self {
     self.inner.old_message_id = old_message_id;
     self
   }
@@ -968,9 +968,9 @@ pub struct UpdateMessageSendFailed {
   /// Contains information about the message that failed to send
   message: Message,
   /// The previous temporary message identifier
-  old_message_id: i32,
+  old_message_id: i64,
   /// An error code
-  error_code: i32,
+  error_code: i64,
   /// Error message
   error_message: String,
   
@@ -996,9 +996,9 @@ impl UpdateMessageSendFailed {
 
   pub fn message(&self) -> &Message { &self.message }
 
-  pub fn old_message_id(&self) -> i32 { self.old_message_id }
+  pub fn old_message_id(&self) -> i64 { self.old_message_id }
 
-  pub fn error_code(&self) -> i32 { self.error_code }
+  pub fn error_code(&self) -> i64 { self.error_code }
 
   pub fn error_message(&self) -> &String { &self.error_message }
 
@@ -1019,13 +1019,13 @@ impl RTDUpdateMessageSendFailedBuilder {
   }
 
    
-  pub fn old_message_id(&mut self, old_message_id: i32) -> &mut Self {
+  pub fn old_message_id(&mut self, old_message_id: i64) -> &mut Self {
     self.inner.old_message_id = old_message_id;
     self
   }
 
    
-  pub fn error_code(&mut self, error_code: i32) -> &mut Self {
+  pub fn error_code(&mut self, error_code: i64) -> &mut Self {
     self.inner.error_code = error_code;
     self
   }
@@ -1059,9 +1059,9 @@ pub struct UpdateMessageContent {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// Message identifier
-  message_id: i32,
+  message_id: i64,
   /// New message content
   new_content: MessageContent,
   
@@ -1085,9 +1085,9 @@ impl UpdateMessageContent {
     RTDUpdateMessageContentBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn message_id(&self) -> i32 { self.message_id }
+  pub fn message_id(&self) -> i64 { self.message_id }
 
   pub fn new_content(&self) -> &MessageContent { &self.new_content }
 
@@ -1102,13 +1102,13 @@ impl RTDUpdateMessageContentBuilder {
   pub fn build(&self) -> UpdateMessageContent { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn message_id(&mut self, message_id: i32) -> &mut Self {
+  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
     self.inner.message_id = message_id;
     self
   }
@@ -1142,11 +1142,11 @@ pub struct UpdateMessageEdited {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// Message identifier
-  message_id: i32,
+  message_id: i64,
   /// Point in time (Unix timestamp) when the message was edited
-  edit_date: i32,
+  edit_date: i64,
   /// New message reply markup; may be null
   reply_markup: Option<ReplyMarkup>,
   
@@ -1170,11 +1170,11 @@ impl UpdateMessageEdited {
     RTDUpdateMessageEditedBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn message_id(&self) -> i32 { self.message_id }
+  pub fn message_id(&self) -> i64 { self.message_id }
 
-  pub fn edit_date(&self) -> i32 { self.edit_date }
+  pub fn edit_date(&self) -> i64 { self.edit_date }
 
   pub fn reply_markup(&self) -> &Option<ReplyMarkup> { &self.reply_markup }
 
@@ -1189,19 +1189,19 @@ impl RTDUpdateMessageEditedBuilder {
   pub fn build(&self) -> UpdateMessageEdited { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn message_id(&mut self, message_id: i32) -> &mut Self {
+  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
     self.inner.message_id = message_id;
     self
   }
 
    
-  pub fn edit_date(&mut self, edit_date: i32) -> &mut Self {
+  pub fn edit_date(&mut self, edit_date: i64) -> &mut Self {
     self.inner.edit_date = edit_date;
     self
   }
@@ -1235,11 +1235,11 @@ pub struct UpdateMessageViews {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// Message identifier
-  message_id: i32,
+  message_id: i64,
   /// New value of the view count
-  views: i32,
+  views: i64,
   
 }
 
@@ -1261,11 +1261,11 @@ impl UpdateMessageViews {
     RTDUpdateMessageViewsBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn message_id(&self) -> i32 { self.message_id }
+  pub fn message_id(&self) -> i64 { self.message_id }
 
-  pub fn views(&self) -> i32 { self.views }
+  pub fn views(&self) -> i64 { self.views }
 
 }
 
@@ -1278,19 +1278,19 @@ impl RTDUpdateMessageViewsBuilder {
   pub fn build(&self) -> UpdateMessageViews { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn message_id(&mut self, message_id: i32) -> &mut Self {
+  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
     self.inner.message_id = message_id;
     self
   }
 
    
-  pub fn views(&mut self, views: i32) -> &mut Self {
+  pub fn views(&mut self, views: i64) -> &mut Self {
     self.inner.views = views;
     self
   }
@@ -1318,9 +1318,9 @@ pub struct UpdateMessageContentOpened {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// Message identifier
-  message_id: i32,
+  message_id: i64,
   
 }
 
@@ -1342,9 +1342,9 @@ impl UpdateMessageContentOpened {
     RTDUpdateMessageContentOpenedBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn message_id(&self) -> i32 { self.message_id }
+  pub fn message_id(&self) -> i64 { self.message_id }
 
 }
 
@@ -1357,13 +1357,13 @@ impl RTDUpdateMessageContentOpenedBuilder {
   pub fn build(&self) -> UpdateMessageContentOpened { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn message_id(&mut self, message_id: i32) -> &mut Self {
+  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
     self.inner.message_id = message_id;
     self
   }
@@ -1391,11 +1391,11 @@ pub struct UpdateMessageMentionRead {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// Message identifier
-  message_id: i32,
+  message_id: i64,
   /// The new number of unread mention messages left in the chat
-  unread_mention_count: i32,
+  unread_mention_count: i64,
   
 }
 
@@ -1417,11 +1417,11 @@ impl UpdateMessageMentionRead {
     RTDUpdateMessageMentionReadBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn message_id(&self) -> i32 { self.message_id }
+  pub fn message_id(&self) -> i64 { self.message_id }
 
-  pub fn unread_mention_count(&self) -> i32 { self.unread_mention_count }
+  pub fn unread_mention_count(&self) -> i64 { self.unread_mention_count }
 
 }
 
@@ -1434,19 +1434,19 @@ impl RTDUpdateMessageMentionReadBuilder {
   pub fn build(&self) -> UpdateMessageMentionRead { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn message_id(&mut self, message_id: i32) -> &mut Self {
+  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
     self.inner.message_id = message_id;
     self
   }
 
    
-  pub fn unread_mention_count(&mut self, unread_mention_count: i32) -> &mut Self {
+  pub fn unread_mention_count(&mut self, unread_mention_count: i64) -> &mut Self {
     self.inner.unread_mention_count = unread_mention_count;
     self
   }
@@ -1537,7 +1537,7 @@ pub struct UpdateChatTitle {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// The new chat title
   title: String,
   
@@ -1561,7 +1561,7 @@ impl UpdateChatTitle {
     RTDUpdateChatTitleBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
   pub fn title(&self) -> &String { &self.title }
 
@@ -1576,7 +1576,7 @@ impl RTDUpdateChatTitleBuilder {
   pub fn build(&self) -> UpdateChatTitle { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
@@ -1610,7 +1610,7 @@ pub struct UpdateChatPhoto {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// The new chat photo; may be null
   photo: Option<ChatPhoto>,
   
@@ -1634,7 +1634,7 @@ impl UpdateChatPhoto {
     RTDUpdateChatPhotoBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
   pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
 
@@ -1649,7 +1649,7 @@ impl RTDUpdateChatPhotoBuilder {
   pub fn build(&self) -> UpdateChatPhoto { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
@@ -1683,7 +1683,7 @@ pub struct UpdateChatLastMessage {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// The new last message in the chat; may be null
   last_message: Option<Message>,
   /// New value of the chat order
@@ -1709,7 +1709,7 @@ impl UpdateChatLastMessage {
     RTDUpdateChatLastMessageBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
   pub fn last_message(&self) -> &Option<Message> { &self.last_message }
 
@@ -1726,7 +1726,7 @@ impl RTDUpdateChatLastMessageBuilder {
   pub fn build(&self) -> UpdateChatLastMessage { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
@@ -1766,9 +1766,9 @@ pub struct UpdateChatOrder {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// New value of the order
-  order: i64,
+  order: isize,
   
 }
 
@@ -1790,9 +1790,9 @@ impl UpdateChatOrder {
     RTDUpdateChatOrderBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn order(&self) -> i64 { self.order }
+  pub fn order(&self) -> isize { self.order }
 
 }
 
@@ -1805,13 +1805,13 @@ impl RTDUpdateChatOrderBuilder {
   pub fn build(&self) -> UpdateChatOrder { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn order(&mut self, order: i64) -> &mut Self {
+  pub fn order(&mut self, order: isize) -> &mut Self {
     self.inner.order = order;
     self
   }
@@ -1839,11 +1839,11 @@ pub struct UpdateChatIsPinned {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// New value of is_pinned
   is_pinned: bool,
   /// New value of the chat order
-  order: i64,
+  order: isize,
   
 }
 
@@ -1865,11 +1865,11 @@ impl UpdateChatIsPinned {
     RTDUpdateChatIsPinnedBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
   pub fn is_pinned(&self) -> bool { self.is_pinned }
 
-  pub fn order(&self) -> i64 { self.order }
+  pub fn order(&self) -> isize { self.order }
 
 }
 
@@ -1882,7 +1882,7 @@ impl RTDUpdateChatIsPinnedBuilder {
   pub fn build(&self) -> UpdateChatIsPinned { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
@@ -1894,7 +1894,7 @@ impl RTDUpdateChatIsPinnedBuilder {
   }
 
    
-  pub fn order(&mut self, order: i64) -> &mut Self {
+  pub fn order(&mut self, order: isize) -> &mut Self {
     self.inner.order = order;
     self
   }
@@ -1922,7 +1922,7 @@ pub struct UpdateChatIsMarkedAsUnread {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// New value of is_marked_as_unread
   is_marked_as_unread: bool,
   
@@ -1946,7 +1946,7 @@ impl UpdateChatIsMarkedAsUnread {
     RTDUpdateChatIsMarkedAsUnreadBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
   pub fn is_marked_as_unread(&self) -> bool { self.is_marked_as_unread }
 
@@ -1961,7 +1961,7 @@ impl RTDUpdateChatIsMarkedAsUnreadBuilder {
   pub fn build(&self) -> UpdateChatIsMarkedAsUnread { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
@@ -1995,11 +1995,11 @@ pub struct UpdateChatIsSponsored {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// New value of is_sponsored
   is_sponsored: bool,
   /// New value of chat order
-  order: i64,
+  order: isize,
   
 }
 
@@ -2021,11 +2021,11 @@ impl UpdateChatIsSponsored {
     RTDUpdateChatIsSponsoredBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
   pub fn is_sponsored(&self) -> bool { self.is_sponsored }
 
-  pub fn order(&self) -> i64 { self.order }
+  pub fn order(&self) -> isize { self.order }
 
 }
 
@@ -2038,7 +2038,7 @@ impl RTDUpdateChatIsSponsoredBuilder {
   pub fn build(&self) -> UpdateChatIsSponsored { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
@@ -2050,7 +2050,7 @@ impl RTDUpdateChatIsSponsoredBuilder {
   }
 
    
-  pub fn order(&mut self, order: i64) -> &mut Self {
+  pub fn order(&mut self, order: isize) -> &mut Self {
     self.inner.order = order;
     self
   }
@@ -2078,7 +2078,7 @@ pub struct UpdateChatDefaultDisableNotification {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// The new default_disable_notification value
   default_disable_notification: bool,
   
@@ -2102,7 +2102,7 @@ impl UpdateChatDefaultDisableNotification {
     RTDUpdateChatDefaultDisableNotificationBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
   pub fn default_disable_notification(&self) -> bool { self.default_disable_notification }
 
@@ -2117,7 +2117,7 @@ impl RTDUpdateChatDefaultDisableNotificationBuilder {
   pub fn build(&self) -> UpdateChatDefaultDisableNotification { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
@@ -2151,11 +2151,11 @@ pub struct UpdateChatReadInbox {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// Identifier of the last read incoming message
-  last_read_inbox_message_id: i32,
+  last_read_inbox_message_id: i64,
   /// The number of unread messages left in the chat
-  unread_count: i32,
+  unread_count: i64,
   
 }
 
@@ -2177,11 +2177,11 @@ impl UpdateChatReadInbox {
     RTDUpdateChatReadInboxBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn last_read_inbox_message_id(&self) -> i32 { self.last_read_inbox_message_id }
+  pub fn last_read_inbox_message_id(&self) -> i64 { self.last_read_inbox_message_id }
 
-  pub fn unread_count(&self) -> i32 { self.unread_count }
+  pub fn unread_count(&self) -> i64 { self.unread_count }
 
 }
 
@@ -2194,19 +2194,19 @@ impl RTDUpdateChatReadInboxBuilder {
   pub fn build(&self) -> UpdateChatReadInbox { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn last_read_inbox_message_id(&mut self, last_read_inbox_message_id: i32) -> &mut Self {
+  pub fn last_read_inbox_message_id(&mut self, last_read_inbox_message_id: i64) -> &mut Self {
     self.inner.last_read_inbox_message_id = last_read_inbox_message_id;
     self
   }
 
    
-  pub fn unread_count(&mut self, unread_count: i32) -> &mut Self {
+  pub fn unread_count(&mut self, unread_count: i64) -> &mut Self {
     self.inner.unread_count = unread_count;
     self
   }
@@ -2234,9 +2234,9 @@ pub struct UpdateChatReadOutbox {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// Identifier of last read outgoing message
-  last_read_outbox_message_id: i32,
+  last_read_outbox_message_id: i64,
   
 }
 
@@ -2258,9 +2258,9 @@ impl UpdateChatReadOutbox {
     RTDUpdateChatReadOutboxBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn last_read_outbox_message_id(&self) -> i32 { self.last_read_outbox_message_id }
+  pub fn last_read_outbox_message_id(&self) -> i64 { self.last_read_outbox_message_id }
 
 }
 
@@ -2273,13 +2273,13 @@ impl RTDUpdateChatReadOutboxBuilder {
   pub fn build(&self) -> UpdateChatReadOutbox { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn last_read_outbox_message_id(&mut self, last_read_outbox_message_id: i32) -> &mut Self {
+  pub fn last_read_outbox_message_id(&mut self, last_read_outbox_message_id: i64) -> &mut Self {
     self.inner.last_read_outbox_message_id = last_read_outbox_message_id;
     self
   }
@@ -2307,9 +2307,9 @@ pub struct UpdateChatUnreadMentionCount {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// The number of unread mention messages left in the chat
-  unread_mention_count: i32,
+  unread_mention_count: i64,
   
 }
 
@@ -2331,9 +2331,9 @@ impl UpdateChatUnreadMentionCount {
     RTDUpdateChatUnreadMentionCountBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn unread_mention_count(&self) -> i32 { self.unread_mention_count }
+  pub fn unread_mention_count(&self) -> i64 { self.unread_mention_count }
 
 }
 
@@ -2346,13 +2346,13 @@ impl RTDUpdateChatUnreadMentionCountBuilder {
   pub fn build(&self) -> UpdateChatUnreadMentionCount { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn unread_mention_count(&mut self, unread_mention_count: i32) -> &mut Self {
+  pub fn unread_mention_count(&mut self, unread_mention_count: i64) -> &mut Self {
     self.inner.unread_mention_count = unread_mention_count;
     self
   }
@@ -2380,7 +2380,7 @@ pub struct UpdateChatNotificationSettings {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// The new notification settings
   notification_settings: ChatNotificationSettings,
   
@@ -2404,7 +2404,7 @@ impl UpdateChatNotificationSettings {
     RTDUpdateChatNotificationSettingsBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
   pub fn notification_settings(&self) -> &ChatNotificationSettings { &self.notification_settings }
 
@@ -2419,7 +2419,7 @@ impl RTDUpdateChatNotificationSettingsBuilder {
   pub fn build(&self) -> UpdateChatNotificationSettings { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
@@ -2526,9 +2526,9 @@ pub struct UpdateChatPinnedMessage {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// The new identifier of the pinned message; 0 if there is no pinned message in the chat
-  pinned_message_id: i32,
+  pinned_message_id: i64,
   
 }
 
@@ -2550,9 +2550,9 @@ impl UpdateChatPinnedMessage {
     RTDUpdateChatPinnedMessageBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn pinned_message_id(&self) -> i32 { self.pinned_message_id }
+  pub fn pinned_message_id(&self) -> i64 { self.pinned_message_id }
 
 }
 
@@ -2565,13 +2565,13 @@ impl RTDUpdateChatPinnedMessageBuilder {
   pub fn build(&self) -> UpdateChatPinnedMessage { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn pinned_message_id(&mut self, pinned_message_id: i32) -> &mut Self {
+  pub fn pinned_message_id(&mut self, pinned_message_id: i64) -> &mut Self {
     self.inner.pinned_message_id = pinned_message_id;
     self
   }
@@ -2599,9 +2599,9 @@ pub struct UpdateChatReplyMarkup {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
-  reply_markup_message_id: i32,
+  reply_markup_message_id: i64,
   
 }
 
@@ -2623,9 +2623,9 @@ impl UpdateChatReplyMarkup {
     RTDUpdateChatReplyMarkupBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn reply_markup_message_id(&self) -> i32 { self.reply_markup_message_id }
+  pub fn reply_markup_message_id(&self) -> i64 { self.reply_markup_message_id }
 
 }
 
@@ -2638,13 +2638,13 @@ impl RTDUpdateChatReplyMarkupBuilder {
   pub fn build(&self) -> UpdateChatReplyMarkup { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn reply_markup_message_id(&mut self, reply_markup_message_id: i32) -> &mut Self {
+  pub fn reply_markup_message_id(&mut self, reply_markup_message_id: i64) -> &mut Self {
     self.inner.reply_markup_message_id = reply_markup_message_id;
     self
   }
@@ -2672,11 +2672,11 @@ pub struct UpdateChatDraftMessage {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// The new draft message; may be null
   draft_message: Option<DraftMessage>,
   /// New value of the chat order
-  order: i64,
+  order: isize,
   
 }
 
@@ -2698,11 +2698,11 @@ impl UpdateChatDraftMessage {
     RTDUpdateChatDraftMessageBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
   pub fn draft_message(&self) -> &Option<DraftMessage> { &self.draft_message }
 
-  pub fn order(&self) -> i64 { self.order }
+  pub fn order(&self) -> isize { self.order }
 
 }
 
@@ -2715,7 +2715,7 @@ impl RTDUpdateChatDraftMessageBuilder {
   pub fn build(&self) -> UpdateChatDraftMessage { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
@@ -2727,7 +2727,7 @@ impl RTDUpdateChatDraftMessageBuilder {
   }
 
    
-  pub fn order(&mut self, order: i64) -> &mut Self {
+  pub fn order(&mut self, order: isize) -> &mut Self {
     self.inner.order = order;
     self
   }
@@ -2755,9 +2755,9 @@ pub struct UpdateChatOnlineMemberCount {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the chat
-  chat_id: i32,
+  chat_id: i64,
   /// New number of online members in the chat, or 0 if unknown
-  online_member_count: i32,
+  online_member_count: i64,
   
 }
 
@@ -2779,9 +2779,9 @@ impl UpdateChatOnlineMemberCount {
     RTDUpdateChatOnlineMemberCountBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn online_member_count(&self) -> i32 { self.online_member_count }
+  pub fn online_member_count(&self) -> i64 { self.online_member_count }
 
 }
 
@@ -2794,13 +2794,13 @@ impl RTDUpdateChatOnlineMemberCountBuilder {
   pub fn build(&self) -> UpdateChatOnlineMemberCount { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn online_member_count(&mut self, online_member_count: i32) -> &mut Self {
+  pub fn online_member_count(&mut self, online_member_count: i64) -> &mut Self {
     self.inner.online_member_count = online_member_count;
     self
   }
@@ -2828,7 +2828,7 @@ pub struct UpdateNotification {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique notification group identifier
-  notification_group_id: i32,
+  notification_group_id: i64,
   /// Changed notification
   notification: Notification,
   
@@ -2852,7 +2852,7 @@ impl UpdateNotification {
     RTDUpdateNotificationBuilder { inner }
   }
 
-  pub fn notification_group_id(&self) -> i32 { self.notification_group_id }
+  pub fn notification_group_id(&self) -> i64 { self.notification_group_id }
 
   pub fn notification(&self) -> &Notification { &self.notification }
 
@@ -2867,7 +2867,7 @@ impl RTDUpdateNotificationBuilder {
   pub fn build(&self) -> UpdateNotification { self.inner.clone() }
 
    
-  pub fn notification_group_id(&mut self, notification_group_id: i32) -> &mut Self {
+  pub fn notification_group_id(&mut self, notification_group_id: i64) -> &mut Self {
     self.inner.notification_group_id = notification_group_id;
     self
   }
@@ -2901,21 +2901,21 @@ pub struct UpdateNotificationGroup {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique notification group identifier
-  notification_group_id: i32,
+  notification_group_id: i64,
   /// New type of the notification group
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: NotificationGroupType,
   /// Identifier of a chat to which all notifications in the group belong
-  chat_id: i32,
+  chat_id: i64,
   /// Chat identifier, which notification settings must be applied to the added notifications
-  notification_settings_chat_id: i32,
+  notification_settings_chat_id: i64,
   /// True, if the notifications should be shown without sound
   is_silent: bool,
   /// Total number of unread notifications in the group, can be bigger than number of active notifications
-  total_count: i32,
+  total_count: i64,
   /// List of added group notifications, sorted by notification ID
   added_notifications: Vec<Notification>,
   /// Identifiers of removed group notifications, sorted by notification ID
-  removed_notification_ids: Vec<i32>,
+  removed_notification_ids: Vec<i64>,
   
 }
 
@@ -2937,21 +2937,21 @@ impl UpdateNotificationGroup {
     RTDUpdateNotificationGroupBuilder { inner }
   }
 
-  pub fn notification_group_id(&self) -> i32 { self.notification_group_id }
+  pub fn notification_group_id(&self) -> i64 { self.notification_group_id }
 
   pub fn type_(&self) -> &NotificationGroupType { &self.type_ }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn notification_settings_chat_id(&self) -> i32 { self.notification_settings_chat_id }
+  pub fn notification_settings_chat_id(&self) -> i64 { self.notification_settings_chat_id }
 
   pub fn is_silent(&self) -> bool { self.is_silent }
 
-  pub fn total_count(&self) -> i32 { self.total_count }
+  pub fn total_count(&self) -> i64 { self.total_count }
 
   pub fn added_notifications(&self) -> &Vec<Notification> { &self.added_notifications }
 
-  pub fn removed_notification_ids(&self) -> &Vec<i32> { &self.removed_notification_ids }
+  pub fn removed_notification_ids(&self) -> &Vec<i64> { &self.removed_notification_ids }
 
 }
 
@@ -2964,7 +2964,7 @@ impl RTDUpdateNotificationGroupBuilder {
   pub fn build(&self) -> UpdateNotificationGroup { self.inner.clone() }
 
    
-  pub fn notification_group_id(&mut self, notification_group_id: i32) -> &mut Self {
+  pub fn notification_group_id(&mut self, notification_group_id: i64) -> &mut Self {
     self.inner.notification_group_id = notification_group_id;
     self
   }
@@ -2976,13 +2976,13 @@ impl RTDUpdateNotificationGroupBuilder {
   }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn notification_settings_chat_id(&mut self, notification_settings_chat_id: i32) -> &mut Self {
+  pub fn notification_settings_chat_id(&mut self, notification_settings_chat_id: i64) -> &mut Self {
     self.inner.notification_settings_chat_id = notification_settings_chat_id;
     self
   }
@@ -2994,7 +2994,7 @@ impl RTDUpdateNotificationGroupBuilder {
   }
 
    
-  pub fn total_count(&mut self, total_count: i32) -> &mut Self {
+  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
     self.inner.total_count = total_count;
     self
   }
@@ -3006,7 +3006,7 @@ impl RTDUpdateNotificationGroupBuilder {
   }
 
    
-  pub fn removed_notification_ids(&mut self, removed_notification_ids: Vec<i32>) -> &mut Self {
+  pub fn removed_notification_ids(&mut self, removed_notification_ids: Vec<i64>) -> &mut Self {
     self.inner.removed_notification_ids = removed_notification_ids;
     self
   }
@@ -3170,9 +3170,9 @@ pub struct UpdateDeleteMessages {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// Identifiers of the deleted messages
-  message_ids: Vec<i32>,
+  message_ids: Vec<i64>,
   /// True, if the messages are permanently deleted by a user (as opposed to just becoming inaccessible)
   is_permanent: bool,
   /// True, if the messages are deleted only from the cache and can possibly be retrieved again in the future
@@ -3198,9 +3198,9 @@ impl UpdateDeleteMessages {
     RTDUpdateDeleteMessagesBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn message_ids(&self) -> &Vec<i32> { &self.message_ids }
+  pub fn message_ids(&self) -> &Vec<i64> { &self.message_ids }
 
   pub fn is_permanent(&self) -> bool { self.is_permanent }
 
@@ -3217,13 +3217,13 @@ impl RTDUpdateDeleteMessagesBuilder {
   pub fn build(&self) -> UpdateDeleteMessages { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn message_ids(&mut self, message_ids: Vec<i32>) -> &mut Self {
+  pub fn message_ids(&mut self, message_ids: Vec<i64>) -> &mut Self {
     self.inner.message_ids = message_ids;
     self
   }
@@ -3263,9 +3263,9 @@ pub struct UpdateUserChatAction {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// Identifier of a user performing an action
-  user_id: i32,
+  user_id: i64,
   /// The action description
   action: ChatAction,
   
@@ -3289,9 +3289,9 @@ impl UpdateUserChatAction {
     RTDUpdateUserChatActionBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn user_id(&self) -> i32 { self.user_id }
+  pub fn user_id(&self) -> i64 { self.user_id }
 
   pub fn action(&self) -> &ChatAction { &self.action }
 
@@ -3306,13 +3306,13 @@ impl RTDUpdateUserChatActionBuilder {
   pub fn build(&self) -> UpdateUserChatAction { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
     self.inner.user_id = user_id;
     self
   }
@@ -3346,7 +3346,7 @@ pub struct UpdateUserStatus {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// User identifier
-  user_id: i32,
+  user_id: i64,
   /// New status of the user
   status: UserStatus,
   
@@ -3370,7 +3370,7 @@ impl UpdateUserStatus {
     RTDUpdateUserStatusBuilder { inner }
   }
 
-  pub fn user_id(&self) -> i32 { self.user_id }
+  pub fn user_id(&self) -> i64 { self.user_id }
 
   pub fn status(&self) -> &UserStatus { &self.status }
 
@@ -3385,7 +3385,7 @@ impl RTDUpdateUserStatusBuilder {
   pub fn build(&self) -> UpdateUserStatus { self.inner.clone() }
 
    
-  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
     self.inner.user_id = user_id;
     self
   }
@@ -3671,7 +3671,7 @@ pub struct UpdateUserFullInfo {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// User identifier
-  user_id: i32,
+  user_id: i64,
   /// New full information about the user
   user_full_info: UserFullInfo,
   
@@ -3695,7 +3695,7 @@ impl UpdateUserFullInfo {
     RTDUpdateUserFullInfoBuilder { inner }
   }
 
-  pub fn user_id(&self) -> i32 { self.user_id }
+  pub fn user_id(&self) -> i64 { self.user_id }
 
   pub fn user_full_info(&self) -> &UserFullInfo { &self.user_full_info }
 
@@ -3710,7 +3710,7 @@ impl RTDUpdateUserFullInfoBuilder {
   pub fn build(&self) -> UpdateUserFullInfo { self.inner.clone() }
 
    
-  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
     self.inner.user_id = user_id;
     self
   }
@@ -3744,7 +3744,7 @@ pub struct UpdateBasicGroupFullInfo {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of a basic group
-  basic_group_id: i32,
+  basic_group_id: i64,
   /// New full information about the group
   basic_group_full_info: BasicGroupFullInfo,
   
@@ -3768,7 +3768,7 @@ impl UpdateBasicGroupFullInfo {
     RTDUpdateBasicGroupFullInfoBuilder { inner }
   }
 
-  pub fn basic_group_id(&self) -> i32 { self.basic_group_id }
+  pub fn basic_group_id(&self) -> i64 { self.basic_group_id }
 
   pub fn basic_group_full_info(&self) -> &BasicGroupFullInfo { &self.basic_group_full_info }
 
@@ -3783,7 +3783,7 @@ impl RTDUpdateBasicGroupFullInfoBuilder {
   pub fn build(&self) -> UpdateBasicGroupFullInfo { self.inner.clone() }
 
    
-  pub fn basic_group_id(&mut self, basic_group_id: i32) -> &mut Self {
+  pub fn basic_group_id(&mut self, basic_group_id: i64) -> &mut Self {
     self.inner.basic_group_id = basic_group_id;
     self
   }
@@ -3817,7 +3817,7 @@ pub struct UpdateSupergroupFullInfo {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the supergroup or channel
-  supergroup_id: i32,
+  supergroup_id: i64,
   /// New full information about the supergroup
   supergroup_full_info: SupergroupFullInfo,
   
@@ -3841,7 +3841,7 @@ impl UpdateSupergroupFullInfo {
     RTDUpdateSupergroupFullInfoBuilder { inner }
   }
 
-  pub fn supergroup_id(&self) -> i32 { self.supergroup_id }
+  pub fn supergroup_id(&self) -> i64 { self.supergroup_id }
 
   pub fn supergroup_full_info(&self) -> &SupergroupFullInfo { &self.supergroup_full_info }
 
@@ -3856,7 +3856,7 @@ impl RTDUpdateSupergroupFullInfoBuilder {
   pub fn build(&self) -> UpdateSupergroupFullInfo { self.inner.clone() }
 
    
-  pub fn supergroup_id(&mut self, supergroup_id: i32) -> &mut Self {
+  pub fn supergroup_id(&mut self, supergroup_id: i64) -> &mut Self {
     self.inner.supergroup_id = supergroup_id;
     self
   }
@@ -4026,7 +4026,7 @@ pub struct UpdateFileGenerationStart {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique identifier for the generation process
-  generation_id: i64,
+  generation_id: isize,
   /// The path to a file from which a new file is generated; may be empty
   original_path: String,
   /// The path to a file that should be created and where the new file should be generated
@@ -4054,7 +4054,7 @@ impl UpdateFileGenerationStart {
     RTDUpdateFileGenerationStartBuilder { inner }
   }
 
-  pub fn generation_id(&self) -> i64 { self.generation_id }
+  pub fn generation_id(&self) -> isize { self.generation_id }
 
   pub fn original_path(&self) -> &String { &self.original_path }
 
@@ -4073,7 +4073,7 @@ impl RTDUpdateFileGenerationStartBuilder {
   pub fn build(&self) -> UpdateFileGenerationStart { self.inner.clone() }
 
    
-  pub fn generation_id(&mut self, generation_id: i64) -> &mut Self {
+  pub fn generation_id(&mut self, generation_id: isize) -> &mut Self {
     self.inner.generation_id = generation_id;
     self
   }
@@ -4119,7 +4119,7 @@ pub struct UpdateFileGenerationStop {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique identifier for the generation process
-  generation_id: i64,
+  generation_id: isize,
   
 }
 
@@ -4141,7 +4141,7 @@ impl UpdateFileGenerationStop {
     RTDUpdateFileGenerationStopBuilder { inner }
   }
 
-  pub fn generation_id(&self) -> i64 { self.generation_id }
+  pub fn generation_id(&self) -> isize { self.generation_id }
 
 }
 
@@ -4154,7 +4154,7 @@ impl RTDUpdateFileGenerationStopBuilder {
   pub fn build(&self) -> UpdateFileGenerationStop { self.inner.clone() }
 
    
-  pub fn generation_id(&mut self, generation_id: i64) -> &mut Self {
+  pub fn generation_id(&mut self, generation_id: isize) -> &mut Self {
     self.inner.generation_id = generation_id;
     self
   }
@@ -4318,9 +4318,9 @@ pub struct UpdateUnreadMessageCount {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Total number of unread messages
-  unread_count: i32,
+  unread_count: i64,
   /// Total number of unread messages in unmuted chats
-  unread_unmuted_count: i32,
+  unread_unmuted_count: i64,
   
 }
 
@@ -4342,9 +4342,9 @@ impl UpdateUnreadMessageCount {
     RTDUpdateUnreadMessageCountBuilder { inner }
   }
 
-  pub fn unread_count(&self) -> i32 { self.unread_count }
+  pub fn unread_count(&self) -> i64 { self.unread_count }
 
-  pub fn unread_unmuted_count(&self) -> i32 { self.unread_unmuted_count }
+  pub fn unread_unmuted_count(&self) -> i64 { self.unread_unmuted_count }
 
 }
 
@@ -4357,13 +4357,13 @@ impl RTDUpdateUnreadMessageCountBuilder {
   pub fn build(&self) -> UpdateUnreadMessageCount { self.inner.clone() }
 
    
-  pub fn unread_count(&mut self, unread_count: i32) -> &mut Self {
+  pub fn unread_count(&mut self, unread_count: i64) -> &mut Self {
     self.inner.unread_count = unread_count;
     self
   }
 
    
-  pub fn unread_unmuted_count(&mut self, unread_unmuted_count: i32) -> &mut Self {
+  pub fn unread_unmuted_count(&mut self, unread_unmuted_count: i64) -> &mut Self {
     self.inner.unread_unmuted_count = unread_unmuted_count;
     self
   }
@@ -4391,13 +4391,13 @@ pub struct UpdateUnreadChatCount {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Total number of unread chats
-  unread_count: i32,
+  unread_count: i64,
   /// Total number of unread unmuted chats
-  unread_unmuted_count: i32,
+  unread_unmuted_count: i64,
   /// Total number of chats marked as unread
-  marked_as_unread_count: i32,
+  marked_as_unread_count: i64,
   /// Total number of unmuted chats marked as unread
-  marked_as_unread_unmuted_count: i32,
+  marked_as_unread_unmuted_count: i64,
   
 }
 
@@ -4419,13 +4419,13 @@ impl UpdateUnreadChatCount {
     RTDUpdateUnreadChatCountBuilder { inner }
   }
 
-  pub fn unread_count(&self) -> i32 { self.unread_count }
+  pub fn unread_count(&self) -> i64 { self.unread_count }
 
-  pub fn unread_unmuted_count(&self) -> i32 { self.unread_unmuted_count }
+  pub fn unread_unmuted_count(&self) -> i64 { self.unread_unmuted_count }
 
-  pub fn marked_as_unread_count(&self) -> i32 { self.marked_as_unread_count }
+  pub fn marked_as_unread_count(&self) -> i64 { self.marked_as_unread_count }
 
-  pub fn marked_as_unread_unmuted_count(&self) -> i32 { self.marked_as_unread_unmuted_count }
+  pub fn marked_as_unread_unmuted_count(&self) -> i64 { self.marked_as_unread_unmuted_count }
 
 }
 
@@ -4438,25 +4438,25 @@ impl RTDUpdateUnreadChatCountBuilder {
   pub fn build(&self) -> UpdateUnreadChatCount { self.inner.clone() }
 
    
-  pub fn unread_count(&mut self, unread_count: i32) -> &mut Self {
+  pub fn unread_count(&mut self, unread_count: i64) -> &mut Self {
     self.inner.unread_count = unread_count;
     self
   }
 
    
-  pub fn unread_unmuted_count(&mut self, unread_unmuted_count: i32) -> &mut Self {
+  pub fn unread_unmuted_count(&mut self, unread_unmuted_count: i64) -> &mut Self {
     self.inner.unread_unmuted_count = unread_unmuted_count;
     self
   }
 
    
-  pub fn marked_as_unread_count(&mut self, marked_as_unread_count: i32) -> &mut Self {
+  pub fn marked_as_unread_count(&mut self, marked_as_unread_count: i64) -> &mut Self {
     self.inner.marked_as_unread_count = marked_as_unread_count;
     self
   }
 
    
-  pub fn marked_as_unread_unmuted_count(&mut self, marked_as_unread_unmuted_count: i32) -> &mut Self {
+  pub fn marked_as_unread_unmuted_count(&mut self, marked_as_unread_unmuted_count: i64) -> &mut Self {
     self.inner.marked_as_unread_unmuted_count = marked_as_unread_unmuted_count;
     self
   }
@@ -4559,7 +4559,7 @@ pub struct UpdateInstalledStickerSets {
   /// True, if the list of installed mask sticker sets was updated
   is_masks: bool,
   /// The new list of installed ordinary sticker sets
-  sticker_set_ids: Vec<i64>,
+  sticker_set_ids: Vec<isize>,
   
 }
 
@@ -4583,7 +4583,7 @@ impl UpdateInstalledStickerSets {
 
   pub fn is_masks(&self) -> bool { self.is_masks }
 
-  pub fn sticker_set_ids(&self) -> &Vec<i64> { &self.sticker_set_ids }
+  pub fn sticker_set_ids(&self) -> &Vec<isize> { &self.sticker_set_ids }
 
 }
 
@@ -4602,7 +4602,7 @@ impl RTDUpdateInstalledStickerSetsBuilder {
   }
 
    
-  pub fn sticker_set_ids(&mut self, sticker_set_ids: Vec<i64>) -> &mut Self {
+  pub fn sticker_set_ids(&mut self, sticker_set_ids: Vec<isize>) -> &mut Self {
     self.inner.sticker_set_ids = sticker_set_ids;
     self
   }
@@ -4695,7 +4695,7 @@ pub struct UpdateRecentStickers {
   /// True, if the list of stickers attached to photo or video files was updated, otherwise the list of sent stickers is updated
   is_attached: bool,
   /// The new list of file identifiers of recently used stickers
-  sticker_ids: Vec<i32>,
+  sticker_ids: Vec<i64>,
   
 }
 
@@ -4719,7 +4719,7 @@ impl UpdateRecentStickers {
 
   pub fn is_attached(&self) -> bool { self.is_attached }
 
-  pub fn sticker_ids(&self) -> &Vec<i32> { &self.sticker_ids }
+  pub fn sticker_ids(&self) -> &Vec<i64> { &self.sticker_ids }
 
 }
 
@@ -4738,7 +4738,7 @@ impl RTDUpdateRecentStickersBuilder {
   }
 
    
-  pub fn sticker_ids(&mut self, sticker_ids: Vec<i32>) -> &mut Self {
+  pub fn sticker_ids(&mut self, sticker_ids: Vec<i64>) -> &mut Self {
     self.inner.sticker_ids = sticker_ids;
     self
   }
@@ -4766,7 +4766,7 @@ pub struct UpdateFavoriteStickers {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// The new list of file identifiers of favorite stickers
-  sticker_ids: Vec<i32>,
+  sticker_ids: Vec<i64>,
   
 }
 
@@ -4788,7 +4788,7 @@ impl UpdateFavoriteStickers {
     RTDUpdateFavoriteStickersBuilder { inner }
   }
 
-  pub fn sticker_ids(&self) -> &Vec<i32> { &self.sticker_ids }
+  pub fn sticker_ids(&self) -> &Vec<i64> { &self.sticker_ids }
 
 }
 
@@ -4801,7 +4801,7 @@ impl RTDUpdateFavoriteStickersBuilder {
   pub fn build(&self) -> UpdateFavoriteStickers { self.inner.clone() }
 
    
-  pub fn sticker_ids(&mut self, sticker_ids: Vec<i32>) -> &mut Self {
+  pub fn sticker_ids(&mut self, sticker_ids: Vec<i64>) -> &mut Self {
     self.inner.sticker_ids = sticker_ids;
     self
   }
@@ -4829,7 +4829,7 @@ pub struct UpdateSavedAnimations {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// The new list of file identifiers of saved animations
-  animation_ids: Vec<i32>,
+  animation_ids: Vec<i64>,
   
 }
 
@@ -4851,7 +4851,7 @@ impl UpdateSavedAnimations {
     RTDUpdateSavedAnimationsBuilder { inner }
   }
 
-  pub fn animation_ids(&self) -> &Vec<i32> { &self.animation_ids }
+  pub fn animation_ids(&self) -> &Vec<i64> { &self.animation_ids }
 
 }
 
@@ -4864,7 +4864,7 @@ impl RTDUpdateSavedAnimationsBuilder {
   pub fn build(&self) -> UpdateSavedAnimations { self.inner.clone() }
 
    
-  pub fn animation_ids(&mut self, animation_ids: Vec<i32>) -> &mut Self {
+  pub fn animation_ids(&mut self, animation_ids: Vec<i64>) -> &mut Self {
     self.inner.animation_ids = animation_ids;
     self
   }
@@ -5111,9 +5111,9 @@ pub struct UpdateNewInlineQuery {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique query identifier
-  id: i64,
+  id: isize,
   /// Identifier of the user who sent the query
-  sender_user_id: i32,
+  sender_user_id: i64,
   /// User location, provided by the client; may be null
   user_location: Option<Location>,
   /// Text of the query
@@ -5141,9 +5141,9 @@ impl UpdateNewInlineQuery {
     RTDUpdateNewInlineQueryBuilder { inner }
   }
 
-  pub fn id(&self) -> i64 { self.id }
+  pub fn id(&self) -> isize { self.id }
 
-  pub fn sender_user_id(&self) -> i32 { self.sender_user_id }
+  pub fn sender_user_id(&self) -> i64 { self.sender_user_id }
 
   pub fn user_location(&self) -> &Option<Location> { &self.user_location }
 
@@ -5162,13 +5162,13 @@ impl RTDUpdateNewInlineQueryBuilder {
   pub fn build(&self) -> UpdateNewInlineQuery { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i64) -> &mut Self {
+  pub fn id(&mut self, id: isize) -> &mut Self {
     self.inner.id = id;
     self
   }
 
    
-  pub fn sender_user_id(&mut self, sender_user_id: i32) -> &mut Self {
+  pub fn sender_user_id(&mut self, sender_user_id: i64) -> &mut Self {
     self.inner.sender_user_id = sender_user_id;
     self
   }
@@ -5214,7 +5214,7 @@ pub struct UpdateNewChosenInlineResult {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the user who sent the query
-  sender_user_id: i32,
+  sender_user_id: i64,
   /// User location, provided by the client; may be null
   user_location: Option<Location>,
   /// Text of the query
@@ -5244,7 +5244,7 @@ impl UpdateNewChosenInlineResult {
     RTDUpdateNewChosenInlineResultBuilder { inner }
   }
 
-  pub fn sender_user_id(&self) -> i32 { self.sender_user_id }
+  pub fn sender_user_id(&self) -> i64 { self.sender_user_id }
 
   pub fn user_location(&self) -> &Option<Location> { &self.user_location }
 
@@ -5265,7 +5265,7 @@ impl RTDUpdateNewChosenInlineResultBuilder {
   pub fn build(&self) -> UpdateNewChosenInlineResult { self.inner.clone() }
 
    
-  pub fn sender_user_id(&mut self, sender_user_id: i32) -> &mut Self {
+  pub fn sender_user_id(&mut self, sender_user_id: i64) -> &mut Self {
     self.inner.sender_user_id = sender_user_id;
     self
   }
@@ -5317,15 +5317,15 @@ pub struct UpdateNewCallbackQuery {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique query identifier
-  id: i64,
+  id: isize,
   /// Identifier of the user who sent the query
-  sender_user_id: i32,
+  sender_user_id: i64,
   /// Identifier of the chat, in which the query was sent
-  chat_id: i32,
+  chat_id: i64,
   /// Identifier of the message, from which the query originated
-  message_id: i32,
+  message_id: i64,
   /// Identifier that uniquely corresponds to the chat to which the message was sent
-  chat_instance: i64,
+  chat_instance: isize,
   /// Query payload
   payload: CallbackQueryPayload,
   
@@ -5349,15 +5349,15 @@ impl UpdateNewCallbackQuery {
     RTDUpdateNewCallbackQueryBuilder { inner }
   }
 
-  pub fn id(&self) -> i64 { self.id }
+  pub fn id(&self) -> isize { self.id }
 
-  pub fn sender_user_id(&self) -> i32 { self.sender_user_id }
+  pub fn sender_user_id(&self) -> i64 { self.sender_user_id }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn message_id(&self) -> i32 { self.message_id }
+  pub fn message_id(&self) -> i64 { self.message_id }
 
-  pub fn chat_instance(&self) -> i64 { self.chat_instance }
+  pub fn chat_instance(&self) -> isize { self.chat_instance }
 
   pub fn payload(&self) -> &CallbackQueryPayload { &self.payload }
 
@@ -5372,31 +5372,31 @@ impl RTDUpdateNewCallbackQueryBuilder {
   pub fn build(&self) -> UpdateNewCallbackQuery { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i64) -> &mut Self {
+  pub fn id(&mut self, id: isize) -> &mut Self {
     self.inner.id = id;
     self
   }
 
    
-  pub fn sender_user_id(&mut self, sender_user_id: i32) -> &mut Self {
+  pub fn sender_user_id(&mut self, sender_user_id: i64) -> &mut Self {
     self.inner.sender_user_id = sender_user_id;
     self
   }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn message_id(&mut self, message_id: i32) -> &mut Self {
+  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
     self.inner.message_id = message_id;
     self
   }
 
    
-  pub fn chat_instance(&mut self, chat_instance: i64) -> &mut Self {
+  pub fn chat_instance(&mut self, chat_instance: isize) -> &mut Self {
     self.inner.chat_instance = chat_instance;
     self
   }
@@ -5430,13 +5430,13 @@ pub struct UpdateNewInlineCallbackQuery {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique query identifier
-  id: i64,
+  id: isize,
   /// Identifier of the user who sent the query
-  sender_user_id: i32,
+  sender_user_id: i64,
   /// Identifier of the inline message, from which the query originated
   inline_message_id: String,
   /// An identifier uniquely corresponding to the chat a message was sent to
-  chat_instance: i64,
+  chat_instance: isize,
   /// Query payload
   payload: CallbackQueryPayload,
   
@@ -5460,13 +5460,13 @@ impl UpdateNewInlineCallbackQuery {
     RTDUpdateNewInlineCallbackQueryBuilder { inner }
   }
 
-  pub fn id(&self) -> i64 { self.id }
+  pub fn id(&self) -> isize { self.id }
 
-  pub fn sender_user_id(&self) -> i32 { self.sender_user_id }
+  pub fn sender_user_id(&self) -> i64 { self.sender_user_id }
 
   pub fn inline_message_id(&self) -> &String { &self.inline_message_id }
 
-  pub fn chat_instance(&self) -> i64 { self.chat_instance }
+  pub fn chat_instance(&self) -> isize { self.chat_instance }
 
   pub fn payload(&self) -> &CallbackQueryPayload { &self.payload }
 
@@ -5481,13 +5481,13 @@ impl RTDUpdateNewInlineCallbackQueryBuilder {
   pub fn build(&self) -> UpdateNewInlineCallbackQuery { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i64) -> &mut Self {
+  pub fn id(&mut self, id: isize) -> &mut Self {
     self.inner.id = id;
     self
   }
 
    
-  pub fn sender_user_id(&mut self, sender_user_id: i32) -> &mut Self {
+  pub fn sender_user_id(&mut self, sender_user_id: i64) -> &mut Self {
     self.inner.sender_user_id = sender_user_id;
     self
   }
@@ -5499,7 +5499,7 @@ impl RTDUpdateNewInlineCallbackQueryBuilder {
   }
 
    
-  pub fn chat_instance(&mut self, chat_instance: i64) -> &mut Self {
+  pub fn chat_instance(&mut self, chat_instance: isize) -> &mut Self {
     self.inner.chat_instance = chat_instance;
     self
   }
@@ -5533,9 +5533,9 @@ pub struct UpdateNewShippingQuery {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique query identifier
-  id: i64,
+  id: isize,
   /// Identifier of the user who sent the query
-  sender_user_id: i32,
+  sender_user_id: i64,
   /// Invoice payload
   invoice_payload: String,
   /// User shipping address
@@ -5561,9 +5561,9 @@ impl UpdateNewShippingQuery {
     RTDUpdateNewShippingQueryBuilder { inner }
   }
 
-  pub fn id(&self) -> i64 { self.id }
+  pub fn id(&self) -> isize { self.id }
 
-  pub fn sender_user_id(&self) -> i32 { self.sender_user_id }
+  pub fn sender_user_id(&self) -> i64 { self.sender_user_id }
 
   pub fn invoice_payload(&self) -> &String { &self.invoice_payload }
 
@@ -5580,13 +5580,13 @@ impl RTDUpdateNewShippingQueryBuilder {
   pub fn build(&self) -> UpdateNewShippingQuery { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i64) -> &mut Self {
+  pub fn id(&mut self, id: isize) -> &mut Self {
     self.inner.id = id;
     self
   }
 
    
-  pub fn sender_user_id(&mut self, sender_user_id: i32) -> &mut Self {
+  pub fn sender_user_id(&mut self, sender_user_id: i64) -> &mut Self {
     self.inner.sender_user_id = sender_user_id;
     self
   }
@@ -5626,13 +5626,13 @@ pub struct UpdateNewPreCheckoutQuery {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique query identifier
-  id: i64,
+  id: isize,
   /// Identifier of the user who sent the query
-  sender_user_id: i32,
+  sender_user_id: i64,
   /// Currency for the product price
   currency: String,
   /// Total price for the product, in the minimal quantity of the currency
-  total_amount: i32,
+  total_amount: i64,
   /// Invoice payload
   invoice_payload: String,
   /// Identifier of a shipping option chosen by the user; may be empty if not applicable
@@ -5660,13 +5660,13 @@ impl UpdateNewPreCheckoutQuery {
     RTDUpdateNewPreCheckoutQueryBuilder { inner }
   }
 
-  pub fn id(&self) -> i64 { self.id }
+  pub fn id(&self) -> isize { self.id }
 
-  pub fn sender_user_id(&self) -> i32 { self.sender_user_id }
+  pub fn sender_user_id(&self) -> i64 { self.sender_user_id }
 
   pub fn currency(&self) -> &String { &self.currency }
 
-  pub fn total_amount(&self) -> i32 { self.total_amount }
+  pub fn total_amount(&self) -> i64 { self.total_amount }
 
   pub fn invoice_payload(&self) -> &String { &self.invoice_payload }
 
@@ -5685,13 +5685,13 @@ impl RTDUpdateNewPreCheckoutQueryBuilder {
   pub fn build(&self) -> UpdateNewPreCheckoutQuery { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i64) -> &mut Self {
+  pub fn id(&mut self, id: isize) -> &mut Self {
     self.inner.id = id;
     self
   }
 
    
-  pub fn sender_user_id(&mut self, sender_user_id: i32) -> &mut Self {
+  pub fn sender_user_id(&mut self, sender_user_id: i64) -> &mut Self {
     self.inner.sender_user_id = sender_user_id;
     self
   }
@@ -5703,7 +5703,7 @@ impl RTDUpdateNewPreCheckoutQueryBuilder {
   }
 
    
-  pub fn total_amount(&mut self, total_amount: i32) -> &mut Self {
+  pub fn total_amount(&mut self, total_amount: i64) -> &mut Self {
     self.inner.total_amount = total_amount;
     self
   }
@@ -5812,11 +5812,11 @@ pub struct UpdateNewCustomQuery {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// The query identifier
-  id: i64,
+  id: isize,
   /// JSON-serialized query data
   data: String,
   /// Query timeout
-  timeout: i32,
+  timeout: i64,
   
 }
 
@@ -5838,11 +5838,11 @@ impl UpdateNewCustomQuery {
     RTDUpdateNewCustomQueryBuilder { inner }
   }
 
-  pub fn id(&self) -> i64 { self.id }
+  pub fn id(&self) -> isize { self.id }
 
   pub fn data(&self) -> &String { &self.data }
 
-  pub fn timeout(&self) -> i32 { self.timeout }
+  pub fn timeout(&self) -> i64 { self.timeout }
 
 }
 
@@ -5855,7 +5855,7 @@ impl RTDUpdateNewCustomQueryBuilder {
   pub fn build(&self) -> UpdateNewCustomQuery { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i64) -> &mut Self {
+  pub fn id(&mut self, id: isize) -> &mut Self {
     self.inner.id = id;
     self
   }
@@ -5867,7 +5867,7 @@ impl RTDUpdateNewCustomQueryBuilder {
   }
 
    
-  pub fn timeout(&mut self, timeout: i32) -> &mut Self {
+  pub fn timeout(&mut self, timeout: i64) -> &mut Self {
     self.inner.timeout = timeout;
     self
   }

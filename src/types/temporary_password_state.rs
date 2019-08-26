@@ -14,7 +14,7 @@ pub struct TemporaryPasswordState {
   /// True, if a temporary password is available
   has_password: bool,
   /// Time left before the temporary password expires, in seconds
-  valid_for: i32,
+  valid_for: i64,
   
 }
 
@@ -35,7 +35,7 @@ impl TemporaryPasswordState {
 
   pub fn has_password(&self) -> bool { self.has_password }
 
-  pub fn valid_for(&self) -> i32 { self.valid_for }
+  pub fn valid_for(&self) -> i64 { self.valid_for }
 
 }
 
@@ -54,7 +54,7 @@ impl RTDTemporaryPasswordStateBuilder {
   }
 
    
-  pub fn valid_for(&mut self, valid_for: i32) -> &mut Self {
+  pub fn valid_for(&mut self, valid_for: i64) -> &mut Self {
     self.inner.valid_for = valid_for;
     self
   }

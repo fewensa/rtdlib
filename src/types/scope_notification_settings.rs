@@ -12,7 +12,7 @@ pub struct ScopeNotificationSettings {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Time left before notifications will be unmuted, in seconds
-  mute_for: i32,
+  mute_for: i64,
   /// The name of an audio file to be used for notification sounds; only applies to iOS applications
   sound: String,
   /// True, if message content should be displayed in notifications
@@ -39,7 +39,7 @@ impl ScopeNotificationSettings {
     RTDScopeNotificationSettingsBuilder { inner }
   }
 
-  pub fn mute_for(&self) -> i32 { self.mute_for }
+  pub fn mute_for(&self) -> i64 { self.mute_for }
 
   pub fn sound(&self) -> &String { &self.sound }
 
@@ -60,7 +60,7 @@ impl RTDScopeNotificationSettingsBuilder {
   pub fn build(&self) -> ScopeNotificationSettings { self.inner.clone() }
 
    
-  pub fn mute_for(&mut self, mute_for: i32) -> &mut Self {
+  pub fn mute_for(&mut self, mute_for: i64) -> &mut Self {
     self.inner.mute_for = mute_for;
     self
   }

@@ -304,11 +304,11 @@ pub struct InputMessageAnimation {
   /// Animation thumbnail, if available
   thumbnail: InputThumbnail,
   /// Duration of the animation, in seconds
-  duration: i32,
+  duration: i64,
   /// Width of the animation; may be replaced by the server
-  width: i32,
+  width: i64,
   /// Height of the animation; may be replaced by the server
-  height: i32,
+  height: i64,
   /// Animation caption; 0-GetOption("message_caption_length_max") characters
   caption: FormattedText,
   
@@ -336,11 +336,11 @@ impl InputMessageAnimation {
 
   pub fn thumbnail(&self) -> &InputThumbnail { &self.thumbnail }
 
-  pub fn duration(&self) -> i32 { self.duration }
+  pub fn duration(&self) -> i64 { self.duration }
 
-  pub fn width(&self) -> i32 { self.width }
+  pub fn width(&self) -> i64 { self.width }
 
-  pub fn height(&self) -> i32 { self.height }
+  pub fn height(&self) -> i64 { self.height }
 
   pub fn caption(&self) -> &FormattedText { &self.caption }
 
@@ -367,19 +367,19 @@ impl RTDInputMessageAnimationBuilder {
   }
 
    
-  pub fn duration(&mut self, duration: i32) -> &mut Self {
+  pub fn duration(&mut self, duration: i64) -> &mut Self {
     self.inner.duration = duration;
     self
   }
 
    
-  pub fn width(&mut self, width: i32) -> &mut Self {
+  pub fn width(&mut self, width: i64) -> &mut Self {
     self.inner.width = width;
     self
   }
 
    
-  pub fn height(&mut self, height: i32) -> &mut Self {
+  pub fn height(&mut self, height: i64) -> &mut Self {
     self.inner.height = height;
     self
   }
@@ -417,7 +417,7 @@ pub struct InputMessageAudio {
   /// Thumbnail of the cover for the album, if available
   album_cover_thumbnail: InputThumbnail,
   /// Duration of the audio, in seconds; may be replaced by the server
-  duration: i32,
+  duration: i64,
   /// Title of the audio; 0-64 characters; may be replaced by the server
   title: String,
   /// Performer of the audio; 0-64 characters, may be replaced by the server
@@ -449,7 +449,7 @@ impl InputMessageAudio {
 
   pub fn album_cover_thumbnail(&self) -> &InputThumbnail { &self.album_cover_thumbnail }
 
-  pub fn duration(&self) -> i32 { self.duration }
+  pub fn duration(&self) -> i64 { self.duration }
 
   pub fn title(&self) -> &String { &self.title }
 
@@ -480,7 +480,7 @@ impl RTDInputMessageAudioBuilder {
   }
 
    
-  pub fn duration(&mut self, duration: i32) -> &mut Self {
+  pub fn duration(&mut self, duration: i64) -> &mut Self {
     self.inner.duration = duration;
     self
   }
@@ -613,15 +613,15 @@ pub struct InputMessagePhoto {
   /// Photo thumbnail to be sent, this is sent to the other party in secret chats only
   thumbnail: InputThumbnail,
   /// File identifiers of the stickers added to the photo, if applicable
-  added_sticker_file_ids: Vec<i32>,
+  added_sticker_file_ids: Vec<i64>,
   /// Photo width
-  width: i32,
+  width: i64,
   /// Photo height
-  height: i32,
+  height: i64,
   /// Photo caption; 0-GetOption("message_caption_length_max") characters
   caption: FormattedText,
   /// Photo TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
-  ttl: i32,
+  ttl: i64,
   
 }
 
@@ -647,15 +647,15 @@ impl InputMessagePhoto {
 
   pub fn thumbnail(&self) -> &InputThumbnail { &self.thumbnail }
 
-  pub fn added_sticker_file_ids(&self) -> &Vec<i32> { &self.added_sticker_file_ids }
+  pub fn added_sticker_file_ids(&self) -> &Vec<i64> { &self.added_sticker_file_ids }
 
-  pub fn width(&self) -> i32 { self.width }
+  pub fn width(&self) -> i64 { self.width }
 
-  pub fn height(&self) -> i32 { self.height }
+  pub fn height(&self) -> i64 { self.height }
 
   pub fn caption(&self) -> &FormattedText { &self.caption }
 
-  pub fn ttl(&self) -> i32 { self.ttl }
+  pub fn ttl(&self) -> i64 { self.ttl }
 
 }
 
@@ -680,19 +680,19 @@ impl RTDInputMessagePhotoBuilder {
   }
 
    
-  pub fn added_sticker_file_ids(&mut self, added_sticker_file_ids: Vec<i32>) -> &mut Self {
+  pub fn added_sticker_file_ids(&mut self, added_sticker_file_ids: Vec<i64>) -> &mut Self {
     self.inner.added_sticker_file_ids = added_sticker_file_ids;
     self
   }
 
    
-  pub fn width(&mut self, width: i32) -> &mut Self {
+  pub fn width(&mut self, width: i64) -> &mut Self {
     self.inner.width = width;
     self
   }
 
    
-  pub fn height(&mut self, height: i32) -> &mut Self {
+  pub fn height(&mut self, height: i64) -> &mut Self {
     self.inner.height = height;
     self
   }
@@ -704,7 +704,7 @@ impl RTDInputMessagePhotoBuilder {
   }
 
    
-  pub fn ttl(&mut self, ttl: i32) -> &mut Self {
+  pub fn ttl(&mut self, ttl: i64) -> &mut Self {
     self.inner.ttl = ttl;
     self
   }
@@ -736,9 +736,9 @@ pub struct InputMessageSticker {
   /// Sticker thumbnail, if available
   thumbnail: InputThumbnail,
   /// Sticker width
-  width: i32,
+  width: i64,
   /// Sticker height
-  height: i32,
+  height: i64,
   
 }
 
@@ -764,9 +764,9 @@ impl InputMessageSticker {
 
   pub fn thumbnail(&self) -> &InputThumbnail { &self.thumbnail }
 
-  pub fn width(&self) -> i32 { self.width }
+  pub fn width(&self) -> i64 { self.width }
 
-  pub fn height(&self) -> i32 { self.height }
+  pub fn height(&self) -> i64 { self.height }
 
 }
 
@@ -791,13 +791,13 @@ impl RTDInputMessageStickerBuilder {
   }
 
    
-  pub fn width(&mut self, width: i32) -> &mut Self {
+  pub fn width(&mut self, width: i64) -> &mut Self {
     self.inner.width = width;
     self
   }
 
    
-  pub fn height(&mut self, height: i32) -> &mut Self {
+  pub fn height(&mut self, height: i64) -> &mut Self {
     self.inner.height = height;
     self
   }
@@ -829,19 +829,19 @@ pub struct InputMessageVideo {
   /// Video thumbnail, if available
   thumbnail: InputThumbnail,
   /// File identifiers of the stickers added to the video, if applicable
-  added_sticker_file_ids: Vec<i32>,
+  added_sticker_file_ids: Vec<i64>,
   /// Duration of the video, in seconds
-  duration: i32,
+  duration: i64,
   /// Video width
-  width: i32,
+  width: i64,
   /// Video height
-  height: i32,
+  height: i64,
   /// True, if the video should be tried to be streamed
   supports_streaming: bool,
   /// Video caption; 0-GetOption("message_caption_length_max") characters
   caption: FormattedText,
   /// Video TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
-  ttl: i32,
+  ttl: i64,
   
 }
 
@@ -867,19 +867,19 @@ impl InputMessageVideo {
 
   pub fn thumbnail(&self) -> &InputThumbnail { &self.thumbnail }
 
-  pub fn added_sticker_file_ids(&self) -> &Vec<i32> { &self.added_sticker_file_ids }
+  pub fn added_sticker_file_ids(&self) -> &Vec<i64> { &self.added_sticker_file_ids }
 
-  pub fn duration(&self) -> i32 { self.duration }
+  pub fn duration(&self) -> i64 { self.duration }
 
-  pub fn width(&self) -> i32 { self.width }
+  pub fn width(&self) -> i64 { self.width }
 
-  pub fn height(&self) -> i32 { self.height }
+  pub fn height(&self) -> i64 { self.height }
 
   pub fn supports_streaming(&self) -> bool { self.supports_streaming }
 
   pub fn caption(&self) -> &FormattedText { &self.caption }
 
-  pub fn ttl(&self) -> i32 { self.ttl }
+  pub fn ttl(&self) -> i64 { self.ttl }
 
 }
 
@@ -904,25 +904,25 @@ impl RTDInputMessageVideoBuilder {
   }
 
    
-  pub fn added_sticker_file_ids(&mut self, added_sticker_file_ids: Vec<i32>) -> &mut Self {
+  pub fn added_sticker_file_ids(&mut self, added_sticker_file_ids: Vec<i64>) -> &mut Self {
     self.inner.added_sticker_file_ids = added_sticker_file_ids;
     self
   }
 
    
-  pub fn duration(&mut self, duration: i32) -> &mut Self {
+  pub fn duration(&mut self, duration: i64) -> &mut Self {
     self.inner.duration = duration;
     self
   }
 
    
-  pub fn width(&mut self, width: i32) -> &mut Self {
+  pub fn width(&mut self, width: i64) -> &mut Self {
     self.inner.width = width;
     self
   }
 
    
-  pub fn height(&mut self, height: i32) -> &mut Self {
+  pub fn height(&mut self, height: i64) -> &mut Self {
     self.inner.height = height;
     self
   }
@@ -940,7 +940,7 @@ impl RTDInputMessageVideoBuilder {
   }
 
    
-  pub fn ttl(&mut self, ttl: i32) -> &mut Self {
+  pub fn ttl(&mut self, ttl: i64) -> &mut Self {
     self.inner.ttl = ttl;
     self
   }
@@ -972,9 +972,9 @@ pub struct InputMessageVideoNote {
   /// Video thumbnail, if available
   thumbnail: InputThumbnail,
   /// Duration of the video, in seconds
-  duration: i32,
+  duration: i64,
   /// Video width and height; must be positive and not greater than 640
-  length: i32,
+  length: i64,
   
 }
 
@@ -1000,9 +1000,9 @@ impl InputMessageVideoNote {
 
   pub fn thumbnail(&self) -> &InputThumbnail { &self.thumbnail }
 
-  pub fn duration(&self) -> i32 { self.duration }
+  pub fn duration(&self) -> i64 { self.duration }
 
-  pub fn length(&self) -> i32 { self.length }
+  pub fn length(&self) -> i64 { self.length }
 
 }
 
@@ -1027,13 +1027,13 @@ impl RTDInputMessageVideoNoteBuilder {
   }
 
    
-  pub fn duration(&mut self, duration: i32) -> &mut Self {
+  pub fn duration(&mut self, duration: i64) -> &mut Self {
     self.inner.duration = duration;
     self
   }
 
    
-  pub fn length(&mut self, length: i32) -> &mut Self {
+  pub fn length(&mut self, length: i64) -> &mut Self {
     self.inner.length = length;
     self
   }
@@ -1063,7 +1063,7 @@ pub struct InputMessageVoiceNote {
   /// Voice note to be sent
   voice_note: InputFile,
   /// Duration of the voice note, in seconds
-  duration: i32,
+  duration: i64,
   /// Waveform representation of the voice note, in 5-bit format
   waveform: String,
   /// Voice note caption; 0-GetOption("message_caption_length_max") characters
@@ -1091,7 +1091,7 @@ impl InputMessageVoiceNote {
 
   pub fn voice_note(&self) -> &InputFile { &self.voice_note }
 
-  pub fn duration(&self) -> i32 { self.duration }
+  pub fn duration(&self) -> i64 { self.duration }
 
   pub fn waveform(&self) -> &String { &self.waveform }
 
@@ -1114,7 +1114,7 @@ impl RTDInputMessageVoiceNoteBuilder {
   }
 
    
-  pub fn duration(&mut self, duration: i32) -> &mut Self {
+  pub fn duration(&mut self, duration: i64) -> &mut Self {
     self.inner.duration = duration;
     self
   }
@@ -1156,7 +1156,7 @@ pub struct InputMessageLocation {
   /// Location to be sent
   location: Location,
   /// Period for which the location can be updated, in seconds; should bebetween 60 and 86400 for a live location and 0 otherwise
-  live_period: i32,
+  live_period: i64,
   
 }
 
@@ -1180,7 +1180,7 @@ impl InputMessageLocation {
 
   pub fn location(&self) -> &Location { &self.location }
 
-  pub fn live_period(&self) -> i32 { self.live_period }
+  pub fn live_period(&self) -> i64 { self.live_period }
 
 }
 
@@ -1199,7 +1199,7 @@ impl RTDInputMessageLocationBuilder {
   }
 
    
-  pub fn live_period(&mut self, live_period: i32) -> &mut Self {
+  pub fn live_period(&mut self, live_period: i64) -> &mut Self {
     self.inner.live_period = live_period;
     self
   }
@@ -1353,7 +1353,7 @@ pub struct InputMessageGame {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// User identifier of the bot that owns the game
-  bot_user_id: i32,
+  bot_user_id: i64,
   /// Short name of the game
   game_short_name: String,
   
@@ -1377,7 +1377,7 @@ impl InputMessageGame {
     RTDInputMessageGameBuilder { inner }
   }
 
-  pub fn bot_user_id(&self) -> i32 { self.bot_user_id }
+  pub fn bot_user_id(&self) -> i64 { self.bot_user_id }
 
   pub fn game_short_name(&self) -> &String { &self.game_short_name }
 
@@ -1392,7 +1392,7 @@ impl RTDInputMessageGameBuilder {
   pub fn build(&self) -> InputMessageGame { self.inner.clone() }
 
    
-  pub fn bot_user_id(&mut self, bot_user_id: i32) -> &mut Self {
+  pub fn bot_user_id(&mut self, bot_user_id: i64) -> &mut Self {
     self.inner.bot_user_id = bot_user_id;
     self
   }
@@ -1434,11 +1434,11 @@ pub struct InputMessageInvoice {
   /// Product photo URL; optional
   photo_url: String,
   /// Product photo size
-  photo_size: i32,
+  photo_size: i64,
   /// Product photo width
-  photo_width: i32,
+  photo_width: i64,
   /// Product photo height
-  photo_height: i32,
+  photo_height: i64,
   /// The invoice payload
   payload: String,
   /// Payment provider token
@@ -1476,11 +1476,11 @@ impl InputMessageInvoice {
 
   pub fn photo_url(&self) -> &String { &self.photo_url }
 
-  pub fn photo_size(&self) -> i32 { self.photo_size }
+  pub fn photo_size(&self) -> i64 { self.photo_size }
 
-  pub fn photo_width(&self) -> i32 { self.photo_width }
+  pub fn photo_width(&self) -> i64 { self.photo_width }
 
-  pub fn photo_height(&self) -> i32 { self.photo_height }
+  pub fn photo_height(&self) -> i64 { self.photo_height }
 
   pub fn payload(&self) -> &String { &self.payload }
 
@@ -1525,19 +1525,19 @@ impl RTDInputMessageInvoiceBuilder {
   }
 
    
-  pub fn photo_size(&mut self, photo_size: i32) -> &mut Self {
+  pub fn photo_size(&mut self, photo_size: i64) -> &mut Self {
     self.inner.photo_size = photo_size;
     self
   }
 
    
-  pub fn photo_width(&mut self, photo_width: i32) -> &mut Self {
+  pub fn photo_width(&mut self, photo_width: i64) -> &mut Self {
     self.inner.photo_width = photo_width;
     self
   }
 
    
-  pub fn photo_height(&mut self, photo_height: i32) -> &mut Self {
+  pub fn photo_height(&mut self, photo_height: i64) -> &mut Self {
     self.inner.photo_height = photo_height;
     self
   }
@@ -1662,9 +1662,9 @@ pub struct InputMessageForwarded {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier for the chat this forwarded message came from
-  from_chat_id: i32,
+  from_chat_id: i64,
   /// Identifier of the message to forward
-  message_id: i32,
+  message_id: i64,
   /// True, if a game message should be shared within a launched game; applies only to game messages
   in_game_share: bool,
   
@@ -1688,9 +1688,9 @@ impl InputMessageForwarded {
     RTDInputMessageForwardedBuilder { inner }
   }
 
-  pub fn from_chat_id(&self) -> i32 { self.from_chat_id }
+  pub fn from_chat_id(&self) -> i64 { self.from_chat_id }
 
-  pub fn message_id(&self) -> i32 { self.message_id }
+  pub fn message_id(&self) -> i64 { self.message_id }
 
   pub fn in_game_share(&self) -> bool { self.in_game_share }
 
@@ -1705,13 +1705,13 @@ impl RTDInputMessageForwardedBuilder {
   pub fn build(&self) -> InputMessageForwarded { self.inner.clone() }
 
    
-  pub fn from_chat_id(&mut self, from_chat_id: i32) -> &mut Self {
+  pub fn from_chat_id(&mut self, from_chat_id: i64) -> &mut Self {
     self.inner.from_chat_id = from_chat_id;
     self
   }
 
    
-  pub fn message_id(&mut self, message_id: i32) -> &mut Self {
+  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
     self.inner.message_id = message_id;
     self
   }

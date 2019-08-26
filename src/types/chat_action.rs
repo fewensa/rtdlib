@@ -296,7 +296,7 @@ pub struct ChatActionUploadingVideo {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Upload progress, as a percentage
-  progress: i32,
+  progress: i64,
   
 }
 
@@ -318,7 +318,7 @@ impl ChatActionUploadingVideo {
     RTDChatActionUploadingVideoBuilder { inner }
   }
 
-  pub fn progress(&self) -> i32 { self.progress }
+  pub fn progress(&self) -> i64 { self.progress }
 
 }
 
@@ -331,7 +331,7 @@ impl RTDChatActionUploadingVideoBuilder {
   pub fn build(&self) -> ChatActionUploadingVideo { self.inner.clone() }
 
    
-  pub fn progress(&mut self, progress: i32) -> &mut Self {
+  pub fn progress(&mut self, progress: i64) -> &mut Self {
     self.inner.progress = progress;
     self
   }
@@ -412,7 +412,7 @@ pub struct ChatActionUploadingVoiceNote {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Upload progress, as a percentage
-  progress: i32,
+  progress: i64,
   
 }
 
@@ -434,7 +434,7 @@ impl ChatActionUploadingVoiceNote {
     RTDChatActionUploadingVoiceNoteBuilder { inner }
   }
 
-  pub fn progress(&self) -> i32 { self.progress }
+  pub fn progress(&self) -> i64 { self.progress }
 
 }
 
@@ -447,7 +447,7 @@ impl RTDChatActionUploadingVoiceNoteBuilder {
   pub fn build(&self) -> ChatActionUploadingVoiceNote { self.inner.clone() }
 
    
-  pub fn progress(&mut self, progress: i32) -> &mut Self {
+  pub fn progress(&mut self, progress: i64) -> &mut Self {
     self.inner.progress = progress;
     self
   }
@@ -475,7 +475,7 @@ pub struct ChatActionUploadingPhoto {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Upload progress, as a percentage
-  progress: i32,
+  progress: i64,
   
 }
 
@@ -497,7 +497,7 @@ impl ChatActionUploadingPhoto {
     RTDChatActionUploadingPhotoBuilder { inner }
   }
 
-  pub fn progress(&self) -> i32 { self.progress }
+  pub fn progress(&self) -> i64 { self.progress }
 
 }
 
@@ -510,7 +510,7 @@ impl RTDChatActionUploadingPhotoBuilder {
   pub fn build(&self) -> ChatActionUploadingPhoto { self.inner.clone() }
 
    
-  pub fn progress(&mut self, progress: i32) -> &mut Self {
+  pub fn progress(&mut self, progress: i64) -> &mut Self {
     self.inner.progress = progress;
     self
   }
@@ -538,7 +538,7 @@ pub struct ChatActionUploadingDocument {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Upload progress, as a percentage
-  progress: i32,
+  progress: i64,
   
 }
 
@@ -560,7 +560,7 @@ impl ChatActionUploadingDocument {
     RTDChatActionUploadingDocumentBuilder { inner }
   }
 
-  pub fn progress(&self) -> i32 { self.progress }
+  pub fn progress(&self) -> i64 { self.progress }
 
 }
 
@@ -573,7 +573,7 @@ impl RTDChatActionUploadingDocumentBuilder {
   pub fn build(&self) -> ChatActionUploadingDocument { self.inner.clone() }
 
    
-  pub fn progress(&mut self, progress: i32) -> &mut Self {
+  pub fn progress(&mut self, progress: i64) -> &mut Self {
     self.inner.progress = progress;
     self
   }
@@ -813,7 +813,7 @@ pub struct ChatActionUploadingVideoNote {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Upload progress, as a percentage
-  progress: i32,
+  progress: i64,
   
 }
 
@@ -835,7 +835,7 @@ impl ChatActionUploadingVideoNote {
     RTDChatActionUploadingVideoNoteBuilder { inner }
   }
 
-  pub fn progress(&self) -> i32 { self.progress }
+  pub fn progress(&self) -> i64 { self.progress }
 
 }
 
@@ -848,7 +848,7 @@ impl RTDChatActionUploadingVideoNoteBuilder {
   pub fn build(&self) -> ChatActionUploadingVideoNote { self.inner.clone() }
 
    
-  pub fn progress(&mut self, progress: i32) -> &mut Self {
+  pub fn progress(&mut self, progress: i64) -> &mut Self {
     self.inner.progress = progress;
     self
   }

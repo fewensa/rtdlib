@@ -22,7 +22,7 @@ pub struct UserFullInfo {
   /// For bots, the text that is included with the link when users share the bot
   share_text: String,
   /// Number of group chats where both the other user and the current user are a member; 0 for the current user
-  group_in_common_count: i32,
+  group_in_common_count: i64,
   /// If the user is a bot, information about the bot; may be null
   bot_info: Option<BotInfo>,
   
@@ -53,7 +53,7 @@ impl UserFullInfo {
 
   pub fn share_text(&self) -> &String { &self.share_text }
 
-  pub fn group_in_common_count(&self) -> i32 { self.group_in_common_count }
+  pub fn group_in_common_count(&self) -> i64 { self.group_in_common_count }
 
   pub fn bot_info(&self) -> &Option<BotInfo> { &self.bot_info }
 
@@ -98,7 +98,7 @@ impl RTDUserFullInfoBuilder {
   }
 
    
-  pub fn group_in_common_count(&mut self, group_in_common_count: i32) -> &mut Self {
+  pub fn group_in_common_count(&mut self, group_in_common_count: i64) -> &mut Self {
     self.inner.group_in_common_count = group_in_common_count;
     self
   }

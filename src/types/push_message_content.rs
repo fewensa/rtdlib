@@ -800,7 +800,7 @@ pub struct PushMessageContentGameScore {
   /// Game title, empty for pinned message
   title: String,
   /// New score, 0 for pinned message
-  score: i32,
+  score: i64,
   /// True, if the message is a pinned message with the specified content
   is_pinned: bool,
   
@@ -826,7 +826,7 @@ impl PushMessageContentGameScore {
 
   pub fn title(&self) -> &String { &self.title }
 
-  pub fn score(&self) -> i32 { self.score }
+  pub fn score(&self) -> i64 { self.score }
 
   pub fn is_pinned(&self) -> bool { self.is_pinned }
 
@@ -847,7 +847,7 @@ impl RTDPushMessageContentGameScoreBuilder {
   }
 
    
-  pub fn score(&mut self, score: i32) -> &mut Self {
+  pub fn score(&mut self, score: i64) -> &mut Self {
     self.inner.score = score;
     self
   }
@@ -2029,7 +2029,7 @@ pub struct PushMessageContentMessageForwards {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Number of forwarded messages
-  total_count: i32,
+  total_count: i64,
   
 }
 
@@ -2051,7 +2051,7 @@ impl PushMessageContentMessageForwards {
     RTDPushMessageContentMessageForwardsBuilder { inner }
   }
 
-  pub fn total_count(&self) -> i32 { self.total_count }
+  pub fn total_count(&self) -> i64 { self.total_count }
 
 }
 
@@ -2064,7 +2064,7 @@ impl RTDPushMessageContentMessageForwardsBuilder {
   pub fn build(&self) -> PushMessageContentMessageForwards { self.inner.clone() }
 
    
-  pub fn total_count(&mut self, total_count: i32) -> &mut Self {
+  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
     self.inner.total_count = total_count;
     self
   }
@@ -2092,7 +2092,7 @@ pub struct PushMessageContentMediaAlbum {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Number of messages in the album
-  total_count: i32,
+  total_count: i64,
   /// True, if the album has at least one photo
   has_photos: bool,
   /// True, if the album has at least one video
@@ -2118,7 +2118,7 @@ impl PushMessageContentMediaAlbum {
     RTDPushMessageContentMediaAlbumBuilder { inner }
   }
 
-  pub fn total_count(&self) -> i32 { self.total_count }
+  pub fn total_count(&self) -> i64 { self.total_count }
 
   pub fn has_photos(&self) -> bool { self.has_photos }
 
@@ -2135,7 +2135,7 @@ impl RTDPushMessageContentMediaAlbumBuilder {
   pub fn build(&self) -> PushMessageContentMediaAlbum { self.inner.clone() }
 
    
-  pub fn total_count(&mut self, total_count: i32) -> &mut Self {
+  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
     self.inner.total_count = total_count;
     self
   }

@@ -12,7 +12,7 @@ pub struct Messages {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Approximate total count of messages found
-  total_count: i32,
+  total_count: i64,
   /// List of messages; messages may be null
   messages: Option<Vec<Message>>,
   
@@ -33,7 +33,7 @@ impl Messages {
     RTDMessagesBuilder { inner }
   }
 
-  pub fn total_count(&self) -> i32 { self.total_count }
+  pub fn total_count(&self) -> i64 { self.total_count }
 
   pub fn messages(&self) -> &Option<Vec<Message>> { &self.messages }
 
@@ -48,7 +48,7 @@ impl RTDMessagesBuilder {
   pub fn build(&self) -> Messages { self.inner.clone() }
 
    
-  pub fn total_count(&mut self, total_count: i32) -> &mut Self {
+  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
     self.inner.total_count = total_count;
     self
   }

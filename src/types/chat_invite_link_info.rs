@@ -12,7 +12,7 @@ pub struct ChatInviteLinkInfo {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier of the invite link; 0 if the user is not a member of this chat
-  chat_id: i32,
+  chat_id: i64,
   /// Contains information about the type of the chat
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: ChatType,
   /// Title of the chat
@@ -20,9 +20,9 @@ pub struct ChatInviteLinkInfo {
   /// Chat photo; may be null
   photo: Option<ChatPhoto>,
   /// Number of members
-  member_count: i32,
+  member_count: i64,
   /// User identifiers of some chat members that may be known to the current user
-  member_user_ids: Vec<i32>,
+  member_user_ids: Vec<i64>,
   /// True, if the chat is a public supergroup or channel with a username
   is_public: bool,
   
@@ -43,7 +43,7 @@ impl ChatInviteLinkInfo {
     RTDChatInviteLinkInfoBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
   pub fn type_(&self) -> &ChatType { &self.type_ }
 
@@ -51,9 +51,9 @@ impl ChatInviteLinkInfo {
 
   pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
 
-  pub fn member_count(&self) -> i32 { self.member_count }
+  pub fn member_count(&self) -> i64 { self.member_count }
 
-  pub fn member_user_ids(&self) -> &Vec<i32> { &self.member_user_ids }
+  pub fn member_user_ids(&self) -> &Vec<i64> { &self.member_user_ids }
 
   pub fn is_public(&self) -> bool { self.is_public }
 
@@ -68,7 +68,7 @@ impl RTDChatInviteLinkInfoBuilder {
   pub fn build(&self) -> ChatInviteLinkInfo { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
@@ -92,13 +92,13 @@ impl RTDChatInviteLinkInfoBuilder {
   }
 
    
-  pub fn member_count(&mut self, member_count: i32) -> &mut Self {
+  pub fn member_count(&mut self, member_count: i64) -> &mut Self {
     self.inner.member_count = member_count;
     self
   }
 
    
-  pub fn member_user_ids(&mut self, member_user_ids: Vec<i32>) -> &mut Self {
+  pub fn member_user_ids(&mut self, member_user_ids: Vec<i64>) -> &mut Self {
     self.inner.member_user_ids = member_user_ids;
     self
   }

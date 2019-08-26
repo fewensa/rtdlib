@@ -12,13 +12,13 @@ pub struct Session {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Session identifier
-  id: i64,
+  id: isize,
   /// True, if this session is the current session
   is_current: bool,
   /// True, if a password is needed to complete authorization of the session
   is_password_pending: bool,
   /// Telegram API identifier, as provided by the application
-  api_id: i32,
+  api_id: i64,
   /// Name of the application, as provided by the application
   application_name: String,
   /// The version of the application, as provided by the application
@@ -32,9 +32,9 @@ pub struct Session {
   /// Version of the operating system the application has been run or is running on, as provided by the application
   system_version: String,
   /// Point in time (Unix timestamp) when the user has logged in
-  log_in_date: i32,
+  log_in_date: i64,
   /// Point in time (Unix timestamp) when the session was last used
-  last_active_date: i32,
+  last_active_date: i64,
   /// IP address from which the session was created, in human-readable format
   ip: String,
   /// A two-letter country code for the country from which the session was created, based on the IP address
@@ -59,13 +59,13 @@ impl Session {
     RTDSessionBuilder { inner }
   }
 
-  pub fn id(&self) -> i64 { self.id }
+  pub fn id(&self) -> isize { self.id }
 
   pub fn is_current(&self) -> bool { self.is_current }
 
   pub fn is_password_pending(&self) -> bool { self.is_password_pending }
 
-  pub fn api_id(&self) -> i32 { self.api_id }
+  pub fn api_id(&self) -> i64 { self.api_id }
 
   pub fn application_name(&self) -> &String { &self.application_name }
 
@@ -79,9 +79,9 @@ impl Session {
 
   pub fn system_version(&self) -> &String { &self.system_version }
 
-  pub fn log_in_date(&self) -> i32 { self.log_in_date }
+  pub fn log_in_date(&self) -> i64 { self.log_in_date }
 
-  pub fn last_active_date(&self) -> i32 { self.last_active_date }
+  pub fn last_active_date(&self) -> i64 { self.last_active_date }
 
   pub fn ip(&self) -> &String { &self.ip }
 
@@ -100,7 +100,7 @@ impl RTDSessionBuilder {
   pub fn build(&self) -> Session { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i64) -> &mut Self {
+  pub fn id(&mut self, id: isize) -> &mut Self {
     self.inner.id = id;
     self
   }
@@ -118,7 +118,7 @@ impl RTDSessionBuilder {
   }
 
    
-  pub fn api_id(&mut self, api_id: i32) -> &mut Self {
+  pub fn api_id(&mut self, api_id: i64) -> &mut Self {
     self.inner.api_id = api_id;
     self
   }
@@ -160,13 +160,13 @@ impl RTDSessionBuilder {
   }
 
    
-  pub fn log_in_date(&mut self, log_in_date: i32) -> &mut Self {
+  pub fn log_in_date(&mut self, log_in_date: i64) -> &mut Self {
     self.inner.log_in_date = log_in_date;
     self
   }
 
    
-  pub fn last_active_date(&mut self, last_active_date: i32) -> &mut Self {
+  pub fn last_active_date(&mut self, last_active_date: i64) -> &mut Self {
     self.inner.last_active_date = last_active_date;
     self
   }

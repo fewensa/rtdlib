@@ -14,7 +14,7 @@ pub struct ChatNotificationSettings {
   /// If true, mute_for is ignored and the value for the relevant type of chat is used instead
   use_default_mute_for: bool,
   /// Time left before notifications will be unmuted, in seconds
-  mute_for: i32,
+  mute_for: i64,
   /// If true, sound is ignored and the value for the relevant type of chat is used instead
   use_default_sound: bool,
   /// The name of an audio file to be used for notification sounds; only applies to iOS applications
@@ -51,7 +51,7 @@ impl ChatNotificationSettings {
 
   pub fn use_default_mute_for(&self) -> bool { self.use_default_mute_for }
 
-  pub fn mute_for(&self) -> i32 { self.mute_for }
+  pub fn mute_for(&self) -> i64 { self.mute_for }
 
   pub fn use_default_sound(&self) -> bool { self.use_default_sound }
 
@@ -86,7 +86,7 @@ impl RTDChatNotificationSettingsBuilder {
   }
 
    
-  pub fn mute_for(&mut self, mute_for: i32) -> &mut Self {
+  pub fn mute_for(&mut self, mute_for: i64) -> &mut Self {
     self.inner.mute_for = mute_for;
     self
   }

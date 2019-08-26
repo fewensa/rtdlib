@@ -14,7 +14,7 @@ pub struct FoundMessages {
   /// List of messages
   messages: Vec<Message>,
   /// Value to pass as from_search_id to get more results
-  next_from_search_id: i64,
+  next_from_search_id: isize,
   
 }
 
@@ -35,7 +35,7 @@ impl FoundMessages {
 
   pub fn messages(&self) -> &Vec<Message> { &self.messages }
 
-  pub fn next_from_search_id(&self) -> i64 { self.next_from_search_id }
+  pub fn next_from_search_id(&self) -> isize { self.next_from_search_id }
 
 }
 
@@ -54,7 +54,7 @@ impl RTDFoundMessagesBuilder {
   }
 
    
-  pub fn next_from_search_id(&mut self, next_from_search_id: i64) -> &mut Self {
+  pub fn next_from_search_id(&mut self, next_from_search_id: isize) -> &mut Self {
     self.inner.next_from_search_id = next_from_search_id;
     self
   }

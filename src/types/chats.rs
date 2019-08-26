@@ -12,7 +12,7 @@ pub struct Chats {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// List of chat identifiers
-  chat_ids: Vec<i32>,
+  chat_ids: Vec<i64>,
   
 }
 
@@ -31,7 +31,7 @@ impl Chats {
     RTDChatsBuilder { inner }
   }
 
-  pub fn chat_ids(&self) -> &Vec<i32> { &self.chat_ids }
+  pub fn chat_ids(&self) -> &Vec<i64> { &self.chat_ids }
 
 }
 
@@ -44,7 +44,7 @@ impl RTDChatsBuilder {
   pub fn build(&self) -> Chats { self.inner.clone() }
 
    
-  pub fn chat_ids(&mut self, chat_ids: Vec<i32>) -> &mut Self {
+  pub fn chat_ids(&mut self, chat_ids: Vec<i64>) -> &mut Self {
     self.inner.chat_ids = chat_ids;
     self
   }

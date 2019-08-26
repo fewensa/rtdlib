@@ -18,7 +18,7 @@ pub struct Poll {
   /// List of poll answer options
   options: Vec<PollOption>,
   /// Total number of voters, participating in the poll
-  total_voter_count: i32,
+  total_voter_count: i64,
   /// True, if the poll is closed
   is_closed: bool,
   
@@ -45,7 +45,7 @@ impl Poll {
 
   pub fn options(&self) -> &Vec<PollOption> { &self.options }
 
-  pub fn total_voter_count(&self) -> i32 { self.total_voter_count }
+  pub fn total_voter_count(&self) -> i64 { self.total_voter_count }
 
   pub fn is_closed(&self) -> bool { self.is_closed }
 
@@ -78,7 +78,7 @@ impl RTDPollBuilder {
   }
 
    
-  pub fn total_voter_count(&mut self, total_voter_count: i32) -> &mut Self {
+  pub fn total_voter_count(&mut self, total_voter_count: i64) -> &mut Self {
     self.inner.total_voter_count = total_voter_count;
     self
   }

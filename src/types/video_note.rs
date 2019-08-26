@@ -12,9 +12,9 @@ pub struct VideoNote {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Duration of the video, in seconds; as defined by the sender
-  duration: i32,
+  duration: i64,
   /// Video width and height; as defined by the sender
-  length: i32,
+  length: i64,
   /// Video thumbnail; as defined by the sender; may be null
   thumbnail: Option<PhotoSize>,
   /// File containing the video
@@ -37,9 +37,9 @@ impl VideoNote {
     RTDVideoNoteBuilder { inner }
   }
 
-  pub fn duration(&self) -> i32 { self.duration }
+  pub fn duration(&self) -> i64 { self.duration }
 
-  pub fn length(&self) -> i32 { self.length }
+  pub fn length(&self) -> i64 { self.length }
 
   pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
 
@@ -56,13 +56,13 @@ impl RTDVideoNoteBuilder {
   pub fn build(&self) -> VideoNote { self.inner.clone() }
 
    
-  pub fn duration(&mut self, duration: i32) -> &mut Self {
+  pub fn duration(&mut self, duration: i64) -> &mut Self {
     self.inner.duration = duration;
     self
   }
 
    
-  pub fn length(&mut self, length: i32) -> &mut Self {
+  pub fn length(&mut self, length: i64) -> &mut Self {
     self.inner.length = length;
     self
   }

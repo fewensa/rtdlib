@@ -12,7 +12,7 @@ pub struct CallId {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Call identifier
-  id: i32,
+  id: i64,
   
 }
 
@@ -31,7 +31,7 @@ impl CallId {
     RTDCallIdBuilder { inner }
   }
 
-  pub fn id(&self) -> i32 { self.id }
+  pub fn id(&self) -> i64 { self.id }
 
 }
 
@@ -44,7 +44,7 @@ impl RTDCallIdBuilder {
   pub fn build(&self) -> CallId { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i32) -> &mut Self {
+  pub fn id(&mut self, id: i64) -> &mut Self {
     self.inner.id = id;
     self
   }

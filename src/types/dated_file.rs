@@ -14,7 +14,7 @@ pub struct DatedFile {
   /// The file
   file: File,
   /// Point in time (Unix timestamp) when the file was uploaded
-  date: i32,
+  date: i64,
   
 }
 
@@ -35,7 +35,7 @@ impl DatedFile {
 
   pub fn file(&self) -> &File { &self.file }
 
-  pub fn date(&self) -> i32 { self.date }
+  pub fn date(&self) -> i64 { self.date }
 
 }
 
@@ -54,7 +54,7 @@ impl RTDDatedFileBuilder {
   }
 
    
-  pub fn date(&mut self, date: i32) -> &mut Self {
+  pub fn date(&mut self, date: i64) -> &mut Self {
     self.inner.date = date;
     self
   }

@@ -14,7 +14,7 @@ pub struct WebPageInstantView {
   /// Content of the web page
   page_blocks: Vec<PageBlock>,
   /// Version of the instant view, currently can be 1 or 2
-  version: i32,
+  version: i64,
   /// Instant view URL; may be different from WebPage.url and must be used for the correct anchors handling
   url: String,
   /// True, if the instant view must be shown from right to left
@@ -41,7 +41,7 @@ impl WebPageInstantView {
 
   pub fn page_blocks(&self) -> &Vec<PageBlock> { &self.page_blocks }
 
-  pub fn version(&self) -> i32 { self.version }
+  pub fn version(&self) -> i64 { self.version }
 
   pub fn url(&self) -> &String { &self.url }
 
@@ -66,7 +66,7 @@ impl RTDWebPageInstantViewBuilder {
   }
 
    
-  pub fn version(&mut self, version: i32) -> &mut Self {
+  pub fn version(&mut self, version: i64) -> &mut Self {
     self.inner.version = version;
     self
   }

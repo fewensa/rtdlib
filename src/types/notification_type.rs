@@ -225,7 +225,7 @@ pub struct NotificationTypeNewCall {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Call identifier
-  call_id: i32,
+  call_id: i64,
   
 }
 
@@ -247,7 +247,7 @@ impl NotificationTypeNewCall {
     RTDNotificationTypeNewCallBuilder { inner }
   }
 
-  pub fn call_id(&self) -> i32 { self.call_id }
+  pub fn call_id(&self) -> i64 { self.call_id }
 
 }
 
@@ -260,7 +260,7 @@ impl RTDNotificationTypeNewCallBuilder {
   pub fn build(&self) -> NotificationTypeNewCall { self.inner.clone() }
 
    
-  pub fn call_id(&mut self, call_id: i32) -> &mut Self {
+  pub fn call_id(&mut self, call_id: i64) -> &mut Self {
     self.inner.call_id = call_id;
     self
   }
@@ -288,9 +288,9 @@ pub struct NotificationTypeNewPushMessage {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// The message identifier. The message will not be available in the chat history, but the ID can be used in viewMessages and as reply_to_message_id
-  message_id: i32,
+  message_id: i64,
   /// Sender of the message. Corresponding user may be inaccessible
-  sender_user_id: i32,
+  sender_user_id: i64,
   /// Push message content
   content: PushMessageContent,
   
@@ -314,9 +314,9 @@ impl NotificationTypeNewPushMessage {
     RTDNotificationTypeNewPushMessageBuilder { inner }
   }
 
-  pub fn message_id(&self) -> i32 { self.message_id }
+  pub fn message_id(&self) -> i64 { self.message_id }
 
-  pub fn sender_user_id(&self) -> i32 { self.sender_user_id }
+  pub fn sender_user_id(&self) -> i64 { self.sender_user_id }
 
   pub fn content(&self) -> &PushMessageContent { &self.content }
 
@@ -331,13 +331,13 @@ impl RTDNotificationTypeNewPushMessageBuilder {
   pub fn build(&self) -> NotificationTypeNewPushMessage { self.inner.clone() }
 
    
-  pub fn message_id(&mut self, message_id: i32) -> &mut Self {
+  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
     self.inner.message_id = message_id;
     self
   }
 
    
-  pub fn sender_user_id(&mut self, sender_user_id: i32) -> &mut Self {
+  pub fn sender_user_id(&mut self, sender_user_id: i64) -> &mut Self {
     self.inner.sender_user_id = sender_user_id;
     self
   }

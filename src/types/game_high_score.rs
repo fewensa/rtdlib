@@ -12,11 +12,11 @@ pub struct GameHighScore {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Position in the high score table
-  position: i32,
+  position: i64,
   /// User identifier
-  user_id: i32,
+  user_id: i64,
   /// User score
-  score: i32,
+  score: i64,
   
 }
 
@@ -35,11 +35,11 @@ impl GameHighScore {
     RTDGameHighScoreBuilder { inner }
   }
 
-  pub fn position(&self) -> i32 { self.position }
+  pub fn position(&self) -> i64 { self.position }
 
-  pub fn user_id(&self) -> i32 { self.user_id }
+  pub fn user_id(&self) -> i64 { self.user_id }
 
-  pub fn score(&self) -> i32 { self.score }
+  pub fn score(&self) -> i64 { self.score }
 
 }
 
@@ -52,19 +52,19 @@ impl RTDGameHighScoreBuilder {
   pub fn build(&self) -> GameHighScore { self.inner.clone() }
 
    
-  pub fn position(&mut self, position: i32) -> &mut Self {
+  pub fn position(&mut self, position: i64) -> &mut Self {
     self.inner.position = position;
     self
   }
 
    
-  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
     self.inner.user_id = user_id;
     self
   }
 
    
-  pub fn score(&mut self, score: i32) -> &mut Self {
+  pub fn score(&mut self, score: i64) -> &mut Self {
     self.inner.score = score;
     self
   }

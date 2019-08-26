@@ -18,7 +18,7 @@ pub struct AuthenticationCodeInfo {
   /// Describes the way the next code will be sent to the user; may be null
   next_type: Option<AuthenticationCodeType>,
   /// Timeout before the code should be re-sent, in seconds
-  timeout: i32,
+  timeout: i64,
   
 }
 
@@ -43,7 +43,7 @@ impl AuthenticationCodeInfo {
 
   pub fn next_type(&self) -> &Option<AuthenticationCodeType> { &self.next_type }
 
-  pub fn timeout(&self) -> i32 { self.timeout }
+  pub fn timeout(&self) -> i64 { self.timeout }
 
 }
 
@@ -74,7 +74,7 @@ impl RTDAuthenticationCodeInfoBuilder {
   }
 
    
-  pub fn timeout(&mut self, timeout: i32) -> &mut Self {
+  pub fn timeout(&mut self, timeout: i64) -> &mut Self {
     self.inner.timeout = timeout;
     self
   }

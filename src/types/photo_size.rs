@@ -16,9 +16,9 @@ pub struct PhotoSize {
   /// Information about the photo file
   photo: File,
   /// Photo width
-  width: i32,
+  width: i64,
   /// Photo height
-  height: i32,
+  height: i64,
   
 }
 
@@ -41,9 +41,9 @@ impl PhotoSize {
 
   pub fn photo(&self) -> &File { &self.photo }
 
-  pub fn width(&self) -> i32 { self.width }
+  pub fn width(&self) -> i64 { self.width }
 
-  pub fn height(&self) -> i32 { self.height }
+  pub fn height(&self) -> i64 { self.height }
 
 }
 
@@ -68,13 +68,13 @@ impl RTDPhotoSizeBuilder {
   }
 
    
-  pub fn width(&mut self, width: i32) -> &mut Self {
+  pub fn width(&mut self, width: i64) -> &mut Self {
     self.inner.width = width;
     self
   }
 
    
-  pub fn height(&mut self, height: i32) -> &mut Self {
+  pub fn height(&mut self, height: i64) -> &mut Self {
     self.inner.height = height;
     self
   }

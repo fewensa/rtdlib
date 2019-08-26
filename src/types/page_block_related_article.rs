@@ -22,7 +22,7 @@ pub struct PageBlockRelatedArticle {
   /// Article author; may be empty
   author: String,
   /// Point in time (Unix timestamp) when the article was published; 0 if unknown
-  publish_date: i32,
+  publish_date: i64,
   
 }
 
@@ -51,7 +51,7 @@ impl PageBlockRelatedArticle {
 
   pub fn author(&self) -> &String { &self.author }
 
-  pub fn publish_date(&self) -> i32 { self.publish_date }
+  pub fn publish_date(&self) -> i64 { self.publish_date }
 
 }
 
@@ -94,7 +94,7 @@ impl RTDPageBlockRelatedArticleBuilder {
   }
 
    
-  pub fn publish_date(&mut self, publish_date: i32) -> &mut Self {
+  pub fn publish_date(&mut self, publish_date: i64) -> &mut Self {
     self.inner.publish_date = publish_date;
     self
   }

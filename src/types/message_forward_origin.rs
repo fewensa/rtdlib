@@ -100,7 +100,7 @@ pub struct MessageForwardOriginUser {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the user that originally sent the message
-  sender_user_id: i32,
+  sender_user_id: i64,
   
 }
 
@@ -122,7 +122,7 @@ impl MessageForwardOriginUser {
     RTDMessageForwardOriginUserBuilder { inner }
   }
 
-  pub fn sender_user_id(&self) -> i32 { self.sender_user_id }
+  pub fn sender_user_id(&self) -> i64 { self.sender_user_id }
 
 }
 
@@ -135,7 +135,7 @@ impl RTDMessageForwardOriginUserBuilder {
   pub fn build(&self) -> MessageForwardOriginUser { self.inner.clone() }
 
    
-  pub fn sender_user_id(&mut self, sender_user_id: i32) -> &mut Self {
+  pub fn sender_user_id(&mut self, sender_user_id: i64) -> &mut Self {
     self.inner.sender_user_id = sender_user_id;
     self
   }
@@ -226,9 +226,9 @@ pub struct MessageForwardOriginChannel {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the chat from which the message was originally forwarded
-  chat_id: i32,
+  chat_id: i64,
   /// Message identifier of the original message; 0 if unknown
-  message_id: i32,
+  message_id: i64,
   /// Original post author signature
   author_signature: String,
   
@@ -252,9 +252,9 @@ impl MessageForwardOriginChannel {
     RTDMessageForwardOriginChannelBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn message_id(&self) -> i32 { self.message_id }
+  pub fn message_id(&self) -> i64 { self.message_id }
 
   pub fn author_signature(&self) -> &String { &self.author_signature }
 
@@ -269,13 +269,13 @@ impl RTDMessageForwardOriginChannelBuilder {
   pub fn build(&self) -> MessageForwardOriginChannel { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn message_id(&mut self, message_id: i32) -> &mut Self {
+  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
     self.inner.message_id = message_id;
     self
   }

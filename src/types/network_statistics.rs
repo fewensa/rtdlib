@@ -12,7 +12,7 @@ pub struct NetworkStatistics {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Point in time (Unix timestamp) when the app began collecting statistics
-  since_date: i32,
+  since_date: i64,
   /// Network statistics entries
   entries: Vec<NetworkStatisticsEntry>,
   
@@ -33,7 +33,7 @@ impl NetworkStatistics {
     RTDNetworkStatisticsBuilder { inner }
   }
 
-  pub fn since_date(&self) -> i32 { self.since_date }
+  pub fn since_date(&self) -> i64 { self.since_date }
 
   pub fn entries(&self) -> &Vec<NetworkStatisticsEntry> { &self.entries }
 
@@ -48,7 +48,7 @@ impl RTDNetworkStatisticsBuilder {
   pub fn build(&self) -> NetworkStatistics { self.inner.clone() }
 
    
-  pub fn since_date(&mut self, since_date: i32) -> &mut Self {
+  pub fn since_date(&mut self, since_date: i64) -> &mut Self {
     self.inner.since_date = since_date;
     self
   }

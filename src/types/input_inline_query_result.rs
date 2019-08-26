@@ -198,11 +198,11 @@ pub struct InputInlineQueryResultAnimatedGif {
   /// The URL of the GIF-file (file size must not exceed 1MB)
   gif_url: String,
   /// Duration of the GIF, in seconds
-  gif_duration: i32,
+  gif_duration: i64,
   /// Width of the GIF
-  gif_width: i32,
+  gif_width: i64,
   /// Height of the GIF
-  gif_height: i32,
+  gif_height: i64,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAnimation, InputMessageLocation, InputMessageVenue or InputMessageContact
@@ -236,11 +236,11 @@ impl InputInlineQueryResultAnimatedGif {
 
   pub fn gif_url(&self) -> &String { &self.gif_url }
 
-  pub fn gif_duration(&self) -> i32 { self.gif_duration }
+  pub fn gif_duration(&self) -> i64 { self.gif_duration }
 
-  pub fn gif_width(&self) -> i32 { self.gif_width }
+  pub fn gif_width(&self) -> i64 { self.gif_width }
 
-  pub fn gif_height(&self) -> i32 { self.gif_height }
+  pub fn gif_height(&self) -> i64 { self.gif_height }
 
   pub fn reply_markup(&self) -> &ReplyMarkup { &self.reply_markup }
 
@@ -281,19 +281,19 @@ impl RTDInputInlineQueryResultAnimatedGifBuilder {
   }
 
    
-  pub fn gif_duration(&mut self, gif_duration: i32) -> &mut Self {
+  pub fn gif_duration(&mut self, gif_duration: i64) -> &mut Self {
     self.inner.gif_duration = gif_duration;
     self
   }
 
    
-  pub fn gif_width(&mut self, gif_width: i32) -> &mut Self {
+  pub fn gif_width(&mut self, gif_width: i64) -> &mut Self {
     self.inner.gif_width = gif_width;
     self
   }
 
    
-  pub fn gif_height(&mut self, gif_height: i32) -> &mut Self {
+  pub fn gif_height(&mut self, gif_height: i64) -> &mut Self {
     self.inner.gif_height = gif_height;
     self
   }
@@ -341,11 +341,11 @@ pub struct InputInlineQueryResultAnimatedMpeg4 {
   /// The URL of the MPEG4-file (file size must not exceed 1MB)
   mpeg4_url: String,
   /// Duration of the video, in seconds
-  mpeg4_duration: i32,
+  mpeg4_duration: i64,
   /// Width of the video
-  mpeg4_width: i32,
+  mpeg4_width: i64,
   /// Height of the video
-  mpeg4_height: i32,
+  mpeg4_height: i64,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAnimation, InputMessageLocation, InputMessageVenue or InputMessageContact
@@ -379,11 +379,11 @@ impl InputInlineQueryResultAnimatedMpeg4 {
 
   pub fn mpeg4_url(&self) -> &String { &self.mpeg4_url }
 
-  pub fn mpeg4_duration(&self) -> i32 { self.mpeg4_duration }
+  pub fn mpeg4_duration(&self) -> i64 { self.mpeg4_duration }
 
-  pub fn mpeg4_width(&self) -> i32 { self.mpeg4_width }
+  pub fn mpeg4_width(&self) -> i64 { self.mpeg4_width }
 
-  pub fn mpeg4_height(&self) -> i32 { self.mpeg4_height }
+  pub fn mpeg4_height(&self) -> i64 { self.mpeg4_height }
 
   pub fn reply_markup(&self) -> &ReplyMarkup { &self.reply_markup }
 
@@ -424,19 +424,19 @@ impl RTDInputInlineQueryResultAnimatedMpeg4Builder {
   }
 
    
-  pub fn mpeg4_duration(&mut self, mpeg4_duration: i32) -> &mut Self {
+  pub fn mpeg4_duration(&mut self, mpeg4_duration: i64) -> &mut Self {
     self.inner.mpeg4_duration = mpeg4_duration;
     self
   }
 
    
-  pub fn mpeg4_width(&mut self, mpeg4_width: i32) -> &mut Self {
+  pub fn mpeg4_width(&mut self, mpeg4_width: i64) -> &mut Self {
     self.inner.mpeg4_width = mpeg4_width;
     self
   }
 
    
-  pub fn mpeg4_height(&mut self, mpeg4_height: i32) -> &mut Self {
+  pub fn mpeg4_height(&mut self, mpeg4_height: i64) -> &mut Self {
     self.inner.mpeg4_height = mpeg4_height;
     self
   }
@@ -488,9 +488,9 @@ pub struct InputInlineQueryResultArticle {
   /// URL of the result thumbnail, if it exists
   thumbnail_url: String,
   /// Thumbnail width, if known
-  thumbnail_width: i32,
+  thumbnail_width: i64,
   /// Thumbnail height, if known
-  thumbnail_height: i32,
+  thumbnail_height: i64,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
@@ -528,9 +528,9 @@ impl InputInlineQueryResultArticle {
 
   pub fn thumbnail_url(&self) -> &String { &self.thumbnail_url }
 
-  pub fn thumbnail_width(&self) -> i32 { self.thumbnail_width }
+  pub fn thumbnail_width(&self) -> i64 { self.thumbnail_width }
 
-  pub fn thumbnail_height(&self) -> i32 { self.thumbnail_height }
+  pub fn thumbnail_height(&self) -> i64 { self.thumbnail_height }
 
   pub fn reply_markup(&self) -> &ReplyMarkup { &self.reply_markup }
 
@@ -583,13 +583,13 @@ impl RTDInputInlineQueryResultArticleBuilder {
   }
 
    
-  pub fn thumbnail_width(&mut self, thumbnail_width: i32) -> &mut Self {
+  pub fn thumbnail_width(&mut self, thumbnail_width: i64) -> &mut Self {
     self.inner.thumbnail_width = thumbnail_width;
     self
   }
 
    
-  pub fn thumbnail_height(&mut self, thumbnail_height: i32) -> &mut Self {
+  pub fn thumbnail_height(&mut self, thumbnail_height: i64) -> &mut Self {
     self.inner.thumbnail_height = thumbnail_height;
     self
   }
@@ -637,7 +637,7 @@ pub struct InputInlineQueryResultAudio {
   /// The URL of the audio file
   audio_url: String,
   /// Audio file duration, in seconds
-  audio_duration: i32,
+  audio_duration: i64,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAudio, InputMessageLocation, InputMessageVenue or InputMessageContact
@@ -671,7 +671,7 @@ impl InputInlineQueryResultAudio {
 
   pub fn audio_url(&self) -> &String { &self.audio_url }
 
-  pub fn audio_duration(&self) -> i32 { self.audio_duration }
+  pub fn audio_duration(&self) -> i64 { self.audio_duration }
 
   pub fn reply_markup(&self) -> &ReplyMarkup { &self.reply_markup }
 
@@ -712,7 +712,7 @@ impl RTDInputInlineQueryResultAudioBuilder {
   }
 
    
-  pub fn audio_duration(&mut self, audio_duration: i32) -> &mut Self {
+  pub fn audio_duration(&mut self, audio_duration: i64) -> &mut Self {
     self.inner.audio_duration = audio_duration;
     self
   }
@@ -758,9 +758,9 @@ pub struct InputInlineQueryResultContact {
   /// URL of the result thumbnail, if it exists
   thumbnail_url: String,
   /// Thumbnail width, if known
-  thumbnail_width: i32,
+  thumbnail_width: i64,
   /// Thumbnail height, if known
-  thumbnail_height: i32,
+  thumbnail_height: i64,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
@@ -792,9 +792,9 @@ impl InputInlineQueryResultContact {
 
   pub fn thumbnail_url(&self) -> &String { &self.thumbnail_url }
 
-  pub fn thumbnail_width(&self) -> i32 { self.thumbnail_width }
+  pub fn thumbnail_width(&self) -> i64 { self.thumbnail_width }
 
-  pub fn thumbnail_height(&self) -> i32 { self.thumbnail_height }
+  pub fn thumbnail_height(&self) -> i64 { self.thumbnail_height }
 
   pub fn reply_markup(&self) -> &ReplyMarkup { &self.reply_markup }
 
@@ -829,13 +829,13 @@ impl RTDInputInlineQueryResultContactBuilder {
   }
 
    
-  pub fn thumbnail_width(&mut self, thumbnail_width: i32) -> &mut Self {
+  pub fn thumbnail_width(&mut self, thumbnail_width: i64) -> &mut Self {
     self.inner.thumbnail_width = thumbnail_width;
     self
   }
 
    
-  pub fn thumbnail_height(&mut self, thumbnail_height: i32) -> &mut Self {
+  pub fn thumbnail_height(&mut self, thumbnail_height: i64) -> &mut Self {
     self.inner.thumbnail_height = thumbnail_height;
     self
   }
@@ -887,9 +887,9 @@ pub struct InputInlineQueryResultDocument {
   /// The URL of the file thumbnail, if it exists
   thumbnail_url: String,
   /// Width of the thumbnail
-  thumbnail_width: i32,
+  thumbnail_width: i64,
   /// Height of the thumbnail
-  thumbnail_height: i32,
+  thumbnail_height: i64,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageDocument, InputMessageLocation, InputMessageVenue or InputMessageContact
@@ -927,9 +927,9 @@ impl InputInlineQueryResultDocument {
 
   pub fn thumbnail_url(&self) -> &String { &self.thumbnail_url }
 
-  pub fn thumbnail_width(&self) -> i32 { self.thumbnail_width }
+  pub fn thumbnail_width(&self) -> i64 { self.thumbnail_width }
 
-  pub fn thumbnail_height(&self) -> i32 { self.thumbnail_height }
+  pub fn thumbnail_height(&self) -> i64 { self.thumbnail_height }
 
   pub fn reply_markup(&self) -> &ReplyMarkup { &self.reply_markup }
 
@@ -982,13 +982,13 @@ impl RTDInputInlineQueryResultDocumentBuilder {
   }
 
    
-  pub fn thumbnail_width(&mut self, thumbnail_width: i32) -> &mut Self {
+  pub fn thumbnail_width(&mut self, thumbnail_width: i64) -> &mut Self {
     self.inner.thumbnail_width = thumbnail_width;
     self
   }
 
    
-  pub fn thumbnail_height(&mut self, thumbnail_height: i32) -> &mut Self {
+  pub fn thumbnail_height(&mut self, thumbnail_height: i64) -> &mut Self {
     self.inner.thumbnail_height = thumbnail_height;
     self
   }
@@ -1115,15 +1115,15 @@ pub struct InputInlineQueryResultLocation {
   /// Location result
   location: Location,
   /// Amount of time relative to the message sent time until the location can be updated, in seconds
-  live_period: i32,
+  live_period: i64,
   /// Title of the result
   title: String,
   /// URL of the result thumbnail, if it exists
   thumbnail_url: String,
   /// Thumbnail width, if known
-  thumbnail_width: i32,
+  thumbnail_width: i64,
   /// Thumbnail height, if known
-  thumbnail_height: i32,
+  thumbnail_height: i64,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
@@ -1153,15 +1153,15 @@ impl InputInlineQueryResultLocation {
 
   pub fn location(&self) -> &Location { &self.location }
 
-  pub fn live_period(&self) -> i32 { self.live_period }
+  pub fn live_period(&self) -> i64 { self.live_period }
 
   pub fn title(&self) -> &String { &self.title }
 
   pub fn thumbnail_url(&self) -> &String { &self.thumbnail_url }
 
-  pub fn thumbnail_width(&self) -> i32 { self.thumbnail_width }
+  pub fn thumbnail_width(&self) -> i64 { self.thumbnail_width }
 
-  pub fn thumbnail_height(&self) -> i32 { self.thumbnail_height }
+  pub fn thumbnail_height(&self) -> i64 { self.thumbnail_height }
 
   pub fn reply_markup(&self) -> &ReplyMarkup { &self.reply_markup }
 
@@ -1190,7 +1190,7 @@ impl RTDInputInlineQueryResultLocationBuilder {
   }
 
    
-  pub fn live_period(&mut self, live_period: i32) -> &mut Self {
+  pub fn live_period(&mut self, live_period: i64) -> &mut Self {
     self.inner.live_period = live_period;
     self
   }
@@ -1208,13 +1208,13 @@ impl RTDInputInlineQueryResultLocationBuilder {
   }
 
    
-  pub fn thumbnail_width(&mut self, thumbnail_width: i32) -> &mut Self {
+  pub fn thumbnail_width(&mut self, thumbnail_width: i64) -> &mut Self {
     self.inner.thumbnail_width = thumbnail_width;
     self
   }
 
    
-  pub fn thumbnail_height(&mut self, thumbnail_height: i32) -> &mut Self {
+  pub fn thumbnail_height(&mut self, thumbnail_height: i64) -> &mut Self {
     self.inner.thumbnail_height = thumbnail_height;
     self
   }
@@ -1264,9 +1264,9 @@ pub struct InputInlineQueryResultPhoto {
   /// The URL of the JPEG photo (photo size must not exceed 5MB)
   photo_url: String,
   /// Width of the photo
-  photo_width: i32,
+  photo_width: i64,
   /// Height of the photo
-  photo_height: i32,
+  photo_height: i64,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessagePhoto, InputMessageLocation, InputMessageVenue or InputMessageContact
@@ -1302,9 +1302,9 @@ impl InputInlineQueryResultPhoto {
 
   pub fn photo_url(&self) -> &String { &self.photo_url }
 
-  pub fn photo_width(&self) -> i32 { self.photo_width }
+  pub fn photo_width(&self) -> i64 { self.photo_width }
 
-  pub fn photo_height(&self) -> i32 { self.photo_height }
+  pub fn photo_height(&self) -> i64 { self.photo_height }
 
   pub fn reply_markup(&self) -> &ReplyMarkup { &self.reply_markup }
 
@@ -1351,13 +1351,13 @@ impl RTDInputInlineQueryResultPhotoBuilder {
   }
 
    
-  pub fn photo_width(&mut self, photo_width: i32) -> &mut Self {
+  pub fn photo_width(&mut self, photo_width: i64) -> &mut Self {
     self.inner.photo_width = photo_width;
     self
   }
 
    
-  pub fn photo_height(&mut self, photo_height: i32) -> &mut Self {
+  pub fn photo_height(&mut self, photo_height: i64) -> &mut Self {
     self.inner.photo_height = photo_height;
     self
   }
@@ -1403,9 +1403,9 @@ pub struct InputInlineQueryResultSticker {
   /// The URL of the WEBP sticker (sticker file size must not exceed 5MB)
   sticker_url: String,
   /// Width of the sticker
-  sticker_width: i32,
+  sticker_width: i64,
   /// Height of the sticker
-  sticker_height: i32,
+  sticker_height: i64,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, inputMessageSticker, InputMessageLocation, InputMessageVenue or InputMessageContact
@@ -1437,9 +1437,9 @@ impl InputInlineQueryResultSticker {
 
   pub fn sticker_url(&self) -> &String { &self.sticker_url }
 
-  pub fn sticker_width(&self) -> i32 { self.sticker_width }
+  pub fn sticker_width(&self) -> i64 { self.sticker_width }
 
-  pub fn sticker_height(&self) -> i32 { self.sticker_height }
+  pub fn sticker_height(&self) -> i64 { self.sticker_height }
 
   pub fn reply_markup(&self) -> &ReplyMarkup { &self.reply_markup }
 
@@ -1474,13 +1474,13 @@ impl RTDInputInlineQueryResultStickerBuilder {
   }
 
    
-  pub fn sticker_width(&mut self, sticker_width: i32) -> &mut Self {
+  pub fn sticker_width(&mut self, sticker_width: i64) -> &mut Self {
     self.inner.sticker_width = sticker_width;
     self
   }
 
    
-  pub fn sticker_height(&mut self, sticker_height: i32) -> &mut Self {
+  pub fn sticker_height(&mut self, sticker_height: i64) -> &mut Self {
     self.inner.sticker_height = sticker_height;
     self
   }
@@ -1526,9 +1526,9 @@ pub struct InputInlineQueryResultVenue {
   /// URL of the result thumbnail, if it exists
   thumbnail_url: String,
   /// Thumbnail width, if known
-  thumbnail_width: i32,
+  thumbnail_width: i64,
   /// Thumbnail height, if known
-  thumbnail_height: i32,
+  thumbnail_height: i64,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
@@ -1560,9 +1560,9 @@ impl InputInlineQueryResultVenue {
 
   pub fn thumbnail_url(&self) -> &String { &self.thumbnail_url }
 
-  pub fn thumbnail_width(&self) -> i32 { self.thumbnail_width }
+  pub fn thumbnail_width(&self) -> i64 { self.thumbnail_width }
 
-  pub fn thumbnail_height(&self) -> i32 { self.thumbnail_height }
+  pub fn thumbnail_height(&self) -> i64 { self.thumbnail_height }
 
   pub fn reply_markup(&self) -> &ReplyMarkup { &self.reply_markup }
 
@@ -1597,13 +1597,13 @@ impl RTDInputInlineQueryResultVenueBuilder {
   }
 
    
-  pub fn thumbnail_width(&mut self, thumbnail_width: i32) -> &mut Self {
+  pub fn thumbnail_width(&mut self, thumbnail_width: i64) -> &mut Self {
     self.inner.thumbnail_width = thumbnail_width;
     self
   }
 
    
-  pub fn thumbnail_height(&mut self, thumbnail_height: i32) -> &mut Self {
+  pub fn thumbnail_height(&mut self, thumbnail_height: i64) -> &mut Self {
     self.inner.thumbnail_height = thumbnail_height;
     self
   }
@@ -1655,11 +1655,11 @@ pub struct InputInlineQueryResultVideo {
   /// MIME type of the content of the video URL, only "text/html" or "video/mp4" are currently supported
   mime_type: String,
   /// Width of the video
-  video_width: i32,
+  video_width: i64,
   /// Height of the video
-  video_height: i32,
+  video_height: i64,
   /// Video duration, in seconds
-  video_duration: i32,
+  video_duration: i64,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageVideo, InputMessageLocation, InputMessageVenue or InputMessageContact
@@ -1697,11 +1697,11 @@ impl InputInlineQueryResultVideo {
 
   pub fn mime_type(&self) -> &String { &self.mime_type }
 
-  pub fn video_width(&self) -> i32 { self.video_width }
+  pub fn video_width(&self) -> i64 { self.video_width }
 
-  pub fn video_height(&self) -> i32 { self.video_height }
+  pub fn video_height(&self) -> i64 { self.video_height }
 
-  pub fn video_duration(&self) -> i32 { self.video_duration }
+  pub fn video_duration(&self) -> i64 { self.video_duration }
 
   pub fn reply_markup(&self) -> &ReplyMarkup { &self.reply_markup }
 
@@ -1754,19 +1754,19 @@ impl RTDInputInlineQueryResultVideoBuilder {
   }
 
    
-  pub fn video_width(&mut self, video_width: i32) -> &mut Self {
+  pub fn video_width(&mut self, video_width: i64) -> &mut Self {
     self.inner.video_width = video_width;
     self
   }
 
    
-  pub fn video_height(&mut self, video_height: i32) -> &mut Self {
+  pub fn video_height(&mut self, video_height: i64) -> &mut Self {
     self.inner.video_height = video_height;
     self
   }
 
    
-  pub fn video_duration(&mut self, video_duration: i32) -> &mut Self {
+  pub fn video_duration(&mut self, video_duration: i64) -> &mut Self {
     self.inner.video_duration = video_duration;
     self
   }
@@ -1812,7 +1812,7 @@ pub struct InputInlineQueryResultVoiceNote {
   /// The URL of the voice note file
   voice_note_url: String,
   /// Duration of the voice note, in seconds
-  voice_note_duration: i32,
+  voice_note_duration: i64,
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
   /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageVoiceNote, InputMessageLocation, InputMessageVenue or InputMessageContact
@@ -1844,7 +1844,7 @@ impl InputInlineQueryResultVoiceNote {
 
   pub fn voice_note_url(&self) -> &String { &self.voice_note_url }
 
-  pub fn voice_note_duration(&self) -> i32 { self.voice_note_duration }
+  pub fn voice_note_duration(&self) -> i64 { self.voice_note_duration }
 
   pub fn reply_markup(&self) -> &ReplyMarkup { &self.reply_markup }
 
@@ -1879,7 +1879,7 @@ impl RTDInputInlineQueryResultVoiceNoteBuilder {
   }
 
    
-  pub fn voice_note_duration(&mut self, voice_note_duration: i32) -> &mut Self {
+  pub fn voice_note_duration(&mut self, voice_note_duration: i64) -> &mut Self {
     self.inner.voice_note_duration = voice_note_duration;
     self
   }

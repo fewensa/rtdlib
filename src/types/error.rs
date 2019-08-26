@@ -12,7 +12,7 @@ pub struct Error {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Error code; subject to future changes. If the error code is 406, the error message must not be processed in any way and must not be displayed to the user
-  code: i32,
+  code: i64,
   /// Error message; subject to future changes
   message: String,
   
@@ -33,7 +33,7 @@ impl Error {
     RTDErrorBuilder { inner }
   }
 
-  pub fn code(&self) -> i32 { self.code }
+  pub fn code(&self) -> i64 { self.code }
 
   pub fn message(&self) -> &String { &self.message }
 
@@ -48,7 +48,7 @@ impl RTDErrorBuilder {
   pub fn build(&self) -> Error { self.inner.clone() }
 
    
-  pub fn code(&mut self, code: i32) -> &mut Self {
+  pub fn code(&mut self, code: i64) -> &mut Self {
     self.inner.code = code;
     self
   }

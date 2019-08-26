@@ -12,13 +12,13 @@ pub struct Proxy {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique identifier of the proxy
-  id: i32,
+  id: i64,
   /// Proxy server IP address
   server: String,
   /// Proxy server port
-  port: i32,
+  port: i64,
   /// Point in time (Unix timestamp) when the proxy was last used; 0 if never
-  last_used_date: i32,
+  last_used_date: i64,
   /// True, if the proxy is enabled now
   is_enabled: bool,
   /// Type of the proxy
@@ -41,13 +41,13 @@ impl Proxy {
     RTDProxyBuilder { inner }
   }
 
-  pub fn id(&self) -> i32 { self.id }
+  pub fn id(&self) -> i64 { self.id }
 
   pub fn server(&self) -> &String { &self.server }
 
-  pub fn port(&self) -> i32 { self.port }
+  pub fn port(&self) -> i64 { self.port }
 
-  pub fn last_used_date(&self) -> i32 { self.last_used_date }
+  pub fn last_used_date(&self) -> i64 { self.last_used_date }
 
   pub fn is_enabled(&self) -> bool { self.is_enabled }
 
@@ -64,7 +64,7 @@ impl RTDProxyBuilder {
   pub fn build(&self) -> Proxy { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i32) -> &mut Self {
+  pub fn id(&mut self, id: i64) -> &mut Self {
     self.inner.id = id;
     self
   }
@@ -76,13 +76,13 @@ impl RTDProxyBuilder {
   }
 
    
-  pub fn port(&mut self, port: i32) -> &mut Self {
+  pub fn port(&mut self, port: i64) -> &mut Self {
     self.inner.port = port;
     self
   }
 
    
-  pub fn last_used_date(&mut self, last_used_date: i32) -> &mut Self {
+  pub fn last_used_date(&mut self, last_used_date: i64) -> &mut Self {
     self.inner.last_used_date = last_used_date;
     self
   }

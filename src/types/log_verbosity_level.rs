@@ -12,7 +12,7 @@ pub struct LogVerbosityLevel {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Log verbosity level
-  verbosity_level: i32,
+  verbosity_level: i64,
   
 }
 
@@ -31,7 +31,7 @@ impl LogVerbosityLevel {
     RTDLogVerbosityLevelBuilder { inner }
   }
 
-  pub fn verbosity_level(&self) -> i32 { self.verbosity_level }
+  pub fn verbosity_level(&self) -> i64 { self.verbosity_level }
 
 }
 
@@ -44,7 +44,7 @@ impl RTDLogVerbosityLevelBuilder {
   pub fn build(&self) -> LogVerbosityLevel { self.inner.clone() }
 
    
-  pub fn verbosity_level(&mut self, verbosity_level: i32) -> &mut Self {
+  pub fn verbosity_level(&mut self, verbosity_level: i64) -> &mut Self {
     self.inner.verbosity_level = verbosity_level;
     self
   }

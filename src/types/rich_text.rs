@@ -996,9 +996,9 @@ pub struct RichTextIcon {
   /// The image represented as a document. The image can be in GIF, JPEG or PNG format
   document: Document,
   /// Width of a bounding box in which the image should be shown, 0 if unknown
-  width: i32,
+  width: i64,
   /// Height of a bounding box in which the image should be shown, 0 if unknown
-  height: i32,
+  height: i64,
   
 }
 
@@ -1022,9 +1022,9 @@ impl RichTextIcon {
 
   pub fn document(&self) -> &Document { &self.document }
 
-  pub fn width(&self) -> i32 { self.width }
+  pub fn width(&self) -> i64 { self.width }
 
-  pub fn height(&self) -> i32 { self.height }
+  pub fn height(&self) -> i64 { self.height }
 
 }
 
@@ -1043,13 +1043,13 @@ impl RTDRichTextIconBuilder {
   }
 
    
-  pub fn width(&mut self, width: i32) -> &mut Self {
+  pub fn width(&mut self, width: i64) -> &mut Self {
     self.inner.width = width;
     self
   }
 
    
-  pub fn height(&mut self, height: i32) -> &mut Self {
+  pub fn height(&mut self, height: i64) -> &mut Self {
     self.inner.height = height;
     self
   }

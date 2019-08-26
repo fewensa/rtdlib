@@ -26,7 +26,7 @@ pub struct TdlibParameters {
   /// If set to true, support for secret chats will be enabled
   use_secret_chats: bool,
   /// Application identifier for Telegram API access, which can be obtained at https://my.telegram.org
-  api_id: i32,
+  api_id: i64,
   /// Application identifier hash for Telegram API access, which can be obtained at https://my.telegram.org
   api_hash: String,
   /// IETF language tag of the user's operating system language; must be non-empty
@@ -73,7 +73,7 @@ impl TdlibParameters {
 
   pub fn use_secret_chats(&self) -> bool { self.use_secret_chats }
 
-  pub fn api_id(&self) -> i32 { self.api_id }
+  pub fn api_id(&self) -> i64 { self.api_id }
 
   pub fn api_hash(&self) -> &String { &self.api_hash }
 
@@ -142,7 +142,7 @@ impl RTDTdlibParametersBuilder {
   }
 
    
-  pub fn api_id(&mut self, api_id: i32) -> &mut Self {
+  pub fn api_id(&mut self, api_id: i64) -> &mut Self {
     self.inner.api_id = api_id;
     self
   }

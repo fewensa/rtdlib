@@ -30,11 +30,11 @@ pub struct LanguagePackInfo {
   /// True, if the language pack is installed by the current user
   is_installed: bool,
   /// Total number of non-deleted strings from the language pack
-  total_string_count: i32,
+  total_string_count: i64,
   /// Total number of translated strings from the language pack
-  translated_string_count: i32,
+  translated_string_count: i64,
   /// Total number of non-deleted strings from the language pack available locally
-  local_string_count: i32,
+  local_string_count: i64,
   /// Link to language translation interface; empty for custom local language packs
   translation_url: String,
   
@@ -73,11 +73,11 @@ impl LanguagePackInfo {
 
   pub fn is_installed(&self) -> bool { self.is_installed }
 
-  pub fn total_string_count(&self) -> i32 { self.total_string_count }
+  pub fn total_string_count(&self) -> i64 { self.total_string_count }
 
-  pub fn translated_string_count(&self) -> i32 { self.translated_string_count }
+  pub fn translated_string_count(&self) -> i64 { self.translated_string_count }
 
-  pub fn local_string_count(&self) -> i32 { self.local_string_count }
+  pub fn local_string_count(&self) -> i64 { self.local_string_count }
 
   pub fn translation_url(&self) -> &String { &self.translation_url }
 
@@ -146,19 +146,19 @@ impl RTDLanguagePackInfoBuilder {
   }
 
    
-  pub fn total_string_count(&mut self, total_string_count: i32) -> &mut Self {
+  pub fn total_string_count(&mut self, total_string_count: i64) -> &mut Self {
     self.inner.total_string_count = total_string_count;
     self
   }
 
    
-  pub fn translated_string_count(&mut self, translated_string_count: i32) -> &mut Self {
+  pub fn translated_string_count(&mut self, translated_string_count: i64) -> &mut Self {
     self.inner.translated_string_count = translated_string_count;
     self
   }
 
    
-  pub fn local_string_count(&mut self, local_string_count: i32) -> &mut Self {
+  pub fn local_string_count(&mut self, local_string_count: i64) -> &mut Self {
     self.inner.local_string_count = local_string_count;
     self
   }

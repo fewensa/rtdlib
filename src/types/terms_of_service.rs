@@ -14,7 +14,7 @@ pub struct TermsOfService {
   /// Text of the terms of service
   text: FormattedText,
   /// Mininum age of a user to be able to accept the terms; 0 if any
-  min_user_age: i32,
+  min_user_age: i64,
   /// True, if a blocking popup with terms of service must be shown to the user
   show_popup: bool,
   
@@ -37,7 +37,7 @@ impl TermsOfService {
 
   pub fn text(&self) -> &FormattedText { &self.text }
 
-  pub fn min_user_age(&self) -> i32 { self.min_user_age }
+  pub fn min_user_age(&self) -> i64 { self.min_user_age }
 
   pub fn show_popup(&self) -> bool { self.show_popup }
 
@@ -58,7 +58,7 @@ impl RTDTermsOfServiceBuilder {
   }
 
    
-  pub fn min_user_age(&mut self, min_user_age: i32) -> &mut Self {
+  pub fn min_user_age(&mut self, min_user_age: i64) -> &mut Self {
     self.inner.min_user_age = min_user_age;
     self
   }

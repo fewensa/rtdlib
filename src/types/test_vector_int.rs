@@ -12,7 +12,7 @@ pub struct TestVectorInt {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Vector of numbers
-  value: Vec<i32>,
+  value: Vec<i64>,
   
 }
 
@@ -31,7 +31,7 @@ impl TestVectorInt {
     RTDTestVectorIntBuilder { inner }
   }
 
-  pub fn value(&self) -> &Vec<i32> { &self.value }
+  pub fn value(&self) -> &Vec<i64> { &self.value }
 
 }
 
@@ -44,7 +44,7 @@ impl RTDTestVectorIntBuilder {
   pub fn build(&self) -> TestVectorInt { self.inner.clone() }
 
    
-  pub fn value(&mut self, value: Vec<i32>) -> &mut Self {
+  pub fn value(&mut self, value: Vec<i64>) -> &mut Self {
     self.inner.value = value;
     self
   }

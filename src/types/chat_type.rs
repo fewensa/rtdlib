@@ -109,7 +109,7 @@ pub struct ChatTypePrivate {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// User identifier
-  user_id: i32,
+  user_id: i64,
   
 }
 
@@ -131,7 +131,7 @@ impl ChatTypePrivate {
     RTDChatTypePrivateBuilder { inner }
   }
 
-  pub fn user_id(&self) -> i32 { self.user_id }
+  pub fn user_id(&self) -> i64 { self.user_id }
 
 }
 
@@ -144,7 +144,7 @@ impl RTDChatTypePrivateBuilder {
   pub fn build(&self) -> ChatTypePrivate { self.inner.clone() }
 
    
-  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
     self.inner.user_id = user_id;
     self
   }
@@ -172,7 +172,7 @@ pub struct ChatTypeBasicGroup {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Basic group identifier
-  basic_group_id: i32,
+  basic_group_id: i64,
   
 }
 
@@ -194,7 +194,7 @@ impl ChatTypeBasicGroup {
     RTDChatTypeBasicGroupBuilder { inner }
   }
 
-  pub fn basic_group_id(&self) -> i32 { self.basic_group_id }
+  pub fn basic_group_id(&self) -> i64 { self.basic_group_id }
 
 }
 
@@ -207,7 +207,7 @@ impl RTDChatTypeBasicGroupBuilder {
   pub fn build(&self) -> ChatTypeBasicGroup { self.inner.clone() }
 
    
-  pub fn basic_group_id(&mut self, basic_group_id: i32) -> &mut Self {
+  pub fn basic_group_id(&mut self, basic_group_id: i64) -> &mut Self {
     self.inner.basic_group_id = basic_group_id;
     self
   }
@@ -235,7 +235,7 @@ pub struct ChatTypeSupergroup {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Supergroup or channel identifier
-  supergroup_id: i32,
+  supergroup_id: i64,
   /// True, if the supergroup is a channel
   is_channel: bool,
   
@@ -259,7 +259,7 @@ impl ChatTypeSupergroup {
     RTDChatTypeSupergroupBuilder { inner }
   }
 
-  pub fn supergroup_id(&self) -> i32 { self.supergroup_id }
+  pub fn supergroup_id(&self) -> i64 { self.supergroup_id }
 
   pub fn is_channel(&self) -> bool { self.is_channel }
 
@@ -274,7 +274,7 @@ impl RTDChatTypeSupergroupBuilder {
   pub fn build(&self) -> ChatTypeSupergroup { self.inner.clone() }
 
    
-  pub fn supergroup_id(&mut self, supergroup_id: i32) -> &mut Self {
+  pub fn supergroup_id(&mut self, supergroup_id: i64) -> &mut Self {
     self.inner.supergroup_id = supergroup_id;
     self
   }
@@ -308,9 +308,9 @@ pub struct ChatTypeSecret {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Secret chat identifier
-  secret_chat_id: i32,
+  secret_chat_id: i64,
   /// User identifier of the secret chat peer
-  user_id: i32,
+  user_id: i64,
   
 }
 
@@ -332,9 +332,9 @@ impl ChatTypeSecret {
     RTDChatTypeSecretBuilder { inner }
   }
 
-  pub fn secret_chat_id(&self) -> i32 { self.secret_chat_id }
+  pub fn secret_chat_id(&self) -> i64 { self.secret_chat_id }
 
-  pub fn user_id(&self) -> i32 { self.user_id }
+  pub fn user_id(&self) -> i64 { self.user_id }
 
 }
 
@@ -347,13 +347,13 @@ impl RTDChatTypeSecretBuilder {
   pub fn build(&self) -> ChatTypeSecret { self.inner.clone() }
 
    
-  pub fn secret_chat_id(&mut self, secret_chat_id: i32) -> &mut Self {
+  pub fn secret_chat_id(&mut self, secret_chat_id: i64) -> &mut Self {
     self.inner.secret_chat_id = secret_chat_id;
     self
   }
 
    
-  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
     self.inner.user_id = user_id;
     self
   }

@@ -12,7 +12,7 @@ pub struct Audio {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Duration of the audio, in seconds; as defined by the sender
-  duration: i32,
+  duration: i64,
   /// Title of the audio; as defined by the sender
   title: String,
   /// Performer of the audio; as defined by the sender
@@ -43,7 +43,7 @@ impl Audio {
     RTDAudioBuilder { inner }
   }
 
-  pub fn duration(&self) -> i32 { self.duration }
+  pub fn duration(&self) -> i64 { self.duration }
 
   pub fn title(&self) -> &String { &self.title }
 
@@ -68,7 +68,7 @@ impl RTDAudioBuilder {
   pub fn build(&self) -> Audio { self.inner.clone() }
 
    
-  pub fn duration(&mut self, duration: i32) -> &mut Self {
+  pub fn duration(&mut self, duration: i64) -> &mut Self {
     self.inner.duration = duration;
     self
   }

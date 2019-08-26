@@ -12,7 +12,7 @@ pub struct AccountTtl {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Number of days of inactivity before the account will be flagged for deletion; should range from 30-366 days
-  days: i32,
+  days: i64,
   
 }
 
@@ -31,7 +31,7 @@ impl AccountTtl {
     RTDAccountTtlBuilder { inner }
   }
 
-  pub fn days(&self) -> i32 { self.days }
+  pub fn days(&self) -> i64 { self.days }
 
 }
 
@@ -44,7 +44,7 @@ impl RTDAccountTtlBuilder {
   pub fn build(&self) -> AccountTtl { self.inner.clone() }
 
    
-  pub fn days(&mut self, days: i32) -> &mut Self {
+  pub fn days(&mut self, days: i64) -> &mut Self {
     self.inner.days = days;
     self
   }

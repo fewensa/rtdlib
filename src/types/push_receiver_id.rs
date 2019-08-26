@@ -12,7 +12,7 @@ pub struct PushReceiverId {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// The globally unique identifier of push notification subscription
-  id: i64,
+  id: isize,
   
 }
 
@@ -31,7 +31,7 @@ impl PushReceiverId {
     RTDPushReceiverIdBuilder { inner }
   }
 
-  pub fn id(&self) -> i64 { self.id }
+  pub fn id(&self) -> isize { self.id }
 
 }
 
@@ -44,7 +44,7 @@ impl RTDPushReceiverIdBuilder {
   pub fn build(&self) -> PushReceiverId { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i64) -> &mut Self {
+  pub fn id(&mut self, id: isize) -> &mut Self {
     self.inner.id = id;
     self
   }

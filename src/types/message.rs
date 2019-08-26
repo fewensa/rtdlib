@@ -12,11 +12,11 @@ pub struct Message {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Message identifier, unique for the chat to which the message belongs
-  id: i32,
+  id: i64,
   /// Identifier of the user who sent the message; 0 if unknown. It is unknown for channel posts
-  sender_user_id: i32,
+  sender_user_id: i64,
   /// Chat identifier
-  chat_id: i32,
+  chat_id: i64,
   /// Information about the sending state of the message; may be null
   sending_state: Option<MessageSendingState>,
   /// True, if the message is outgoing
@@ -34,23 +34,23 @@ pub struct Message {
   /// True, if the message contains an unread mention for the current user
   contains_unread_mention: bool,
   /// Point in time (Unix timestamp) when the message was sent
-  date: i32,
+  date: i64,
   /// Point in time (Unix timestamp) when the message was last edited
-  edit_date: i32,
+  edit_date: i64,
   /// Information about the initial message sender; may be null
   forward_info: Option<MessageForwardInfo>,
   /// If non-zero, the identifier of the message this message is replying to; can be the identifier of a deleted message
-  reply_to_message_id: i32,
+  reply_to_message_id: i64,
   /// For self-destructing messages, the message's TTL (Time To Live), in seconds; 0 if none. TDLib will send updateDeleteMessages or updateMessageContent once the TTL expires
-  ttl: i32,
+  ttl: i64,
   /// Time left before the message expires, in seconds
   ttl_expires_in: f32,
   /// If non-zero, the user identifier of the bot through which this message was sent
-  via_bot_user_id: i32,
+  via_bot_user_id: i64,
   /// For channel posts, optional author signature
   author_signature: String,
   /// Number of times this message was viewed
-  views: i32,
+  views: i64,
   /// Unique identifier of an album this message belongs to. Only photos and videos can be grouped together in albums
   media_album_id: String,
   /// Content of the message
@@ -75,11 +75,11 @@ impl Message {
     RTDMessageBuilder { inner }
   }
 
-  pub fn id(&self) -> i32 { self.id }
+  pub fn id(&self) -> i64 { self.id }
 
-  pub fn sender_user_id(&self) -> i32 { self.sender_user_id }
+  pub fn sender_user_id(&self) -> i64 { self.sender_user_id }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
   pub fn sending_state(&self) -> &Option<MessageSendingState> { &self.sending_state }
 
@@ -97,23 +97,23 @@ impl Message {
 
   pub fn contains_unread_mention(&self) -> bool { self.contains_unread_mention }
 
-  pub fn date(&self) -> i32 { self.date }
+  pub fn date(&self) -> i64 { self.date }
 
-  pub fn edit_date(&self) -> i32 { self.edit_date }
+  pub fn edit_date(&self) -> i64 { self.edit_date }
 
   pub fn forward_info(&self) -> &Option<MessageForwardInfo> { &self.forward_info }
 
-  pub fn reply_to_message_id(&self) -> i32 { self.reply_to_message_id }
+  pub fn reply_to_message_id(&self) -> i64 { self.reply_to_message_id }
 
-  pub fn ttl(&self) -> i32 { self.ttl }
+  pub fn ttl(&self) -> i64 { self.ttl }
 
   pub fn ttl_expires_in(&self) -> f32 { self.ttl_expires_in }
 
-  pub fn via_bot_user_id(&self) -> i32 { self.via_bot_user_id }
+  pub fn via_bot_user_id(&self) -> i64 { self.via_bot_user_id }
 
   pub fn author_signature(&self) -> &String { &self.author_signature }
 
-  pub fn views(&self) -> i32 { self.views }
+  pub fn views(&self) -> i64 { self.views }
 
   pub fn media_album_id(&self) -> &String { &self.media_album_id }
 
@@ -132,19 +132,19 @@ impl RTDMessageBuilder {
   pub fn build(&self) -> Message { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i32) -> &mut Self {
+  pub fn id(&mut self, id: i64) -> &mut Self {
     self.inner.id = id;
     self
   }
 
    
-  pub fn sender_user_id(&mut self, sender_user_id: i32) -> &mut Self {
+  pub fn sender_user_id(&mut self, sender_user_id: i64) -> &mut Self {
     self.inner.sender_user_id = sender_user_id;
     self
   }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
@@ -198,13 +198,13 @@ impl RTDMessageBuilder {
   }
 
    
-  pub fn date(&mut self, date: i32) -> &mut Self {
+  pub fn date(&mut self, date: i64) -> &mut Self {
     self.inner.date = date;
     self
   }
 
    
-  pub fn edit_date(&mut self, edit_date: i32) -> &mut Self {
+  pub fn edit_date(&mut self, edit_date: i64) -> &mut Self {
     self.inner.edit_date = edit_date;
     self
   }
@@ -216,13 +216,13 @@ impl RTDMessageBuilder {
   }
 
    
-  pub fn reply_to_message_id(&mut self, reply_to_message_id: i32) -> &mut Self {
+  pub fn reply_to_message_id(&mut self, reply_to_message_id: i64) -> &mut Self {
     self.inner.reply_to_message_id = reply_to_message_id;
     self
   }
 
    
-  pub fn ttl(&mut self, ttl: i32) -> &mut Self {
+  pub fn ttl(&mut self, ttl: i64) -> &mut Self {
     self.inner.ttl = ttl;
     self
   }
@@ -234,7 +234,7 @@ impl RTDMessageBuilder {
   }
 
    
-  pub fn via_bot_user_id(&mut self, via_bot_user_id: i32) -> &mut Self {
+  pub fn via_bot_user_id(&mut self, via_bot_user_id: i64) -> &mut Self {
     self.inner.via_bot_user_id = via_bot_user_id;
     self
   }
@@ -246,7 +246,7 @@ impl RTDMessageBuilder {
   }
 
    
-  pub fn views(&mut self, views: i32) -> &mut Self {
+  pub fn views(&mut self, views: i64) -> &mut Self {
     self.inner.views = views;
     self
   }

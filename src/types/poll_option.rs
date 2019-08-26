@@ -14,9 +14,9 @@ pub struct PollOption {
   /// Option text, 1-100 characters
   text: String,
   /// Number of voters for this option, available only for closed or voted polls
-  voter_count: i32,
+  voter_count: i64,
   /// The percentage of votes for this option, 0-100
-  vote_percentage: i32,
+  vote_percentage: i64,
   /// True, if the option was chosen by the user
   is_chosen: bool,
   /// True, if the option is being chosen by a pending setPollAnswer request
@@ -41,9 +41,9 @@ impl PollOption {
 
   pub fn text(&self) -> &String { &self.text }
 
-  pub fn voter_count(&self) -> i32 { self.voter_count }
+  pub fn voter_count(&self) -> i64 { self.voter_count }
 
-  pub fn vote_percentage(&self) -> i32 { self.vote_percentage }
+  pub fn vote_percentage(&self) -> i64 { self.vote_percentage }
 
   pub fn is_chosen(&self) -> bool { self.is_chosen }
 
@@ -66,13 +66,13 @@ impl RTDPollOptionBuilder {
   }
 
    
-  pub fn voter_count(&mut self, voter_count: i32) -> &mut Self {
+  pub fn voter_count(&mut self, voter_count: i64) -> &mut Self {
     self.inner.voter_count = voter_count;
     self
   }
 
    
-  pub fn vote_percentage(&mut self, vote_percentage: i32) -> &mut Self {
+  pub fn vote_percentage(&mut self, vote_percentage: i64) -> &mut Self {
     self.inner.vote_percentage = vote_percentage;
     self
   }

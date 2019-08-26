@@ -1238,9 +1238,9 @@ pub struct MessageLocation {
   /// Message content
   location: Location,
   /// Time relative to the message sent date until which the location can be updated, in seconds
-  live_period: i32,
+  live_period: i64,
   /// Left time for which the location can be updated, in seconds. updateMessageContent is not sent when this field changes
-  expires_in: i32,
+  expires_in: i64,
   
 }
 
@@ -1264,9 +1264,9 @@ impl MessageLocation {
 
   pub fn location(&self) -> &Location { &self.location }
 
-  pub fn live_period(&self) -> i32 { self.live_period }
+  pub fn live_period(&self) -> i64 { self.live_period }
 
-  pub fn expires_in(&self) -> i32 { self.expires_in }
+  pub fn expires_in(&self) -> i64 { self.expires_in }
 
 }
 
@@ -1285,13 +1285,13 @@ impl RTDMessageLocationBuilder {
   }
 
    
-  pub fn live_period(&mut self, live_period: i32) -> &mut Self {
+  pub fn live_period(&mut self, live_period: i64) -> &mut Self {
     self.inner.live_period = live_period;
     self
   }
 
    
-  pub fn expires_in(&mut self, expires_in: i32) -> &mut Self {
+  pub fn expires_in(&mut self, expires_in: i64) -> &mut Self {
     self.inner.expires_in = expires_in;
     self
   }
@@ -1579,7 +1579,7 @@ pub struct MessageInvoice {
   /// Currency for the product price
   currency: String,
   /// Product total price in the minimal quantity of the currency
-  total_amount: i32,
+  total_amount: i64,
   /// Unique invoice bot start_parameter. To share an invoice use the URL https://t.me/{bot_username}?start={start_parameter}
   start_parameter: String,
   /// True, if the invoice is a test invoice
@@ -1587,7 +1587,7 @@ pub struct MessageInvoice {
   /// True, if the shipping address should be specified
   need_shipping_address: bool,
   /// The identifier of the message with the receipt, after the product has been purchased
-  receipt_message_id: i32,
+  receipt_message_id: i64,
   
 }
 
@@ -1617,7 +1617,7 @@ impl MessageInvoice {
 
   pub fn currency(&self) -> &String { &self.currency }
 
-  pub fn total_amount(&self) -> i32 { self.total_amount }
+  pub fn total_amount(&self) -> i64 { self.total_amount }
 
   pub fn start_parameter(&self) -> &String { &self.start_parameter }
 
@@ -1625,7 +1625,7 @@ impl MessageInvoice {
 
   pub fn need_shipping_address(&self) -> bool { self.need_shipping_address }
 
-  pub fn receipt_message_id(&self) -> i32 { self.receipt_message_id }
+  pub fn receipt_message_id(&self) -> i64 { self.receipt_message_id }
 
 }
 
@@ -1662,7 +1662,7 @@ impl RTDMessageInvoiceBuilder {
   }
 
    
-  pub fn total_amount(&mut self, total_amount: i32) -> &mut Self {
+  pub fn total_amount(&mut self, total_amount: i64) -> &mut Self {
     self.inner.total_amount = total_amount;
     self
   }
@@ -1686,7 +1686,7 @@ impl RTDMessageInvoiceBuilder {
   }
 
    
-  pub fn receipt_message_id(&mut self, receipt_message_id: i32) -> &mut Self {
+  pub fn receipt_message_id(&mut self, receipt_message_id: i64) -> &mut Self {
     self.inner.receipt_message_id = receipt_message_id;
     self
   }
@@ -1716,7 +1716,7 @@ pub struct MessageCall {
   /// Reason why the call was discarded
   discard_reason: CallDiscardReason,
   /// Call duration, in seconds
-  duration: i32,
+  duration: i64,
   
 }
 
@@ -1740,7 +1740,7 @@ impl MessageCall {
 
   pub fn discard_reason(&self) -> &CallDiscardReason { &self.discard_reason }
 
-  pub fn duration(&self) -> i32 { self.duration }
+  pub fn duration(&self) -> i64 { self.duration }
 
 }
 
@@ -1759,7 +1759,7 @@ impl RTDMessageCallBuilder {
   }
 
    
-  pub fn duration(&mut self, duration: i32) -> &mut Self {
+  pub fn duration(&mut self, duration: i64) -> &mut Self {
     self.inner.duration = duration;
     self
   }
@@ -1789,7 +1789,7 @@ pub struct MessageBasicGroupChatCreate {
   /// Title of the basic group
   title: String,
   /// User identifiers of members in the basic group
-  member_user_ids: Vec<i32>,
+  member_user_ids: Vec<i64>,
   
 }
 
@@ -1813,7 +1813,7 @@ impl MessageBasicGroupChatCreate {
 
   pub fn title(&self) -> &String { &self.title }
 
-  pub fn member_user_ids(&self) -> &Vec<i32> { &self.member_user_ids }
+  pub fn member_user_ids(&self) -> &Vec<i64> { &self.member_user_ids }
 
 }
 
@@ -1832,7 +1832,7 @@ impl RTDMessageBasicGroupChatCreateBuilder {
   }
 
    
-  pub fn member_user_ids(&mut self, member_user_ids: Vec<i32>) -> &mut Self {
+  pub fn member_user_ids(&mut self, member_user_ids: Vec<i64>) -> &mut Self {
     self.inner.member_user_ids = member_user_ids;
     self
   }
@@ -2102,7 +2102,7 @@ pub struct MessageChatAddMembers {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// User identifiers of the new members
-  member_user_ids: Vec<i32>,
+  member_user_ids: Vec<i64>,
   
 }
 
@@ -2124,7 +2124,7 @@ impl MessageChatAddMembers {
     RTDMessageChatAddMembersBuilder { inner }
   }
 
-  pub fn member_user_ids(&self) -> &Vec<i32> { &self.member_user_ids }
+  pub fn member_user_ids(&self) -> &Vec<i64> { &self.member_user_ids }
 
 }
 
@@ -2137,7 +2137,7 @@ impl RTDMessageChatAddMembersBuilder {
   pub fn build(&self) -> MessageChatAddMembers { self.inner.clone() }
 
    
-  pub fn member_user_ids(&mut self, member_user_ids: Vec<i32>) -> &mut Self {
+  pub fn member_user_ids(&mut self, member_user_ids: Vec<i64>) -> &mut Self {
     self.inner.member_user_ids = member_user_ids;
     self
   }
@@ -2218,7 +2218,7 @@ pub struct MessageChatDeleteMember {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// User identifier of the deleted chat member
-  user_id: i32,
+  user_id: i64,
   
 }
 
@@ -2240,7 +2240,7 @@ impl MessageChatDeleteMember {
     RTDMessageChatDeleteMemberBuilder { inner }
   }
 
-  pub fn user_id(&self) -> i32 { self.user_id }
+  pub fn user_id(&self) -> i64 { self.user_id }
 
 }
 
@@ -2253,7 +2253,7 @@ impl RTDMessageChatDeleteMemberBuilder {
   pub fn build(&self) -> MessageChatDeleteMember { self.inner.clone() }
 
    
-  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
     self.inner.user_id = user_id;
     self
   }
@@ -2281,7 +2281,7 @@ pub struct MessageChatUpgradeTo {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the supergroup to which the basic group was upgraded
-  supergroup_id: i32,
+  supergroup_id: i64,
   
 }
 
@@ -2303,7 +2303,7 @@ impl MessageChatUpgradeTo {
     RTDMessageChatUpgradeToBuilder { inner }
   }
 
-  pub fn supergroup_id(&self) -> i32 { self.supergroup_id }
+  pub fn supergroup_id(&self) -> i64 { self.supergroup_id }
 
 }
 
@@ -2316,7 +2316,7 @@ impl RTDMessageChatUpgradeToBuilder {
   pub fn build(&self) -> MessageChatUpgradeTo { self.inner.clone() }
 
    
-  pub fn supergroup_id(&mut self, supergroup_id: i32) -> &mut Self {
+  pub fn supergroup_id(&mut self, supergroup_id: i64) -> &mut Self {
     self.inner.supergroup_id = supergroup_id;
     self
   }
@@ -2346,7 +2346,7 @@ pub struct MessageChatUpgradeFrom {
   /// Title of the newly created supergroup
   title: String,
   /// The identifier of the original basic group
-  basic_group_id: i32,
+  basic_group_id: i64,
   
 }
 
@@ -2370,7 +2370,7 @@ impl MessageChatUpgradeFrom {
 
   pub fn title(&self) -> &String { &self.title }
 
-  pub fn basic_group_id(&self) -> i32 { self.basic_group_id }
+  pub fn basic_group_id(&self) -> i64 { self.basic_group_id }
 
 }
 
@@ -2389,7 +2389,7 @@ impl RTDMessageChatUpgradeFromBuilder {
   }
 
    
-  pub fn basic_group_id(&mut self, basic_group_id: i32) -> &mut Self {
+  pub fn basic_group_id(&mut self, basic_group_id: i64) -> &mut Self {
     self.inner.basic_group_id = basic_group_id;
     self
   }
@@ -2417,7 +2417,7 @@ pub struct MessagePinMessage {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the pinned message, can be an identifier of a deleted message or 0
-  message_id: i32,
+  message_id: i64,
   
 }
 
@@ -2439,7 +2439,7 @@ impl MessagePinMessage {
     RTDMessagePinMessageBuilder { inner }
   }
 
-  pub fn message_id(&self) -> i32 { self.message_id }
+  pub fn message_id(&self) -> i64 { self.message_id }
 
 }
 
@@ -2452,7 +2452,7 @@ impl RTDMessagePinMessageBuilder {
   pub fn build(&self) -> MessagePinMessage { self.inner.clone() }
 
    
-  pub fn message_id(&mut self, message_id: i32) -> &mut Self {
+  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
     self.inner.message_id = message_id;
     self
   }
@@ -2533,7 +2533,7 @@ pub struct MessageChatSetTtl {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// New TTL
-  ttl: i32,
+  ttl: i64,
   
 }
 
@@ -2555,7 +2555,7 @@ impl MessageChatSetTtl {
     RTDMessageChatSetTtlBuilder { inner }
   }
 
-  pub fn ttl(&self) -> i32 { self.ttl }
+  pub fn ttl(&self) -> i64 { self.ttl }
 
 }
 
@@ -2568,7 +2568,7 @@ impl RTDMessageChatSetTtlBuilder {
   pub fn build(&self) -> MessageChatSetTtl { self.inner.clone() }
 
    
-  pub fn ttl(&mut self, ttl: i32) -> &mut Self {
+  pub fn ttl(&mut self, ttl: i64) -> &mut Self {
     self.inner.ttl = ttl;
     self
   }
@@ -2659,11 +2659,11 @@ pub struct MessageGameScore {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the message with the game, can be an identifier of a deleted message
-  game_message_id: i32,
+  game_message_id: i64,
   /// Identifier of the game; may be different from the games presented in the message with the game
-  game_id: i64,
+  game_id: isize,
   /// New score
-  score: i32,
+  score: i64,
   
 }
 
@@ -2685,11 +2685,11 @@ impl MessageGameScore {
     RTDMessageGameScoreBuilder { inner }
   }
 
-  pub fn game_message_id(&self) -> i32 { self.game_message_id }
+  pub fn game_message_id(&self) -> i64 { self.game_message_id }
 
-  pub fn game_id(&self) -> i64 { self.game_id }
+  pub fn game_id(&self) -> isize { self.game_id }
 
-  pub fn score(&self) -> i32 { self.score }
+  pub fn score(&self) -> i64 { self.score }
 
 }
 
@@ -2702,19 +2702,19 @@ impl RTDMessageGameScoreBuilder {
   pub fn build(&self) -> MessageGameScore { self.inner.clone() }
 
    
-  pub fn game_message_id(&mut self, game_message_id: i32) -> &mut Self {
+  pub fn game_message_id(&mut self, game_message_id: i64) -> &mut Self {
     self.inner.game_message_id = game_message_id;
     self
   }
 
    
-  pub fn game_id(&mut self, game_id: i64) -> &mut Self {
+  pub fn game_id(&mut self, game_id: isize) -> &mut Self {
     self.inner.game_id = game_id;
     self
   }
 
    
-  pub fn score(&mut self, score: i32) -> &mut Self {
+  pub fn score(&mut self, score: i64) -> &mut Self {
     self.inner.score = score;
     self
   }
@@ -2742,11 +2742,11 @@ pub struct MessagePaymentSuccessful {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the message with the corresponding invoice; can be an identifier of a deleted message
-  invoice_message_id: i32,
+  invoice_message_id: i64,
   /// Currency for the price of the product
   currency: String,
   /// Total price for the product, in the minimal quantity of the currency
-  total_amount: i32,
+  total_amount: i64,
   
 }
 
@@ -2768,11 +2768,11 @@ impl MessagePaymentSuccessful {
     RTDMessagePaymentSuccessfulBuilder { inner }
   }
 
-  pub fn invoice_message_id(&self) -> i32 { self.invoice_message_id }
+  pub fn invoice_message_id(&self) -> i64 { self.invoice_message_id }
 
   pub fn currency(&self) -> &String { &self.currency }
 
-  pub fn total_amount(&self) -> i32 { self.total_amount }
+  pub fn total_amount(&self) -> i64 { self.total_amount }
 
 }
 
@@ -2785,7 +2785,7 @@ impl RTDMessagePaymentSuccessfulBuilder {
   pub fn build(&self) -> MessagePaymentSuccessful { self.inner.clone() }
 
    
-  pub fn invoice_message_id(&mut self, invoice_message_id: i32) -> &mut Self {
+  pub fn invoice_message_id(&mut self, invoice_message_id: i64) -> &mut Self {
     self.inner.invoice_message_id = invoice_message_id;
     self
   }
@@ -2797,7 +2797,7 @@ impl RTDMessagePaymentSuccessfulBuilder {
   }
 
    
-  pub fn total_amount(&mut self, total_amount: i32) -> &mut Self {
+  pub fn total_amount(&mut self, total_amount: i64) -> &mut Self {
     self.inner.total_amount = total_amount;
     self
   }
@@ -2825,11 +2825,11 @@ pub struct MessagePaymentSuccessfulBot {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the message with the corresponding invoice; can be an identifier of a deleted message
-  invoice_message_id: i32,
+  invoice_message_id: i64,
   /// Currency for price of the product
   currency: String,
   /// Total price for the product, in the minimal quantity of the currency
-  total_amount: i32,
+  total_amount: i64,
   /// Invoice payload
   invoice_payload: String,
   /// Identifier of the shipping option chosen by the user; may be empty if not applicable
@@ -2861,11 +2861,11 @@ impl MessagePaymentSuccessfulBot {
     RTDMessagePaymentSuccessfulBotBuilder { inner }
   }
 
-  pub fn invoice_message_id(&self) -> i32 { self.invoice_message_id }
+  pub fn invoice_message_id(&self) -> i64 { self.invoice_message_id }
 
   pub fn currency(&self) -> &String { &self.currency }
 
-  pub fn total_amount(&self) -> i32 { self.total_amount }
+  pub fn total_amount(&self) -> i64 { self.total_amount }
 
   pub fn invoice_payload(&self) -> &String { &self.invoice_payload }
 
@@ -2888,7 +2888,7 @@ impl RTDMessagePaymentSuccessfulBotBuilder {
   pub fn build(&self) -> MessagePaymentSuccessfulBot { self.inner.clone() }
 
    
-  pub fn invoice_message_id(&mut self, invoice_message_id: i32) -> &mut Self {
+  pub fn invoice_message_id(&mut self, invoice_message_id: i64) -> &mut Self {
     self.inner.invoice_message_id = invoice_message_id;
     self
   }
@@ -2900,7 +2900,7 @@ impl RTDMessagePaymentSuccessfulBotBuilder {
   }
 
    
-  pub fn total_amount(&mut self, total_amount: i32) -> &mut Self {
+  pub fn total_amount(&mut self, total_amount: i64) -> &mut Self {
     self.inner.total_amount = total_amount;
     self
   }

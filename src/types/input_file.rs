@@ -109,7 +109,7 @@ pub struct InputFileId {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique file identifier
-  id: i32,
+  id: i64,
   
 }
 
@@ -131,7 +131,7 @@ impl InputFileId {
     RTDInputFileIdBuilder { inner }
   }
 
-  pub fn id(&self) -> i32 { self.id }
+  pub fn id(&self) -> i64 { self.id }
 
 }
 
@@ -144,7 +144,7 @@ impl RTDInputFileIdBuilder {
   pub fn build(&self) -> InputFileId { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i32) -> &mut Self {
+  pub fn id(&mut self, id: i64) -> &mut Self {
     self.inner.id = id;
     self
   }
@@ -302,7 +302,7 @@ pub struct InputFileGenerated {
   /// String specifying the conversion applied to the original file; should be persistent across application restarts. Conversions beginning with '#' are reserved for internal TDLib usage
   conversion: String,
   /// Expected size of the generated file; 0 if unknown
-  expected_size: i32,
+  expected_size: i64,
   
 }
 
@@ -328,7 +328,7 @@ impl InputFileGenerated {
 
   pub fn conversion(&self) -> &String { &self.conversion }
 
-  pub fn expected_size(&self) -> i32 { self.expected_size }
+  pub fn expected_size(&self) -> i64 { self.expected_size }
 
 }
 
@@ -353,7 +353,7 @@ impl RTDInputFileGeneratedBuilder {
   }
 
    
-  pub fn expected_size(&mut self, expected_size: i32) -> &mut Self {
+  pub fn expected_size(&mut self, expected_size: i64) -> &mut Self {
     self.inner.expected_size = expected_size;
     self
   }

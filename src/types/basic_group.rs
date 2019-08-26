@@ -12,9 +12,9 @@ pub struct BasicGroup {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Group identifier
-  id: i32,
+  id: i64,
   /// Number of members in the group
-  member_count: i32,
+  member_count: i64,
   /// Status of the current user in the group
   status: ChatMemberStatus,
   /// True, if all members have been granted administrator rights in the group
@@ -22,7 +22,7 @@ pub struct BasicGroup {
   /// True, if the group is active
   is_active: bool,
   /// Identifier of the supergroup to which this group was upgraded; 0 if none
-  upgraded_to_supergroup_id: i32,
+  upgraded_to_supergroup_id: i64,
   
 }
 
@@ -41,9 +41,9 @@ impl BasicGroup {
     RTDBasicGroupBuilder { inner }
   }
 
-  pub fn id(&self) -> i32 { self.id }
+  pub fn id(&self) -> i64 { self.id }
 
-  pub fn member_count(&self) -> i32 { self.member_count }
+  pub fn member_count(&self) -> i64 { self.member_count }
 
   pub fn status(&self) -> &ChatMemberStatus { &self.status }
 
@@ -51,7 +51,7 @@ impl BasicGroup {
 
   pub fn is_active(&self) -> bool { self.is_active }
 
-  pub fn upgraded_to_supergroup_id(&self) -> i32 { self.upgraded_to_supergroup_id }
+  pub fn upgraded_to_supergroup_id(&self) -> i64 { self.upgraded_to_supergroup_id }
 
 }
 
@@ -64,13 +64,13 @@ impl RTDBasicGroupBuilder {
   pub fn build(&self) -> BasicGroup { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i32) -> &mut Self {
+  pub fn id(&mut self, id: i64) -> &mut Self {
     self.inner.id = id;
     self
   }
 
    
-  pub fn member_count(&mut self, member_count: i32) -> &mut Self {
+  pub fn member_count(&mut self, member_count: i64) -> &mut Self {
     self.inner.member_count = member_count;
     self
   }
@@ -94,7 +94,7 @@ impl RTDBasicGroupBuilder {
   }
 
    
-  pub fn upgraded_to_supergroup_id(&mut self, upgraded_to_supergroup_id: i32) -> &mut Self {
+  pub fn upgraded_to_supergroup_id(&mut self, upgraded_to_supergroup_id: i64) -> &mut Self {
     self.inner.upgraded_to_supergroup_id = upgraded_to_supergroup_id;
     self
   }

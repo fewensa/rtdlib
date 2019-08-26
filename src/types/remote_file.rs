@@ -18,7 +18,7 @@ pub struct RemoteFile {
   /// True, if a remote copy is fully available
   is_uploading_completed: bool,
   /// Size of the remote available part of the file; 0 if unknown
-  uploaded_size: i32,
+  uploaded_size: i64,
   
 }
 
@@ -43,7 +43,7 @@ impl RemoteFile {
 
   pub fn is_uploading_completed(&self) -> bool { self.is_uploading_completed }
 
-  pub fn uploaded_size(&self) -> i32 { self.uploaded_size }
+  pub fn uploaded_size(&self) -> i64 { self.uploaded_size }
 
 }
 
@@ -74,7 +74,7 @@ impl RTDRemoteFileBuilder {
   }
 
    
-  pub fn uploaded_size(&mut self, uploaded_size: i32) -> &mut Self {
+  pub fn uploaded_size(&mut self, uploaded_size: i64) -> &mut Self {
     self.inner.uploaded_size = uploaded_size;
     self
   }

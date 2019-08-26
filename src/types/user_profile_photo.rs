@@ -12,9 +12,9 @@ pub struct UserProfilePhoto {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Unique user profile photo identifier
-  id: i64,
+  id: isize,
   /// Point in time (Unix timestamp) when the photo has been added
-  added_date: i32,
+  added_date: i64,
   /// Available variants of the user photo, in different sizes
   sizes: Vec<PhotoSize>,
   
@@ -35,9 +35,9 @@ impl UserProfilePhoto {
     RTDUserProfilePhotoBuilder { inner }
   }
 
-  pub fn id(&self) -> i64 { self.id }
+  pub fn id(&self) -> isize { self.id }
 
-  pub fn added_date(&self) -> i32 { self.added_date }
+  pub fn added_date(&self) -> i64 { self.added_date }
 
   pub fn sizes(&self) -> &Vec<PhotoSize> { &self.sizes }
 
@@ -52,13 +52,13 @@ impl RTDUserProfilePhotoBuilder {
   pub fn build(&self) -> UserProfilePhoto { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i64) -> &mut Self {
+  pub fn id(&mut self, id: isize) -> &mut Self {
     self.inner.id = id;
     self
   }
 
    
-  pub fn added_date(&mut self, added_date: i32) -> &mut Self {
+  pub fn added_date(&mut self, added_date: i64) -> &mut Self {
     self.inner.added_date = added_date;
     self
   }

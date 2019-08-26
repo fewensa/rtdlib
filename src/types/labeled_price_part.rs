@@ -14,7 +14,7 @@ pub struct LabeledPricePart {
   /// Label for this portion of the product price
   label: String,
   /// Currency amount in minimal quantity of the currency
-  amount: i32,
+  amount: i64,
   
 }
 
@@ -35,7 +35,7 @@ impl LabeledPricePart {
 
   pub fn label(&self) -> &String { &self.label }
 
-  pub fn amount(&self) -> i32 { self.amount }
+  pub fn amount(&self) -> i64 { self.amount }
 
 }
 
@@ -54,7 +54,7 @@ impl RTDLabeledPricePartBuilder {
   }
 
    
-  pub fn amount(&mut self, amount: i32) -> &mut Self {
+  pub fn amount(&mut self, amount: i64) -> &mut Self {
     self.inner.amount = amount;
     self
   }

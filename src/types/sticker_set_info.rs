@@ -12,7 +12,7 @@ pub struct StickerSetInfo {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the sticker set
-  id: i64,
+  id: isize,
   /// Title of the sticker set
   title: String,
   /// Name of the sticker set
@@ -28,7 +28,7 @@ pub struct StickerSetInfo {
   /// True for already viewed trending sticker sets
   is_viewed: bool,
   /// Total number of stickers in the set
-  size: i32,
+  size: i64,
   /// Contains up to the first 5 stickers from the set, depending on the context. If the client needs more stickers the full set should be requested
   covers: Vec<Sticker>,
   
@@ -49,7 +49,7 @@ impl StickerSetInfo {
     RTDStickerSetInfoBuilder { inner }
   }
 
-  pub fn id(&self) -> i64 { self.id }
+  pub fn id(&self) -> isize { self.id }
 
   pub fn title(&self) -> &String { &self.title }
 
@@ -65,7 +65,7 @@ impl StickerSetInfo {
 
   pub fn is_viewed(&self) -> bool { self.is_viewed }
 
-  pub fn size(&self) -> i32 { self.size }
+  pub fn size(&self) -> i64 { self.size }
 
   pub fn covers(&self) -> &Vec<Sticker> { &self.covers }
 
@@ -80,7 +80,7 @@ impl RTDStickerSetInfoBuilder {
   pub fn build(&self) -> StickerSetInfo { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: i64) -> &mut Self {
+  pub fn id(&mut self, id: isize) -> &mut Self {
     self.inner.id = id;
     self
   }
@@ -128,7 +128,7 @@ impl RTDStickerSetInfoBuilder {
   }
 
    
-  pub fn size(&mut self, size: i32) -> &mut Self {
+  pub fn size(&mut self, size: i64) -> &mut Self {
     self.inner.size = size;
     self
   }

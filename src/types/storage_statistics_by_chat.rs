@@ -12,11 +12,11 @@ pub struct StorageStatisticsByChat {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Chat identifier; 0 if none
-  chat_id: i32,
+  chat_id: i64,
   /// Total size of the files in the chat
-  size: i32,
+  size: i64,
   /// Total number of files in the chat
-  count: i32,
+  count: i64,
   /// Statistics split by file types
   by_file_type: Vec<StorageStatisticsByFileType>,
   
@@ -37,11 +37,11 @@ impl StorageStatisticsByChat {
     RTDStorageStatisticsByChatBuilder { inner }
   }
 
-  pub fn chat_id(&self) -> i32 { self.chat_id }
+  pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn size(&self) -> i32 { self.size }
+  pub fn size(&self) -> i64 { self.size }
 
-  pub fn count(&self) -> i32 { self.count }
+  pub fn count(&self) -> i64 { self.count }
 
   pub fn by_file_type(&self) -> &Vec<StorageStatisticsByFileType> { &self.by_file_type }
 
@@ -56,19 +56,19 @@ impl RTDStorageStatisticsByChatBuilder {
   pub fn build(&self) -> StorageStatisticsByChat { self.inner.clone() }
 
    
-  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
     self
   }
 
    
-  pub fn size(&mut self, size: i32) -> &mut Self {
+  pub fn size(&mut self, size: i64) -> &mut Self {
     self.inner.size = size;
     self
   }
 
    
-  pub fn count(&mut self, count: i32) -> &mut Self {
+  pub fn count(&mut self, count: i64) -> &mut Self {
     self.inner.count = count;
     self
   }

@@ -14,11 +14,11 @@ pub struct MessageForwardInfo {
   /// Origin of a forwarded message
   origin: MessageForwardOrigin,
   /// Point in time (Unix timestamp) when the message was originally sent
-  date: i32,
+  date: i64,
   /// For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded last time; 0 if unknown
-  from_chat_id: i32,
+  from_chat_id: i64,
   /// For messages forwarded to the chat with the current user (saved messages), the identifier of the original message from which the new message was forwarded last time; 0 if unknown
-  from_message_id: i32,
+  from_message_id: i64,
   
 }
 
@@ -39,11 +39,11 @@ impl MessageForwardInfo {
 
   pub fn origin(&self) -> &MessageForwardOrigin { &self.origin }
 
-  pub fn date(&self) -> i32 { self.date }
+  pub fn date(&self) -> i64 { self.date }
 
-  pub fn from_chat_id(&self) -> i32 { self.from_chat_id }
+  pub fn from_chat_id(&self) -> i64 { self.from_chat_id }
 
-  pub fn from_message_id(&self) -> i32 { self.from_message_id }
+  pub fn from_message_id(&self) -> i64 { self.from_message_id }
 
 }
 
@@ -62,19 +62,19 @@ impl RTDMessageForwardInfoBuilder {
   }
 
    
-  pub fn date(&mut self, date: i32) -> &mut Self {
+  pub fn date(&mut self, date: i64) -> &mut Self {
     self.inner.date = date;
     self
   }
 
    
-  pub fn from_chat_id(&mut self, from_chat_id: i32) -> &mut Self {
+  pub fn from_chat_id(&mut self, from_chat_id: i64) -> &mut Self {
     self.inner.from_chat_id = from_chat_id;
     self
   }
 
    
-  pub fn from_message_id(&mut self, from_message_id: i32) -> &mut Self {
+  pub fn from_message_id(&mut self, from_message_id: i64) -> &mut Self {
     self.inner.from_message_id = from_message_id;
     self
   }

@@ -12,9 +12,9 @@ pub struct PaymentReceipt {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Point in time (Unix timestamp) when the payment was made
-  date: i32,
+  date: i64,
   /// User identifier of the payment provider bot
-  payments_provider_user_id: i32,
+  payments_provider_user_id: i64,
   /// Contains information about the invoice
   invoice: Invoice,
   /// Contains order information; may be null
@@ -41,9 +41,9 @@ impl PaymentReceipt {
     RTDPaymentReceiptBuilder { inner }
   }
 
-  pub fn date(&self) -> i32 { self.date }
+  pub fn date(&self) -> i64 { self.date }
 
-  pub fn payments_provider_user_id(&self) -> i32 { self.payments_provider_user_id }
+  pub fn payments_provider_user_id(&self) -> i64 { self.payments_provider_user_id }
 
   pub fn invoice(&self) -> &Invoice { &self.invoice }
 
@@ -64,13 +64,13 @@ impl RTDPaymentReceiptBuilder {
   pub fn build(&self) -> PaymentReceipt { self.inner.clone() }
 
    
-  pub fn date(&mut self, date: i32) -> &mut Self {
+  pub fn date(&mut self, date: i64) -> &mut Self {
     self.inner.date = date;
     self
   }
 
    
-  pub fn payments_provider_user_id(&mut self, payments_provider_user_id: i32) -> &mut Self {
+  pub fn payments_provider_user_id(&mut self, payments_provider_user_id: i64) -> &mut Self {
     self.inner.payments_provider_user_id = payments_provider_user_id;
     self
   }

@@ -855,7 +855,7 @@ pub struct TextEntityTypeMentionName {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the mentioned user
-  user_id: i32,
+  user_id: i64,
   
 }
 
@@ -877,7 +877,7 @@ impl TextEntityTypeMentionName {
     RTDTextEntityTypeMentionNameBuilder { inner }
   }
 
-  pub fn user_id(&self) -> i32 { self.user_id }
+  pub fn user_id(&self) -> i64 { self.user_id }
 
 }
 
@@ -890,7 +890,7 @@ impl RTDTextEntityTypeMentionNameBuilder {
   pub fn build(&self) -> TextEntityTypeMentionName { self.inner.clone() }
 
    
-  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
     self.inner.user_id = user_id;
     self
   }

@@ -109,7 +109,7 @@ pub struct TMeUrlTypeUser {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the user
-  user_id: i32,
+  user_id: i64,
   
 }
 
@@ -131,7 +131,7 @@ impl TMeUrlTypeUser {
     RTDTMeUrlTypeUserBuilder { inner }
   }
 
-  pub fn user_id(&self) -> i32 { self.user_id }
+  pub fn user_id(&self) -> i64 { self.user_id }
 
 }
 
@@ -144,7 +144,7 @@ impl RTDTMeUrlTypeUserBuilder {
   pub fn build(&self) -> TMeUrlTypeUser { self.inner.clone() }
 
    
-  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
     self.inner.user_id = user_id;
     self
   }
@@ -172,7 +172,7 @@ pub struct TMeUrlTypeSupergroup {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the supergroup or channel
-  supergroup_id: i32,
+  supergroup_id: i64,
   
 }
 
@@ -194,7 +194,7 @@ impl TMeUrlTypeSupergroup {
     RTDTMeUrlTypeSupergroupBuilder { inner }
   }
 
-  pub fn supergroup_id(&self) -> i32 { self.supergroup_id }
+  pub fn supergroup_id(&self) -> i64 { self.supergroup_id }
 
 }
 
@@ -207,7 +207,7 @@ impl RTDTMeUrlTypeSupergroupBuilder {
   pub fn build(&self) -> TMeUrlTypeSupergroup { self.inner.clone() }
 
    
-  pub fn supergroup_id(&mut self, supergroup_id: i32) -> &mut Self {
+  pub fn supergroup_id(&mut self, supergroup_id: i64) -> &mut Self {
     self.inner.supergroup_id = supergroup_id;
     self
   }
@@ -298,7 +298,7 @@ pub struct TMeUrlTypeStickerSet {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Identifier of the sticker set
-  sticker_set_id: i64,
+  sticker_set_id: isize,
   
 }
 
@@ -320,7 +320,7 @@ impl TMeUrlTypeStickerSet {
     RTDTMeUrlTypeStickerSetBuilder { inner }
   }
 
-  pub fn sticker_set_id(&self) -> i64 { self.sticker_set_id }
+  pub fn sticker_set_id(&self) -> isize { self.sticker_set_id }
 
 }
 
@@ -333,7 +333,7 @@ impl RTDTMeUrlTypeStickerSetBuilder {
   pub fn build(&self) -> TMeUrlTypeStickerSet { self.inner.clone() }
 
    
-  pub fn sticker_set_id(&mut self, sticker_set_id: i64) -> &mut Self {
+  pub fn sticker_set_id(&mut self, sticker_set_id: isize) -> &mut Self {
     self.inner.sticker_set_id = sticker_set_id;
     self
   }

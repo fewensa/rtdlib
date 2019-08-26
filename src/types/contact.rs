@@ -20,7 +20,7 @@ pub struct Contact {
   /// Additional data about the user in a form of vCard; 0-2048 bytes in length
   vcard: String,
   /// Identifier of the user, if known; otherwise 0
-  user_id: i32,
+  user_id: i64,
   
 }
 
@@ -47,7 +47,7 @@ impl Contact {
 
   pub fn vcard(&self) -> &String { &self.vcard }
 
-  pub fn user_id(&self) -> i32 { self.user_id }
+  pub fn user_id(&self) -> i64 { self.user_id }
 
 }
 
@@ -84,7 +84,7 @@ impl RTDContactBuilder {
   }
 
    
-  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
     self.inner.user_id = user_id;
     self
   }
