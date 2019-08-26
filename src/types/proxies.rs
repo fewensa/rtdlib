@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Represents a list of proxy servers. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Represents a list of proxy servers
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Proxies {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // proxies
-  /// List of proxy servers.
-  proxies: Option<Vec<Proxy>>,
+  td_name: String,
+  /// List of proxy servers
+  proxies: Vec<Proxy>,
   
 }
 
-
-
-impl Object for Proxies {}
 impl RObject for Proxies {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "proxies" }
-  fn td_type(&self) -> RTDType { RTDType::Proxies }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Proxies {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "proxies".to_string(),
-      proxies: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDProxiesBuilder {
+    let mut inner = Proxies::default();
+    inner.td_name = "proxies".to_string();
+    RTDProxiesBuilder { inner }
   }
-  
-  pub fn proxies(&self) -> Option<Vec<Proxy>> { self.proxies.clone() }
-  #[doc(hidden)] pub fn _set_proxies(&mut self, proxies: Vec<Proxy>) -> &mut Self { self.proxies = Some(proxies); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn proxies(&self) -> &Vec<Proxy> { &self.proxies }
+
+}
+
+#[doc(hidden)]
+pub struct RTDProxiesBuilder {
+  inner: Proxies
+}
+
+impl RTDProxiesBuilder {
+  pub fn build(&self) -> Proxies { self.inner.clone() }
+
+   
+  pub fn proxies(&mut self, proxies: Vec<Proxy>) -> &mut Self {
+    self.inner.proxies = proxies;
+    self
+  }
+
+}
+
+impl AsRef<Proxies> for Proxies {
+  fn as_ref(&self) -> &Proxies { self }
+}
+
+impl AsRef<Proxies> for RTDProxiesBuilder {
+  fn as_ref(&self) -> &Proxies { &self.inner }
 }
 
 

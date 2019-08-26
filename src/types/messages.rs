@@ -1,51 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains a list of messages. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains a list of messages
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Messages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // messages
-  /// Approximate total count of messages found.
-  total_count: Option<i32>,
-  /// List of messages; messages may be null.
+  td_name: String,
+  /// Approximate total count of messages found
+  total_count: i32,
+  /// List of messages; messages may be null
   messages: Option<Vec<Message>>,
   
 }
 
-
-
-impl Object for Messages {}
 impl RObject for Messages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messages" }
-  fn td_type(&self) -> RTDType { RTDType::Messages }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Messages {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "messages".to_string(),
-      total_count: None,
-      messages: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDMessagesBuilder {
+    let mut inner = Messages::default();
+    inner.td_name = "messages".to_string();
+    RTDMessagesBuilder { inner }
   }
-  
-  pub fn total_count(&self) -> Option<i32> { self.total_count.clone() }
-  #[doc(hidden)] pub fn _set_total_count(&mut self, total_count: i32) -> &mut Self { self.total_count = Some(total_count); self }
-  
-  pub fn messages(&self) -> Option<Vec<Message>> { self.messages.clone() }
-  #[doc(hidden)] pub fn _set_messages(&mut self, messages: Vec<Message>) -> &mut Self { self.messages = Some(messages); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn total_count(&self) -> i32 { self.total_count }
+
+  pub fn messages(&self) -> &Option<Vec<Message>> { &self.messages }
+
+}
+
+#[doc(hidden)]
+pub struct RTDMessagesBuilder {
+  inner: Messages
+}
+
+impl RTDMessagesBuilder {
+  pub fn build(&self) -> Messages { self.inner.clone() }
+
+   
+  pub fn total_count(&mut self, total_count: i32) -> &mut Self {
+    self.inner.total_count = total_count;
+    self
+  }
+
+   
+  pub fn messages(&mut self, messages: Vec<Message>) -> &mut Self {
+    self.inner.messages = Some(messages);
+    self
+  }
+
+}
+
+impl AsRef<Messages> for Messages {
+  fn as_ref(&self) -> &Messages { self }
+}
+
+impl AsRef<Messages> for RTDMessagesBuilder {
+  fn as_ref(&self) -> &Messages { &self.inner }
 }
 
 

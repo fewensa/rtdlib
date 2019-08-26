@@ -1,57 +1,82 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains one row of the game high score table. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains one row of the game high score table
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GameHighScore {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // gameHighScore
-  /// Position in the high score table.
-  position: Option<i32>,
-  /// User identifier.
-  user_id: Option<i32>,
-  /// User score.
-  score: Option<i32>,
+  td_name: String,
+  /// Position in the high score table
+  position: i32,
+  /// User identifier
+  user_id: i32,
+  /// User score
+  score: i32,
   
 }
 
-
-
-impl Object for GameHighScore {}
 impl RObject for GameHighScore {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "gameHighScore" }
-  fn td_type(&self) -> RTDType { RTDType::GameHighScore }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl GameHighScore {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "gameHighScore".to_string(),
-      position: None,
-      user_id: None,
-      score: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGameHighScoreBuilder {
+    let mut inner = GameHighScore::default();
+    inner.td_name = "gameHighScore".to_string();
+    RTDGameHighScoreBuilder { inner }
   }
-  
-  pub fn position(&self) -> Option<i32> { self.position.clone() }
-  #[doc(hidden)] pub fn _set_position(&mut self, position: i32) -> &mut Self { self.position = Some(position); self }
-  
-  pub fn user_id(&self) -> Option<i32> { self.user_id.clone() }
-  #[doc(hidden)] pub fn _set_user_id(&mut self, user_id: i32) -> &mut Self { self.user_id = Some(user_id); self }
-  
-  pub fn score(&self) -> Option<i32> { self.score.clone() }
-  #[doc(hidden)] pub fn _set_score(&mut self, score: i32) -> &mut Self { self.score = Some(score); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn position(&self) -> i32 { self.position }
+
+  pub fn user_id(&self) -> i32 { self.user_id }
+
+  pub fn score(&self) -> i32 { self.score }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGameHighScoreBuilder {
+  inner: GameHighScore
+}
+
+impl RTDGameHighScoreBuilder {
+  pub fn build(&self) -> GameHighScore { self.inner.clone() }
+
+   
+  pub fn position(&mut self, position: i32) -> &mut Self {
+    self.inner.position = position;
+    self
+  }
+
+   
+  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+    self.inner.user_id = user_id;
+    self
+  }
+
+   
+  pub fn score(&mut self, score: i32) -> &mut Self {
+    self.inner.score = score;
+    self
+  }
+
+}
+
+impl AsRef<GameHighScore> for GameHighScore {
+  fn as_ref(&self) -> &GameHighScore { self }
+}
+
+impl AsRef<GameHighScore> for RTDGameHighScoreBuilder {
+  fn as_ref(&self) -> &GameHighScore { &self.inner }
 }
 
 

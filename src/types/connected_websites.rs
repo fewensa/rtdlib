@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains a list of websites the current user is logged in with Telegram. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains a list of websites the current user is logged in with Telegram
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ConnectedWebsites {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // connectedWebsites
-  /// List of connected websites.
-  websites: Option<Vec<ConnectedWebsite>>,
+  td_name: String,
+  /// List of connected websites
+  websites: Vec<ConnectedWebsite>,
   
 }
 
-
-
-impl Object for ConnectedWebsites {}
 impl RObject for ConnectedWebsites {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "connectedWebsites" }
-  fn td_type(&self) -> RTDType { RTDType::ConnectedWebsites }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl ConnectedWebsites {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "connectedWebsites".to_string(),
-      websites: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDConnectedWebsitesBuilder {
+    let mut inner = ConnectedWebsites::default();
+    inner.td_name = "connectedWebsites".to_string();
+    RTDConnectedWebsitesBuilder { inner }
   }
-  
-  pub fn websites(&self) -> Option<Vec<ConnectedWebsite>> { self.websites.clone() }
-  #[doc(hidden)] pub fn _set_websites(&mut self, websites: Vec<ConnectedWebsite>) -> &mut Self { self.websites = Some(websites); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn websites(&self) -> &Vec<ConnectedWebsite> { &self.websites }
+
+}
+
+#[doc(hidden)]
+pub struct RTDConnectedWebsitesBuilder {
+  inner: ConnectedWebsites
+}
+
+impl RTDConnectedWebsitesBuilder {
+  pub fn build(&self) -> ConnectedWebsites { self.inner.clone() }
+
+   
+  pub fn websites(&mut self, websites: Vec<ConnectedWebsite>) -> &mut Self {
+    self.inner.websites = websites;
+    self
+  }
+
+}
+
+impl AsRef<ConnectedWebsites> for ConnectedWebsites {
+  fn as_ref(&self) -> &ConnectedWebsites { self }
+}
+
+impl AsRef<ConnectedWebsites> for RTDConnectedWebsitesBuilder {
+  fn as_ref(&self) -> &ConnectedWebsites { &self.inner }
 }
 
 

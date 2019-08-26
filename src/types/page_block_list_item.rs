@@ -1,55 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Describes an item of a list page block. 
-#[derive(Debug, Serialize, Deserialize)]
+
+
+
+/// Describes an item of a list page block
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockListItem {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // pageBlockListItem
-  /// Item label.
-  label: Option<String>,
-  /// Item blocks.
-  page_blocks: Option<Vec<Box<PageBlock>>>,
+  td_name: String,
+  /// Item label
+  label: String,
+  /// Item blocks
+  page_blocks: Vec<PageBlock>,
   
 }
 
-
-impl Clone for PageBlockListItem {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
-}
-
-
-impl Object for PageBlockListItem {}
 impl RObject for PageBlockListItem {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockListItem" }
-  fn td_type(&self) -> RTDType { RTDType::PageBlockListItem }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl PageBlockListItem {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "pageBlockListItem".to_string(),
-      label: None,
-      page_blocks: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPageBlockListItemBuilder {
+    let mut inner = PageBlockListItem::default();
+    inner.td_name = "pageBlockListItem".to_string();
+    RTDPageBlockListItemBuilder { inner }
   }
-  
-  pub fn label(&self) -> Option<String> { self.label.clone() }
-  #[doc(hidden)] pub fn _set_label(&mut self, label: String) -> &mut Self { self.label = Some(label); self }
-  
-  pub fn page_blocks(&self) -> Option<Vec<Box<PageBlock>>> { self.page_blocks.clone() }
-  #[doc(hidden)] pub fn _set_page_blocks(&mut self, page_blocks: Vec<Box<PageBlock>>) -> &mut Self { self.page_blocks = Some(page_blocks); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn label(&self) -> &String { &self.label }
+
+  pub fn page_blocks(&self) -> &Vec<PageBlock> { &self.page_blocks }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPageBlockListItemBuilder {
+  inner: PageBlockListItem
+}
+
+impl RTDPageBlockListItemBuilder {
+  pub fn build(&self) -> PageBlockListItem { self.inner.clone() }
+
+   
+  pub fn label<T: AsRef<str>>(&mut self, label: T) -> &mut Self {
+    self.inner.label = label.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn page_blocks(&mut self, page_blocks: Vec<PageBlock>) -> &mut Self {
+    self.inner.page_blocks = page_blocks;
+    self
+  }
+
+}
+
+impl AsRef<PageBlockListItem> for PageBlockListItem {
+  fn as_ref(&self) -> &PageBlockListItem { self }
+}
+
+impl AsRef<PageBlockListItem> for RTDPageBlockListItemBuilder {
+  fn as_ref(&self) -> &PageBlockListItem { &self.inner }
 }
 
 

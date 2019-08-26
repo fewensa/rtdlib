@@ -1,61 +1,82 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains the description of an error in a Telegram Passport element; for bots only. 
-#[derive(Debug, Serialize, Deserialize)]
+
+
+
+/// Contains the description of an error in a Telegram Passport element; for bots only
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InputPassportElementError {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // inputPassportElementError
-  /// Type of Telegram Passport element that has the error.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<PassportElementType>>,
-  /// Error message.
-  message: Option<String>,
-  /// Error source.
-  source: Option<Box<InputPassportElementErrorSource>>,
+  td_name: String,
+  /// Type of Telegram Passport element that has the error
+  #[serde(rename(serialize = "type", deserialize = "type"))] type_: PassportElementType,
+  /// Error message
+  message: String,
+  /// Error source
+  source: InputPassportElementErrorSource,
   
 }
 
-
-impl Clone for InputPassportElementError {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
-}
-
-
-impl Object for InputPassportElementError {}
 impl RObject for InputPassportElementError {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPassportElementError" }
-  fn td_type(&self) -> RTDType { RTDType::InputPassportElementError }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl InputPassportElementError {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "inputPassportElementError".to_string(),
-      type_: None,
-      message: None,
-      source: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInputPassportElementErrorBuilder {
+    let mut inner = InputPassportElementError::default();
+    inner.td_name = "inputPassportElementError".to_string();
+    RTDInputPassportElementErrorBuilder { inner }
   }
-  
-  pub fn type_(&self) -> Option<Box<PassportElementType>> { self.type_.clone() }
-  #[doc(hidden)] pub fn _set_type_(&mut self, type_: Box<PassportElementType>) -> &mut Self { self.type_ = Some(type_); self }
-  
-  pub fn message(&self) -> Option<String> { self.message.clone() }
-  #[doc(hidden)] pub fn _set_message(&mut self, message: String) -> &mut Self { self.message = Some(message); self }
-  
-  pub fn source(&self) -> Option<Box<InputPassportElementErrorSource>> { self.source.clone() }
-  #[doc(hidden)] pub fn _set_source(&mut self, source: Box<InputPassportElementErrorSource>) -> &mut Self { self.source = Some(source); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn type_(&self) -> &PassportElementType { &self.type_ }
+
+  pub fn message(&self) -> &String { &self.message }
+
+  pub fn source(&self) -> &InputPassportElementErrorSource { &self.source }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInputPassportElementErrorBuilder {
+  inner: InputPassportElementError
+}
+
+impl RTDInputPassportElementErrorBuilder {
+  pub fn build(&self) -> InputPassportElementError { self.inner.clone() }
+
+   
+  pub fn type_<T: AsRef<PassportElementType>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+   
+  pub fn message<T: AsRef<str>>(&mut self, message: T) -> &mut Self {
+    self.inner.message = message.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn source<T: AsRef<InputPassportElementErrorSource>>(&mut self, source: T) -> &mut Self {
+    self.inner.source = source.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<InputPassportElementError> for InputPassportElementError {
+  fn as_ref(&self) -> &InputPassportElementError { self }
+}
+
+impl AsRef<InputPassportElementError> for RTDInputPassportElementErrorBuilder {
+  fn as_ref(&self) -> &InputPassportElementError { &self.inner }
 }
 
 

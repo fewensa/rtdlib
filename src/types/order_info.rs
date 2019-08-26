@@ -1,63 +1,92 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Order information. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Order information
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct OrderInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // orderInfo
-  /// Name of the user.
-  name: Option<String>,
-  /// Phone number of the user.
-  phone_number: Option<String>,
-  /// Email address of the user.
-  email_address: Option<String>,
-  /// Shipping address for this order; may be null.
+  td_name: String,
+  /// Name of the user
+  name: String,
+  /// Phone number of the user
+  phone_number: String,
+  /// Email address of the user
+  email_address: String,
+  /// Shipping address for this order; may be null
   shipping_address: Option<Address>,
   
 }
 
-
-
-impl Object for OrderInfo {}
 impl RObject for OrderInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "orderInfo" }
-  fn td_type(&self) -> RTDType { RTDType::OrderInfo }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl OrderInfo {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "orderInfo".to_string(),
-      name: None,
-      phone_number: None,
-      email_address: None,
-      shipping_address: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDOrderInfoBuilder {
+    let mut inner = OrderInfo::default();
+    inner.td_name = "orderInfo".to_string();
+    RTDOrderInfoBuilder { inner }
   }
-  
-  pub fn name(&self) -> Option<String> { self.name.clone() }
-  #[doc(hidden)] pub fn _set_name(&mut self, name: String) -> &mut Self { self.name = Some(name); self }
-  
-  pub fn phone_number(&self) -> Option<String> { self.phone_number.clone() }
-  #[doc(hidden)] pub fn _set_phone_number(&mut self, phone_number: String) -> &mut Self { self.phone_number = Some(phone_number); self }
-  
-  pub fn email_address(&self) -> Option<String> { self.email_address.clone() }
-  #[doc(hidden)] pub fn _set_email_address(&mut self, email_address: String) -> &mut Self { self.email_address = Some(email_address); self }
-  
-  pub fn shipping_address(&self) -> Option<Address> { self.shipping_address.clone() }
-  #[doc(hidden)] pub fn _set_shipping_address(&mut self, shipping_address: Address) -> &mut Self { self.shipping_address = Some(shipping_address); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn name(&self) -> &String { &self.name }
+
+  pub fn phone_number(&self) -> &String { &self.phone_number }
+
+  pub fn email_address(&self) -> &String { &self.email_address }
+
+  pub fn shipping_address(&self) -> &Option<Address> { &self.shipping_address }
+
+}
+
+#[doc(hidden)]
+pub struct RTDOrderInfoBuilder {
+  inner: OrderInfo
+}
+
+impl RTDOrderInfoBuilder {
+  pub fn build(&self) -> OrderInfo { self.inner.clone() }
+
+   
+  pub fn name<T: AsRef<str>>(&mut self, name: T) -> &mut Self {
+    self.inner.name = name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn phone_number<T: AsRef<str>>(&mut self, phone_number: T) -> &mut Self {
+    self.inner.phone_number = phone_number.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn email_address<T: AsRef<str>>(&mut self, email_address: T) -> &mut Self {
+    self.inner.email_address = email_address.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn shipping_address<T: AsRef<Address>>(&mut self, shipping_address: T) -> &mut Self {
+    self.inner.shipping_address = Some(shipping_address.as_ref().clone());
+    self
+  }
+
+}
+
+impl AsRef<OrderInfo> for OrderInfo {
+  fn as_ref(&self) -> &OrderInfo { self }
+}
+
+impl AsRef<OrderInfo> for RTDOrderInfoBuilder {
+  fn as_ref(&self) -> &OrderInfo { &self.inner }
 }
 
 

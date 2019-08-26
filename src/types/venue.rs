@@ -1,75 +1,112 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Describes a venue. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Describes a venue
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Venue {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // venue
-  /// Venue location; as defined by the sender.
-  location: Option<Location>,
-  /// Venue name; as defined by the sender.
-  title: Option<String>,
-  /// Venue address; as defined by the sender.
-  address: Option<String>,
-  /// Provider of the venue database; as defined by the sender. Currently only "foursquare" needs to be supported.
-  provider: Option<String>,
-  /// Identifier of the venue in the provider database; as defined by the sender.
-  id: Option<String>,
-  /// Type of the venue in the provider database; as defined by the sender.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<String>,
+  td_name: String,
+  /// Venue location; as defined by the sender
+  location: Location,
+  /// Venue name; as defined by the sender
+  title: String,
+  /// Venue address; as defined by the sender
+  address: String,
+  /// Provider of the venue database; as defined by the sender. Currently only "foursquare" needs to be supported
+  provider: String,
+  /// Identifier of the venue in the provider database; as defined by the sender
+  id: String,
+  /// Type of the venue in the provider database; as defined by the sender
+  #[serde(rename(serialize = "type", deserialize = "type"))] type_: String,
   
 }
 
-
-
-impl Object for Venue {}
 impl RObject for Venue {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "venue" }
-  fn td_type(&self) -> RTDType { RTDType::Venue }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Venue {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "venue".to_string(),
-      location: None,
-      title: None,
-      address: None,
-      provider: None,
-      id: None,
-      type_: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDVenueBuilder {
+    let mut inner = Venue::default();
+    inner.td_name = "venue".to_string();
+    RTDVenueBuilder { inner }
   }
-  
-  pub fn location(&self) -> Option<Location> { self.location.clone() }
-  #[doc(hidden)] pub fn _set_location(&mut self, location: Location) -> &mut Self { self.location = Some(location); self }
-  
-  pub fn title(&self) -> Option<String> { self.title.clone() }
-  #[doc(hidden)] pub fn _set_title(&mut self, title: String) -> &mut Self { self.title = Some(title); self }
-  
-  pub fn address(&self) -> Option<String> { self.address.clone() }
-  #[doc(hidden)] pub fn _set_address(&mut self, address: String) -> &mut Self { self.address = Some(address); self }
-  
-  pub fn provider(&self) -> Option<String> { self.provider.clone() }
-  #[doc(hidden)] pub fn _set_provider(&mut self, provider: String) -> &mut Self { self.provider = Some(provider); self }
-  
-  pub fn id(&self) -> Option<String> { self.id.clone() }
-  #[doc(hidden)] pub fn _set_id(&mut self, id: String) -> &mut Self { self.id = Some(id); self }
-  
-  pub fn type_(&self) -> Option<String> { self.type_.clone() }
-  #[doc(hidden)] pub fn _set_type_(&mut self, type_: String) -> &mut Self { self.type_ = Some(type_); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn location(&self) -> &Location { &self.location }
+
+  pub fn title(&self) -> &String { &self.title }
+
+  pub fn address(&self) -> &String { &self.address }
+
+  pub fn provider(&self) -> &String { &self.provider }
+
+  pub fn id(&self) -> &String { &self.id }
+
+  pub fn type_(&self) -> &String { &self.type_ }
+
+}
+
+#[doc(hidden)]
+pub struct RTDVenueBuilder {
+  inner: Venue
+}
+
+impl RTDVenueBuilder {
+  pub fn build(&self) -> Venue { self.inner.clone() }
+
+   
+  pub fn location<T: AsRef<Location>>(&mut self, location: T) -> &mut Self {
+    self.inner.location = location.as_ref().clone();
+    self
+  }
+
+   
+  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
+    self.inner.title = title.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn address<T: AsRef<str>>(&mut self, address: T) -> &mut Self {
+    self.inner.address = address.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn provider<T: AsRef<str>>(&mut self, provider: T) -> &mut Self {
+    self.inner.provider = provider.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn id<T: AsRef<str>>(&mut self, id: T) -> &mut Self {
+    self.inner.id = id.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn type_<T: AsRef<str>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<Venue> for Venue {
+  fn as_ref(&self) -> &Venue { self }
+}
+
+impl AsRef<Venue> for RTDVenueBuilder {
+  fn as_ref(&self) -> &Venue { &self.inner }
 }
 
 

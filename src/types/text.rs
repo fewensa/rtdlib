@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains some text. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains some text
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Text {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // text
-  /// Text.
-  text: Option<String>,
+  td_name: String,
+  /// Text
+  text: String,
   
 }
 
-
-
-impl Object for Text {}
 impl RObject for Text {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "text" }
-  fn td_type(&self) -> RTDType { RTDType::Text }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Text {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "text".to_string(),
-      text: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTextBuilder {
+    let mut inner = Text::default();
+    inner.td_name = "text".to_string();
+    RTDTextBuilder { inner }
   }
-  
-  pub fn text(&self) -> Option<String> { self.text.clone() }
-  #[doc(hidden)] pub fn _set_text(&mut self, text: String) -> &mut Self { self.text = Some(text); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn text(&self) -> &String { &self.text }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTextBuilder {
+  inner: Text
+}
+
+impl RTDTextBuilder {
+  pub fn build(&self) -> Text { self.inner.clone() }
+
+   
+  pub fn text<T: AsRef<str>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<Text> for Text {
+  fn as_ref(&self) -> &Text { self }
+}
+
+impl AsRef<Text> for RTDTextBuilder {
+  fn as_ref(&self) -> &Text { &self.inner }
 }
 
 

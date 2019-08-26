@@ -1,63 +1,92 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Photo description. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Photo description
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PhotoSize {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // photoSize
-  /// Thumbnail type (see https://core.telegram.org/constructor/photoSize).
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<String>,
-  /// Information about the photo file.
-  photo: Option<File>,
-  /// Photo width.
-  width: Option<i32>,
-  /// Photo height.
-  height: Option<i32>,
+  td_name: String,
+  /// Thumbnail type (see https://core.telegram.org/constructor/photoSize)
+  #[serde(rename(serialize = "type", deserialize = "type"))] type_: String,
+  /// Information about the photo file
+  photo: File,
+  /// Photo width
+  width: i32,
+  /// Photo height
+  height: i32,
   
 }
 
-
-
-impl Object for PhotoSize {}
 impl RObject for PhotoSize {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "photoSize" }
-  fn td_type(&self) -> RTDType { RTDType::PhotoSize }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl PhotoSize {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "photoSize".to_string(),
-      type_: None,
-      photo: None,
-      width: None,
-      height: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPhotoSizeBuilder {
+    let mut inner = PhotoSize::default();
+    inner.td_name = "photoSize".to_string();
+    RTDPhotoSizeBuilder { inner }
   }
-  
-  pub fn type_(&self) -> Option<String> { self.type_.clone() }
-  #[doc(hidden)] pub fn _set_type_(&mut self, type_: String) -> &mut Self { self.type_ = Some(type_); self }
-  
-  pub fn photo(&self) -> Option<File> { self.photo.clone() }
-  #[doc(hidden)] pub fn _set_photo(&mut self, photo: File) -> &mut Self { self.photo = Some(photo); self }
-  
-  pub fn width(&self) -> Option<i32> { self.width.clone() }
-  #[doc(hidden)] pub fn _set_width(&mut self, width: i32) -> &mut Self { self.width = Some(width); self }
-  
-  pub fn height(&self) -> Option<i32> { self.height.clone() }
-  #[doc(hidden)] pub fn _set_height(&mut self, height: i32) -> &mut Self { self.height = Some(height); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn type_(&self) -> &String { &self.type_ }
+
+  pub fn photo(&self) -> &File { &self.photo }
+
+  pub fn width(&self) -> i32 { self.width }
+
+  pub fn height(&self) -> i32 { self.height }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPhotoSizeBuilder {
+  inner: PhotoSize
+}
+
+impl RTDPhotoSizeBuilder {
+  pub fn build(&self) -> PhotoSize { self.inner.clone() }
+
+   
+  pub fn type_<T: AsRef<str>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn photo<T: AsRef<File>>(&mut self, photo: T) -> &mut Self {
+    self.inner.photo = photo.as_ref().clone();
+    self
+  }
+
+   
+  pub fn width(&mut self, width: i32) -> &mut Self {
+    self.inner.width = width;
+    self
+  }
+
+   
+  pub fn height(&mut self, height: i32) -> &mut Self {
+    self.inner.height = height;
+    self
+  }
+
+}
+
+impl AsRef<PhotoSize> for PhotoSize {
+  fn as_ref(&self) -> &PhotoSize { self }
+}
+
+impl AsRef<PhotoSize> for RTDPhotoSizeBuilder {
+  fn as_ref(&self) -> &PhotoSize { &self.inner }
 }
 
 

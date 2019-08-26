@@ -1,175 +1,272 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// A chat. (Can be a private chat, basic group, supergroup, or secret chat.) 
-#[derive(Debug, Serialize, Deserialize)]
+
+
+
+/// A chat. (Can be a private chat, basic group, supergroup, or secret chat)
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Chat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // chat
-  /// Chat unique identifier.
-  id: Option<i64>,
-  /// Type of the chat.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<ChatType>>,
-  /// Chat title.
-  title: Option<String>,
-  /// Chat photo; may be null.
+  td_name: String,
+  /// Chat unique identifier
+  id: i32,
+  /// Type of the chat
+  #[serde(rename(serialize = "type", deserialize = "type"))] type_: ChatType,
+  /// Chat title
+  title: String,
+  /// Chat photo; may be null
   photo: Option<ChatPhoto>,
-  /// Last message in the chat; may be null.
+  /// Last message in the chat; may be null
   last_message: Option<Message>,
-  /// Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined.
-  order: Option<String>,
-  /// True, if the chat is pinned.
-  is_pinned: Option<bool>,
-  /// True, if the chat is marked as unread.
-  is_marked_as_unread: Option<bool>,
-  /// True, if the chat is sponsored by the user's MTProxy server.
-  is_sponsored: Option<bool>,
-  /// True, if the chat messages can be deleted only for the current user while other users will continue to see the messages.
-  can_be_deleted_only_for_self: Option<bool>,
-  /// True, if the chat messages can be deleted for all users.
-  can_be_deleted_for_all_users: Option<bool>,
-  /// True, if the chat can be reported to Telegram moderators through reportChat.
-  can_be_reported: Option<bool>,
-  /// Default value of the disable_notification parameter, used when a message is sent to the chat.
-  default_disable_notification: Option<bool>,
-  /// Number of unread messages in the chat.
-  unread_count: Option<i32>,
-  /// Identifier of the last read incoming message.
-  last_read_inbox_message_id: Option<i64>,
-  /// Identifier of the last read outgoing message.
-  last_read_outbox_message_id: Option<i64>,
-  /// Number of unread messages with a mention/reply in the chat.
-  unread_mention_count: Option<i32>,
-  /// Notification settings for this chat.
-  notification_settings: Option<ChatNotificationSettings>,
-  /// Identifier of the pinned message in the chat; 0 if none.
-  pinned_message_id: Option<i64>,
-  /// Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat.
-  reply_markup_message_id: Option<i64>,
-  /// A draft of a message in the chat; may be null.
+  /// Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined
+  order: String,
+  /// True, if the chat is pinned
+  is_pinned: bool,
+  /// True, if the chat is marked as unread
+  is_marked_as_unread: bool,
+  /// True, if the chat is sponsored by the user's MTProxy server
+  is_sponsored: bool,
+  /// True, if the chat messages can be deleted only for the current user while other users will continue to see the messages
+  can_be_deleted_only_for_self: bool,
+  /// True, if the chat messages can be deleted for all users
+  can_be_deleted_for_all_users: bool,
+  /// True, if the chat can be reported to Telegram moderators through reportChat
+  can_be_reported: bool,
+  /// Default value of the disable_notification parameter, used when a message is sent to the chat
+  default_disable_notification: bool,
+  /// Number of unread messages in the chat
+  unread_count: i32,
+  /// Identifier of the last read incoming message
+  last_read_inbox_message_id: i32,
+  /// Identifier of the last read outgoing message
+  last_read_outbox_message_id: i32,
+  /// Number of unread messages with a mention/reply in the chat
+  unread_mention_count: i32,
+  /// Notification settings for this chat
+  notification_settings: ChatNotificationSettings,
+  /// Identifier of the pinned message in the chat; 0 if none
+  pinned_message_id: i32,
+  /// Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
+  reply_markup_message_id: i32,
+  /// A draft of a message in the chat; may be null
   draft_message: Option<DraftMessage>,
-  /// Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used.
-  client_data: Option<String>,
+  /// Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used
+  client_data: String,
   
 }
 
-
-impl Clone for Chat {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
-}
-
-
-impl Object for Chat {}
 impl RObject for Chat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chat" }
-  fn td_type(&self) -> RTDType { RTDType::Chat }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Chat {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "chat".to_string(),
-      id: None,
-      type_: None,
-      title: None,
-      photo: None,
-      last_message: None,
-      order: None,
-      is_pinned: None,
-      is_marked_as_unread: None,
-      is_sponsored: None,
-      can_be_deleted_only_for_self: None,
-      can_be_deleted_for_all_users: None,
-      can_be_reported: None,
-      default_disable_notification: None,
-      unread_count: None,
-      last_read_inbox_message_id: None,
-      last_read_outbox_message_id: None,
-      unread_mention_count: None,
-      notification_settings: None,
-      pinned_message_id: None,
-      reply_markup_message_id: None,
-      draft_message: None,
-      client_data: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatBuilder {
+    let mut inner = Chat::default();
+    inner.td_name = "chat".to_string();
+    RTDChatBuilder { inner }
   }
-  
-  pub fn id(&self) -> Option<i64> { self.id.clone() }
-  #[doc(hidden)] pub fn _set_id(&mut self, id: i64) -> &mut Self { self.id = Some(id); self }
-  
-  pub fn type_(&self) -> Option<Box<ChatType>> { self.type_.clone() }
-  #[doc(hidden)] pub fn _set_type_(&mut self, type_: Box<ChatType>) -> &mut Self { self.type_ = Some(type_); self }
-  
-  pub fn title(&self) -> Option<String> { self.title.clone() }
-  #[doc(hidden)] pub fn _set_title(&mut self, title: String) -> &mut Self { self.title = Some(title); self }
-  
-  pub fn photo(&self) -> Option<ChatPhoto> { self.photo.clone() }
-  #[doc(hidden)] pub fn _set_photo(&mut self, photo: ChatPhoto) -> &mut Self { self.photo = Some(photo); self }
-  
-  pub fn last_message(&self) -> Option<Message> { self.last_message.clone() }
-  #[doc(hidden)] pub fn _set_last_message(&mut self, last_message: Message) -> &mut Self { self.last_message = Some(last_message); self }
-  
-  pub fn order(&self) -> Option<String> { self.order.clone() }
-  #[doc(hidden)] pub fn _set_order(&mut self, order: String) -> &mut Self { self.order = Some(order); self }
-  
-  pub fn is_pinned(&self) -> Option<bool> { self.is_pinned.clone() }
-  #[doc(hidden)] pub fn _set_is_pinned(&mut self, is_pinned: bool) -> &mut Self { self.is_pinned = Some(is_pinned); self }
-  
-  pub fn is_marked_as_unread(&self) -> Option<bool> { self.is_marked_as_unread.clone() }
-  #[doc(hidden)] pub fn _set_is_marked_as_unread(&mut self, is_marked_as_unread: bool) -> &mut Self { self.is_marked_as_unread = Some(is_marked_as_unread); self }
-  
-  pub fn is_sponsored(&self) -> Option<bool> { self.is_sponsored.clone() }
-  #[doc(hidden)] pub fn _set_is_sponsored(&mut self, is_sponsored: bool) -> &mut Self { self.is_sponsored = Some(is_sponsored); self }
-  
-  pub fn can_be_deleted_only_for_self(&self) -> Option<bool> { self.can_be_deleted_only_for_self.clone() }
-  #[doc(hidden)] pub fn _set_can_be_deleted_only_for_self(&mut self, can_be_deleted_only_for_self: bool) -> &mut Self { self.can_be_deleted_only_for_self = Some(can_be_deleted_only_for_self); self }
-  
-  pub fn can_be_deleted_for_all_users(&self) -> Option<bool> { self.can_be_deleted_for_all_users.clone() }
-  #[doc(hidden)] pub fn _set_can_be_deleted_for_all_users(&mut self, can_be_deleted_for_all_users: bool) -> &mut Self { self.can_be_deleted_for_all_users = Some(can_be_deleted_for_all_users); self }
-  
-  pub fn can_be_reported(&self) -> Option<bool> { self.can_be_reported.clone() }
-  #[doc(hidden)] pub fn _set_can_be_reported(&mut self, can_be_reported: bool) -> &mut Self { self.can_be_reported = Some(can_be_reported); self }
-  
-  pub fn default_disable_notification(&self) -> Option<bool> { self.default_disable_notification.clone() }
-  #[doc(hidden)] pub fn _set_default_disable_notification(&mut self, default_disable_notification: bool) -> &mut Self { self.default_disable_notification = Some(default_disable_notification); self }
-  
-  pub fn unread_count(&self) -> Option<i32> { self.unread_count.clone() }
-  #[doc(hidden)] pub fn _set_unread_count(&mut self, unread_count: i32) -> &mut Self { self.unread_count = Some(unread_count); self }
-  
-  pub fn last_read_inbox_message_id(&self) -> Option<i64> { self.last_read_inbox_message_id.clone() }
-  #[doc(hidden)] pub fn _set_last_read_inbox_message_id(&mut self, last_read_inbox_message_id: i64) -> &mut Self { self.last_read_inbox_message_id = Some(last_read_inbox_message_id); self }
-  
-  pub fn last_read_outbox_message_id(&self) -> Option<i64> { self.last_read_outbox_message_id.clone() }
-  #[doc(hidden)] pub fn _set_last_read_outbox_message_id(&mut self, last_read_outbox_message_id: i64) -> &mut Self { self.last_read_outbox_message_id = Some(last_read_outbox_message_id); self }
-  
-  pub fn unread_mention_count(&self) -> Option<i32> { self.unread_mention_count.clone() }
-  #[doc(hidden)] pub fn _set_unread_mention_count(&mut self, unread_mention_count: i32) -> &mut Self { self.unread_mention_count = Some(unread_mention_count); self }
-  
-  pub fn notification_settings(&self) -> Option<ChatNotificationSettings> { self.notification_settings.clone() }
-  #[doc(hidden)] pub fn _set_notification_settings(&mut self, notification_settings: ChatNotificationSettings) -> &mut Self { self.notification_settings = Some(notification_settings); self }
-  
-  pub fn pinned_message_id(&self) -> Option<i64> { self.pinned_message_id.clone() }
-  #[doc(hidden)] pub fn _set_pinned_message_id(&mut self, pinned_message_id: i64) -> &mut Self { self.pinned_message_id = Some(pinned_message_id); self }
-  
-  pub fn reply_markup_message_id(&self) -> Option<i64> { self.reply_markup_message_id.clone() }
-  #[doc(hidden)] pub fn _set_reply_markup_message_id(&mut self, reply_markup_message_id: i64) -> &mut Self { self.reply_markup_message_id = Some(reply_markup_message_id); self }
-  
-  pub fn draft_message(&self) -> Option<DraftMessage> { self.draft_message.clone() }
-  #[doc(hidden)] pub fn _set_draft_message(&mut self, draft_message: DraftMessage) -> &mut Self { self.draft_message = Some(draft_message); self }
-  
-  pub fn client_data(&self) -> Option<String> { self.client_data.clone() }
-  #[doc(hidden)] pub fn _set_client_data(&mut self, client_data: String) -> &mut Self { self.client_data = Some(client_data); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn id(&self) -> i32 { self.id }
+
+  pub fn type_(&self) -> &ChatType { &self.type_ }
+
+  pub fn title(&self) -> &String { &self.title }
+
+  pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
+
+  pub fn last_message(&self) -> &Option<Message> { &self.last_message }
+
+  pub fn order(&self) -> &String { &self.order }
+
+  pub fn is_pinned(&self) -> bool { self.is_pinned }
+
+  pub fn is_marked_as_unread(&self) -> bool { self.is_marked_as_unread }
+
+  pub fn is_sponsored(&self) -> bool { self.is_sponsored }
+
+  pub fn can_be_deleted_only_for_self(&self) -> bool { self.can_be_deleted_only_for_self }
+
+  pub fn can_be_deleted_for_all_users(&self) -> bool { self.can_be_deleted_for_all_users }
+
+  pub fn can_be_reported(&self) -> bool { self.can_be_reported }
+
+  pub fn default_disable_notification(&self) -> bool { self.default_disable_notification }
+
+  pub fn unread_count(&self) -> i32 { self.unread_count }
+
+  pub fn last_read_inbox_message_id(&self) -> i32 { self.last_read_inbox_message_id }
+
+  pub fn last_read_outbox_message_id(&self) -> i32 { self.last_read_outbox_message_id }
+
+  pub fn unread_mention_count(&self) -> i32 { self.unread_mention_count }
+
+  pub fn notification_settings(&self) -> &ChatNotificationSettings { &self.notification_settings }
+
+  pub fn pinned_message_id(&self) -> i32 { self.pinned_message_id }
+
+  pub fn reply_markup_message_id(&self) -> i32 { self.reply_markup_message_id }
+
+  pub fn draft_message(&self) -> &Option<DraftMessage> { &self.draft_message }
+
+  pub fn client_data(&self) -> &String { &self.client_data }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatBuilder {
+  inner: Chat
+}
+
+impl RTDChatBuilder {
+  pub fn build(&self) -> Chat { self.inner.clone() }
+
+   
+  pub fn id(&mut self, id: i32) -> &mut Self {
+    self.inner.id = id;
+    self
+  }
+
+   
+  pub fn type_<T: AsRef<ChatType>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+   
+  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
+    self.inner.title = title.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn photo<T: AsRef<ChatPhoto>>(&mut self, photo: T) -> &mut Self {
+    self.inner.photo = Some(photo.as_ref().clone());
+    self
+  }
+
+   
+  pub fn last_message<T: AsRef<Message>>(&mut self, last_message: T) -> &mut Self {
+    self.inner.last_message = Some(last_message.as_ref().clone());
+    self
+  }
+
+   
+  pub fn order<T: AsRef<str>>(&mut self, order: T) -> &mut Self {
+    self.inner.order = order.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn is_pinned(&mut self, is_pinned: bool) -> &mut Self {
+    self.inner.is_pinned = is_pinned;
+    self
+  }
+
+   
+  pub fn is_marked_as_unread(&mut self, is_marked_as_unread: bool) -> &mut Self {
+    self.inner.is_marked_as_unread = is_marked_as_unread;
+    self
+  }
+
+   
+  pub fn is_sponsored(&mut self, is_sponsored: bool) -> &mut Self {
+    self.inner.is_sponsored = is_sponsored;
+    self
+  }
+
+   
+  pub fn can_be_deleted_only_for_self(&mut self, can_be_deleted_only_for_self: bool) -> &mut Self {
+    self.inner.can_be_deleted_only_for_self = can_be_deleted_only_for_self;
+    self
+  }
+
+   
+  pub fn can_be_deleted_for_all_users(&mut self, can_be_deleted_for_all_users: bool) -> &mut Self {
+    self.inner.can_be_deleted_for_all_users = can_be_deleted_for_all_users;
+    self
+  }
+
+   
+  pub fn can_be_reported(&mut self, can_be_reported: bool) -> &mut Self {
+    self.inner.can_be_reported = can_be_reported;
+    self
+  }
+
+   
+  pub fn default_disable_notification(&mut self, default_disable_notification: bool) -> &mut Self {
+    self.inner.default_disable_notification = default_disable_notification;
+    self
+  }
+
+   
+  pub fn unread_count(&mut self, unread_count: i32) -> &mut Self {
+    self.inner.unread_count = unread_count;
+    self
+  }
+
+   
+  pub fn last_read_inbox_message_id(&mut self, last_read_inbox_message_id: i32) -> &mut Self {
+    self.inner.last_read_inbox_message_id = last_read_inbox_message_id;
+    self
+  }
+
+   
+  pub fn last_read_outbox_message_id(&mut self, last_read_outbox_message_id: i32) -> &mut Self {
+    self.inner.last_read_outbox_message_id = last_read_outbox_message_id;
+    self
+  }
+
+   
+  pub fn unread_mention_count(&mut self, unread_mention_count: i32) -> &mut Self {
+    self.inner.unread_mention_count = unread_mention_count;
+    self
+  }
+
+   
+  pub fn notification_settings<T: AsRef<ChatNotificationSettings>>(&mut self, notification_settings: T) -> &mut Self {
+    self.inner.notification_settings = notification_settings.as_ref().clone();
+    self
+  }
+
+   
+  pub fn pinned_message_id(&mut self, pinned_message_id: i32) -> &mut Self {
+    self.inner.pinned_message_id = pinned_message_id;
+    self
+  }
+
+   
+  pub fn reply_markup_message_id(&mut self, reply_markup_message_id: i32) -> &mut Self {
+    self.inner.reply_markup_message_id = reply_markup_message_id;
+    self
+  }
+
+   
+  pub fn draft_message<T: AsRef<DraftMessage>>(&mut self, draft_message: T) -> &mut Self {
+    self.inner.draft_message = Some(draft_message.as_ref().clone());
+    self
+  }
+
+   
+  pub fn client_data<T: AsRef<str>>(&mut self, client_data: T) -> &mut Self {
+    self.inner.client_data = client_data.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<Chat> for Chat {
+  fn as_ref(&self) -> &Chat { self }
+}
+
+impl AsRef<Chat> for RTDChatBuilder {
+  fn as_ref(&self) -> &Chat { &self.inner }
 }
 
 

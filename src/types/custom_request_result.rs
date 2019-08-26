@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains the result of a custom request. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains the result of a custom request
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct CustomRequestResult {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // customRequestResult
-  /// A JSON-serialized result.
-  result: Option<String>,
+  td_name: String,
+  /// A JSON-serialized result
+  result: String,
   
 }
 
-
-
-impl Object for CustomRequestResult {}
 impl RObject for CustomRequestResult {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "customRequestResult" }
-  fn td_type(&self) -> RTDType { RTDType::CustomRequestResult }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl CustomRequestResult {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "customRequestResult".to_string(),
-      result: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDCustomRequestResultBuilder {
+    let mut inner = CustomRequestResult::default();
+    inner.td_name = "customRequestResult".to_string();
+    RTDCustomRequestResultBuilder { inner }
   }
-  
-  pub fn result(&self) -> Option<String> { self.result.clone() }
-  #[doc(hidden)] pub fn _set_result(&mut self, result: String) -> &mut Self { self.result = Some(result); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn result(&self) -> &String { &self.result }
+
+}
+
+#[doc(hidden)]
+pub struct RTDCustomRequestResultBuilder {
+  inner: CustomRequestResult
+}
+
+impl RTDCustomRequestResultBuilder {
+  pub fn build(&self) -> CustomRequestResult { self.inner.clone() }
+
+   
+  pub fn result<T: AsRef<str>>(&mut self, result: T) -> &mut Self {
+    self.inner.result = result.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<CustomRequestResult> for CustomRequestResult {
+  fn as_ref(&self) -> &CustomRequestResult { self }
+}
+
+impl AsRef<CustomRequestResult> for RTDCustomRequestResultBuilder {
+  fn as_ref(&self) -> &CustomRequestResult { &self.inner }
 }
 
 

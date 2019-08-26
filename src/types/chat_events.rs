@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains a list of chat events. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains a list of chat events
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatEvents {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // chatEvents
-  /// List of events.
-  events: Option<Vec<ChatEvent>>,
+  td_name: String,
+  /// List of events
+  events: Vec<ChatEvent>,
   
 }
 
-
-
-impl Object for ChatEvents {}
 impl RObject for ChatEvents {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEvents" }
-  fn td_type(&self) -> RTDType { RTDType::ChatEvents }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl ChatEvents {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "chatEvents".to_string(),
-      events: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatEventsBuilder {
+    let mut inner = ChatEvents::default();
+    inner.td_name = "chatEvents".to_string();
+    RTDChatEventsBuilder { inner }
   }
-  
-  pub fn events(&self) -> Option<Vec<ChatEvent>> { self.events.clone() }
-  #[doc(hidden)] pub fn _set_events(&mut self, events: Vec<ChatEvent>) -> &mut Self { self.events = Some(events); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn events(&self) -> &Vec<ChatEvent> { &self.events }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventsBuilder {
+  inner: ChatEvents
+}
+
+impl RTDChatEventsBuilder {
+  pub fn build(&self) -> ChatEvents { self.inner.clone() }
+
+   
+  pub fn events(&mut self, events: Vec<ChatEvent>) -> &mut Self {
+    self.inner.events = events;
+    self
+  }
+
+}
+
+impl AsRef<ChatEvents> for ChatEvents {
+  fn as_ref(&self) -> &ChatEvents { self }
+}
+
+impl AsRef<ChatEvents> for RTDChatEventsBuilder {
+  fn as_ref(&self) -> &ChatEvents { &self.inner }
 }
 
 

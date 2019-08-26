@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains a TDLib internal log verbosity level. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains a TDLib internal log verbosity level
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct LogVerbosityLevel {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // logVerbosityLevel
-  /// Log verbosity level.
-  verbosity_level: Option<i32>,
+  td_name: String,
+  /// Log verbosity level
+  verbosity_level: i32,
   
 }
 
-
-
-impl Object for LogVerbosityLevel {}
 impl RObject for LogVerbosityLevel {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "logVerbosityLevel" }
-  fn td_type(&self) -> RTDType { RTDType::LogVerbosityLevel }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl LogVerbosityLevel {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "logVerbosityLevel".to_string(),
-      verbosity_level: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDLogVerbosityLevelBuilder {
+    let mut inner = LogVerbosityLevel::default();
+    inner.td_name = "logVerbosityLevel".to_string();
+    RTDLogVerbosityLevelBuilder { inner }
   }
-  
-  pub fn verbosity_level(&self) -> Option<i32> { self.verbosity_level.clone() }
-  #[doc(hidden)] pub fn _set_verbosity_level(&mut self, verbosity_level: i32) -> &mut Self { self.verbosity_level = Some(verbosity_level); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn verbosity_level(&self) -> i32 { self.verbosity_level }
+
+}
+
+#[doc(hidden)]
+pub struct RTDLogVerbosityLevelBuilder {
+  inner: LogVerbosityLevel
+}
+
+impl RTDLogVerbosityLevelBuilder {
+  pub fn build(&self) -> LogVerbosityLevel { self.inner.clone() }
+
+   
+  pub fn verbosity_level(&mut self, verbosity_level: i32) -> &mut Self {
+    self.inner.verbosity_level = verbosity_level;
+    self
+  }
+
+}
+
+impl AsRef<LogVerbosityLevel> for LogVerbosityLevel {
+  fn as_ref(&self) -> &LogVerbosityLevel { self }
+}
+
+impl AsRef<LogVerbosityLevel> for RTDLogVerbosityLevelBuilder {
+  fn as_ref(&self) -> &LogVerbosityLevel { &self.inner }
 }
 
 

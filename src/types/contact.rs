@@ -1,69 +1,102 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Describes a user contact. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Describes a user contact
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Contact {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // contact
-  /// Phone number of the user.
-  phone_number: Option<String>,
-  /// First name of the user; 1-255 characters in length.
-  first_name: Option<String>,
-  /// Last name of the user.
-  last_name: Option<String>,
-  /// Additional data about the user in a form of vCard; 0-2048 bytes in length.
-  vcard: Option<String>,
-  /// Identifier of the user, if known; otherwise 0.
-  user_id: Option<i32>,
+  td_name: String,
+  /// Phone number of the user
+  phone_number: String,
+  /// First name of the user; 1-255 characters in length
+  first_name: String,
+  /// Last name of the user
+  last_name: String,
+  /// Additional data about the user in a form of vCard; 0-2048 bytes in length
+  vcard: String,
+  /// Identifier of the user, if known; otherwise 0
+  user_id: i32,
   
 }
 
-
-
-impl Object for Contact {}
 impl RObject for Contact {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "contact" }
-  fn td_type(&self) -> RTDType { RTDType::Contact }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Contact {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "contact".to_string(),
-      phone_number: None,
-      first_name: None,
-      last_name: None,
-      vcard: None,
-      user_id: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDContactBuilder {
+    let mut inner = Contact::default();
+    inner.td_name = "contact".to_string();
+    RTDContactBuilder { inner }
   }
-  
-  pub fn phone_number(&self) -> Option<String> { self.phone_number.clone() }
-  #[doc(hidden)] pub fn _set_phone_number(&mut self, phone_number: String) -> &mut Self { self.phone_number = Some(phone_number); self }
-  
-  pub fn first_name(&self) -> Option<String> { self.first_name.clone() }
-  #[doc(hidden)] pub fn _set_first_name(&mut self, first_name: String) -> &mut Self { self.first_name = Some(first_name); self }
-  
-  pub fn last_name(&self) -> Option<String> { self.last_name.clone() }
-  #[doc(hidden)] pub fn _set_last_name(&mut self, last_name: String) -> &mut Self { self.last_name = Some(last_name); self }
-  
-  pub fn vcard(&self) -> Option<String> { self.vcard.clone() }
-  #[doc(hidden)] pub fn _set_vcard(&mut self, vcard: String) -> &mut Self { self.vcard = Some(vcard); self }
-  
-  pub fn user_id(&self) -> Option<i32> { self.user_id.clone() }
-  #[doc(hidden)] pub fn _set_user_id(&mut self, user_id: i32) -> &mut Self { self.user_id = Some(user_id); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn phone_number(&self) -> &String { &self.phone_number }
+
+  pub fn first_name(&self) -> &String { &self.first_name }
+
+  pub fn last_name(&self) -> &String { &self.last_name }
+
+  pub fn vcard(&self) -> &String { &self.vcard }
+
+  pub fn user_id(&self) -> i32 { self.user_id }
+
+}
+
+#[doc(hidden)]
+pub struct RTDContactBuilder {
+  inner: Contact
+}
+
+impl RTDContactBuilder {
+  pub fn build(&self) -> Contact { self.inner.clone() }
+
+   
+  pub fn phone_number<T: AsRef<str>>(&mut self, phone_number: T) -> &mut Self {
+    self.inner.phone_number = phone_number.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn first_name<T: AsRef<str>>(&mut self, first_name: T) -> &mut Self {
+    self.inner.first_name = first_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn last_name<T: AsRef<str>>(&mut self, last_name: T) -> &mut Self {
+    self.inner.last_name = last_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn vcard<T: AsRef<str>>(&mut self, vcard: T) -> &mut Self {
+    self.inner.vcard = vcard.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn user_id(&mut self, user_id: i32) -> &mut Self {
+    self.inner.user_id = user_id;
+    self
+  }
+
+}
+
+impl AsRef<Contact> for Contact {
+  fn as_ref(&self) -> &Contact { self }
+}
+
+impl AsRef<Contact> for RTDContactBuilder {
+  fn as_ref(&self) -> &Contact { &self.inner }
 }
 
 

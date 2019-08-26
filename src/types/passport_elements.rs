@@ -1,49 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains information about saved Telegram Passport elements. 
-#[derive(Debug, Serialize, Deserialize)]
+
+
+
+/// Contains information about saved Telegram Passport elements
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PassportElements {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // passportElements
-  /// Telegram Passport elements.
-  elements: Option<Vec<Box<PassportElement>>>,
+  td_name: String,
+  /// Telegram Passport elements
+  elements: Vec<PassportElement>,
   
 }
 
-
-impl Clone for PassportElements {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
-}
-
-
-impl Object for PassportElements {}
 impl RObject for PassportElements {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElements" }
-  fn td_type(&self) -> RTDType { RTDType::PassportElements }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl PassportElements {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "passportElements".to_string(),
-      elements: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPassportElementsBuilder {
+    let mut inner = PassportElements::default();
+    inner.td_name = "passportElements".to_string();
+    RTDPassportElementsBuilder { inner }
   }
-  
-  pub fn elements(&self) -> Option<Vec<Box<PassportElement>>> { self.elements.clone() }
-  #[doc(hidden)] pub fn _set_elements(&mut self, elements: Vec<Box<PassportElement>>) -> &mut Self { self.elements = Some(elements); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn elements(&self) -> &Vec<PassportElement> { &self.elements }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPassportElementsBuilder {
+  inner: PassportElements
+}
+
+impl RTDPassportElementsBuilder {
+  pub fn build(&self) -> PassportElements { self.inner.clone() }
+
+   
+  pub fn elements(&mut self, elements: Vec<PassportElement>) -> &mut Self {
+    self.inner.elements = elements;
+    self
+  }
+
+}
+
+impl AsRef<PassportElements> for PassportElements {
+  fn as_ref(&self) -> &PassportElements { self }
+}
+
+impl AsRef<PassportElements> for RTDPassportElementsBuilder {
+  fn as_ref(&self) -> &PassportElements { &self.inner }
 }
 
 

@@ -1,57 +1,82 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains information about a Telegram Passport authorization form that was requested. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains information about a Telegram Passport authorization form that was requested
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PassportAuthorizationForm {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // passportAuthorizationForm
-  /// Unique identifier of the authorization form.
-  id: Option<i32>,
-  /// Information about the Telegram Passport elements that need to be provided to complete the form.
-  required_elements: Option<Vec<PassportRequiredElement>>,
-  /// URL for the privacy policy of the service; may be empty.
-  privacy_policy_url: Option<String>,
+  td_name: String,
+  /// Unique identifier of the authorization form
+  id: i32,
+  /// Information about the Telegram Passport elements that need to be provided to complete the form
+  required_elements: Vec<PassportRequiredElement>,
+  /// URL for the privacy policy of the service; may be empty
+  privacy_policy_url: String,
   
 }
 
-
-
-impl Object for PassportAuthorizationForm {}
 impl RObject for PassportAuthorizationForm {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportAuthorizationForm" }
-  fn td_type(&self) -> RTDType { RTDType::PassportAuthorizationForm }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl PassportAuthorizationForm {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "passportAuthorizationForm".to_string(),
-      id: None,
-      required_elements: None,
-      privacy_policy_url: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPassportAuthorizationFormBuilder {
+    let mut inner = PassportAuthorizationForm::default();
+    inner.td_name = "passportAuthorizationForm".to_string();
+    RTDPassportAuthorizationFormBuilder { inner }
   }
-  
-  pub fn id(&self) -> Option<i32> { self.id.clone() }
-  #[doc(hidden)] pub fn _set_id(&mut self, id: i32) -> &mut Self { self.id = Some(id); self }
-  
-  pub fn required_elements(&self) -> Option<Vec<PassportRequiredElement>> { self.required_elements.clone() }
-  #[doc(hidden)] pub fn _set_required_elements(&mut self, required_elements: Vec<PassportRequiredElement>) -> &mut Self { self.required_elements = Some(required_elements); self }
-  
-  pub fn privacy_policy_url(&self) -> Option<String> { self.privacy_policy_url.clone() }
-  #[doc(hidden)] pub fn _set_privacy_policy_url(&mut self, privacy_policy_url: String) -> &mut Self { self.privacy_policy_url = Some(privacy_policy_url); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn id(&self) -> i32 { self.id }
+
+  pub fn required_elements(&self) -> &Vec<PassportRequiredElement> { &self.required_elements }
+
+  pub fn privacy_policy_url(&self) -> &String { &self.privacy_policy_url }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPassportAuthorizationFormBuilder {
+  inner: PassportAuthorizationForm
+}
+
+impl RTDPassportAuthorizationFormBuilder {
+  pub fn build(&self) -> PassportAuthorizationForm { self.inner.clone() }
+
+   
+  pub fn id(&mut self, id: i32) -> &mut Self {
+    self.inner.id = id;
+    self
+  }
+
+   
+  pub fn required_elements(&mut self, required_elements: Vec<PassportRequiredElement>) -> &mut Self {
+    self.inner.required_elements = required_elements;
+    self
+  }
+
+   
+  pub fn privacy_policy_url<T: AsRef<str>>(&mut self, privacy_policy_url: T) -> &mut Self {
+    self.inner.privacy_policy_url = privacy_policy_url.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<PassportAuthorizationForm> for PassportAuthorizationForm {
+  fn as_ref(&self) -> &PassportAuthorizationForm { self }
+}
+
+impl AsRef<PassportAuthorizationForm> for RTDPassportAuthorizationFormBuilder {
+  fn as_ref(&self) -> &PassportAuthorizationForm { &self.inner }
 }
 
 

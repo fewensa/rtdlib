@@ -1,51 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains a list of messages found by a search. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains a list of messages found by a search
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct FoundMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // foundMessages
-  /// List of messages.
-  messages: Option<Vec<Message>>,
-  /// Value to pass as from_search_id to get more results.
-  next_from_search_id: Option<i64>,
+  td_name: String,
+  /// List of messages
+  messages: Vec<Message>,
+  /// Value to pass as from_search_id to get more results
+  next_from_search_id: i64,
   
 }
 
-
-
-impl Object for FoundMessages {}
 impl RObject for FoundMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "foundMessages" }
-  fn td_type(&self) -> RTDType { RTDType::FoundMessages }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl FoundMessages {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "foundMessages".to_string(),
-      messages: None,
-      next_from_search_id: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDFoundMessagesBuilder {
+    let mut inner = FoundMessages::default();
+    inner.td_name = "foundMessages".to_string();
+    RTDFoundMessagesBuilder { inner }
   }
-  
-  pub fn messages(&self) -> Option<Vec<Message>> { self.messages.clone() }
-  #[doc(hidden)] pub fn _set_messages(&mut self, messages: Vec<Message>) -> &mut Self { self.messages = Some(messages); self }
-  
-  pub fn next_from_search_id(&self) -> Option<i64> { self.next_from_search_id.clone() }
-  #[doc(hidden)] pub fn _set_next_from_search_id(&mut self, next_from_search_id: i64) -> &mut Self { self.next_from_search_id = Some(next_from_search_id); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn messages(&self) -> &Vec<Message> { &self.messages }
+
+  pub fn next_from_search_id(&self) -> i64 { self.next_from_search_id }
+
+}
+
+#[doc(hidden)]
+pub struct RTDFoundMessagesBuilder {
+  inner: FoundMessages
+}
+
+impl RTDFoundMessagesBuilder {
+  pub fn build(&self) -> FoundMessages { self.inner.clone() }
+
+   
+  pub fn messages(&mut self, messages: Vec<Message>) -> &mut Self {
+    self.inner.messages = messages;
+    self
+  }
+
+   
+  pub fn next_from_search_id(&mut self, next_from_search_id: i64) -> &mut Self {
+    self.inner.next_from_search_id = next_from_search_id;
+    self
+  }
+
+}
+
+impl AsRef<FoundMessages> for FoundMessages {
+  fn as_ref(&self) -> &FoundMessages { self }
+}
+
+impl AsRef<FoundMessages> for RTDFoundMessagesBuilder {
+  fn as_ref(&self) -> &FoundMessages { &self.inner }
 }
 
 

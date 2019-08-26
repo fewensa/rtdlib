@@ -1,55 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Represents one language pack string. 
-#[derive(Debug, Serialize, Deserialize)]
+
+
+
+/// Represents one language pack string
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct LanguagePackString {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // languagePackString
-  /// String key.
-  key: Option<String>,
-  /// String value.
-  value: Option<Box<LanguagePackStringValue>>,
+  td_name: String,
+  /// String key
+  key: String,
+  /// String value
+  value: LanguagePackStringValue,
   
 }
 
-
-impl Clone for LanguagePackString {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
-}
-
-
-impl Object for LanguagePackString {}
 impl RObject for LanguagePackString {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "languagePackString" }
-  fn td_type(&self) -> RTDType { RTDType::LanguagePackString }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl LanguagePackString {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "languagePackString".to_string(),
-      key: None,
-      value: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDLanguagePackStringBuilder {
+    let mut inner = LanguagePackString::default();
+    inner.td_name = "languagePackString".to_string();
+    RTDLanguagePackStringBuilder { inner }
   }
-  
-  pub fn key(&self) -> Option<String> { self.key.clone() }
-  #[doc(hidden)] pub fn _set_key(&mut self, key: String) -> &mut Self { self.key = Some(key); self }
-  
-  pub fn value(&self) -> Option<Box<LanguagePackStringValue>> { self.value.clone() }
-  #[doc(hidden)] pub fn _set_value(&mut self, value: Box<LanguagePackStringValue>) -> &mut Self { self.value = Some(value); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn key(&self) -> &String { &self.key }
+
+  pub fn value(&self) -> &LanguagePackStringValue { &self.value }
+
+}
+
+#[doc(hidden)]
+pub struct RTDLanguagePackStringBuilder {
+  inner: LanguagePackString
+}
+
+impl RTDLanguagePackStringBuilder {
+  pub fn build(&self) -> LanguagePackString { self.inner.clone() }
+
+   
+  pub fn key<T: AsRef<str>>(&mut self, key: T) -> &mut Self {
+    self.inner.key = key.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn value<T: AsRef<LanguagePackStringValue>>(&mut self, value: T) -> &mut Self {
+    self.inner.value = value.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<LanguagePackString> for LanguagePackString {
+  fn as_ref(&self) -> &LanguagePackString { self }
+}
+
+impl AsRef<LanguagePackString> for RTDLanguagePackStringBuilder {
+  fn as_ref(&self) -> &LanguagePackString { &self.inner }
 }
 
 

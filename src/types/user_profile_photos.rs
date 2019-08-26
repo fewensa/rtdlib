@@ -1,51 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains part of the list of user photos. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains part of the list of user photos
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UserProfilePhotos {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // userProfilePhotos
-  /// Total number of user profile photos.
-  total_count: Option<i32>,
-  /// A list of photos.
-  photos: Option<Vec<UserProfilePhoto>>,
+  td_name: String,
+  /// Total number of user profile photos
+  total_count: i32,
+  /// A list of photos
+  photos: Vec<UserProfilePhoto>,
   
 }
 
-
-
-impl Object for UserProfilePhotos {}
 impl RObject for UserProfilePhotos {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userProfilePhotos" }
-  fn td_type(&self) -> RTDType { RTDType::UserProfilePhotos }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl UserProfilePhotos {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "userProfilePhotos".to_string(),
-      total_count: None,
-      photos: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUserProfilePhotosBuilder {
+    let mut inner = UserProfilePhotos::default();
+    inner.td_name = "userProfilePhotos".to_string();
+    RTDUserProfilePhotosBuilder { inner }
   }
-  
-  pub fn total_count(&self) -> Option<i32> { self.total_count.clone() }
-  #[doc(hidden)] pub fn _set_total_count(&mut self, total_count: i32) -> &mut Self { self.total_count = Some(total_count); self }
-  
-  pub fn photos(&self) -> Option<Vec<UserProfilePhoto>> { self.photos.clone() }
-  #[doc(hidden)] pub fn _set_photos(&mut self, photos: Vec<UserProfilePhoto>) -> &mut Self { self.photos = Some(photos); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn total_count(&self) -> i32 { self.total_count }
+
+  pub fn photos(&self) -> &Vec<UserProfilePhoto> { &self.photos }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUserProfilePhotosBuilder {
+  inner: UserProfilePhotos
+}
+
+impl RTDUserProfilePhotosBuilder {
+  pub fn build(&self) -> UserProfilePhotos { self.inner.clone() }
+
+   
+  pub fn total_count(&mut self, total_count: i32) -> &mut Self {
+    self.inner.total_count = total_count;
+    self
+  }
+
+   
+  pub fn photos(&mut self, photos: Vec<UserProfilePhoto>) -> &mut Self {
+    self.inner.photos = photos;
+    self
+  }
+
+}
+
+impl AsRef<UserProfilePhotos> for UserProfilePhotos {
+  fn as_ref(&self) -> &UserProfilePhotos { self }
+}
+
+impl AsRef<UserProfilePhotos> for RTDUserProfilePhotosBuilder {
+  fn as_ref(&self) -> &UserProfilePhotos { &self.inner }
 }
 
 

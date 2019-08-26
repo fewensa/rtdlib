@@ -1,61 +1,82 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains the storage usage statistics for a specific file type. 
-#[derive(Debug, Serialize, Deserialize)]
+
+
+
+/// Contains the storage usage statistics for a specific file type
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct StorageStatisticsByFileType {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // storageStatisticsByFileType
-  /// File type.
-  file_type: Option<Box<FileType>>,
-  /// Total size of the files.
-  size: Option<i64>,
-  /// Total number of files.
-  count: Option<i32>,
+  td_name: String,
+  /// File type
+  file_type: FileType,
+  /// Total size of the files
+  size: i32,
+  /// Total number of files
+  count: i32,
   
 }
 
-
-impl Clone for StorageStatisticsByFileType {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
-}
-
-
-impl Object for StorageStatisticsByFileType {}
 impl RObject for StorageStatisticsByFileType {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "storageStatisticsByFileType" }
-  fn td_type(&self) -> RTDType { RTDType::StorageStatisticsByFileType }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl StorageStatisticsByFileType {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "storageStatisticsByFileType".to_string(),
-      file_type: None,
-      size: None,
-      count: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDStorageStatisticsByFileTypeBuilder {
+    let mut inner = StorageStatisticsByFileType::default();
+    inner.td_name = "storageStatisticsByFileType".to_string();
+    RTDStorageStatisticsByFileTypeBuilder { inner }
   }
-  
-  pub fn file_type(&self) -> Option<Box<FileType>> { self.file_type.clone() }
-  #[doc(hidden)] pub fn _set_file_type(&mut self, file_type: Box<FileType>) -> &mut Self { self.file_type = Some(file_type); self }
-  
-  pub fn size(&self) -> Option<i64> { self.size.clone() }
-  #[doc(hidden)] pub fn _set_size(&mut self, size: i64) -> &mut Self { self.size = Some(size); self }
-  
-  pub fn count(&self) -> Option<i32> { self.count.clone() }
-  #[doc(hidden)] pub fn _set_count(&mut self, count: i32) -> &mut Self { self.count = Some(count); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn file_type(&self) -> &FileType { &self.file_type }
+
+  pub fn size(&self) -> i32 { self.size }
+
+  pub fn count(&self) -> i32 { self.count }
+
+}
+
+#[doc(hidden)]
+pub struct RTDStorageStatisticsByFileTypeBuilder {
+  inner: StorageStatisticsByFileType
+}
+
+impl RTDStorageStatisticsByFileTypeBuilder {
+  pub fn build(&self) -> StorageStatisticsByFileType { self.inner.clone() }
+
+   
+  pub fn file_type<T: AsRef<FileType>>(&mut self, file_type: T) -> &mut Self {
+    self.inner.file_type = file_type.as_ref().clone();
+    self
+  }
+
+   
+  pub fn size(&mut self, size: i32) -> &mut Self {
+    self.inner.size = size;
+    self
+  }
+
+   
+  pub fn count(&mut self, count: i32) -> &mut Self {
+    self.inner.count = count;
+    self
+  }
+
+}
+
+impl AsRef<StorageStatisticsByFileType> for StorageStatisticsByFileType {
+  fn as_ref(&self) -> &StorageStatisticsByFileType { self }
+}
+
+impl AsRef<StorageStatisticsByFileType> for RTDStorageStatisticsByFileTypeBuilder {
+  fn as_ref(&self) -> &StorageStatisticsByFileType { &self.inner }
 }
 
 

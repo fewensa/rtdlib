@@ -1,51 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Describes a location on planet Earth. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Describes a location on planet Earth
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Location {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // location
-  /// Latitude of the location in degrees; as defined by the sender.
-  latitude: Option<f64>,
-  /// Longitude of the location, in degrees; as defined by the sender.
-  longitude: Option<f64>,
+  td_name: String,
+  /// Latitude of the location in degrees; as defined by the sender
+  latitude: f32,
+  /// Longitude of the location, in degrees; as defined by the sender
+  longitude: f32,
   
 }
 
-
-
-impl Object for Location {}
 impl RObject for Location {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "location" }
-  fn td_type(&self) -> RTDType { RTDType::Location }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Location {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "location".to_string(),
-      latitude: None,
-      longitude: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDLocationBuilder {
+    let mut inner = Location::default();
+    inner.td_name = "location".to_string();
+    RTDLocationBuilder { inner }
   }
-  
-  pub fn latitude(&self) -> Option<f64> { self.latitude.clone() }
-  #[doc(hidden)] pub fn _set_latitude(&mut self, latitude: f64) -> &mut Self { self.latitude = Some(latitude); self }
-  
-  pub fn longitude(&self) -> Option<f64> { self.longitude.clone() }
-  #[doc(hidden)] pub fn _set_longitude(&mut self, longitude: f64) -> &mut Self { self.longitude = Some(longitude); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn latitude(&self) -> f32 { self.latitude }
+
+  pub fn longitude(&self) -> f32 { self.longitude }
+
+}
+
+#[doc(hidden)]
+pub struct RTDLocationBuilder {
+  inner: Location
+}
+
+impl RTDLocationBuilder {
+  pub fn build(&self) -> Location { self.inner.clone() }
+
+   
+  pub fn latitude(&mut self, latitude: f32) -> &mut Self {
+    self.inner.latitude = latitude;
+    self
+  }
+
+   
+  pub fn longitude(&mut self, longitude: f32) -> &mut Self {
+    self.inner.longitude = longitude;
+    self
+  }
+
+}
+
+impl AsRef<Location> for Location {
+  fn as_ref(&self) -> &Location { self }
+}
+
+impl AsRef<Location> for RTDLocationBuilder {
+  fn as_ref(&self) -> &Location { &self.inner }
 }
 
 

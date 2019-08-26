@@ -1,55 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains information about a Telegram Passport elements and corresponding errors. 
-#[derive(Debug, Serialize, Deserialize)]
+
+
+
+/// Contains information about a Telegram Passport elements and corresponding errors
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PassportElementsWithErrors {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // passportElementsWithErrors
-  /// Telegram Passport elements.
-  elements: Option<Vec<Box<PassportElement>>>,
-  /// Errors in the elements that are already available.
-  errors: Option<Vec<PassportElementError>>,
+  td_name: String,
+  /// Telegram Passport elements
+  elements: Vec<PassportElement>,
+  /// Errors in the elements that are already available
+  errors: Vec<PassportElementError>,
   
 }
 
-
-impl Clone for PassportElementsWithErrors {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
-}
-
-
-impl Object for PassportElementsWithErrors {}
 impl RObject for PassportElementsWithErrors {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementsWithErrors" }
-  fn td_type(&self) -> RTDType { RTDType::PassportElementsWithErrors }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl PassportElementsWithErrors {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "passportElementsWithErrors".to_string(),
-      elements: None,
-      errors: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPassportElementsWithErrorsBuilder {
+    let mut inner = PassportElementsWithErrors::default();
+    inner.td_name = "passportElementsWithErrors".to_string();
+    RTDPassportElementsWithErrorsBuilder { inner }
   }
-  
-  pub fn elements(&self) -> Option<Vec<Box<PassportElement>>> { self.elements.clone() }
-  #[doc(hidden)] pub fn _set_elements(&mut self, elements: Vec<Box<PassportElement>>) -> &mut Self { self.elements = Some(elements); self }
-  
-  pub fn errors(&self) -> Option<Vec<PassportElementError>> { self.errors.clone() }
-  #[doc(hidden)] pub fn _set_errors(&mut self, errors: Vec<PassportElementError>) -> &mut Self { self.errors = Some(errors); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn elements(&self) -> &Vec<PassportElement> { &self.elements }
+
+  pub fn errors(&self) -> &Vec<PassportElementError> { &self.errors }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPassportElementsWithErrorsBuilder {
+  inner: PassportElementsWithErrors
+}
+
+impl RTDPassportElementsWithErrorsBuilder {
+  pub fn build(&self) -> PassportElementsWithErrors { self.inner.clone() }
+
+   
+  pub fn elements(&mut self, elements: Vec<PassportElement>) -> &mut Self {
+    self.inner.elements = elements;
+    self
+  }
+
+   
+  pub fn errors(&mut self, errors: Vec<PassportElementError>) -> &mut Self {
+    self.inner.errors = errors;
+    self
+  }
+
+}
+
+impl AsRef<PassportElementsWithErrors> for PassportElementsWithErrors {
+  fn as_ref(&self) -> &PassportElementsWithErrors { self }
+}
+
+impl AsRef<PassportElementsWithErrors> for RTDPassportElementsWithErrorsBuilder {
+  fn as_ref(&self) -> &PassportElementsWithErrors { &self.inner }
 }
 
 

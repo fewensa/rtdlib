@@ -1,51 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Information about the email address authentication code that was sent. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Information about the email address authentication code that was sent
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct EmailAddressAuthenticationCodeInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // emailAddressAuthenticationCodeInfo
-  /// Pattern of the email address to which an authentication code was sent.
-  email_address_pattern: Option<String>,
-  /// Length of the code; 0 if unknown.
-  length: Option<i32>,
+  td_name: String,
+  /// Pattern of the email address to which an authentication code was sent
+  email_address_pattern: String,
+  /// Length of the code; 0 if unknown
+  length: i32,
   
 }
 
-
-
-impl Object for EmailAddressAuthenticationCodeInfo {}
 impl RObject for EmailAddressAuthenticationCodeInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "emailAddressAuthenticationCodeInfo" }
-  fn td_type(&self) -> RTDType { RTDType::EmailAddressAuthenticationCodeInfo }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl EmailAddressAuthenticationCodeInfo {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "emailAddressAuthenticationCodeInfo".to_string(),
-      email_address_pattern: None,
-      length: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDEmailAddressAuthenticationCodeInfoBuilder {
+    let mut inner = EmailAddressAuthenticationCodeInfo::default();
+    inner.td_name = "emailAddressAuthenticationCodeInfo".to_string();
+    RTDEmailAddressAuthenticationCodeInfoBuilder { inner }
   }
-  
-  pub fn email_address_pattern(&self) -> Option<String> { self.email_address_pattern.clone() }
-  #[doc(hidden)] pub fn _set_email_address_pattern(&mut self, email_address_pattern: String) -> &mut Self { self.email_address_pattern = Some(email_address_pattern); self }
-  
-  pub fn length(&self) -> Option<i32> { self.length.clone() }
-  #[doc(hidden)] pub fn _set_length(&mut self, length: i32) -> &mut Self { self.length = Some(length); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn email_address_pattern(&self) -> &String { &self.email_address_pattern }
+
+  pub fn length(&self) -> i32 { self.length }
+
+}
+
+#[doc(hidden)]
+pub struct RTDEmailAddressAuthenticationCodeInfoBuilder {
+  inner: EmailAddressAuthenticationCodeInfo
+}
+
+impl RTDEmailAddressAuthenticationCodeInfoBuilder {
+  pub fn build(&self) -> EmailAddressAuthenticationCodeInfo { self.inner.clone() }
+
+   
+  pub fn email_address_pattern<T: AsRef<str>>(&mut self, email_address_pattern: T) -> &mut Self {
+    self.inner.email_address_pattern = email_address_pattern.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn length(&mut self, length: i32) -> &mut Self {
+    self.inner.length = length;
+    self
+  }
+
+}
+
+impl AsRef<EmailAddressAuthenticationCodeInfo> for EmailAddressAuthenticationCodeInfo {
+  fn as_ref(&self) -> &EmailAddressAuthenticationCodeInfo { self }
+}
+
+impl AsRef<EmailAddressAuthenticationCodeInfo> for RTDEmailAddressAuthenticationCodeInfoBuilder {
+  fn as_ref(&self) -> &EmailAddressAuthenticationCodeInfo { &self.inner }
 }
 
 

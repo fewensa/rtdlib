@@ -1,73 +1,102 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Describes a group of notifications. 
-#[derive(Debug, Serialize, Deserialize)]
+
+
+
+/// Describes a group of notifications
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct NotificationGroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // notificationGroup
-  /// Unique persistent auto-incremented from 1 identifier of the notification group.
-  id: Option<i32>,
-  /// Type of the group.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<NotificationGroupType>>,
-  /// Identifier of a chat to which all notifications in the group belong.
-  chat_id: Option<i64>,
-  /// Total number of active notifications in the group.
-  total_count: Option<i32>,
-  /// The list of active notifications.
-  notifications: Option<Vec<Notification>>,
+  td_name: String,
+  /// Unique persistent auto-incremented from 1 identifier of the notification group
+  id: i32,
+  /// Type of the group
+  #[serde(rename(serialize = "type", deserialize = "type"))] type_: NotificationGroupType,
+  /// Identifier of a chat to which all notifications in the group belong
+  chat_id: i32,
+  /// Total number of active notifications in the group
+  total_count: i32,
+  /// The list of active notifications
+  notifications: Vec<Notification>,
   
 }
 
-
-impl Clone for NotificationGroup {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
-}
-
-
-impl Object for NotificationGroup {}
 impl RObject for NotificationGroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationGroup" }
-  fn td_type(&self) -> RTDType { RTDType::NotificationGroup }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl NotificationGroup {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "notificationGroup".to_string(),
-      id: None,
-      type_: None,
-      chat_id: None,
-      total_count: None,
-      notifications: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDNotificationGroupBuilder {
+    let mut inner = NotificationGroup::default();
+    inner.td_name = "notificationGroup".to_string();
+    RTDNotificationGroupBuilder { inner }
   }
-  
-  pub fn id(&self) -> Option<i32> { self.id.clone() }
-  #[doc(hidden)] pub fn _set_id(&mut self, id: i32) -> &mut Self { self.id = Some(id); self }
-  
-  pub fn type_(&self) -> Option<Box<NotificationGroupType>> { self.type_.clone() }
-  #[doc(hidden)] pub fn _set_type_(&mut self, type_: Box<NotificationGroupType>) -> &mut Self { self.type_ = Some(type_); self }
-  
-  pub fn chat_id(&self) -> Option<i64> { self.chat_id.clone() }
-  #[doc(hidden)] pub fn _set_chat_id(&mut self, chat_id: i64) -> &mut Self { self.chat_id = Some(chat_id); self }
-  
-  pub fn total_count(&self) -> Option<i32> { self.total_count.clone() }
-  #[doc(hidden)] pub fn _set_total_count(&mut self, total_count: i32) -> &mut Self { self.total_count = Some(total_count); self }
-  
-  pub fn notifications(&self) -> Option<Vec<Notification>> { self.notifications.clone() }
-  #[doc(hidden)] pub fn _set_notifications(&mut self, notifications: Vec<Notification>) -> &mut Self { self.notifications = Some(notifications); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn id(&self) -> i32 { self.id }
+
+  pub fn type_(&self) -> &NotificationGroupType { &self.type_ }
+
+  pub fn chat_id(&self) -> i32 { self.chat_id }
+
+  pub fn total_count(&self) -> i32 { self.total_count }
+
+  pub fn notifications(&self) -> &Vec<Notification> { &self.notifications }
+
+}
+
+#[doc(hidden)]
+pub struct RTDNotificationGroupBuilder {
+  inner: NotificationGroup
+}
+
+impl RTDNotificationGroupBuilder {
+  pub fn build(&self) -> NotificationGroup { self.inner.clone() }
+
+   
+  pub fn id(&mut self, id: i32) -> &mut Self {
+    self.inner.id = id;
+    self
+  }
+
+   
+  pub fn type_<T: AsRef<NotificationGroupType>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+   
+  pub fn chat_id(&mut self, chat_id: i32) -> &mut Self {
+    self.inner.chat_id = chat_id;
+    self
+  }
+
+   
+  pub fn total_count(&mut self, total_count: i32) -> &mut Self {
+    self.inner.total_count = total_count;
+    self
+  }
+
+   
+  pub fn notifications(&mut self, notifications: Vec<Notification>) -> &mut Self {
+    self.inner.notifications = notifications;
+    self
+  }
+
+}
+
+impl AsRef<NotificationGroup> for NotificationGroup {
+  fn as_ref(&self) -> &NotificationGroup { self }
+}
+
+impl AsRef<NotificationGroup> for RTDNotificationGroupBuilder {
+  fn as_ref(&self) -> &NotificationGroup { &self.inner }
 }
 
 

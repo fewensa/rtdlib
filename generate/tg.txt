@@ -1,6 +1,0 @@
-
-
-td_api.h File Reference
-
-https://core.telegram.org/tdlib/docs/td__api_8h.html
-

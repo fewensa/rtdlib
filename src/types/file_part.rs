@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains a part of a file. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains a part of a file
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct FilePart {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // filePart
-  /// File bytes.
-  data: Option<String>,
+  td_name: String,
+  /// File bytes
+  data: String,
   
 }
 
-
-
-impl Object for FilePart {}
 impl RObject for FilePart {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "filePart" }
-  fn td_type(&self) -> RTDType { RTDType::FilePart }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl FilePart {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "filePart".to_string(),
-      data: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDFilePartBuilder {
+    let mut inner = FilePart::default();
+    inner.td_name = "filePart".to_string();
+    RTDFilePartBuilder { inner }
   }
-  
-  pub fn data(&self) -> Option<String> { self.data.clone() }
-  #[doc(hidden)] pub fn _set_data(&mut self, data: String) -> &mut Self { self.data = Some(data); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn data(&self) -> &String { &self.data }
+
+}
+
+#[doc(hidden)]
+pub struct RTDFilePartBuilder {
+  inner: FilePart
+}
+
+impl RTDFilePartBuilder {
+  pub fn build(&self) -> FilePart { self.inner.clone() }
+
+   
+  pub fn data<T: AsRef<str>>(&mut self, data: T) -> &mut Self {
+    self.inner.data = data.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<FilePart> for FilePart {
+  fn as_ref(&self) -> &FilePart { self }
+}
+
+impl AsRef<FilePart> for RTDFilePartBuilder {
+  fn as_ref(&self) -> &FilePart { &self.inner }
 }
 
 

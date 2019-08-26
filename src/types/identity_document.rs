@@ -1,75 +1,112 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// An identity document. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// An identity document
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct IdentityDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // identityDocument
-  /// Document number; 1-24 characters.
-  number: Option<String>,
-  /// Document expiry date; may be null.
+  td_name: String,
+  /// Document number; 1-24 characters
+  number: String,
+  /// Document expiry date; may be null
   expiry_date: Option<Date>,
-  /// Front side of the document.
-  front_side: Option<DatedFile>,
-  /// Reverse side of the document; only for driver license and identity card.
-  reverse_side: Option<DatedFile>,
-  /// Selfie with the document; may be null.
+  /// Front side of the document
+  front_side: DatedFile,
+  /// Reverse side of the document; only for driver license and identity card
+  reverse_side: DatedFile,
+  /// Selfie with the document; may be null
   selfie: Option<DatedFile>,
-  /// List of files containing a certified English translation of the document.
-  translation: Option<Vec<DatedFile>>,
+  /// List of files containing a certified English translation of the document
+  translation: Vec<DatedFile>,
   
 }
 
-
-
-impl Object for IdentityDocument {}
 impl RObject for IdentityDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "identityDocument" }
-  fn td_type(&self) -> RTDType { RTDType::IdentityDocument }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl IdentityDocument {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "identityDocument".to_string(),
-      number: None,
-      expiry_date: None,
-      front_side: None,
-      reverse_side: None,
-      selfie: None,
-      translation: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDIdentityDocumentBuilder {
+    let mut inner = IdentityDocument::default();
+    inner.td_name = "identityDocument".to_string();
+    RTDIdentityDocumentBuilder { inner }
   }
-  
-  pub fn number(&self) -> Option<String> { self.number.clone() }
-  #[doc(hidden)] pub fn _set_number(&mut self, number: String) -> &mut Self { self.number = Some(number); self }
-  
-  pub fn expiry_date(&self) -> Option<Date> { self.expiry_date.clone() }
-  #[doc(hidden)] pub fn _set_expiry_date(&mut self, expiry_date: Date) -> &mut Self { self.expiry_date = Some(expiry_date); self }
-  
-  pub fn front_side(&self) -> Option<DatedFile> { self.front_side.clone() }
-  #[doc(hidden)] pub fn _set_front_side(&mut self, front_side: DatedFile) -> &mut Self { self.front_side = Some(front_side); self }
-  
-  pub fn reverse_side(&self) -> Option<DatedFile> { self.reverse_side.clone() }
-  #[doc(hidden)] pub fn _set_reverse_side(&mut self, reverse_side: DatedFile) -> &mut Self { self.reverse_side = Some(reverse_side); self }
-  
-  pub fn selfie(&self) -> Option<DatedFile> { self.selfie.clone() }
-  #[doc(hidden)] pub fn _set_selfie(&mut self, selfie: DatedFile) -> &mut Self { self.selfie = Some(selfie); self }
-  
-  pub fn translation(&self) -> Option<Vec<DatedFile>> { self.translation.clone() }
-  #[doc(hidden)] pub fn _set_translation(&mut self, translation: Vec<DatedFile>) -> &mut Self { self.translation = Some(translation); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn number(&self) -> &String { &self.number }
+
+  pub fn expiry_date(&self) -> &Option<Date> { &self.expiry_date }
+
+  pub fn front_side(&self) -> &DatedFile { &self.front_side }
+
+  pub fn reverse_side(&self) -> &DatedFile { &self.reverse_side }
+
+  pub fn selfie(&self) -> &Option<DatedFile> { &self.selfie }
+
+  pub fn translation(&self) -> &Vec<DatedFile> { &self.translation }
+
+}
+
+#[doc(hidden)]
+pub struct RTDIdentityDocumentBuilder {
+  inner: IdentityDocument
+}
+
+impl RTDIdentityDocumentBuilder {
+  pub fn build(&self) -> IdentityDocument { self.inner.clone() }
+
+   
+  pub fn number<T: AsRef<str>>(&mut self, number: T) -> &mut Self {
+    self.inner.number = number.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn expiry_date<T: AsRef<Date>>(&mut self, expiry_date: T) -> &mut Self {
+    self.inner.expiry_date = Some(expiry_date.as_ref().clone());
+    self
+  }
+
+   
+  pub fn front_side<T: AsRef<DatedFile>>(&mut self, front_side: T) -> &mut Self {
+    self.inner.front_side = front_side.as_ref().clone();
+    self
+  }
+
+   
+  pub fn reverse_side<T: AsRef<DatedFile>>(&mut self, reverse_side: T) -> &mut Self {
+    self.inner.reverse_side = reverse_side.as_ref().clone();
+    self
+  }
+
+   
+  pub fn selfie<T: AsRef<DatedFile>>(&mut self, selfie: T) -> &mut Self {
+    self.inner.selfie = Some(selfie.as_ref().clone());
+    self
+  }
+
+   
+  pub fn translation(&mut self, translation: Vec<DatedFile>) -> &mut Self {
+    self.inner.translation = translation;
+    self
+  }
+
+}
+
+impl AsRef<IdentityDocument> for IdentityDocument {
+  fn as_ref(&self) -> &IdentityDocument { self }
+}
+
+impl AsRef<IdentityDocument> for RTDIdentityDocumentBuilder {
+  fn as_ref(&self) -> &IdentityDocument { &self.inner }
 }
 
 

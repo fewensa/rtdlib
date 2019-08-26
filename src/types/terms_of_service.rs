@@ -1,57 +1,82 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains Telegram terms of service. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains Telegram terms of service
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TermsOfService {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // termsOfService
-  /// Text of the terms of service.
-  text: Option<FormattedText>,
-  /// Mininum age of a user to be able to accept the terms; 0 if any.
-  min_user_age: Option<i32>,
-  /// True, if a blocking popup with terms of service must be shown to the user.
-  show_popup: Option<bool>,
+  td_name: String,
+  /// Text of the terms of service
+  text: FormattedText,
+  /// Mininum age of a user to be able to accept the terms; 0 if any
+  min_user_age: i32,
+  /// True, if a blocking popup with terms of service must be shown to the user
+  show_popup: bool,
   
 }
 
-
-
-impl Object for TermsOfService {}
 impl RObject for TermsOfService {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "termsOfService" }
-  fn td_type(&self) -> RTDType { RTDType::TermsOfService }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl TermsOfService {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "termsOfService".to_string(),
-      text: None,
-      min_user_age: None,
-      show_popup: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTermsOfServiceBuilder {
+    let mut inner = TermsOfService::default();
+    inner.td_name = "termsOfService".to_string();
+    RTDTermsOfServiceBuilder { inner }
   }
-  
-  pub fn text(&self) -> Option<FormattedText> { self.text.clone() }
-  #[doc(hidden)] pub fn _set_text(&mut self, text: FormattedText) -> &mut Self { self.text = Some(text); self }
-  
-  pub fn min_user_age(&self) -> Option<i32> { self.min_user_age.clone() }
-  #[doc(hidden)] pub fn _set_min_user_age(&mut self, min_user_age: i32) -> &mut Self { self.min_user_age = Some(min_user_age); self }
-  
-  pub fn show_popup(&self) -> Option<bool> { self.show_popup.clone() }
-  #[doc(hidden)] pub fn _set_show_popup(&mut self, show_popup: bool) -> &mut Self { self.show_popup = Some(show_popup); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn text(&self) -> &FormattedText { &self.text }
+
+  pub fn min_user_age(&self) -> i32 { self.min_user_age }
+
+  pub fn show_popup(&self) -> bool { self.show_popup }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTermsOfServiceBuilder {
+  inner: TermsOfService
+}
+
+impl RTDTermsOfServiceBuilder {
+  pub fn build(&self) -> TermsOfService { self.inner.clone() }
+
+   
+  pub fn text<T: AsRef<FormattedText>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().clone();
+    self
+  }
+
+   
+  pub fn min_user_age(&mut self, min_user_age: i32) -> &mut Self {
+    self.inner.min_user_age = min_user_age;
+    self
+  }
+
+   
+  pub fn show_popup(&mut self, show_popup: bool) -> &mut Self {
+    self.inner.show_popup = show_popup;
+    self
+  }
+
+}
+
+impl AsRef<TermsOfService> for TermsOfService {
+  fn as_ref(&self) -> &TermsOfService { self }
+}
+
+impl AsRef<TermsOfService> for RTDTermsOfServiceBuilder {
+  fn as_ref(&self) -> &TermsOfService { &self.inner }
 }
 
 

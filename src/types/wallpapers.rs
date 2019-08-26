@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains a list of wallpapers. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains a list of wallpapers
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Wallpapers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // wallpapers
-  /// A list of wallpapers.
-  wallpapers: Option<Vec<Wallpaper>>,
+  td_name: String,
+  /// A list of wallpapers
+  wallpapers: Vec<Wallpaper>,
   
 }
 
-
-
-impl Object for Wallpapers {}
 impl RObject for Wallpapers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "wallpapers" }
-  fn td_type(&self) -> RTDType { RTDType::Wallpapers }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Wallpapers {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "wallpapers".to_string(),
-      wallpapers: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDWallpapersBuilder {
+    let mut inner = Wallpapers::default();
+    inner.td_name = "wallpapers".to_string();
+    RTDWallpapersBuilder { inner }
   }
-  
-  pub fn wallpapers(&self) -> Option<Vec<Wallpaper>> { self.wallpapers.clone() }
-  #[doc(hidden)] pub fn _set_wallpapers(&mut self, wallpapers: Vec<Wallpaper>) -> &mut Self { self.wallpapers = Some(wallpapers); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn wallpapers(&self) -> &Vec<Wallpaper> { &self.wallpapers }
+
+}
+
+#[doc(hidden)]
+pub struct RTDWallpapersBuilder {
+  inner: Wallpapers
+}
+
+impl RTDWallpapersBuilder {
+  pub fn build(&self) -> Wallpapers { self.inner.clone() }
+
+   
+  pub fn wallpapers(&mut self, wallpapers: Vec<Wallpaper>) -> &mut Self {
+    self.inner.wallpapers = wallpapers;
+    self
+  }
+
+}
+
+impl AsRef<Wallpapers> for Wallpapers {
+  fn as_ref(&self) -> &Wallpapers { self }
+}
+
+impl AsRef<Wallpapers> for RTDWallpapersBuilder {
+  fn as_ref(&self) -> &Wallpapers { &self.inner }
 }
 
 

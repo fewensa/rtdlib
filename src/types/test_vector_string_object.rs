@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// A simple object containing a vector of objects that hold a string; for testing only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// A simple object containing a vector of objects that hold a string; for testing only
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TestVectorStringObject {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // testVectorStringObject
-  /// Vector of objects.
-  value: Option<Vec<TestString>>,
+  td_name: String,
+  /// Vector of objects
+  value: Vec<TestString>,
   
 }
 
-
-
-impl Object for TestVectorStringObject {}
 impl RObject for TestVectorStringObject {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testVectorStringObject" }
-  fn td_type(&self) -> RTDType { RTDType::TestVectorStringObject }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl TestVectorStringObject {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "testVectorStringObject".to_string(),
-      value: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTestVectorStringObjectBuilder {
+    let mut inner = TestVectorStringObject::default();
+    inner.td_name = "testVectorStringObject".to_string();
+    RTDTestVectorStringObjectBuilder { inner }
   }
-  
-  pub fn value(&self) -> Option<Vec<TestString>> { self.value.clone() }
-  #[doc(hidden)] pub fn _set_value(&mut self, value: Vec<TestString>) -> &mut Self { self.value = Some(value); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn value(&self) -> &Vec<TestString> { &self.value }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTestVectorStringObjectBuilder {
+  inner: TestVectorStringObject
+}
+
+impl RTDTestVectorStringObjectBuilder {
+  pub fn build(&self) -> TestVectorStringObject { self.inner.clone() }
+
+   
+  pub fn value(&mut self, value: Vec<TestString>) -> &mut Self {
+    self.inner.value = value;
+    self
+  }
+
+}
+
+impl AsRef<TestVectorStringObject> for TestVectorStringObject {
+  fn as_ref(&self) -> &TestVectorStringObject { self }
+}
+
+impl AsRef<TestVectorStringObject> for RTDTestVectorStringObjectBuilder {
+  fn as_ref(&self) -> &TestVectorStringObject { &self.inner }
 }
 
 

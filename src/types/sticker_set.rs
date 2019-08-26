@@ -1,99 +1,152 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Represents a sticker set. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Represents a sticker set
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct StickerSet {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // stickerSet
-  /// Identifier of the sticker set.
-  id: Option<i64>,
-  /// Title of the sticker set.
-  title: Option<String>,
-  /// Name of the sticker set.
-  name: Option<String>,
-  /// True, if the sticker set has been installed by the current user.
-  is_installed: Option<bool>,
-  /// True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously.
-  is_archived: Option<bool>,
-  /// True, if the sticker set is official.
-  is_official: Option<bool>,
-  /// True, if the stickers in the set are masks.
-  is_masks: Option<bool>,
-  /// True for already viewed trending sticker sets.
-  is_viewed: Option<bool>,
-  /// List of stickers in this set.
-  stickers: Option<Vec<Sticker>>,
-  /// A list of emoji corresponding to the stickers in the same order.
-  emojis: Option<Vec<StickerEmojis>>,
+  td_name: String,
+  /// Identifier of the sticker set
+  id: i64,
+  /// Title of the sticker set
+  title: String,
+  /// Name of the sticker set
+  name: String,
+  /// True, if the sticker set has been installed by the current user
+  is_installed: bool,
+  /// True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
+  is_archived: bool,
+  /// True, if the sticker set is official
+  is_official: bool,
+  /// True, if the stickers in the set are masks
+  is_masks: bool,
+  /// True for already viewed trending sticker sets
+  is_viewed: bool,
+  /// List of stickers in this set
+  stickers: Vec<Sticker>,
+  /// A list of emoji corresponding to the stickers in the same order
+  emojis: Vec<StickerEmojis>,
   
 }
 
-
-
-impl Object for StickerSet {}
 impl RObject for StickerSet {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "stickerSet" }
-  fn td_type(&self) -> RTDType { RTDType::StickerSet }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl StickerSet {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "stickerSet".to_string(),
-      id: None,
-      title: None,
-      name: None,
-      is_installed: None,
-      is_archived: None,
-      is_official: None,
-      is_masks: None,
-      is_viewed: None,
-      stickers: None,
-      emojis: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDStickerSetBuilder {
+    let mut inner = StickerSet::default();
+    inner.td_name = "stickerSet".to_string();
+    RTDStickerSetBuilder { inner }
   }
-  
-  pub fn id(&self) -> Option<i64> { self.id.clone() }
-  #[doc(hidden)] pub fn _set_id(&mut self, id: i64) -> &mut Self { self.id = Some(id); self }
-  
-  pub fn title(&self) -> Option<String> { self.title.clone() }
-  #[doc(hidden)] pub fn _set_title(&mut self, title: String) -> &mut Self { self.title = Some(title); self }
-  
-  pub fn name(&self) -> Option<String> { self.name.clone() }
-  #[doc(hidden)] pub fn _set_name(&mut self, name: String) -> &mut Self { self.name = Some(name); self }
-  
-  pub fn is_installed(&self) -> Option<bool> { self.is_installed.clone() }
-  #[doc(hidden)] pub fn _set_is_installed(&mut self, is_installed: bool) -> &mut Self { self.is_installed = Some(is_installed); self }
-  
-  pub fn is_archived(&self) -> Option<bool> { self.is_archived.clone() }
-  #[doc(hidden)] pub fn _set_is_archived(&mut self, is_archived: bool) -> &mut Self { self.is_archived = Some(is_archived); self }
-  
-  pub fn is_official(&self) -> Option<bool> { self.is_official.clone() }
-  #[doc(hidden)] pub fn _set_is_official(&mut self, is_official: bool) -> &mut Self { self.is_official = Some(is_official); self }
-  
-  pub fn is_masks(&self) -> Option<bool> { self.is_masks.clone() }
-  #[doc(hidden)] pub fn _set_is_masks(&mut self, is_masks: bool) -> &mut Self { self.is_masks = Some(is_masks); self }
-  
-  pub fn is_viewed(&self) -> Option<bool> { self.is_viewed.clone() }
-  #[doc(hidden)] pub fn _set_is_viewed(&mut self, is_viewed: bool) -> &mut Self { self.is_viewed = Some(is_viewed); self }
-  
-  pub fn stickers(&self) -> Option<Vec<Sticker>> { self.stickers.clone() }
-  #[doc(hidden)] pub fn _set_stickers(&mut self, stickers: Vec<Sticker>) -> &mut Self { self.stickers = Some(stickers); self }
-  
-  pub fn emojis(&self) -> Option<Vec<StickerEmojis>> { self.emojis.clone() }
-  #[doc(hidden)] pub fn _set_emojis(&mut self, emojis: Vec<StickerEmojis>) -> &mut Self { self.emojis = Some(emojis); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn id(&self) -> i64 { self.id }
+
+  pub fn title(&self) -> &String { &self.title }
+
+  pub fn name(&self) -> &String { &self.name }
+
+  pub fn is_installed(&self) -> bool { self.is_installed }
+
+  pub fn is_archived(&self) -> bool { self.is_archived }
+
+  pub fn is_official(&self) -> bool { self.is_official }
+
+  pub fn is_masks(&self) -> bool { self.is_masks }
+
+  pub fn is_viewed(&self) -> bool { self.is_viewed }
+
+  pub fn stickers(&self) -> &Vec<Sticker> { &self.stickers }
+
+  pub fn emojis(&self) -> &Vec<StickerEmojis> { &self.emojis }
+
+}
+
+#[doc(hidden)]
+pub struct RTDStickerSetBuilder {
+  inner: StickerSet
+}
+
+impl RTDStickerSetBuilder {
+  pub fn build(&self) -> StickerSet { self.inner.clone() }
+
+   
+  pub fn id(&mut self, id: i64) -> &mut Self {
+    self.inner.id = id;
+    self
+  }
+
+   
+  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
+    self.inner.title = title.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn name<T: AsRef<str>>(&mut self, name: T) -> &mut Self {
+    self.inner.name = name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn is_installed(&mut self, is_installed: bool) -> &mut Self {
+    self.inner.is_installed = is_installed;
+    self
+  }
+
+   
+  pub fn is_archived(&mut self, is_archived: bool) -> &mut Self {
+    self.inner.is_archived = is_archived;
+    self
+  }
+
+   
+  pub fn is_official(&mut self, is_official: bool) -> &mut Self {
+    self.inner.is_official = is_official;
+    self
+  }
+
+   
+  pub fn is_masks(&mut self, is_masks: bool) -> &mut Self {
+    self.inner.is_masks = is_masks;
+    self
+  }
+
+   
+  pub fn is_viewed(&mut self, is_viewed: bool) -> &mut Self {
+    self.inner.is_viewed = is_viewed;
+    self
+  }
+
+   
+  pub fn stickers(&mut self, stickers: Vec<Sticker>) -> &mut Self {
+    self.inner.stickers = stickers;
+    self
+  }
+
+   
+  pub fn emojis(&mut self, emojis: Vec<StickerEmojis>) -> &mut Self {
+    self.inner.emojis = emojis;
+    self
+  }
+
+}
+
+impl AsRef<StickerSet> for StickerSet {
+  fn as_ref(&self) -> &StickerSet { self }
+}
+
+impl AsRef<StickerSet> for RTDStickerSetBuilder {
+  fn as_ref(&self) -> &StickerSet { &self.inner }
 }
 
 

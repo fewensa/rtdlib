@@ -1,39 +1,14 @@
 use rtdlib::types::*;
-use rtdlib::{tdkit, types};
 
 #[test]
 fn test_authorization_state() {
-  let json = r#"{"@type":"updateAuthorizationState","@struct":"UpdateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters","@struct":"AuthorizationStateWaitTdlibParameters"}}"#;
+  let json = r#"{"@type":"updateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters"}}"#;
   let state: UpdateAuthorizationState = serde_json::from_str(&json[..]).expect("Json fail");
   assert_eq!("updateAuthorizationState", state.td_name());
+  let rjson = state.to_json();
+  assert!(rjson.is_ok(), true);
+  assert_eq!(json, rjson.unwrap());
 }
-
-
-#[test]
-fn test_box_object() {
-  let json = r#"{"@type":"updateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters","@struct":"AuthorizationStateWaitTdlibParameters"}}"#;
-  let bobj: Option<Box<Object>> = Object::from_json(json);
-  assert!(bobj.is_some());
-  let obj = bobj.unwrap();
-  assert_eq!(obj.td_type(), RTDType::UpdateAuthorizationState);
-  println!("{}", obj.to_json());
-  assert_eq!(obj.to_json(), r#"{"@type":"updateAuthorizationState","@struct":"UpdateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters","@struct":"AuthorizationStateWaitTdlibParameters"}}"#)
-}
-
-
-#[test]
-fn test_boj() {
-  let json =r#"{"@type":"updateOption","@struct":"UpdateOption","name":"version","value":{"@type":"optionValueString","@struct":"OptionValueString","value":"1.4.0"}}"#;
-  let fjs = tdkit::fill_json_struct(json);
-  println!("JSON: {}", json);
-  println!("FJS:  {}", fjs);
-  let bobj: Option<Box<Object>> = Object::from_json(json);
-  assert!(bobj.is_some());
-  let obj = bobj.unwrap();
-  assert_eq!(obj.td_type(), RTDType::UpdateOption);
-  println!("{}", obj.to_json());
-}
-
 
 
 #[test]
@@ -126,8 +101,30 @@ fn test_from_update_user() {
 
 //  let json = r#"{"@type":"updateUser","user":{"@type":"user","id":720963235,"first_name":"aking","last_name":"888","username":"aking88888","phone_number":"","status":{"@type":"userStatusOffline","was_online":1559590497},"outgoing_link":{"@type":"linkStateNone"},"incoming_link":{"@type":"linkStateNone"},"is_verified":false,"is_support":false,"restriction_reason":"","have_access":true,"type":{"@type":"userTypeRegular"},"language_code":""}}"#;
 
-  let object: Option<Box<rtdlib::types::Object>> = rtdlib::types::Object::from_json(json);
-  println!("{:?}", object);
+  let update_user: Result<UpdateUser, rtdlib::errors::RTDError> = UpdateUser::from_json(json);
+  assert!(update_user.is_ok(), true);
+  let update_user = update_user.unwrap();
+  let user = update_user.user();
+  assert_eq!(user.is_verified(), false);
+  assert_eq!(user.is_support(), false);
+  assert_eq!(user.type_().is_regular(), true);
+}
+
+
+#[test]
+fn test_builder_set_tdlib_parameters() {
+  let set_tdlib_paramters = SetTdlibParameters::builder()
+    .parameters(
+      TdlibParameters::builder()
+        .use_test_dc(false)
+        .database_directory("/tmp/td")
+        .files_directory("/tmp/td")
+        .use_file_database(false)
+        .api_id(123)
+        .api_hash("abc")
+        .build()
+    ).build();
+  println!("{}", set_tdlib_paramters.to_json().unwrap())
 }
 
 

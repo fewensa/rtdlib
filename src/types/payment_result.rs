@@ -1,51 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains the result of a payment request. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains the result of a payment request
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PaymentResult {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // paymentResult
-  /// True, if the payment request was successful; otherwise the verification_url will be not empty.
-  success: Option<bool>,
-  /// URL for additional payment credentials verification.
-  verification_url: Option<String>,
+  td_name: String,
+  /// True, if the payment request was successful; otherwise the verification_url will be not empty
+  success: bool,
+  /// URL for additional payment credentials verification
+  verification_url: String,
   
 }
 
-
-
-impl Object for PaymentResult {}
 impl RObject for PaymentResult {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "paymentResult" }
-  fn td_type(&self) -> RTDType { RTDType::PaymentResult }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl PaymentResult {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "paymentResult".to_string(),
-      success: None,
-      verification_url: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPaymentResultBuilder {
+    let mut inner = PaymentResult::default();
+    inner.td_name = "paymentResult".to_string();
+    RTDPaymentResultBuilder { inner }
   }
-  
-  pub fn success(&self) -> Option<bool> { self.success.clone() }
-  #[doc(hidden)] pub fn _set_success(&mut self, success: bool) -> &mut Self { self.success = Some(success); self }
-  
-  pub fn verification_url(&self) -> Option<String> { self.verification_url.clone() }
-  #[doc(hidden)] pub fn _set_verification_url(&mut self, verification_url: String) -> &mut Self { self.verification_url = Some(verification_url); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn success(&self) -> bool { self.success }
+
+  pub fn verification_url(&self) -> &String { &self.verification_url }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPaymentResultBuilder {
+  inner: PaymentResult
+}
+
+impl RTDPaymentResultBuilder {
+  pub fn build(&self) -> PaymentResult { self.inner.clone() }
+
+   
+  pub fn success(&mut self, success: bool) -> &mut Self {
+    self.inner.success = success;
+    self
+  }
+
+   
+  pub fn verification_url<T: AsRef<str>>(&mut self, verification_url: T) -> &mut Self {
+    self.inner.verification_url = verification_url.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<PaymentResult> for PaymentResult {
+  fn as_ref(&self) -> &PaymentResult { self }
+}
+
+impl AsRef<PaymentResult> for RTDPaymentResultBuilder {
+  fn as_ref(&self) -> &PaymentResult { &self.inner }
 }
 
 

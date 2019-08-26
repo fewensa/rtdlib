@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains a list of game high scores. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains a list of game high scores
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GameHighScores {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // gameHighScores
-  /// A list of game high scores.
-  scores: Option<Vec<GameHighScore>>,
+  td_name: String,
+  /// A list of game high scores
+  scores: Vec<GameHighScore>,
   
 }
 
-
-
-impl Object for GameHighScores {}
 impl RObject for GameHighScores {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "gameHighScores" }
-  fn td_type(&self) -> RTDType { RTDType::GameHighScores }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl GameHighScores {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "gameHighScores".to_string(),
-      scores: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGameHighScoresBuilder {
+    let mut inner = GameHighScores::default();
+    inner.td_name = "gameHighScores".to_string();
+    RTDGameHighScoresBuilder { inner }
   }
-  
-  pub fn scores(&self) -> Option<Vec<GameHighScore>> { self.scores.clone() }
-  #[doc(hidden)] pub fn _set_scores(&mut self, scores: Vec<GameHighScore>) -> &mut Self { self.scores = Some(scores); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn scores(&self) -> &Vec<GameHighScore> { &self.scores }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGameHighScoresBuilder {
+  inner: GameHighScores
+}
+
+impl RTDGameHighScoresBuilder {
+  pub fn build(&self) -> GameHighScores { self.inner.clone() }
+
+   
+  pub fn scores(&mut self, scores: Vec<GameHighScore>) -> &mut Self {
+    self.inner.scores = scores;
+    self
+  }
+
+}
+
+impl AsRef<GameHighScores> for GameHighScores {
+  fn as_ref(&self) -> &GameHighScores { self }
+}
+
+impl AsRef<GameHighScores> for RTDGameHighScoresBuilder {
+  fn as_ref(&self) -> &GameHighScores { &self.inner }
 }
 
 

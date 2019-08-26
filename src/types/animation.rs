@@ -1,81 +1,122 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Describes an animation file. The animation must be encoded in GIF or MPEG4 format. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Describes an animation file. The animation must be encoded in GIF or MPEG4 format
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Animation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // animation
-  /// Duration of the animation, in seconds; as defined by the sender.
-  duration: Option<i32>,
-  /// Width of the animation.
-  width: Option<i32>,
-  /// Height of the animation.
-  height: Option<i32>,
-  /// Original name of the file; as defined by the sender.
-  file_name: Option<String>,
-  /// MIME type of the file, usually "image/gif" or "video/mp4".
-  mime_type: Option<String>,
-  /// Animation thumbnail; may be null.
+  td_name: String,
+  /// Duration of the animation, in seconds; as defined by the sender
+  duration: i32,
+  /// Width of the animation
+  width: i32,
+  /// Height of the animation
+  height: i32,
+  /// Original name of the file; as defined by the sender
+  file_name: String,
+  /// MIME type of the file, usually "image/gif" or "video/mp4"
+  mime_type: String,
+  /// Animation thumbnail; may be null
   thumbnail: Option<PhotoSize>,
-  /// File containing the animation.
-  animation: Option<File>,
+  /// File containing the animation
+  animation: File,
   
 }
 
-
-
-impl Object for Animation {}
 impl RObject for Animation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "animation" }
-  fn td_type(&self) -> RTDType { RTDType::Animation }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Animation {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "animation".to_string(),
-      duration: None,
-      width: None,
-      height: None,
-      file_name: None,
-      mime_type: None,
-      thumbnail: None,
-      animation: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDAnimationBuilder {
+    let mut inner = Animation::default();
+    inner.td_name = "animation".to_string();
+    RTDAnimationBuilder { inner }
   }
-  
-  pub fn duration(&self) -> Option<i32> { self.duration.clone() }
-  #[doc(hidden)] pub fn _set_duration(&mut self, duration: i32) -> &mut Self { self.duration = Some(duration); self }
-  
-  pub fn width(&self) -> Option<i32> { self.width.clone() }
-  #[doc(hidden)] pub fn _set_width(&mut self, width: i32) -> &mut Self { self.width = Some(width); self }
-  
-  pub fn height(&self) -> Option<i32> { self.height.clone() }
-  #[doc(hidden)] pub fn _set_height(&mut self, height: i32) -> &mut Self { self.height = Some(height); self }
-  
-  pub fn file_name(&self) -> Option<String> { self.file_name.clone() }
-  #[doc(hidden)] pub fn _set_file_name(&mut self, file_name: String) -> &mut Self { self.file_name = Some(file_name); self }
-  
-  pub fn mime_type(&self) -> Option<String> { self.mime_type.clone() }
-  #[doc(hidden)] pub fn _set_mime_type(&mut self, mime_type: String) -> &mut Self { self.mime_type = Some(mime_type); self }
-  
-  pub fn thumbnail(&self) -> Option<PhotoSize> { self.thumbnail.clone() }
-  #[doc(hidden)] pub fn _set_thumbnail(&mut self, thumbnail: PhotoSize) -> &mut Self { self.thumbnail = Some(thumbnail); self }
-  
-  pub fn animation(&self) -> Option<File> { self.animation.clone() }
-  #[doc(hidden)] pub fn _set_animation(&mut self, animation: File) -> &mut Self { self.animation = Some(animation); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn duration(&self) -> i32 { self.duration }
+
+  pub fn width(&self) -> i32 { self.width }
+
+  pub fn height(&self) -> i32 { self.height }
+
+  pub fn file_name(&self) -> &String { &self.file_name }
+
+  pub fn mime_type(&self) -> &String { &self.mime_type }
+
+  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
+
+  pub fn animation(&self) -> &File { &self.animation }
+
+}
+
+#[doc(hidden)]
+pub struct RTDAnimationBuilder {
+  inner: Animation
+}
+
+impl RTDAnimationBuilder {
+  pub fn build(&self) -> Animation { self.inner.clone() }
+
+   
+  pub fn duration(&mut self, duration: i32) -> &mut Self {
+    self.inner.duration = duration;
+    self
+  }
+
+   
+  pub fn width(&mut self, width: i32) -> &mut Self {
+    self.inner.width = width;
+    self
+  }
+
+   
+  pub fn height(&mut self, height: i32) -> &mut Self {
+    self.inner.height = height;
+    self
+  }
+
+   
+  pub fn file_name<T: AsRef<str>>(&mut self, file_name: T) -> &mut Self {
+    self.inner.file_name = file_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn mime_type<T: AsRef<str>>(&mut self, mime_type: T) -> &mut Self {
+    self.inner.mime_type = mime_type.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
+    self.inner.thumbnail = Some(thumbnail.as_ref().clone());
+    self
+  }
+
+   
+  pub fn animation<T: AsRef<File>>(&mut self, animation: T) -> &mut Self {
+    self.inner.animation = animation.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<Animation> for Animation {
+  fn as_ref(&self) -> &Animation { self }
+}
+
+impl AsRef<Animation> for RTDAnimationBuilder {
+  fn as_ref(&self) -> &Animation { &self.inner }
 }
 
 

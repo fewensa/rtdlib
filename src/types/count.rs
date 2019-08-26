@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains a counter. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains a counter
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Count {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // count
-  /// Count.
-  count: Option<i32>,
+  td_name: String,
+  /// Count
+  count: i32,
   
 }
 
-
-
-impl Object for Count {}
 impl RObject for Count {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "count" }
-  fn td_type(&self) -> RTDType { RTDType::Count }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Count {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "count".to_string(),
-      count: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDCountBuilder {
+    let mut inner = Count::default();
+    inner.td_name = "count".to_string();
+    RTDCountBuilder { inner }
   }
-  
-  pub fn count(&self) -> Option<i32> { self.count.clone() }
-  #[doc(hidden)] pub fn _set_count(&mut self, count: i32) -> &mut Self { self.count = Some(count); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn count(&self) -> i32 { self.count }
+
+}
+
+#[doc(hidden)]
+pub struct RTDCountBuilder {
+  inner: Count
+}
+
+impl RTDCountBuilder {
+  pub fn build(&self) -> Count { self.inner.clone() }
+
+   
+  pub fn count(&mut self, count: i32) -> &mut Self {
+    self.inner.count = count;
+    self
+  }
+
+}
+
+impl AsRef<Count> for Count {
+  fn as_ref(&self) -> &Count { self }
+}
+
+impl AsRef<Count> for RTDCountBuilder {
+  fn as_ref(&self) -> &Count { &self.inner }
 }
 
 

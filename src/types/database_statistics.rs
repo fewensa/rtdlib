@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains database statistics. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains database statistics
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct DatabaseStatistics {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // databaseStatistics
-  /// Database statistics in an unspecified human-readable format.
-  statistics: Option<String>,
+  td_name: String,
+  /// Database statistics in an unspecified human-readable format
+  statistics: String,
   
 }
 
-
-
-impl Object for DatabaseStatistics {}
 impl RObject for DatabaseStatistics {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "databaseStatistics" }
-  fn td_type(&self) -> RTDType { RTDType::DatabaseStatistics }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl DatabaseStatistics {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "databaseStatistics".to_string(),
-      statistics: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDDatabaseStatisticsBuilder {
+    let mut inner = DatabaseStatistics::default();
+    inner.td_name = "databaseStatistics".to_string();
+    RTDDatabaseStatisticsBuilder { inner }
   }
-  
-  pub fn statistics(&self) -> Option<String> { self.statistics.clone() }
-  #[doc(hidden)] pub fn _set_statistics(&mut self, statistics: String) -> &mut Self { self.statistics = Some(statistics); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn statistics(&self) -> &String { &self.statistics }
+
+}
+
+#[doc(hidden)]
+pub struct RTDDatabaseStatisticsBuilder {
+  inner: DatabaseStatistics
+}
+
+impl RTDDatabaseStatisticsBuilder {
+  pub fn build(&self) -> DatabaseStatistics { self.inner.clone() }
+
+   
+  pub fn statistics<T: AsRef<str>>(&mut self, statistics: T) -> &mut Self {
+    self.inner.statistics = statistics.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<DatabaseStatistics> for DatabaseStatistics {
+  fn as_ref(&self) -> &DatabaseStatistics { self }
+}
+
+impl AsRef<DatabaseStatistics> for RTDDatabaseStatisticsBuilder {
+  fn as_ref(&self) -> &DatabaseStatistics { &self.inner }
 }
 
 

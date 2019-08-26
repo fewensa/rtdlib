@@ -1,93 +1,142 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Describes a video file. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Describes a video file
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Video {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // video
-  /// Duration of the video, in seconds; as defined by the sender.
-  duration: Option<i32>,
-  /// Video width; as defined by the sender.
-  width: Option<i32>,
-  /// Video height; as defined by the sender.
-  height: Option<i32>,
-  /// Original name of the file; as defined by the sender.
-  file_name: Option<String>,
-  /// MIME type of the file; as defined by the sender.
-  mime_type: Option<String>,
-  /// True, if stickers were added to the photo.
-  has_stickers: Option<bool>,
-  /// True, if the video should be tried to be streamed.
-  supports_streaming: Option<bool>,
-  /// Video thumbnail; as defined by the sender; may be null.
+  td_name: String,
+  /// Duration of the video, in seconds; as defined by the sender
+  duration: i32,
+  /// Video width; as defined by the sender
+  width: i32,
+  /// Video height; as defined by the sender
+  height: i32,
+  /// Original name of the file; as defined by the sender
+  file_name: String,
+  /// MIME type of the file; as defined by the sender
+  mime_type: String,
+  /// True, if stickers were added to the photo
+  has_stickers: bool,
+  /// True, if the video should be tried to be streamed
+  supports_streaming: bool,
+  /// Video thumbnail; as defined by the sender; may be null
   thumbnail: Option<PhotoSize>,
-  /// File containing the video.
-  video: Option<File>,
+  /// File containing the video
+  video: File,
   
 }
 
-
-
-impl Object for Video {}
 impl RObject for Video {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "video" }
-  fn td_type(&self) -> RTDType { RTDType::Video }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Video {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "video".to_string(),
-      duration: None,
-      width: None,
-      height: None,
-      file_name: None,
-      mime_type: None,
-      has_stickers: None,
-      supports_streaming: None,
-      thumbnail: None,
-      video: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDVideoBuilder {
+    let mut inner = Video::default();
+    inner.td_name = "video".to_string();
+    RTDVideoBuilder { inner }
   }
-  
-  pub fn duration(&self) -> Option<i32> { self.duration.clone() }
-  #[doc(hidden)] pub fn _set_duration(&mut self, duration: i32) -> &mut Self { self.duration = Some(duration); self }
-  
-  pub fn width(&self) -> Option<i32> { self.width.clone() }
-  #[doc(hidden)] pub fn _set_width(&mut self, width: i32) -> &mut Self { self.width = Some(width); self }
-  
-  pub fn height(&self) -> Option<i32> { self.height.clone() }
-  #[doc(hidden)] pub fn _set_height(&mut self, height: i32) -> &mut Self { self.height = Some(height); self }
-  
-  pub fn file_name(&self) -> Option<String> { self.file_name.clone() }
-  #[doc(hidden)] pub fn _set_file_name(&mut self, file_name: String) -> &mut Self { self.file_name = Some(file_name); self }
-  
-  pub fn mime_type(&self) -> Option<String> { self.mime_type.clone() }
-  #[doc(hidden)] pub fn _set_mime_type(&mut self, mime_type: String) -> &mut Self { self.mime_type = Some(mime_type); self }
-  
-  pub fn has_stickers(&self) -> Option<bool> { self.has_stickers.clone() }
-  #[doc(hidden)] pub fn _set_has_stickers(&mut self, has_stickers: bool) -> &mut Self { self.has_stickers = Some(has_stickers); self }
-  
-  pub fn supports_streaming(&self) -> Option<bool> { self.supports_streaming.clone() }
-  #[doc(hidden)] pub fn _set_supports_streaming(&mut self, supports_streaming: bool) -> &mut Self { self.supports_streaming = Some(supports_streaming); self }
-  
-  pub fn thumbnail(&self) -> Option<PhotoSize> { self.thumbnail.clone() }
-  #[doc(hidden)] pub fn _set_thumbnail(&mut self, thumbnail: PhotoSize) -> &mut Self { self.thumbnail = Some(thumbnail); self }
-  
-  pub fn video(&self) -> Option<File> { self.video.clone() }
-  #[doc(hidden)] pub fn _set_video(&mut self, video: File) -> &mut Self { self.video = Some(video); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn duration(&self) -> i32 { self.duration }
+
+  pub fn width(&self) -> i32 { self.width }
+
+  pub fn height(&self) -> i32 { self.height }
+
+  pub fn file_name(&self) -> &String { &self.file_name }
+
+  pub fn mime_type(&self) -> &String { &self.mime_type }
+
+  pub fn has_stickers(&self) -> bool { self.has_stickers }
+
+  pub fn supports_streaming(&self) -> bool { self.supports_streaming }
+
+  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
+
+  pub fn video(&self) -> &File { &self.video }
+
+}
+
+#[doc(hidden)]
+pub struct RTDVideoBuilder {
+  inner: Video
+}
+
+impl RTDVideoBuilder {
+  pub fn build(&self) -> Video { self.inner.clone() }
+
+   
+  pub fn duration(&mut self, duration: i32) -> &mut Self {
+    self.inner.duration = duration;
+    self
+  }
+
+   
+  pub fn width(&mut self, width: i32) -> &mut Self {
+    self.inner.width = width;
+    self
+  }
+
+   
+  pub fn height(&mut self, height: i32) -> &mut Self {
+    self.inner.height = height;
+    self
+  }
+
+   
+  pub fn file_name<T: AsRef<str>>(&mut self, file_name: T) -> &mut Self {
+    self.inner.file_name = file_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn mime_type<T: AsRef<str>>(&mut self, mime_type: T) -> &mut Self {
+    self.inner.mime_type = mime_type.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn has_stickers(&mut self, has_stickers: bool) -> &mut Self {
+    self.inner.has_stickers = has_stickers;
+    self
+  }
+
+   
+  pub fn supports_streaming(&mut self, supports_streaming: bool) -> &mut Self {
+    self.inner.supports_streaming = supports_streaming;
+    self
+  }
+
+   
+  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
+    self.inner.thumbnail = Some(thumbnail.as_ref().clone());
+    self
+  }
+
+   
+  pub fn video<T: AsRef<File>>(&mut self, video: T) -> &mut Self {
+    self.inner.video = video.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<Video> for Video {
+  fn as_ref(&self) -> &Video { self }
+}
+
+impl AsRef<Video> for RTDVideoBuilder {
+  fn as_ref(&self) -> &Video { &self.inner }
 }
 
 

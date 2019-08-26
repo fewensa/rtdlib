@@ -1,75 +1,112 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Describes an address. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Describes an address
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Address {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // address
-  /// A two-letter ISO 3166-1 alpha-2 country code.
-  country_code: Option<String>,
-  /// State, if applicable.
-  state: Option<String>,
-  /// City.
-  city: Option<String>,
-  /// First line of the address.
-  street_line1: Option<String>,
-  /// Second line of the address.
-  street_line2: Option<String>,
-  /// Address postal code.
-  postal_code: Option<String>,
+  td_name: String,
+  /// A two-letter ISO 3166-1 alpha-2 country code
+  country_code: String,
+  /// State, if applicable
+  state: String,
+  /// City
+  city: String,
+  /// First line of the address
+  street_line1: String,
+  /// Second line of the address
+  street_line2: String,
+  /// Address postal code
+  postal_code: String,
   
 }
 
-
-
-impl Object for Address {}
 impl RObject for Address {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "address" }
-  fn td_type(&self) -> RTDType { RTDType::Address }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Address {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "address".to_string(),
-      country_code: None,
-      state: None,
-      city: None,
-      street_line1: None,
-      street_line2: None,
-      postal_code: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDAddressBuilder {
+    let mut inner = Address::default();
+    inner.td_name = "address".to_string();
+    RTDAddressBuilder { inner }
   }
-  
-  pub fn country_code(&self) -> Option<String> { self.country_code.clone() }
-  #[doc(hidden)] pub fn _set_country_code(&mut self, country_code: String) -> &mut Self { self.country_code = Some(country_code); self }
-  
-  pub fn state(&self) -> Option<String> { self.state.clone() }
-  #[doc(hidden)] pub fn _set_state(&mut self, state: String) -> &mut Self { self.state = Some(state); self }
-  
-  pub fn city(&self) -> Option<String> { self.city.clone() }
-  #[doc(hidden)] pub fn _set_city(&mut self, city: String) -> &mut Self { self.city = Some(city); self }
-  
-  pub fn street_line1(&self) -> Option<String> { self.street_line1.clone() }
-  #[doc(hidden)] pub fn _set_street_line1(&mut self, street_line1: String) -> &mut Self { self.street_line1 = Some(street_line1); self }
-  
-  pub fn street_line2(&self) -> Option<String> { self.street_line2.clone() }
-  #[doc(hidden)] pub fn _set_street_line2(&mut self, street_line2: String) -> &mut Self { self.street_line2 = Some(street_line2); self }
-  
-  pub fn postal_code(&self) -> Option<String> { self.postal_code.clone() }
-  #[doc(hidden)] pub fn _set_postal_code(&mut self, postal_code: String) -> &mut Self { self.postal_code = Some(postal_code); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn country_code(&self) -> &String { &self.country_code }
+
+  pub fn state(&self) -> &String { &self.state }
+
+  pub fn city(&self) -> &String { &self.city }
+
+  pub fn street_line1(&self) -> &String { &self.street_line1 }
+
+  pub fn street_line2(&self) -> &String { &self.street_line2 }
+
+  pub fn postal_code(&self) -> &String { &self.postal_code }
+
+}
+
+#[doc(hidden)]
+pub struct RTDAddressBuilder {
+  inner: Address
+}
+
+impl RTDAddressBuilder {
+  pub fn build(&self) -> Address { self.inner.clone() }
+
+   
+  pub fn country_code<T: AsRef<str>>(&mut self, country_code: T) -> &mut Self {
+    self.inner.country_code = country_code.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn state<T: AsRef<str>>(&mut self, state: T) -> &mut Self {
+    self.inner.state = state.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn city<T: AsRef<str>>(&mut self, city: T) -> &mut Self {
+    self.inner.city = city.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn street_line1<T: AsRef<str>>(&mut self, street_line1: T) -> &mut Self {
+    self.inner.street_line1 = street_line1.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn street_line2<T: AsRef<str>>(&mut self, street_line2: T) -> &mut Self {
+    self.inner.street_line2 = street_line2.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn postal_code<T: AsRef<str>>(&mut self, postal_code: T) -> &mut Self {
+    self.inner.postal_code = postal_code.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<Address> for Address {
+  fn as_ref(&self) -> &Address { self }
+}
+
+impl AsRef<Address> for RTDAddressBuilder {
+  fn as_ref(&self) -> &Address { &self.inner }
 }
 
 

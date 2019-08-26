@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Represents a list of stickers. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Represents a list of stickers
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Stickers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // stickers
-  /// List of stickers.
-  stickers: Option<Vec<Sticker>>,
+  td_name: String,
+  /// List of stickers
+  stickers: Vec<Sticker>,
   
 }
 
-
-
-impl Object for Stickers {}
 impl RObject for Stickers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "stickers" }
-  fn td_type(&self) -> RTDType { RTDType::Stickers }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Stickers {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "stickers".to_string(),
-      stickers: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDStickersBuilder {
+    let mut inner = Stickers::default();
+    inner.td_name = "stickers".to_string();
+    RTDStickersBuilder { inner }
   }
-  
-  pub fn stickers(&self) -> Option<Vec<Sticker>> { self.stickers.clone() }
-  #[doc(hidden)] pub fn _set_stickers(&mut self, stickers: Vec<Sticker>) -> &mut Self { self.stickers = Some(stickers); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn stickers(&self) -> &Vec<Sticker> { &self.stickers }
+
+}
+
+#[doc(hidden)]
+pub struct RTDStickersBuilder {
+  inner: Stickers
+}
+
+impl RTDStickersBuilder {
+  pub fn build(&self) -> Stickers { self.inner.clone() }
+
+   
+  pub fn stickers(&mut self, stickers: Vec<Sticker>) -> &mut Self {
+    self.inner.stickers = stickers;
+    self
+  }
+
+}
+
+impl AsRef<Stickers> for Stickers {
+  fn as_ref(&self) -> &Stickers { self }
+}
+
+impl AsRef<Stickers> for RTDStickersBuilder {
+  fn as_ref(&self) -> &Stickers { &self.inner }
 }
 
 

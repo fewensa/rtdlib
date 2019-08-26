@@ -1,67 +1,92 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains information about a forwarded message. 
-#[derive(Debug, Serialize, Deserialize)]
+
+
+
+/// Contains information about a forwarded message
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageForwardInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // messageForwardInfo
-  /// Origin of a forwarded message.
-  origin: Option<Box<MessageForwardOrigin>>,
-  /// Point in time (Unix timestamp) when the message was originally sent.
-  date: Option<i32>,
-  /// For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded last time; 0 if unknown.
-  from_chat_id: Option<i64>,
-  /// For messages forwarded to the chat with the current user (saved messages), the identifier of the original message from which the new message was forwarded last time; 0 if unknown.
-  from_message_id: Option<i64>,
+  td_name: String,
+  /// Origin of a forwarded message
+  origin: MessageForwardOrigin,
+  /// Point in time (Unix timestamp) when the message was originally sent
+  date: i32,
+  /// For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded last time; 0 if unknown
+  from_chat_id: i32,
+  /// For messages forwarded to the chat with the current user (saved messages), the identifier of the original message from which the new message was forwarded last time; 0 if unknown
+  from_message_id: i32,
   
 }
 
-
-impl Clone for MessageForwardInfo {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
-}
-
-
-impl Object for MessageForwardInfo {}
 impl RObject for MessageForwardInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageForwardInfo" }
-  fn td_type(&self) -> RTDType { RTDType::MessageForwardInfo }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl MessageForwardInfo {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "messageForwardInfo".to_string(),
-      origin: None,
-      date: None,
-      from_chat_id: None,
-      from_message_id: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDMessageForwardInfoBuilder {
+    let mut inner = MessageForwardInfo::default();
+    inner.td_name = "messageForwardInfo".to_string();
+    RTDMessageForwardInfoBuilder { inner }
   }
-  
-  pub fn origin(&self) -> Option<Box<MessageForwardOrigin>> { self.origin.clone() }
-  #[doc(hidden)] pub fn _set_origin(&mut self, origin: Box<MessageForwardOrigin>) -> &mut Self { self.origin = Some(origin); self }
-  
-  pub fn date(&self) -> Option<i32> { self.date.clone() }
-  #[doc(hidden)] pub fn _set_date(&mut self, date: i32) -> &mut Self { self.date = Some(date); self }
-  
-  pub fn from_chat_id(&self) -> Option<i64> { self.from_chat_id.clone() }
-  #[doc(hidden)] pub fn _set_from_chat_id(&mut self, from_chat_id: i64) -> &mut Self { self.from_chat_id = Some(from_chat_id); self }
-  
-  pub fn from_message_id(&self) -> Option<i64> { self.from_message_id.clone() }
-  #[doc(hidden)] pub fn _set_from_message_id(&mut self, from_message_id: i64) -> &mut Self { self.from_message_id = Some(from_message_id); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn origin(&self) -> &MessageForwardOrigin { &self.origin }
+
+  pub fn date(&self) -> i32 { self.date }
+
+  pub fn from_chat_id(&self) -> i32 { self.from_chat_id }
+
+  pub fn from_message_id(&self) -> i32 { self.from_message_id }
+
+}
+
+#[doc(hidden)]
+pub struct RTDMessageForwardInfoBuilder {
+  inner: MessageForwardInfo
+}
+
+impl RTDMessageForwardInfoBuilder {
+  pub fn build(&self) -> MessageForwardInfo { self.inner.clone() }
+
+   
+  pub fn origin<T: AsRef<MessageForwardOrigin>>(&mut self, origin: T) -> &mut Self {
+    self.inner.origin = origin.as_ref().clone();
+    self
+  }
+
+   
+  pub fn date(&mut self, date: i32) -> &mut Self {
+    self.inner.date = date;
+    self
+  }
+
+   
+  pub fn from_chat_id(&mut self, from_chat_id: i32) -> &mut Self {
+    self.inner.from_chat_id = from_chat_id;
+    self
+  }
+
+   
+  pub fn from_message_id(&mut self, from_message_id: i32) -> &mut Self {
+    self.inner.from_message_id = from_message_id;
+    self
+  }
+
+}
+
+impl AsRef<MessageForwardInfo> for MessageForwardInfo {
+  fn as_ref(&self) -> &MessageForwardInfo { self }
+}
+
+impl AsRef<MessageForwardInfo> for RTDMessageForwardInfoBuilder {
+  fn as_ref(&self) -> &MessageForwardInfo { &self.inner }
 }
 
 

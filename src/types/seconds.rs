@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains a value representing a number of seconds. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains a value representing a number of seconds
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Seconds {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // seconds
-  /// Number of seconds.
-  seconds: Option<f64>,
+  td_name: String,
+  /// Number of seconds
+  seconds: f32,
   
 }
 
-
-
-impl Object for Seconds {}
 impl RObject for Seconds {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "seconds" }
-  fn td_type(&self) -> RTDType { RTDType::Seconds }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Seconds {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "seconds".to_string(),
-      seconds: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSecondsBuilder {
+    let mut inner = Seconds::default();
+    inner.td_name = "seconds".to_string();
+    RTDSecondsBuilder { inner }
   }
-  
-  pub fn seconds(&self) -> Option<f64> { self.seconds.clone() }
-  #[doc(hidden)] pub fn _set_seconds(&mut self, seconds: f64) -> &mut Self { self.seconds = Some(seconds); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn seconds(&self) -> f32 { self.seconds }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSecondsBuilder {
+  inner: Seconds
+}
+
+impl RTDSecondsBuilder {
+  pub fn build(&self) -> Seconds { self.inner.clone() }
+
+   
+  pub fn seconds(&mut self, seconds: f32) -> &mut Self {
+    self.inner.seconds = seconds;
+    self
+  }
+
+}
+
+impl AsRef<Seconds> for Seconds {
+  fn as_ref(&self) -> &Seconds { self }
+}
+
+impl AsRef<Seconds> for RTDSecondsBuilder {
+  fn as_ref(&self) -> &Seconds { &self.inner }
 }
 
 
