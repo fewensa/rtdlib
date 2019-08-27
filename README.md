@@ -86,7 +86,7 @@ And then, when you have `libtdjson.so` copy this file to `/usr/lib`.
 Or set an environment
 
 ```bash
-export RUSTFLAGS="-C link-args=-Wl,-rpath,/path/to/libtdjson.so"
+export RUSTFLAGS="-C link-args=-Wl,-rpath,/path/to/lib_dir"
 cargo run
 ```
 
