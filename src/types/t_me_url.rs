@@ -1,55 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Represents a URL linking to an internal Telegram entity. 
-#[derive(Debug, Serialize, Deserialize)]
+
+
+
+/// Represents a URL linking to an internal Telegram entity
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TMeUrl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // tMeUrl
-  /// URL.
-  url: Option<String>,
-  /// Type of the URL.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<TMeUrlType>>,
+  td_name: String,
+  /// URL
+  url: String,
+  /// Type of the URL
+  #[serde(rename(serialize = "type", deserialize = "type"))] type_: TMeUrlType,
   
 }
 
-
-impl Clone for TMeUrl {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
-}
-
-
-impl Object for TMeUrl {}
 impl RObject for TMeUrl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "tMeUrl" }
-  fn td_type(&self) -> RTDType { RTDType::TMeUrl }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl TMeUrl {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "tMeUrl".to_string(),
-      url: None,
-      type_: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTMeUrlBuilder {
+    let mut inner = TMeUrl::default();
+    inner.td_name = "tMeUrl".to_string();
+    RTDTMeUrlBuilder { inner }
   }
-  
-  pub fn url(&self) -> Option<String> { self.url.clone() }
-  #[doc(hidden)] pub fn _set_url(&mut self, url: String) -> &mut Self { self.url = Some(url); self }
-  
-  pub fn type_(&self) -> Option<Box<TMeUrlType>> { self.type_.clone() }
-  #[doc(hidden)] pub fn _set_type_(&mut self, type_: Box<TMeUrlType>) -> &mut Self { self.type_ = Some(type_); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn url(&self) -> &String { &self.url }
+
+  pub fn type_(&self) -> &TMeUrlType { &self.type_ }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTMeUrlBuilder {
+  inner: TMeUrl
+}
+
+impl RTDTMeUrlBuilder {
+  pub fn build(&self) -> TMeUrl { self.inner.clone() }
+
+   
+  pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
+    self.inner.url = url.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn type_<T: AsRef<TMeUrlType>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<TMeUrl> for TMeUrl {
+  fn as_ref(&self) -> &TMeUrl { self }
+}
+
+impl AsRef<TMeUrl> for RTDTMeUrlBuilder {
+  fn as_ref(&self) -> &TMeUrl { &self.inner }
 }
 
 

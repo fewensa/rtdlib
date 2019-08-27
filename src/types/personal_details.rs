@@ -1,99 +1,152 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains the user's personal details. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains the user's personal details
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PersonalDetails {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // personalDetails
-  /// First name of the user written in English; 1-255 characters.
-  first_name: Option<String>,
-  /// Middle name of the user written in English; 0-255 characters.
-  middle_name: Option<String>,
-  /// Last name of the user written in English; 1-255 characters.
-  last_name: Option<String>,
-  /// Native first name of the user; 1-255 characters.
-  native_first_name: Option<String>,
-  /// Native middle name of the user; 0-255 characters.
-  native_middle_name: Option<String>,
-  /// Native last name of the user; 1-255 characters.
-  native_last_name: Option<String>,
-  /// Birthdate of the user.
-  birthdate: Option<Date>,
-  /// Gender of the user, "male" or "female".
-  gender: Option<String>,
-  /// A two-letter ISO 3166-1 alpha-2 country code of the user's country.
-  country_code: Option<String>,
-  /// A two-letter ISO 3166-1 alpha-2 country code of the user's residence country.
-  residence_country_code: Option<String>,
+  td_name: String,
+  /// First name of the user written in English; 1-255 characters
+  first_name: String,
+  /// Middle name of the user written in English; 0-255 characters
+  middle_name: String,
+  /// Last name of the user written in English; 1-255 characters
+  last_name: String,
+  /// Native first name of the user; 1-255 characters
+  native_first_name: String,
+  /// Native middle name of the user; 0-255 characters
+  native_middle_name: String,
+  /// Native last name of the user; 1-255 characters
+  native_last_name: String,
+  /// Birthdate of the user
+  birthdate: Date,
+  /// Gender of the user, "male" or "female"
+  gender: String,
+  /// A two-letter ISO 3166-1 alpha-2 country code of the user's country
+  country_code: String,
+  /// A two-letter ISO 3166-1 alpha-2 country code of the user's residence country
+  residence_country_code: String,
   
 }
 
-
-
-impl Object for PersonalDetails {}
 impl RObject for PersonalDetails {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "personalDetails" }
-  fn td_type(&self) -> RTDType { RTDType::PersonalDetails }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl PersonalDetails {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "personalDetails".to_string(),
-      first_name: None,
-      middle_name: None,
-      last_name: None,
-      native_first_name: None,
-      native_middle_name: None,
-      native_last_name: None,
-      birthdate: None,
-      gender: None,
-      country_code: None,
-      residence_country_code: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPersonalDetailsBuilder {
+    let mut inner = PersonalDetails::default();
+    inner.td_name = "personalDetails".to_string();
+    RTDPersonalDetailsBuilder { inner }
   }
-  
-  pub fn first_name(&self) -> Option<String> { self.first_name.clone() }
-  #[doc(hidden)] pub fn _set_first_name(&mut self, first_name: String) -> &mut Self { self.first_name = Some(first_name); self }
-  
-  pub fn middle_name(&self) -> Option<String> { self.middle_name.clone() }
-  #[doc(hidden)] pub fn _set_middle_name(&mut self, middle_name: String) -> &mut Self { self.middle_name = Some(middle_name); self }
-  
-  pub fn last_name(&self) -> Option<String> { self.last_name.clone() }
-  #[doc(hidden)] pub fn _set_last_name(&mut self, last_name: String) -> &mut Self { self.last_name = Some(last_name); self }
-  
-  pub fn native_first_name(&self) -> Option<String> { self.native_first_name.clone() }
-  #[doc(hidden)] pub fn _set_native_first_name(&mut self, native_first_name: String) -> &mut Self { self.native_first_name = Some(native_first_name); self }
-  
-  pub fn native_middle_name(&self) -> Option<String> { self.native_middle_name.clone() }
-  #[doc(hidden)] pub fn _set_native_middle_name(&mut self, native_middle_name: String) -> &mut Self { self.native_middle_name = Some(native_middle_name); self }
-  
-  pub fn native_last_name(&self) -> Option<String> { self.native_last_name.clone() }
-  #[doc(hidden)] pub fn _set_native_last_name(&mut self, native_last_name: String) -> &mut Self { self.native_last_name = Some(native_last_name); self }
-  
-  pub fn birthdate(&self) -> Option<Date> { self.birthdate.clone() }
-  #[doc(hidden)] pub fn _set_birthdate(&mut self, birthdate: Date) -> &mut Self { self.birthdate = Some(birthdate); self }
-  
-  pub fn gender(&self) -> Option<String> { self.gender.clone() }
-  #[doc(hidden)] pub fn _set_gender(&mut self, gender: String) -> &mut Self { self.gender = Some(gender); self }
-  
-  pub fn country_code(&self) -> Option<String> { self.country_code.clone() }
-  #[doc(hidden)] pub fn _set_country_code(&mut self, country_code: String) -> &mut Self { self.country_code = Some(country_code); self }
-  
-  pub fn residence_country_code(&self) -> Option<String> { self.residence_country_code.clone() }
-  #[doc(hidden)] pub fn _set_residence_country_code(&mut self, residence_country_code: String) -> &mut Self { self.residence_country_code = Some(residence_country_code); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn first_name(&self) -> &String { &self.first_name }
+
+  pub fn middle_name(&self) -> &String { &self.middle_name }
+
+  pub fn last_name(&self) -> &String { &self.last_name }
+
+  pub fn native_first_name(&self) -> &String { &self.native_first_name }
+
+  pub fn native_middle_name(&self) -> &String { &self.native_middle_name }
+
+  pub fn native_last_name(&self) -> &String { &self.native_last_name }
+
+  pub fn birthdate(&self) -> &Date { &self.birthdate }
+
+  pub fn gender(&self) -> &String { &self.gender }
+
+  pub fn country_code(&self) -> &String { &self.country_code }
+
+  pub fn residence_country_code(&self) -> &String { &self.residence_country_code }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPersonalDetailsBuilder {
+  inner: PersonalDetails
+}
+
+impl RTDPersonalDetailsBuilder {
+  pub fn build(&self) -> PersonalDetails { self.inner.clone() }
+
+   
+  pub fn first_name<T: AsRef<str>>(&mut self, first_name: T) -> &mut Self {
+    self.inner.first_name = first_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn middle_name<T: AsRef<str>>(&mut self, middle_name: T) -> &mut Self {
+    self.inner.middle_name = middle_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn last_name<T: AsRef<str>>(&mut self, last_name: T) -> &mut Self {
+    self.inner.last_name = last_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn native_first_name<T: AsRef<str>>(&mut self, native_first_name: T) -> &mut Self {
+    self.inner.native_first_name = native_first_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn native_middle_name<T: AsRef<str>>(&mut self, native_middle_name: T) -> &mut Self {
+    self.inner.native_middle_name = native_middle_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn native_last_name<T: AsRef<str>>(&mut self, native_last_name: T) -> &mut Self {
+    self.inner.native_last_name = native_last_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn birthdate<T: AsRef<Date>>(&mut self, birthdate: T) -> &mut Self {
+    self.inner.birthdate = birthdate.as_ref().clone();
+    self
+  }
+
+   
+  pub fn gender<T: AsRef<str>>(&mut self, gender: T) -> &mut Self {
+    self.inner.gender = gender.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn country_code<T: AsRef<str>>(&mut self, country_code: T) -> &mut Self {
+    self.inner.country_code = country_code.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn residence_country_code<T: AsRef<str>>(&mut self, residence_country_code: T) -> &mut Self {
+    self.inner.residence_country_code = residence_country_code.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<PersonalDetails> for PersonalDetails {
+  fn as_ref(&self) -> &PersonalDetails { self }
+}
+
+impl AsRef<PersonalDetails> for RTDPersonalDetailsBuilder {
+  fn as_ref(&self) -> &PersonalDetails { &self.inner }
 }
 
 

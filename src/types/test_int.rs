@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// A simple object containing a number; for testing only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// A simple object containing a number; for testing only
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TestInt {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // testInt
-  /// Number.
-  value: Option<i32>,
+  td_name: String,
+  /// Number
+  value: i64,
   
 }
 
-
-
-impl Object for TestInt {}
 impl RObject for TestInt {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testInt" }
-  fn td_type(&self) -> RTDType { RTDType::TestInt }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl TestInt {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "testInt".to_string(),
-      value: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTestIntBuilder {
+    let mut inner = TestInt::default();
+    inner.td_name = "testInt".to_string();
+    RTDTestIntBuilder { inner }
   }
-  
-  pub fn value(&self) -> Option<i32> { self.value.clone() }
-  #[doc(hidden)] pub fn _set_value(&mut self, value: i32) -> &mut Self { self.value = Some(value); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn value(&self) -> i64 { self.value }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTestIntBuilder {
+  inner: TestInt
+}
+
+impl RTDTestIntBuilder {
+  pub fn build(&self) -> TestInt { self.inner.clone() }
+
+   
+  pub fn value(&mut self, value: i64) -> &mut Self {
+    self.inner.value = value;
+    self
+  }
+
+}
+
+impl AsRef<TestInt> for TestInt {
+  fn as_ref(&self) -> &TestInt { self }
+}
+
+impl AsRef<TestInt> for RTDTestIntBuilder {
+  fn as_ref(&self) -> &TestInt { &self.inner }
 }
 
 

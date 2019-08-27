@@ -1,57 +1,82 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// One shipping option. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// One shipping option
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ShippingOption {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // shippingOption
-  /// Shipping option identifier.
-  id: Option<String>,
-  /// Option title.
-  title: Option<String>,
-  /// A list of objects used to calculate the total shipping costs.
-  price_parts: Option<Vec<LabeledPricePart>>,
+  td_name: String,
+  /// Shipping option identifier
+  id: String,
+  /// Option title
+  title: String,
+  /// A list of objects used to calculate the total shipping costs
+  price_parts: Vec<LabeledPricePart>,
   
 }
 
-
-
-impl Object for ShippingOption {}
 impl RObject for ShippingOption {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "shippingOption" }
-  fn td_type(&self) -> RTDType { RTDType::ShippingOption }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl ShippingOption {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "shippingOption".to_string(),
-      id: None,
-      title: None,
-      price_parts: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDShippingOptionBuilder {
+    let mut inner = ShippingOption::default();
+    inner.td_name = "shippingOption".to_string();
+    RTDShippingOptionBuilder { inner }
   }
-  
-  pub fn id(&self) -> Option<String> { self.id.clone() }
-  #[doc(hidden)] pub fn _set_id(&mut self, id: String) -> &mut Self { self.id = Some(id); self }
-  
-  pub fn title(&self) -> Option<String> { self.title.clone() }
-  #[doc(hidden)] pub fn _set_title(&mut self, title: String) -> &mut Self { self.title = Some(title); self }
-  
-  pub fn price_parts(&self) -> Option<Vec<LabeledPricePart>> { self.price_parts.clone() }
-  #[doc(hidden)] pub fn _set_price_parts(&mut self, price_parts: Vec<LabeledPricePart>) -> &mut Self { self.price_parts = Some(price_parts); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn id(&self) -> &String { &self.id }
+
+  pub fn title(&self) -> &String { &self.title }
+
+  pub fn price_parts(&self) -> &Vec<LabeledPricePart> { &self.price_parts }
+
+}
+
+#[doc(hidden)]
+pub struct RTDShippingOptionBuilder {
+  inner: ShippingOption
+}
+
+impl RTDShippingOptionBuilder {
+  pub fn build(&self) -> ShippingOption { self.inner.clone() }
+
+   
+  pub fn id<T: AsRef<str>>(&mut self, id: T) -> &mut Self {
+    self.inner.id = id.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
+    self.inner.title = title.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn price_parts(&mut self, price_parts: Vec<LabeledPricePart>) -> &mut Self {
+    self.inner.price_parts = price_parts;
+    self
+  }
+
+}
+
+impl AsRef<ShippingOption> for ShippingOption {
+  fn as_ref(&self) -> &ShippingOption { self }
+}
+
+impl AsRef<ShippingOption> for RTDShippingOptionBuilder {
+  fn as_ref(&self) -> &ShippingOption { &self.inner }
 }
 
 

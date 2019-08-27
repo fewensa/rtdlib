@@ -1,57 +1,82 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains encrypted Telegram Passport data credentials. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains encrypted Telegram Passport data credentials
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct EncryptedCredentials {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // encryptedCredentials
-  /// The encrypted credentials.
-  data: Option<String>,
-  /// The decrypted data hash.
-  hash: Option<String>,
-  /// Secret for data decryption, encrypted with the service's public key.
-  secret: Option<String>,
+  td_name: String,
+  /// The encrypted credentials
+  data: String,
+  /// The decrypted data hash
+  hash: String,
+  /// Secret for data decryption, encrypted with the service's public key
+  secret: String,
   
 }
 
-
-
-impl Object for EncryptedCredentials {}
 impl RObject for EncryptedCredentials {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "encryptedCredentials" }
-  fn td_type(&self) -> RTDType { RTDType::EncryptedCredentials }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl EncryptedCredentials {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "encryptedCredentials".to_string(),
-      data: None,
-      hash: None,
-      secret: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDEncryptedCredentialsBuilder {
+    let mut inner = EncryptedCredentials::default();
+    inner.td_name = "encryptedCredentials".to_string();
+    RTDEncryptedCredentialsBuilder { inner }
   }
-  
-  pub fn data(&self) -> Option<String> { self.data.clone() }
-  #[doc(hidden)] pub fn _set_data(&mut self, data: String) -> &mut Self { self.data = Some(data); self }
-  
-  pub fn hash(&self) -> Option<String> { self.hash.clone() }
-  #[doc(hidden)] pub fn _set_hash(&mut self, hash: String) -> &mut Self { self.hash = Some(hash); self }
-  
-  pub fn secret(&self) -> Option<String> { self.secret.clone() }
-  #[doc(hidden)] pub fn _set_secret(&mut self, secret: String) -> &mut Self { self.secret = Some(secret); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn data(&self) -> &String { &self.data }
+
+  pub fn hash(&self) -> &String { &self.hash }
+
+  pub fn secret(&self) -> &String { &self.secret }
+
+}
+
+#[doc(hidden)]
+pub struct RTDEncryptedCredentialsBuilder {
+  inner: EncryptedCredentials
+}
+
+impl RTDEncryptedCredentialsBuilder {
+  pub fn build(&self) -> EncryptedCredentials { self.inner.clone() }
+
+   
+  pub fn data<T: AsRef<str>>(&mut self, data: T) -> &mut Self {
+    self.inner.data = data.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn hash<T: AsRef<str>>(&mut self, hash: T) -> &mut Self {
+    self.inner.hash = hash.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn secret<T: AsRef<str>>(&mut self, secret: T) -> &mut Self {
+    self.inner.secret = secret.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<EncryptedCredentials> for EncryptedCredentials {
+  fn as_ref(&self) -> &EncryptedCredentials { self }
+}
+
+impl AsRef<EncryptedCredentials> for RTDEncryptedCredentialsBuilder {
+  fn as_ref(&self) -> &EncryptedCredentials { &self.inner }
 }
 
 

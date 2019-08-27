@@ -1,51 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Describes the photo of a chat. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Describes the photo of a chat
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // chatPhoto
-  /// A small (160x160) chat photo.
-  small: Option<File>,
-  /// A big (640x640) chat photo.
-  big: Option<File>,
+  td_name: String,
+  /// A small (160x160) chat photo
+  small: File,
+  /// A big (640x640) chat photo
+  big: File,
   
 }
 
-
-
-impl Object for ChatPhoto {}
 impl RObject for ChatPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatPhoto" }
-  fn td_type(&self) -> RTDType { RTDType::ChatPhoto }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl ChatPhoto {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "chatPhoto".to_string(),
-      small: None,
-      big: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatPhotoBuilder {
+    let mut inner = ChatPhoto::default();
+    inner.td_name = "chatPhoto".to_string();
+    RTDChatPhotoBuilder { inner }
   }
-  
-  pub fn small(&self) -> Option<File> { self.small.clone() }
-  #[doc(hidden)] pub fn _set_small(&mut self, small: File) -> &mut Self { self.small = Some(small); self }
-  
-  pub fn big(&self) -> Option<File> { self.big.clone() }
-  #[doc(hidden)] pub fn _set_big(&mut self, big: File) -> &mut Self { self.big = Some(big); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn small(&self) -> &File { &self.small }
+
+  pub fn big(&self) -> &File { &self.big }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatPhotoBuilder {
+  inner: ChatPhoto
+}
+
+impl RTDChatPhotoBuilder {
+  pub fn build(&self) -> ChatPhoto { self.inner.clone() }
+
+   
+  pub fn small<T: AsRef<File>>(&mut self, small: T) -> &mut Self {
+    self.inner.small = small.as_ref().clone();
+    self
+  }
+
+   
+  pub fn big<T: AsRef<File>>(&mut self, big: T) -> &mut Self {
+    self.inner.big = big.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<ChatPhoto> for ChatPhoto {
+  fn as_ref(&self) -> &ChatPhoto { self }
+}
+
+impl AsRef<ChatPhoto> for RTDChatPhotoBuilder {
+  fn as_ref(&self) -> &ChatPhoto { &self.inner }
 }
 
 

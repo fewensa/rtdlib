@@ -1,51 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Returns information about the availability of a temporary password, which can be used for payments. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Returns information about the availability of a temporary password, which can be used for payments
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TemporaryPasswordState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // temporaryPasswordState
-  /// True, if a temporary password is available.
-  has_password: Option<bool>,
-  /// Time left before the temporary password expires, in seconds.
-  valid_for: Option<i32>,
+  td_name: String,
+  /// True, if a temporary password is available
+  has_password: bool,
+  /// Time left before the temporary password expires, in seconds
+  valid_for: i64,
   
 }
 
-
-
-impl Object for TemporaryPasswordState {}
 impl RObject for TemporaryPasswordState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "temporaryPasswordState" }
-  fn td_type(&self) -> RTDType { RTDType::TemporaryPasswordState }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl TemporaryPasswordState {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "temporaryPasswordState".to_string(),
-      has_password: None,
-      valid_for: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTemporaryPasswordStateBuilder {
+    let mut inner = TemporaryPasswordState::default();
+    inner.td_name = "temporaryPasswordState".to_string();
+    RTDTemporaryPasswordStateBuilder { inner }
   }
-  
-  pub fn has_password(&self) -> Option<bool> { self.has_password.clone() }
-  #[doc(hidden)] pub fn _set_has_password(&mut self, has_password: bool) -> &mut Self { self.has_password = Some(has_password); self }
-  
-  pub fn valid_for(&self) -> Option<i32> { self.valid_for.clone() }
-  #[doc(hidden)] pub fn _set_valid_for(&mut self, valid_for: i32) -> &mut Self { self.valid_for = Some(valid_for); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn has_password(&self) -> bool { self.has_password }
+
+  pub fn valid_for(&self) -> i64 { self.valid_for }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTemporaryPasswordStateBuilder {
+  inner: TemporaryPasswordState
+}
+
+impl RTDTemporaryPasswordStateBuilder {
+  pub fn build(&self) -> TemporaryPasswordState { self.inner.clone() }
+
+   
+  pub fn has_password(&mut self, has_password: bool) -> &mut Self {
+    self.inner.has_password = has_password;
+    self
+  }
+
+   
+  pub fn valid_for(&mut self, valid_for: i64) -> &mut Self {
+    self.inner.valid_for = valid_for;
+    self
+  }
+
+}
+
+impl AsRef<TemporaryPasswordState> for TemporaryPasswordState {
+  fn as_ref(&self) -> &TemporaryPasswordState { self }
+}
+
+impl AsRef<TemporaryPasswordState> for RTDTemporaryPasswordStateBuilder {
+  fn as_ref(&self) -> &TemporaryPasswordState { &self.inner }
 }
 
 

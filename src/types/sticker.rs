@@ -1,87 +1,132 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Describes a sticker. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Describes a sticker
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Sticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // sticker
-  /// The identifier of the sticker set to which the sticker belongs; 0 if none.
-  set_id: Option<String>,
-  /// Sticker width; as defined by the sender.
-  width: Option<i32>,
-  /// Sticker height; as defined by the sender.
-  height: Option<i32>,
-  /// Emoji corresponding to the sticker.
-  emoji: Option<String>,
-  /// True, if the sticker is a mask.
-  is_mask: Option<bool>,
-  /// Position where the mask should be placed; may be null.
+  td_name: String,
+  /// The identifier of the sticker set to which the sticker belongs; 0 if none
+  set_id: String,
+  /// Sticker width; as defined by the sender
+  width: i64,
+  /// Sticker height; as defined by the sender
+  height: i64,
+  /// Emoji corresponding to the sticker
+  emoji: String,
+  /// True, if the sticker is a mask
+  is_mask: bool,
+  /// Position where the mask should be placed; may be null
   mask_position: Option<MaskPosition>,
-  /// Sticker thumbnail in WEBP or JPEG format; may be null.
+  /// Sticker thumbnail in WEBP or JPEG format; may be null
   thumbnail: Option<PhotoSize>,
-  /// File containing the sticker.
-  sticker: Option<File>,
+  /// File containing the sticker
+  sticker: File,
   
 }
 
-
-
-impl Object for Sticker {}
 impl RObject for Sticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sticker" }
-  fn td_type(&self) -> RTDType { RTDType::Sticker }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Sticker {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "sticker".to_string(),
-      set_id: None,
-      width: None,
-      height: None,
-      emoji: None,
-      is_mask: None,
-      mask_position: None,
-      thumbnail: None,
-      sticker: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDStickerBuilder {
+    let mut inner = Sticker::default();
+    inner.td_name = "sticker".to_string();
+    RTDStickerBuilder { inner }
   }
-  
-  pub fn set_id(&self) -> Option<String> { self.set_id.clone() }
-  #[doc(hidden)] pub fn _set_set_id(&mut self, set_id: String) -> &mut Self { self.set_id = Some(set_id); self }
-  
-  pub fn width(&self) -> Option<i32> { self.width.clone() }
-  #[doc(hidden)] pub fn _set_width(&mut self, width: i32) -> &mut Self { self.width = Some(width); self }
-  
-  pub fn height(&self) -> Option<i32> { self.height.clone() }
-  #[doc(hidden)] pub fn _set_height(&mut self, height: i32) -> &mut Self { self.height = Some(height); self }
-  
-  pub fn emoji(&self) -> Option<String> { self.emoji.clone() }
-  #[doc(hidden)] pub fn _set_emoji(&mut self, emoji: String) -> &mut Self { self.emoji = Some(emoji); self }
-  
-  pub fn is_mask(&self) -> Option<bool> { self.is_mask.clone() }
-  #[doc(hidden)] pub fn _set_is_mask(&mut self, is_mask: bool) -> &mut Self { self.is_mask = Some(is_mask); self }
-  
-  pub fn mask_position(&self) -> Option<MaskPosition> { self.mask_position.clone() }
-  #[doc(hidden)] pub fn _set_mask_position(&mut self, mask_position: MaskPosition) -> &mut Self { self.mask_position = Some(mask_position); self }
-  
-  pub fn thumbnail(&self) -> Option<PhotoSize> { self.thumbnail.clone() }
-  #[doc(hidden)] pub fn _set_thumbnail(&mut self, thumbnail: PhotoSize) -> &mut Self { self.thumbnail = Some(thumbnail); self }
-  
-  pub fn sticker(&self) -> Option<File> { self.sticker.clone() }
-  #[doc(hidden)] pub fn _set_sticker(&mut self, sticker: File) -> &mut Self { self.sticker = Some(sticker); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn set_id(&self) -> &String { &self.set_id }
+
+  pub fn width(&self) -> i64 { self.width }
+
+  pub fn height(&self) -> i64 { self.height }
+
+  pub fn emoji(&self) -> &String { &self.emoji }
+
+  pub fn is_mask(&self) -> bool { self.is_mask }
+
+  pub fn mask_position(&self) -> &Option<MaskPosition> { &self.mask_position }
+
+  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
+
+  pub fn sticker(&self) -> &File { &self.sticker }
+
+}
+
+#[doc(hidden)]
+pub struct RTDStickerBuilder {
+  inner: Sticker
+}
+
+impl RTDStickerBuilder {
+  pub fn build(&self) -> Sticker { self.inner.clone() }
+
+   
+  pub fn set_id<T: AsRef<str>>(&mut self, set_id: T) -> &mut Self {
+    self.inner.set_id = set_id.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn width(&mut self, width: i64) -> &mut Self {
+    self.inner.width = width;
+    self
+  }
+
+   
+  pub fn height(&mut self, height: i64) -> &mut Self {
+    self.inner.height = height;
+    self
+  }
+
+   
+  pub fn emoji<T: AsRef<str>>(&mut self, emoji: T) -> &mut Self {
+    self.inner.emoji = emoji.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn is_mask(&mut self, is_mask: bool) -> &mut Self {
+    self.inner.is_mask = is_mask;
+    self
+  }
+
+   
+  pub fn mask_position<T: AsRef<MaskPosition>>(&mut self, mask_position: T) -> &mut Self {
+    self.inner.mask_position = Some(mask_position.as_ref().clone());
+    self
+  }
+
+   
+  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
+    self.inner.thumbnail = Some(thumbnail.as_ref().clone());
+    self
+  }
+
+   
+  pub fn sticker<T: AsRef<File>>(&mut self, sticker: T) -> &mut Self {
+    self.inner.sticker = sticker.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<Sticker> for Sticker {
+  fn as_ref(&self) -> &Sticker { self }
+}
+
+impl AsRef<Sticker> for RTDStickerBuilder {
+  fn as_ref(&self) -> &Sticker { &self.inner }
 }
 
 

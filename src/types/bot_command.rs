@@ -1,51 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Represents commands supported by a bot. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Represents commands supported by a bot
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct BotCommand {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // botCommand
-  /// Text of the bot command.
-  command: Option<String>,
-  /// Description of the bot command.
-  description: Option<String>,
+  td_name: String,
+  /// Text of the bot command
+  command: String,
+  /// Represents commands supported by a bot
+  description: String,
   
 }
 
-
-
-impl Object for BotCommand {}
 impl RObject for BotCommand {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "botCommand" }
-  fn td_type(&self) -> RTDType { RTDType::BotCommand }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl BotCommand {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "botCommand".to_string(),
-      command: None,
-      description: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDBotCommandBuilder {
+    let mut inner = BotCommand::default();
+    inner.td_name = "botCommand".to_string();
+    RTDBotCommandBuilder { inner }
   }
-  
-  pub fn command(&self) -> Option<String> { self.command.clone() }
-  #[doc(hidden)] pub fn _set_command(&mut self, command: String) -> &mut Self { self.command = Some(command); self }
-  
-  pub fn description(&self) -> Option<String> { self.description.clone() }
-  #[doc(hidden)] pub fn _set_description(&mut self, description: String) -> &mut Self { self.description = Some(description); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn command(&self) -> &String { &self.command }
+
+  pub fn description(&self) -> &String { &self.description }
+
+}
+
+#[doc(hidden)]
+pub struct RTDBotCommandBuilder {
+  inner: BotCommand
+}
+
+impl RTDBotCommandBuilder {
+  pub fn build(&self) -> BotCommand { self.inner.clone() }
+
+   
+  pub fn command<T: AsRef<str>>(&mut self, command: T) -> &mut Self {
+    self.inner.command = command.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {
+    self.inner.description = description.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<BotCommand> for BotCommand {
+  fn as_ref(&self) -> &BotCommand { self }
+}
+
+impl AsRef<BotCommand> for RTDBotCommandBuilder {
+  fn as_ref(&self) -> &BotCommand { &self.inner }
 }
 
 

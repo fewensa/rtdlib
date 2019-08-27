@@ -1,75 +1,112 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains information about a successful payment. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains information about a successful payment
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PaymentReceipt {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // paymentReceipt
-  /// Point in time (Unix timestamp) when the payment was made.
-  date: Option<i32>,
-  /// User identifier of the payment provider bot.
-  payments_provider_user_id: Option<i32>,
-  /// Contains information about the invoice.
-  invoice: Option<Invoice>,
-  /// Contains order information; may be null.
+  td_name: String,
+  /// Point in time (Unix timestamp) when the payment was made
+  date: i64,
+  /// User identifier of the payment provider bot
+  payments_provider_user_id: i64,
+  /// Contains information about the invoice
+  invoice: Invoice,
+  /// Contains order information; may be null
   order_info: Option<OrderInfo>,
-  /// Chosen shipping option; may be null.
+  /// Chosen shipping option; may be null
   shipping_option: Option<ShippingOption>,
-  /// Title of the saved credentials.
-  credentials_title: Option<String>,
+  /// Title of the saved credentials
+  credentials_title: String,
   
 }
 
-
-
-impl Object for PaymentReceipt {}
 impl RObject for PaymentReceipt {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "paymentReceipt" }
-  fn td_type(&self) -> RTDType { RTDType::PaymentReceipt }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl PaymentReceipt {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "paymentReceipt".to_string(),
-      date: None,
-      payments_provider_user_id: None,
-      invoice: None,
-      order_info: None,
-      shipping_option: None,
-      credentials_title: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPaymentReceiptBuilder {
+    let mut inner = PaymentReceipt::default();
+    inner.td_name = "paymentReceipt".to_string();
+    RTDPaymentReceiptBuilder { inner }
   }
-  
-  pub fn date(&self) -> Option<i32> { self.date.clone() }
-  #[doc(hidden)] pub fn _set_date(&mut self, date: i32) -> &mut Self { self.date = Some(date); self }
-  
-  pub fn payments_provider_user_id(&self) -> Option<i32> { self.payments_provider_user_id.clone() }
-  #[doc(hidden)] pub fn _set_payments_provider_user_id(&mut self, payments_provider_user_id: i32) -> &mut Self { self.payments_provider_user_id = Some(payments_provider_user_id); self }
-  
-  pub fn invoice(&self) -> Option<Invoice> { self.invoice.clone() }
-  #[doc(hidden)] pub fn _set_invoice(&mut self, invoice: Invoice) -> &mut Self { self.invoice = Some(invoice); self }
-  
-  pub fn order_info(&self) -> Option<OrderInfo> { self.order_info.clone() }
-  #[doc(hidden)] pub fn _set_order_info(&mut self, order_info: OrderInfo) -> &mut Self { self.order_info = Some(order_info); self }
-  
-  pub fn shipping_option(&self) -> Option<ShippingOption> { self.shipping_option.clone() }
-  #[doc(hidden)] pub fn _set_shipping_option(&mut self, shipping_option: ShippingOption) -> &mut Self { self.shipping_option = Some(shipping_option); self }
-  
-  pub fn credentials_title(&self) -> Option<String> { self.credentials_title.clone() }
-  #[doc(hidden)] pub fn _set_credentials_title(&mut self, credentials_title: String) -> &mut Self { self.credentials_title = Some(credentials_title); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn date(&self) -> i64 { self.date }
+
+  pub fn payments_provider_user_id(&self) -> i64 { self.payments_provider_user_id }
+
+  pub fn invoice(&self) -> &Invoice { &self.invoice }
+
+  pub fn order_info(&self) -> &Option<OrderInfo> { &self.order_info }
+
+  pub fn shipping_option(&self) -> &Option<ShippingOption> { &self.shipping_option }
+
+  pub fn credentials_title(&self) -> &String { &self.credentials_title }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPaymentReceiptBuilder {
+  inner: PaymentReceipt
+}
+
+impl RTDPaymentReceiptBuilder {
+  pub fn build(&self) -> PaymentReceipt { self.inner.clone() }
+
+   
+  pub fn date(&mut self, date: i64) -> &mut Self {
+    self.inner.date = date;
+    self
+  }
+
+   
+  pub fn payments_provider_user_id(&mut self, payments_provider_user_id: i64) -> &mut Self {
+    self.inner.payments_provider_user_id = payments_provider_user_id;
+    self
+  }
+
+   
+  pub fn invoice<T: AsRef<Invoice>>(&mut self, invoice: T) -> &mut Self {
+    self.inner.invoice = invoice.as_ref().clone();
+    self
+  }
+
+   
+  pub fn order_info<T: AsRef<OrderInfo>>(&mut self, order_info: T) -> &mut Self {
+    self.inner.order_info = Some(order_info.as_ref().clone());
+    self
+  }
+
+   
+  pub fn shipping_option<T: AsRef<ShippingOption>>(&mut self, shipping_option: T) -> &mut Self {
+    self.inner.shipping_option = Some(shipping_option.as_ref().clone());
+    self
+  }
+
+   
+  pub fn credentials_title<T: AsRef<str>>(&mut self, credentials_title: T) -> &mut Self {
+    self.inner.credentials_title = credentials_title.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<PaymentReceipt> for PaymentReceipt {
+  fn as_ref(&self) -> &PaymentReceipt { self }
+}
+
+impl AsRef<PaymentReceipt> for RTDPaymentReceiptBuilder {
+  fn as_ref(&self) -> &PaymentReceipt { &self.inner }
 }
 
 

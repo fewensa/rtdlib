@@ -1,51 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains a public HTTPS link to a message in a public supergroup or channel. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains a public HTTPS link to a message in a public supergroup or channel
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PublicMessageLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // publicMessageLink
-  /// Message link.
-  link: Option<String>,
-  /// HTML-code for embedding the message.
-  html: Option<String>,
+  td_name: String,
+  /// Message link
+  link: String,
+  /// HTML-code for embedding the message
+  html: String,
   
 }
 
-
-
-impl Object for PublicMessageLink {}
 impl RObject for PublicMessageLink {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "publicMessageLink" }
-  fn td_type(&self) -> RTDType { RTDType::PublicMessageLink }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl PublicMessageLink {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "publicMessageLink".to_string(),
-      link: None,
-      html: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPublicMessageLinkBuilder {
+    let mut inner = PublicMessageLink::default();
+    inner.td_name = "publicMessageLink".to_string();
+    RTDPublicMessageLinkBuilder { inner }
   }
-  
-  pub fn link(&self) -> Option<String> { self.link.clone() }
-  #[doc(hidden)] pub fn _set_link(&mut self, link: String) -> &mut Self { self.link = Some(link); self }
-  
-  pub fn html(&self) -> Option<String> { self.html.clone() }
-  #[doc(hidden)] pub fn _set_html(&mut self, html: String) -> &mut Self { self.html = Some(html); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn link(&self) -> &String { &self.link }
+
+  pub fn html(&self) -> &String { &self.html }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPublicMessageLinkBuilder {
+  inner: PublicMessageLink
+}
+
+impl RTDPublicMessageLinkBuilder {
+  pub fn build(&self) -> PublicMessageLink { self.inner.clone() }
+
+   
+  pub fn link<T: AsRef<str>>(&mut self, link: T) -> &mut Self {
+    self.inner.link = link.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn html<T: AsRef<str>>(&mut self, html: T) -> &mut Self {
+    self.inner.html = html.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<PublicMessageLink> for PublicMessageLink {
+  fn as_ref(&self) -> &PublicMessageLink { self }
+}
+
+impl AsRef<PublicMessageLink> for RTDPublicMessageLinkBuilder {
+  fn as_ref(&self) -> &PublicMessageLink { &self.inner }
 }
 
 

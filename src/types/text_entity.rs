@@ -1,61 +1,82 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Represents a part of the text that needs to be formatted in some unusual way. 
-#[derive(Debug, Serialize, Deserialize)]
+
+
+
+/// Represents a part of the text that needs to be formatted in some unusual way
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TextEntity {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // textEntity
-  /// Offset of the entity in UTF-16 code points.
-  offset: Option<i32>,
-  /// Length of the entity, in UTF-16 code points.
-  length: Option<i32>,
-  /// Type of the entity.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<TextEntityType>>,
+  td_name: String,
+  /// Offset of the entity in UTF-16 code points
+  offset: i64,
+  /// Length of the entity, in UTF-16 code points
+  length: i64,
+  /// Type of the entity
+  #[serde(rename(serialize = "type", deserialize = "type"))] type_: TextEntityType,
   
 }
 
-
-impl Clone for TextEntity {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
-}
-
-
-impl Object for TextEntity {}
 impl RObject for TextEntity {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntity" }
-  fn td_type(&self) -> RTDType { RTDType::TextEntity }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl TextEntity {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "textEntity".to_string(),
-      offset: None,
-      length: None,
-      type_: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTextEntityBuilder {
+    let mut inner = TextEntity::default();
+    inner.td_name = "textEntity".to_string();
+    RTDTextEntityBuilder { inner }
   }
-  
-  pub fn offset(&self) -> Option<i32> { self.offset.clone() }
-  #[doc(hidden)] pub fn _set_offset(&mut self, offset: i32) -> &mut Self { self.offset = Some(offset); self }
-  
-  pub fn length(&self) -> Option<i32> { self.length.clone() }
-  #[doc(hidden)] pub fn _set_length(&mut self, length: i32) -> &mut Self { self.length = Some(length); self }
-  
-  pub fn type_(&self) -> Option<Box<TextEntityType>> { self.type_.clone() }
-  #[doc(hidden)] pub fn _set_type_(&mut self, type_: Box<TextEntityType>) -> &mut Self { self.type_ = Some(type_); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn offset(&self) -> i64 { self.offset }
+
+  pub fn length(&self) -> i64 { self.length }
+
+  pub fn type_(&self) -> &TextEntityType { &self.type_ }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTextEntityBuilder {
+  inner: TextEntity
+}
+
+impl RTDTextEntityBuilder {
+  pub fn build(&self) -> TextEntity { self.inner.clone() }
+
+   
+  pub fn offset(&mut self, offset: i64) -> &mut Self {
+    self.inner.offset = offset;
+    self
+  }
+
+   
+  pub fn length(&mut self, length: i64) -> &mut Self {
+    self.inner.length = length;
+    self
+  }
+
+   
+  pub fn type_<T: AsRef<TextEntityType>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<TextEntity> for TextEntity {
+  fn as_ref(&self) -> &TextEntity { self }
+}
+
+impl AsRef<TextEntity> for RTDTextEntityBuilder {
+  fn as_ref(&self) -> &TextEntity { &self.inner }
 }
 
 

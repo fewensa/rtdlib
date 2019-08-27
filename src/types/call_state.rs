@@ -1,39 +1,555 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
-
-/// This class is an abstract base class. Describes the current call state. 
-#[typetag::serde(tag = "@struct")]
-pub trait CallState: Object + RObject + Debug {}
+use crate::errors::*;
 
 
 
 
+use std::fmt::Debug;
+use serde::de::{Deserialize, Deserializer};
 
+
+
+/// TRAIT | Describes the current call state
+pub trait TDCallState: Debug + RObject {}
+
+/// Describes the current call state
+#[derive(Debug, Clone, Serialize)]
+#[serde(untagged)]
+pub enum CallState {
+  #[doc(hidden)] _Default(()),
+  /// The call is pending, waiting to be accepted by a user
+  Pending(CallStatePending),
+  /// The call has been answered and encryption keys are being exchanged
+  ExchangingKeys(CallStateExchangingKeys),
+  /// The call is ready to use
+  Ready(CallStateReady),
+  /// The call is hanging up after discardCall has been called
+  HangingUp(CallStateHangingUp),
+  /// The call has ended successfully
+  Discarded(CallStateDiscarded),
+  /// The call has ended with an error
+  Error(CallStateError),
+
+}
+
+impl Default for CallState {
+  fn default() -> Self { CallState::_Default(()) }
+}
+
+impl<'de> Deserialize<'de> for CallState {
+  fn deserialize<D>(deserializer: D) -> Result<CallState, D::Error> where D: Deserializer<'de> {
+    use serde::de::Error;
+    rtd_enum_deserialize!(
+      CallState,
+      (callStatePending, Pending);
+      (callStateExchangingKeys, ExchangingKeys);
+      (callStateReady, Ready);
+      (callStateHangingUp, HangingUp);
+      (callStateDiscarded, Discarded);
+      (callStateError, Error);
+
+    )(deserializer)
+  }
+}
+
+impl RObject for CallState {
+  #[doc(hidden)] fn td_name(&self) -> &'static str {
+    match self {
+      CallState::Pending(t) => t.td_name(),
+      CallState::ExchangingKeys(t) => t.td_name(),
+      CallState::Ready(t) => t.td_name(),
+      CallState::HangingUp(t) => t.td_name(),
+      CallState::Discarded(t) => t.td_name(),
+      CallState::Error(t) => t.td_name(),
+
+      _ => "-1",
+    }
+  }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
 
 impl CallState {
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Box<Self>> { from_json!()(json.as_ref()) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  #[doc(hidden)] pub fn _is_default(&self) -> bool { if let CallState::_Default(_) = self { true } else { false } }
+
+  pub fn is_pending(&self) -> bool { if let CallState::Pending(_) = self { true } else { false } }
+  pub fn is_exchanging_keys(&self) -> bool { if let CallState::ExchangingKeys(_) = self { true } else { false } }
+  pub fn is_ready(&self) -> bool { if let CallState::Ready(_) = self { true } else { false } }
+  pub fn is_hanging_up(&self) -> bool { if let CallState::HangingUp(_) = self { true } else { false } }
+  pub fn is_discarded(&self) -> bool { if let CallState::Discarded(_) = self { true } else { false } }
+  pub fn is_error(&self) -> bool { if let CallState::Error(_) = self { true } else { false } }
+
+  pub fn on_pending<F: FnOnce(&CallStatePending)>(&self, fnc: F) -> &Self { if let CallState::Pending(t) = self { fnc(t) }; self }
+  pub fn on_exchanging_keys<F: FnOnce(&CallStateExchangingKeys)>(&self, fnc: F) -> &Self { if let CallState::ExchangingKeys(t) = self { fnc(t) }; self }
+  pub fn on_ready<F: FnOnce(&CallStateReady)>(&self, fnc: F) -> &Self { if let CallState::Ready(t) = self { fnc(t) }; self }
+  pub fn on_hanging_up<F: FnOnce(&CallStateHangingUp)>(&self, fnc: F) -> &Self { if let CallState::HangingUp(t) = self { fnc(t) }; self }
+  pub fn on_discarded<F: FnOnce(&CallStateDiscarded)>(&self, fnc: F) -> &Self { if let CallState::Discarded(t) = self { fnc(t) }; self }
+  pub fn on_error<F: FnOnce(&CallStateError)>(&self, fnc: F) -> &Self { if let CallState::Error(t) = self { fnc(t) }; self }
+
+  pub fn as_pending(&self) -> Option<&CallStatePending> { if let CallState::Pending(t) = self { return Some(t) } None }
+  pub fn as_exchanging_keys(&self) -> Option<&CallStateExchangingKeys> { if let CallState::ExchangingKeys(t) = self { return Some(t) } None }
+  pub fn as_ready(&self) -> Option<&CallStateReady> { if let CallState::Ready(t) = self { return Some(t) } None }
+  pub fn as_hanging_up(&self) -> Option<&CallStateHangingUp> { if let CallState::HangingUp(t) = self { return Some(t) } None }
+  pub fn as_discarded(&self) -> Option<&CallStateDiscarded> { if let CallState::Discarded(t) = self { return Some(t) } None }
+  pub fn as_error(&self) -> Option<&CallStateError> { if let CallState::Error(t) = self { return Some(t) } None }
+
+
+
+  pub fn pending<T: AsRef<CallStatePending>>(t: T) -> Self { CallState::Pending(t.as_ref().clone()) }
+
+  pub fn exchanging_keys<T: AsRef<CallStateExchangingKeys>>(t: T) -> Self { CallState::ExchangingKeys(t.as_ref().clone()) }
+
+  pub fn ready<T: AsRef<CallStateReady>>(t: T) -> Self { CallState::Ready(t.as_ref().clone()) }
+
+  pub fn hanging_up<T: AsRef<CallStateHangingUp>>(t: T) -> Self { CallState::HangingUp(t.as_ref().clone()) }
+
+  pub fn discarded<T: AsRef<CallStateDiscarded>>(t: T) -> Self { CallState::Discarded(t.as_ref().clone()) }
+
+  pub fn error<T: AsRef<CallStateError>>(t: T) -> Self { CallState::Error(t.as_ref().clone()) }
+
 }
-impl Clone for Box<CallState> {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
+
+impl AsRef<CallState> for CallState {
+  fn as_ref(&self) -> &CallState { self }
 }
 
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash, EnumString)]
-pub enum RTDCallStateType {
-  CallStateDiscarded,
-  CallStateError,
-  CallStateExchangingKeys,
-  CallStateHangingUp,
-  CallStatePending,
-  CallStateReady,
+
+
+
+
+
+/// The call is pending, waiting to be accepted by a user
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct CallStatePending {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// True, if the call has already been created by the server
+  is_created: bool,
+  /// True, if the call has already been received by the other party
+  is_received: bool,
   
 }
-impl RTDCallStateType {
-  pub fn of<S: AsRef<str>>(text: S) -> Option<Self> { rtd_of!(RTDCallStateType)(text.as_ref()) }
+
+impl RObject for CallStatePending {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "callStatePending" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDCallState for CallStatePending {}
+
+
+
+impl CallStatePending {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDCallStatePendingBuilder {
+    let mut inner = CallStatePending::default();
+    inner.td_name = "callStatePending".to_string();
+    RTDCallStatePendingBuilder { inner }
+  }
+
+  pub fn is_created(&self) -> bool { self.is_created }
+
+  pub fn is_received(&self) -> bool { self.is_received }
+
+}
+
+#[doc(hidden)]
+pub struct RTDCallStatePendingBuilder {
+  inner: CallStatePending
+}
+
+impl RTDCallStatePendingBuilder {
+  pub fn build(&self) -> CallStatePending { self.inner.clone() }
+
+   
+  pub fn is_created(&mut self, is_created: bool) -> &mut Self {
+    self.inner.is_created = is_created;
+    self
+  }
+
+   
+  pub fn is_received(&mut self, is_received: bool) -> &mut Self {
+    self.inner.is_received = is_received;
+    self
+  }
+
+}
+
+impl AsRef<CallStatePending> for CallStatePending {
+  fn as_ref(&self) -> &CallStatePending { self }
+}
+
+impl AsRef<CallStatePending> for RTDCallStatePendingBuilder {
+  fn as_ref(&self) -> &CallStatePending { &self.inner }
+}
+
+
+
+
+
+
+
+/// The call has been answered and encryption keys are being exchanged
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct CallStateExchangingKeys {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for CallStateExchangingKeys {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "callStateExchangingKeys" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDCallState for CallStateExchangingKeys {}
+
+
+
+impl CallStateExchangingKeys {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDCallStateExchangingKeysBuilder {
+    let mut inner = CallStateExchangingKeys::default();
+    inner.td_name = "callStateExchangingKeys".to_string();
+    RTDCallStateExchangingKeysBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDCallStateExchangingKeysBuilder {
+  inner: CallStateExchangingKeys
+}
+
+impl RTDCallStateExchangingKeysBuilder {
+  pub fn build(&self) -> CallStateExchangingKeys { self.inner.clone() }
+
+}
+
+impl AsRef<CallStateExchangingKeys> for CallStateExchangingKeys {
+  fn as_ref(&self) -> &CallStateExchangingKeys { self }
+}
+
+impl AsRef<CallStateExchangingKeys> for RTDCallStateExchangingKeysBuilder {
+  fn as_ref(&self) -> &CallStateExchangingKeys { &self.inner }
+}
+
+
+
+
+
+
+
+/// The call is ready to use
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct CallStateReady {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Call protocols supported by the peer
+  protocol: CallProtocol,
+  /// Available UDP reflectors
+  connections: Vec<CallConnection>,
+  /// A JSON-encoded call config
+  config: String,
+  /// Call encryption key
+  encryption_key: String,
+  /// Encryption key emojis fingerprint
+  emojis: Vec<String>,
+  /// True, if peer-to-peer connection is allowed by users privacy settings
+  allow_p2p: bool,
+  
+}
+
+impl RObject for CallStateReady {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "callStateReady" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDCallState for CallStateReady {}
+
+
+
+impl CallStateReady {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDCallStateReadyBuilder {
+    let mut inner = CallStateReady::default();
+    inner.td_name = "callStateReady".to_string();
+    RTDCallStateReadyBuilder { inner }
+  }
+
+  pub fn protocol(&self) -> &CallProtocol { &self.protocol }
+
+  pub fn connections(&self) -> &Vec<CallConnection> { &self.connections }
+
+  pub fn config(&self) -> &String { &self.config }
+
+  pub fn encryption_key(&self) -> &String { &self.encryption_key }
+
+  pub fn emojis(&self) -> &Vec<String> { &self.emojis }
+
+  pub fn allow_p2p(&self) -> bool { self.allow_p2p }
+
+}
+
+#[doc(hidden)]
+pub struct RTDCallStateReadyBuilder {
+  inner: CallStateReady
+}
+
+impl RTDCallStateReadyBuilder {
+  pub fn build(&self) -> CallStateReady { self.inner.clone() }
+
+   
+  pub fn protocol<T: AsRef<CallProtocol>>(&mut self, protocol: T) -> &mut Self {
+    self.inner.protocol = protocol.as_ref().clone();
+    self
+  }
+
+   
+  pub fn connections(&mut self, connections: Vec<CallConnection>) -> &mut Self {
+    self.inner.connections = connections;
+    self
+  }
+
+   
+  pub fn config<T: AsRef<str>>(&mut self, config: T) -> &mut Self {
+    self.inner.config = config.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn encryption_key<T: AsRef<str>>(&mut self, encryption_key: T) -> &mut Self {
+    self.inner.encryption_key = encryption_key.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn emojis(&mut self, emojis: Vec<String>) -> &mut Self {
+    self.inner.emojis = emojis;
+    self
+  }
+
+   
+  pub fn allow_p2p(&mut self, allow_p2p: bool) -> &mut Self {
+    self.inner.allow_p2p = allow_p2p;
+    self
+  }
+
+}
+
+impl AsRef<CallStateReady> for CallStateReady {
+  fn as_ref(&self) -> &CallStateReady { self }
+}
+
+impl AsRef<CallStateReady> for RTDCallStateReadyBuilder {
+  fn as_ref(&self) -> &CallStateReady { &self.inner }
+}
+
+
+
+
+
+
+
+/// The call is hanging up after discardCall has been called
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct CallStateHangingUp {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for CallStateHangingUp {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "callStateHangingUp" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDCallState for CallStateHangingUp {}
+
+
+
+impl CallStateHangingUp {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDCallStateHangingUpBuilder {
+    let mut inner = CallStateHangingUp::default();
+    inner.td_name = "callStateHangingUp".to_string();
+    RTDCallStateHangingUpBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDCallStateHangingUpBuilder {
+  inner: CallStateHangingUp
+}
+
+impl RTDCallStateHangingUpBuilder {
+  pub fn build(&self) -> CallStateHangingUp { self.inner.clone() }
+
+}
+
+impl AsRef<CallStateHangingUp> for CallStateHangingUp {
+  fn as_ref(&self) -> &CallStateHangingUp { self }
+}
+
+impl AsRef<CallStateHangingUp> for RTDCallStateHangingUpBuilder {
+  fn as_ref(&self) -> &CallStateHangingUp { &self.inner }
+}
+
+
+
+
+
+
+
+/// The call has ended successfully
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct CallStateDiscarded {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The reason, why the call has ended
+  reason: CallDiscardReason,
+  /// True, if the call rating should be sent to the server
+  need_rating: bool,
+  /// True, if the call debug information should be sent to the server
+  need_debug_information: bool,
+  
+}
+
+impl RObject for CallStateDiscarded {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "callStateDiscarded" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDCallState for CallStateDiscarded {}
+
+
+
+impl CallStateDiscarded {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDCallStateDiscardedBuilder {
+    let mut inner = CallStateDiscarded::default();
+    inner.td_name = "callStateDiscarded".to_string();
+    RTDCallStateDiscardedBuilder { inner }
+  }
+
+  pub fn reason(&self) -> &CallDiscardReason { &self.reason }
+
+  pub fn need_rating(&self) -> bool { self.need_rating }
+
+  pub fn need_debug_information(&self) -> bool { self.need_debug_information }
+
+}
+
+#[doc(hidden)]
+pub struct RTDCallStateDiscardedBuilder {
+  inner: CallStateDiscarded
+}
+
+impl RTDCallStateDiscardedBuilder {
+  pub fn build(&self) -> CallStateDiscarded { self.inner.clone() }
+
+   
+  pub fn reason<T: AsRef<CallDiscardReason>>(&mut self, reason: T) -> &mut Self {
+    self.inner.reason = reason.as_ref().clone();
+    self
+  }
+
+   
+  pub fn need_rating(&mut self, need_rating: bool) -> &mut Self {
+    self.inner.need_rating = need_rating;
+    self
+  }
+
+   
+  pub fn need_debug_information(&mut self, need_debug_information: bool) -> &mut Self {
+    self.inner.need_debug_information = need_debug_information;
+    self
+  }
+
+}
+
+impl AsRef<CallStateDiscarded> for CallStateDiscarded {
+  fn as_ref(&self) -> &CallStateDiscarded { self }
+}
+
+impl AsRef<CallStateDiscarded> for RTDCallStateDiscardedBuilder {
+  fn as_ref(&self) -> &CallStateDiscarded { &self.inner }
+}
+
+
+
+
+
+
+
+/// The call has ended with an error
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct CallStateError {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Error. An error with the code 4005000 will be returned if an outgoing call is missed because of an expired timeout
+  error: Error,
+  
+}
+
+impl RObject for CallStateError {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "callStateError" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDCallState for CallStateError {}
+
+
+
+impl CallStateError {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDCallStateErrorBuilder {
+    let mut inner = CallStateError::default();
+    inner.td_name = "callStateError".to_string();
+    RTDCallStateErrorBuilder { inner }
+  }
+
+  pub fn error(&self) -> &Error { &self.error }
+
+}
+
+#[doc(hidden)]
+pub struct RTDCallStateErrorBuilder {
+  inner: CallStateError
+}
+
+impl RTDCallStateErrorBuilder {
+  pub fn build(&self) -> CallStateError { self.inner.clone() }
+
+   
+  pub fn error<T: AsRef<Error>>(&mut self, error: T) -> &mut Self {
+    self.inner.error = error.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<CallStateError> for CallStateError {
+  fn as_ref(&self) -> &CallStateError { self }
+}
+
+impl AsRef<CallStateError> for RTDCallStateErrorBuilder {
+  fn as_ref(&self) -> &CallStateError { &self.inner }
 }
 
 

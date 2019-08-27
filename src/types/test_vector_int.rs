@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// A simple object containing a vector of numbers; for testing only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// A simple object containing a vector of numbers; for testing only
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TestVectorInt {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // testVectorInt
-  /// Vector of numbers.
-  value: Option<Vec<i32>>,
+  td_name: String,
+  /// Vector of numbers
+  value: Vec<i64>,
   
 }
 
-
-
-impl Object for TestVectorInt {}
 impl RObject for TestVectorInt {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testVectorInt" }
-  fn td_type(&self) -> RTDType { RTDType::TestVectorInt }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl TestVectorInt {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "testVectorInt".to_string(),
-      value: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTestVectorIntBuilder {
+    let mut inner = TestVectorInt::default();
+    inner.td_name = "testVectorInt".to_string();
+    RTDTestVectorIntBuilder { inner }
   }
-  
-  pub fn value(&self) -> Option<Vec<i32>> { self.value.clone() }
-  #[doc(hidden)] pub fn _set_value(&mut self, value: Vec<i32>) -> &mut Self { self.value = Some(value); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn value(&self) -> &Vec<i64> { &self.value }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTestVectorIntBuilder {
+  inner: TestVectorInt
+}
+
+impl RTDTestVectorIntBuilder {
+  pub fn build(&self) -> TestVectorInt { self.inner.clone() }
+
+   
+  pub fn value(&mut self, value: Vec<i64>) -> &mut Self {
+    self.inner.value = value;
+    self
+  }
+
+}
+
+impl AsRef<TestVectorInt> for TestVectorInt {
+  fn as_ref(&self) -> &TestVectorInt { self }
+}
+
+impl AsRef<TestVectorInt> for RTDTestVectorIntBuilder {
+  fn as_ref(&self) -> &TestVectorInt { &self.inner }
 }
 
 

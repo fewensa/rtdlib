@@ -1,57 +1,82 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains full information about a basic group. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains full information about a basic group
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct BasicGroupFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // basicGroupFullInfo
-  /// User identifier of the creator of the group; 0 if unknown.
-  creator_user_id: Option<i32>,
-  /// Group members.
-  members: Option<Vec<ChatMember>>,
-  /// Invite link for this group; available only for the group creator and only after it has been generated at least once.
-  invite_link: Option<String>,
+  td_name: String,
+  /// User identifier of the creator of the group; 0 if unknown
+  creator_user_id: i64,
+  /// Group members
+  members: Vec<ChatMember>,
+  /// Invite link for this group; available only for the group creator and only after it has been generated at least once
+  invite_link: String,
   
 }
 
-
-
-impl Object for BasicGroupFullInfo {}
 impl RObject for BasicGroupFullInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "basicGroupFullInfo" }
-  fn td_type(&self) -> RTDType { RTDType::BasicGroupFullInfo }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl BasicGroupFullInfo {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "basicGroupFullInfo".to_string(),
-      creator_user_id: None,
-      members: None,
-      invite_link: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDBasicGroupFullInfoBuilder {
+    let mut inner = BasicGroupFullInfo::default();
+    inner.td_name = "basicGroupFullInfo".to_string();
+    RTDBasicGroupFullInfoBuilder { inner }
   }
-  
-  pub fn creator_user_id(&self) -> Option<i32> { self.creator_user_id.clone() }
-  #[doc(hidden)] pub fn _set_creator_user_id(&mut self, creator_user_id: i32) -> &mut Self { self.creator_user_id = Some(creator_user_id); self }
-  
-  pub fn members(&self) -> Option<Vec<ChatMember>> { self.members.clone() }
-  #[doc(hidden)] pub fn _set_members(&mut self, members: Vec<ChatMember>) -> &mut Self { self.members = Some(members); self }
-  
-  pub fn invite_link(&self) -> Option<String> { self.invite_link.clone() }
-  #[doc(hidden)] pub fn _set_invite_link(&mut self, invite_link: String) -> &mut Self { self.invite_link = Some(invite_link); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn creator_user_id(&self) -> i64 { self.creator_user_id }
+
+  pub fn members(&self) -> &Vec<ChatMember> { &self.members }
+
+  pub fn invite_link(&self) -> &String { &self.invite_link }
+
+}
+
+#[doc(hidden)]
+pub struct RTDBasicGroupFullInfoBuilder {
+  inner: BasicGroupFullInfo
+}
+
+impl RTDBasicGroupFullInfoBuilder {
+  pub fn build(&self) -> BasicGroupFullInfo { self.inner.clone() }
+
+   
+  pub fn creator_user_id(&mut self, creator_user_id: i64) -> &mut Self {
+    self.inner.creator_user_id = creator_user_id;
+    self
+  }
+
+   
+  pub fn members(&mut self, members: Vec<ChatMember>) -> &mut Self {
+    self.inner.members = members;
+    self
+  }
+
+   
+  pub fn invite_link<T: AsRef<str>>(&mut self, invite_link: T) -> &mut Self {
+    self.inner.invite_link = invite_link.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<BasicGroupFullInfo> for BasicGroupFullInfo {
+  fn as_ref(&self) -> &BasicGroupFullInfo { self }
+}
+
+impl AsRef<BasicGroupFullInfo> for RTDBasicGroupFullInfoBuilder {
+  fn as_ref(&self) -> &BasicGroupFullInfo { &self.inner }
 }
 
 

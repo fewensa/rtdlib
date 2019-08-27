@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains a list of sessions. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains a list of sessions
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Sessions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // sessions
-  /// List of sessions.
-  sessions: Option<Vec<Session>>,
+  td_name: String,
+  /// List of sessions
+  sessions: Vec<Session>,
   
 }
 
-
-
-impl Object for Sessions {}
 impl RObject for Sessions {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sessions" }
-  fn td_type(&self) -> RTDType { RTDType::Sessions }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Sessions {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "sessions".to_string(),
-      sessions: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSessionsBuilder {
+    let mut inner = Sessions::default();
+    inner.td_name = "sessions".to_string();
+    RTDSessionsBuilder { inner }
   }
-  
-  pub fn sessions(&self) -> Option<Vec<Session>> { self.sessions.clone() }
-  #[doc(hidden)] pub fn _set_sessions(&mut self, sessions: Vec<Session>) -> &mut Self { self.sessions = Some(sessions); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn sessions(&self) -> &Vec<Session> { &self.sessions }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSessionsBuilder {
+  inner: Sessions
+}
+
+impl RTDSessionsBuilder {
+  pub fn build(&self) -> Sessions { self.inner.clone() }
+
+   
+  pub fn sessions(&mut self, sessions: Vec<Session>) -> &mut Self {
+    self.inner.sessions = sessions;
+    self
+  }
+
+}
+
+impl AsRef<Sessions> for Sessions {
+  fn as_ref(&self) -> &Sessions { self }
+}
+
+impl AsRef<Sessions> for RTDSessionsBuilder {
+  fn as_ref(&self) -> &Sessions { &self.inner }
 }
 
 

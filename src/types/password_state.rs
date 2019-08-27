@@ -1,69 +1,102 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Represents the current state of 2-step verification. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Represents the current state of 2-step verification
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PasswordState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // passwordState
-  /// True, if a 2-step verification password is set.
-  has_password: Option<bool>,
-  /// Hint for the password; may be empty.
-  password_hint: Option<String>,
-  /// True, if a recovery email is set.
-  has_recovery_email_address: Option<bool>,
-  /// True, if some Telegram Passport elements were saved.
-  has_passport_data: Option<bool>,
-  /// Information about the recovery email address to which the confirmation email was sent; may be null.
+  td_name: String,
+  /// True, if a 2-step verification password is set
+  has_password: bool,
+  /// Hint for the password; may be empty
+  password_hint: String,
+  /// True, if a recovery email is set
+  has_recovery_email_address: bool,
+  /// True, if some Telegram Passport elements were saved
+  has_passport_data: bool,
+  /// Information about the recovery email address to which the confirmation email was sent; may be null
   recovery_email_address_code_info: Option<EmailAddressAuthenticationCodeInfo>,
   
 }
 
-
-
-impl Object for PasswordState {}
 impl RObject for PasswordState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passwordState" }
-  fn td_type(&self) -> RTDType { RTDType::PasswordState }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl PasswordState {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "passwordState".to_string(),
-      has_password: None,
-      password_hint: None,
-      has_recovery_email_address: None,
-      has_passport_data: None,
-      recovery_email_address_code_info: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPasswordStateBuilder {
+    let mut inner = PasswordState::default();
+    inner.td_name = "passwordState".to_string();
+    RTDPasswordStateBuilder { inner }
   }
-  
-  pub fn has_password(&self) -> Option<bool> { self.has_password.clone() }
-  #[doc(hidden)] pub fn _set_has_password(&mut self, has_password: bool) -> &mut Self { self.has_password = Some(has_password); self }
-  
-  pub fn password_hint(&self) -> Option<String> { self.password_hint.clone() }
-  #[doc(hidden)] pub fn _set_password_hint(&mut self, password_hint: String) -> &mut Self { self.password_hint = Some(password_hint); self }
-  
-  pub fn has_recovery_email_address(&self) -> Option<bool> { self.has_recovery_email_address.clone() }
-  #[doc(hidden)] pub fn _set_has_recovery_email_address(&mut self, has_recovery_email_address: bool) -> &mut Self { self.has_recovery_email_address = Some(has_recovery_email_address); self }
-  
-  pub fn has_passport_data(&self) -> Option<bool> { self.has_passport_data.clone() }
-  #[doc(hidden)] pub fn _set_has_passport_data(&mut self, has_passport_data: bool) -> &mut Self { self.has_passport_data = Some(has_passport_data); self }
-  
-  pub fn recovery_email_address_code_info(&self) -> Option<EmailAddressAuthenticationCodeInfo> { self.recovery_email_address_code_info.clone() }
-  #[doc(hidden)] pub fn _set_recovery_email_address_code_info(&mut self, recovery_email_address_code_info: EmailAddressAuthenticationCodeInfo) -> &mut Self { self.recovery_email_address_code_info = Some(recovery_email_address_code_info); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn has_password(&self) -> bool { self.has_password }
+
+  pub fn password_hint(&self) -> &String { &self.password_hint }
+
+  pub fn has_recovery_email_address(&self) -> bool { self.has_recovery_email_address }
+
+  pub fn has_passport_data(&self) -> bool { self.has_passport_data }
+
+  pub fn recovery_email_address_code_info(&self) -> &Option<EmailAddressAuthenticationCodeInfo> { &self.recovery_email_address_code_info }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPasswordStateBuilder {
+  inner: PasswordState
+}
+
+impl RTDPasswordStateBuilder {
+  pub fn build(&self) -> PasswordState { self.inner.clone() }
+
+   
+  pub fn has_password(&mut self, has_password: bool) -> &mut Self {
+    self.inner.has_password = has_password;
+    self
+  }
+
+   
+  pub fn password_hint<T: AsRef<str>>(&mut self, password_hint: T) -> &mut Self {
+    self.inner.password_hint = password_hint.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn has_recovery_email_address(&mut self, has_recovery_email_address: bool) -> &mut Self {
+    self.inner.has_recovery_email_address = has_recovery_email_address;
+    self
+  }
+
+   
+  pub fn has_passport_data(&mut self, has_passport_data: bool) -> &mut Self {
+    self.inner.has_passport_data = has_passport_data;
+    self
+  }
+
+   
+  pub fn recovery_email_address_code_info<T: AsRef<EmailAddressAuthenticationCodeInfo>>(&mut self, recovery_email_address_code_info: T) -> &mut Self {
+    self.inner.recovery_email_address_code_info = Some(recovery_email_address_code_info.as_ref().clone());
+    self
+  }
+
+}
+
+impl AsRef<PasswordState> for PasswordState {
+  fn as_ref(&self) -> &PasswordState { self }
+}
+
+impl AsRef<PasswordState> for RTDPasswordStateBuilder {
+  fn as_ref(&self) -> &PasswordState { &self.inner }
 }
 
 

@@ -1,57 +1,82 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Represents a date according to the Gregorian calendar. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Represents a date according to the Gregorian calendar
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Date {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // date
-  /// Day of the month, 1-31.
-  day: Option<i32>,
-  /// Month, 1-12.
-  month: Option<i32>,
-  /// Year, 1-9999.
-  year: Option<i32>,
+  td_name: String,
+  /// Day of the month, 1-31
+  day: i64,
+  /// Month, 1-12
+  month: i64,
+  /// Year, 1-9999
+  year: i64,
   
 }
 
-
-
-impl Object for Date {}
 impl RObject for Date {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "date" }
-  fn td_type(&self) -> RTDType { RTDType::Date }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Date {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "date".to_string(),
-      day: None,
-      month: None,
-      year: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDDateBuilder {
+    let mut inner = Date::default();
+    inner.td_name = "date".to_string();
+    RTDDateBuilder { inner }
   }
-  
-  pub fn day(&self) -> Option<i32> { self.day.clone() }
-  #[doc(hidden)] pub fn _set_day(&mut self, day: i32) -> &mut Self { self.day = Some(day); self }
-  
-  pub fn month(&self) -> Option<i32> { self.month.clone() }
-  #[doc(hidden)] pub fn _set_month(&mut self, month: i32) -> &mut Self { self.month = Some(month); self }
-  
-  pub fn year(&self) -> Option<i32> { self.year.clone() }
-  #[doc(hidden)] pub fn _set_year(&mut self, year: i32) -> &mut Self { self.year = Some(year); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn day(&self) -> i64 { self.day }
+
+  pub fn month(&self) -> i64 { self.month }
+
+  pub fn year(&self) -> i64 { self.year }
+
+}
+
+#[doc(hidden)]
+pub struct RTDDateBuilder {
+  inner: Date
+}
+
+impl RTDDateBuilder {
+  pub fn build(&self) -> Date { self.inner.clone() }
+
+   
+  pub fn day(&mut self, day: i64) -> &mut Self {
+    self.inner.day = day;
+    self
+  }
+
+   
+  pub fn month(&mut self, month: i64) -> &mut Self {
+    self.inner.month = month;
+    self
+  }
+
+   
+  pub fn year(&mut self, year: i64) -> &mut Self {
+    self.inner.year = year;
+    self
+  }
+
+}
+
+impl AsRef<Date> for Date {
+  fn as_ref(&self) -> &Date { self }
+}
+
+impl AsRef<Date> for RTDDateBuilder {
+  fn as_ref(&self) -> &Date { &self.inner }
 }
 
 

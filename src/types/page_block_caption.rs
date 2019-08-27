@@ -1,55 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains a caption of an instant view web page block, consisting of a text and a trailing credit. 
-#[derive(Debug, Serialize, Deserialize)]
+
+
+
+/// Contains a caption of an instant view web page block, consisting of a text and a trailing credit
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockCaption {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // pageBlockCaption
-  /// Content of the caption.
-  text: Option<Box<RichText>>,
-  /// Block credit (like HTML tag <cite>).
-  credit: Option<Box<RichText>>,
+  td_name: String,
+  /// Content of the caption
+  text: RichText,
+  /// Block credit (like HTML tag <cite>)
+  credit: RichText,
   
 }
 
-
-impl Clone for PageBlockCaption {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
-}
-
-
-impl Object for PageBlockCaption {}
 impl RObject for PageBlockCaption {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockCaption" }
-  fn td_type(&self) -> RTDType { RTDType::PageBlockCaption }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl PageBlockCaption {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "pageBlockCaption".to_string(),
-      text: None,
-      credit: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPageBlockCaptionBuilder {
+    let mut inner = PageBlockCaption::default();
+    inner.td_name = "pageBlockCaption".to_string();
+    RTDPageBlockCaptionBuilder { inner }
   }
-  
-  pub fn text(&self) -> Option<Box<RichText>> { self.text.clone() }
-  #[doc(hidden)] pub fn _set_text(&mut self, text: Box<RichText>) -> &mut Self { self.text = Some(text); self }
-  
-  pub fn credit(&self) -> Option<Box<RichText>> { self.credit.clone() }
-  #[doc(hidden)] pub fn _set_credit(&mut self, credit: Box<RichText>) -> &mut Self { self.credit = Some(credit); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn text(&self) -> &RichText { &self.text }
+
+  pub fn credit(&self) -> &RichText { &self.credit }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPageBlockCaptionBuilder {
+  inner: PageBlockCaption
+}
+
+impl RTDPageBlockCaptionBuilder {
+  pub fn build(&self) -> PageBlockCaption { self.inner.clone() }
+
+   
+  pub fn text<T: AsRef<RichText>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().clone();
+    self
+  }
+
+   
+  pub fn credit<T: AsRef<RichText>>(&mut self, credit: T) -> &mut Self {
+    self.inner.credit = credit.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<PageBlockCaption> for PageBlockCaption {
+  fn as_ref(&self) -> &PageBlockCaption { self }
+}
+
+impl AsRef<PageBlockCaption> for RTDPageBlockCaptionBuilder {
+  fn as_ref(&self) -> &PageBlockCaption { &self.inner }
 }
 
 

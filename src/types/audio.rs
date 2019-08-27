@@ -1,81 +1,122 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Describes an audio file. Audio is usually in MP3 format. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Describes an audio file. Audio is usually in MP3 format
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Audio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // audio
-  /// Duration of the audio, in seconds; as defined by the sender.
-  duration: Option<i32>,
-  /// Title of the audio; as defined by the sender.
-  title: Option<String>,
-  /// Performer of the audio; as defined by the sender.
-  performer: Option<String>,
-  /// Original name of the file; as defined by the sender.
-  file_name: Option<String>,
-  /// The MIME type of the file; as defined by the sender.
-  mime_type: Option<String>,
-  /// The thumbnail of the album cover; as defined by the sender. The full size thumbnail should be extracted from the downloaded file; may be null.
+  td_name: String,
+  /// Duration of the audio, in seconds; as defined by the sender
+  duration: i64,
+  /// Title of the audio; as defined by the sender
+  title: String,
+  /// Performer of the audio; as defined by the sender
+  performer: String,
+  /// Original name of the file; as defined by the sender
+  file_name: String,
+  /// The MIME type of the file; as defined by the sender
+  mime_type: String,
+  /// The thumbnail of the album cover; as defined by the sender. The full size thumbnail should be extracted from the downloaded file; may be null
   album_cover_thumbnail: Option<PhotoSize>,
-  /// File containing the audio.
-  audio: Option<File>,
+  /// File containing the audio
+  audio: File,
   
 }
 
-
-
-impl Object for Audio {}
 impl RObject for Audio {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "audio" }
-  fn td_type(&self) -> RTDType { RTDType::Audio }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Audio {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "audio".to_string(),
-      duration: None,
-      title: None,
-      performer: None,
-      file_name: None,
-      mime_type: None,
-      album_cover_thumbnail: None,
-      audio: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDAudioBuilder {
+    let mut inner = Audio::default();
+    inner.td_name = "audio".to_string();
+    RTDAudioBuilder { inner }
   }
-  
-  pub fn duration(&self) -> Option<i32> { self.duration.clone() }
-  #[doc(hidden)] pub fn _set_duration(&mut self, duration: i32) -> &mut Self { self.duration = Some(duration); self }
-  
-  pub fn title(&self) -> Option<String> { self.title.clone() }
-  #[doc(hidden)] pub fn _set_title(&mut self, title: String) -> &mut Self { self.title = Some(title); self }
-  
-  pub fn performer(&self) -> Option<String> { self.performer.clone() }
-  #[doc(hidden)] pub fn _set_performer(&mut self, performer: String) -> &mut Self { self.performer = Some(performer); self }
-  
-  pub fn file_name(&self) -> Option<String> { self.file_name.clone() }
-  #[doc(hidden)] pub fn _set_file_name(&mut self, file_name: String) -> &mut Self { self.file_name = Some(file_name); self }
-  
-  pub fn mime_type(&self) -> Option<String> { self.mime_type.clone() }
-  #[doc(hidden)] pub fn _set_mime_type(&mut self, mime_type: String) -> &mut Self { self.mime_type = Some(mime_type); self }
-  
-  pub fn album_cover_thumbnail(&self) -> Option<PhotoSize> { self.album_cover_thumbnail.clone() }
-  #[doc(hidden)] pub fn _set_album_cover_thumbnail(&mut self, album_cover_thumbnail: PhotoSize) -> &mut Self { self.album_cover_thumbnail = Some(album_cover_thumbnail); self }
-  
-  pub fn audio(&self) -> Option<File> { self.audio.clone() }
-  #[doc(hidden)] pub fn _set_audio(&mut self, audio: File) -> &mut Self { self.audio = Some(audio); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn duration(&self) -> i64 { self.duration }
+
+  pub fn title(&self) -> &String { &self.title }
+
+  pub fn performer(&self) -> &String { &self.performer }
+
+  pub fn file_name(&self) -> &String { &self.file_name }
+
+  pub fn mime_type(&self) -> &String { &self.mime_type }
+
+  pub fn album_cover_thumbnail(&self) -> &Option<PhotoSize> { &self.album_cover_thumbnail }
+
+  pub fn audio(&self) -> &File { &self.audio }
+
+}
+
+#[doc(hidden)]
+pub struct RTDAudioBuilder {
+  inner: Audio
+}
+
+impl RTDAudioBuilder {
+  pub fn build(&self) -> Audio { self.inner.clone() }
+
+   
+  pub fn duration(&mut self, duration: i64) -> &mut Self {
+    self.inner.duration = duration;
+    self
+  }
+
+   
+  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
+    self.inner.title = title.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn performer<T: AsRef<str>>(&mut self, performer: T) -> &mut Self {
+    self.inner.performer = performer.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn file_name<T: AsRef<str>>(&mut self, file_name: T) -> &mut Self {
+    self.inner.file_name = file_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn mime_type<T: AsRef<str>>(&mut self, mime_type: T) -> &mut Self {
+    self.inner.mime_type = mime_type.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn album_cover_thumbnail<T: AsRef<PhotoSize>>(&mut self, album_cover_thumbnail: T) -> &mut Self {
+    self.inner.album_cover_thumbnail = Some(album_cover_thumbnail.as_ref().clone());
+    self
+  }
+
+   
+  pub fn audio<T: AsRef<File>>(&mut self, audio: T) -> &mut Self {
+    self.inner.audio = audio.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<Audio> for Audio {
+  fn as_ref(&self) -> &Audio { self }
+}
+
+impl AsRef<Audio> for RTDAudioBuilder {
+  fn as_ref(&self) -> &Audio { &self.inner }
 }
 
 

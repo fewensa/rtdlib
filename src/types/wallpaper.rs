@@ -1,57 +1,82 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains information about a wallpaper. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains information about a wallpaper
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Wallpaper {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // wallpaper
-  /// Unique persistent wallpaper identifier.
-  id: Option<i32>,
-  /// Available variants of the wallpaper in different sizes. These photos can only be downloaded; they can't be sent in a message.
-  sizes: Option<Vec<PhotoSize>>,
-  /// Main color of the wallpaper in RGB24 format; should be treated as background color if no photos are specified.
-  color: Option<i32>,
+  td_name: String,
+  /// Unique persistent wallpaper identifier
+  id: i64,
+  /// Available variants of the wallpaper in different sizes. These photos can only be downloaded; they can't be sent in a message
+  sizes: Vec<PhotoSize>,
+  /// Main color of the wallpaper in RGB24 format; should be treated as background color if no photos are specified
+  color: i64,
   
 }
 
-
-
-impl Object for Wallpaper {}
 impl RObject for Wallpaper {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "wallpaper" }
-  fn td_type(&self) -> RTDType { RTDType::Wallpaper }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Wallpaper {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "wallpaper".to_string(),
-      id: None,
-      sizes: None,
-      color: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDWallpaperBuilder {
+    let mut inner = Wallpaper::default();
+    inner.td_name = "wallpaper".to_string();
+    RTDWallpaperBuilder { inner }
   }
-  
-  pub fn id(&self) -> Option<i32> { self.id.clone() }
-  #[doc(hidden)] pub fn _set_id(&mut self, id: i32) -> &mut Self { self.id = Some(id); self }
-  
-  pub fn sizes(&self) -> Option<Vec<PhotoSize>> { self.sizes.clone() }
-  #[doc(hidden)] pub fn _set_sizes(&mut self, sizes: Vec<PhotoSize>) -> &mut Self { self.sizes = Some(sizes); self }
-  
-  pub fn color(&self) -> Option<i32> { self.color.clone() }
-  #[doc(hidden)] pub fn _set_color(&mut self, color: i32) -> &mut Self { self.color = Some(color); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn id(&self) -> i64 { self.id }
+
+  pub fn sizes(&self) -> &Vec<PhotoSize> { &self.sizes }
+
+  pub fn color(&self) -> i64 { self.color }
+
+}
+
+#[doc(hidden)]
+pub struct RTDWallpaperBuilder {
+  inner: Wallpaper
+}
+
+impl RTDWallpaperBuilder {
+  pub fn build(&self) -> Wallpaper { self.inner.clone() }
+
+   
+  pub fn id(&mut self, id: i64) -> &mut Self {
+    self.inner.id = id;
+    self
+  }
+
+   
+  pub fn sizes(&mut self, sizes: Vec<PhotoSize>) -> &mut Self {
+    self.inner.sizes = sizes;
+    self
+  }
+
+   
+  pub fn color(&mut self, color: i64) -> &mut Self {
+    self.inner.color = color;
+    self
+  }
+
+}
+
+impl AsRef<Wallpaper> for Wallpaper {
+  fn as_ref(&self) -> &Wallpaper { self }
+}
+
+impl AsRef<Wallpaper> for RTDWallpaperBuilder {
+  fn as_ref(&self) -> &Wallpaper { &self.inner }
 }
 
 

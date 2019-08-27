@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains information about the availability of the "Report spam" action for a chat. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains information about the availability of the "Report spam" action for a chat
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatReportSpamState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // chatReportSpamState
-  /// True, if a prompt with the "Report spam" action should be shown to the user.
-  can_report_spam: Option<bool>,
+  td_name: String,
+  /// True, if a prompt with the "Report spam" action should be shown to the user
+  can_report_spam: bool,
   
 }
 
-
-
-impl Object for ChatReportSpamState {}
 impl RObject for ChatReportSpamState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportSpamState" }
-  fn td_type(&self) -> RTDType { RTDType::ChatReportSpamState }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl ChatReportSpamState {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "chatReportSpamState".to_string(),
-      can_report_spam: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatReportSpamStateBuilder {
+    let mut inner = ChatReportSpamState::default();
+    inner.td_name = "chatReportSpamState".to_string();
+    RTDChatReportSpamStateBuilder { inner }
   }
-  
-  pub fn can_report_spam(&self) -> Option<bool> { self.can_report_spam.clone() }
-  #[doc(hidden)] pub fn _set_can_report_spam(&mut self, can_report_spam: bool) -> &mut Self { self.can_report_spam = Some(can_report_spam); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn can_report_spam(&self) -> bool { self.can_report_spam }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatReportSpamStateBuilder {
+  inner: ChatReportSpamState
+}
+
+impl RTDChatReportSpamStateBuilder {
+  pub fn build(&self) -> ChatReportSpamState { self.inner.clone() }
+
+   
+  pub fn can_report_spam(&mut self, can_report_spam: bool) -> &mut Self {
+    self.inner.can_report_spam = can_report_spam;
+    self
+  }
+
+}
+
+impl AsRef<ChatReportSpamState> for ChatReportSpamState {
+  fn as_ref(&self) -> &ChatReportSpamState { self }
+}
+
+impl AsRef<ChatReportSpamState> for RTDChatReportSpamStateBuilder {
+  fn as_ref(&self) -> &ChatReportSpamState { &self.inner }
 }
 
 

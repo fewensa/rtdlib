@@ -1,97 +1,142 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains information about an encrypted Telegram Passport element; for bots only. 
-#[derive(Debug, Serialize, Deserialize)]
+
+
+
+/// Contains information about an encrypted Telegram Passport element; for bots only
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct EncryptedPassportElement {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // encryptedPassportElement
-  /// Type of Telegram Passport element.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<PassportElementType>>,
-  /// Encrypted JSON-encoded data about the user.
-  data: Option<String>,
-  /// The front side of an identity document.
-  front_side: Option<DatedFile>,
-  /// The reverse side of an identity document; may be null.
+  td_name: String,
+  /// Type of Telegram Passport element
+  #[serde(rename(serialize = "type", deserialize = "type"))] type_: PassportElementType,
+  /// Encrypted JSON-encoded data about the user
+  data: String,
+  /// The front side of an identity document
+  front_side: DatedFile,
+  /// The reverse side of an identity document; may be null
   reverse_side: Option<DatedFile>,
-  /// Selfie with the document; may be null.
+  /// Selfie with the document; may be null
   selfie: Option<DatedFile>,
-  /// List of files containing a certified English translation of the document.
-  translation: Option<Vec<DatedFile>>,
-  /// List of attached files.
-  files: Option<Vec<DatedFile>>,
-  /// Unencrypted data, phone number or email address.
-  value: Option<String>,
-  /// Hash of the entire element.
-  hash: Option<String>,
+  /// List of files containing a certified English translation of the document
+  translation: Vec<DatedFile>,
+  /// List of attached files
+  files: Vec<DatedFile>,
+  /// Unencrypted data, phone number or email address
+  value: String,
+  /// Hash of the entire element
+  hash: String,
   
 }
 
-
-impl Clone for EncryptedPassportElement {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
-}
-
-
-impl Object for EncryptedPassportElement {}
 impl RObject for EncryptedPassportElement {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "encryptedPassportElement" }
-  fn td_type(&self) -> RTDType { RTDType::EncryptedPassportElement }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl EncryptedPassportElement {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "encryptedPassportElement".to_string(),
-      type_: None,
-      data: None,
-      front_side: None,
-      reverse_side: None,
-      selfie: None,
-      translation: None,
-      files: None,
-      value: None,
-      hash: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDEncryptedPassportElementBuilder {
+    let mut inner = EncryptedPassportElement::default();
+    inner.td_name = "encryptedPassportElement".to_string();
+    RTDEncryptedPassportElementBuilder { inner }
   }
-  
-  pub fn type_(&self) -> Option<Box<PassportElementType>> { self.type_.clone() }
-  #[doc(hidden)] pub fn _set_type_(&mut self, type_: Box<PassportElementType>) -> &mut Self { self.type_ = Some(type_); self }
-  
-  pub fn data(&self) -> Option<String> { self.data.clone() }
-  #[doc(hidden)] pub fn _set_data(&mut self, data: String) -> &mut Self { self.data = Some(data); self }
-  
-  pub fn front_side(&self) -> Option<DatedFile> { self.front_side.clone() }
-  #[doc(hidden)] pub fn _set_front_side(&mut self, front_side: DatedFile) -> &mut Self { self.front_side = Some(front_side); self }
-  
-  pub fn reverse_side(&self) -> Option<DatedFile> { self.reverse_side.clone() }
-  #[doc(hidden)] pub fn _set_reverse_side(&mut self, reverse_side: DatedFile) -> &mut Self { self.reverse_side = Some(reverse_side); self }
-  
-  pub fn selfie(&self) -> Option<DatedFile> { self.selfie.clone() }
-  #[doc(hidden)] pub fn _set_selfie(&mut self, selfie: DatedFile) -> &mut Self { self.selfie = Some(selfie); self }
-  
-  pub fn translation(&self) -> Option<Vec<DatedFile>> { self.translation.clone() }
-  #[doc(hidden)] pub fn _set_translation(&mut self, translation: Vec<DatedFile>) -> &mut Self { self.translation = Some(translation); self }
-  
-  pub fn files(&self) -> Option<Vec<DatedFile>> { self.files.clone() }
-  #[doc(hidden)] pub fn _set_files(&mut self, files: Vec<DatedFile>) -> &mut Self { self.files = Some(files); self }
-  
-  pub fn value(&self) -> Option<String> { self.value.clone() }
-  #[doc(hidden)] pub fn _set_value(&mut self, value: String) -> &mut Self { self.value = Some(value); self }
-  
-  pub fn hash(&self) -> Option<String> { self.hash.clone() }
-  #[doc(hidden)] pub fn _set_hash(&mut self, hash: String) -> &mut Self { self.hash = Some(hash); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn type_(&self) -> &PassportElementType { &self.type_ }
+
+  pub fn data(&self) -> &String { &self.data }
+
+  pub fn front_side(&self) -> &DatedFile { &self.front_side }
+
+  pub fn reverse_side(&self) -> &Option<DatedFile> { &self.reverse_side }
+
+  pub fn selfie(&self) -> &Option<DatedFile> { &self.selfie }
+
+  pub fn translation(&self) -> &Vec<DatedFile> { &self.translation }
+
+  pub fn files(&self) -> &Vec<DatedFile> { &self.files }
+
+  pub fn value(&self) -> &String { &self.value }
+
+  pub fn hash(&self) -> &String { &self.hash }
+
+}
+
+#[doc(hidden)]
+pub struct RTDEncryptedPassportElementBuilder {
+  inner: EncryptedPassportElement
+}
+
+impl RTDEncryptedPassportElementBuilder {
+  pub fn build(&self) -> EncryptedPassportElement { self.inner.clone() }
+
+   
+  pub fn type_<T: AsRef<PassportElementType>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+   
+  pub fn data<T: AsRef<str>>(&mut self, data: T) -> &mut Self {
+    self.inner.data = data.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn front_side<T: AsRef<DatedFile>>(&mut self, front_side: T) -> &mut Self {
+    self.inner.front_side = front_side.as_ref().clone();
+    self
+  }
+
+   
+  pub fn reverse_side<T: AsRef<DatedFile>>(&mut self, reverse_side: T) -> &mut Self {
+    self.inner.reverse_side = Some(reverse_side.as_ref().clone());
+    self
+  }
+
+   
+  pub fn selfie<T: AsRef<DatedFile>>(&mut self, selfie: T) -> &mut Self {
+    self.inner.selfie = Some(selfie.as_ref().clone());
+    self
+  }
+
+   
+  pub fn translation(&mut self, translation: Vec<DatedFile>) -> &mut Self {
+    self.inner.translation = translation;
+    self
+  }
+
+   
+  pub fn files(&mut self, files: Vec<DatedFile>) -> &mut Self {
+    self.inner.files = files;
+    self
+  }
+
+   
+  pub fn value<T: AsRef<str>>(&mut self, value: T) -> &mut Self {
+    self.inner.value = value.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn hash<T: AsRef<str>>(&mut self, hash: T) -> &mut Self {
+    self.inner.hash = hash.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<EncryptedPassportElement> for EncryptedPassportElement {
+  fn as_ref(&self) -> &EncryptedPassportElement { self }
+}
+
+impl AsRef<EncryptedPassportElement> for RTDEncryptedPassportElementBuilder {
+  fn as_ref(&self) -> &EncryptedPassportElement { &self.inner }
 }
 
 

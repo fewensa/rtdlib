@@ -1,55 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains information about a message draft. 
-#[derive(Debug, Serialize, Deserialize)]
+
+
+
+/// Contains information about a message draft
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct DraftMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // draftMessage
-  /// Identifier of the message to reply to; 0 if none.
-  reply_to_message_id: Option<i64>,
-  /// Content of the message draft; this should always be of type inputMessageText.
-  input_message_text: Option<Box<InputMessageContent>>,
+  td_name: String,
+  /// Identifier of the message to reply to; 0 if none
+  reply_to_message_id: i64,
+  /// Content of the message draft; this should always be of type inputMessageText
+  input_message_text: InputMessageContent,
   
 }
 
-
-impl Clone for DraftMessage {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
-}
-
-
-impl Object for DraftMessage {}
 impl RObject for DraftMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "draftMessage" }
-  fn td_type(&self) -> RTDType { RTDType::DraftMessage }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl DraftMessage {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "draftMessage".to_string(),
-      reply_to_message_id: None,
-      input_message_text: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDDraftMessageBuilder {
+    let mut inner = DraftMessage::default();
+    inner.td_name = "draftMessage".to_string();
+    RTDDraftMessageBuilder { inner }
   }
-  
-  pub fn reply_to_message_id(&self) -> Option<i64> { self.reply_to_message_id.clone() }
-  #[doc(hidden)] pub fn _set_reply_to_message_id(&mut self, reply_to_message_id: i64) -> &mut Self { self.reply_to_message_id = Some(reply_to_message_id); self }
-  
-  pub fn input_message_text(&self) -> Option<Box<InputMessageContent>> { self.input_message_text.clone() }
-  #[doc(hidden)] pub fn _set_input_message_text(&mut self, input_message_text: Box<InputMessageContent>) -> &mut Self { self.input_message_text = Some(input_message_text); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn reply_to_message_id(&self) -> i64 { self.reply_to_message_id }
+
+  pub fn input_message_text(&self) -> &InputMessageContent { &self.input_message_text }
+
+}
+
+#[doc(hidden)]
+pub struct RTDDraftMessageBuilder {
+  inner: DraftMessage
+}
+
+impl RTDDraftMessageBuilder {
+  pub fn build(&self) -> DraftMessage { self.inner.clone() }
+
+   
+  pub fn reply_to_message_id(&mut self, reply_to_message_id: i64) -> &mut Self {
+    self.inner.reply_to_message_id = reply_to_message_id;
+    self
+  }
+
+   
+  pub fn input_message_text<T: AsRef<InputMessageContent>>(&mut self, input_message_text: T) -> &mut Self {
+    self.inner.input_message_text = input_message_text.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<DraftMessage> for DraftMessage {
+  fn as_ref(&self) -> &DraftMessage { self }
+}
+
+impl AsRef<DraftMessage> for RTDDraftMessageBuilder {
+  fn as_ref(&self) -> &DraftMessage { &self.inner }
 }
 
 

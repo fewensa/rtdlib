@@ -1,51 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// File with the date it was uploaded. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// File with the date it was uploaded
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct DatedFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // datedFile
-  /// The file.
-  file: Option<File>,
-  /// Point in time (Unix timestamp) when the file was uploaded.
-  date: Option<i32>,
+  td_name: String,
+  /// The file
+  file: File,
+  /// Point in time (Unix timestamp) when the file was uploaded
+  date: i64,
   
 }
 
-
-
-impl Object for DatedFile {}
 impl RObject for DatedFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "datedFile" }
-  fn td_type(&self) -> RTDType { RTDType::DatedFile }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl DatedFile {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "datedFile".to_string(),
-      file: None,
-      date: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDDatedFileBuilder {
+    let mut inner = DatedFile::default();
+    inner.td_name = "datedFile".to_string();
+    RTDDatedFileBuilder { inner }
   }
-  
-  pub fn file(&self) -> Option<File> { self.file.clone() }
-  #[doc(hidden)] pub fn _set_file(&mut self, file: File) -> &mut Self { self.file = Some(file); self }
-  
-  pub fn date(&self) -> Option<i32> { self.date.clone() }
-  #[doc(hidden)] pub fn _set_date(&mut self, date: i32) -> &mut Self { self.date = Some(date); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn file(&self) -> &File { &self.file }
+
+  pub fn date(&self) -> i64 { self.date }
+
+}
+
+#[doc(hidden)]
+pub struct RTDDatedFileBuilder {
+  inner: DatedFile
+}
+
+impl RTDDatedFileBuilder {
+  pub fn build(&self) -> DatedFile { self.inner.clone() }
+
+   
+  pub fn file<T: AsRef<File>>(&mut self, file: T) -> &mut Self {
+    self.inner.file = file.as_ref().clone();
+    self
+  }
+
+   
+  pub fn date(&mut self, date: i64) -> &mut Self {
+    self.inner.date = date;
+    self
+  }
+
+}
+
+impl AsRef<DatedFile> for DatedFile {
+  fn as_ref(&self) -> &DatedFile { self }
+}
+
+impl AsRef<DatedFile> for RTDDatedFileBuilder {
+  fn as_ref(&self) -> &DatedFile { &self.inner }
 }
 
 

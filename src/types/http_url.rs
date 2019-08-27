@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains an HTTP URL. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains an HTTP URL
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct HttpUrl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // httpUrl
-  /// The URL.
-  url: Option<String>,
+  td_name: String,
+  /// The URL
+  url: String,
   
 }
 
-
-
-impl Object for HttpUrl {}
 impl RObject for HttpUrl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "httpUrl" }
-  fn td_type(&self) -> RTDType { RTDType::HttpUrl }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl HttpUrl {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "httpUrl".to_string(),
-      url: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDHttpUrlBuilder {
+    let mut inner = HttpUrl::default();
+    inner.td_name = "httpUrl".to_string();
+    RTDHttpUrlBuilder { inner }
   }
-  
-  pub fn url(&self) -> Option<String> { self.url.clone() }
-  #[doc(hidden)] pub fn _set_url(&mut self, url: String) -> &mut Self { self.url = Some(url); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn url(&self) -> &String { &self.url }
+
+}
+
+#[doc(hidden)]
+pub struct RTDHttpUrlBuilder {
+  inner: HttpUrl
+}
+
+impl RTDHttpUrlBuilder {
+  pub fn build(&self) -> HttpUrl { self.inner.clone() }
+
+   
+  pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
+    self.inner.url = url.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<HttpUrl> for HttpUrl {
+  fn as_ref(&self) -> &HttpUrl { self }
+}
+
+impl AsRef<HttpUrl> for RTDHttpUrlBuilder {
+  fn as_ref(&self) -> &HttpUrl { &self.inner }
 }
 
 

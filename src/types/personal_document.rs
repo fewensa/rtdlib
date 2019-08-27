@@ -1,51 +1,72 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// A personal document, containing some information about a user. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// A personal document, containing some information about a user
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PersonalDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // personalDocument
-  /// List of files containing the pages of the document.
-  files: Option<Vec<DatedFile>>,
-  /// List of files containing a certified English translation of the document.
-  translation: Option<Vec<DatedFile>>,
+  td_name: String,
+  /// List of files containing the pages of the document
+  files: Vec<DatedFile>,
+  /// List of files containing a certified English translation of the document
+  translation: Vec<DatedFile>,
   
 }
 
-
-
-impl Object for PersonalDocument {}
 impl RObject for PersonalDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "personalDocument" }
-  fn td_type(&self) -> RTDType { RTDType::PersonalDocument }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl PersonalDocument {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "personalDocument".to_string(),
-      files: None,
-      translation: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPersonalDocumentBuilder {
+    let mut inner = PersonalDocument::default();
+    inner.td_name = "personalDocument".to_string();
+    RTDPersonalDocumentBuilder { inner }
   }
-  
-  pub fn files(&self) -> Option<Vec<DatedFile>> { self.files.clone() }
-  #[doc(hidden)] pub fn _set_files(&mut self, files: Vec<DatedFile>) -> &mut Self { self.files = Some(files); self }
-  
-  pub fn translation(&self) -> Option<Vec<DatedFile>> { self.translation.clone() }
-  #[doc(hidden)] pub fn _set_translation(&mut self, translation: Vec<DatedFile>) -> &mut Self { self.translation = Some(translation); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn files(&self) -> &Vec<DatedFile> { &self.files }
+
+  pub fn translation(&self) -> &Vec<DatedFile> { &self.translation }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPersonalDocumentBuilder {
+  inner: PersonalDocument
+}
+
+impl RTDPersonalDocumentBuilder {
+  pub fn build(&self) -> PersonalDocument { self.inner.clone() }
+
+   
+  pub fn files(&mut self, files: Vec<DatedFile>) -> &mut Self {
+    self.inner.files = files;
+    self
+  }
+
+   
+  pub fn translation(&mut self, translation: Vec<DatedFile>) -> &mut Self {
+    self.inner.translation = translation;
+    self
+  }
+
+}
+
+impl AsRef<PersonalDocument> for PersonalDocument {
+  fn as_ref(&self) -> &PersonalDocument { self }
+}
+
+impl AsRef<PersonalDocument> for RTDPersonalDocumentBuilder {
+  fn as_ref(&self) -> &PersonalDocument { &self.inner }
 }
 
 

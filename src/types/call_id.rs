@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains the call identifier. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains the call identifier
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct CallId {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // callId
-  /// Call identifier.
-  id: Option<i32>,
+  td_name: String,
+  /// Call identifier
+  id: i64,
   
 }
 
-
-
-impl Object for CallId {}
 impl RObject for CallId {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callId" }
-  fn td_type(&self) -> RTDType { RTDType::CallId }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl CallId {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "callId".to_string(),
-      id: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDCallIdBuilder {
+    let mut inner = CallId::default();
+    inner.td_name = "callId".to_string();
+    RTDCallIdBuilder { inner }
   }
-  
-  pub fn id(&self) -> Option<i32> { self.id.clone() }
-  #[doc(hidden)] pub fn _set_id(&mut self, id: i32) -> &mut Self { self.id = Some(id); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn id(&self) -> i64 { self.id }
+
+}
+
+#[doc(hidden)]
+pub struct RTDCallIdBuilder {
+  inner: CallId
+}
+
+impl RTDCallIdBuilder {
+  pub fn build(&self) -> CallId { self.inner.clone() }
+
+   
+  pub fn id(&mut self, id: i64) -> &mut Self {
+    self.inner.id = id;
+    self
+  }
+
+}
+
+impl AsRef<CallId> for CallId {
+  fn as_ref(&self) -> &CallId { self }
+}
+
+impl AsRef<CallId> for RTDCallIdBuilder {
+  fn as_ref(&self) -> &CallId { &self.inner }
 }
 
 

@@ -1,61 +1,82 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains the description of an error in a Telegram Passport element. 
-#[derive(Debug, Serialize, Deserialize)]
+
+
+
+/// Contains the description of an error in a Telegram Passport element
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PassportElementError {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // passportElementError
-  /// Type of the Telegram Passport element which has the error.
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: Option<Box<PassportElementType>>,
-  /// Error message.
-  message: Option<String>,
-  /// Error source.
-  source: Option<Box<PassportElementErrorSource>>,
+  td_name: String,
+  /// Type of the Telegram Passport element which has the error
+  #[serde(rename(serialize = "type", deserialize = "type"))] type_: PassportElementType,
+  /// Error message
+  message: String,
+  /// Error source
+  source: PassportElementErrorSource,
   
 }
 
-
-impl Clone for PassportElementError {
-  fn clone(&self) -> Self { rtd_clone!()(self) }
-}
-
-
-impl Object for PassportElementError {}
 impl RObject for PassportElementError {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementError" }
-  fn td_type(&self) -> RTDType { RTDType::PassportElementError }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl PassportElementError {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "passportElementError".to_string(),
-      type_: None,
-      message: None,
-      source: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPassportElementErrorBuilder {
+    let mut inner = PassportElementError::default();
+    inner.td_name = "passportElementError".to_string();
+    RTDPassportElementErrorBuilder { inner }
   }
-  
-  pub fn type_(&self) -> Option<Box<PassportElementType>> { self.type_.clone() }
-  #[doc(hidden)] pub fn _set_type_(&mut self, type_: Box<PassportElementType>) -> &mut Self { self.type_ = Some(type_); self }
-  
-  pub fn message(&self) -> Option<String> { self.message.clone() }
-  #[doc(hidden)] pub fn _set_message(&mut self, message: String) -> &mut Self { self.message = Some(message); self }
-  
-  pub fn source(&self) -> Option<Box<PassportElementErrorSource>> { self.source.clone() }
-  #[doc(hidden)] pub fn _set_source(&mut self, source: Box<PassportElementErrorSource>) -> &mut Self { self.source = Some(source); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn type_(&self) -> &PassportElementType { &self.type_ }
+
+  pub fn message(&self) -> &String { &self.message }
+
+  pub fn source(&self) -> &PassportElementErrorSource { &self.source }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPassportElementErrorBuilder {
+  inner: PassportElementError
+}
+
+impl RTDPassportElementErrorBuilder {
+  pub fn build(&self) -> PassportElementError { self.inner.clone() }
+
+   
+  pub fn type_<T: AsRef<PassportElementType>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+   
+  pub fn message<T: AsRef<str>>(&mut self, message: T) -> &mut Self {
+    self.inner.message = message.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn source<T: AsRef<PassportElementErrorSource>>(&mut self, source: T) -> &mut Self {
+    self.inner.source = source.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<PassportElementError> for PassportElementError {
+  fn as_ref(&self) -> &PassportElementError { self }
+}
+
+impl AsRef<PassportElementError> for RTDPassportElementErrorBuilder {
+  fn as_ref(&self) -> &PassportElementError { &self.inner }
 }
 
 

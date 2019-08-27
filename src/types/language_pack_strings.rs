@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains a list of language pack strings. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains a list of language pack strings
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct LanguagePackStrings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // languagePackStrings
-  /// A list of language pack strings.
-  strings: Option<Vec<LanguagePackString>>,
+  td_name: String,
+  /// A list of language pack strings
+  strings: Vec<LanguagePackString>,
   
 }
 
-
-
-impl Object for LanguagePackStrings {}
 impl RObject for LanguagePackStrings {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "languagePackStrings" }
-  fn td_type(&self) -> RTDType { RTDType::LanguagePackStrings }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl LanguagePackStrings {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "languagePackStrings".to_string(),
-      strings: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDLanguagePackStringsBuilder {
+    let mut inner = LanguagePackStrings::default();
+    inner.td_name = "languagePackStrings".to_string();
+    RTDLanguagePackStringsBuilder { inner }
   }
-  
-  pub fn strings(&self) -> Option<Vec<LanguagePackString>> { self.strings.clone() }
-  #[doc(hidden)] pub fn _set_strings(&mut self, strings: Vec<LanguagePackString>) -> &mut Self { self.strings = Some(strings); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn strings(&self) -> &Vec<LanguagePackString> { &self.strings }
+
+}
+
+#[doc(hidden)]
+pub struct RTDLanguagePackStringsBuilder {
+  inner: LanguagePackStrings
+}
+
+impl RTDLanguagePackStringsBuilder {
+  pub fn build(&self) -> LanguagePackStrings { self.inner.clone() }
+
+   
+  pub fn strings(&mut self, strings: Vec<LanguagePackString>) -> &mut Self {
+    self.inner.strings = strings;
+    self
+  }
+
+}
+
+impl AsRef<LanguagePackStrings> for LanguagePackStrings {
+  fn as_ref(&self) -> &LanguagePackStrings { self }
+}
+
+impl AsRef<LanguagePackStrings> for RTDLanguagePackStringsBuilder {
+  fn as_ref(&self) -> &LanguagePackStrings { &self.inner }
 }
 
 

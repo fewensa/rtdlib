@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// A simple object containing a string; for testing only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// A simple object containing a string; for testing only
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TestString {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // testString
-  /// String.
-  value: Option<String>,
+  td_name: String,
+  /// String
+  value: String,
   
 }
 
-
-
-impl Object for TestString {}
 impl RObject for TestString {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testString" }
-  fn td_type(&self) -> RTDType { RTDType::TestString }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl TestString {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "testString".to_string(),
-      value: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTestStringBuilder {
+    let mut inner = TestString::default();
+    inner.td_name = "testString".to_string();
+    RTDTestStringBuilder { inner }
   }
-  
-  pub fn value(&self) -> Option<String> { self.value.clone() }
-  #[doc(hidden)] pub fn _set_value(&mut self, value: String) -> &mut Self { self.value = Some(value); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn value(&self) -> &String { &self.value }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTestStringBuilder {
+  inner: TestString
+}
+
+impl RTDTestStringBuilder {
+  pub fn build(&self) -> TestString { self.inner.clone() }
+
+   
+  pub fn value<T: AsRef<str>>(&mut self, value: T) -> &mut Self {
+    self.inner.value = value.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<TestString> for TestString {
+  fn as_ref(&self) -> &TestString { self }
+}
+
+impl AsRef<TestString> for RTDTestStringBuilder {
+  fn as_ref(&self) -> &TestString { &self.inner }
 }
 
 

@@ -1,63 +1,92 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Describes a document of any type. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Describes a document of any type
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Document {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // document
-  /// Original name of the file; as defined by the sender.
-  file_name: Option<String>,
-  /// MIME type of the file; as defined by the sender.
-  mime_type: Option<String>,
-  /// Document thumbnail; as defined by the sender; may be null.
+  td_name: String,
+  /// Original name of the file; as defined by the sender
+  file_name: String,
+  /// MIME type of the file; as defined by the sender
+  mime_type: String,
+  /// Document thumbnail; as defined by the sender; may be null
   thumbnail: Option<PhotoSize>,
-  /// File containing the document.
-  document: Option<File>,
+  /// File containing the document
+  document: File,
   
 }
 
-
-
-impl Object for Document {}
 impl RObject for Document {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "document" }
-  fn td_type(&self) -> RTDType { RTDType::Document }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Document {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "document".to_string(),
-      file_name: None,
-      mime_type: None,
-      thumbnail: None,
-      document: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDDocumentBuilder {
+    let mut inner = Document::default();
+    inner.td_name = "document".to_string();
+    RTDDocumentBuilder { inner }
   }
-  
-  pub fn file_name(&self) -> Option<String> { self.file_name.clone() }
-  #[doc(hidden)] pub fn _set_file_name(&mut self, file_name: String) -> &mut Self { self.file_name = Some(file_name); self }
-  
-  pub fn mime_type(&self) -> Option<String> { self.mime_type.clone() }
-  #[doc(hidden)] pub fn _set_mime_type(&mut self, mime_type: String) -> &mut Self { self.mime_type = Some(mime_type); self }
-  
-  pub fn thumbnail(&self) -> Option<PhotoSize> { self.thumbnail.clone() }
-  #[doc(hidden)] pub fn _set_thumbnail(&mut self, thumbnail: PhotoSize) -> &mut Self { self.thumbnail = Some(thumbnail); self }
-  
-  pub fn document(&self) -> Option<File> { self.document.clone() }
-  #[doc(hidden)] pub fn _set_document(&mut self, document: File) -> &mut Self { self.document = Some(document); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn file_name(&self) -> &String { &self.file_name }
+
+  pub fn mime_type(&self) -> &String { &self.mime_type }
+
+  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
+
+  pub fn document(&self) -> &File { &self.document }
+
+}
+
+#[doc(hidden)]
+pub struct RTDDocumentBuilder {
+  inner: Document
+}
+
+impl RTDDocumentBuilder {
+  pub fn build(&self) -> Document { self.inner.clone() }
+
+   
+  pub fn file_name<T: AsRef<str>>(&mut self, file_name: T) -> &mut Self {
+    self.inner.file_name = file_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn mime_type<T: AsRef<str>>(&mut self, mime_type: T) -> &mut Self {
+    self.inner.mime_type = mime_type.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
+    self.inner.thumbnail = Some(thumbnail.as_ref().clone());
+    self
+  }
+
+   
+  pub fn document<T: AsRef<File>>(&mut self, document: T) -> &mut Self {
+    self.inner.document = document.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<Document> for Document {
+  fn as_ref(&self) -> &Document { self }
+}
+
+impl AsRef<Document> for RTDDocumentBuilder {
+  fn as_ref(&self) -> &Document { &self.inner }
 }
 
 

@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains information about the period of inactivity after which the current user's account will automatically be deleted. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains information about the period of inactivity after which the current user's account will automatically be deleted
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct AccountTtl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // accountTtl
-  /// Number of days of inactivity before the account will be flagged for deletion; should range from 30-366 days.
-  days: Option<i32>,
+  td_name: String,
+  /// Number of days of inactivity before the account will be flagged for deletion; should range from 30-366 days
+  days: i64,
   
 }
 
-
-
-impl Object for AccountTtl {}
 impl RObject for AccountTtl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "accountTtl" }
-  fn td_type(&self) -> RTDType { RTDType::AccountTtl }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl AccountTtl {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "accountTtl".to_string(),
-      days: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDAccountTtlBuilder {
+    let mut inner = AccountTtl::default();
+    inner.td_name = "accountTtl".to_string();
+    RTDAccountTtlBuilder { inner }
   }
-  
-  pub fn days(&self) -> Option<i32> { self.days.clone() }
-  #[doc(hidden)] pub fn _set_days(&mut self, days: i32) -> &mut Self { self.days = Some(days); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn days(&self) -> i64 { self.days }
+
+}
+
+#[doc(hidden)]
+pub struct RTDAccountTtlBuilder {
+  inner: AccountTtl
+}
+
+impl RTDAccountTtlBuilder {
+  pub fn build(&self) -> AccountTtl { self.inner.clone() }
+
+   
+  pub fn days(&mut self, days: i64) -> &mut Self {
+    self.inner.days = days;
+    self
+  }
+
+}
+
+impl AsRef<AccountTtl> for AccountTtl {
+  fn as_ref(&self) -> &AccountTtl { self }
+}
+
+impl AsRef<AccountTtl> for RTDAccountTtlBuilder {
+  fn as_ref(&self) -> &AccountTtl { &self.inner }
 }
 
 

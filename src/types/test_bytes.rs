@@ -1,45 +1,62 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// A simple object containing a sequence of bytes; for testing only. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// A simple object containing a sequence of bytes; for testing only
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TestBytes {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // testBytes
-  /// Bytes.
-  value: Option<String>,
+  td_name: String,
+  /// Bytes
+  value: String,
   
 }
 
-
-
-impl Object for TestBytes {}
 impl RObject for TestBytes {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testBytes" }
-  fn td_type(&self) -> RTDType { RTDType::TestBytes }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl TestBytes {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "testBytes".to_string(),
-      value: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTestBytesBuilder {
+    let mut inner = TestBytes::default();
+    inner.td_name = "testBytes".to_string();
+    RTDTestBytesBuilder { inner }
   }
-  
-  pub fn value(&self) -> Option<String> { self.value.clone() }
-  #[doc(hidden)] pub fn _set_value(&mut self, value: String) -> &mut Self { self.value = Some(value); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn value(&self) -> &String { &self.value }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTestBytesBuilder {
+  inner: TestBytes
+}
+
+impl RTDTestBytesBuilder {
+  pub fn build(&self) -> TestBytes { self.inner.clone() }
+
+   
+  pub fn value<T: AsRef<str>>(&mut self, value: T) -> &mut Self {
+    self.inner.value = value.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<TestBytes> for TestBytes {
+  fn as_ref(&self) -> &TestBytes { self }
+}
+
+impl AsRef<TestBytes> for RTDTestBytesBuilder {
+  fn as_ref(&self) -> &TestBytes { &self.inner }
 }
 
 

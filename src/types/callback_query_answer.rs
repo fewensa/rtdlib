@@ -1,57 +1,82 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Contains a bot's answer to a callback query. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Contains a bot's answer to a callback query
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct CallbackQueryAnswer {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // callbackQueryAnswer
-  /// Text of the answer.
-  text: Option<String>,
-  /// True, if an alert should be shown to the user instead of a toast notification.
-  show_alert: Option<bool>,
-  /// URL to be opened.
-  url: Option<String>,
+  td_name: String,
+  /// Text of the answer
+  text: String,
+  /// True, if an alert should be shown to the user instead of a toast notification
+  show_alert: bool,
+  /// URL to be opened
+  url: String,
   
 }
 
-
-
-impl Object for CallbackQueryAnswer {}
 impl RObject for CallbackQueryAnswer {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callbackQueryAnswer" }
-  fn td_type(&self) -> RTDType { RTDType::CallbackQueryAnswer }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl CallbackQueryAnswer {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "callbackQueryAnswer".to_string(),
-      text: None,
-      show_alert: None,
-      url: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDCallbackQueryAnswerBuilder {
+    let mut inner = CallbackQueryAnswer::default();
+    inner.td_name = "callbackQueryAnswer".to_string();
+    RTDCallbackQueryAnswerBuilder { inner }
   }
-  
-  pub fn text(&self) -> Option<String> { self.text.clone() }
-  #[doc(hidden)] pub fn _set_text(&mut self, text: String) -> &mut Self { self.text = Some(text); self }
-  
-  pub fn show_alert(&self) -> Option<bool> { self.show_alert.clone() }
-  #[doc(hidden)] pub fn _set_show_alert(&mut self, show_alert: bool) -> &mut Self { self.show_alert = Some(show_alert); self }
-  
-  pub fn url(&self) -> Option<String> { self.url.clone() }
-  #[doc(hidden)] pub fn _set_url(&mut self, url: String) -> &mut Self { self.url = Some(url); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn text(&self) -> &String { &self.text }
+
+  pub fn show_alert(&self) -> bool { self.show_alert }
+
+  pub fn url(&self) -> &String { &self.url }
+
+}
+
+#[doc(hidden)]
+pub struct RTDCallbackQueryAnswerBuilder {
+  inner: CallbackQueryAnswer
+}
+
+impl RTDCallbackQueryAnswerBuilder {
+  pub fn build(&self) -> CallbackQueryAnswer { self.inner.clone() }
+
+   
+  pub fn text<T: AsRef<str>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn show_alert(&mut self, show_alert: bool) -> &mut Self {
+    self.inner.show_alert = show_alert;
+    self
+  }
+
+   
+  pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
+    self.inner.url = url.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<CallbackQueryAnswer> for CallbackQueryAnswer {
+  fn as_ref(&self) -> &CallbackQueryAnswer { self }
+}
+
+impl AsRef<CallbackQueryAnswer> for RTDCallbackQueryAnswerBuilder {
+  fn as_ref(&self) -> &CallbackQueryAnswer { &self.inner }
 }
 
 

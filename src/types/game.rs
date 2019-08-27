@@ -1,81 +1,122 @@
 
-use std::fmt::Debug;
-use std::str::FromStr;
-
 use crate::types::*;
-use crate::tdkit;
+use crate::errors::*;
 
-/// Describes a game. 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+
+
+/// Describes a game
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Game {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String, // game
-  /// Game ID.
-  id: Option<i64>,
-  /// Game short name. To share a game use the URL https://t.me/{bot_username}?game={game_short_name}.
-  short_name: Option<String>,
-  /// Game title.
-  title: Option<String>,
-  /// Game text, usually containing scoreboards for a game.
-  text: Option<FormattedText>,
-  /// Game description.
-  description: Option<String>,
-  /// Game photo.
-  photo: Option<Photo>,
-  /// Game animation; may be null.
+  td_name: String,
+  /// Game ID
+  id: isize,
+  /// Game short name. To share a game use the URL https://t.me/{bot_username}?game={game_short_name}
+  short_name: String,
+  /// Game title
+  title: String,
+  /// Game text, usually containing scoreboards for a game
+  text: FormattedText,
+  /// Describes a game
+  description: String,
+  /// Game photo
+  photo: Photo,
+  /// Game animation; may be null
   animation: Option<Animation>,
   
 }
 
-
-
-impl Object for Game {}
 impl RObject for Game {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "game" }
-  fn td_type(&self) -> RTDType { RTDType::Game }
-  fn to_json(&self) -> String { rtd_to_json!()(self) }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 impl Game {
-  #[doc(hidden)] pub fn _new() -> Self {
-    Self {
-      td_name: "game".to_string(),
-      id: None,
-      short_name: None,
-      title: None,
-      text: None,
-      description: None,
-      photo: None,
-      animation: None,
-      
-    }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGameBuilder {
+    let mut inner = Game::default();
+    inner.td_name = "game".to_string();
+    RTDGameBuilder { inner }
   }
-  
-  pub fn id(&self) -> Option<i64> { self.id.clone() }
-  #[doc(hidden)] pub fn _set_id(&mut self, id: i64) -> &mut Self { self.id = Some(id); self }
-  
-  pub fn short_name(&self) -> Option<String> { self.short_name.clone() }
-  #[doc(hidden)] pub fn _set_short_name(&mut self, short_name: String) -> &mut Self { self.short_name = Some(short_name); self }
-  
-  pub fn title(&self) -> Option<String> { self.title.clone() }
-  #[doc(hidden)] pub fn _set_title(&mut self, title: String) -> &mut Self { self.title = Some(title); self }
-  
-  pub fn text(&self) -> Option<FormattedText> { self.text.clone() }
-  #[doc(hidden)] pub fn _set_text(&mut self, text: FormattedText) -> &mut Self { self.text = Some(text); self }
-  
-  pub fn description(&self) -> Option<String> { self.description.clone() }
-  #[doc(hidden)] pub fn _set_description(&mut self, description: String) -> &mut Self { self.description = Some(description); self }
-  
-  pub fn photo(&self) -> Option<Photo> { self.photo.clone() }
-  #[doc(hidden)] pub fn _set_photo(&mut self, photo: Photo) -> &mut Self { self.photo = Some(photo); self }
-  
-  pub fn animation(&self) -> Option<Animation> { self.animation.clone() }
-  #[doc(hidden)] pub fn _set_animation(&mut self, animation: Animation) -> &mut Self { self.animation = Some(animation); self }
-  
-  pub fn from_json<S: AsRef<str>>(json: S) -> Option<Self> { from_json!()(json.as_ref()) }
+
+  pub fn id(&self) -> isize { self.id }
+
+  pub fn short_name(&self) -> &String { &self.short_name }
+
+  pub fn title(&self) -> &String { &self.title }
+
+  pub fn text(&self) -> &FormattedText { &self.text }
+
+  pub fn description(&self) -> &String { &self.description }
+
+  pub fn photo(&self) -> &Photo { &self.photo }
+
+  pub fn animation(&self) -> &Option<Animation> { &self.animation }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGameBuilder {
+  inner: Game
+}
+
+impl RTDGameBuilder {
+  pub fn build(&self) -> Game { self.inner.clone() }
+
+   
+  pub fn id(&mut self, id: isize) -> &mut Self {
+    self.inner.id = id;
+    self
+  }
+
+   
+  pub fn short_name<T: AsRef<str>>(&mut self, short_name: T) -> &mut Self {
+    self.inner.short_name = short_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
+    self.inner.title = title.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn text<T: AsRef<FormattedText>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().clone();
+    self
+  }
+
+   
+  pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {
+    self.inner.description = description.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn photo<T: AsRef<Photo>>(&mut self, photo: T) -> &mut Self {
+    self.inner.photo = photo.as_ref().clone();
+    self
+  }
+
+   
+  pub fn animation<T: AsRef<Animation>>(&mut self, animation: T) -> &mut Self {
+    self.inner.animation = Some(animation.as_ref().clone());
+    self
+  }
+
+}
+
+impl AsRef<Game> for Game {
+  fn as_ref(&self) -> &Game { self }
+}
+
+impl AsRef<Game> for RTDGameBuilder {
+  fn as_ref(&self) -> &Game { &self.inner }
 }
 
 
