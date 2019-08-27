@@ -106,7 +106,7 @@ fn test_from_update_user() {
   let update_user = update_user.unwrap();
   let user = update_user.user();
   assert_eq!(user.is_verified(), false);
-  assert_eq!(user.is_support(), false);
+  assert_eq!(user.have_access(), false);
   assert_eq!(user.type_().is_regular(), true);
 }
 
