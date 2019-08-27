@@ -21,9 +21,7 @@ pub struct LocalFile {
   is_downloading_active: bool,
   /// True, if the local copy is fully available
   is_downloading_completed: bool,
-  /// Download will be started from this offset. downloaded_prefix_size is calculated from this offset
-  download_offset: i64,
-  /// If is_downloading_completed is false, then only some prefix of the file starting from download_offset is ready to be read. downloaded_prefix_size is the size of that prefix
+  /// If is_downloading_completed is false, then only some prefix of the file is ready to be read. downloaded_prefix_size is the size of that prefix
   downloaded_prefix_size: i64,
   /// Total downloaded file bytes. Should be used only for calculating download progress. The actual file size may be bigger, and some parts of it may contain garbage
   downloaded_size: i64,
@@ -54,8 +52,6 @@ impl LocalFile {
   pub fn is_downloading_active(&self) -> bool { self.is_downloading_active }
 
   pub fn is_downloading_completed(&self) -> bool { self.is_downloading_completed }
-
-  pub fn download_offset(&self) -> i64 { self.download_offset }
 
   pub fn downloaded_prefix_size(&self) -> i64 { self.downloaded_prefix_size }
 
@@ -98,12 +94,6 @@ impl RTDLocalFileBuilder {
    
   pub fn is_downloading_completed(&mut self, is_downloading_completed: bool) -> &mut Self {
     self.inner.is_downloading_completed = is_downloading_completed;
-    self
-  }
-
-   
-  pub fn download_offset(&mut self, download_offset: i64) -> &mut Self {
-    self.inner.download_offset = download_offset;
     self
   }
 

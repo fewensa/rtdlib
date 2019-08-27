@@ -29,10 +29,6 @@ pub struct Chat {
   is_marked_as_unread: bool,
   /// True, if the chat is sponsored by the user's MTProxy server
   is_sponsored: bool,
-  /// True, if the chat messages can be deleted only for the current user while other users will continue to see the messages
-  can_be_deleted_only_for_self: bool,
-  /// True, if the chat messages can be deleted for all users
-  can_be_deleted_for_all_users: bool,
   /// True, if the chat can be reported to Telegram moderators through reportChat
   can_be_reported: bool,
   /// Default value of the disable_notification parameter, used when a message is sent to the chat
@@ -47,8 +43,6 @@ pub struct Chat {
   unread_mention_count: i64,
   /// Notification settings for this chat
   notification_settings: ChatNotificationSettings,
-  /// Identifier of the pinned message in the chat; 0 if none
-  pinned_message_id: i64,
   /// Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
   reply_markup_message_id: i64,
   /// A draft of a message in the chat; may be null
@@ -91,10 +85,6 @@ impl Chat {
 
   pub fn is_sponsored(&self) -> bool { self.is_sponsored }
 
-  pub fn can_be_deleted_only_for_self(&self) -> bool { self.can_be_deleted_only_for_self }
-
-  pub fn can_be_deleted_for_all_users(&self) -> bool { self.can_be_deleted_for_all_users }
-
   pub fn can_be_reported(&self) -> bool { self.can_be_reported }
 
   pub fn default_disable_notification(&self) -> bool { self.default_disable_notification }
@@ -108,8 +98,6 @@ impl Chat {
   pub fn unread_mention_count(&self) -> i64 { self.unread_mention_count }
 
   pub fn notification_settings(&self) -> &ChatNotificationSettings { &self.notification_settings }
-
-  pub fn pinned_message_id(&self) -> i64 { self.pinned_message_id }
 
   pub fn reply_markup_message_id(&self) -> i64 { self.reply_markup_message_id }
 
@@ -182,18 +170,6 @@ impl RTDChatBuilder {
   }
 
    
-  pub fn can_be_deleted_only_for_self(&mut self, can_be_deleted_only_for_self: bool) -> &mut Self {
-    self.inner.can_be_deleted_only_for_self = can_be_deleted_only_for_self;
-    self
-  }
-
-   
-  pub fn can_be_deleted_for_all_users(&mut self, can_be_deleted_for_all_users: bool) -> &mut Self {
-    self.inner.can_be_deleted_for_all_users = can_be_deleted_for_all_users;
-    self
-  }
-
-   
   pub fn can_be_reported(&mut self, can_be_reported: bool) -> &mut Self {
     self.inner.can_be_reported = can_be_reported;
     self
@@ -232,12 +208,6 @@ impl RTDChatBuilder {
    
   pub fn notification_settings<T: AsRef<ChatNotificationSettings>>(&mut self, notification_settings: T) -> &mut Self {
     self.inner.notification_settings = notification_settings.as_ref().clone();
-    self
-  }
-
-   
-  pub fn pinned_message_id(&mut self, pinned_message_id: i64) -> &mut Self {
-    self.inner.pinned_message_id = pinned_message_id;
     self
   }
 

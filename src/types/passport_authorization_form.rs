@@ -15,7 +15,11 @@ pub struct PassportAuthorizationForm {
   id: i64,
   /// Information about the Telegram Passport elements that need to be provided to complete the form
   required_elements: Vec<PassportRequiredElement>,
-  /// URL for the privacy policy of the service; may be empty
+  /// Already available Telegram Passport elements
+  elements: Vec<PassportElement>,
+  /// Errors in the elements that are already available
+  errors: Vec<PassportElementError>,
+  /// URL for the privacy policy of the service; can be empty
   privacy_policy_url: String,
   
 }
@@ -39,6 +43,10 @@ impl PassportAuthorizationForm {
 
   pub fn required_elements(&self) -> &Vec<PassportRequiredElement> { &self.required_elements }
 
+  pub fn elements(&self) -> &Vec<PassportElement> { &self.elements }
+
+  pub fn errors(&self) -> &Vec<PassportElementError> { &self.errors }
+
   pub fn privacy_policy_url(&self) -> &String { &self.privacy_policy_url }
 
 }
@@ -60,6 +68,18 @@ impl RTDPassportAuthorizationFormBuilder {
    
   pub fn required_elements(&mut self, required_elements: Vec<PassportRequiredElement>) -> &mut Self {
     self.inner.required_elements = required_elements;
+    self
+  }
+
+   
+  pub fn elements(&mut self, elements: Vec<PassportElement>) -> &mut Self {
+    self.inner.elements = elements;
+    self
+  }
+
+   
+  pub fn errors(&mut self, errors: Vec<PassportElementError>) -> &mut Self {
+    self.inner.errors = errors;
     self
   }
 

@@ -135,8 +135,8 @@ impl<'a, SUPERGROUPMEMBERSFILTER: TDSupergroupMembersFilter> TDSupergroupMembers
 impl<'a, SECRETCHATSTATE: TDSecretChatState> TDSecretChatState for &'a SECRETCHATSTATE {}
 impl<'a, SECRETCHATSTATE: TDSecretChatState> TDSecretChatState for &'a mut SECRETCHATSTATE {}
 
-impl<'a, MESSAGEFORWARDORIGIN: TDMessageForwardOrigin> TDMessageForwardOrigin for &'a MESSAGEFORWARDORIGIN {}
-impl<'a, MESSAGEFORWARDORIGIN: TDMessageForwardOrigin> TDMessageForwardOrigin for &'a mut MESSAGEFORWARDORIGIN {}
+impl<'a, MESSAGEFORWARDINFO: TDMessageForwardInfo> TDMessageForwardInfo for &'a MESSAGEFORWARDINFO {}
+impl<'a, MESSAGEFORWARDINFO: TDMessageForwardInfo> TDMessageForwardInfo for &'a mut MESSAGEFORWARDINFO {}
 
 impl<'a, MESSAGESENDINGSTATE: TDMessageSendingState> TDMessageSendingState for &'a MESSAGESENDINGSTATE {}
 impl<'a, MESSAGESENDINGSTATE: TDMessageSendingState> TDMessageSendingState for &'a mut MESSAGESENDINGSTATE {}
@@ -158,12 +158,6 @@ impl<'a, REPLYMARKUP: TDReplyMarkup> TDReplyMarkup for &'a mut REPLYMARKUP {}
 
 impl<'a, RICHTEXT: TDRichText> TDRichText for &'a RICHTEXT {}
 impl<'a, RICHTEXT: TDRichText> TDRichText for &'a mut RICHTEXT {}
-
-impl<'a, PAGEBLOCKHORIZONTALALIGNMENT: TDPageBlockHorizontalAlignment> TDPageBlockHorizontalAlignment for &'a PAGEBLOCKHORIZONTALALIGNMENT {}
-impl<'a, PAGEBLOCKHORIZONTALALIGNMENT: TDPageBlockHorizontalAlignment> TDPageBlockHorizontalAlignment for &'a mut PAGEBLOCKHORIZONTALALIGNMENT {}
-
-impl<'a, PAGEBLOCKVERTICALALIGNMENT: TDPageBlockVerticalAlignment> TDPageBlockVerticalAlignment for &'a PAGEBLOCKVERTICALALIGNMENT {}
-impl<'a, PAGEBLOCKVERTICALALIGNMENT: TDPageBlockVerticalAlignment> TDPageBlockVerticalAlignment for &'a mut PAGEBLOCKVERTICALALIGNMENT {}
 
 impl<'a, PAGEBLOCK: TDPageBlock> TDPageBlock for &'a PAGEBLOCK {}
 impl<'a, PAGEBLOCK: TDPageBlock> TDPageBlock for &'a mut PAGEBLOCK {}
@@ -231,20 +225,8 @@ impl<'a, DEVICETOKEN: TDDeviceToken> TDDeviceToken for &'a mut DEVICETOKEN {}
 impl<'a, CHECKCHATUSERNAMERESULT: TDCheckChatUsernameResult> TDCheckChatUsernameResult for &'a CHECKCHATUSERNAMERESULT {}
 impl<'a, CHECKCHATUSERNAMERESULT: TDCheckChatUsernameResult> TDCheckChatUsernameResult for &'a mut CHECKCHATUSERNAMERESULT {}
 
-impl<'a, PUSHMESSAGECONTENT: TDPushMessageContent> TDPushMessageContent for &'a PUSHMESSAGECONTENT {}
-impl<'a, PUSHMESSAGECONTENT: TDPushMessageContent> TDPushMessageContent for &'a mut PUSHMESSAGECONTENT {}
-
-impl<'a, NOTIFICATIONTYPE: TDNotificationType> TDNotificationType for &'a NOTIFICATIONTYPE {}
-impl<'a, NOTIFICATIONTYPE: TDNotificationType> TDNotificationType for &'a mut NOTIFICATIONTYPE {}
-
-impl<'a, NOTIFICATIONGROUPTYPE: TDNotificationGroupType> TDNotificationGroupType for &'a NOTIFICATIONGROUPTYPE {}
-impl<'a, NOTIFICATIONGROUPTYPE: TDNotificationGroupType> TDNotificationGroupType for &'a mut NOTIFICATIONGROUPTYPE {}
-
 impl<'a, OPTIONVALUE: TDOptionValue> TDOptionValue for &'a OPTIONVALUE {}
 impl<'a, OPTIONVALUE: TDOptionValue> TDOptionValue for &'a mut OPTIONVALUE {}
-
-impl<'a, JSONVALUE: TDJsonValue> TDJsonValue for &'a JSONVALUE {}
-impl<'a, JSONVALUE: TDJsonValue> TDJsonValue for &'a mut JSONVALUE {}
 
 impl<'a, USERPRIVACYSETTINGRULE: TDUserPrivacySettingRule> TDUserPrivacySettingRule for &'a USERPRIVACYSETTINGRULE {}
 impl<'a, USERPRIVACYSETTINGRULE: TDUserPrivacySettingRule> TDUserPrivacySettingRule for &'a mut USERPRIVACYSETTINGRULE {}
@@ -281,9 +263,6 @@ impl<'a, PROXYTYPE: TDProxyType> TDProxyType for &'a mut PROXYTYPE {}
 
 impl<'a, UPDATE: TDUpdate> TDUpdate for &'a UPDATE {}
 impl<'a, UPDATE: TDUpdate> TDUpdate for &'a mut UPDATE {}
-
-impl<'a, LOGSTREAM: TDLogStream> TDLogStream for &'a LOGSTREAM {}
-impl<'a, LOGSTREAM: TDLogStream> TDLogStream for &'a mut LOGSTREAM {}
 
 
 

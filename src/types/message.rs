@@ -21,7 +21,7 @@ pub struct Message {
   sending_state: Option<MessageSendingState>,
   /// True, if the message is outgoing
   is_outgoing: bool,
-  /// True, if the message can be edited. For live location and poll messages this fields shows, whether editMessageLiveLocation or stopPoll can be used with this message by the client
+  /// True, if the message can be edited
   can_be_edited: bool,
   /// True, if the message can be forwarded
   can_be_forwarded: bool,

@@ -11,16 +11,16 @@ pub struct PasswordState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// True, if a 2-step verification password is set
+  /// True if a 2-step verification password is set
   has_password: bool,
-  /// Hint for the password; may be empty
+  /// Hint for the password; can be empty
   password_hint: String,
-  /// True, if a recovery email is set
+  /// True if a recovery email is set
   has_recovery_email_address: bool,
-  /// True, if some Telegram Passport elements were saved
+  /// True if some Telegram Passport elements were saved
   has_passport_data: bool,
-  /// Information about the recovery email address to which the confirmation email was sent; may be null
-  recovery_email_address_code_info: Option<EmailAddressAuthenticationCodeInfo>,
+  /// Pattern of the email address to which the confirmation email was sent
+  unconfirmed_recovery_email_address_pattern: String,
   
 }
 
@@ -47,7 +47,7 @@ impl PasswordState {
 
   pub fn has_passport_data(&self) -> bool { self.has_passport_data }
 
-  pub fn recovery_email_address_code_info(&self) -> &Option<EmailAddressAuthenticationCodeInfo> { &self.recovery_email_address_code_info }
+  pub fn unconfirmed_recovery_email_address_pattern(&self) -> &String { &self.unconfirmed_recovery_email_address_pattern }
 
 }
 
@@ -84,8 +84,8 @@ impl RTDPasswordStateBuilder {
   }
 
    
-  pub fn recovery_email_address_code_info<T: AsRef<EmailAddressAuthenticationCodeInfo>>(&mut self, recovery_email_address_code_info: T) -> &mut Self {
-    self.inner.recovery_email_address_code_info = Some(recovery_email_address_code_info.as_ref().clone());
+  pub fn unconfirmed_recovery_email_address_pattern<T: AsRef<str>>(&mut self, unconfirmed_recovery_email_address_pattern: T) -> &mut Self {
+    self.inner.unconfirmed_recovery_email_address_pattern = unconfirmed_recovery_email_address_pattern.as_ref().to_string();
     self
   }
 

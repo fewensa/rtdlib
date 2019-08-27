@@ -23,14 +23,6 @@ pub struct ChatNotificationSettings {
   use_default_show_preview: bool,
   /// True, if message content should be displayed in notifications
   show_preview: bool,
-  /// If true, disable_pinned_message_notifications is ignored and the value for the relevant type of chat is used instead
-  use_default_disable_pinned_message_notifications: bool,
-  /// If true, notifications for incoming pinned messages will be created as for an ordinary unread message
-  disable_pinned_message_notifications: bool,
-  /// If true, disable_mention_notifications is ignored and the value for the relevant type of chat is used instead
-  use_default_disable_mention_notifications: bool,
-  /// If true, notifications for messages with mentions will be created as for an ordinary unread message
-  disable_mention_notifications: bool,
   
 }
 
@@ -60,14 +52,6 @@ impl ChatNotificationSettings {
   pub fn use_default_show_preview(&self) -> bool { self.use_default_show_preview }
 
   pub fn show_preview(&self) -> bool { self.show_preview }
-
-  pub fn use_default_disable_pinned_message_notifications(&self) -> bool { self.use_default_disable_pinned_message_notifications }
-
-  pub fn disable_pinned_message_notifications(&self) -> bool { self.disable_pinned_message_notifications }
-
-  pub fn use_default_disable_mention_notifications(&self) -> bool { self.use_default_disable_mention_notifications }
-
-  pub fn disable_mention_notifications(&self) -> bool { self.disable_mention_notifications }
 
 }
 
@@ -112,30 +96,6 @@ impl RTDChatNotificationSettingsBuilder {
    
   pub fn show_preview(&mut self, show_preview: bool) -> &mut Self {
     self.inner.show_preview = show_preview;
-    self
-  }
-
-   
-  pub fn use_default_disable_pinned_message_notifications(&mut self, use_default_disable_pinned_message_notifications: bool) -> &mut Self {
-    self.inner.use_default_disable_pinned_message_notifications = use_default_disable_pinned_message_notifications;
-    self
-  }
-
-   
-  pub fn disable_pinned_message_notifications(&mut self, disable_pinned_message_notifications: bool) -> &mut Self {
-    self.inner.disable_pinned_message_notifications = disable_pinned_message_notifications;
-    self
-  }
-
-   
-  pub fn use_default_disable_mention_notifications(&mut self, use_default_disable_mention_notifications: bool) -> &mut Self {
-    self.inner.use_default_disable_mention_notifications = use_default_disable_mention_notifications;
-    self
-  }
-
-   
-  pub fn disable_mention_notifications(&mut self, disable_mention_notifications: bool) -> &mut Self {
-    self.inner.disable_mention_notifications = disable_mention_notifications;
     self
   }
 

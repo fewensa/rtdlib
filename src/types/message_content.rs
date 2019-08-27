@@ -48,8 +48,6 @@ pub enum MessageContent {
   MessageContact(MessageContact),
   /// A message with a game
   MessageGame(MessageGame),
-  /// A message with a poll
-  MessagePoll(MessagePoll),
   /// A message with an invoice from a bot
   MessageInvoice(MessageInvoice),
   /// A message with information about an ended call
@@ -125,7 +123,6 @@ impl<'de> Deserialize<'de> for MessageContent {
       (messageVenue, MessageVenue);
       (messageContact, MessageContact);
       (messageGame, MessageGame);
-      (messagePoll, MessagePoll);
       (messageInvoice, MessageInvoice);
       (messageCall, MessageCall);
       (messageBasicGroupChatCreate, MessageBasicGroupChatCreate);
@@ -173,7 +170,6 @@ impl RObject for MessageContent {
       MessageContent::MessageVenue(t) => t.td_name(),
       MessageContent::MessageContact(t) => t.td_name(),
       MessageContent::MessageGame(t) => t.td_name(),
-      MessageContent::MessagePoll(t) => t.td_name(),
       MessageContent::MessageInvoice(t) => t.td_name(),
       MessageContent::MessageCall(t) => t.td_name(),
       MessageContent::MessageBasicGroupChatCreate(t) => t.td_name(),
@@ -224,7 +220,6 @@ impl MessageContent {
   pub fn is_message_venue(&self) -> bool { if let MessageContent::MessageVenue(_) = self { true } else { false } }
   pub fn is_message_contact(&self) -> bool { if let MessageContent::MessageContact(_) = self { true } else { false } }
   pub fn is_message_game(&self) -> bool { if let MessageContent::MessageGame(_) = self { true } else { false } }
-  pub fn is_message_poll(&self) -> bool { if let MessageContent::MessagePoll(_) = self { true } else { false } }
   pub fn is_message_invoice(&self) -> bool { if let MessageContent::MessageInvoice(_) = self { true } else { false } }
   pub fn is_message_call(&self) -> bool { if let MessageContent::MessageCall(_) = self { true } else { false } }
   pub fn is_message_basic_group_chat_create(&self) -> bool { if let MessageContent::MessageBasicGroupChatCreate(_) = self { true } else { false } }
@@ -265,7 +260,6 @@ impl MessageContent {
   pub fn on_message_venue<F: FnOnce(&MessageVenue)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVenue(t) = self { fnc(t) }; self }
   pub fn on_message_contact<F: FnOnce(&MessageContact)>(&self, fnc: F) -> &Self { if let MessageContent::MessageContact(t) = self { fnc(t) }; self }
   pub fn on_message_game<F: FnOnce(&MessageGame)>(&self, fnc: F) -> &Self { if let MessageContent::MessageGame(t) = self { fnc(t) }; self }
-  pub fn on_message_poll<F: FnOnce(&MessagePoll)>(&self, fnc: F) -> &Self { if let MessageContent::MessagePoll(t) = self { fnc(t) }; self }
   pub fn on_message_invoice<F: FnOnce(&MessageInvoice)>(&self, fnc: F) -> &Self { if let MessageContent::MessageInvoice(t) = self { fnc(t) }; self }
   pub fn on_message_call<F: FnOnce(&MessageCall)>(&self, fnc: F) -> &Self { if let MessageContent::MessageCall(t) = self { fnc(t) }; self }
   pub fn on_message_basic_group_chat_create<F: FnOnce(&MessageBasicGroupChatCreate)>(&self, fnc: F) -> &Self { if let MessageContent::MessageBasicGroupChatCreate(t) = self { fnc(t) }; self }
@@ -306,7 +300,6 @@ impl MessageContent {
   pub fn as_message_venue(&self) -> Option<&MessageVenue> { if let MessageContent::MessageVenue(t) = self { return Some(t) } None }
   pub fn as_message_contact(&self) -> Option<&MessageContact> { if let MessageContent::MessageContact(t) = self { return Some(t) } None }
   pub fn as_message_game(&self) -> Option<&MessageGame> { if let MessageContent::MessageGame(t) = self { return Some(t) } None }
-  pub fn as_message_poll(&self) -> Option<&MessagePoll> { if let MessageContent::MessagePoll(t) = self { return Some(t) } None }
   pub fn as_message_invoice(&self) -> Option<&MessageInvoice> { if let MessageContent::MessageInvoice(t) = self { return Some(t) } None }
   pub fn as_message_call(&self) -> Option<&MessageCall> { if let MessageContent::MessageCall(t) = self { return Some(t) } None }
   pub fn as_message_basic_group_chat_create(&self) -> Option<&MessageBasicGroupChatCreate> { if let MessageContent::MessageBasicGroupChatCreate(t) = self { return Some(t) } None }
@@ -363,8 +356,6 @@ impl MessageContent {
   pub fn message_contact<T: AsRef<MessageContact>>(t: T) -> Self { MessageContent::MessageContact(t.as_ref().clone()) }
 
   pub fn message_game<T: AsRef<MessageGame>>(t: T) -> Self { MessageContent::MessageGame(t.as_ref().clone()) }
-
-  pub fn message_poll<T: AsRef<MessagePoll>>(t: T) -> Self { MessageContent::MessagePoll(t.as_ref().clone()) }
 
   pub fn message_invoice<T: AsRef<MessageInvoice>>(t: T) -> Self { MessageContent::MessageInvoice(t.as_ref().clone()) }
 
@@ -1501,69 +1492,6 @@ impl AsRef<MessageGame> for RTDMessageGameBuilder {
 
 
 
-/// A message with a poll
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct MessagePoll {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Poll
-  poll: Poll,
-  
-}
-
-impl RObject for MessagePoll {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "messagePoll" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDMessageContent for MessagePoll {}
-
-
-
-impl MessagePoll {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDMessagePollBuilder {
-    let mut inner = MessagePoll::default();
-    inner.td_name = "messagePoll".to_string();
-    RTDMessagePollBuilder { inner }
-  }
-
-  pub fn poll(&self) -> &Poll { &self.poll }
-
-}
-
-#[doc(hidden)]
-pub struct RTDMessagePollBuilder {
-  inner: MessagePoll
-}
-
-impl RTDMessagePollBuilder {
-  pub fn build(&self) -> MessagePoll { self.inner.clone() }
-
-   
-  pub fn poll<T: AsRef<Poll>>(&mut self, poll: T) -> &mut Self {
-    self.inner.poll = poll.as_ref().clone();
-    self
-  }
-
-}
-
-impl AsRef<MessagePoll> for MessagePoll {
-  fn as_ref(&self) -> &MessagePoll { self }
-}
-
-impl AsRef<MessagePoll> for RTDMessagePollBuilder {
-  fn as_ref(&self) -> &MessagePoll { &self.inner }
-}
-
-
-
-
-
-
-
 /// A message with an invoice from a bot
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageInvoice {
@@ -2416,7 +2344,7 @@ pub struct MessagePinMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Identifier of the pinned message, can be an identifier of a deleted message or 0
+  /// Identifier of the pinned message, can be an identifier of a deleted message
   message_id: i64,
   
 }
@@ -2660,7 +2588,7 @@ pub struct MessageGameScore {
   td_name: String,
   /// Identifier of the message with the game, can be an identifier of a deleted message
   game_message_id: i64,
-  /// Identifier of the game; may be different from the games presented in the message with the game
+  /// Identifier of the game, may be different from the games presented in the message with the game
   game_id: isize,
   /// New score
   score: i64,

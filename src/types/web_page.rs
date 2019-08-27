@@ -51,8 +51,8 @@ pub struct WebPage {
   video_note: Option<VideoNote>,
   /// Preview of the content as a voice note, if available; may be null
   voice_note: Option<VoiceNote>,
-  /// Version of instant view, available for the web page (currently can be 1 or 2), 0 if none
-  instant_view_version: i64,
+  /// True, if the web page has an instant view
+  has_instant_view: bool,
   
 }
 
@@ -111,7 +111,7 @@ impl WebPage {
 
   pub fn voice_note(&self) -> &Option<VoiceNote> { &self.voice_note }
 
-  pub fn instant_view_version(&self) -> i64 { self.instant_view_version }
+  pub fn has_instant_view(&self) -> bool { self.has_instant_view }
 
 }
 
@@ -244,8 +244,8 @@ impl RTDWebPageBuilder {
   }
 
    
-  pub fn instant_view_version(&mut self, instant_view_version: i64) -> &mut Self {
-    self.inner.instant_view_version = instant_view_version;
+  pub fn has_instant_view(&mut self, has_instant_view: bool) -> &mut Self {
+    self.inner.has_instant_view = has_instant_view;
     self
   }
 

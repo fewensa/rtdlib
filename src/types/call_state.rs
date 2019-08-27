@@ -262,8 +262,6 @@ pub struct CallStateReady {
   encryption_key: String,
   /// Encryption key emojis fingerprint
   emojis: Vec<String>,
-  /// True, if peer-to-peer connection is allowed by users privacy settings
-  allow_p2p: bool,
   
 }
 
@@ -294,8 +292,6 @@ impl CallStateReady {
   pub fn encryption_key(&self) -> &String { &self.encryption_key }
 
   pub fn emojis(&self) -> &Vec<String> { &self.emojis }
-
-  pub fn allow_p2p(&self) -> bool { self.allow_p2p }
 
 }
 
@@ -334,12 +330,6 @@ impl RTDCallStateReadyBuilder {
    
   pub fn emojis(&mut self, emojis: Vec<String>) -> &mut Self {
     self.inner.emojis = emojis;
-    self
-  }
-
-   
-  pub fn allow_p2p(&mut self, allow_p2p: bool) -> &mut Self {
-    self.inner.allow_p2p = allow_p2p;
     self
   }
 

@@ -11,6 +11,8 @@ pub struct Photo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  /// Photo identifier; 0 for deleted photos
+  id: isize,
   /// True, if stickers were added to the photo
   has_stickers: bool,
   /// Available variants of the photo, in different sizes
@@ -33,6 +35,8 @@ impl Photo {
     RTDPhotoBuilder { inner }
   }
 
+  pub fn id(&self) -> isize { self.id }
+
   pub fn has_stickers(&self) -> bool { self.has_stickers }
 
   pub fn sizes(&self) -> &Vec<PhotoSize> { &self.sizes }
@@ -46,6 +50,12 @@ pub struct RTDPhotoBuilder {
 
 impl RTDPhotoBuilder {
   pub fn build(&self) -> Photo { self.inner.clone() }
+
+   
+  pub fn id(&mut self, id: isize) -> &mut Self {
+    self.inner.id = id;
+    self
+  }
 
    
   pub fn has_stickers(&mut self, has_stickers: bool) -> &mut Self {

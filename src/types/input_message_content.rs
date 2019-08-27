@@ -46,8 +46,6 @@ pub enum InputMessageContent {
   InputMessageGame(InputMessageGame),
   /// A message with an invoice; can be used only by bots and only in private chats
   InputMessageInvoice(InputMessageInvoice),
-  /// A message with a poll. Polls can't be sent to private or secret chats
-  InputMessagePoll(InputMessagePoll),
   /// A forwarded message
   InputMessageForwarded(InputMessageForwarded),
 
@@ -76,7 +74,6 @@ impl<'de> Deserialize<'de> for InputMessageContent {
       (inputMessageContact, InputMessageContact);
       (inputMessageGame, InputMessageGame);
       (inputMessageInvoice, InputMessageInvoice);
-      (inputMessagePoll, InputMessagePoll);
       (inputMessageForwarded, InputMessageForwarded);
 
     )(deserializer)
@@ -100,7 +97,6 @@ impl RObject for InputMessageContent {
       InputMessageContent::InputMessageContact(t) => t.td_name(),
       InputMessageContent::InputMessageGame(t) => t.td_name(),
       InputMessageContent::InputMessageInvoice(t) => t.td_name(),
-      InputMessageContent::InputMessagePoll(t) => t.td_name(),
       InputMessageContent::InputMessageForwarded(t) => t.td_name(),
 
       _ => "-1",
@@ -127,7 +123,6 @@ impl InputMessageContent {
   pub fn is_input_message_contact(&self) -> bool { if let InputMessageContent::InputMessageContact(_) = self { true } else { false } }
   pub fn is_input_message_game(&self) -> bool { if let InputMessageContent::InputMessageGame(_) = self { true } else { false } }
   pub fn is_input_message_invoice(&self) -> bool { if let InputMessageContent::InputMessageInvoice(_) = self { true } else { false } }
-  pub fn is_input_message_poll(&self) -> bool { if let InputMessageContent::InputMessagePoll(_) = self { true } else { false } }
   pub fn is_input_message_forwarded(&self) -> bool { if let InputMessageContent::InputMessageForwarded(_) = self { true } else { false } }
 
   pub fn on_input_message_text<F: FnOnce(&InputMessageText)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageText(t) = self { fnc(t) }; self }
@@ -144,7 +139,6 @@ impl InputMessageContent {
   pub fn on_input_message_contact<F: FnOnce(&InputMessageContact)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageContact(t) = self { fnc(t) }; self }
   pub fn on_input_message_game<F: FnOnce(&InputMessageGame)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageGame(t) = self { fnc(t) }; self }
   pub fn on_input_message_invoice<F: FnOnce(&InputMessageInvoice)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageInvoice(t) = self { fnc(t) }; self }
-  pub fn on_input_message_poll<F: FnOnce(&InputMessagePoll)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessagePoll(t) = self { fnc(t) }; self }
   pub fn on_input_message_forwarded<F: FnOnce(&InputMessageForwarded)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageForwarded(t) = self { fnc(t) }; self }
 
   pub fn as_input_message_text(&self) -> Option<&InputMessageText> { if let InputMessageContent::InputMessageText(t) = self { return Some(t) } None }
@@ -161,7 +155,6 @@ impl InputMessageContent {
   pub fn as_input_message_contact(&self) -> Option<&InputMessageContact> { if let InputMessageContent::InputMessageContact(t) = self { return Some(t) } None }
   pub fn as_input_message_game(&self) -> Option<&InputMessageGame> { if let InputMessageContent::InputMessageGame(t) = self { return Some(t) } None }
   pub fn as_input_message_invoice(&self) -> Option<&InputMessageInvoice> { if let InputMessageContent::InputMessageInvoice(t) = self { return Some(t) } None }
-  pub fn as_input_message_poll(&self) -> Option<&InputMessagePoll> { if let InputMessageContent::InputMessagePoll(t) = self { return Some(t) } None }
   pub fn as_input_message_forwarded(&self) -> Option<&InputMessageForwarded> { if let InputMessageContent::InputMessageForwarded(t) = self { return Some(t) } None }
 
 
@@ -193,8 +186,6 @@ impl InputMessageContent {
   pub fn input_message_game<T: AsRef<InputMessageGame>>(t: T) -> Self { InputMessageContent::InputMessageGame(t.as_ref().clone()) }
 
   pub fn input_message_invoice<T: AsRef<InputMessageInvoice>>(t: T) -> Self { InputMessageContent::InputMessageInvoice(t.as_ref().clone()) }
-
-  pub fn input_message_poll<T: AsRef<InputMessagePoll>>(t: T) -> Self { InputMessageContent::InputMessagePoll(t.as_ref().clone()) }
 
   pub fn input_message_forwarded<T: AsRef<InputMessageForwarded>>(t: T) -> Self { InputMessageContent::InputMessageForwarded(t.as_ref().clone()) }
 
@@ -1574,79 +1565,6 @@ impl AsRef<InputMessageInvoice> for InputMessageInvoice {
 
 impl AsRef<InputMessageInvoice> for RTDInputMessageInvoiceBuilder {
   fn as_ref(&self) -> &InputMessageInvoice { &self.inner }
-}
-
-
-
-
-
-
-
-/// A message with a poll. Polls can't be sent to private or secret chats
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InputMessagePoll {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Poll question, 1-255 characters
-  question: String,
-  /// List of poll answer options, 2-10 strings 1-100 characters each
-  options: Vec<String>,
-  
-}
-
-impl RObject for InputMessagePoll {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessagePoll" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDInputMessageContent for InputMessagePoll {}
-
-
-
-impl InputMessagePoll {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInputMessagePollBuilder {
-    let mut inner = InputMessagePoll::default();
-    inner.td_name = "inputMessagePoll".to_string();
-    RTDInputMessagePollBuilder { inner }
-  }
-
-  pub fn question(&self) -> &String { &self.question }
-
-  pub fn options(&self) -> &Vec<String> { &self.options }
-
-}
-
-#[doc(hidden)]
-pub struct RTDInputMessagePollBuilder {
-  inner: InputMessagePoll
-}
-
-impl RTDInputMessagePollBuilder {
-  pub fn build(&self) -> InputMessagePoll { self.inner.clone() }
-
-   
-  pub fn question<T: AsRef<str>>(&mut self, question: T) -> &mut Self {
-    self.inner.question = question.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn options(&mut self, options: Vec<String>) -> &mut Self {
-    self.inner.options = options;
-    self
-  }
-
-}
-
-impl AsRef<InputMessagePoll> for InputMessagePoll {
-  fn as_ref(&self) -> &InputMessagePoll { self }
-}
-
-impl AsRef<InputMessagePoll> for RTDInputMessagePollBuilder {
-  fn as_ref(&self) -> &InputMessagePoll { &self.inner }
 }
 
 

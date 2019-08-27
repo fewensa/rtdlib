@@ -18,13 +18,13 @@ pub trait TDOptionValue: Debug + RObject {}
 #[serde(untagged)]
 pub enum OptionValue {
   #[doc(hidden)] _Default(()),
-  /// Represents a boolean option
+  /// Boolean option
   Boolean(OptionValueBoolean),
-  /// Represents an unknown option or an option which has a default value
+  /// An unknown option or an option which has a default value
   Empty(OptionValueEmpty),
-  /// Represents an integer option
+  /// An integer option
   Integer(OptionValueInteger),
-  /// Represents a string option
+  /// A string option
   String(OptionValueString),
   /// Returns the value of an option by its name. (Check the list of available options on https://core.telegram.org/tdlib/options.) Can be called before authorization
   GetOption(GetOption),
@@ -111,7 +111,7 @@ impl AsRef<OptionValue> for OptionValue {
 
 
 
-/// Represents a boolean option
+/// Boolean option
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct OptionValueBoolean {
   #[doc(hidden)]
@@ -174,7 +174,7 @@ impl AsRef<OptionValueBoolean> for RTDOptionValueBooleanBuilder {
 
 
 
-/// Represents an unknown option or an option which has a default value
+/// An unknown option or an option which has a default value
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct OptionValueEmpty {
   #[doc(hidden)]
@@ -227,7 +227,7 @@ impl AsRef<OptionValueEmpty> for RTDOptionValueEmptyBuilder {
 
 
 
-/// Represents an integer option
+/// An integer option
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct OptionValueInteger {
   #[doc(hidden)]
@@ -290,7 +290,7 @@ impl AsRef<OptionValueInteger> for RTDOptionValueIntegerBuilder {
 
 
 
-/// Represents a string option
+/// A string option
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct OptionValueString {
   #[doc(hidden)]

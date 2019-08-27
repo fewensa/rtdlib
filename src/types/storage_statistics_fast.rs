@@ -17,10 +17,6 @@ pub struct StorageStatisticsFast {
   file_count: i64,
   /// Size of the database
   database_size: i64,
-  /// Size of the language pack database
-  language_pack_database_size: i64,
-  /// Size of the TDLib internal log
-  log_size: i64,
   
 }
 
@@ -44,10 +40,6 @@ impl StorageStatisticsFast {
   pub fn file_count(&self) -> i64 { self.file_count }
 
   pub fn database_size(&self) -> i64 { self.database_size }
-
-  pub fn language_pack_database_size(&self) -> i64 { self.language_pack_database_size }
-
-  pub fn log_size(&self) -> i64 { self.log_size }
 
 }
 
@@ -74,18 +66,6 @@ impl RTDStorageStatisticsFastBuilder {
    
   pub fn database_size(&mut self, database_size: i64) -> &mut Self {
     self.inner.database_size = database_size;
-    self
-  }
-
-   
-  pub fn language_pack_database_size(&mut self, language_pack_database_size: i64) -> &mut Self {
-    self.inner.language_pack_database_size = language_pack_database_size;
-    self
-  }
-
-   
-  pub fn log_size(&mut self, log_size: i64) -> &mut Self {
-    self.inner.log_size = log_size;
     self
   }
 

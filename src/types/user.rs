@@ -31,8 +31,6 @@ pub struct User {
   incoming_link: LinkState,
   /// True, if the user is verified
   is_verified: bool,
-  /// True, if the user is Telegram support account
-  is_support: bool,
   /// If non-empty, it contains the reason why access to this user must be restricted. The format of the string is "{type}: {description}". {type} contains the type of the restriction and at least one of the suffixes "-all", "-ios", "-android", or "-wp", which describe the platforms on which access should be restricted. (For example, "terms-ios-android". {description} contains a human-readable description of the restriction, which can be shown to the user)
   restriction_reason: String,
   /// If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
@@ -78,8 +76,6 @@ impl User {
   pub fn incoming_link(&self) -> &LinkState { &self.incoming_link }
 
   pub fn is_verified(&self) -> bool { self.is_verified }
-
-  pub fn is_support(&self) -> bool { self.is_support }
 
   pub fn restriction_reason(&self) -> &String { &self.restriction_reason }
 
@@ -156,12 +152,6 @@ impl RTDUserBuilder {
    
   pub fn is_verified(&mut self, is_verified: bool) -> &mut Self {
     self.inner.is_verified = is_verified;
-    self
-  }
-
-   
-  pub fn is_support(&mut self, is_support: bool) -> &mut Self {
-    self.inner.is_support = is_support;
     self
   }
 

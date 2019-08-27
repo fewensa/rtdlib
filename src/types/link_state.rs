@@ -20,9 +20,9 @@ pub enum LinkState {
   #[doc(hidden)] _Default(()),
   /// The phone number of user A is not known to user B
   None(LinkStateNone),
-  /// The phone number of user A is known but that number has not been saved to the contact list of user B
+  /// The phone number of user A is known but that number has not been saved to the contacts list of user B
   KnowsPhoneNumber(LinkStateKnowsPhoneNumber),
-  /// The phone number of user A has been saved to the contact list of user B
+  /// The phone number of user A has been saved to the contacts list of user B
   IsContact(LinkStateIsContact),
 
 }
@@ -146,7 +146,7 @@ impl AsRef<LinkStateNone> for RTDLinkStateNoneBuilder {
 
 
 
-/// The phone number of user A is known but that number has not been saved to the contact list of user B
+/// The phone number of user A is known but that number has not been saved to the contacts list of user B
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct LinkStateKnowsPhoneNumber {
   #[doc(hidden)]
@@ -199,7 +199,7 @@ impl AsRef<LinkStateKnowsPhoneNumber> for RTDLinkStateKnowsPhoneNumberBuilder {
 
 
 
-/// The phone number of user A has been saved to the contact list of user B
+/// The phone number of user A has been saved to the contacts list of user B
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct LinkStateIsContact {
   #[doc(hidden)]

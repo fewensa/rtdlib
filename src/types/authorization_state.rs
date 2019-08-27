@@ -414,7 +414,7 @@ pub struct AuthorizationStateWaitPassword {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Hint for the password; may be empty
+  /// Hint for the password; can be empty
   password_hint: String,
   /// True if a recovery email address has been set up
   has_recovery_email_address: bool,

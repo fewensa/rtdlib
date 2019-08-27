@@ -13,9 +13,9 @@ pub struct InputThumbnail {
   td_name: String,
   /// Thumbnail file to send. Sending thumbnails by file_id is currently not supported
   thumbnail: InputFile,
-  /// Thumbnail width, usually shouldn't exceed 320. Use 0 if unknown
+  /// Thumbnail width, usually shouldn't exceed 90. Use 0 if unknown
   width: i64,
-  /// Thumbnail height, usually shouldn't exceed 320. Use 0 if unknown
+  /// Thumbnail height, usually shouldn't exceed 90. Use 0 if unknown
   height: i64,
   
 }

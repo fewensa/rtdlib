@@ -428,8 +428,6 @@ pub struct PassportElementErrorSourceTranslationFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Index of a file with the error
-  file_index: i64,
   
 }
 
@@ -451,8 +449,6 @@ impl PassportElementErrorSourceTranslationFile {
     RTDPassportElementErrorSourceTranslationFileBuilder { inner }
   }
 
-  pub fn file_index(&self) -> i64 { self.file_index }
-
 }
 
 #[doc(hidden)]
@@ -462,12 +458,6 @@ pub struct RTDPassportElementErrorSourceTranslationFileBuilder {
 
 impl RTDPassportElementErrorSourceTranslationFileBuilder {
   pub fn build(&self) -> PassportElementErrorSourceTranslationFile { self.inner.clone() }
-
-   
-  pub fn file_index(&mut self, file_index: i64) -> &mut Self {
-    self.inner.file_index = file_index;
-    self
-  }
 
 }
 
@@ -544,8 +534,6 @@ pub struct PassportElementErrorSourceFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Index of a file with the error
-  file_index: i64,
   
 }
 
@@ -567,8 +555,6 @@ impl PassportElementErrorSourceFile {
     RTDPassportElementErrorSourceFileBuilder { inner }
   }
 
-  pub fn file_index(&self) -> i64 { self.file_index }
-
 }
 
 #[doc(hidden)]
@@ -578,12 +564,6 @@ pub struct RTDPassportElementErrorSourceFileBuilder {
 
 impl RTDPassportElementErrorSourceFileBuilder {
   pub fn build(&self) -> PassportElementErrorSourceFile { self.inner.clone() }
-
-   
-  pub fn file_index(&mut self, file_index: i64) -> &mut Self {
-    self.inner.file_index = file_index;
-    self
-  }
 
 }
 

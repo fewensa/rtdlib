@@ -27,14 +27,14 @@ pub struct SupergroupFullInfo {
   can_set_username: bool,
   /// True, if the supergroup sticker set can be changed
   can_set_sticker_set: bool,
-  /// True, if the channel statistics is available through getChatStatisticsUrl
-  can_view_statistics: bool,
   /// True, if new chat members will have access to old messages. In public supergroups and both public and private channels, old messages are always available, so this option affects only private supergroups. The value of this field is only available for chat administrators
   is_all_history_available: bool,
   /// Identifier of the supergroup sticker set; 0 if none
   sticker_set_id: String,
   /// Invite link for this chat
   invite_link: String,
+  /// Identifier of the pinned message in the chat; 0 if none
+  pinned_message_id: i64,
   /// Identifier of the basic group from which supergroup was upgraded; 0 if none
   upgraded_from_basic_group_id: i64,
   /// Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
@@ -73,13 +73,13 @@ impl SupergroupFullInfo {
 
   pub fn can_set_sticker_set(&self) -> bool { self.can_set_sticker_set }
 
-  pub fn can_view_statistics(&self) -> bool { self.can_view_statistics }
-
   pub fn is_all_history_available(&self) -> bool { self.is_all_history_available }
 
   pub fn sticker_set_id(&self) -> &String { &self.sticker_set_id }
 
   pub fn invite_link(&self) -> &String { &self.invite_link }
+
+  pub fn pinned_message_id(&self) -> i64 { self.pinned_message_id }
 
   pub fn upgraded_from_basic_group_id(&self) -> i64 { self.upgraded_from_basic_group_id }
 
@@ -144,12 +144,6 @@ impl RTDSupergroupFullInfoBuilder {
   }
 
    
-  pub fn can_view_statistics(&mut self, can_view_statistics: bool) -> &mut Self {
-    self.inner.can_view_statistics = can_view_statistics;
-    self
-  }
-
-   
   pub fn is_all_history_available(&mut self, is_all_history_available: bool) -> &mut Self {
     self.inner.is_all_history_available = is_all_history_available;
     self
@@ -164,6 +158,12 @@ impl RTDSupergroupFullInfoBuilder {
    
   pub fn invite_link<T: AsRef<str>>(&mut self, invite_link: T) -> &mut Self {
     self.inner.invite_link = invite_link.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn pinned_message_id(&mut self, pinned_message_id: i64) -> &mut Self {
+    self.inner.pinned_message_id = pinned_message_id;
     self
   }
 

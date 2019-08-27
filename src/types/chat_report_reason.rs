@@ -24,8 +24,6 @@ pub enum ChatReportReason {
   Violence(ChatReportReasonViolence),
   /// The chat contains pornographic messages
   Pornography(ChatReportReasonPornography),
-  /// The chat has child abuse related content
-  ChildAbuse(ChatReportReasonChildAbuse),
   /// The chat contains copyrighted content
   Copyright(ChatReportReasonCopyright),
   /// A custom reason provided by the user
@@ -45,7 +43,6 @@ impl<'de> Deserialize<'de> for ChatReportReason {
       (chatReportReasonSpam, Spam);
       (chatReportReasonViolence, Violence);
       (chatReportReasonPornography, Pornography);
-      (chatReportReasonChildAbuse, ChildAbuse);
       (chatReportReasonCopyright, Copyright);
       (chatReportReasonCustom, Custom);
 
@@ -59,7 +56,6 @@ impl RObject for ChatReportReason {
       ChatReportReason::Spam(t) => t.td_name(),
       ChatReportReason::Violence(t) => t.td_name(),
       ChatReportReason::Pornography(t) => t.td_name(),
-      ChatReportReason::ChildAbuse(t) => t.td_name(),
       ChatReportReason::Copyright(t) => t.td_name(),
       ChatReportReason::Custom(t) => t.td_name(),
 
@@ -76,21 +72,18 @@ impl ChatReportReason {
   pub fn is_spam(&self) -> bool { if let ChatReportReason::Spam(_) = self { true } else { false } }
   pub fn is_violence(&self) -> bool { if let ChatReportReason::Violence(_) = self { true } else { false } }
   pub fn is_pornography(&self) -> bool { if let ChatReportReason::Pornography(_) = self { true } else { false } }
-  pub fn is_child_abuse(&self) -> bool { if let ChatReportReason::ChildAbuse(_) = self { true } else { false } }
   pub fn is_copyright(&self) -> bool { if let ChatReportReason::Copyright(_) = self { true } else { false } }
   pub fn is_custom(&self) -> bool { if let ChatReportReason::Custom(_) = self { true } else { false } }
 
   pub fn on_spam<F: FnOnce(&ChatReportReasonSpam)>(&self, fnc: F) -> &Self { if let ChatReportReason::Spam(t) = self { fnc(t) }; self }
   pub fn on_violence<F: FnOnce(&ChatReportReasonViolence)>(&self, fnc: F) -> &Self { if let ChatReportReason::Violence(t) = self { fnc(t) }; self }
   pub fn on_pornography<F: FnOnce(&ChatReportReasonPornography)>(&self, fnc: F) -> &Self { if let ChatReportReason::Pornography(t) = self { fnc(t) }; self }
-  pub fn on_child_abuse<F: FnOnce(&ChatReportReasonChildAbuse)>(&self, fnc: F) -> &Self { if let ChatReportReason::ChildAbuse(t) = self { fnc(t) }; self }
   pub fn on_copyright<F: FnOnce(&ChatReportReasonCopyright)>(&self, fnc: F) -> &Self { if let ChatReportReason::Copyright(t) = self { fnc(t) }; self }
   pub fn on_custom<F: FnOnce(&ChatReportReasonCustom)>(&self, fnc: F) -> &Self { if let ChatReportReason::Custom(t) = self { fnc(t) }; self }
 
   pub fn as_spam(&self) -> Option<&ChatReportReasonSpam> { if let ChatReportReason::Spam(t) = self { return Some(t) } None }
   pub fn as_violence(&self) -> Option<&ChatReportReasonViolence> { if let ChatReportReason::Violence(t) = self { return Some(t) } None }
   pub fn as_pornography(&self) -> Option<&ChatReportReasonPornography> { if let ChatReportReason::Pornography(t) = self { return Some(t) } None }
-  pub fn as_child_abuse(&self) -> Option<&ChatReportReasonChildAbuse> { if let ChatReportReason::ChildAbuse(t) = self { return Some(t) } None }
   pub fn as_copyright(&self) -> Option<&ChatReportReasonCopyright> { if let ChatReportReason::Copyright(t) = self { return Some(t) } None }
   pub fn as_custom(&self) -> Option<&ChatReportReasonCustom> { if let ChatReportReason::Custom(t) = self { return Some(t) } None }
 
@@ -101,8 +94,6 @@ impl ChatReportReason {
   pub fn violence<T: AsRef<ChatReportReasonViolence>>(t: T) -> Self { ChatReportReason::Violence(t.as_ref().clone()) }
 
   pub fn pornography<T: AsRef<ChatReportReasonPornography>>(t: T) -> Self { ChatReportReason::Pornography(t.as_ref().clone()) }
-
-  pub fn child_abuse<T: AsRef<ChatReportReasonChildAbuse>>(t: T) -> Self { ChatReportReason::ChildAbuse(t.as_ref().clone()) }
 
   pub fn copyright<T: AsRef<ChatReportReasonCopyright>>(t: T) -> Self { ChatReportReason::Copyright(t.as_ref().clone()) }
 
@@ -271,59 +262,6 @@ impl AsRef<ChatReportReasonPornography> for ChatReportReasonPornography {
 
 impl AsRef<ChatReportReasonPornography> for RTDChatReportReasonPornographyBuilder {
   fn as_ref(&self) -> &ChatReportReasonPornography { &self.inner }
-}
-
-
-
-
-
-
-
-/// The chat has child abuse related content
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ChatReportReasonChildAbuse {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for ChatReportReasonChildAbuse {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonChildAbuse" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDChatReportReason for ChatReportReasonChildAbuse {}
-
-
-
-impl ChatReportReasonChildAbuse {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDChatReportReasonChildAbuseBuilder {
-    let mut inner = ChatReportReasonChildAbuse::default();
-    inner.td_name = "chatReportReasonChildAbuse".to_string();
-    RTDChatReportReasonChildAbuseBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDChatReportReasonChildAbuseBuilder {
-  inner: ChatReportReasonChildAbuse
-}
-
-impl RTDChatReportReasonChildAbuseBuilder {
-  pub fn build(&self) -> ChatReportReasonChildAbuse { self.inner.clone() }
-
-}
-
-impl AsRef<ChatReportReasonChildAbuse> for ChatReportReasonChildAbuse {
-  fn as_ref(&self) -> &ChatReportReasonChildAbuse { self }
-}
-
-impl AsRef<ChatReportReasonChildAbuse> for RTDChatReportReasonChildAbuseBuilder {
-  fn as_ref(&self) -> &ChatReportReasonChildAbuse { &self.inner }
 }
 
 

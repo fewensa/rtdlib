@@ -28,8 +28,6 @@ pub enum PageBlock {
   Header(PageBlockHeader),
   /// A subheader
   Subheader(PageBlockSubheader),
-  /// A kicker
-  Kicker(PageBlockKicker),
   /// A text paragraph
   Paragraph(PageBlockParagraph),
   /// A preformatted text paragraph
@@ -40,7 +38,7 @@ pub enum PageBlock {
   Divider(PageBlockDivider),
   /// An invisible anchor on a page, which can be used in a URL to open the page from the specified anchor
   Anchor(PageBlockAnchor),
-  /// A list of data blocks
+  /// A list of texts
   List(PageBlockList),
   /// A block quote
   BlockQuote(PageBlockBlockQuote),
@@ -66,14 +64,6 @@ pub enum PageBlock {
   Slideshow(PageBlockSlideshow),
   /// A link to a chat
   ChatLink(PageBlockChatLink),
-  /// A table
-  Table(PageBlockTable),
-  /// A collapsible block
-  Details(PageBlockDetails),
-  /// Related articles
-  RelatedArticles(PageBlockRelatedArticles),
-  /// A map
-  Map(PageBlockMap),
 
 }
 
@@ -91,7 +81,6 @@ impl<'de> Deserialize<'de> for PageBlock {
       (pageBlockAuthorDate, AuthorDate);
       (pageBlockHeader, Header);
       (pageBlockSubheader, Subheader);
-      (pageBlockKicker, Kicker);
       (pageBlockParagraph, Paragraph);
       (pageBlockPreformatted, Preformatted);
       (pageBlockFooter, Footer);
@@ -110,10 +99,6 @@ impl<'de> Deserialize<'de> for PageBlock {
       (pageBlockCollage, Collage);
       (pageBlockSlideshow, Slideshow);
       (pageBlockChatLink, ChatLink);
-      (pageBlockTable, Table);
-      (pageBlockDetails, Details);
-      (pageBlockRelatedArticles, RelatedArticles);
-      (pageBlockMap, Map);
 
     )(deserializer)
   }
@@ -127,7 +112,6 @@ impl RObject for PageBlock {
       PageBlock::AuthorDate(t) => t.td_name(),
       PageBlock::Header(t) => t.td_name(),
       PageBlock::Subheader(t) => t.td_name(),
-      PageBlock::Kicker(t) => t.td_name(),
       PageBlock::Paragraph(t) => t.td_name(),
       PageBlock::Preformatted(t) => t.td_name(),
       PageBlock::Footer(t) => t.td_name(),
@@ -146,10 +130,6 @@ impl RObject for PageBlock {
       PageBlock::Collage(t) => t.td_name(),
       PageBlock::Slideshow(t) => t.td_name(),
       PageBlock::ChatLink(t) => t.td_name(),
-      PageBlock::Table(t) => t.td_name(),
-      PageBlock::Details(t) => t.td_name(),
-      PageBlock::RelatedArticles(t) => t.td_name(),
-      PageBlock::Map(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -166,7 +146,6 @@ impl PageBlock {
   pub fn is_author_date(&self) -> bool { if let PageBlock::AuthorDate(_) = self { true } else { false } }
   pub fn is_header(&self) -> bool { if let PageBlock::Header(_) = self { true } else { false } }
   pub fn is_subheader(&self) -> bool { if let PageBlock::Subheader(_) = self { true } else { false } }
-  pub fn is_kicker(&self) -> bool { if let PageBlock::Kicker(_) = self { true } else { false } }
   pub fn is_paragraph(&self) -> bool { if let PageBlock::Paragraph(_) = self { true } else { false } }
   pub fn is_preformatted(&self) -> bool { if let PageBlock::Preformatted(_) = self { true } else { false } }
   pub fn is_footer(&self) -> bool { if let PageBlock::Footer(_) = self { true } else { false } }
@@ -185,17 +164,12 @@ impl PageBlock {
   pub fn is_collage(&self) -> bool { if let PageBlock::Collage(_) = self { true } else { false } }
   pub fn is_slideshow(&self) -> bool { if let PageBlock::Slideshow(_) = self { true } else { false } }
   pub fn is_chat_link(&self) -> bool { if let PageBlock::ChatLink(_) = self { true } else { false } }
-  pub fn is_table(&self) -> bool { if let PageBlock::Table(_) = self { true } else { false } }
-  pub fn is_details(&self) -> bool { if let PageBlock::Details(_) = self { true } else { false } }
-  pub fn is_related_articles(&self) -> bool { if let PageBlock::RelatedArticles(_) = self { true } else { false } }
-  pub fn is_map(&self) -> bool { if let PageBlock::Map(_) = self { true } else { false } }
 
   pub fn on_title<F: FnOnce(&PageBlockTitle)>(&self, fnc: F) -> &Self { if let PageBlock::Title(t) = self { fnc(t) }; self }
   pub fn on_subtitle<F: FnOnce(&PageBlockSubtitle)>(&self, fnc: F) -> &Self { if let PageBlock::Subtitle(t) = self { fnc(t) }; self }
   pub fn on_author_date<F: FnOnce(&PageBlockAuthorDate)>(&self, fnc: F) -> &Self { if let PageBlock::AuthorDate(t) = self { fnc(t) }; self }
   pub fn on_header<F: FnOnce(&PageBlockHeader)>(&self, fnc: F) -> &Self { if let PageBlock::Header(t) = self { fnc(t) }; self }
   pub fn on_subheader<F: FnOnce(&PageBlockSubheader)>(&self, fnc: F) -> &Self { if let PageBlock::Subheader(t) = self { fnc(t) }; self }
-  pub fn on_kicker<F: FnOnce(&PageBlockKicker)>(&self, fnc: F) -> &Self { if let PageBlock::Kicker(t) = self { fnc(t) }; self }
   pub fn on_paragraph<F: FnOnce(&PageBlockParagraph)>(&self, fnc: F) -> &Self { if let PageBlock::Paragraph(t) = self { fnc(t) }; self }
   pub fn on_preformatted<F: FnOnce(&PageBlockPreformatted)>(&self, fnc: F) -> &Self { if let PageBlock::Preformatted(t) = self { fnc(t) }; self }
   pub fn on_footer<F: FnOnce(&PageBlockFooter)>(&self, fnc: F) -> &Self { if let PageBlock::Footer(t) = self { fnc(t) }; self }
@@ -214,17 +188,12 @@ impl PageBlock {
   pub fn on_collage<F: FnOnce(&PageBlockCollage)>(&self, fnc: F) -> &Self { if let PageBlock::Collage(t) = self { fnc(t) }; self }
   pub fn on_slideshow<F: FnOnce(&PageBlockSlideshow)>(&self, fnc: F) -> &Self { if let PageBlock::Slideshow(t) = self { fnc(t) }; self }
   pub fn on_chat_link<F: FnOnce(&PageBlockChatLink)>(&self, fnc: F) -> &Self { if let PageBlock::ChatLink(t) = self { fnc(t) }; self }
-  pub fn on_table<F: FnOnce(&PageBlockTable)>(&self, fnc: F) -> &Self { if let PageBlock::Table(t) = self { fnc(t) }; self }
-  pub fn on_details<F: FnOnce(&PageBlockDetails)>(&self, fnc: F) -> &Self { if let PageBlock::Details(t) = self { fnc(t) }; self }
-  pub fn on_related_articles<F: FnOnce(&PageBlockRelatedArticles)>(&self, fnc: F) -> &Self { if let PageBlock::RelatedArticles(t) = self { fnc(t) }; self }
-  pub fn on_map<F: FnOnce(&PageBlockMap)>(&self, fnc: F) -> &Self { if let PageBlock::Map(t) = self { fnc(t) }; self }
 
   pub fn as_title(&self) -> Option<&PageBlockTitle> { if let PageBlock::Title(t) = self { return Some(t) } None }
   pub fn as_subtitle(&self) -> Option<&PageBlockSubtitle> { if let PageBlock::Subtitle(t) = self { return Some(t) } None }
   pub fn as_author_date(&self) -> Option<&PageBlockAuthorDate> { if let PageBlock::AuthorDate(t) = self { return Some(t) } None }
   pub fn as_header(&self) -> Option<&PageBlockHeader> { if let PageBlock::Header(t) = self { return Some(t) } None }
   pub fn as_subheader(&self) -> Option<&PageBlockSubheader> { if let PageBlock::Subheader(t) = self { return Some(t) } None }
-  pub fn as_kicker(&self) -> Option<&PageBlockKicker> { if let PageBlock::Kicker(t) = self { return Some(t) } None }
   pub fn as_paragraph(&self) -> Option<&PageBlockParagraph> { if let PageBlock::Paragraph(t) = self { return Some(t) } None }
   pub fn as_preformatted(&self) -> Option<&PageBlockPreformatted> { if let PageBlock::Preformatted(t) = self { return Some(t) } None }
   pub fn as_footer(&self) -> Option<&PageBlockFooter> { if let PageBlock::Footer(t) = self { return Some(t) } None }
@@ -243,10 +212,6 @@ impl PageBlock {
   pub fn as_collage(&self) -> Option<&PageBlockCollage> { if let PageBlock::Collage(t) = self { return Some(t) } None }
   pub fn as_slideshow(&self) -> Option<&PageBlockSlideshow> { if let PageBlock::Slideshow(t) = self { return Some(t) } None }
   pub fn as_chat_link(&self) -> Option<&PageBlockChatLink> { if let PageBlock::ChatLink(t) = self { return Some(t) } None }
-  pub fn as_table(&self) -> Option<&PageBlockTable> { if let PageBlock::Table(t) = self { return Some(t) } None }
-  pub fn as_details(&self) -> Option<&PageBlockDetails> { if let PageBlock::Details(t) = self { return Some(t) } None }
-  pub fn as_related_articles(&self) -> Option<&PageBlockRelatedArticles> { if let PageBlock::RelatedArticles(t) = self { return Some(t) } None }
-  pub fn as_map(&self) -> Option<&PageBlockMap> { if let PageBlock::Map(t) = self { return Some(t) } None }
 
 
 
@@ -259,8 +224,6 @@ impl PageBlock {
   pub fn header<T: AsRef<PageBlockHeader>>(t: T) -> Self { PageBlock::Header(t.as_ref().clone()) }
 
   pub fn subheader<T: AsRef<PageBlockSubheader>>(t: T) -> Self { PageBlock::Subheader(t.as_ref().clone()) }
-
-  pub fn kicker<T: AsRef<PageBlockKicker>>(t: T) -> Self { PageBlock::Kicker(t.as_ref().clone()) }
 
   pub fn paragraph<T: AsRef<PageBlockParagraph>>(t: T) -> Self { PageBlock::Paragraph(t.as_ref().clone()) }
 
@@ -297,14 +260,6 @@ impl PageBlock {
   pub fn slideshow<T: AsRef<PageBlockSlideshow>>(t: T) -> Self { PageBlock::Slideshow(t.as_ref().clone()) }
 
   pub fn chat_link<T: AsRef<PageBlockChatLink>>(t: T) -> Self { PageBlock::ChatLink(t.as_ref().clone()) }
-
-  pub fn table<T: AsRef<PageBlockTable>>(t: T) -> Self { PageBlock::Table(t.as_ref().clone()) }
-
-  pub fn details<T: AsRef<PageBlockDetails>>(t: T) -> Self { PageBlock::Details(t.as_ref().clone()) }
-
-  pub fn related_articles<T: AsRef<PageBlockRelatedArticles>>(t: T) -> Self { PageBlock::RelatedArticles(t.as_ref().clone()) }
-
-  pub fn map<T: AsRef<PageBlockMap>>(t: T) -> Self { PageBlock::Map(t.as_ref().clone()) }
 
 }
 
@@ -643,69 +598,6 @@ impl AsRef<PageBlockSubheader> for RTDPageBlockSubheaderBuilder {
 
 
 
-/// A kicker
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PageBlockKicker {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Kicker
-  kicker: RichText,
-  
-}
-
-impl RObject for PageBlockKicker {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockKicker" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPageBlock for PageBlockKicker {}
-
-
-
-impl PageBlockKicker {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPageBlockKickerBuilder {
-    let mut inner = PageBlockKicker::default();
-    inner.td_name = "pageBlockKicker".to_string();
-    RTDPageBlockKickerBuilder { inner }
-  }
-
-  pub fn kicker(&self) -> &RichText { &self.kicker }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPageBlockKickerBuilder {
-  inner: PageBlockKicker
-}
-
-impl RTDPageBlockKickerBuilder {
-  pub fn build(&self) -> PageBlockKicker { self.inner.clone() }
-
-   
-  pub fn kicker<T: AsRef<RichText>>(&mut self, kicker: T) -> &mut Self {
-    self.inner.kicker = kicker.as_ref().clone();
-    self
-  }
-
-}
-
-impl AsRef<PageBlockKicker> for PageBlockKicker {
-  fn as_ref(&self) -> &PageBlockKicker { self }
-}
-
-impl AsRef<PageBlockKicker> for RTDPageBlockKickerBuilder {
-  fn as_ref(&self) -> &PageBlockKicker { &self.inner }
-}
-
-
-
-
-
-
-
 /// A text paragraph
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockParagraph {
@@ -1021,14 +913,16 @@ impl AsRef<PageBlockAnchor> for RTDPageBlockAnchorBuilder {
 
 
 
-/// A list of data blocks
+/// A list of texts
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockList {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// The items of the list
-  items: Vec<PageBlockListItem>,
+  /// Texts
+  items: Vec<RichText>,
+  /// True, if the items should be marked with numbers
+  is_ordered: bool,
   
 }
 
@@ -1050,7 +944,9 @@ impl PageBlockList {
     RTDPageBlockListBuilder { inner }
   }
 
-  pub fn items(&self) -> &Vec<PageBlockListItem> { &self.items }
+  pub fn items(&self) -> &Vec<RichText> { &self.items }
+
+  pub fn is_ordered(&self) -> bool { self.is_ordered }
 
 }
 
@@ -1063,8 +959,14 @@ impl RTDPageBlockListBuilder {
   pub fn build(&self) -> PageBlockList { self.inner.clone() }
 
    
-  pub fn items(&mut self, items: Vec<PageBlockListItem>) -> &mut Self {
+  pub fn items(&mut self, items: Vec<RichText>) -> &mut Self {
     self.inner.items = items;
+    self
+  }
+
+   
+  pub fn is_ordered(&mut self, is_ordered: bool) -> &mut Self {
+    self.inner.is_ordered = is_ordered;
     self
   }
 
@@ -1092,8 +994,8 @@ pub struct PageBlockBlockQuote {
   td_name: String,
   /// Quote text
   text: RichText,
-  /// Quote credit
-  credit: RichText,
+  /// Quote caption
+  caption: RichText,
   
 }
 
@@ -1117,7 +1019,7 @@ impl PageBlockBlockQuote {
 
   pub fn text(&self) -> &RichText { &self.text }
 
-  pub fn credit(&self) -> &RichText { &self.credit }
+  pub fn caption(&self) -> &RichText { &self.caption }
 
 }
 
@@ -1136,8 +1038,8 @@ impl RTDPageBlockBlockQuoteBuilder {
   }
 
    
-  pub fn credit<T: AsRef<RichText>>(&mut self, credit: T) -> &mut Self {
-    self.inner.credit = credit.as_ref().clone();
+  pub fn caption<T: AsRef<RichText>>(&mut self, caption: T) -> &mut Self {
+    self.inner.caption = caption.as_ref().clone();
     self
   }
 
@@ -1165,8 +1067,8 @@ pub struct PageBlockPullQuote {
   td_name: String,
   /// Quote text
   text: RichText,
-  /// Quote credit
-  credit: RichText,
+  /// Quote caption
+  caption: RichText,
   
 }
 
@@ -1190,7 +1092,7 @@ impl PageBlockPullQuote {
 
   pub fn text(&self) -> &RichText { &self.text }
 
-  pub fn credit(&self) -> &RichText { &self.credit }
+  pub fn caption(&self) -> &RichText { &self.caption }
 
 }
 
@@ -1209,8 +1111,8 @@ impl RTDPageBlockPullQuoteBuilder {
   }
 
    
-  pub fn credit<T: AsRef<RichText>>(&mut self, credit: T) -> &mut Self {
-    self.inner.credit = credit.as_ref().clone();
+  pub fn caption<T: AsRef<RichText>>(&mut self, caption: T) -> &mut Self {
+    self.inner.caption = caption.as_ref().clone();
     self
   }
 
@@ -1239,7 +1141,7 @@ pub struct PageBlockAnimation {
   /// Animation file; may be null
   animation: Option<Animation>,
   /// Animation caption
-  caption: PageBlockCaption,
+  caption: RichText,
   /// True, if the animation should be played automatically
   need_autoplay: bool,
   
@@ -1265,7 +1167,7 @@ impl PageBlockAnimation {
 
   pub fn animation(&self) -> &Option<Animation> { &self.animation }
 
-  pub fn caption(&self) -> &PageBlockCaption { &self.caption }
+  pub fn caption(&self) -> &RichText { &self.caption }
 
   pub fn need_autoplay(&self) -> bool { self.need_autoplay }
 
@@ -1286,7 +1188,7 @@ impl RTDPageBlockAnimationBuilder {
   }
 
    
-  pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
+  pub fn caption<T: AsRef<RichText>>(&mut self, caption: T) -> &mut Self {
     self.inner.caption = caption.as_ref().clone();
     self
   }
@@ -1322,7 +1224,7 @@ pub struct PageBlockAudio {
   /// Audio file; may be null
   audio: Option<Audio>,
   /// Audio file caption
-  caption: PageBlockCaption,
+  caption: RichText,
   
 }
 
@@ -1346,7 +1248,7 @@ impl PageBlockAudio {
 
   pub fn audio(&self) -> &Option<Audio> { &self.audio }
 
-  pub fn caption(&self) -> &PageBlockCaption { &self.caption }
+  pub fn caption(&self) -> &RichText { &self.caption }
 
 }
 
@@ -1365,7 +1267,7 @@ impl RTDPageBlockAudioBuilder {
   }
 
    
-  pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
+  pub fn caption<T: AsRef<RichText>>(&mut self, caption: T) -> &mut Self {
     self.inner.caption = caption.as_ref().clone();
     self
   }
@@ -1395,9 +1297,7 @@ pub struct PageBlockPhoto {
   /// Photo file; may be null
   photo: Option<Photo>,
   /// Photo caption
-  caption: PageBlockCaption,
-  /// URL that needs to be opened when the photo is clicked
-  url: String,
+  caption: RichText,
   
 }
 
@@ -1421,9 +1321,7 @@ impl PageBlockPhoto {
 
   pub fn photo(&self) -> &Option<Photo> { &self.photo }
 
-  pub fn caption(&self) -> &PageBlockCaption { &self.caption }
-
-  pub fn url(&self) -> &String { &self.url }
+  pub fn caption(&self) -> &RichText { &self.caption }
 
 }
 
@@ -1442,14 +1340,8 @@ impl RTDPageBlockPhotoBuilder {
   }
 
    
-  pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
+  pub fn caption<T: AsRef<RichText>>(&mut self, caption: T) -> &mut Self {
     self.inner.caption = caption.as_ref().clone();
-    self
-  }
-
-   
-  pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
-    self.inner.url = url.as_ref().to_string();
     self
   }
 
@@ -1478,7 +1370,7 @@ pub struct PageBlockVideo {
   /// Video file; may be null
   video: Option<Video>,
   /// Video caption
-  caption: PageBlockCaption,
+  caption: RichText,
   /// True, if the video should be played automatically
   need_autoplay: bool,
   /// True, if the video should be looped
@@ -1506,7 +1398,7 @@ impl PageBlockVideo {
 
   pub fn video(&self) -> &Option<Video> { &self.video }
 
-  pub fn caption(&self) -> &PageBlockCaption { &self.caption }
+  pub fn caption(&self) -> &RichText { &self.caption }
 
   pub fn need_autoplay(&self) -> bool { self.need_autoplay }
 
@@ -1529,7 +1421,7 @@ impl RTDPageBlockVideoBuilder {
   }
 
    
-  pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
+  pub fn caption<T: AsRef<RichText>>(&mut self, caption: T) -> &mut Self {
     self.inner.caption = caption.as_ref().clone();
     self
   }
@@ -1637,12 +1529,12 @@ pub struct PageBlockEmbedded {
   html: String,
   /// Poster photo, if available; may be null
   poster_photo: Option<Photo>,
-  /// Block width, 0 if unknown
+  /// Block width
   width: i64,
-  /// Block height, 0 if unknown
+  /// Block height
   height: i64,
   /// Block caption
-  caption: PageBlockCaption,
+  caption: RichText,
   /// True, if the block should be full width
   is_full_width: bool,
   /// True, if scrolling should be allowed
@@ -1678,7 +1570,7 @@ impl PageBlockEmbedded {
 
   pub fn height(&self) -> i64 { self.height }
 
-  pub fn caption(&self) -> &PageBlockCaption { &self.caption }
+  pub fn caption(&self) -> &RichText { &self.caption }
 
   pub fn is_full_width(&self) -> bool { self.is_full_width }
 
@@ -1725,7 +1617,7 @@ impl RTDPageBlockEmbeddedBuilder {
   }
 
    
-  pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
+  pub fn caption<T: AsRef<RichText>>(&mut self, caption: T) -> &mut Self {
     self.inner.caption = caption.as_ref().clone();
     self
   }
@@ -1775,7 +1667,7 @@ pub struct PageBlockEmbeddedPost {
   /// Post content
   page_blocks: Vec<PageBlock>,
   /// Post caption
-  caption: PageBlockCaption,
+  caption: RichText,
   
 }
 
@@ -1807,7 +1699,7 @@ impl PageBlockEmbeddedPost {
 
   pub fn page_blocks(&self) -> &Vec<PageBlock> { &self.page_blocks }
 
-  pub fn caption(&self) -> &PageBlockCaption { &self.caption }
+  pub fn caption(&self) -> &RichText { &self.caption }
 
 }
 
@@ -1850,7 +1742,7 @@ impl RTDPageBlockEmbeddedPostBuilder {
   }
 
    
-  pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
+  pub fn caption<T: AsRef<RichText>>(&mut self, caption: T) -> &mut Self {
     self.inner.caption = caption.as_ref().clone();
     self
   }
@@ -1880,7 +1772,7 @@ pub struct PageBlockCollage {
   /// Collage item contents
   page_blocks: Vec<PageBlock>,
   /// Block caption
-  caption: PageBlockCaption,
+  caption: RichText,
   
 }
 
@@ -1904,7 +1796,7 @@ impl PageBlockCollage {
 
   pub fn page_blocks(&self) -> &Vec<PageBlock> { &self.page_blocks }
 
-  pub fn caption(&self) -> &PageBlockCaption { &self.caption }
+  pub fn caption(&self) -> &RichText { &self.caption }
 
 }
 
@@ -1923,7 +1815,7 @@ impl RTDPageBlockCollageBuilder {
   }
 
    
-  pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
+  pub fn caption<T: AsRef<RichText>>(&mut self, caption: T) -> &mut Self {
     self.inner.caption = caption.as_ref().clone();
     self
   }
@@ -1953,7 +1845,7 @@ pub struct PageBlockSlideshow {
   /// Slideshow item contents
   page_blocks: Vec<PageBlock>,
   /// Block caption
-  caption: PageBlockCaption,
+  caption: RichText,
   
 }
 
@@ -1977,7 +1869,7 @@ impl PageBlockSlideshow {
 
   pub fn page_blocks(&self) -> &Vec<PageBlock> { &self.page_blocks }
 
-  pub fn caption(&self) -> &PageBlockCaption { &self.caption }
+  pub fn caption(&self) -> &RichText { &self.caption }
 
 }
 
@@ -1996,7 +1888,7 @@ impl RTDPageBlockSlideshowBuilder {
   }
 
    
-  pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
+  pub fn caption<T: AsRef<RichText>>(&mut self, caption: T) -> &mut Self {
     self.inner.caption = caption.as_ref().clone();
     self
   }
@@ -2092,358 +1984,6 @@ impl AsRef<PageBlockChatLink> for PageBlockChatLink {
 
 impl AsRef<PageBlockChatLink> for RTDPageBlockChatLinkBuilder {
   fn as_ref(&self) -> &PageBlockChatLink { &self.inner }
-}
-
-
-
-
-
-
-
-/// A table
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PageBlockTable {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Table caption
-  caption: RichText,
-  /// Table cells
-  cells: Vec<Vec<PageBlockTableCell>>,
-  /// True, if the table is bordered
-  is_bordered: bool,
-  /// True, if the table is striped
-  is_striped: bool,
-  
-}
-
-impl RObject for PageBlockTable {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockTable" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPageBlock for PageBlockTable {}
-
-
-
-impl PageBlockTable {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPageBlockTableBuilder {
-    let mut inner = PageBlockTable::default();
-    inner.td_name = "pageBlockTable".to_string();
-    RTDPageBlockTableBuilder { inner }
-  }
-
-  pub fn caption(&self) -> &RichText { &self.caption }
-
-  pub fn cells(&self) -> &Vec<Vec<PageBlockTableCell>> { &self.cells }
-
-  pub fn is_bordered(&self) -> bool { self.is_bordered }
-
-  pub fn is_striped(&self) -> bool { self.is_striped }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPageBlockTableBuilder {
-  inner: PageBlockTable
-}
-
-impl RTDPageBlockTableBuilder {
-  pub fn build(&self) -> PageBlockTable { self.inner.clone() }
-
-   
-  pub fn caption<T: AsRef<RichText>>(&mut self, caption: T) -> &mut Self {
-    self.inner.caption = caption.as_ref().clone();
-    self
-  }
-
-   
-  pub fn cells(&mut self, cells: Vec<Vec<PageBlockTableCell>>) -> &mut Self {
-    self.inner.cells = cells;
-    self
-  }
-
-   
-  pub fn is_bordered(&mut self, is_bordered: bool) -> &mut Self {
-    self.inner.is_bordered = is_bordered;
-    self
-  }
-
-   
-  pub fn is_striped(&mut self, is_striped: bool) -> &mut Self {
-    self.inner.is_striped = is_striped;
-    self
-  }
-
-}
-
-impl AsRef<PageBlockTable> for PageBlockTable {
-  fn as_ref(&self) -> &PageBlockTable { self }
-}
-
-impl AsRef<PageBlockTable> for RTDPageBlockTableBuilder {
-  fn as_ref(&self) -> &PageBlockTable { &self.inner }
-}
-
-
-
-
-
-
-
-/// A collapsible block
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PageBlockDetails {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Always visible heading for the block
-  header: RichText,
-  /// Block contents
-  page_blocks: Vec<PageBlock>,
-  /// True, if the block is open by default
-  is_open: bool,
-  
-}
-
-impl RObject for PageBlockDetails {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockDetails" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPageBlock for PageBlockDetails {}
-
-
-
-impl PageBlockDetails {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPageBlockDetailsBuilder {
-    let mut inner = PageBlockDetails::default();
-    inner.td_name = "pageBlockDetails".to_string();
-    RTDPageBlockDetailsBuilder { inner }
-  }
-
-  pub fn header(&self) -> &RichText { &self.header }
-
-  pub fn page_blocks(&self) -> &Vec<PageBlock> { &self.page_blocks }
-
-  pub fn is_open(&self) -> bool { self.is_open }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPageBlockDetailsBuilder {
-  inner: PageBlockDetails
-}
-
-impl RTDPageBlockDetailsBuilder {
-  pub fn build(&self) -> PageBlockDetails { self.inner.clone() }
-
-   
-  pub fn header<T: AsRef<RichText>>(&mut self, header: T) -> &mut Self {
-    self.inner.header = header.as_ref().clone();
-    self
-  }
-
-   
-  pub fn page_blocks(&mut self, page_blocks: Vec<PageBlock>) -> &mut Self {
-    self.inner.page_blocks = page_blocks;
-    self
-  }
-
-   
-  pub fn is_open(&mut self, is_open: bool) -> &mut Self {
-    self.inner.is_open = is_open;
-    self
-  }
-
-}
-
-impl AsRef<PageBlockDetails> for PageBlockDetails {
-  fn as_ref(&self) -> &PageBlockDetails { self }
-}
-
-impl AsRef<PageBlockDetails> for RTDPageBlockDetailsBuilder {
-  fn as_ref(&self) -> &PageBlockDetails { &self.inner }
-}
-
-
-
-
-
-
-
-/// Related articles
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PageBlockRelatedArticles {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Block header
-  header: RichText,
-  /// List of related articles
-  articles: Vec<PageBlockRelatedArticle>,
-  
-}
-
-impl RObject for PageBlockRelatedArticles {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockRelatedArticles" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPageBlock for PageBlockRelatedArticles {}
-
-
-
-impl PageBlockRelatedArticles {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPageBlockRelatedArticlesBuilder {
-    let mut inner = PageBlockRelatedArticles::default();
-    inner.td_name = "pageBlockRelatedArticles".to_string();
-    RTDPageBlockRelatedArticlesBuilder { inner }
-  }
-
-  pub fn header(&self) -> &RichText { &self.header }
-
-  pub fn articles(&self) -> &Vec<PageBlockRelatedArticle> { &self.articles }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPageBlockRelatedArticlesBuilder {
-  inner: PageBlockRelatedArticles
-}
-
-impl RTDPageBlockRelatedArticlesBuilder {
-  pub fn build(&self) -> PageBlockRelatedArticles { self.inner.clone() }
-
-   
-  pub fn header<T: AsRef<RichText>>(&mut self, header: T) -> &mut Self {
-    self.inner.header = header.as_ref().clone();
-    self
-  }
-
-   
-  pub fn articles(&mut self, articles: Vec<PageBlockRelatedArticle>) -> &mut Self {
-    self.inner.articles = articles;
-    self
-  }
-
-}
-
-impl AsRef<PageBlockRelatedArticles> for PageBlockRelatedArticles {
-  fn as_ref(&self) -> &PageBlockRelatedArticles { self }
-}
-
-impl AsRef<PageBlockRelatedArticles> for RTDPageBlockRelatedArticlesBuilder {
-  fn as_ref(&self) -> &PageBlockRelatedArticles { &self.inner }
-}
-
-
-
-
-
-
-
-/// A map
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PageBlockMap {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Location of the map center
-  location: Location,
-  /// Map zoom level
-  zoom: i64,
-  /// Map width
-  width: i64,
-  /// Map height
-  height: i64,
-  /// Block caption
-  caption: PageBlockCaption,
-  
-}
-
-impl RObject for PageBlockMap {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockMap" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPageBlock for PageBlockMap {}
-
-
-
-impl PageBlockMap {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPageBlockMapBuilder {
-    let mut inner = PageBlockMap::default();
-    inner.td_name = "pageBlockMap".to_string();
-    RTDPageBlockMapBuilder { inner }
-  }
-
-  pub fn location(&self) -> &Location { &self.location }
-
-  pub fn zoom(&self) -> i64 { self.zoom }
-
-  pub fn width(&self) -> i64 { self.width }
-
-  pub fn height(&self) -> i64 { self.height }
-
-  pub fn caption(&self) -> &PageBlockCaption { &self.caption }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPageBlockMapBuilder {
-  inner: PageBlockMap
-}
-
-impl RTDPageBlockMapBuilder {
-  pub fn build(&self) -> PageBlockMap { self.inner.clone() }
-
-   
-  pub fn location<T: AsRef<Location>>(&mut self, location: T) -> &mut Self {
-    self.inner.location = location.as_ref().clone();
-    self
-  }
-
-   
-  pub fn zoom(&mut self, zoom: i64) -> &mut Self {
-    self.inner.zoom = zoom;
-    self
-  }
-
-   
-  pub fn width(&mut self, width: i64) -> &mut Self {
-    self.inner.width = width;
-    self
-  }
-
-   
-  pub fn height(&mut self, height: i64) -> &mut Self {
-    self.inner.height = height;
-    self
-  }
-
-   
-  pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
-    self.inner.caption = caption.as_ref().clone();
-    self
-  }
-
-}
-
-impl AsRef<PageBlockMap> for PageBlockMap {
-  fn as_ref(&self) -> &PageBlockMap { self }
-}
-
-impl AsRef<PageBlockMap> for RTDPageBlockMapBuilder {
-  fn as_ref(&self) -> &PageBlockMap { &self.inner }
 }
 
 

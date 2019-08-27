@@ -17,10 +17,6 @@ pub struct ScopeNotificationSettings {
   sound: String,
   /// True, if message content should be displayed in notifications
   show_preview: bool,
-  /// True, if notifications for incoming pinned messages will be created as for an ordinary unread message
-  disable_pinned_message_notifications: bool,
-  /// True, if notifications for messages with mentions will be created as for an ordinary unread message
-  disable_mention_notifications: bool,
   
 }
 
@@ -44,10 +40,6 @@ impl ScopeNotificationSettings {
   pub fn sound(&self) -> &String { &self.sound }
 
   pub fn show_preview(&self) -> bool { self.show_preview }
-
-  pub fn disable_pinned_message_notifications(&self) -> bool { self.disable_pinned_message_notifications }
-
-  pub fn disable_mention_notifications(&self) -> bool { self.disable_mention_notifications }
 
 }
 
@@ -74,18 +66,6 @@ impl RTDScopeNotificationSettingsBuilder {
    
   pub fn show_preview(&mut self, show_preview: bool) -> &mut Self {
     self.inner.show_preview = show_preview;
-    self
-  }
-
-   
-  pub fn disable_pinned_message_notifications(&mut self, disable_pinned_message_notifications: bool) -> &mut Self {
-    self.inner.disable_pinned_message_notifications = disable_pinned_message_notifications;
-    self
-  }
-
-   
-  pub fn disable_mention_notifications(&mut self, disable_mention_notifications: bool) -> &mut Self {
-    self.inner.disable_mention_notifications = disable_mention_notifications;
     self
   }
 

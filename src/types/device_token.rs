@@ -10,16 +10,16 @@ use serde::de::{Deserialize, Deserializer};
 
 
 
-/// TRAIT | Represents a data needed to subscribe for push notifications through registerDevice method. To use specific push notification service, you must specify the correct application platform and upload valid server authentication data at https://my.telegram.org
+/// TRAIT | Represents a data needed to subscribe for push notifications. To use specific push notification service, you must specify the correct application platform and upload valid server authentication data at https://my.telegram.org
 pub trait TDDeviceToken: Debug + RObject {}
 
-/// Represents a data needed to subscribe for push notifications through registerDevice method. To use specific push notification service, you must specify the correct application platform and upload valid server authentication data at https://my.telegram.org
+/// Represents a data needed to subscribe for push notifications. To use specific push notification service, you must specify the correct application platform and upload valid server authentication data at https://my.telegram.org
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum DeviceToken {
   #[doc(hidden)] _Default(()),
-  /// A token for Firebase Cloud Messaging
-  FirebaseCloudMessaging(DeviceTokenFirebaseCloudMessaging),
+  /// A token for Google Cloud Messaging
+  GoogleCloudMessaging(DeviceTokenGoogleCloudMessaging),
   /// A token for Apple Push Notification service
   ApplePush(DeviceTokenApplePush),
   /// A token for Apple Push Notification service VoIP notifications
@@ -52,7 +52,7 @@ impl<'de> Deserialize<'de> for DeviceToken {
     use serde::de::Error;
     rtd_enum_deserialize!(
       DeviceToken,
-      (deviceTokenFirebaseCloudMessaging, FirebaseCloudMessaging);
+      (deviceTokenGoogleCloudMessaging, GoogleCloudMessaging);
       (deviceTokenApplePush, ApplePush);
       (deviceTokenApplePushVoIP, ApplePushVoIP);
       (deviceTokenWindowsPush, WindowsPush);
@@ -71,7 +71,7 @@ impl<'de> Deserialize<'de> for DeviceToken {
 impl RObject for DeviceToken {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
-      DeviceToken::FirebaseCloudMessaging(t) => t.td_name(),
+      DeviceToken::GoogleCloudMessaging(t) => t.td_name(),
       DeviceToken::ApplePush(t) => t.td_name(),
       DeviceToken::ApplePushVoIP(t) => t.td_name(),
       DeviceToken::WindowsPush(t) => t.td_name(),
@@ -93,7 +93,7 @@ impl DeviceToken {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let DeviceToken::_Default(_) = self { true } else { false } }
 
-  pub fn is_firebase_cloud_messaging(&self) -> bool { if let DeviceToken::FirebaseCloudMessaging(_) = self { true } else { false } }
+  pub fn is_google_cloud_messaging(&self) -> bool { if let DeviceToken::GoogleCloudMessaging(_) = self { true } else { false } }
   pub fn is_apple_push(&self) -> bool { if let DeviceToken::ApplePush(_) = self { true } else { false } }
   pub fn is_apple_push_vo_i_p(&self) -> bool { if let DeviceToken::ApplePushVoIP(_) = self { true } else { false } }
   pub fn is_windows_push(&self) -> bool { if let DeviceToken::WindowsPush(_) = self { true } else { false } }
@@ -105,7 +105,7 @@ impl DeviceToken {
   pub fn is_black_berry_push(&self) -> bool { if let DeviceToken::BlackBerryPush(_) = self { true } else { false } }
   pub fn is_tizen_push(&self) -> bool { if let DeviceToken::TizenPush(_) = self { true } else { false } }
 
-  pub fn on_firebase_cloud_messaging<F: FnOnce(&DeviceTokenFirebaseCloudMessaging)>(&self, fnc: F) -> &Self { if let DeviceToken::FirebaseCloudMessaging(t) = self { fnc(t) }; self }
+  pub fn on_google_cloud_messaging<F: FnOnce(&DeviceTokenGoogleCloudMessaging)>(&self, fnc: F) -> &Self { if let DeviceToken::GoogleCloudMessaging(t) = self { fnc(t) }; self }
   pub fn on_apple_push<F: FnOnce(&DeviceTokenApplePush)>(&self, fnc: F) -> &Self { if let DeviceToken::ApplePush(t) = self { fnc(t) }; self }
   pub fn on_apple_push_vo_i_p<F: FnOnce(&DeviceTokenApplePushVoIP)>(&self, fnc: F) -> &Self { if let DeviceToken::ApplePushVoIP(t) = self { fnc(t) }; self }
   pub fn on_windows_push<F: FnOnce(&DeviceTokenWindowsPush)>(&self, fnc: F) -> &Self { if let DeviceToken::WindowsPush(t) = self { fnc(t) }; self }
@@ -117,7 +117,7 @@ impl DeviceToken {
   pub fn on_black_berry_push<F: FnOnce(&DeviceTokenBlackBerryPush)>(&self, fnc: F) -> &Self { if let DeviceToken::BlackBerryPush(t) = self { fnc(t) }; self }
   pub fn on_tizen_push<F: FnOnce(&DeviceTokenTizenPush)>(&self, fnc: F) -> &Self { if let DeviceToken::TizenPush(t) = self { fnc(t) }; self }
 
-  pub fn as_firebase_cloud_messaging(&self) -> Option<&DeviceTokenFirebaseCloudMessaging> { if let DeviceToken::FirebaseCloudMessaging(t) = self { return Some(t) } None }
+  pub fn as_google_cloud_messaging(&self) -> Option<&DeviceTokenGoogleCloudMessaging> { if let DeviceToken::GoogleCloudMessaging(t) = self { return Some(t) } None }
   pub fn as_apple_push(&self) -> Option<&DeviceTokenApplePush> { if let DeviceToken::ApplePush(t) = self { return Some(t) } None }
   pub fn as_apple_push_vo_i_p(&self) -> Option<&DeviceTokenApplePushVoIP> { if let DeviceToken::ApplePushVoIP(t) = self { return Some(t) } None }
   pub fn as_windows_push(&self) -> Option<&DeviceTokenWindowsPush> { if let DeviceToken::WindowsPush(t) = self { return Some(t) } None }
@@ -131,7 +131,7 @@ impl DeviceToken {
 
 
 
-  pub fn firebase_cloud_messaging<T: AsRef<DeviceTokenFirebaseCloudMessaging>>(t: T) -> Self { DeviceToken::FirebaseCloudMessaging(t.as_ref().clone()) }
+  pub fn google_cloud_messaging<T: AsRef<DeviceTokenGoogleCloudMessaging>>(t: T) -> Self { DeviceToken::GoogleCloudMessaging(t.as_ref().clone()) }
 
   pub fn apple_push<T: AsRef<DeviceTokenApplePush>>(t: T) -> Self { DeviceToken::ApplePush(t.as_ref().clone()) }
 
@@ -165,50 +165,46 @@ impl AsRef<DeviceToken> for DeviceToken {
 
 
 
-/// A token for Firebase Cloud Messaging
+/// A token for Google Cloud Messaging
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct DeviceTokenFirebaseCloudMessaging {
+pub struct DeviceTokenGoogleCloudMessaging {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Device registration token; may be empty to de-register a device
   token: String,
-  /// True, if push notifications should be additionally encrypted
-  encrypt: bool,
   
 }
 
-impl RObject for DeviceTokenFirebaseCloudMessaging {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "deviceTokenFirebaseCloudMessaging" }
+impl RObject for DeviceTokenGoogleCloudMessaging {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "deviceTokenGoogleCloudMessaging" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDDeviceToken for DeviceTokenFirebaseCloudMessaging {}
+impl TDDeviceToken for DeviceTokenGoogleCloudMessaging {}
 
 
 
-impl DeviceTokenFirebaseCloudMessaging {
+impl DeviceTokenGoogleCloudMessaging {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDDeviceTokenFirebaseCloudMessagingBuilder {
-    let mut inner = DeviceTokenFirebaseCloudMessaging::default();
-    inner.td_name = "deviceTokenFirebaseCloudMessaging".to_string();
-    RTDDeviceTokenFirebaseCloudMessagingBuilder { inner }
+  pub fn builder() -> RTDDeviceTokenGoogleCloudMessagingBuilder {
+    let mut inner = DeviceTokenGoogleCloudMessaging::default();
+    inner.td_name = "deviceTokenGoogleCloudMessaging".to_string();
+    RTDDeviceTokenGoogleCloudMessagingBuilder { inner }
   }
 
   pub fn token(&self) -> &String { &self.token }
 
-  pub fn encrypt(&self) -> bool { self.encrypt }
-
 }
 
 #[doc(hidden)]
-pub struct RTDDeviceTokenFirebaseCloudMessagingBuilder {
-  inner: DeviceTokenFirebaseCloudMessaging
+pub struct RTDDeviceTokenGoogleCloudMessagingBuilder {
+  inner: DeviceTokenGoogleCloudMessaging
 }
 
-impl RTDDeviceTokenFirebaseCloudMessagingBuilder {
-  pub fn build(&self) -> DeviceTokenFirebaseCloudMessaging { self.inner.clone() }
+impl RTDDeviceTokenGoogleCloudMessagingBuilder {
+  pub fn build(&self) -> DeviceTokenGoogleCloudMessaging { self.inner.clone() }
 
    
   pub fn token<T: AsRef<str>>(&mut self, token: T) -> &mut Self {
@@ -216,20 +212,14 @@ impl RTDDeviceTokenFirebaseCloudMessagingBuilder {
     self
   }
 
-   
-  pub fn encrypt(&mut self, encrypt: bool) -> &mut Self {
-    self.inner.encrypt = encrypt;
-    self
-  }
-
 }
 
-impl AsRef<DeviceTokenFirebaseCloudMessaging> for DeviceTokenFirebaseCloudMessaging {
-  fn as_ref(&self) -> &DeviceTokenFirebaseCloudMessaging { self }
+impl AsRef<DeviceTokenGoogleCloudMessaging> for DeviceTokenGoogleCloudMessaging {
+  fn as_ref(&self) -> &DeviceTokenGoogleCloudMessaging { self }
 }
 
-impl AsRef<DeviceTokenFirebaseCloudMessaging> for RTDDeviceTokenFirebaseCloudMessagingBuilder {
-  fn as_ref(&self) -> &DeviceTokenFirebaseCloudMessaging { &self.inner }
+impl AsRef<DeviceTokenGoogleCloudMessaging> for RTDDeviceTokenGoogleCloudMessagingBuilder {
+  fn as_ref(&self) -> &DeviceTokenGoogleCloudMessaging { &self.inner }
 }
 
 
@@ -321,8 +311,6 @@ pub struct DeviceTokenApplePushVoIP {
   device_token: String,
   /// True, if App Sandbox is enabled
   is_app_sandbox: bool,
-  /// True, if push notifications should be additionally encrypted
-  encrypt: bool,
   
 }
 
@@ -348,8 +336,6 @@ impl DeviceTokenApplePushVoIP {
 
   pub fn is_app_sandbox(&self) -> bool { self.is_app_sandbox }
 
-  pub fn encrypt(&self) -> bool { self.encrypt }
-
 }
 
 #[doc(hidden)]
@@ -369,12 +355,6 @@ impl RTDDeviceTokenApplePushVoIPBuilder {
    
   pub fn is_app_sandbox(&mut self, is_app_sandbox: bool) -> &mut Self {
     self.inner.is_app_sandbox = is_app_sandbox;
-    self
-  }
-
-   
-  pub fn encrypt(&mut self, encrypt: bool) -> &mut Self {
-    self.inner.encrypt = encrypt;
     self
   }
 

@@ -14,7 +14,7 @@ pub struct UserProfilePhotos {
   /// Total number of user profile photos
   total_count: i64,
   /// A list of photos
-  photos: Vec<UserProfilePhoto>,
+  photos: Vec<Photo>,
   
 }
 
@@ -35,7 +35,7 @@ impl UserProfilePhotos {
 
   pub fn total_count(&self) -> i64 { self.total_count }
 
-  pub fn photos(&self) -> &Vec<UserProfilePhoto> { &self.photos }
+  pub fn photos(&self) -> &Vec<Photo> { &self.photos }
 
 }
 
@@ -54,7 +54,7 @@ impl RTDUserProfilePhotosBuilder {
   }
 
    
-  pub fn photos(&mut self, photos: Vec<UserProfilePhoto>) -> &mut Self {
+  pub fn photos(&mut self, photos: Vec<Photo>) -> &mut Self {
     self.inner.photos = photos;
     self
   }

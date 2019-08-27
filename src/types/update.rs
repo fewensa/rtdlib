@@ -46,7 +46,7 @@ pub enum Update {
   ChatPhoto(UpdateChatPhoto),
   /// The last message of a chat was changed. If last_message is null then the last message in the chat became unknown. Some new unknown messages might be added to the chat in this case
   ChatLastMessage(UpdateChatLastMessage),
-  /// The order of the chat in the chat list has changed. Instead of this update updateChatLastMessage, updateChatIsPinned or updateChatDraftMessage might be sent
+  /// The order of the chat in the chats list has changed. Instead of this update updateChatLastMessage, updateChatIsPinned or updateChatDraftMessage might be sent
   ChatOrder(UpdateChatOrder),
   /// A chat was pinned or unpinned
   ChatIsPinned(UpdateChatIsPinned),
@@ -66,22 +66,10 @@ pub enum Update {
   ChatNotificationSettings(UpdateChatNotificationSettings),
   /// Notification settings for some type of chats were updated
   ScopeNotificationSettings(UpdateScopeNotificationSettings),
-  /// The chat pinned message was changed
-  ChatPinnedMessage(UpdateChatPinnedMessage),
   /// The default chat reply markup was changed. Can occur because new messages with reply markup were received or because an old reply markup was hidden by the user
   ChatReplyMarkup(UpdateChatReplyMarkup),
   /// A chat draft has changed. Be aware that the update may come in the currently opened chat but with old content of the draft. If the user has changed the content of the draft, this update shouldn't be applied
   ChatDraftMessage(UpdateChatDraftMessage),
-  /// The number of online group members has changed. This update with non-zero count is sent only for currently opened chats. There is no guarantee that it will be sent just after the count has changed
-  ChatOnlineMemberCount(UpdateChatOnlineMemberCount),
-  /// A notification was changed
-  Notification(UpdateNotification),
-  /// A list of active notifications in a notification group has changed
-  NotificationGroup(UpdateNotificationGroup),
-  /// Contains active notifications that was shown on previous application launches. This update is sent only if a message database is used. In that case it comes once before any updateNotification and updateNotificationGroup update
-  ActiveNotifications(UpdateActiveNotifications),
-  /// Describes, whether there are some pending notification updates. Can be used to prevent application from killing, while there are some pending notifications
-  HavePendingNotifications(UpdateHavePendingNotifications),
   /// Some messages were deleted
   DeleteMessages(UpdateDeleteMessages),
   /// User activity in the chat has changed
@@ -152,9 +140,7 @@ pub enum Update {
   NewCustomEvent(UpdateNewCustomEvent),
   /// A new incoming query; for bots only
   NewCustomQuery(UpdateNewCustomQuery),
-  /// Information about a poll was updated; for bots only
-  Poll(UpdatePoll),
-  /// Does nothing and ensures that the Update object is used; for testing only. This is an offline method. Can be called before authorization
+  /// Does nothing and ensures that the Update object is used; for testing only
   TestUseUpdate(TestUseUpdate),
 
 }
@@ -192,14 +178,8 @@ impl<'de> Deserialize<'de> for Update {
       (updateChatUnreadMentionCount, ChatUnreadMentionCount);
       (updateChatNotificationSettings, ChatNotificationSettings);
       (updateScopeNotificationSettings, ScopeNotificationSettings);
-      (updateChatPinnedMessage, ChatPinnedMessage);
       (updateChatReplyMarkup, ChatReplyMarkup);
       (updateChatDraftMessage, ChatDraftMessage);
-      (updateChatOnlineMemberCount, ChatOnlineMemberCount);
-      (updateNotification, Notification);
-      (updateNotificationGroup, NotificationGroup);
-      (updateActiveNotifications, ActiveNotifications);
-      (updateHavePendingNotifications, HavePendingNotifications);
       (updateDeleteMessages, DeleteMessages);
       (updateUserChatAction, UserChatAction);
       (updateUserStatus, UserStatus);
@@ -235,7 +215,6 @@ impl<'de> Deserialize<'de> for Update {
       (updateNewPreCheckoutQuery, NewPreCheckoutQuery);
       (updateNewCustomEvent, NewCustomEvent);
       (updateNewCustomQuery, NewCustomQuery);
-      (updatePoll, Poll);
       (testUseUpdate, TestUseUpdate);
 
     )(deserializer)
@@ -269,14 +248,8 @@ impl RObject for Update {
       Update::ChatUnreadMentionCount(t) => t.td_name(),
       Update::ChatNotificationSettings(t) => t.td_name(),
       Update::ScopeNotificationSettings(t) => t.td_name(),
-      Update::ChatPinnedMessage(t) => t.td_name(),
       Update::ChatReplyMarkup(t) => t.td_name(),
       Update::ChatDraftMessage(t) => t.td_name(),
-      Update::ChatOnlineMemberCount(t) => t.td_name(),
-      Update::Notification(t) => t.td_name(),
-      Update::NotificationGroup(t) => t.td_name(),
-      Update::ActiveNotifications(t) => t.td_name(),
-      Update::HavePendingNotifications(t) => t.td_name(),
       Update::DeleteMessages(t) => t.td_name(),
       Update::UserChatAction(t) => t.td_name(),
       Update::UserStatus(t) => t.td_name(),
@@ -312,7 +285,6 @@ impl RObject for Update {
       Update::NewPreCheckoutQuery(t) => t.td_name(),
       Update::NewCustomEvent(t) => t.td_name(),
       Update::NewCustomQuery(t) => t.td_name(),
-      Update::Poll(t) => t.td_name(),
       Update::TestUseUpdate(t) => t.td_name(),
 
       _ => "-1",
@@ -349,14 +321,8 @@ impl Update {
   pub fn is_chat_unread_mention_count(&self) -> bool { if let Update::ChatUnreadMentionCount(_) = self { true } else { false } }
   pub fn is_chat_notification_settings(&self) -> bool { if let Update::ChatNotificationSettings(_) = self { true } else { false } }
   pub fn is_scope_notification_settings(&self) -> bool { if let Update::ScopeNotificationSettings(_) = self { true } else { false } }
-  pub fn is_chat_pinned_message(&self) -> bool { if let Update::ChatPinnedMessage(_) = self { true } else { false } }
   pub fn is_chat_reply_markup(&self) -> bool { if let Update::ChatReplyMarkup(_) = self { true } else { false } }
   pub fn is_chat_draft_message(&self) -> bool { if let Update::ChatDraftMessage(_) = self { true } else { false } }
-  pub fn is_chat_online_member_count(&self) -> bool { if let Update::ChatOnlineMemberCount(_) = self { true } else { false } }
-  pub fn is_notification(&self) -> bool { if let Update::Notification(_) = self { true } else { false } }
-  pub fn is_notification_group(&self) -> bool { if let Update::NotificationGroup(_) = self { true } else { false } }
-  pub fn is_active_notifications(&self) -> bool { if let Update::ActiveNotifications(_) = self { true } else { false } }
-  pub fn is_have_pending_notifications(&self) -> bool { if let Update::HavePendingNotifications(_) = self { true } else { false } }
   pub fn is_delete_messages(&self) -> bool { if let Update::DeleteMessages(_) = self { true } else { false } }
   pub fn is_user_chat_action(&self) -> bool { if let Update::UserChatAction(_) = self { true } else { false } }
   pub fn is_user_status(&self) -> bool { if let Update::UserStatus(_) = self { true } else { false } }
@@ -392,7 +358,6 @@ impl Update {
   pub fn is_new_pre_checkout_query(&self) -> bool { if let Update::NewPreCheckoutQuery(_) = self { true } else { false } }
   pub fn is_new_custom_event(&self) -> bool { if let Update::NewCustomEvent(_) = self { true } else { false } }
   pub fn is_new_custom_query(&self) -> bool { if let Update::NewCustomQuery(_) = self { true } else { false } }
-  pub fn is_poll(&self) -> bool { if let Update::Poll(_) = self { true } else { false } }
   pub fn is_test_use_update(&self) -> bool { if let Update::TestUseUpdate(_) = self { true } else { false } }
 
   pub fn on_authorization_state<F: FnOnce(&UpdateAuthorizationState)>(&self, fnc: F) -> &Self { if let Update::AuthorizationState(t) = self { fnc(t) }; self }
@@ -419,14 +384,8 @@ impl Update {
   pub fn on_chat_unread_mention_count<F: FnOnce(&UpdateChatUnreadMentionCount)>(&self, fnc: F) -> &Self { if let Update::ChatUnreadMentionCount(t) = self { fnc(t) }; self }
   pub fn on_chat_notification_settings<F: FnOnce(&UpdateChatNotificationSettings)>(&self, fnc: F) -> &Self { if let Update::ChatNotificationSettings(t) = self { fnc(t) }; self }
   pub fn on_scope_notification_settings<F: FnOnce(&UpdateScopeNotificationSettings)>(&self, fnc: F) -> &Self { if let Update::ScopeNotificationSettings(t) = self { fnc(t) }; self }
-  pub fn on_chat_pinned_message<F: FnOnce(&UpdateChatPinnedMessage)>(&self, fnc: F) -> &Self { if let Update::ChatPinnedMessage(t) = self { fnc(t) }; self }
   pub fn on_chat_reply_markup<F: FnOnce(&UpdateChatReplyMarkup)>(&self, fnc: F) -> &Self { if let Update::ChatReplyMarkup(t) = self { fnc(t) }; self }
   pub fn on_chat_draft_message<F: FnOnce(&UpdateChatDraftMessage)>(&self, fnc: F) -> &Self { if let Update::ChatDraftMessage(t) = self { fnc(t) }; self }
-  pub fn on_chat_online_member_count<F: FnOnce(&UpdateChatOnlineMemberCount)>(&self, fnc: F) -> &Self { if let Update::ChatOnlineMemberCount(t) = self { fnc(t) }; self }
-  pub fn on_notification<F: FnOnce(&UpdateNotification)>(&self, fnc: F) -> &Self { if let Update::Notification(t) = self { fnc(t) }; self }
-  pub fn on_notification_group<F: FnOnce(&UpdateNotificationGroup)>(&self, fnc: F) -> &Self { if let Update::NotificationGroup(t) = self { fnc(t) }; self }
-  pub fn on_active_notifications<F: FnOnce(&UpdateActiveNotifications)>(&self, fnc: F) -> &Self { if let Update::ActiveNotifications(t) = self { fnc(t) }; self }
-  pub fn on_have_pending_notifications<F: FnOnce(&UpdateHavePendingNotifications)>(&self, fnc: F) -> &Self { if let Update::HavePendingNotifications(t) = self { fnc(t) }; self }
   pub fn on_delete_messages<F: FnOnce(&UpdateDeleteMessages)>(&self, fnc: F) -> &Self { if let Update::DeleteMessages(t) = self { fnc(t) }; self }
   pub fn on_user_chat_action<F: FnOnce(&UpdateUserChatAction)>(&self, fnc: F) -> &Self { if let Update::UserChatAction(t) = self { fnc(t) }; self }
   pub fn on_user_status<F: FnOnce(&UpdateUserStatus)>(&self, fnc: F) -> &Self { if let Update::UserStatus(t) = self { fnc(t) }; self }
@@ -462,7 +421,6 @@ impl Update {
   pub fn on_new_pre_checkout_query<F: FnOnce(&UpdateNewPreCheckoutQuery)>(&self, fnc: F) -> &Self { if let Update::NewPreCheckoutQuery(t) = self { fnc(t) }; self }
   pub fn on_new_custom_event<F: FnOnce(&UpdateNewCustomEvent)>(&self, fnc: F) -> &Self { if let Update::NewCustomEvent(t) = self { fnc(t) }; self }
   pub fn on_new_custom_query<F: FnOnce(&UpdateNewCustomQuery)>(&self, fnc: F) -> &Self { if let Update::NewCustomQuery(t) = self { fnc(t) }; self }
-  pub fn on_poll<F: FnOnce(&UpdatePoll)>(&self, fnc: F) -> &Self { if let Update::Poll(t) = self { fnc(t) }; self }
   pub fn on_test_use_update<F: FnOnce(&TestUseUpdate)>(&self, fnc: F) -> &Self { if let Update::TestUseUpdate(t) = self { fnc(t) }; self }
 
   pub fn as_authorization_state(&self) -> Option<&UpdateAuthorizationState> { if let Update::AuthorizationState(t) = self { return Some(t) } None }
@@ -489,14 +447,8 @@ impl Update {
   pub fn as_chat_unread_mention_count(&self) -> Option<&UpdateChatUnreadMentionCount> { if let Update::ChatUnreadMentionCount(t) = self { return Some(t) } None }
   pub fn as_chat_notification_settings(&self) -> Option<&UpdateChatNotificationSettings> { if let Update::ChatNotificationSettings(t) = self { return Some(t) } None }
   pub fn as_scope_notification_settings(&self) -> Option<&UpdateScopeNotificationSettings> { if let Update::ScopeNotificationSettings(t) = self { return Some(t) } None }
-  pub fn as_chat_pinned_message(&self) -> Option<&UpdateChatPinnedMessage> { if let Update::ChatPinnedMessage(t) = self { return Some(t) } None }
   pub fn as_chat_reply_markup(&self) -> Option<&UpdateChatReplyMarkup> { if let Update::ChatReplyMarkup(t) = self { return Some(t) } None }
   pub fn as_chat_draft_message(&self) -> Option<&UpdateChatDraftMessage> { if let Update::ChatDraftMessage(t) = self { return Some(t) } None }
-  pub fn as_chat_online_member_count(&self) -> Option<&UpdateChatOnlineMemberCount> { if let Update::ChatOnlineMemberCount(t) = self { return Some(t) } None }
-  pub fn as_notification(&self) -> Option<&UpdateNotification> { if let Update::Notification(t) = self { return Some(t) } None }
-  pub fn as_notification_group(&self) -> Option<&UpdateNotificationGroup> { if let Update::NotificationGroup(t) = self { return Some(t) } None }
-  pub fn as_active_notifications(&self) -> Option<&UpdateActiveNotifications> { if let Update::ActiveNotifications(t) = self { return Some(t) } None }
-  pub fn as_have_pending_notifications(&self) -> Option<&UpdateHavePendingNotifications> { if let Update::HavePendingNotifications(t) = self { return Some(t) } None }
   pub fn as_delete_messages(&self) -> Option<&UpdateDeleteMessages> { if let Update::DeleteMessages(t) = self { return Some(t) } None }
   pub fn as_user_chat_action(&self) -> Option<&UpdateUserChatAction> { if let Update::UserChatAction(t) = self { return Some(t) } None }
   pub fn as_user_status(&self) -> Option<&UpdateUserStatus> { if let Update::UserStatus(t) = self { return Some(t) } None }
@@ -532,7 +484,6 @@ impl Update {
   pub fn as_new_pre_checkout_query(&self) -> Option<&UpdateNewPreCheckoutQuery> { if let Update::NewPreCheckoutQuery(t) = self { return Some(t) } None }
   pub fn as_new_custom_event(&self) -> Option<&UpdateNewCustomEvent> { if let Update::NewCustomEvent(t) = self { return Some(t) } None }
   pub fn as_new_custom_query(&self) -> Option<&UpdateNewCustomQuery> { if let Update::NewCustomQuery(t) = self { return Some(t) } None }
-  pub fn as_poll(&self) -> Option<&UpdatePoll> { if let Update::Poll(t) = self { return Some(t) } None }
   pub fn as_test_use_update(&self) -> Option<&TestUseUpdate> { if let Update::TestUseUpdate(t) = self { return Some(t) } None }
 
 
@@ -585,21 +536,9 @@ impl Update {
 
   pub fn scope_notification_settings<T: AsRef<UpdateScopeNotificationSettings>>(t: T) -> Self { Update::ScopeNotificationSettings(t.as_ref().clone()) }
 
-  pub fn chat_pinned_message<T: AsRef<UpdateChatPinnedMessage>>(t: T) -> Self { Update::ChatPinnedMessage(t.as_ref().clone()) }
-
   pub fn chat_reply_markup<T: AsRef<UpdateChatReplyMarkup>>(t: T) -> Self { Update::ChatReplyMarkup(t.as_ref().clone()) }
 
   pub fn chat_draft_message<T: AsRef<UpdateChatDraftMessage>>(t: T) -> Self { Update::ChatDraftMessage(t.as_ref().clone()) }
-
-  pub fn chat_online_member_count<T: AsRef<UpdateChatOnlineMemberCount>>(t: T) -> Self { Update::ChatOnlineMemberCount(t.as_ref().clone()) }
-
-  pub fn notification<T: AsRef<UpdateNotification>>(t: T) -> Self { Update::Notification(t.as_ref().clone()) }
-
-  pub fn notification_group<T: AsRef<UpdateNotificationGroup>>(t: T) -> Self { Update::NotificationGroup(t.as_ref().clone()) }
-
-  pub fn active_notifications<T: AsRef<UpdateActiveNotifications>>(t: T) -> Self { Update::ActiveNotifications(t.as_ref().clone()) }
-
-  pub fn have_pending_notifications<T: AsRef<UpdateHavePendingNotifications>>(t: T) -> Self { Update::HavePendingNotifications(t.as_ref().clone()) }
 
   pub fn delete_messages<T: AsRef<UpdateDeleteMessages>>(t: T) -> Self { Update::DeleteMessages(t.as_ref().clone()) }
 
@@ -670,8 +609,6 @@ impl Update {
   pub fn new_custom_event<T: AsRef<UpdateNewCustomEvent>>(t: T) -> Self { Update::NewCustomEvent(t.as_ref().clone()) }
 
   pub fn new_custom_query<T: AsRef<UpdateNewCustomQuery>>(t: T) -> Self { Update::NewCustomQuery(t.as_ref().clone()) }
-
-  pub fn poll<T: AsRef<UpdatePoll>>(t: T) -> Self { Update::Poll(t.as_ref().clone()) }
 
   pub fn test_use_update<T: AsRef<TestUseUpdate>>(t: T) -> Self { Update::TestUseUpdate(t.as_ref().clone()) }
 
@@ -758,6 +695,10 @@ pub struct UpdateNewMessage {
   td_name: String,
   /// The new message
   message: Message,
+  /// True, if this message must not generate a notification
+  disable_notification: bool,
+  /// True, if the message contains a mention of the current user
+  contains_mention: bool,
   
 }
 
@@ -781,6 +722,10 @@ impl UpdateNewMessage {
 
   pub fn message(&self) -> &Message { &self.message }
 
+  pub fn disable_notification(&self) -> bool { self.disable_notification }
+
+  pub fn contains_mention(&self) -> bool { self.contains_mention }
+
 }
 
 #[doc(hidden)]
@@ -794,6 +739,18 @@ impl RTDUpdateNewMessageBuilder {
    
   pub fn message<T: AsRef<Message>>(&mut self, message: T) -> &mut Self {
     self.inner.message = message.as_ref().clone();
+    self
+  }
+
+   
+  pub fn disable_notification(&mut self, disable_notification: bool) -> &mut Self {
+    self.inner.disable_notification = disable_notification;
+    self
+  }
+
+   
+  pub fn contains_mention(&mut self, contains_mention: bool) -> &mut Self {
+    self.inner.contains_mention = contains_mention;
     self
   }
 
@@ -1759,7 +1716,7 @@ impl AsRef<UpdateChatLastMessage> for RTDUpdateChatLastMessageBuilder {
 
 
 
-/// The order of the chat in the chat list has changed. Instead of this update updateChatLastMessage, updateChatIsPinned or updateChatDraftMessage might be sent
+/// The order of the chat in the chats list has changed. Instead of this update updateChatLastMessage, updateChatIsPinned or updateChatDraftMessage might be sent
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateChatOrder {
   #[doc(hidden)]
@@ -2519,79 +2476,6 @@ impl AsRef<UpdateScopeNotificationSettings> for RTDUpdateScopeNotificationSettin
 
 
 
-/// The chat pinned message was changed
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UpdateChatPinnedMessage {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Chat identifier
-  chat_id: i64,
-  /// The new identifier of the pinned message; 0 if there is no pinned message in the chat
-  pinned_message_id: i64,
-  
-}
-
-impl RObject for UpdateChatPinnedMessage {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatPinnedMessage" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUpdate for UpdateChatPinnedMessage {}
-
-
-
-impl UpdateChatPinnedMessage {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUpdateChatPinnedMessageBuilder {
-    let mut inner = UpdateChatPinnedMessage::default();
-    inner.td_name = "updateChatPinnedMessage".to_string();
-    RTDUpdateChatPinnedMessageBuilder { inner }
-  }
-
-  pub fn chat_id(&self) -> i64 { self.chat_id }
-
-  pub fn pinned_message_id(&self) -> i64 { self.pinned_message_id }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUpdateChatPinnedMessageBuilder {
-  inner: UpdateChatPinnedMessage
-}
-
-impl RTDUpdateChatPinnedMessageBuilder {
-  pub fn build(&self) -> UpdateChatPinnedMessage { self.inner.clone() }
-
-   
-  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
-    self.inner.chat_id = chat_id;
-    self
-  }
-
-   
-  pub fn pinned_message_id(&mut self, pinned_message_id: i64) -> &mut Self {
-    self.inner.pinned_message_id = pinned_message_id;
-    self
-  }
-
-}
-
-impl AsRef<UpdateChatPinnedMessage> for UpdateChatPinnedMessage {
-  fn as_ref(&self) -> &UpdateChatPinnedMessage { self }
-}
-
-impl AsRef<UpdateChatPinnedMessage> for RTDUpdateChatPinnedMessageBuilder {
-  fn as_ref(&self) -> &UpdateChatPinnedMessage { &self.inner }
-}
-
-
-
-
-
-
-
 /// The default chat reply markup was changed. Can occur because new messages with reply markup were received or because an old reply markup was hidden by the user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateChatReplyMarkup {
@@ -2748,421 +2632,6 @@ impl AsRef<UpdateChatDraftMessage> for RTDUpdateChatDraftMessageBuilder {
 
 
 
-/// The number of online group members has changed. This update with non-zero count is sent only for currently opened chats. There is no guarantee that it will be sent just after the count has changed
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UpdateChatOnlineMemberCount {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Identifier of the chat
-  chat_id: i64,
-  /// New number of online members in the chat, or 0 if unknown
-  online_member_count: i64,
-  
-}
-
-impl RObject for UpdateChatOnlineMemberCount {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatOnlineMemberCount" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUpdate for UpdateChatOnlineMemberCount {}
-
-
-
-impl UpdateChatOnlineMemberCount {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUpdateChatOnlineMemberCountBuilder {
-    let mut inner = UpdateChatOnlineMemberCount::default();
-    inner.td_name = "updateChatOnlineMemberCount".to_string();
-    RTDUpdateChatOnlineMemberCountBuilder { inner }
-  }
-
-  pub fn chat_id(&self) -> i64 { self.chat_id }
-
-  pub fn online_member_count(&self) -> i64 { self.online_member_count }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUpdateChatOnlineMemberCountBuilder {
-  inner: UpdateChatOnlineMemberCount
-}
-
-impl RTDUpdateChatOnlineMemberCountBuilder {
-  pub fn build(&self) -> UpdateChatOnlineMemberCount { self.inner.clone() }
-
-   
-  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
-    self.inner.chat_id = chat_id;
-    self
-  }
-
-   
-  pub fn online_member_count(&mut self, online_member_count: i64) -> &mut Self {
-    self.inner.online_member_count = online_member_count;
-    self
-  }
-
-}
-
-impl AsRef<UpdateChatOnlineMemberCount> for UpdateChatOnlineMemberCount {
-  fn as_ref(&self) -> &UpdateChatOnlineMemberCount { self }
-}
-
-impl AsRef<UpdateChatOnlineMemberCount> for RTDUpdateChatOnlineMemberCountBuilder {
-  fn as_ref(&self) -> &UpdateChatOnlineMemberCount { &self.inner }
-}
-
-
-
-
-
-
-
-/// A notification was changed
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UpdateNotification {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Unique notification group identifier
-  notification_group_id: i64,
-  /// Changed notification
-  notification: Notification,
-  
-}
-
-impl RObject for UpdateNotification {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateNotification" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUpdate for UpdateNotification {}
-
-
-
-impl UpdateNotification {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUpdateNotificationBuilder {
-    let mut inner = UpdateNotification::default();
-    inner.td_name = "updateNotification".to_string();
-    RTDUpdateNotificationBuilder { inner }
-  }
-
-  pub fn notification_group_id(&self) -> i64 { self.notification_group_id }
-
-  pub fn notification(&self) -> &Notification { &self.notification }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUpdateNotificationBuilder {
-  inner: UpdateNotification
-}
-
-impl RTDUpdateNotificationBuilder {
-  pub fn build(&self) -> UpdateNotification { self.inner.clone() }
-
-   
-  pub fn notification_group_id(&mut self, notification_group_id: i64) -> &mut Self {
-    self.inner.notification_group_id = notification_group_id;
-    self
-  }
-
-   
-  pub fn notification<T: AsRef<Notification>>(&mut self, notification: T) -> &mut Self {
-    self.inner.notification = notification.as_ref().clone();
-    self
-  }
-
-}
-
-impl AsRef<UpdateNotification> for UpdateNotification {
-  fn as_ref(&self) -> &UpdateNotification { self }
-}
-
-impl AsRef<UpdateNotification> for RTDUpdateNotificationBuilder {
-  fn as_ref(&self) -> &UpdateNotification { &self.inner }
-}
-
-
-
-
-
-
-
-/// A list of active notifications in a notification group has changed
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UpdateNotificationGroup {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Unique notification group identifier
-  notification_group_id: i64,
-  /// New type of the notification group
-  #[serde(rename(serialize = "type", deserialize = "type"))] type_: NotificationGroupType,
-  /// Identifier of a chat to which all notifications in the group belong
-  chat_id: i64,
-  /// Chat identifier, which notification settings must be applied to the added notifications
-  notification_settings_chat_id: i64,
-  /// True, if the notifications should be shown without sound
-  is_silent: bool,
-  /// Total number of unread notifications in the group, can be bigger than number of active notifications
-  total_count: i64,
-  /// List of added group notifications, sorted by notification ID
-  added_notifications: Vec<Notification>,
-  /// Identifiers of removed group notifications, sorted by notification ID
-  removed_notification_ids: Vec<i64>,
-  
-}
-
-impl RObject for UpdateNotificationGroup {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateNotificationGroup" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUpdate for UpdateNotificationGroup {}
-
-
-
-impl UpdateNotificationGroup {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUpdateNotificationGroupBuilder {
-    let mut inner = UpdateNotificationGroup::default();
-    inner.td_name = "updateNotificationGroup".to_string();
-    RTDUpdateNotificationGroupBuilder { inner }
-  }
-
-  pub fn notification_group_id(&self) -> i64 { self.notification_group_id }
-
-  pub fn type_(&self) -> &NotificationGroupType { &self.type_ }
-
-  pub fn chat_id(&self) -> i64 { self.chat_id }
-
-  pub fn notification_settings_chat_id(&self) -> i64 { self.notification_settings_chat_id }
-
-  pub fn is_silent(&self) -> bool { self.is_silent }
-
-  pub fn total_count(&self) -> i64 { self.total_count }
-
-  pub fn added_notifications(&self) -> &Vec<Notification> { &self.added_notifications }
-
-  pub fn removed_notification_ids(&self) -> &Vec<i64> { &self.removed_notification_ids }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUpdateNotificationGroupBuilder {
-  inner: UpdateNotificationGroup
-}
-
-impl RTDUpdateNotificationGroupBuilder {
-  pub fn build(&self) -> UpdateNotificationGroup { self.inner.clone() }
-
-   
-  pub fn notification_group_id(&mut self, notification_group_id: i64) -> &mut Self {
-    self.inner.notification_group_id = notification_group_id;
-    self
-  }
-
-   
-  pub fn type_<T: AsRef<NotificationGroupType>>(&mut self, type_: T) -> &mut Self {
-    self.inner.type_ = type_.as_ref().clone();
-    self
-  }
-
-   
-  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
-    self.inner.chat_id = chat_id;
-    self
-  }
-
-   
-  pub fn notification_settings_chat_id(&mut self, notification_settings_chat_id: i64) -> &mut Self {
-    self.inner.notification_settings_chat_id = notification_settings_chat_id;
-    self
-  }
-
-   
-  pub fn is_silent(&mut self, is_silent: bool) -> &mut Self {
-    self.inner.is_silent = is_silent;
-    self
-  }
-
-   
-  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
-    self.inner.total_count = total_count;
-    self
-  }
-
-   
-  pub fn added_notifications(&mut self, added_notifications: Vec<Notification>) -> &mut Self {
-    self.inner.added_notifications = added_notifications;
-    self
-  }
-
-   
-  pub fn removed_notification_ids(&mut self, removed_notification_ids: Vec<i64>) -> &mut Self {
-    self.inner.removed_notification_ids = removed_notification_ids;
-    self
-  }
-
-}
-
-impl AsRef<UpdateNotificationGroup> for UpdateNotificationGroup {
-  fn as_ref(&self) -> &UpdateNotificationGroup { self }
-}
-
-impl AsRef<UpdateNotificationGroup> for RTDUpdateNotificationGroupBuilder {
-  fn as_ref(&self) -> &UpdateNotificationGroup { &self.inner }
-}
-
-
-
-
-
-
-
-/// Contains active notifications that was shown on previous application launches. This update is sent only if a message database is used. In that case it comes once before any updateNotification and updateNotificationGroup update
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UpdateActiveNotifications {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Lists of active notification groups
-  groups: Vec<NotificationGroup>,
-  
-}
-
-impl RObject for UpdateActiveNotifications {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateActiveNotifications" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUpdate for UpdateActiveNotifications {}
-
-
-
-impl UpdateActiveNotifications {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUpdateActiveNotificationsBuilder {
-    let mut inner = UpdateActiveNotifications::default();
-    inner.td_name = "updateActiveNotifications".to_string();
-    RTDUpdateActiveNotificationsBuilder { inner }
-  }
-
-  pub fn groups(&self) -> &Vec<NotificationGroup> { &self.groups }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUpdateActiveNotificationsBuilder {
-  inner: UpdateActiveNotifications
-}
-
-impl RTDUpdateActiveNotificationsBuilder {
-  pub fn build(&self) -> UpdateActiveNotifications { self.inner.clone() }
-
-   
-  pub fn groups(&mut self, groups: Vec<NotificationGroup>) -> &mut Self {
-    self.inner.groups = groups;
-    self
-  }
-
-}
-
-impl AsRef<UpdateActiveNotifications> for UpdateActiveNotifications {
-  fn as_ref(&self) -> &UpdateActiveNotifications { self }
-}
-
-impl AsRef<UpdateActiveNotifications> for RTDUpdateActiveNotificationsBuilder {
-  fn as_ref(&self) -> &UpdateActiveNotifications { &self.inner }
-}
-
-
-
-
-
-
-
-/// Describes, whether there are some pending notification updates. Can be used to prevent application from killing, while there are some pending notifications
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UpdateHavePendingNotifications {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// True, if there are some delayed notification updates, which will be sent soon
-  have_delayed_notifications: bool,
-  /// True, if there can be some yet unreceived notifications, which are being fetched from the server
-  have_unreceived_notifications: bool,
-  
-}
-
-impl RObject for UpdateHavePendingNotifications {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateHavePendingNotifications" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUpdate for UpdateHavePendingNotifications {}
-
-
-
-impl UpdateHavePendingNotifications {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUpdateHavePendingNotificationsBuilder {
-    let mut inner = UpdateHavePendingNotifications::default();
-    inner.td_name = "updateHavePendingNotifications".to_string();
-    RTDUpdateHavePendingNotificationsBuilder { inner }
-  }
-
-  pub fn have_delayed_notifications(&self) -> bool { self.have_delayed_notifications }
-
-  pub fn have_unreceived_notifications(&self) -> bool { self.have_unreceived_notifications }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUpdateHavePendingNotificationsBuilder {
-  inner: UpdateHavePendingNotifications
-}
-
-impl RTDUpdateHavePendingNotificationsBuilder {
-  pub fn build(&self) -> UpdateHavePendingNotifications { self.inner.clone() }
-
-   
-  pub fn have_delayed_notifications(&mut self, have_delayed_notifications: bool) -> &mut Self {
-    self.inner.have_delayed_notifications = have_delayed_notifications;
-    self
-  }
-
-   
-  pub fn have_unreceived_notifications(&mut self, have_unreceived_notifications: bool) -> &mut Self {
-    self.inner.have_unreceived_notifications = have_unreceived_notifications;
-    self
-  }
-
-}
-
-impl AsRef<UpdateHavePendingNotifications> for UpdateHavePendingNotifications {
-  fn as_ref(&self) -> &UpdateHavePendingNotifications { self }
-}
-
-impl AsRef<UpdateHavePendingNotifications> for RTDUpdateHavePendingNotificationsBuilder {
-  fn as_ref(&self) -> &UpdateHavePendingNotifications { &self.inner }
-}
-
-
-
-
-
-
-
 /// Some messages were deleted
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateDeleteMessages {
@@ -3173,7 +2642,7 @@ pub struct UpdateDeleteMessages {
   chat_id: i64,
   /// Identifiers of the deleted messages
   message_ids: Vec<i64>,
-  /// True, if the messages are permanently deleted by a user (as opposed to just becoming inaccessible)
+  /// True, if the messages are permanently deleted by a user (as opposed to just becoming unaccessible)
   is_permanent: bool,
   /// True, if the messages are deleted only from the cache and can possibly be retrieved again in the future
   from_cache: bool,
@@ -5880,69 +5349,6 @@ impl AsRef<UpdateNewCustomQuery> for UpdateNewCustomQuery {
 
 impl AsRef<UpdateNewCustomQuery> for RTDUpdateNewCustomQueryBuilder {
   fn as_ref(&self) -> &UpdateNewCustomQuery { &self.inner }
-}
-
-
-
-
-
-
-
-/// Information about a poll was updated; for bots only
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UpdatePoll {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// New data about the poll
-  poll: Poll,
-  
-}
-
-impl RObject for UpdatePoll {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "updatePoll" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUpdate for UpdatePoll {}
-
-
-
-impl UpdatePoll {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUpdatePollBuilder {
-    let mut inner = UpdatePoll::default();
-    inner.td_name = "updatePoll".to_string();
-    RTDUpdatePollBuilder { inner }
-  }
-
-  pub fn poll(&self) -> &Poll { &self.poll }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUpdatePollBuilder {
-  inner: UpdatePoll
-}
-
-impl RTDUpdatePollBuilder {
-  pub fn build(&self) -> UpdatePoll { self.inner.clone() }
-
-   
-  pub fn poll<T: AsRef<Poll>>(&mut self, poll: T) -> &mut Self {
-    self.inner.poll = poll.as_ref().clone();
-    self
-  }
-
-}
-
-impl AsRef<UpdatePoll> for UpdatePoll {
-  fn as_ref(&self) -> &UpdatePoll { self }
-}
-
-impl AsRef<UpdatePoll> for RTDUpdatePollBuilder {
-  fn as_ref(&self) -> &UpdatePoll { &self.inner }
 }
 
 

@@ -203,7 +203,7 @@ pub struct ChatMemberStatusAdministrator {
   can_invite_users: bool,
   /// True, if the administrator can restrict, ban, or unban chat members
   can_restrict_members: bool,
-  /// True, if the administrator can pin messages; applicable to groups only
+  /// True, if the administrator can pin messages; applicable to supergroups only
   can_pin_messages: bool,
   /// True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that were directly or indirectly promoted by him
   can_promote_members: bool,

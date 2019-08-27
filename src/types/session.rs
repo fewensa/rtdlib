@@ -5,7 +5,7 @@ use crate::errors::*;
 
 
 
-/// Contains information about one session in a Telegram application used by the current user. Sessions should be shown to the user in the returned order
+/// Contains information about one session in a Telegram application used by the current user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Session {
   #[doc(hidden)]
@@ -15,8 +15,6 @@ pub struct Session {
   id: isize,
   /// True, if this session is the current session
   is_current: bool,
-  /// True, if a password is needed to complete authorization of the session
-  is_password_pending: bool,
   /// Telegram API identifier, as provided by the application
   api_id: i64,
   /// Name of the application, as provided by the application
@@ -63,8 +61,6 @@ impl Session {
 
   pub fn is_current(&self) -> bool { self.is_current }
 
-  pub fn is_password_pending(&self) -> bool { self.is_password_pending }
-
   pub fn api_id(&self) -> i64 { self.api_id }
 
   pub fn application_name(&self) -> &String { &self.application_name }
@@ -108,12 +104,6 @@ impl RTDSessionBuilder {
    
   pub fn is_current(&mut self, is_current: bool) -> &mut Self {
     self.inner.is_current = is_current;
-    self
-  }
-
-   
-  pub fn is_password_pending(&mut self, is_password_pending: bool) -> &mut Self {
-    self.inner.is_password_pending = is_password_pending;
     self
   }
 
