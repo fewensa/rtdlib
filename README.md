@@ -20,14 +20,14 @@ This crate code is generate by [fantasy](https://github.com/fewensa/fantasy).
 
 ```toml
 [dependencies]
-rtdlib = "1.3"
+rtdlib = "1.3.*"
 ```
 
 ## 1.4.*
 
 ```toml
 [dependencies]
-rtdlib = "1.4"
+rtdlib = "1.4.*"
 ```
 
 ## version
