@@ -16,13 +16,6 @@ This crate code is generate by [fantasy](https://github.com/fewensa/fantasy).
 
 # Usage
 
-## latest
-
-```toml
-[dependencies]
-rtdlib = "100.100"
-```
-
 ## 1.3.*
 
 ```toml
@@ -45,7 +38,6 @@ Version mapping
 
 | rtdlib    | td      |
 |-----------|---------|
-| 100.100.* | master  |
 | 1.3.*     | 1.3.*   |
 | 1.4.*     | 1.4.*   |
 
