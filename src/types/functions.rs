@@ -2588,7 +2588,7 @@ impl AsRef<GetFile> for RTDGetFileBuilder {
 
 
 
-/// Returns information about a file by its remote ID; this is an offline request. Can be used to register a URL as a file for further uploading, or sending as a message
+/// Returns information about a file by its remote ID; this is an offline request. Can be used to register a URL as a file for further uploading, or sending as a message. Even the request succeeds, the file can be used only if it is still accessible to the user. For example, if the file is from a message, then the message must be not deleted and accessible to the user. If a file database is disabled, then the corresponding object with the file must be preloaded by the client
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetRemoteFile {
   #[doc(hidden)]
@@ -22168,6 +22168,122 @@ impl AsRef<AnswerCustomQuery> for RTDAnswerCustomQueryBuilder {
 
 
 
+/// Sends a request to TON lite server through Telegram servers
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SendTonLiteServerRequest {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The request
+  request: String,
+  
+}
+
+impl RObject for SendTonLiteServerRequest {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "sendTonLiteServerRequest" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for SendTonLiteServerRequest {}
+
+impl SendTonLiteServerRequest {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSendTonLiteServerRequestBuilder {
+    let mut inner = SendTonLiteServerRequest::default();
+    inner.td_name = "sendTonLiteServerRequest".to_string();
+    RTDSendTonLiteServerRequestBuilder { inner }
+  }
+
+  pub fn request(&self) -> &String { &self.request }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSendTonLiteServerRequestBuilder {
+  inner: SendTonLiteServerRequest
+}
+
+impl RTDSendTonLiteServerRequestBuilder {
+  pub fn build(&self) -> SendTonLiteServerRequest { self.inner.clone() }
+
+   
+  pub fn request<T: AsRef<str>>(&mut self, request: T) -> &mut Self {
+    self.inner.request = request.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<SendTonLiteServerRequest> for SendTonLiteServerRequest {
+  fn as_ref(&self) -> &SendTonLiteServerRequest { self }
+}
+
+impl AsRef<SendTonLiteServerRequest> for RTDSendTonLiteServerRequestBuilder {
+  fn as_ref(&self) -> &SendTonLiteServerRequest { &self.inner }
+}
+
+
+
+
+
+
+
+/// Returns a salt to be used with locally stored password to access a local TON-based wallet
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct GetTonWalletPasswordSalt {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for GetTonWalletPasswordSalt {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "getTonWalletPasswordSalt" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for GetTonWalletPasswordSalt {}
+
+impl GetTonWalletPasswordSalt {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGetTonWalletPasswordSaltBuilder {
+    let mut inner = GetTonWalletPasswordSalt::default();
+    inner.td_name = "getTonWalletPasswordSalt".to_string();
+    RTDGetTonWalletPasswordSaltBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGetTonWalletPasswordSaltBuilder {
+  inner: GetTonWalletPasswordSalt
+}
+
+impl RTDGetTonWalletPasswordSaltBuilder {
+  pub fn build(&self) -> GetTonWalletPasswordSalt { self.inner.clone() }
+
+}
+
+impl AsRef<GetTonWalletPasswordSalt> for GetTonWalletPasswordSalt {
+  fn as_ref(&self) -> &GetTonWalletPasswordSalt { self }
+}
+
+impl AsRef<GetTonWalletPasswordSalt> for RTDGetTonWalletPasswordSaltBuilder {
+  fn as_ref(&self) -> &GetTonWalletPasswordSalt { &self.inner }
+}
+
+
+
+
+
+
+
 /// Succeeds after a specified amount of time has passed. Can be called before authorization. Can be called before initialization
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetAlarm {
@@ -24143,6 +24259,10 @@ pub struct TestProxy {
   port: i64,
   /// Proxy type
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: ProxyType,
+  /// Identifier of a datacenter, with which to test connection
+  dc_id: i64,
+  /// Maximum overall timeout for the request
+  timeout: f32,
   
 }
 
@@ -24170,6 +24290,10 @@ impl TestProxy {
 
   pub fn type_(&self) -> &ProxyType { &self.type_ }
 
+  pub fn dc_id(&self) -> i64 { self.dc_id }
+
+  pub fn timeout(&self) -> f32 { self.timeout }
+
 }
 
 #[doc(hidden)]
@@ -24195,6 +24319,18 @@ impl RTDTestProxyBuilder {
    
   pub fn type_<T: AsRef<ProxyType>>(&mut self, type_: T) -> &mut Self {
     self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+   
+  pub fn dc_id(&mut self, dc_id: i64) -> &mut Self {
+    self.inner.dc_id = dc_id;
+    self
+  }
+
+   
+  pub fn timeout(&mut self, timeout: f32) -> &mut Self {
+    self.inner.timeout = timeout;
     self
   }
 

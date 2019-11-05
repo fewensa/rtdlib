@@ -21,7 +21,7 @@ pub struct Video {
   file_name: String,
   /// MIME type of the file; as defined by the sender
   mime_type: String,
-  /// True, if stickers were added to the photo
+  /// True, if stickers were added to the video
   has_stickers: bool,
   /// True, if the video should be tried to be streamed
   supports_streaming: bool,

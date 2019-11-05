@@ -46,7 +46,7 @@ pub enum Update {
   ChatPhoto(UpdateChatPhoto),
   /// Chat permissions was changed
   ChatPermissions(UpdateChatPermissions),
-  /// The last message of a chat was changed. If last_message is null then the last message in the chat became unknown. Some new unknown messages might be added to the chat in this case
+  /// The last message of a chat was changed. If last_message is null, then the last message in the chat became unknown. Some new unknown messages might be added to the chat in this case
   ChatLastMessage(UpdateChatLastMessage),
   /// The order of the chat in the chat list has changed. Instead of this update updateChatLastMessage, updateChatIsPinned or updateChatDraftMessage might be sent
   ChatOrder(UpdateChatOrder),
@@ -1767,7 +1767,7 @@ impl AsRef<UpdateChatPermissions> for RTDUpdateChatPermissionsBuilder {
 
 
 
-/// The last message of a chat was changed. If last_message is null then the last message in the chat became unknown. Some new unknown messages might be added to the chat in this case
+/// The last message of a chat was changed. If last_message is null, then the last message in the chat became unknown. Some new unknown messages might be added to the chat in this case
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateChatLastMessage {
   #[doc(hidden)]

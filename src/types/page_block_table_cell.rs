@@ -11,8 +11,8 @@ pub struct PageBlockTableCell {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Cell text
-  text: RichText,
+  /// Cell text; may be null. If the text is null, then the cell should be invisible
+  text: Option<RichText>,
   /// True, if it is a header cell
   is_header: bool,
   /// The number of columns the cell should span
@@ -41,7 +41,7 @@ impl PageBlockTableCell {
     RTDPageBlockTableCellBuilder { inner }
   }
 
-  pub fn text(&self) -> &RichText { &self.text }
+  pub fn text(&self) -> &Option<RichText> { &self.text }
 
   pub fn is_header(&self) -> bool { self.is_header }
 
@@ -65,7 +65,7 @@ impl RTDPageBlockTableCellBuilder {
 
    
   pub fn text<T: AsRef<RichText>>(&mut self, text: T) -> &mut Self {
-    self.inner.text = text.as_ref().clone();
+    self.inner.text = Some(text.as_ref().clone());
     self
   }
 

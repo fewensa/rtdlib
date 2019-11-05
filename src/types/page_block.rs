@@ -54,6 +54,8 @@ pub enum PageBlock {
   Photo(PageBlockPhoto),
   /// A video
   Video(PageBlockVideo),
+  /// A voice note
+  VoiceNote(PageBlockVoiceNote),
   /// A page cover
   Cover(PageBlockCover),
   /// An embedded web page
@@ -104,6 +106,7 @@ impl<'de> Deserialize<'de> for PageBlock {
       (pageBlockAudio, Audio);
       (pageBlockPhoto, Photo);
       (pageBlockVideo, Video);
+      (pageBlockVoiceNote, VoiceNote);
       (pageBlockCover, Cover);
       (pageBlockEmbedded, Embedded);
       (pageBlockEmbeddedPost, EmbeddedPost);
@@ -140,6 +143,7 @@ impl RObject for PageBlock {
       PageBlock::Audio(t) => t.td_name(),
       PageBlock::Photo(t) => t.td_name(),
       PageBlock::Video(t) => t.td_name(),
+      PageBlock::VoiceNote(t) => t.td_name(),
       PageBlock::Cover(t) => t.td_name(),
       PageBlock::Embedded(t) => t.td_name(),
       PageBlock::EmbeddedPost(t) => t.td_name(),
@@ -179,6 +183,7 @@ impl PageBlock {
   pub fn is_audio(&self) -> bool { if let PageBlock::Audio(_) = self { true } else { false } }
   pub fn is_photo(&self) -> bool { if let PageBlock::Photo(_) = self { true } else { false } }
   pub fn is_video(&self) -> bool { if let PageBlock::Video(_) = self { true } else { false } }
+  pub fn is_voice_note(&self) -> bool { if let PageBlock::VoiceNote(_) = self { true } else { false } }
   pub fn is_cover(&self) -> bool { if let PageBlock::Cover(_) = self { true } else { false } }
   pub fn is_embedded(&self) -> bool { if let PageBlock::Embedded(_) = self { true } else { false } }
   pub fn is_embedded_post(&self) -> bool { if let PageBlock::EmbeddedPost(_) = self { true } else { false } }
@@ -208,6 +213,7 @@ impl PageBlock {
   pub fn on_audio<F: FnOnce(&PageBlockAudio)>(&self, fnc: F) -> &Self { if let PageBlock::Audio(t) = self { fnc(t) }; self }
   pub fn on_photo<F: FnOnce(&PageBlockPhoto)>(&self, fnc: F) -> &Self { if let PageBlock::Photo(t) = self { fnc(t) }; self }
   pub fn on_video<F: FnOnce(&PageBlockVideo)>(&self, fnc: F) -> &Self { if let PageBlock::Video(t) = self { fnc(t) }; self }
+  pub fn on_voice_note<F: FnOnce(&PageBlockVoiceNote)>(&self, fnc: F) -> &Self { if let PageBlock::VoiceNote(t) = self { fnc(t) }; self }
   pub fn on_cover<F: FnOnce(&PageBlockCover)>(&self, fnc: F) -> &Self { if let PageBlock::Cover(t) = self { fnc(t) }; self }
   pub fn on_embedded<F: FnOnce(&PageBlockEmbedded)>(&self, fnc: F) -> &Self { if let PageBlock::Embedded(t) = self { fnc(t) }; self }
   pub fn on_embedded_post<F: FnOnce(&PageBlockEmbeddedPost)>(&self, fnc: F) -> &Self { if let PageBlock::EmbeddedPost(t) = self { fnc(t) }; self }
@@ -237,6 +243,7 @@ impl PageBlock {
   pub fn as_audio(&self) -> Option<&PageBlockAudio> { if let PageBlock::Audio(t) = self { return Some(t) } None }
   pub fn as_photo(&self) -> Option<&PageBlockPhoto> { if let PageBlock::Photo(t) = self { return Some(t) } None }
   pub fn as_video(&self) -> Option<&PageBlockVideo> { if let PageBlock::Video(t) = self { return Some(t) } None }
+  pub fn as_voice_note(&self) -> Option<&PageBlockVoiceNote> { if let PageBlock::VoiceNote(t) = self { return Some(t) } None }
   pub fn as_cover(&self) -> Option<&PageBlockCover> { if let PageBlock::Cover(t) = self { return Some(t) } None }
   pub fn as_embedded(&self) -> Option<&PageBlockEmbedded> { if let PageBlock::Embedded(t) = self { return Some(t) } None }
   pub fn as_embedded_post(&self) -> Option<&PageBlockEmbeddedPost> { if let PageBlock::EmbeddedPost(t) = self { return Some(t) } None }
@@ -285,6 +292,8 @@ impl PageBlock {
   pub fn photo<T: AsRef<PageBlockPhoto>>(t: T) -> Self { PageBlock::Photo(t.as_ref().clone()) }
 
   pub fn video<T: AsRef<PageBlockVideo>>(t: T) -> Self { PageBlock::Video(t.as_ref().clone()) }
+
+  pub fn voice_note<T: AsRef<PageBlockVoiceNote>>(t: T) -> Self { PageBlock::VoiceNote(t.as_ref().clone()) }
 
   pub fn cover<T: AsRef<PageBlockCover>>(t: T) -> Self { PageBlock::Cover(t.as_ref().clone()) }
 
@@ -1554,6 +1563,79 @@ impl AsRef<PageBlockVideo> for PageBlockVideo {
 
 impl AsRef<PageBlockVideo> for RTDPageBlockVideoBuilder {
   fn as_ref(&self) -> &PageBlockVideo { &self.inner }
+}
+
+
+
+
+
+
+
+/// A voice note
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PageBlockVoiceNote {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Voice note; may be null
+  voice_note: Option<VoiceNote>,
+  /// Voice note caption
+  caption: PageBlockCaption,
+  
+}
+
+impl RObject for PageBlockVoiceNote {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockVoiceNote" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDPageBlock for PageBlockVoiceNote {}
+
+
+
+impl PageBlockVoiceNote {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPageBlockVoiceNoteBuilder {
+    let mut inner = PageBlockVoiceNote::default();
+    inner.td_name = "pageBlockVoiceNote".to_string();
+    RTDPageBlockVoiceNoteBuilder { inner }
+  }
+
+  pub fn voice_note(&self) -> &Option<VoiceNote> { &self.voice_note }
+
+  pub fn caption(&self) -> &PageBlockCaption { &self.caption }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPageBlockVoiceNoteBuilder {
+  inner: PageBlockVoiceNote
+}
+
+impl RTDPageBlockVoiceNoteBuilder {
+  pub fn build(&self) -> PageBlockVoiceNote { self.inner.clone() }
+
+   
+  pub fn voice_note<T: AsRef<VoiceNote>>(&mut self, voice_note: T) -> &mut Self {
+    self.inner.voice_note = Some(voice_note.as_ref().clone());
+    self
+  }
+
+   
+  pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
+    self.inner.caption = caption.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<PageBlockVoiceNote> for PageBlockVoiceNote {
+  fn as_ref(&self) -> &PageBlockVoiceNote { self }
+}
+
+impl AsRef<PageBlockVoiceNote> for RTDPageBlockVoiceNoteBuilder {
+  fn as_ref(&self) -> &PageBlockVoiceNote { &self.inner }
 }
 
 

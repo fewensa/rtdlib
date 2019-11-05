@@ -589,6 +589,8 @@ pub struct RichTextUrl {
   text: Box<RichText>,
   /// URL
   url: String,
+  /// True, if the URL has cached instant view server-side
+  is_cached: bool,
   
 }
 
@@ -614,6 +616,8 @@ impl RichTextUrl {
 
   pub fn url(&self) -> &String { &self.url }
 
+  pub fn is_cached(&self) -> bool { self.is_cached }
+
 }
 
 #[doc(hidden)]
@@ -633,6 +637,12 @@ impl RTDRichTextUrlBuilder {
    
   pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
     self.inner.url = url.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn is_cached(&mut self, is_cached: bool) -> &mut Self {
+    self.inner.is_cached = is_cached;
     self
   }
 

@@ -5,7 +5,7 @@ use crate::errors::*;
 
 
 
-/// Describes an audio file. Audio is usually in MP3 format
+/// Describes an audio file. Audio is usually in MP3 or M4A format
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Audio {
   #[doc(hidden)]

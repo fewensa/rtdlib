@@ -15,6 +15,8 @@ pub struct Notification {
   id: i64,
   /// Notification date
   date: i64,
+  /// True, if the notification was initially silent
+  is_silent: bool,
   /// Notification type
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: NotificationType,
   
@@ -39,6 +41,8 @@ impl Notification {
 
   pub fn date(&self) -> i64 { self.date }
 
+  pub fn is_silent(&self) -> bool { self.is_silent }
+
   pub fn type_(&self) -> &NotificationType { &self.type_ }
 
 }
@@ -60,6 +64,12 @@ impl RTDNotificationBuilder {
    
   pub fn date(&mut self, date: i64) -> &mut Self {
     self.inner.date = date;
+    self
+  }
+
+   
+  pub fn is_silent(&mut self, is_silent: bool) -> &mut Self {
+    self.inner.is_silent = is_silent;
     self
   }
 
