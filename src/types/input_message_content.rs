@@ -1667,6 +1667,10 @@ pub struct InputMessageForwarded {
   message_id: i64,
   /// True, if a game message should be shared within a launched game; applies only to game messages
   in_game_share: bool,
+  /// True, if content of the message needs to be copied without a link to the original message. Always true if the message is forwarded to a secret chat
+  send_copy: bool,
+  /// True, if media caption of the message copy needs to be removed. Ignored if send_copy is false
+  remove_caption: bool,
   
 }
 
@@ -1694,6 +1698,10 @@ impl InputMessageForwarded {
 
   pub fn in_game_share(&self) -> bool { self.in_game_share }
 
+  pub fn send_copy(&self) -> bool { self.send_copy }
+
+  pub fn remove_caption(&self) -> bool { self.remove_caption }
+
 }
 
 #[doc(hidden)]
@@ -1719,6 +1727,18 @@ impl RTDInputMessageForwardedBuilder {
    
   pub fn in_game_share(&mut self, in_game_share: bool) -> &mut Self {
     self.inner.in_game_share = in_game_share;
+    self
+  }
+
+   
+  pub fn send_copy(&mut self, send_copy: bool) -> &mut Self {
+    self.inner.send_copy = send_copy;
+    self
+  }
+
+   
+  pub fn remove_caption(&mut self, remove_caption: bool) -> &mut Self {
+    self.inner.remove_caption = remove_caption;
     self
   }
 

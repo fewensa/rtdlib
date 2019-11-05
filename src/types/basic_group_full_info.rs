@@ -11,6 +11,8 @@ pub struct BasicGroupFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  /// Contains full information about a basic group
+  description: String,
   /// User identifier of the creator of the group; 0 if unknown
   creator_user_id: i64,
   /// Group members
@@ -35,6 +37,8 @@ impl BasicGroupFullInfo {
     RTDBasicGroupFullInfoBuilder { inner }
   }
 
+  pub fn description(&self) -> &String { &self.description }
+
   pub fn creator_user_id(&self) -> i64 { self.creator_user_id }
 
   pub fn members(&self) -> &Vec<ChatMember> { &self.members }
@@ -50,6 +54,12 @@ pub struct RTDBasicGroupFullInfoBuilder {
 
 impl RTDBasicGroupFullInfoBuilder {
   pub fn build(&self) -> BasicGroupFullInfo { self.inner.clone() }
+
+   
+  pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {
+    self.inner.description = description.as_ref().to_string();
+    self
+  }
 
    
   pub fn creator_user_id(&mut self, creator_user_id: i64) -> &mut Self {

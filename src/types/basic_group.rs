@@ -17,8 +17,6 @@ pub struct BasicGroup {
   member_count: i64,
   /// Status of the current user in the group
   status: ChatMemberStatus,
-  /// True, if all members have been granted administrator rights in the group
-  everyone_is_administrator: bool,
   /// True, if the group is active
   is_active: bool,
   /// Identifier of the supergroup to which this group was upgraded; 0 if none
@@ -46,8 +44,6 @@ impl BasicGroup {
   pub fn member_count(&self) -> i64 { self.member_count }
 
   pub fn status(&self) -> &ChatMemberStatus { &self.status }
-
-  pub fn everyone_is_administrator(&self) -> bool { self.everyone_is_administrator }
 
   pub fn is_active(&self) -> bool { self.is_active }
 
@@ -78,12 +74,6 @@ impl RTDBasicGroupBuilder {
    
   pub fn status<T: AsRef<ChatMemberStatus>>(&mut self, status: T) -> &mut Self {
     self.inner.status = status.as_ref().clone();
-    self
-  }
-
-   
-  pub fn everyone_is_administrator(&mut self, everyone_is_administrator: bool) -> &mut Self {
-    self.inner.everyone_is_administrator = everyone_is_administrator;
     self
   }
 

@@ -13,6 +13,8 @@ pub struct Photo {
   td_name: String,
   /// True, if stickers were added to the photo
   has_stickers: bool,
+  /// Photo minithumbnail; may be null
+  minithumbnail: Option<Minithumbnail>,
   /// Available variants of the photo, in different sizes
   sizes: Vec<PhotoSize>,
   
@@ -35,6 +37,8 @@ impl Photo {
 
   pub fn has_stickers(&self) -> bool { self.has_stickers }
 
+  pub fn minithumbnail(&self) -> &Option<Minithumbnail> { &self.minithumbnail }
+
   pub fn sizes(&self) -> &Vec<PhotoSize> { &self.sizes }
 
 }
@@ -50,6 +54,12 @@ impl RTDPhotoBuilder {
    
   pub fn has_stickers(&mut self, has_stickers: bool) -> &mut Self {
     self.inner.has_stickers = has_stickers;
+    self
+  }
+
+   
+  pub fn minithumbnail<T: AsRef<Minithumbnail>>(&mut self, minithumbnail: T) -> &mut Self {
+    self.inner.minithumbnail = Some(minithumbnail.as_ref().clone());
     self
   }
 

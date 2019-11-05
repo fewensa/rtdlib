@@ -20,7 +20,7 @@ pub enum MessageForwardOrigin {
   #[doc(hidden)] _Default(()),
   /// The message was originally written by a known user
   User(MessageForwardOriginUser),
-  /// The message was originally written by a user, which is hidden by his privacy settings
+  /// The message was originally written by a user, which is hidden by their privacy settings
   HiddenUser(MessageForwardOriginHiddenUser),
   /// The message was originally a post in a channel
   Channel(MessageForwardOriginChannel),
@@ -156,7 +156,7 @@ impl AsRef<MessageForwardOriginUser> for RTDMessageForwardOriginUserBuilder {
 
 
 
-/// The message was originally written by a user, which is hidden by his privacy settings
+/// The message was originally written by a user, which is hidden by their privacy settings
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageForwardOriginHiddenUser {
   #[doc(hidden)]

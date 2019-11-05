@@ -184,7 +184,7 @@ impl AsRef<CheckDatabaseEncryptionKey> for RTDCheckDatabaseEncryptionKeyBuilder 
 
 
 
-/// Sets the phone number of the user and sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitPhoneNumber
+/// Sets the phone number of the user and sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitPhoneNumber, or if there is no pending authentication query and the current authorization state is authorizationStateWaitCode or authorizationStateWaitPassword
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetAuthenticationPhoneNumber {
   #[doc(hidden)]
@@ -192,10 +192,8 @@ pub struct SetAuthenticationPhoneNumber {
   td_name: String,
   /// The phone number of the user, in international format
   phone_number: String,
-  /// Pass true if the authentication code may be sent via flash call to the specified phone number
-  allow_flash_call: bool,
-  /// Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
-  is_current_phone_number: bool,
+  /// Settings for the authentication of the user's phone number
+  settings: PhoneNumberAuthenticationSettings,
   
 }
 
@@ -219,9 +217,7 @@ impl SetAuthenticationPhoneNumber {
 
   pub fn phone_number(&self) -> &String { &self.phone_number }
 
-  pub fn allow_flash_call(&self) -> bool { self.allow_flash_call }
-
-  pub fn is_current_phone_number(&self) -> bool { self.is_current_phone_number }
+  pub fn settings(&self) -> &PhoneNumberAuthenticationSettings { &self.settings }
 
 }
 
@@ -240,14 +236,8 @@ impl RTDSetAuthenticationPhoneNumberBuilder {
   }
 
    
-  pub fn allow_flash_call(&mut self, allow_flash_call: bool) -> &mut Self {
-    self.inner.allow_flash_call = allow_flash_call;
-    self
-  }
-
-   
-  pub fn is_current_phone_number(&mut self, is_current_phone_number: bool) -> &mut Self {
-    self.inner.is_current_phone_number = is_current_phone_number;
+  pub fn settings<T: AsRef<PhoneNumberAuthenticationSettings>>(&mut self, settings: T) -> &mut Self {
+    self.inner.settings = settings.as_ref().clone();
     self
   }
 
@@ -328,10 +318,6 @@ pub struct CheckAuthenticationCode {
   td_name: String,
   /// The verification code received via SMS, Telegram message, phone call, or flash call
   code: String,
-  /// If the user is not yet registered, the first name of the user; 1-64 characters. You can also pass an empty string for unregistered user there to check verification code validness. In the latter case PHONE_NUMBER_UNOCCUPIED error will be returned for a valid code
-  first_name: String,
-  /// If the user is not yet registered; the last name of the user; optional; 0-64 characters
-  last_name: String,
   
 }
 
@@ -355,10 +341,6 @@ impl CheckAuthenticationCode {
 
   pub fn code(&self) -> &String { &self.code }
 
-  pub fn first_name(&self) -> &String { &self.first_name }
-
-  pub fn last_name(&self) -> &String { &self.last_name }
-
 }
 
 #[doc(hidden)]
@@ -375,6 +357,67 @@ impl RTDCheckAuthenticationCodeBuilder {
     self
   }
 
+}
+
+impl AsRef<CheckAuthenticationCode> for CheckAuthenticationCode {
+  fn as_ref(&self) -> &CheckAuthenticationCode { self }
+}
+
+impl AsRef<CheckAuthenticationCode> for RTDCheckAuthenticationCodeBuilder {
+  fn as_ref(&self) -> &CheckAuthenticationCode { &self.inner }
+}
+
+
+
+
+
+
+
+/// Finishes user registration. Works only when the current authorization state is authorizationStateWaitRegistration
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct RegisterUser {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The first name of the user; 1-64 characters
+  first_name: String,
+  /// The last name of the user; 0-64 characters
+  last_name: String,
+  
+}
+
+impl RObject for RegisterUser {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "registerUser" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for RegisterUser {}
+
+impl RegisterUser {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDRegisterUserBuilder {
+    let mut inner = RegisterUser::default();
+    inner.td_name = "registerUser".to_string();
+    RTDRegisterUserBuilder { inner }
+  }
+
+  pub fn first_name(&self) -> &String { &self.first_name }
+
+  pub fn last_name(&self) -> &String { &self.last_name }
+
+}
+
+#[doc(hidden)]
+pub struct RTDRegisterUserBuilder {
+  inner: RegisterUser
+}
+
+impl RTDRegisterUserBuilder {
+  pub fn build(&self) -> RegisterUser { self.inner.clone() }
+
    
   pub fn first_name<T: AsRef<str>>(&mut self, first_name: T) -> &mut Self {
     self.inner.first_name = first_name.as_ref().to_string();
@@ -389,12 +432,12 @@ impl RTDCheckAuthenticationCodeBuilder {
 
 }
 
-impl AsRef<CheckAuthenticationCode> for CheckAuthenticationCode {
-  fn as_ref(&self) -> &CheckAuthenticationCode { self }
+impl AsRef<RegisterUser> for RegisterUser {
+  fn as_ref(&self) -> &RegisterUser { self }
 }
 
-impl AsRef<CheckAuthenticationCode> for RTDCheckAuthenticationCodeBuilder {
-  fn as_ref(&self) -> &CheckAuthenticationCode { &self.inner }
+impl AsRef<RegisterUser> for RTDRegisterUserBuilder {
+  fn as_ref(&self) -> &RegisterUser { &self.inner }
 }
 
 
@@ -1139,7 +1182,7 @@ impl AsRef<GetRecoveryEmailAddress> for RTDGetRecoveryEmailAddressBuilder {
 
 
 
-/// Changes the 2-step verification recovery email address of the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed If new_recovery_email_address is the same as the email address that is currently set up, this call succeeds immediately and aborts all other requests waiting for an email confirmation
+/// Changes the 2-step verification recovery email address of the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed. If new_recovery_email_address is the same as the email address that is currently set up, this call succeeds immediately and aborts all other requests waiting for an email confirmation
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetRecoveryEmailAddress {
   #[doc(hidden)]
@@ -2618,7 +2661,7 @@ impl AsRef<GetRemoteFile> for RTDGetRemoteFileBuilder {
 
 
 
-/// Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63  1). For optimal performance the number of returned chats is chosen by the library.
+/// Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63  1). For optimal performance the number of returned chats is chosen by the library
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetChats {
   #[doc(hidden)]
@@ -3371,7 +3414,7 @@ impl AsRef<CheckChatUsername> for RTDCheckChatUsernameBuilder {
 
 
 
-/// Returns a list of public chats created by the user
+/// Returns a list of public chats with username created by the user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetCreatedPublicChats {
   #[doc(hidden)]
@@ -4533,7 +4576,7 @@ impl AsRef<RemoveNotificationGroup> for RTDRemoveNotificationGroupBuilder {
 
 
 
-/// Returns a public HTTPS link to a message. Available only for messages in public supergroups and channels
+/// Returns a public HTTPS link to a message. Available only for messages in supergroups and channels with username
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetPublicMessageLink {
   #[doc(hidden)]
@@ -4681,6 +4724,69 @@ impl AsRef<GetMessageLink> for GetMessageLink {
 
 impl AsRef<GetMessageLink> for RTDGetMessageLinkBuilder {
   fn as_ref(&self) -> &GetMessageLink { &self.inner }
+}
+
+
+
+
+
+
+
+/// Returns information about a public or private message link
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct GetMessageLinkInfo {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The message link in the format "https://t.me/c/...", or "tg://privatepost?...", or "https://t.me/username/...", or "tg://resolve?..."
+  url: String,
+  
+}
+
+impl RObject for GetMessageLinkInfo {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "getMessageLinkInfo" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for GetMessageLinkInfo {}
+
+impl GetMessageLinkInfo {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGetMessageLinkInfoBuilder {
+    let mut inner = GetMessageLinkInfo::default();
+    inner.td_name = "getMessageLinkInfo".to_string();
+    RTDGetMessageLinkInfoBuilder { inner }
+  }
+
+  pub fn url(&self) -> &String { &self.url }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGetMessageLinkInfoBuilder {
+  inner: GetMessageLinkInfo
+}
+
+impl RTDGetMessageLinkInfoBuilder {
+  pub fn build(&self) -> GetMessageLinkInfo { self.inner.clone() }
+
+   
+  pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
+    self.inner.url = url.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<GetMessageLinkInfo> for GetMessageLinkInfo {
+  fn as_ref(&self) -> &GetMessageLinkInfo { self }
+}
+
+impl AsRef<GetMessageLinkInfo> for RTDGetMessageLinkInfoBuilder {
+  fn as_ref(&self) -> &GetMessageLinkInfo { &self.inner }
 }
 
 
@@ -4915,7 +5021,7 @@ pub struct SendBotStartMessage {
   bot_user_id: i64,
   /// Identifier of the target chat
   chat_id: i64,
-  /// A hidden parameter sent to the bot for deep linking purposes (https://api.telegram.org/bots#deep-linking)
+  /// A hidden parameter sent to the bot for deep linking purposes (https://core.telegram.org/bots#deep-linking)
   parameter: String,
   
 }
@@ -5125,10 +5231,14 @@ pub struct ForwardMessages {
   message_ids: Vec<i64>,
   /// Pass true to disable notification for the message, doesn't work if messages are forwarded to a secret chat
   disable_notification: bool,
-  /// Pass true if the message is sent from the background
+  /// Pass true if the messages are sent from the background
   from_background: bool,
   /// True, if the messages should be grouped into an album after forwarding. For this to work, no more than 10 messages may be forwarded, and all of them must be photo or video messages
   as_album: bool,
+  /// True, if content of the messages needs to be copied without links to the original messages. Always true if the messages are forwarded to a secret chat
+  send_copy: bool,
+  /// True, if media captions of message copies needs to be removed. Ignored if send_copy is false
+  remove_caption: bool,
   
 }
 
@@ -5161,6 +5271,10 @@ impl ForwardMessages {
   pub fn from_background(&self) -> bool { self.from_background }
 
   pub fn as_album(&self) -> bool { self.as_album }
+
+  pub fn send_copy(&self) -> bool { self.send_copy }
+
+  pub fn remove_caption(&self) -> bool { self.remove_caption }
 
 }
 
@@ -5208,6 +5322,18 @@ impl RTDForwardMessagesBuilder {
     self
   }
 
+   
+  pub fn send_copy(&mut self, send_copy: bool) -> &mut Self {
+    self.inner.send_copy = send_copy;
+    self
+  }
+
+   
+  pub fn remove_caption(&mut self, remove_caption: bool) -> &mut Self {
+    self.inner.remove_caption = remove_caption;
+    self
+  }
+
 }
 
 impl AsRef<ForwardMessages> for ForwardMessages {
@@ -5216,6 +5342,79 @@ impl AsRef<ForwardMessages> for ForwardMessages {
 
 impl AsRef<ForwardMessages> for RTDForwardMessagesBuilder {
   fn as_ref(&self) -> &ForwardMessages { &self.inner }
+}
+
+
+
+
+
+
+
+/// Resends messages which failed to send. Can be called only for messages for which messageSendingStateFailed.can_retry is true and after specified in messageSendingStateFailed.retry_after time passed. If a message is re-sent, the corresponding failed to send message is deleted. Returns the sent messages in the same order as the message identifiers passed in message_ids. If a message can't be re-sent, null will be returned instead of the message
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ResendMessages {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Identifier of the chat to send messages
+  chat_id: i64,
+  /// Identifiers of the messages to resend. Message identifiers must be in a strictly increasing order
+  message_ids: Vec<i64>,
+  
+}
+
+impl RObject for ResendMessages {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "resendMessages" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for ResendMessages {}
+
+impl ResendMessages {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDResendMessagesBuilder {
+    let mut inner = ResendMessages::default();
+    inner.td_name = "resendMessages".to_string();
+    RTDResendMessagesBuilder { inner }
+  }
+
+  pub fn chat_id(&self) -> i64 { self.chat_id }
+
+  pub fn message_ids(&self) -> &Vec<i64> { &self.message_ids }
+
+}
+
+#[doc(hidden)]
+pub struct RTDResendMessagesBuilder {
+  inner: ResendMessages
+}
+
+impl RTDResendMessagesBuilder {
+  pub fn build(&self) -> ResendMessages { self.inner.clone() }
+
+   
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
+    self.inner.chat_id = chat_id;
+    self
+  }
+
+   
+  pub fn message_ids(&mut self, message_ids: Vec<i64>) -> &mut Self {
+    self.inner.message_ids = message_ids;
+    self
+  }
+
+}
+
+impl AsRef<ResendMessages> for ResendMessages {
+  fn as_ref(&self) -> &ResendMessages { self }
+}
+
+impl AsRef<ResendMessages> for RTDResendMessagesBuilder {
+  fn as_ref(&self) -> &ResendMessages { &self.inner }
 }
 
 
@@ -9121,7 +9320,7 @@ impl AsRef<CreateNewSecretChat> for RTDCreateNewSecretChatBuilder {
 
 
 
-/// Creates a new supergroup from an existing basic group and sends a corresponding messageChatUpgradeTo and messageChatUpgradeFrom. Deactivates the original basic group
+/// Creates a new supergroup from an existing basic group and sends a corresponding messageChatUpgradeTo and messageChatUpgradeFrom; requires creator privileges. Deactivates the original basic group
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpgradeBasicGroupChatToSupergroupChat {
   #[doc(hidden)]
@@ -9184,7 +9383,7 @@ impl AsRef<UpgradeBasicGroupChatToSupergroupChat> for RTDUpgradeBasicGroupChatTo
 
 
 
-/// Changes the chat title. Supported only for basic groups, supergroups and channels. Requires administrator rights in basic groups and the appropriate administrator rights in supergroups and channels. The title will not be changed until the request to the server has been completed
+/// Changes the chat title. Supported only for basic groups, supergroups and channels. Requires can_change_info rights. The title will not be changed until the request to the server has been completed
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetChatTitle {
   #[doc(hidden)]
@@ -9257,7 +9456,7 @@ impl AsRef<SetChatTitle> for RTDSetChatTitleBuilder {
 
 
 
-/// Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires administrator rights in basic groups and the appropriate administrator rights in supergroups and channels. The photo will not be changed before request to the server has been completed
+/// Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires can_change_info rights. The photo will not be changed before request to the server has been completed
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetChatPhoto {
   #[doc(hidden)]
@@ -9322,6 +9521,79 @@ impl AsRef<SetChatPhoto> for SetChatPhoto {
 
 impl AsRef<SetChatPhoto> for RTDSetChatPhotoBuilder {
   fn as_ref(&self) -> &SetChatPhoto { &self.inner }
+}
+
+
+
+
+
+
+
+/// Changes the chat members permissions. Supported only for basic groups and supergroups. Requires can_restrict_members administrator right
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SetChatPermissions {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Chat identifier
+  chat_id: i64,
+  /// New non-administrator members permissions in the chat
+  permissions: ChatPermissions,
+  
+}
+
+impl RObject for SetChatPermissions {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "setChatPermissions" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for SetChatPermissions {}
+
+impl SetChatPermissions {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSetChatPermissionsBuilder {
+    let mut inner = SetChatPermissions::default();
+    inner.td_name = "setChatPermissions".to_string();
+    RTDSetChatPermissionsBuilder { inner }
+  }
+
+  pub fn chat_id(&self) -> i64 { self.chat_id }
+
+  pub fn permissions(&self) -> &ChatPermissions { &self.permissions }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSetChatPermissionsBuilder {
+  inner: SetChatPermissions
+}
+
+impl RTDSetChatPermissionsBuilder {
+  pub fn build(&self) -> SetChatPermissions { self.inner.clone() }
+
+   
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
+    self.inner.chat_id = chat_id;
+    self
+  }
+
+   
+  pub fn permissions<T: AsRef<ChatPermissions>>(&mut self, permissions: T) -> &mut Self {
+    self.inner.permissions = permissions.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<SetChatPermissions> for SetChatPermissions {
+  fn as_ref(&self) -> &SetChatPermissions { self }
+}
+
+impl AsRef<SetChatPermissions> for RTDSetChatPermissionsBuilder {
+  fn as_ref(&self) -> &SetChatPermissions { &self.inner }
 }
 
 
@@ -9768,7 +10040,80 @@ impl AsRef<SetChatClientData> for RTDSetChatClientDataBuilder {
 
 
 
-/// Pins a message in a chat; requires appropriate administrator rights in the group or channel
+/// Changes information about a chat. Available for basic groups, supergroups, and channels. Requires can_change_info rights
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SetChatDescription {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Identifier of the chat
+  chat_id: i64,
+  /// Changes information about a chat. Available for basic groups, supergroups, and channels. Requires can_change_info rights
+  description: String,
+  
+}
+
+impl RObject for SetChatDescription {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "setChatDescription" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for SetChatDescription {}
+
+impl SetChatDescription {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSetChatDescriptionBuilder {
+    let mut inner = SetChatDescription::default();
+    inner.td_name = "setChatDescription".to_string();
+    RTDSetChatDescriptionBuilder { inner }
+  }
+
+  pub fn chat_id(&self) -> i64 { self.chat_id }
+
+  pub fn description(&self) -> &String { &self.description }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSetChatDescriptionBuilder {
+  inner: SetChatDescription
+}
+
+impl RTDSetChatDescriptionBuilder {
+  pub fn build(&self) -> SetChatDescription { self.inner.clone() }
+
+   
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
+    self.inner.chat_id = chat_id;
+    self
+  }
+
+   
+  pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {
+    self.inner.description = description.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<SetChatDescription> for SetChatDescription {
+  fn as_ref(&self) -> &SetChatDescription { self }
+}
+
+impl AsRef<SetChatDescription> for RTDSetChatDescriptionBuilder {
+  fn as_ref(&self) -> &SetChatDescription { &self.inner }
+}
+
+
+
+
+
+
+
+/// Pins a message in a chat; requires can_pin_messages rights
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PinChatMessage {
   #[doc(hidden)]
@@ -9851,7 +10196,7 @@ impl AsRef<PinChatMessage> for RTDPinChatMessageBuilder {
 
 
 
-/// Removes the pinned message from a chat; requires appropriate administrator rights in the group or channel
+/// Removes the pinned message from a chat; requires can_pin_messages rights in the group or channel
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UnpinChatMessage {
   #[doc(hidden)]
@@ -11676,7 +12021,7 @@ impl AsRef<DeleteFile> for RTDDeleteFileBuilder {
 
 
 
-/// Generates a new invite link for a chat; the previously generated link is revoked. Available for basic groups, supergroups, and channels. In basic groups this can be called only by the group's creator; in supergroups and channels this requires appropriate administrator rights
+/// Generates a new invite link for a chat; the previously generated link is revoked. Available for basic groups, supergroups, and channels. Requires administrator privileges and can_invite_users right
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GenerateChatInviteLink {
   #[doc(hidden)]
@@ -12116,6 +12461,8 @@ pub struct SendCallRating {
   rating: i64,
   /// An optional user comment if the rating is less than 5
   comment: String,
+  /// List of the exact types of problems with the call, specified by the user
+  problems: Vec<CallProblem>,
   
 }
 
@@ -12143,6 +12490,8 @@ impl SendCallRating {
 
   pub fn comment(&self) -> &String { &self.comment }
 
+  pub fn problems(&self) -> &Vec<CallProblem> { &self.problems }
+
 }
 
 #[doc(hidden)]
@@ -12168,6 +12517,12 @@ impl RTDSendCallRatingBuilder {
    
   pub fn comment<T: AsRef<str>>(&mut self, comment: T) -> &mut Self {
     self.inner.comment = comment.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn problems(&mut self, problems: Vec<CallProblem>) -> &mut Self {
+    self.inner.problems = problems;
     self
   }
 
@@ -14313,7 +14668,7 @@ impl AsRef<RemoveFavoriteSticker> for RTDRemoveFavoriteStickerBuilder {
 
 
 
-/// Returns emoji corresponding to a sticker
+/// Returns emoji corresponding to a sticker. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetStickerEmojis {
   #[doc(hidden)]
@@ -14368,6 +14723,142 @@ impl AsRef<GetStickerEmojis> for GetStickerEmojis {
 
 impl AsRef<GetStickerEmojis> for RTDGetStickerEmojisBuilder {
   fn as_ref(&self) -> &GetStickerEmojis { &self.inner }
+}
+
+
+
+
+
+
+
+/// Searches for emojis by keywords. Supported only if the file database is enabled
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SearchEmojis {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Text to search for
+  text: String,
+  /// True, if only emojis, which exactly match text needs to be returned
+  exact_match: bool,
+  
+}
+
+impl RObject for SearchEmojis {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "searchEmojis" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for SearchEmojis {}
+
+impl SearchEmojis {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSearchEmojisBuilder {
+    let mut inner = SearchEmojis::default();
+    inner.td_name = "searchEmojis".to_string();
+    RTDSearchEmojisBuilder { inner }
+  }
+
+  pub fn text(&self) -> &String { &self.text }
+
+  pub fn exact_match(&self) -> bool { self.exact_match }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSearchEmojisBuilder {
+  inner: SearchEmojis
+}
+
+impl RTDSearchEmojisBuilder {
+  pub fn build(&self) -> SearchEmojis { self.inner.clone() }
+
+   
+  pub fn text<T: AsRef<str>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn exact_match(&mut self, exact_match: bool) -> &mut Self {
+    self.inner.exact_match = exact_match;
+    self
+  }
+
+}
+
+impl AsRef<SearchEmojis> for SearchEmojis {
+  fn as_ref(&self) -> &SearchEmojis { self }
+}
+
+impl AsRef<SearchEmojis> for RTDSearchEmojisBuilder {
+  fn as_ref(&self) -> &SearchEmojis { &self.inner }
+}
+
+
+
+
+
+
+
+/// Returns an HTTP URL which can be used to automatically log in to the translation platform and suggest new emoji replacements. The URL will be valid for 30 seconds after generation
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct GetEmojiSuggestionsUrl {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Language code for which the emoji replacements will be suggested
+  language_code: String,
+  
+}
+
+impl RObject for GetEmojiSuggestionsUrl {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "getEmojiSuggestionsUrl" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for GetEmojiSuggestionsUrl {}
+
+impl GetEmojiSuggestionsUrl {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGetEmojiSuggestionsUrlBuilder {
+    let mut inner = GetEmojiSuggestionsUrl::default();
+    inner.td_name = "getEmojiSuggestionsUrl".to_string();
+    RTDGetEmojiSuggestionsUrlBuilder { inner }
+  }
+
+  pub fn language_code(&self) -> &String { &self.language_code }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGetEmojiSuggestionsUrlBuilder {
+  inner: GetEmojiSuggestionsUrl
+}
+
+impl RTDGetEmojiSuggestionsUrlBuilder {
+  pub fn build(&self) -> GetEmojiSuggestionsUrl { self.inner.clone() }
+
+   
+  pub fn language_code<T: AsRef<str>>(&mut self, language_code: T) -> &mut Self {
+    self.inner.language_code = language_code.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<GetEmojiSuggestionsUrl> for GetEmojiSuggestionsUrl {
+  fn as_ref(&self) -> &GetEmojiSuggestionsUrl { self }
+}
+
+impl AsRef<GetEmojiSuggestionsUrl> for RTDGetEmojiSuggestionsUrlBuilder {
+  fn as_ref(&self) -> &GetEmojiSuggestionsUrl { &self.inner }
 }
 
 
@@ -15213,10 +15704,8 @@ pub struct ChangePhoneNumber {
   td_name: String,
   /// The new phone number of the user in international format
   phone_number: String,
-  /// Pass true if the code can be sent via flash call to the specified phone number
-  allow_flash_call: bool,
-  /// Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
-  is_current_phone_number: bool,
+  /// Settings for the authentication of the user's phone number
+  settings: PhoneNumberAuthenticationSettings,
   
 }
 
@@ -15240,9 +15729,7 @@ impl ChangePhoneNumber {
 
   pub fn phone_number(&self) -> &String { &self.phone_number }
 
-  pub fn allow_flash_call(&self) -> bool { self.allow_flash_call }
-
-  pub fn is_current_phone_number(&self) -> bool { self.is_current_phone_number }
+  pub fn settings(&self) -> &PhoneNumberAuthenticationSettings { &self.settings }
 
 }
 
@@ -15261,14 +15748,8 @@ impl RTDChangePhoneNumberBuilder {
   }
 
    
-  pub fn allow_flash_call(&mut self, allow_flash_call: bool) -> &mut Self {
-    self.inner.allow_flash_call = allow_flash_call;
-    self
-  }
-
-   
-  pub fn is_current_phone_number(&mut self, is_current_phone_number: bool) -> &mut Self {
-    self.inner.is_current_phone_number = is_current_phone_number;
+  pub fn settings<T: AsRef<PhoneNumberAuthenticationSettings>>(&mut self, settings: T) -> &mut Self {
+    self.inner.settings = settings.as_ref().clone();
     self
   }
 
@@ -15742,79 +16223,6 @@ impl AsRef<DisconnectAllWebsites> for RTDDisconnectAllWebsitesBuilder {
 
 
 
-/// Toggles the "All members are admins" setting in basic groups; requires creator privileges in the group
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ToggleBasicGroupAdministrators {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Identifier of the basic group
-  basic_group_id: i64,
-  /// New value of everyone_is_administrator
-  everyone_is_administrator: bool,
-  
-}
-
-impl RObject for ToggleBasicGroupAdministrators {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "toggleBasicGroupAdministrators" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-
-
-impl RFunction for ToggleBasicGroupAdministrators {}
-
-impl ToggleBasicGroupAdministrators {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDToggleBasicGroupAdministratorsBuilder {
-    let mut inner = ToggleBasicGroupAdministrators::default();
-    inner.td_name = "toggleBasicGroupAdministrators".to_string();
-    RTDToggleBasicGroupAdministratorsBuilder { inner }
-  }
-
-  pub fn basic_group_id(&self) -> i64 { self.basic_group_id }
-
-  pub fn everyone_is_administrator(&self) -> bool { self.everyone_is_administrator }
-
-}
-
-#[doc(hidden)]
-pub struct RTDToggleBasicGroupAdministratorsBuilder {
-  inner: ToggleBasicGroupAdministrators
-}
-
-impl RTDToggleBasicGroupAdministratorsBuilder {
-  pub fn build(&self) -> ToggleBasicGroupAdministrators { self.inner.clone() }
-
-   
-  pub fn basic_group_id(&mut self, basic_group_id: i64) -> &mut Self {
-    self.inner.basic_group_id = basic_group_id;
-    self
-  }
-
-   
-  pub fn everyone_is_administrator(&mut self, everyone_is_administrator: bool) -> &mut Self {
-    self.inner.everyone_is_administrator = everyone_is_administrator;
-    self
-  }
-
-}
-
-impl AsRef<ToggleBasicGroupAdministrators> for ToggleBasicGroupAdministrators {
-  fn as_ref(&self) -> &ToggleBasicGroupAdministrators { self }
-}
-
-impl AsRef<ToggleBasicGroupAdministrators> for RTDToggleBasicGroupAdministratorsBuilder {
-  fn as_ref(&self) -> &ToggleBasicGroupAdministrators { &self.inner }
-}
-
-
-
-
-
-
-
 /// Changes the username of a supergroup or channel, requires creator privileges in the supergroup or channel
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetSupergroupUsername {
@@ -15888,7 +16296,7 @@ impl AsRef<SetSupergroupUsername> for RTDSetSupergroupUsernameBuilder {
 
 
 
-/// Changes the sticker set of a supergroup; requires appropriate rights in the supergroup
+/// Changes the sticker set of a supergroup; requires can_change_info rights
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetSupergroupStickerSet {
   #[doc(hidden)]
@@ -15961,80 +16369,7 @@ impl AsRef<SetSupergroupStickerSet> for RTDSetSupergroupStickerSetBuilder {
 
 
 
-/// Toggles whether all members of a supergroup can add new members; requires appropriate administrator rights in the supergroup.
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ToggleSupergroupInvites {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Identifier of the supergroup
-  supergroup_id: i64,
-  /// New value of anyone_can_invite
-  anyone_can_invite: bool,
-  
-}
-
-impl RObject for ToggleSupergroupInvites {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "toggleSupergroupInvites" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-
-
-impl RFunction for ToggleSupergroupInvites {}
-
-impl ToggleSupergroupInvites {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDToggleSupergroupInvitesBuilder {
-    let mut inner = ToggleSupergroupInvites::default();
-    inner.td_name = "toggleSupergroupInvites".to_string();
-    RTDToggleSupergroupInvitesBuilder { inner }
-  }
-
-  pub fn supergroup_id(&self) -> i64 { self.supergroup_id }
-
-  pub fn anyone_can_invite(&self) -> bool { self.anyone_can_invite }
-
-}
-
-#[doc(hidden)]
-pub struct RTDToggleSupergroupInvitesBuilder {
-  inner: ToggleSupergroupInvites
-}
-
-impl RTDToggleSupergroupInvitesBuilder {
-  pub fn build(&self) -> ToggleSupergroupInvites { self.inner.clone() }
-
-   
-  pub fn supergroup_id(&mut self, supergroup_id: i64) -> &mut Self {
-    self.inner.supergroup_id = supergroup_id;
-    self
-  }
-
-   
-  pub fn anyone_can_invite(&mut self, anyone_can_invite: bool) -> &mut Self {
-    self.inner.anyone_can_invite = anyone_can_invite;
-    self
-  }
-
-}
-
-impl AsRef<ToggleSupergroupInvites> for ToggleSupergroupInvites {
-  fn as_ref(&self) -> &ToggleSupergroupInvites { self }
-}
-
-impl AsRef<ToggleSupergroupInvites> for RTDToggleSupergroupInvitesBuilder {
-  fn as_ref(&self) -> &ToggleSupergroupInvites { &self.inner }
-}
-
-
-
-
-
-
-
-/// Toggles sender signatures messages sent in a channel; requires appropriate administrator rights in the channel.
+/// Toggles sender signatures messages sent in a channel; requires can_change_info rights
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ToggleSupergroupSignMessages {
   #[doc(hidden)]
@@ -16107,7 +16442,7 @@ impl AsRef<ToggleSupergroupSignMessages> for RTDToggleSupergroupSignMessagesBuil
 
 
 
-/// Toggles whether the message history of a supergroup is available to new members; requires appropriate administrator rights in the supergroup.
+/// Toggles whether the message history of a supergroup is available to new members; requires can_change_info rights
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ToggleSupergroupIsAllHistoryAvailable {
   #[doc(hidden)]
@@ -16172,79 +16507,6 @@ impl AsRef<ToggleSupergroupIsAllHistoryAvailable> for ToggleSupergroupIsAllHisto
 
 impl AsRef<ToggleSupergroupIsAllHistoryAvailable> for RTDToggleSupergroupIsAllHistoryAvailableBuilder {
   fn as_ref(&self) -> &ToggleSupergroupIsAllHistoryAvailable { &self.inner }
-}
-
-
-
-
-
-
-
-/// Changes information about a supergroup or channel; requires appropriate administrator rights
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct SetSupergroupDescription {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Identifier of the supergroup or channel
-  supergroup_id: i64,
-  /// Changes information about a supergroup or channel; requires appropriate administrator rights
-  description: String,
-  
-}
-
-impl RObject for SetSupergroupDescription {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "setSupergroupDescription" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-
-
-impl RFunction for SetSupergroupDescription {}
-
-impl SetSupergroupDescription {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDSetSupergroupDescriptionBuilder {
-    let mut inner = SetSupergroupDescription::default();
-    inner.td_name = "setSupergroupDescription".to_string();
-    RTDSetSupergroupDescriptionBuilder { inner }
-  }
-
-  pub fn supergroup_id(&self) -> i64 { self.supergroup_id }
-
-  pub fn description(&self) -> &String { &self.description }
-
-}
-
-#[doc(hidden)]
-pub struct RTDSetSupergroupDescriptionBuilder {
-  inner: SetSupergroupDescription
-}
-
-impl RTDSetSupergroupDescriptionBuilder {
-  pub fn build(&self) -> SetSupergroupDescription { self.inner.clone() }
-
-   
-  pub fn supergroup_id(&mut self, supergroup_id: i64) -> &mut Self {
-    self.inner.supergroup_id = supergroup_id;
-    self
-  }
-
-   
-  pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {
-    self.inner.description = description.as_ref().to_string();
-    self
-  }
-
-}
-
-impl AsRef<SetSupergroupDescription> for SetSupergroupDescription {
-  fn as_ref(&self) -> &SetSupergroupDescription { self }
-}
-
-impl AsRef<SetSupergroupDescription> for RTDSetSupergroupDescriptionBuilder {
-  fn as_ref(&self) -> &SetSupergroupDescription { &self.inner }
 }
 
 
@@ -17222,51 +17484,396 @@ impl AsRef<GetSupportUser> for RTDGetSupportUserBuilder {
 
 
 
-/// Returns background wallpapers
+/// Returns backgrounds installed by the user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct GetWallpapers {
+pub struct GetBackgrounds {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  /// True, if the backgrounds needs to be ordered for dark theme
+  for_dark_theme: bool,
   
 }
 
-impl RObject for GetWallpapers {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "getWallpapers" }
+impl RObject for GetBackgrounds {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "getBackgrounds" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 
-impl RFunction for GetWallpapers {}
+impl RFunction for GetBackgrounds {}
 
-impl GetWallpapers {
+impl GetBackgrounds {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDGetWallpapersBuilder {
-    let mut inner = GetWallpapers::default();
-    inner.td_name = "getWallpapers".to_string();
-    RTDGetWallpapersBuilder { inner }
+  pub fn builder() -> RTDGetBackgroundsBuilder {
+    let mut inner = GetBackgrounds::default();
+    inner.td_name = "getBackgrounds".to_string();
+    RTDGetBackgroundsBuilder { inner }
+  }
+
+  pub fn for_dark_theme(&self) -> bool { self.for_dark_theme }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGetBackgroundsBuilder {
+  inner: GetBackgrounds
+}
+
+impl RTDGetBackgroundsBuilder {
+  pub fn build(&self) -> GetBackgrounds { self.inner.clone() }
+
+   
+  pub fn for_dark_theme(&mut self, for_dark_theme: bool) -> &mut Self {
+    self.inner.for_dark_theme = for_dark_theme;
+    self
+  }
+
+}
+
+impl AsRef<GetBackgrounds> for GetBackgrounds {
+  fn as_ref(&self) -> &GetBackgrounds { self }
+}
+
+impl AsRef<GetBackgrounds> for RTDGetBackgroundsBuilder {
+  fn as_ref(&self) -> &GetBackgrounds { &self.inner }
+}
+
+
+
+
+
+
+
+/// Constructs a persistent HTTP URL for a background
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct GetBackgroundUrl {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Background name
+  name: String,
+  /// Background type
+  #[serde(rename(serialize = "type", deserialize = "type"))] type_: BackgroundType,
+  
+}
+
+impl RObject for GetBackgroundUrl {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "getBackgroundUrl" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for GetBackgroundUrl {}
+
+impl GetBackgroundUrl {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGetBackgroundUrlBuilder {
+    let mut inner = GetBackgroundUrl::default();
+    inner.td_name = "getBackgroundUrl".to_string();
+    RTDGetBackgroundUrlBuilder { inner }
+  }
+
+  pub fn name(&self) -> &String { &self.name }
+
+  pub fn type_(&self) -> &BackgroundType { &self.type_ }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGetBackgroundUrlBuilder {
+  inner: GetBackgroundUrl
+}
+
+impl RTDGetBackgroundUrlBuilder {
+  pub fn build(&self) -> GetBackgroundUrl { self.inner.clone() }
+
+   
+  pub fn name<T: AsRef<str>>(&mut self, name: T) -> &mut Self {
+    self.inner.name = name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn type_<T: AsRef<BackgroundType>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<GetBackgroundUrl> for GetBackgroundUrl {
+  fn as_ref(&self) -> &GetBackgroundUrl { self }
+}
+
+impl AsRef<GetBackgroundUrl> for RTDGetBackgroundUrlBuilder {
+  fn as_ref(&self) -> &GetBackgroundUrl { &self.inner }
+}
+
+
+
+
+
+
+
+/// Searches for a background by its name
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SearchBackground {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The name of the background
+  name: String,
+  
+}
+
+impl RObject for SearchBackground {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "searchBackground" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for SearchBackground {}
+
+impl SearchBackground {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSearchBackgroundBuilder {
+    let mut inner = SearchBackground::default();
+    inner.td_name = "searchBackground".to_string();
+    RTDSearchBackgroundBuilder { inner }
+  }
+
+  pub fn name(&self) -> &String { &self.name }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSearchBackgroundBuilder {
+  inner: SearchBackground
+}
+
+impl RTDSearchBackgroundBuilder {
+  pub fn build(&self) -> SearchBackground { self.inner.clone() }
+
+   
+  pub fn name<T: AsRef<str>>(&mut self, name: T) -> &mut Self {
+    self.inner.name = name.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<SearchBackground> for SearchBackground {
+  fn as_ref(&self) -> &SearchBackground { self }
+}
+
+impl AsRef<SearchBackground> for RTDSearchBackgroundBuilder {
+  fn as_ref(&self) -> &SearchBackground { &self.inner }
+}
+
+
+
+
+
+
+
+/// Changes the background selected by the user; adds background to the list of installed backgrounds
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SetBackground {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The input background to use, null for solid backgrounds
+  background: InputBackground,
+  /// Background type; null for default background. The method will return error 404 if type is null
+  #[serde(rename(serialize = "type", deserialize = "type"))] type_: BackgroundType,
+  /// True, if the background is chosen for dark theme
+  for_dark_theme: bool,
+  
+}
+
+impl RObject for SetBackground {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "setBackground" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for SetBackground {}
+
+impl SetBackground {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSetBackgroundBuilder {
+    let mut inner = SetBackground::default();
+    inner.td_name = "setBackground".to_string();
+    RTDSetBackgroundBuilder { inner }
+  }
+
+  pub fn background(&self) -> &InputBackground { &self.background }
+
+  pub fn type_(&self) -> &BackgroundType { &self.type_ }
+
+  pub fn for_dark_theme(&self) -> bool { self.for_dark_theme }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSetBackgroundBuilder {
+  inner: SetBackground
+}
+
+impl RTDSetBackgroundBuilder {
+  pub fn build(&self) -> SetBackground { self.inner.clone() }
+
+   
+  pub fn background<T: AsRef<InputBackground>>(&mut self, background: T) -> &mut Self {
+    self.inner.background = background.as_ref().clone();
+    self
+  }
+
+   
+  pub fn type_<T: AsRef<BackgroundType>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+   
+  pub fn for_dark_theme(&mut self, for_dark_theme: bool) -> &mut Self {
+    self.inner.for_dark_theme = for_dark_theme;
+    self
+  }
+
+}
+
+impl AsRef<SetBackground> for SetBackground {
+  fn as_ref(&self) -> &SetBackground { self }
+}
+
+impl AsRef<SetBackground> for RTDSetBackgroundBuilder {
+  fn as_ref(&self) -> &SetBackground { &self.inner }
+}
+
+
+
+
+
+
+
+/// Removes background from the list of installed backgrounds
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct RemoveBackground {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The background indentifier
+  background_id: isize,
+  
+}
+
+impl RObject for RemoveBackground {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "removeBackground" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for RemoveBackground {}
+
+impl RemoveBackground {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDRemoveBackgroundBuilder {
+    let mut inner = RemoveBackground::default();
+    inner.td_name = "removeBackground".to_string();
+    RTDRemoveBackgroundBuilder { inner }
+  }
+
+  pub fn background_id(&self) -> isize { self.background_id }
+
+}
+
+#[doc(hidden)]
+pub struct RTDRemoveBackgroundBuilder {
+  inner: RemoveBackground
+}
+
+impl RTDRemoveBackgroundBuilder {
+  pub fn build(&self) -> RemoveBackground { self.inner.clone() }
+
+   
+  pub fn background_id(&mut self, background_id: isize) -> &mut Self {
+    self.inner.background_id = background_id;
+    self
+  }
+
+}
+
+impl AsRef<RemoveBackground> for RemoveBackground {
+  fn as_ref(&self) -> &RemoveBackground { self }
+}
+
+impl AsRef<RemoveBackground> for RTDRemoveBackgroundBuilder {
+  fn as_ref(&self) -> &RemoveBackground { &self.inner }
+}
+
+
+
+
+
+
+
+/// Resets list of installed backgrounds to its default value
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ResetBackgrounds {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for ResetBackgrounds {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "resetBackgrounds" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for ResetBackgrounds {}
+
+impl ResetBackgrounds {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDResetBackgroundsBuilder {
+    let mut inner = ResetBackgrounds::default();
+    inner.td_name = "resetBackgrounds".to_string();
+    RTDResetBackgroundsBuilder { inner }
   }
 
 }
 
 #[doc(hidden)]
-pub struct RTDGetWallpapersBuilder {
-  inner: GetWallpapers
+pub struct RTDResetBackgroundsBuilder {
+  inner: ResetBackgrounds
 }
 
-impl RTDGetWallpapersBuilder {
-  pub fn build(&self) -> GetWallpapers { self.inner.clone() }
+impl RTDResetBackgroundsBuilder {
+  pub fn build(&self) -> ResetBackgrounds { self.inner.clone() }
 
 }
 
-impl AsRef<GetWallpapers> for GetWallpapers {
-  fn as_ref(&self) -> &GetWallpapers { self }
+impl AsRef<ResetBackgrounds> for ResetBackgrounds {
+  fn as_ref(&self) -> &ResetBackgrounds { self }
 }
 
-impl AsRef<GetWallpapers> for RTDGetWallpapersBuilder {
-  fn as_ref(&self) -> &GetWallpapers { &self.inner }
+impl AsRef<ResetBackgrounds> for RTDResetBackgroundsBuilder {
+  fn as_ref(&self) -> &ResetBackgrounds { &self.inner }
 }
 
 
@@ -18804,7 +19411,7 @@ impl AsRef<ReportChat> for RTDReportChatBuilder {
 
 
 
-/// Returns URL with the chat statistics. Currently this method can be used only for channels
+/// Returns an HTTP URL with the chat statistics. Currently this method can be used only for channels
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetChatStatisticsUrl {
   #[doc(hidden)]
@@ -19431,6 +20038,132 @@ impl AsRef<ResetNetworkStatistics> for RTDResetNetworkStatisticsBuilder {
 
 
 
+/// Returns auto-download settings presets for the currently logged in user
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct GetAutoDownloadSettingsPresets {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for GetAutoDownloadSettingsPresets {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "getAutoDownloadSettingsPresets" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for GetAutoDownloadSettingsPresets {}
+
+impl GetAutoDownloadSettingsPresets {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGetAutoDownloadSettingsPresetsBuilder {
+    let mut inner = GetAutoDownloadSettingsPresets::default();
+    inner.td_name = "getAutoDownloadSettingsPresets".to_string();
+    RTDGetAutoDownloadSettingsPresetsBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGetAutoDownloadSettingsPresetsBuilder {
+  inner: GetAutoDownloadSettingsPresets
+}
+
+impl RTDGetAutoDownloadSettingsPresetsBuilder {
+  pub fn build(&self) -> GetAutoDownloadSettingsPresets { self.inner.clone() }
+
+}
+
+impl AsRef<GetAutoDownloadSettingsPresets> for GetAutoDownloadSettingsPresets {
+  fn as_ref(&self) -> &GetAutoDownloadSettingsPresets { self }
+}
+
+impl AsRef<GetAutoDownloadSettingsPresets> for RTDGetAutoDownloadSettingsPresetsBuilder {
+  fn as_ref(&self) -> &GetAutoDownloadSettingsPresets { &self.inner }
+}
+
+
+
+
+
+
+
+/// Sets auto-download settings
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SetAutoDownloadSettings {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// New user auto-download settings
+  settings: AutoDownloadSettings,
+  /// Type of the network for which the new settings are applied
+  #[serde(rename(serialize = "type", deserialize = "type"))] type_: NetworkType,
+  
+}
+
+impl RObject for SetAutoDownloadSettings {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "setAutoDownloadSettings" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for SetAutoDownloadSettings {}
+
+impl SetAutoDownloadSettings {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSetAutoDownloadSettingsBuilder {
+    let mut inner = SetAutoDownloadSettings::default();
+    inner.td_name = "setAutoDownloadSettings".to_string();
+    RTDSetAutoDownloadSettingsBuilder { inner }
+  }
+
+  pub fn settings(&self) -> &AutoDownloadSettings { &self.settings }
+
+  pub fn type_(&self) -> &NetworkType { &self.type_ }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSetAutoDownloadSettingsBuilder {
+  inner: SetAutoDownloadSettings
+}
+
+impl RTDSetAutoDownloadSettingsBuilder {
+  pub fn build(&self) -> SetAutoDownloadSettings { self.inner.clone() }
+
+   
+  pub fn settings<T: AsRef<AutoDownloadSettings>>(&mut self, settings: T) -> &mut Self {
+    self.inner.settings = settings.as_ref().clone();
+    self
+  }
+
+   
+  pub fn type_<T: AsRef<NetworkType>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<SetAutoDownloadSettings> for SetAutoDownloadSettings {
+  fn as_ref(&self) -> &SetAutoDownloadSettings { self }
+}
+
+impl AsRef<SetAutoDownloadSettings> for RTDSetAutoDownloadSettingsBuilder {
+  fn as_ref(&self) -> &SetAutoDownloadSettings { &self.inner }
+}
+
+
+
+
+
+
+
 /// Returns one of the available Telegram Passport elements
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetPassportElement {
@@ -19847,10 +20580,8 @@ pub struct SendPhoneNumberVerificationCode {
   td_name: String,
   /// The phone number of the user, in international format
   phone_number: String,
-  /// Pass true if the authentication code may be sent via flash call to the specified phone number
-  allow_flash_call: bool,
-  /// Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
-  is_current_phone_number: bool,
+  /// Settings for the authentication of the user's phone number
+  settings: PhoneNumberAuthenticationSettings,
   
 }
 
@@ -19874,9 +20605,7 @@ impl SendPhoneNumberVerificationCode {
 
   pub fn phone_number(&self) -> &String { &self.phone_number }
 
-  pub fn allow_flash_call(&self) -> bool { self.allow_flash_call }
-
-  pub fn is_current_phone_number(&self) -> bool { self.is_current_phone_number }
+  pub fn settings(&self) -> &PhoneNumberAuthenticationSettings { &self.settings }
 
 }
 
@@ -19895,14 +20624,8 @@ impl RTDSendPhoneNumberVerificationCodeBuilder {
   }
 
    
-  pub fn allow_flash_call(&mut self, allow_flash_call: bool) -> &mut Self {
-    self.inner.allow_flash_call = allow_flash_call;
-    self
-  }
-
-   
-  pub fn is_current_phone_number(&mut self, is_current_phone_number: bool) -> &mut Self {
-    self.inner.is_current_phone_number = is_current_phone_number;
+  pub fn settings<T: AsRef<PhoneNumberAuthenticationSettings>>(&mut self, settings: T) -> &mut Self {
+    self.inner.settings = settings.as_ref().clone();
     self
   }
 
@@ -20466,10 +21189,8 @@ pub struct SendPhoneNumberConfirmationCode {
   hash: String,
   /// Value of the "phone" parameter from the link
   phone_number: String,
-  /// Pass true if the authentication code may be sent via flash call to the specified phone number
-  allow_flash_call: bool,
-  /// Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
-  is_current_phone_number: bool,
+  /// Settings for the authentication of the user's phone number
+  settings: PhoneNumberAuthenticationSettings,
   
 }
 
@@ -20495,9 +21216,7 @@ impl SendPhoneNumberConfirmationCode {
 
   pub fn phone_number(&self) -> &String { &self.phone_number }
 
-  pub fn allow_flash_call(&self) -> bool { self.allow_flash_call }
-
-  pub fn is_current_phone_number(&self) -> bool { self.is_current_phone_number }
+  pub fn settings(&self) -> &PhoneNumberAuthenticationSettings { &self.settings }
 
 }
 
@@ -20522,14 +21241,8 @@ impl RTDSendPhoneNumberConfirmationCodeBuilder {
   }
 
    
-  pub fn allow_flash_call(&mut self, allow_flash_call: bool) -> &mut Self {
-    self.inner.allow_flash_call = allow_flash_call;
-    self
-  }
-
-   
-  pub fn is_current_phone_number(&mut self, is_current_phone_number: bool) -> &mut Self {
-    self.inner.is_current_phone_number = is_current_phone_number;
+  pub fn settings<T: AsRef<PhoneNumberAuthenticationSettings>>(&mut self, settings: T) -> &mut Self {
+    self.inner.settings = settings.as_ref().clone();
     self
   }
 
@@ -21518,7 +22231,7 @@ impl AsRef<SetAlarm> for RTDSetAlarmBuilder {
 
 
 
-/// Uses current user IP to found his country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization
+/// Uses current user IP to found their country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetCountryCode {
   #[doc(hidden)]
@@ -23418,6 +24131,89 @@ impl AsRef<TestNetwork> for RTDTestNetworkBuilder {
 
 
 
+/// Sends a simple network request to the Telegram servers via proxy; for testing only. Can be called before authorization
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct TestProxy {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Proxy server IP address
+  server: String,
+  /// Proxy server port
+  port: i64,
+  /// Proxy type
+  #[serde(rename(serialize = "type", deserialize = "type"))] type_: ProxyType,
+  
+}
+
+impl RObject for TestProxy {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "testProxy" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for TestProxy {}
+
+impl TestProxy {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTestProxyBuilder {
+    let mut inner = TestProxy::default();
+    inner.td_name = "testProxy".to_string();
+    RTDTestProxyBuilder { inner }
+  }
+
+  pub fn server(&self) -> &String { &self.server }
+
+  pub fn port(&self) -> i64 { self.port }
+
+  pub fn type_(&self) -> &ProxyType { &self.type_ }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTestProxyBuilder {
+  inner: TestProxy
+}
+
+impl RTDTestProxyBuilder {
+  pub fn build(&self) -> TestProxy { self.inner.clone() }
+
+   
+  pub fn server<T: AsRef<str>>(&mut self, server: T) -> &mut Self {
+    self.inner.server = server.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn port(&mut self, port: i64) -> &mut Self {
+    self.inner.port = port;
+    self
+  }
+
+   
+  pub fn type_<T: AsRef<ProxyType>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<TestProxy> for TestProxy {
+  fn as_ref(&self) -> &TestProxy { self }
+}
+
+impl AsRef<TestProxy> for RTDTestProxyBuilder {
+  fn as_ref(&self) -> &TestProxy { &self.inner }
+}
+
+
+
+
+
+
+
 /// Forces an updates.getDifference call to the Telegram servers; for testing only
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TestGetDifference {
@@ -23524,51 +24320,61 @@ impl AsRef<TestUseUpdate> for RTDTestUseUpdateBuilder {
 
 
 
-/// Does nothing and ensures that the Error object is used; for testing only. This is an offline method. Can be called before authorization
+/// Returns the specified error and ensures that the Error object is used; for testing only. This is an offline method. Can be called before authorization. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct TestUseError {
+pub struct TestReturnError {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  /// The error to be returned
+  error: Error,
   
 }
 
-impl RObject for TestUseError {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "testUseError" }
+impl RObject for TestReturnError {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "testReturnError" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
 
-impl RFunction for TestUseError {}
+impl RFunction for TestReturnError {}
 
-impl TestUseError {
+impl TestReturnError {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDTestUseErrorBuilder {
-    let mut inner = TestUseError::default();
-    inner.td_name = "testUseError".to_string();
-    RTDTestUseErrorBuilder { inner }
+  pub fn builder() -> RTDTestReturnErrorBuilder {
+    let mut inner = TestReturnError::default();
+    inner.td_name = "testReturnError".to_string();
+    RTDTestReturnErrorBuilder { inner }
   }
+
+  pub fn error(&self) -> &Error { &self.error }
 
 }
 
 #[doc(hidden)]
-pub struct RTDTestUseErrorBuilder {
-  inner: TestUseError
+pub struct RTDTestReturnErrorBuilder {
+  inner: TestReturnError
 }
 
-impl RTDTestUseErrorBuilder {
-  pub fn build(&self) -> TestUseError { self.inner.clone() }
+impl RTDTestReturnErrorBuilder {
+  pub fn build(&self) -> TestReturnError { self.inner.clone() }
+
+   
+  pub fn error<T: AsRef<Error>>(&mut self, error: T) -> &mut Self {
+    self.inner.error = error.as_ref().clone();
+    self
+  }
 
 }
 
-impl AsRef<TestUseError> for TestUseError {
-  fn as_ref(&self) -> &TestUseError { self }
+impl AsRef<TestReturnError> for TestReturnError {
+  fn as_ref(&self) -> &TestReturnError { self }
 }
 
-impl AsRef<TestUseError> for RTDTestUseErrorBuilder {
-  fn as_ref(&self) -> &TestUseError { &self.inner }
+impl AsRef<TestReturnError> for RTDTestReturnErrorBuilder {
+  fn as_ref(&self) -> &TestReturnError { &self.inner }
 }
 
 

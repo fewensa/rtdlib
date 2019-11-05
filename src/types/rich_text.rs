@@ -995,9 +995,9 @@ pub struct RichTextIcon {
   td_name: String,
   /// The image represented as a document. The image can be in GIF, JPEG or PNG format
   document: Document,
-  /// Width of a bounding box in which the image should be shown, 0 if unknown
+  /// Width of a bounding box in which the image should be shown; 0 if unknown
   width: i64,
-  /// Height of a bounding box in which the image should be shown, 0 if unknown
+  /// Height of a bounding box in which the image should be shown; 0 if unknown
   height: i64,
   
 }

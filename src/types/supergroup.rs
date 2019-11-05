@@ -21,8 +21,6 @@ pub struct Supergroup {
   status: ChatMemberStatus,
   /// Member count; 0 if unknown. Currently it is guaranteed to be known only if the supergroup or channel was found through SearchPublicChats
   member_count: i64,
-  /// True, if any member of the supergroup can invite other members. This field has no meaning for channels
-  anyone_can_invite: bool,
   /// True, if messages sent to the channel should contain information about the sender. This field is only applicable to channels
   sign_messages: bool,
   /// True, if the supergroup is a channel
@@ -31,6 +29,8 @@ pub struct Supergroup {
   is_verified: bool,
   /// If non-empty, contains the reason why access to this supergroup or channel must be restricted. Format of the string is "{type}: {description}". {type} Contains the type of the restriction and at least one of the suffixes "-all", "-ios", "-android", or "-wp", which describe the platforms on which access should be restricted. (For example, "terms-ios-android". {description} contains a human-readable description of the restriction, which can be shown to the user)
   restriction_reason: String,
+  /// True, if many users reported this supergroup as a scam
+  is_scam: bool,
   
 }
 
@@ -59,8 +59,6 @@ impl Supergroup {
 
   pub fn member_count(&self) -> i64 { self.member_count }
 
-  pub fn anyone_can_invite(&self) -> bool { self.anyone_can_invite }
-
   pub fn sign_messages(&self) -> bool { self.sign_messages }
 
   pub fn is_channel(&self) -> bool { self.is_channel }
@@ -68,6 +66,8 @@ impl Supergroup {
   pub fn is_verified(&self) -> bool { self.is_verified }
 
   pub fn restriction_reason(&self) -> &String { &self.restriction_reason }
+
+  pub fn is_scam(&self) -> bool { self.is_scam }
 
 }
 
@@ -110,12 +110,6 @@ impl RTDSupergroupBuilder {
   }
 
    
-  pub fn anyone_can_invite(&mut self, anyone_can_invite: bool) -> &mut Self {
-    self.inner.anyone_can_invite = anyone_can_invite;
-    self
-  }
-
-   
   pub fn sign_messages(&mut self, sign_messages: bool) -> &mut Self {
     self.inner.sign_messages = sign_messages;
     self
@@ -136,6 +130,12 @@ impl RTDSupergroupBuilder {
    
   pub fn restriction_reason<T: AsRef<str>>(&mut self, restriction_reason: T) -> &mut Self {
     self.inner.restriction_reason = restriction_reason.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn is_scam(&mut self, is_scam: bool) -> &mut Self {
+    self.inner.is_scam = is_scam;
     self
   }
 

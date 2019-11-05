@@ -44,6 +44,8 @@ pub enum Update {
   ChatTitle(UpdateChatTitle),
   /// A chat photo was changed
   ChatPhoto(UpdateChatPhoto),
+  /// Chat permissions was changed
+  ChatPermissions(UpdateChatPermissions),
   /// The last message of a chat was changed. If last_message is null then the last message in the chat became unknown. Some new unknown messages might be added to the chat in this case
   ChatLastMessage(UpdateChatLastMessage),
   /// The order of the chat in the chat list has changed. Instead of this update updateChatLastMessage, updateChatIsPinned or updateChatDraftMessage might be sent
@@ -130,6 +132,8 @@ pub enum Update {
   FavoriteStickers(UpdateFavoriteStickers),
   /// The list of saved animations was updated
   SavedAnimations(UpdateSavedAnimations),
+  /// The selected background has changed
+  SelectedBackground(UpdateSelectedBackground),
   /// Some language pack strings have been updated
   LanguagePackStrings(UpdateLanguagePackStrings),
   /// The connection state has changed
@@ -181,6 +185,7 @@ impl<'de> Deserialize<'de> for Update {
       (updateNewChat, NewChat);
       (updateChatTitle, ChatTitle);
       (updateChatPhoto, ChatPhoto);
+      (updateChatPermissions, ChatPermissions);
       (updateChatLastMessage, ChatLastMessage);
       (updateChatOrder, ChatOrder);
       (updateChatIsPinned, ChatIsPinned);
@@ -224,6 +229,7 @@ impl<'de> Deserialize<'de> for Update {
       (updateRecentStickers, RecentStickers);
       (updateFavoriteStickers, FavoriteStickers);
       (updateSavedAnimations, SavedAnimations);
+      (updateSelectedBackground, SelectedBackground);
       (updateLanguagePackStrings, LanguagePackStrings);
       (updateConnectionState, ConnectionState);
       (updateTermsOfService, TermsOfService);
@@ -258,6 +264,7 @@ impl RObject for Update {
       Update::NewChat(t) => t.td_name(),
       Update::ChatTitle(t) => t.td_name(),
       Update::ChatPhoto(t) => t.td_name(),
+      Update::ChatPermissions(t) => t.td_name(),
       Update::ChatLastMessage(t) => t.td_name(),
       Update::ChatOrder(t) => t.td_name(),
       Update::ChatIsPinned(t) => t.td_name(),
@@ -301,6 +308,7 @@ impl RObject for Update {
       Update::RecentStickers(t) => t.td_name(),
       Update::FavoriteStickers(t) => t.td_name(),
       Update::SavedAnimations(t) => t.td_name(),
+      Update::SelectedBackground(t) => t.td_name(),
       Update::LanguagePackStrings(t) => t.td_name(),
       Update::ConnectionState(t) => t.td_name(),
       Update::TermsOfService(t) => t.td_name(),
@@ -338,6 +346,7 @@ impl Update {
   pub fn is_new_chat(&self) -> bool { if let Update::NewChat(_) = self { true } else { false } }
   pub fn is_chat_title(&self) -> bool { if let Update::ChatTitle(_) = self { true } else { false } }
   pub fn is_chat_photo(&self) -> bool { if let Update::ChatPhoto(_) = self { true } else { false } }
+  pub fn is_chat_permissions(&self) -> bool { if let Update::ChatPermissions(_) = self { true } else { false } }
   pub fn is_chat_last_message(&self) -> bool { if let Update::ChatLastMessage(_) = self { true } else { false } }
   pub fn is_chat_order(&self) -> bool { if let Update::ChatOrder(_) = self { true } else { false } }
   pub fn is_chat_is_pinned(&self) -> bool { if let Update::ChatIsPinned(_) = self { true } else { false } }
@@ -381,6 +390,7 @@ impl Update {
   pub fn is_recent_stickers(&self) -> bool { if let Update::RecentStickers(_) = self { true } else { false } }
   pub fn is_favorite_stickers(&self) -> bool { if let Update::FavoriteStickers(_) = self { true } else { false } }
   pub fn is_saved_animations(&self) -> bool { if let Update::SavedAnimations(_) = self { true } else { false } }
+  pub fn is_selected_background(&self) -> bool { if let Update::SelectedBackground(_) = self { true } else { false } }
   pub fn is_language_pack_strings(&self) -> bool { if let Update::LanguagePackStrings(_) = self { true } else { false } }
   pub fn is_connection_state(&self) -> bool { if let Update::ConnectionState(_) = self { true } else { false } }
   pub fn is_terms_of_service(&self) -> bool { if let Update::TermsOfService(_) = self { true } else { false } }
@@ -408,6 +418,7 @@ impl Update {
   pub fn on_new_chat<F: FnOnce(&UpdateNewChat)>(&self, fnc: F) -> &Self { if let Update::NewChat(t) = self { fnc(t) }; self }
   pub fn on_chat_title<F: FnOnce(&UpdateChatTitle)>(&self, fnc: F) -> &Self { if let Update::ChatTitle(t) = self { fnc(t) }; self }
   pub fn on_chat_photo<F: FnOnce(&UpdateChatPhoto)>(&self, fnc: F) -> &Self { if let Update::ChatPhoto(t) = self { fnc(t) }; self }
+  pub fn on_chat_permissions<F: FnOnce(&UpdateChatPermissions)>(&self, fnc: F) -> &Self { if let Update::ChatPermissions(t) = self { fnc(t) }; self }
   pub fn on_chat_last_message<F: FnOnce(&UpdateChatLastMessage)>(&self, fnc: F) -> &Self { if let Update::ChatLastMessage(t) = self { fnc(t) }; self }
   pub fn on_chat_order<F: FnOnce(&UpdateChatOrder)>(&self, fnc: F) -> &Self { if let Update::ChatOrder(t) = self { fnc(t) }; self }
   pub fn on_chat_is_pinned<F: FnOnce(&UpdateChatIsPinned)>(&self, fnc: F) -> &Self { if let Update::ChatIsPinned(t) = self { fnc(t) }; self }
@@ -451,6 +462,7 @@ impl Update {
   pub fn on_recent_stickers<F: FnOnce(&UpdateRecentStickers)>(&self, fnc: F) -> &Self { if let Update::RecentStickers(t) = self { fnc(t) }; self }
   pub fn on_favorite_stickers<F: FnOnce(&UpdateFavoriteStickers)>(&self, fnc: F) -> &Self { if let Update::FavoriteStickers(t) = self { fnc(t) }; self }
   pub fn on_saved_animations<F: FnOnce(&UpdateSavedAnimations)>(&self, fnc: F) -> &Self { if let Update::SavedAnimations(t) = self { fnc(t) }; self }
+  pub fn on_selected_background<F: FnOnce(&UpdateSelectedBackground)>(&self, fnc: F) -> &Self { if let Update::SelectedBackground(t) = self { fnc(t) }; self }
   pub fn on_language_pack_strings<F: FnOnce(&UpdateLanguagePackStrings)>(&self, fnc: F) -> &Self { if let Update::LanguagePackStrings(t) = self { fnc(t) }; self }
   pub fn on_connection_state<F: FnOnce(&UpdateConnectionState)>(&self, fnc: F) -> &Self { if let Update::ConnectionState(t) = self { fnc(t) }; self }
   pub fn on_terms_of_service<F: FnOnce(&UpdateTermsOfService)>(&self, fnc: F) -> &Self { if let Update::TermsOfService(t) = self { fnc(t) }; self }
@@ -478,6 +490,7 @@ impl Update {
   pub fn as_new_chat(&self) -> Option<&UpdateNewChat> { if let Update::NewChat(t) = self { return Some(t) } None }
   pub fn as_chat_title(&self) -> Option<&UpdateChatTitle> { if let Update::ChatTitle(t) = self { return Some(t) } None }
   pub fn as_chat_photo(&self) -> Option<&UpdateChatPhoto> { if let Update::ChatPhoto(t) = self { return Some(t) } None }
+  pub fn as_chat_permissions(&self) -> Option<&UpdateChatPermissions> { if let Update::ChatPermissions(t) = self { return Some(t) } None }
   pub fn as_chat_last_message(&self) -> Option<&UpdateChatLastMessage> { if let Update::ChatLastMessage(t) = self { return Some(t) } None }
   pub fn as_chat_order(&self) -> Option<&UpdateChatOrder> { if let Update::ChatOrder(t) = self { return Some(t) } None }
   pub fn as_chat_is_pinned(&self) -> Option<&UpdateChatIsPinned> { if let Update::ChatIsPinned(t) = self { return Some(t) } None }
@@ -521,6 +534,7 @@ impl Update {
   pub fn as_recent_stickers(&self) -> Option<&UpdateRecentStickers> { if let Update::RecentStickers(t) = self { return Some(t) } None }
   pub fn as_favorite_stickers(&self) -> Option<&UpdateFavoriteStickers> { if let Update::FavoriteStickers(t) = self { return Some(t) } None }
   pub fn as_saved_animations(&self) -> Option<&UpdateSavedAnimations> { if let Update::SavedAnimations(t) = self { return Some(t) } None }
+  pub fn as_selected_background(&self) -> Option<&UpdateSelectedBackground> { if let Update::SelectedBackground(t) = self { return Some(t) } None }
   pub fn as_language_pack_strings(&self) -> Option<&UpdateLanguagePackStrings> { if let Update::LanguagePackStrings(t) = self { return Some(t) } None }
   pub fn as_connection_state(&self) -> Option<&UpdateConnectionState> { if let Update::ConnectionState(t) = self { return Some(t) } None }
   pub fn as_terms_of_service(&self) -> Option<&UpdateTermsOfService> { if let Update::TermsOfService(t) = self { return Some(t) } None }
@@ -562,6 +576,8 @@ impl Update {
   pub fn chat_title<T: AsRef<UpdateChatTitle>>(t: T) -> Self { Update::ChatTitle(t.as_ref().clone()) }
 
   pub fn chat_photo<T: AsRef<UpdateChatPhoto>>(t: T) -> Self { Update::ChatPhoto(t.as_ref().clone()) }
+
+  pub fn chat_permissions<T: AsRef<UpdateChatPermissions>>(t: T) -> Self { Update::ChatPermissions(t.as_ref().clone()) }
 
   pub fn chat_last_message<T: AsRef<UpdateChatLastMessage>>(t: T) -> Self { Update::ChatLastMessage(t.as_ref().clone()) }
 
@@ -648,6 +664,8 @@ impl Update {
   pub fn favorite_stickers<T: AsRef<UpdateFavoriteStickers>>(t: T) -> Self { Update::FavoriteStickers(t.as_ref().clone()) }
 
   pub fn saved_animations<T: AsRef<UpdateSavedAnimations>>(t: T) -> Self { Update::SavedAnimations(t.as_ref().clone()) }
+
+  pub fn selected_background<T: AsRef<UpdateSelectedBackground>>(t: T) -> Self { Update::SelectedBackground(t.as_ref().clone()) }
 
   pub fn language_pack_strings<T: AsRef<UpdateLanguagePackStrings>>(t: T) -> Self { Update::LanguagePackStrings(t.as_ref().clone()) }
 
@@ -965,7 +983,7 @@ pub struct UpdateMessageSendFailed {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Contains information about the message that failed to send
+  /// Contains information about the message which failed to send
   message: Message,
   /// The previous temporary message identifier
   old_message_id: i64,
@@ -1668,6 +1686,79 @@ impl AsRef<UpdateChatPhoto> for UpdateChatPhoto {
 
 impl AsRef<UpdateChatPhoto> for RTDUpdateChatPhotoBuilder {
   fn as_ref(&self) -> &UpdateChatPhoto { &self.inner }
+}
+
+
+
+
+
+
+
+/// Chat permissions was changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UpdateChatPermissions {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Chat identifier
+  chat_id: i64,
+  /// The new chat permissions
+  permissions: ChatPermissions,
+  
+}
+
+impl RObject for UpdateChatPermissions {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatPermissions" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUpdate for UpdateChatPermissions {}
+
+
+
+impl UpdateChatPermissions {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUpdateChatPermissionsBuilder {
+    let mut inner = UpdateChatPermissions::default();
+    inner.td_name = "updateChatPermissions".to_string();
+    RTDUpdateChatPermissionsBuilder { inner }
+  }
+
+  pub fn chat_id(&self) -> i64 { self.chat_id }
+
+  pub fn permissions(&self) -> &ChatPermissions { &self.permissions }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUpdateChatPermissionsBuilder {
+  inner: UpdateChatPermissions
+}
+
+impl RTDUpdateChatPermissionsBuilder {
+  pub fn build(&self) -> UpdateChatPermissions { self.inner.clone() }
+
+   
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
+    self.inner.chat_id = chat_id;
+    self
+  }
+
+   
+  pub fn permissions<T: AsRef<ChatPermissions>>(&mut self, permissions: T) -> &mut Self {
+    self.inner.permissions = permissions.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<UpdateChatPermissions> for UpdateChatPermissions {
+  fn as_ref(&self) -> &UpdateChatPermissions { self }
+}
+
+impl AsRef<UpdateChatPermissions> for RTDUpdateChatPermissionsBuilder {
+  fn as_ref(&self) -> &UpdateChatPermissions { &self.inner }
 }
 
 
@@ -4877,6 +4968,79 @@ impl AsRef<UpdateSavedAnimations> for UpdateSavedAnimations {
 
 impl AsRef<UpdateSavedAnimations> for RTDUpdateSavedAnimationsBuilder {
   fn as_ref(&self) -> &UpdateSavedAnimations { &self.inner }
+}
+
+
+
+
+
+
+
+/// The selected background has changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UpdateSelectedBackground {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// True, if background for dark theme has changed
+  for_dark_theme: bool,
+  /// The new selected background; may be null
+  background: Option<Background>,
+  
+}
+
+impl RObject for UpdateSelectedBackground {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateSelectedBackground" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUpdate for UpdateSelectedBackground {}
+
+
+
+impl UpdateSelectedBackground {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUpdateSelectedBackgroundBuilder {
+    let mut inner = UpdateSelectedBackground::default();
+    inner.td_name = "updateSelectedBackground".to_string();
+    RTDUpdateSelectedBackgroundBuilder { inner }
+  }
+
+  pub fn for_dark_theme(&self) -> bool { self.for_dark_theme }
+
+  pub fn background(&self) -> &Option<Background> { &self.background }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUpdateSelectedBackgroundBuilder {
+  inner: UpdateSelectedBackground
+}
+
+impl RTDUpdateSelectedBackgroundBuilder {
+  pub fn build(&self) -> UpdateSelectedBackground { self.inner.clone() }
+
+   
+  pub fn for_dark_theme(&mut self, for_dark_theme: bool) -> &mut Self {
+    self.inner.for_dark_theme = for_dark_theme;
+    self
+  }
+
+   
+  pub fn background<T: AsRef<Background>>(&mut self, background: T) -> &mut Self {
+    self.inner.background = Some(background.as_ref().clone());
+    self
+  }
+
+}
+
+impl AsRef<UpdateSelectedBackground> for UpdateSelectedBackground {
+  fn as_ref(&self) -> &UpdateSelectedBackground { self }
+}
+
+impl AsRef<UpdateSelectedBackground> for RTDUpdateSelectedBackgroundBuilder {
+  fn as_ref(&self) -> &UpdateSelectedBackground { &self.inner }
 }
 
 

@@ -17,12 +17,16 @@ pub struct StickerSetInfo {
   title: String,
   /// Name of the sticker set
   name: String,
+  /// Sticker set thumbnail in WEBP format with width and height 100; may be null
+  thumbnail: Option<PhotoSize>,
   /// True, if the sticker set has been installed by current user
   is_installed: bool,
   /// True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
   is_archived: bool,
   /// True, if the sticker set is official
   is_official: bool,
+  /// True, is the stickers in the set are animated
+  is_animated: bool,
   /// True, if the stickers in the set are masks
   is_masks: bool,
   /// True for already viewed trending sticker sets
@@ -55,11 +59,15 @@ impl StickerSetInfo {
 
   pub fn name(&self) -> &String { &self.name }
 
+  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
+
   pub fn is_installed(&self) -> bool { self.is_installed }
 
   pub fn is_archived(&self) -> bool { self.is_archived }
 
   pub fn is_official(&self) -> bool { self.is_official }
+
+  pub fn is_animated(&self) -> bool { self.is_animated }
 
   pub fn is_masks(&self) -> bool { self.is_masks }
 
@@ -98,6 +106,12 @@ impl RTDStickerSetInfoBuilder {
   }
 
    
+  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
+    self.inner.thumbnail = Some(thumbnail.as_ref().clone());
+    self
+  }
+
+   
   pub fn is_installed(&mut self, is_installed: bool) -> &mut Self {
     self.inner.is_installed = is_installed;
     self
@@ -112,6 +126,12 @@ impl RTDStickerSetInfoBuilder {
    
   pub fn is_official(&mut self, is_official: bool) -> &mut Self {
     self.inner.is_official = is_official;
+    self
+  }
+
+   
+  pub fn is_animated(&mut self, is_animated: bool) -> &mut Self {
+    self.inner.is_animated = is_animated;
     self
   }
 

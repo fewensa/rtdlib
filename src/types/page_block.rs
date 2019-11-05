@@ -1637,9 +1637,9 @@ pub struct PageBlockEmbedded {
   html: String,
   /// Poster photo, if available; may be null
   poster_photo: Option<Photo>,
-  /// Block width, 0 if unknown
+  /// Block width; 0 if unknown
   width: i64,
-  /// Block height, 0 if unknown
+  /// Block height; 0 if unknown
   height: i64,
   /// Block caption
   caption: PageBlockCaption,
@@ -1768,8 +1768,8 @@ pub struct PageBlockEmbeddedPost {
   url: String,
   /// Post author
   author: String,
-  /// Post author photo
-  author_photo: Photo,
+  /// Post author photo; may be null
+  author_photo: Option<Photo>,
   /// Point in time (Unix timestamp) when the post was created; 0 if unknown
   date: i64,
   /// Post content
@@ -1801,7 +1801,7 @@ impl PageBlockEmbeddedPost {
 
   pub fn author(&self) -> &String { &self.author }
 
-  pub fn author_photo(&self) -> &Photo { &self.author_photo }
+  pub fn author_photo(&self) -> &Option<Photo> { &self.author_photo }
 
   pub fn date(&self) -> i64 { self.date }
 
@@ -1833,7 +1833,7 @@ impl RTDPageBlockEmbeddedPostBuilder {
 
    
   pub fn author_photo<T: AsRef<Photo>>(&mut self, author_photo: T) -> &mut Self {
-    self.inner.author_photo = author_photo.as_ref().clone();
+    self.inner.author_photo = Some(author_photo.as_ref().clone());
     self
   }
 

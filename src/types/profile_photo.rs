@@ -13,9 +13,9 @@ pub struct ProfilePhoto {
   td_name: String,
   /// Photo identifier; 0 for an empty photo. Can be used to find a photo in a list of userProfilePhotos
   id: String,
-  /// A small (160x160) user profile photo
+  /// A small (160x160) user profile photo. The file can be downloaded only before the photo is changed
   small: File,
-  /// A big (640x640) user profile photo
+  /// A big (640x640) user profile photo. The file can be downloaded only before the photo is changed
   big: File,
   
 }

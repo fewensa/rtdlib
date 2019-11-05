@@ -15,7 +15,9 @@ pub struct Document {
   file_name: String,
   /// MIME type of the file; as defined by the sender
   mime_type: String,
-  /// Document thumbnail; as defined by the sender; may be null
+  /// Document minithumbnail; may be null
+  minithumbnail: Option<Minithumbnail>,
+  /// Document thumbnail in JPEG or PNG format (PNG will be used only for background patterns); as defined by the sender; may be null
   thumbnail: Option<PhotoSize>,
   /// File containing the document
   document: File,
@@ -41,6 +43,8 @@ impl Document {
 
   pub fn mime_type(&self) -> &String { &self.mime_type }
 
+  pub fn minithumbnail(&self) -> &Option<Minithumbnail> { &self.minithumbnail }
+
   pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
 
   pub fn document(&self) -> &File { &self.document }
@@ -64,6 +68,12 @@ impl RTDDocumentBuilder {
    
   pub fn mime_type<T: AsRef<str>>(&mut self, mime_type: T) -> &mut Self {
     self.inner.mime_type = mime_type.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn minithumbnail<T: AsRef<Minithumbnail>>(&mut self, minithumbnail: T) -> &mut Self {
+    self.inner.minithumbnail = Some(minithumbnail.as_ref().clone());
     self
   }
 

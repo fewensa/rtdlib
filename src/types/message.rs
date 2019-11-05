@@ -13,7 +13,7 @@ pub struct Message {
   td_name: String,
   /// Message identifier, unique for the chat to which the message belongs
   id: i64,
-  /// Identifier of the user who sent the message; 0 if unknown. It is unknown for channel posts
+  /// Identifier of the user who sent the message; 0 if unknown. Currently, it is unknown for channel posts and for channel posts automatically forwarded to discussion group
   sender_user_id: i64,
   /// Chat identifier
   chat_id: i64,

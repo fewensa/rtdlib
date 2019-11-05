@@ -5,7 +5,7 @@ use crate::errors::*;
 
 
 
-/// Contains a public HTTPS link to a message in a public supergroup or channel
+/// Contains a public HTTPS link to a message in a public supergroup or channel with a username
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PublicMessageLink {
   #[doc(hidden)]

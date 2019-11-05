@@ -18,7 +18,7 @@ pub trait TDConnectionState: Debug + RObject {}
 #[serde(untagged)]
 pub enum ConnectionState {
   #[doc(hidden)] _Default(()),
-  /// Currently waiting for the network to become available. Use SetNetworkType to change the available network type
+  /// Currently waiting for the network to become available. Use setNetworkType to change the available network type
   WaitingForNetwork(ConnectionStateWaitingForNetwork),
   /// Currently establishing a connection with a proxy server
   ConnectingToProxy(ConnectionStateConnectingToProxy),
@@ -111,7 +111,7 @@ impl AsRef<ConnectionState> for ConnectionState {
 
 
 
-/// Currently waiting for the network to become available. Use SetNetworkType to change the available network type
+/// Currently waiting for the network to become available. Use setNetworkType to change the available network type
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ConnectionStateWaitingForNetwork {
   #[doc(hidden)]

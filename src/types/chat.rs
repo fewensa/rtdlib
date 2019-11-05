@@ -19,6 +19,8 @@ pub struct Chat {
   title: String,
   /// Chat photo; may be null
   photo: Option<ChatPhoto>,
+  /// Actions that non-administrator chat members are allowed to take in the chat
+  permissions: ChatPermissions,
   /// Last message in the chat; may be null
   last_message: Option<Message>,
   /// Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined
@@ -80,6 +82,8 @@ impl Chat {
   pub fn title(&self) -> &String { &self.title }
 
   pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
+
+  pub fn permissions(&self) -> &ChatPermissions { &self.permissions }
 
   pub fn last_message(&self) -> &Option<Message> { &self.last_message }
 
@@ -148,6 +152,12 @@ impl RTDChatBuilder {
    
   pub fn photo<T: AsRef<ChatPhoto>>(&mut self, photo: T) -> &mut Self {
     self.inner.photo = Some(photo.as_ref().clone());
+    self
+  }
+
+   
+  pub fn permissions<T: AsRef<ChatPermissions>>(&mut self, permissions: T) -> &mut Self {
+    self.inner.permissions = permissions.as_ref().clone();
     self
   }
 

@@ -205,7 +205,7 @@ pub struct ChatMemberStatusAdministrator {
   can_restrict_members: bool,
   /// True, if the administrator can pin messages; applicable to groups only
   can_pin_messages: bool,
-  /// True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that were directly or indirectly promoted by him
+  /// True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that were directly or indirectly promoted by him
   can_promote_members: bool,
   
 }
@@ -389,14 +389,8 @@ pub struct ChatMemberStatusRestricted {
   is_member: bool,
   /// Point in time (Unix timestamp) when restrictions will be lifted from the user; 0 if never. If the user is restricted for more than 366 days or for less than 30 seconds from the current time, the user is considered to be restricted forever
   restricted_until_date: i64,
-  /// True, if the user can send text messages, contacts, locations, and venues
-  can_send_messages: bool,
-  /// True, if the user can send audio files, documents, photos, videos, video notes, and voice notes. Implies can_send_messages permissions
-  can_send_media_messages: bool,
-  /// True, if the user can send animations, games, and stickers and use inline bots. Implies can_send_media_messages permissions
-  can_send_other_messages: bool,
-  /// True, if the user may add a web page preview to his messages. Implies can_send_messages permissions
-  can_add_web_page_previews: bool,
+  /// User permissions in the chat
+  permissions: ChatPermissions,
   
 }
 
@@ -422,13 +416,7 @@ impl ChatMemberStatusRestricted {
 
   pub fn restricted_until_date(&self) -> i64 { self.restricted_until_date }
 
-  pub fn can_send_messages(&self) -> bool { self.can_send_messages }
-
-  pub fn can_send_media_messages(&self) -> bool { self.can_send_media_messages }
-
-  pub fn can_send_other_messages(&self) -> bool { self.can_send_other_messages }
-
-  pub fn can_add_web_page_previews(&self) -> bool { self.can_add_web_page_previews }
+  pub fn permissions(&self) -> &ChatPermissions { &self.permissions }
 
 }
 
@@ -453,26 +441,8 @@ impl RTDChatMemberStatusRestrictedBuilder {
   }
 
    
-  pub fn can_send_messages(&mut self, can_send_messages: bool) -> &mut Self {
-    self.inner.can_send_messages = can_send_messages;
-    self
-  }
-
-   
-  pub fn can_send_media_messages(&mut self, can_send_media_messages: bool) -> &mut Self {
-    self.inner.can_send_media_messages = can_send_media_messages;
-    self
-  }
-
-   
-  pub fn can_send_other_messages(&mut self, can_send_other_messages: bool) -> &mut Self {
-    self.inner.can_send_other_messages = can_send_other_messages;
-    self
-  }
-
-   
-  pub fn can_add_web_page_previews(&mut self, can_add_web_page_previews: bool) -> &mut Self {
-    self.inner.can_add_web_page_previews = can_add_web_page_previews;
+  pub fn permissions<T: AsRef<ChatPermissions>>(&mut self, permissions: T) -> &mut Self {
+    self.inner.permissions = permissions.as_ref().clone();
     self
   }
 

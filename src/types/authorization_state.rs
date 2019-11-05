@@ -24,8 +24,10 @@ pub enum AuthorizationState {
   WaitEncryptionKey(AuthorizationStateWaitEncryptionKey),
   /// TDLib needs the user's phone number to authorize
   WaitPhoneNumber(AuthorizationStateWaitPhoneNumber),
-  /// TDLib needs the user's authentication code to finalize authorization
+  /// TDLib needs the user's authentication code to authorize
   WaitCode(AuthorizationStateWaitCode),
+  /// The user is unregistered and need to accept terms of service and enter their first name and last name to finish registration
+  WaitRegistration(AuthorizationStateWaitRegistration),
   /// The user has been authorized, but needs to enter a password to start using the application
   WaitPassword(AuthorizationStateWaitPassword),
   /// The user has been successfully authorized. TDLib is now ready to answer queries
@@ -54,6 +56,7 @@ impl<'de> Deserialize<'de> for AuthorizationState {
       (authorizationStateWaitEncryptionKey, WaitEncryptionKey);
       (authorizationStateWaitPhoneNumber, WaitPhoneNumber);
       (authorizationStateWaitCode, WaitCode);
+      (authorizationStateWaitRegistration, WaitRegistration);
       (authorizationStateWaitPassword, WaitPassword);
       (authorizationStateReady, Ready);
       (authorizationStateLoggingOut, LoggingOut);
@@ -72,6 +75,7 @@ impl RObject for AuthorizationState {
       AuthorizationState::WaitEncryptionKey(t) => t.td_name(),
       AuthorizationState::WaitPhoneNumber(t) => t.td_name(),
       AuthorizationState::WaitCode(t) => t.td_name(),
+      AuthorizationState::WaitRegistration(t) => t.td_name(),
       AuthorizationState::WaitPassword(t) => t.td_name(),
       AuthorizationState::Ready(t) => t.td_name(),
       AuthorizationState::LoggingOut(t) => t.td_name(),
@@ -93,6 +97,7 @@ impl AuthorizationState {
   pub fn is_wait_encryption_key(&self) -> bool { if let AuthorizationState::WaitEncryptionKey(_) = self { true } else { false } }
   pub fn is_wait_phone_number(&self) -> bool { if let AuthorizationState::WaitPhoneNumber(_) = self { true } else { false } }
   pub fn is_wait_code(&self) -> bool { if let AuthorizationState::WaitCode(_) = self { true } else { false } }
+  pub fn is_wait_registration(&self) -> bool { if let AuthorizationState::WaitRegistration(_) = self { true } else { false } }
   pub fn is_wait_password(&self) -> bool { if let AuthorizationState::WaitPassword(_) = self { true } else { false } }
   pub fn is_ready(&self) -> bool { if let AuthorizationState::Ready(_) = self { true } else { false } }
   pub fn is_logging_out(&self) -> bool { if let AuthorizationState::LoggingOut(_) = self { true } else { false } }
@@ -104,6 +109,7 @@ impl AuthorizationState {
   pub fn on_wait_encryption_key<F: FnOnce(&AuthorizationStateWaitEncryptionKey)>(&self, fnc: F) -> &Self { if let AuthorizationState::WaitEncryptionKey(t) = self { fnc(t) }; self }
   pub fn on_wait_phone_number<F: FnOnce(&AuthorizationStateWaitPhoneNumber)>(&self, fnc: F) -> &Self { if let AuthorizationState::WaitPhoneNumber(t) = self { fnc(t) }; self }
   pub fn on_wait_code<F: FnOnce(&AuthorizationStateWaitCode)>(&self, fnc: F) -> &Self { if let AuthorizationState::WaitCode(t) = self { fnc(t) }; self }
+  pub fn on_wait_registration<F: FnOnce(&AuthorizationStateWaitRegistration)>(&self, fnc: F) -> &Self { if let AuthorizationState::WaitRegistration(t) = self { fnc(t) }; self }
   pub fn on_wait_password<F: FnOnce(&AuthorizationStateWaitPassword)>(&self, fnc: F) -> &Self { if let AuthorizationState::WaitPassword(t) = self { fnc(t) }; self }
   pub fn on_ready<F: FnOnce(&AuthorizationStateReady)>(&self, fnc: F) -> &Self { if let AuthorizationState::Ready(t) = self { fnc(t) }; self }
   pub fn on_logging_out<F: FnOnce(&AuthorizationStateLoggingOut)>(&self, fnc: F) -> &Self { if let AuthorizationState::LoggingOut(t) = self { fnc(t) }; self }
@@ -115,6 +121,7 @@ impl AuthorizationState {
   pub fn as_wait_encryption_key(&self) -> Option<&AuthorizationStateWaitEncryptionKey> { if let AuthorizationState::WaitEncryptionKey(t) = self { return Some(t) } None }
   pub fn as_wait_phone_number(&self) -> Option<&AuthorizationStateWaitPhoneNumber> { if let AuthorizationState::WaitPhoneNumber(t) = self { return Some(t) } None }
   pub fn as_wait_code(&self) -> Option<&AuthorizationStateWaitCode> { if let AuthorizationState::WaitCode(t) = self { return Some(t) } None }
+  pub fn as_wait_registration(&self) -> Option<&AuthorizationStateWaitRegistration> { if let AuthorizationState::WaitRegistration(t) = self { return Some(t) } None }
   pub fn as_wait_password(&self) -> Option<&AuthorizationStateWaitPassword> { if let AuthorizationState::WaitPassword(t) = self { return Some(t) } None }
   pub fn as_ready(&self) -> Option<&AuthorizationStateReady> { if let AuthorizationState::Ready(t) = self { return Some(t) } None }
   pub fn as_logging_out(&self) -> Option<&AuthorizationStateLoggingOut> { if let AuthorizationState::LoggingOut(t) = self { return Some(t) } None }
@@ -131,6 +138,8 @@ impl AuthorizationState {
   pub fn wait_phone_number<T: AsRef<AuthorizationStateWaitPhoneNumber>>(t: T) -> Self { AuthorizationState::WaitPhoneNumber(t.as_ref().clone()) }
 
   pub fn wait_code<T: AsRef<AuthorizationStateWaitCode>>(t: T) -> Self { AuthorizationState::WaitCode(t.as_ref().clone()) }
+
+  pub fn wait_registration<T: AsRef<AuthorizationStateWaitRegistration>>(t: T) -> Self { AuthorizationState::WaitRegistration(t.as_ref().clone()) }
 
   pub fn wait_password<T: AsRef<AuthorizationStateWaitPassword>>(t: T) -> Self { AuthorizationState::WaitPassword(t.as_ref().clone()) }
 
@@ -325,16 +334,12 @@ impl AsRef<AuthorizationStateWaitPhoneNumber> for RTDAuthorizationStateWaitPhone
 
 
 
-/// TDLib needs the user's authentication code to finalize authorization
+/// TDLib needs the user's authentication code to authorize
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct AuthorizationStateWaitCode {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// True, if the user is already registered
-  is_registered: bool,
-  /// Telegram terms of service, which should be accepted before user can continue registration; may be null
-  terms_of_service: Option<TermsOfService>,
   /// Information about the authorization code that was sent
   code_info: AuthenticationCodeInfo,
   
@@ -358,10 +363,6 @@ impl AuthorizationStateWaitCode {
     RTDAuthorizationStateWaitCodeBuilder { inner }
   }
 
-  pub fn is_registered(&self) -> bool { self.is_registered }
-
-  pub fn terms_of_service(&self) -> &Option<TermsOfService> { &self.terms_of_service }
-
   pub fn code_info(&self) -> &AuthenticationCodeInfo { &self.code_info }
 
 }
@@ -373,18 +374,6 @@ pub struct RTDAuthorizationStateWaitCodeBuilder {
 
 impl RTDAuthorizationStateWaitCodeBuilder {
   pub fn build(&self) -> AuthorizationStateWaitCode { self.inner.clone() }
-
-   
-  pub fn is_registered(&mut self, is_registered: bool) -> &mut Self {
-    self.inner.is_registered = is_registered;
-    self
-  }
-
-   
-  pub fn terms_of_service<T: AsRef<TermsOfService>>(&mut self, terms_of_service: T) -> &mut Self {
-    self.inner.terms_of_service = Some(terms_of_service.as_ref().clone());
-    self
-  }
 
    
   pub fn code_info<T: AsRef<AuthenticationCodeInfo>>(&mut self, code_info: T) -> &mut Self {
@@ -408,6 +397,69 @@ impl AsRef<AuthorizationStateWaitCode> for RTDAuthorizationStateWaitCodeBuilder 
 
 
 
+/// The user is unregistered and need to accept terms of service and enter their first name and last name to finish registration
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct AuthorizationStateWaitRegistration {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Telegram terms of service
+  terms_of_service: TermsOfService,
+  
+}
+
+impl RObject for AuthorizationStateWaitRegistration {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "authorizationStateWaitRegistration" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDAuthorizationState for AuthorizationStateWaitRegistration {}
+
+
+
+impl AuthorizationStateWaitRegistration {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDAuthorizationStateWaitRegistrationBuilder {
+    let mut inner = AuthorizationStateWaitRegistration::default();
+    inner.td_name = "authorizationStateWaitRegistration".to_string();
+    RTDAuthorizationStateWaitRegistrationBuilder { inner }
+  }
+
+  pub fn terms_of_service(&self) -> &TermsOfService { &self.terms_of_service }
+
+}
+
+#[doc(hidden)]
+pub struct RTDAuthorizationStateWaitRegistrationBuilder {
+  inner: AuthorizationStateWaitRegistration
+}
+
+impl RTDAuthorizationStateWaitRegistrationBuilder {
+  pub fn build(&self) -> AuthorizationStateWaitRegistration { self.inner.clone() }
+
+   
+  pub fn terms_of_service<T: AsRef<TermsOfService>>(&mut self, terms_of_service: T) -> &mut Self {
+    self.inner.terms_of_service = terms_of_service.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<AuthorizationStateWaitRegistration> for AuthorizationStateWaitRegistration {
+  fn as_ref(&self) -> &AuthorizationStateWaitRegistration { self }
+}
+
+impl AsRef<AuthorizationStateWaitRegistration> for RTDAuthorizationStateWaitRegistrationBuilder {
+  fn as_ref(&self) -> &AuthorizationStateWaitRegistration { &self.inner }
+}
+
+
+
+
+
+
+
 /// The user has been authorized, but needs to enter a password to start using the application
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct AuthorizationStateWaitPassword {
@@ -416,7 +468,7 @@ pub struct AuthorizationStateWaitPassword {
   td_name: String,
   /// Hint for the password; may be empty
   password_hint: String,
-  /// True if a recovery email address has been set up
+  /// True, if a recovery email address has been set up
   has_recovery_email_address: bool,
   /// Pattern of the email address to which the recovery email was sent; empty until a recovery email has been sent
   recovery_email_address_pattern: String,

@@ -18,6 +18,8 @@ pub trait TDChatMembersFilter: Debug + RObject {}
 #[serde(untagged)]
 pub enum ChatMembersFilter {
   #[doc(hidden)] _Default(()),
+  /// Returns contacts of the user
+  Contacts(ChatMembersFilterContacts),
   /// Returns the creator and administrators
   Administrators(ChatMembersFilterAdministrators),
   /// Returns all chat members, including restricted chat members
@@ -40,6 +42,7 @@ impl<'de> Deserialize<'de> for ChatMembersFilter {
     use serde::de::Error;
     rtd_enum_deserialize!(
       ChatMembersFilter,
+      (chatMembersFilterContacts, Contacts);
       (chatMembersFilterAdministrators, Administrators);
       (chatMembersFilterMembers, Members);
       (chatMembersFilterRestricted, Restricted);
@@ -53,6 +56,7 @@ impl<'de> Deserialize<'de> for ChatMembersFilter {
 impl RObject for ChatMembersFilter {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
+      ChatMembersFilter::Contacts(t) => t.td_name(),
       ChatMembersFilter::Administrators(t) => t.td_name(),
       ChatMembersFilter::Members(t) => t.td_name(),
       ChatMembersFilter::Restricted(t) => t.td_name(),
@@ -69,18 +73,21 @@ impl ChatMembersFilter {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let ChatMembersFilter::_Default(_) = self { true } else { false } }
 
+  pub fn is_contacts(&self) -> bool { if let ChatMembersFilter::Contacts(_) = self { true } else { false } }
   pub fn is_administrators(&self) -> bool { if let ChatMembersFilter::Administrators(_) = self { true } else { false } }
   pub fn is_members(&self) -> bool { if let ChatMembersFilter::Members(_) = self { true } else { false } }
   pub fn is_restricted(&self) -> bool { if let ChatMembersFilter::Restricted(_) = self { true } else { false } }
   pub fn is_banned(&self) -> bool { if let ChatMembersFilter::Banned(_) = self { true } else { false } }
   pub fn is_bots(&self) -> bool { if let ChatMembersFilter::Bots(_) = self { true } else { false } }
 
+  pub fn on_contacts<F: FnOnce(&ChatMembersFilterContacts)>(&self, fnc: F) -> &Self { if let ChatMembersFilter::Contacts(t) = self { fnc(t) }; self }
   pub fn on_administrators<F: FnOnce(&ChatMembersFilterAdministrators)>(&self, fnc: F) -> &Self { if let ChatMembersFilter::Administrators(t) = self { fnc(t) }; self }
   pub fn on_members<F: FnOnce(&ChatMembersFilterMembers)>(&self, fnc: F) -> &Self { if let ChatMembersFilter::Members(t) = self { fnc(t) }; self }
   pub fn on_restricted<F: FnOnce(&ChatMembersFilterRestricted)>(&self, fnc: F) -> &Self { if let ChatMembersFilter::Restricted(t) = self { fnc(t) }; self }
   pub fn on_banned<F: FnOnce(&ChatMembersFilterBanned)>(&self, fnc: F) -> &Self { if let ChatMembersFilter::Banned(t) = self { fnc(t) }; self }
   pub fn on_bots<F: FnOnce(&ChatMembersFilterBots)>(&self, fnc: F) -> &Self { if let ChatMembersFilter::Bots(t) = self { fnc(t) }; self }
 
+  pub fn as_contacts(&self) -> Option<&ChatMembersFilterContacts> { if let ChatMembersFilter::Contacts(t) = self { return Some(t) } None }
   pub fn as_administrators(&self) -> Option<&ChatMembersFilterAdministrators> { if let ChatMembersFilter::Administrators(t) = self { return Some(t) } None }
   pub fn as_members(&self) -> Option<&ChatMembersFilterMembers> { if let ChatMembersFilter::Members(t) = self { return Some(t) } None }
   pub fn as_restricted(&self) -> Option<&ChatMembersFilterRestricted> { if let ChatMembersFilter::Restricted(t) = self { return Some(t) } None }
@@ -88,6 +95,8 @@ impl ChatMembersFilter {
   pub fn as_bots(&self) -> Option<&ChatMembersFilterBots> { if let ChatMembersFilter::Bots(t) = self { return Some(t) } None }
 
 
+
+  pub fn contacts<T: AsRef<ChatMembersFilterContacts>>(t: T) -> Self { ChatMembersFilter::Contacts(t.as_ref().clone()) }
 
   pub fn administrators<T: AsRef<ChatMembersFilterAdministrators>>(t: T) -> Self { ChatMembersFilter::Administrators(t.as_ref().clone()) }
 
@@ -103,6 +112,59 @@ impl ChatMembersFilter {
 
 impl AsRef<ChatMembersFilter> for ChatMembersFilter {
   fn as_ref(&self) -> &ChatMembersFilter { self }
+}
+
+
+
+
+
+
+
+/// Returns contacts of the user
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatMembersFilterContacts {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for ChatMembersFilterContacts {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMembersFilterContacts" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatMembersFilter for ChatMembersFilterContacts {}
+
+
+
+impl ChatMembersFilterContacts {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatMembersFilterContactsBuilder {
+    let mut inner = ChatMembersFilterContacts::default();
+    inner.td_name = "chatMembersFilterContacts".to_string();
+    RTDChatMembersFilterContactsBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatMembersFilterContactsBuilder {
+  inner: ChatMembersFilterContacts
+}
+
+impl RTDChatMembersFilterContactsBuilder {
+  pub fn build(&self) -> ChatMembersFilterContacts { self.inner.clone() }
+
+}
+
+impl AsRef<ChatMembersFilterContacts> for ChatMembersFilterContacts {
+  fn as_ref(&self) -> &ChatMembersFilterContacts { self }
+}
+
+impl AsRef<ChatMembersFilterContacts> for RTDChatMembersFilterContactsBuilder {
+  fn as_ref(&self) -> &ChatMembersFilterContacts { &self.inner }
 }
 
 

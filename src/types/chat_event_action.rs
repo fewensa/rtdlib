@@ -22,6 +22,8 @@ pub enum ChatEventAction {
   ChatEventMessageEdited(ChatEventMessageEdited),
   /// A message was deleted
   ChatEventMessageDeleted(ChatEventMessageDeleted),
+  /// A poll in a message was stopped
+  ChatEventPollStopped(ChatEventPollStopped),
   /// A message was pinned
   ChatEventMessagePinned(ChatEventMessagePinned),
   /// A message was unpinned
@@ -38,13 +40,15 @@ pub enum ChatEventAction {
   ChatEventMemberRestricted(ChatEventMemberRestricted),
   /// The chat title was changed
   ChatEventTitleChanged(ChatEventTitleChanged),
+  /// The chat permissions was changed
+  ChatEventPermissionsChanged(ChatEventPermissionsChanged),
   /// The chat description was changed
   ChatEventDescriptionChanged(ChatEventDescriptionChanged),
   /// The chat username was changed
   ChatEventUsernameChanged(ChatEventUsernameChanged),
   /// The chat photo was changed
   ChatEventPhotoChanged(ChatEventPhotoChanged),
-  /// The anyone_can_invite setting of a supergroup chat was toggled
+  /// The can_invite_users permission of a supergroup chat was toggled
   ChatEventInvitesToggled(ChatEventInvitesToggled),
   /// The sign_messages setting of a channel was toggled
   ChatEventSignMessagesToggled(ChatEventSignMessagesToggled),
@@ -66,6 +70,7 @@ impl<'de> Deserialize<'de> for ChatEventAction {
       ChatEventAction,
       (chatEventMessageEdited, ChatEventMessageEdited);
       (chatEventMessageDeleted, ChatEventMessageDeleted);
+      (chatEventPollStopped, ChatEventPollStopped);
       (chatEventMessagePinned, ChatEventMessagePinned);
       (chatEventMessageUnpinned, ChatEventMessageUnpinned);
       (chatEventMemberJoined, ChatEventMemberJoined);
@@ -74,6 +79,7 @@ impl<'de> Deserialize<'de> for ChatEventAction {
       (chatEventMemberPromoted, ChatEventMemberPromoted);
       (chatEventMemberRestricted, ChatEventMemberRestricted);
       (chatEventTitleChanged, ChatEventTitleChanged);
+      (chatEventPermissionsChanged, ChatEventPermissionsChanged);
       (chatEventDescriptionChanged, ChatEventDescriptionChanged);
       (chatEventUsernameChanged, ChatEventUsernameChanged);
       (chatEventPhotoChanged, ChatEventPhotoChanged);
@@ -91,6 +97,7 @@ impl RObject for ChatEventAction {
     match self {
       ChatEventAction::ChatEventMessageEdited(t) => t.td_name(),
       ChatEventAction::ChatEventMessageDeleted(t) => t.td_name(),
+      ChatEventAction::ChatEventPollStopped(t) => t.td_name(),
       ChatEventAction::ChatEventMessagePinned(t) => t.td_name(),
       ChatEventAction::ChatEventMessageUnpinned(t) => t.td_name(),
       ChatEventAction::ChatEventMemberJoined(t) => t.td_name(),
@@ -99,6 +106,7 @@ impl RObject for ChatEventAction {
       ChatEventAction::ChatEventMemberPromoted(t) => t.td_name(),
       ChatEventAction::ChatEventMemberRestricted(t) => t.td_name(),
       ChatEventAction::ChatEventTitleChanged(t) => t.td_name(),
+      ChatEventAction::ChatEventPermissionsChanged(t) => t.td_name(),
       ChatEventAction::ChatEventDescriptionChanged(t) => t.td_name(),
       ChatEventAction::ChatEventUsernameChanged(t) => t.td_name(),
       ChatEventAction::ChatEventPhotoChanged(t) => t.td_name(),
@@ -119,6 +127,7 @@ impl ChatEventAction {
 
   pub fn is_chat_event_message_edited(&self) -> bool { if let ChatEventAction::ChatEventMessageEdited(_) = self { true } else { false } }
   pub fn is_chat_event_message_deleted(&self) -> bool { if let ChatEventAction::ChatEventMessageDeleted(_) = self { true } else { false } }
+  pub fn is_chat_event_poll_stopped(&self) -> bool { if let ChatEventAction::ChatEventPollStopped(_) = self { true } else { false } }
   pub fn is_chat_event_message_pinned(&self) -> bool { if let ChatEventAction::ChatEventMessagePinned(_) = self { true } else { false } }
   pub fn is_chat_event_message_unpinned(&self) -> bool { if let ChatEventAction::ChatEventMessageUnpinned(_) = self { true } else { false } }
   pub fn is_chat_event_member_joined(&self) -> bool { if let ChatEventAction::ChatEventMemberJoined(_) = self { true } else { false } }
@@ -127,6 +136,7 @@ impl ChatEventAction {
   pub fn is_chat_event_member_promoted(&self) -> bool { if let ChatEventAction::ChatEventMemberPromoted(_) = self { true } else { false } }
   pub fn is_chat_event_member_restricted(&self) -> bool { if let ChatEventAction::ChatEventMemberRestricted(_) = self { true } else { false } }
   pub fn is_chat_event_title_changed(&self) -> bool { if let ChatEventAction::ChatEventTitleChanged(_) = self { true } else { false } }
+  pub fn is_chat_event_permissions_changed(&self) -> bool { if let ChatEventAction::ChatEventPermissionsChanged(_) = self { true } else { false } }
   pub fn is_chat_event_description_changed(&self) -> bool { if let ChatEventAction::ChatEventDescriptionChanged(_) = self { true } else { false } }
   pub fn is_chat_event_username_changed(&self) -> bool { if let ChatEventAction::ChatEventUsernameChanged(_) = self { true } else { false } }
   pub fn is_chat_event_photo_changed(&self) -> bool { if let ChatEventAction::ChatEventPhotoChanged(_) = self { true } else { false } }
@@ -137,6 +147,7 @@ impl ChatEventAction {
 
   pub fn on_chat_event_message_edited<F: FnOnce(&ChatEventMessageEdited)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventMessageEdited(t) = self { fnc(t) }; self }
   pub fn on_chat_event_message_deleted<F: FnOnce(&ChatEventMessageDeleted)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventMessageDeleted(t) = self { fnc(t) }; self }
+  pub fn on_chat_event_poll_stopped<F: FnOnce(&ChatEventPollStopped)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventPollStopped(t) = self { fnc(t) }; self }
   pub fn on_chat_event_message_pinned<F: FnOnce(&ChatEventMessagePinned)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventMessagePinned(t) = self { fnc(t) }; self }
   pub fn on_chat_event_message_unpinned<F: FnOnce(&ChatEventMessageUnpinned)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventMessageUnpinned(t) = self { fnc(t) }; self }
   pub fn on_chat_event_member_joined<F: FnOnce(&ChatEventMemberJoined)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventMemberJoined(t) = self { fnc(t) }; self }
@@ -145,6 +156,7 @@ impl ChatEventAction {
   pub fn on_chat_event_member_promoted<F: FnOnce(&ChatEventMemberPromoted)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventMemberPromoted(t) = self { fnc(t) }; self }
   pub fn on_chat_event_member_restricted<F: FnOnce(&ChatEventMemberRestricted)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventMemberRestricted(t) = self { fnc(t) }; self }
   pub fn on_chat_event_title_changed<F: FnOnce(&ChatEventTitleChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventTitleChanged(t) = self { fnc(t) }; self }
+  pub fn on_chat_event_permissions_changed<F: FnOnce(&ChatEventPermissionsChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventPermissionsChanged(t) = self { fnc(t) }; self }
   pub fn on_chat_event_description_changed<F: FnOnce(&ChatEventDescriptionChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventDescriptionChanged(t) = self { fnc(t) }; self }
   pub fn on_chat_event_username_changed<F: FnOnce(&ChatEventUsernameChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventUsernameChanged(t) = self { fnc(t) }; self }
   pub fn on_chat_event_photo_changed<F: FnOnce(&ChatEventPhotoChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventPhotoChanged(t) = self { fnc(t) }; self }
@@ -155,6 +167,7 @@ impl ChatEventAction {
 
   pub fn as_chat_event_message_edited(&self) -> Option<&ChatEventMessageEdited> { if let ChatEventAction::ChatEventMessageEdited(t) = self { return Some(t) } None }
   pub fn as_chat_event_message_deleted(&self) -> Option<&ChatEventMessageDeleted> { if let ChatEventAction::ChatEventMessageDeleted(t) = self { return Some(t) } None }
+  pub fn as_chat_event_poll_stopped(&self) -> Option<&ChatEventPollStopped> { if let ChatEventAction::ChatEventPollStopped(t) = self { return Some(t) } None }
   pub fn as_chat_event_message_pinned(&self) -> Option<&ChatEventMessagePinned> { if let ChatEventAction::ChatEventMessagePinned(t) = self { return Some(t) } None }
   pub fn as_chat_event_message_unpinned(&self) -> Option<&ChatEventMessageUnpinned> { if let ChatEventAction::ChatEventMessageUnpinned(t) = self { return Some(t) } None }
   pub fn as_chat_event_member_joined(&self) -> Option<&ChatEventMemberJoined> { if let ChatEventAction::ChatEventMemberJoined(t) = self { return Some(t) } None }
@@ -163,6 +176,7 @@ impl ChatEventAction {
   pub fn as_chat_event_member_promoted(&self) -> Option<&ChatEventMemberPromoted> { if let ChatEventAction::ChatEventMemberPromoted(t) = self { return Some(t) } None }
   pub fn as_chat_event_member_restricted(&self) -> Option<&ChatEventMemberRestricted> { if let ChatEventAction::ChatEventMemberRestricted(t) = self { return Some(t) } None }
   pub fn as_chat_event_title_changed(&self) -> Option<&ChatEventTitleChanged> { if let ChatEventAction::ChatEventTitleChanged(t) = self { return Some(t) } None }
+  pub fn as_chat_event_permissions_changed(&self) -> Option<&ChatEventPermissionsChanged> { if let ChatEventAction::ChatEventPermissionsChanged(t) = self { return Some(t) } None }
   pub fn as_chat_event_description_changed(&self) -> Option<&ChatEventDescriptionChanged> { if let ChatEventAction::ChatEventDescriptionChanged(t) = self { return Some(t) } None }
   pub fn as_chat_event_username_changed(&self) -> Option<&ChatEventUsernameChanged> { if let ChatEventAction::ChatEventUsernameChanged(t) = self { return Some(t) } None }
   pub fn as_chat_event_photo_changed(&self) -> Option<&ChatEventPhotoChanged> { if let ChatEventAction::ChatEventPhotoChanged(t) = self { return Some(t) } None }
@@ -176,6 +190,8 @@ impl ChatEventAction {
   pub fn chat_event_message_edited<T: AsRef<ChatEventMessageEdited>>(t: T) -> Self { ChatEventAction::ChatEventMessageEdited(t.as_ref().clone()) }
 
   pub fn chat_event_message_deleted<T: AsRef<ChatEventMessageDeleted>>(t: T) -> Self { ChatEventAction::ChatEventMessageDeleted(t.as_ref().clone()) }
+
+  pub fn chat_event_poll_stopped<T: AsRef<ChatEventPollStopped>>(t: T) -> Self { ChatEventAction::ChatEventPollStopped(t.as_ref().clone()) }
 
   pub fn chat_event_message_pinned<T: AsRef<ChatEventMessagePinned>>(t: T) -> Self { ChatEventAction::ChatEventMessagePinned(t.as_ref().clone()) }
 
@@ -192,6 +208,8 @@ impl ChatEventAction {
   pub fn chat_event_member_restricted<T: AsRef<ChatEventMemberRestricted>>(t: T) -> Self { ChatEventAction::ChatEventMemberRestricted(t.as_ref().clone()) }
 
   pub fn chat_event_title_changed<T: AsRef<ChatEventTitleChanged>>(t: T) -> Self { ChatEventAction::ChatEventTitleChanged(t.as_ref().clone()) }
+
+  pub fn chat_event_permissions_changed<T: AsRef<ChatEventPermissionsChanged>>(t: T) -> Self { ChatEventAction::ChatEventPermissionsChanged(t.as_ref().clone()) }
 
   pub fn chat_event_description_changed<T: AsRef<ChatEventDescriptionChanged>>(t: T) -> Self { ChatEventAction::ChatEventDescriptionChanged(t.as_ref().clone()) }
 
@@ -347,6 +365,69 @@ impl AsRef<ChatEventMessageDeleted> for ChatEventMessageDeleted {
 
 impl AsRef<ChatEventMessageDeleted> for RTDChatEventMessageDeletedBuilder {
   fn as_ref(&self) -> &ChatEventMessageDeleted { &self.inner }
+}
+
+
+
+
+
+
+
+/// A poll in a message was stopped
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventPollStopped {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The message with the poll
+  message: Message,
+  
+}
+
+impl RObject for ChatEventPollStopped {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventPollStopped" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatEventAction for ChatEventPollStopped {}
+
+
+
+impl ChatEventPollStopped {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatEventPollStoppedBuilder {
+    let mut inner = ChatEventPollStopped::default();
+    inner.td_name = "chatEventPollStopped".to_string();
+    RTDChatEventPollStoppedBuilder { inner }
+  }
+
+  pub fn message(&self) -> &Message { &self.message }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventPollStoppedBuilder {
+  inner: ChatEventPollStopped
+}
+
+impl RTDChatEventPollStoppedBuilder {
+  pub fn build(&self) -> ChatEventPollStopped { self.inner.clone() }
+
+   
+  pub fn message<T: AsRef<Message>>(&mut self, message: T) -> &mut Self {
+    self.inner.message = message.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<ChatEventPollStopped> for ChatEventPollStopped {
+  fn as_ref(&self) -> &ChatEventPollStopped { self }
+}
+
+impl AsRef<ChatEventPollStopped> for RTDChatEventPollStoppedBuilder {
+  fn as_ref(&self) -> &ChatEventPollStopped { &self.inner }
 }
 
 
@@ -889,6 +970,79 @@ impl AsRef<ChatEventTitleChanged> for RTDChatEventTitleChangedBuilder {
 
 
 
+/// The chat permissions was changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventPermissionsChanged {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Previous chat permissions
+  old_permissions: ChatPermissions,
+  /// New chat permissions
+  new_permissions: ChatPermissions,
+  
+}
+
+impl RObject for ChatEventPermissionsChanged {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventPermissionsChanged" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatEventAction for ChatEventPermissionsChanged {}
+
+
+
+impl ChatEventPermissionsChanged {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatEventPermissionsChangedBuilder {
+    let mut inner = ChatEventPermissionsChanged::default();
+    inner.td_name = "chatEventPermissionsChanged".to_string();
+    RTDChatEventPermissionsChangedBuilder { inner }
+  }
+
+  pub fn old_permissions(&self) -> &ChatPermissions { &self.old_permissions }
+
+  pub fn new_permissions(&self) -> &ChatPermissions { &self.new_permissions }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventPermissionsChangedBuilder {
+  inner: ChatEventPermissionsChanged
+}
+
+impl RTDChatEventPermissionsChangedBuilder {
+  pub fn build(&self) -> ChatEventPermissionsChanged { self.inner.clone() }
+
+   
+  pub fn old_permissions<T: AsRef<ChatPermissions>>(&mut self, old_permissions: T) -> &mut Self {
+    self.inner.old_permissions = old_permissions.as_ref().clone();
+    self
+  }
+
+   
+  pub fn new_permissions<T: AsRef<ChatPermissions>>(&mut self, new_permissions: T) -> &mut Self {
+    self.inner.new_permissions = new_permissions.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<ChatEventPermissionsChanged> for ChatEventPermissionsChanged {
+  fn as_ref(&self) -> &ChatEventPermissionsChanged { self }
+}
+
+impl AsRef<ChatEventPermissionsChanged> for RTDChatEventPermissionsChangedBuilder {
+  fn as_ref(&self) -> &ChatEventPermissionsChanged { &self.inner }
+}
+
+
+
+
+
+
+
 /// The chat description was changed
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatEventDescriptionChanged {
@@ -1042,9 +1196,9 @@ pub struct ChatEventPhotoChanged {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Previous chat photo value; may be null
-  old_photo: Option<ChatPhoto>,
+  old_photo: Option<Photo>,
   /// New chat photo value; may be null
-  new_photo: Option<ChatPhoto>,
+  new_photo: Option<Photo>,
   
 }
 
@@ -1066,9 +1220,9 @@ impl ChatEventPhotoChanged {
     RTDChatEventPhotoChangedBuilder { inner }
   }
 
-  pub fn old_photo(&self) -> &Option<ChatPhoto> { &self.old_photo }
+  pub fn old_photo(&self) -> &Option<Photo> { &self.old_photo }
 
-  pub fn new_photo(&self) -> &Option<ChatPhoto> { &self.new_photo }
+  pub fn new_photo(&self) -> &Option<Photo> { &self.new_photo }
 
 }
 
@@ -1081,13 +1235,13 @@ impl RTDChatEventPhotoChangedBuilder {
   pub fn build(&self) -> ChatEventPhotoChanged { self.inner.clone() }
 
    
-  pub fn old_photo<T: AsRef<ChatPhoto>>(&mut self, old_photo: T) -> &mut Self {
+  pub fn old_photo<T: AsRef<Photo>>(&mut self, old_photo: T) -> &mut Self {
     self.inner.old_photo = Some(old_photo.as_ref().clone());
     self
   }
 
    
-  pub fn new_photo<T: AsRef<ChatPhoto>>(&mut self, new_photo: T) -> &mut Self {
+  pub fn new_photo<T: AsRef<Photo>>(&mut self, new_photo: T) -> &mut Self {
     self.inner.new_photo = Some(new_photo.as_ref().clone());
     self
   }
@@ -1108,14 +1262,14 @@ impl AsRef<ChatEventPhotoChanged> for RTDChatEventPhotoChangedBuilder {
 
 
 
-/// The anyone_can_invite setting of a supergroup chat was toggled
+/// The can_invite_users permission of a supergroup chat was toggled
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatEventInvitesToggled {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// New value of anyone_can_invite
-  anyone_can_invite: bool,
+  /// New value of can_invite_users permission
+  can_invite_users: bool,
   
 }
 
@@ -1137,7 +1291,7 @@ impl ChatEventInvitesToggled {
     RTDChatEventInvitesToggledBuilder { inner }
   }
 
-  pub fn anyone_can_invite(&self) -> bool { self.anyone_can_invite }
+  pub fn can_invite_users(&self) -> bool { self.can_invite_users }
 
 }
 
@@ -1150,8 +1304,8 @@ impl RTDChatEventInvitesToggledBuilder {
   pub fn build(&self) -> ChatEventInvitesToggled { self.inner.clone() }
 
    
-  pub fn anyone_can_invite(&mut self, anyone_can_invite: bool) -> &mut Self {
-    self.inner.anyone_can_invite = anyone_can_invite;
+  pub fn can_invite_users(&mut self, can_invite_users: bool) -> &mut Self {
+    self.inner.can_invite_users = can_invite_users;
     self
   }
 

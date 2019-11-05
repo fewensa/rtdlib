@@ -20,6 +20,10 @@ pub enum UserPrivacySetting {
   #[doc(hidden)] _Default(()),
   /// A privacy setting for managing whether the user's online status is visible
   ShowStatus(UserPrivacySettingShowStatus),
+  /// A privacy setting for managing whether the user's profile photo is visible
+  ShowProfilePhoto(UserPrivacySettingShowProfilePhoto),
+  /// A privacy setting for managing whether a link to the user's account is included in forwarded messages
+  ShowLinkInForwardedMessages(UserPrivacySettingShowLinkInForwardedMessages),
   /// A privacy setting for managing whether the user can be invited to chats
   AllowChatInvites(UserPrivacySettingAllowChatInvites),
   /// A privacy setting for managing whether the user can be called
@@ -39,6 +43,8 @@ impl<'de> Deserialize<'de> for UserPrivacySetting {
     rtd_enum_deserialize!(
       UserPrivacySetting,
       (userPrivacySettingShowStatus, ShowStatus);
+      (userPrivacySettingShowProfilePhoto, ShowProfilePhoto);
+      (userPrivacySettingShowLinkInForwardedMessages, ShowLinkInForwardedMessages);
       (userPrivacySettingAllowChatInvites, AllowChatInvites);
       (userPrivacySettingAllowCalls, AllowCalls);
       (userPrivacySettingAllowPeerToPeerCalls, AllowPeerToPeerCalls);
@@ -51,6 +57,8 @@ impl RObject for UserPrivacySetting {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
       UserPrivacySetting::ShowStatus(t) => t.td_name(),
+      UserPrivacySetting::ShowProfilePhoto(t) => t.td_name(),
+      UserPrivacySetting::ShowLinkInForwardedMessages(t) => t.td_name(),
       UserPrivacySetting::AllowChatInvites(t) => t.td_name(),
       UserPrivacySetting::AllowCalls(t) => t.td_name(),
       UserPrivacySetting::AllowPeerToPeerCalls(t) => t.td_name(),
@@ -66,16 +74,22 @@ impl UserPrivacySetting {
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let UserPrivacySetting::_Default(_) = self { true } else { false } }
 
   pub fn is_show_status(&self) -> bool { if let UserPrivacySetting::ShowStatus(_) = self { true } else { false } }
+  pub fn is_show_profile_photo(&self) -> bool { if let UserPrivacySetting::ShowProfilePhoto(_) = self { true } else { false } }
+  pub fn is_show_link_in_forwarded_messages(&self) -> bool { if let UserPrivacySetting::ShowLinkInForwardedMessages(_) = self { true } else { false } }
   pub fn is_allow_chat_invites(&self) -> bool { if let UserPrivacySetting::AllowChatInvites(_) = self { true } else { false } }
   pub fn is_allow_calls(&self) -> bool { if let UserPrivacySetting::AllowCalls(_) = self { true } else { false } }
   pub fn is_allow_peer_to_peer_calls(&self) -> bool { if let UserPrivacySetting::AllowPeerToPeerCalls(_) = self { true } else { false } }
 
   pub fn on_show_status<F: FnOnce(&UserPrivacySettingShowStatus)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::ShowStatus(t) = self { fnc(t) }; self }
+  pub fn on_show_profile_photo<F: FnOnce(&UserPrivacySettingShowProfilePhoto)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::ShowProfilePhoto(t) = self { fnc(t) }; self }
+  pub fn on_show_link_in_forwarded_messages<F: FnOnce(&UserPrivacySettingShowLinkInForwardedMessages)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::ShowLinkInForwardedMessages(t) = self { fnc(t) }; self }
   pub fn on_allow_chat_invites<F: FnOnce(&UserPrivacySettingAllowChatInvites)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::AllowChatInvites(t) = self { fnc(t) }; self }
   pub fn on_allow_calls<F: FnOnce(&UserPrivacySettingAllowCalls)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::AllowCalls(t) = self { fnc(t) }; self }
   pub fn on_allow_peer_to_peer_calls<F: FnOnce(&UserPrivacySettingAllowPeerToPeerCalls)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::AllowPeerToPeerCalls(t) = self { fnc(t) }; self }
 
   pub fn as_show_status(&self) -> Option<&UserPrivacySettingShowStatus> { if let UserPrivacySetting::ShowStatus(t) = self { return Some(t) } None }
+  pub fn as_show_profile_photo(&self) -> Option<&UserPrivacySettingShowProfilePhoto> { if let UserPrivacySetting::ShowProfilePhoto(t) = self { return Some(t) } None }
+  pub fn as_show_link_in_forwarded_messages(&self) -> Option<&UserPrivacySettingShowLinkInForwardedMessages> { if let UserPrivacySetting::ShowLinkInForwardedMessages(t) = self { return Some(t) } None }
   pub fn as_allow_chat_invites(&self) -> Option<&UserPrivacySettingAllowChatInvites> { if let UserPrivacySetting::AllowChatInvites(t) = self { return Some(t) } None }
   pub fn as_allow_calls(&self) -> Option<&UserPrivacySettingAllowCalls> { if let UserPrivacySetting::AllowCalls(t) = self { return Some(t) } None }
   pub fn as_allow_peer_to_peer_calls(&self) -> Option<&UserPrivacySettingAllowPeerToPeerCalls> { if let UserPrivacySetting::AllowPeerToPeerCalls(t) = self { return Some(t) } None }
@@ -83,6 +97,10 @@ impl UserPrivacySetting {
 
 
   pub fn show_status<T: AsRef<UserPrivacySettingShowStatus>>(t: T) -> Self { UserPrivacySetting::ShowStatus(t.as_ref().clone()) }
+
+  pub fn show_profile_photo<T: AsRef<UserPrivacySettingShowProfilePhoto>>(t: T) -> Self { UserPrivacySetting::ShowProfilePhoto(t.as_ref().clone()) }
+
+  pub fn show_link_in_forwarded_messages<T: AsRef<UserPrivacySettingShowLinkInForwardedMessages>>(t: T) -> Self { UserPrivacySetting::ShowLinkInForwardedMessages(t.as_ref().clone()) }
 
   pub fn allow_chat_invites<T: AsRef<UserPrivacySettingAllowChatInvites>>(t: T) -> Self { UserPrivacySetting::AllowChatInvites(t.as_ref().clone()) }
 
@@ -147,6 +165,112 @@ impl AsRef<UserPrivacySettingShowStatus> for UserPrivacySettingShowStatus {
 
 impl AsRef<UserPrivacySettingShowStatus> for RTDUserPrivacySettingShowStatusBuilder {
   fn as_ref(&self) -> &UserPrivacySettingShowStatus { &self.inner }
+}
+
+
+
+
+
+
+
+/// A privacy setting for managing whether the user's profile photo is visible
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UserPrivacySettingShowProfilePhoto {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for UserPrivacySettingShowProfilePhoto {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingShowProfilePhoto" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUserPrivacySetting for UserPrivacySettingShowProfilePhoto {}
+
+
+
+impl UserPrivacySettingShowProfilePhoto {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUserPrivacySettingShowProfilePhotoBuilder {
+    let mut inner = UserPrivacySettingShowProfilePhoto::default();
+    inner.td_name = "userPrivacySettingShowProfilePhoto".to_string();
+    RTDUserPrivacySettingShowProfilePhotoBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUserPrivacySettingShowProfilePhotoBuilder {
+  inner: UserPrivacySettingShowProfilePhoto
+}
+
+impl RTDUserPrivacySettingShowProfilePhotoBuilder {
+  pub fn build(&self) -> UserPrivacySettingShowProfilePhoto { self.inner.clone() }
+
+}
+
+impl AsRef<UserPrivacySettingShowProfilePhoto> for UserPrivacySettingShowProfilePhoto {
+  fn as_ref(&self) -> &UserPrivacySettingShowProfilePhoto { self }
+}
+
+impl AsRef<UserPrivacySettingShowProfilePhoto> for RTDUserPrivacySettingShowProfilePhotoBuilder {
+  fn as_ref(&self) -> &UserPrivacySettingShowProfilePhoto { &self.inner }
+}
+
+
+
+
+
+
+
+/// A privacy setting for managing whether a link to the user's account is included in forwarded messages
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UserPrivacySettingShowLinkInForwardedMessages {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for UserPrivacySettingShowLinkInForwardedMessages {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingShowLinkInForwardedMessages" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUserPrivacySetting for UserPrivacySettingShowLinkInForwardedMessages {}
+
+
+
+impl UserPrivacySettingShowLinkInForwardedMessages {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUserPrivacySettingShowLinkInForwardedMessagesBuilder {
+    let mut inner = UserPrivacySettingShowLinkInForwardedMessages::default();
+    inner.td_name = "userPrivacySettingShowLinkInForwardedMessages".to_string();
+    RTDUserPrivacySettingShowLinkInForwardedMessagesBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUserPrivacySettingShowLinkInForwardedMessagesBuilder {
+  inner: UserPrivacySettingShowLinkInForwardedMessages
+}
+
+impl RTDUserPrivacySettingShowLinkInForwardedMessagesBuilder {
+  pub fn build(&self) -> UserPrivacySettingShowLinkInForwardedMessages { self.inner.clone() }
+
+}
+
+impl AsRef<UserPrivacySettingShowLinkInForwardedMessages> for UserPrivacySettingShowLinkInForwardedMessages {
+  fn as_ref(&self) -> &UserPrivacySettingShowLinkInForwardedMessages { self }
+}
+
+impl AsRef<UserPrivacySettingShowLinkInForwardedMessages> for RTDUserPrivacySettingShowLinkInForwardedMessagesBuilder {
+  fn as_ref(&self) -> &UserPrivacySettingShowLinkInForwardedMessages { &self.inner }
 }
 
 

@@ -143,6 +143,14 @@ pub struct MessageSendingStateFailed {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  /// An error code; 0 if unknown
+  error_code: i64,
+  /// Error message
+  error_message: String,
+  /// True, if the message can be re-sent
+  can_retry: bool,
+  /// Time left before the message can be re-sent, in seconds. No update is sent when this field changes
+  retry_after: f32,
   
 }
 
@@ -164,6 +172,14 @@ impl MessageSendingStateFailed {
     RTDMessageSendingStateFailedBuilder { inner }
   }
 
+  pub fn error_code(&self) -> i64 { self.error_code }
+
+  pub fn error_message(&self) -> &String { &self.error_message }
+
+  pub fn can_retry(&self) -> bool { self.can_retry }
+
+  pub fn retry_after(&self) -> f32 { self.retry_after }
+
 }
 
 #[doc(hidden)]
@@ -173,6 +189,30 @@ pub struct RTDMessageSendingStateFailedBuilder {
 
 impl RTDMessageSendingStateFailedBuilder {
   pub fn build(&self) -> MessageSendingStateFailed { self.inner.clone() }
+
+   
+  pub fn error_code(&mut self, error_code: i64) -> &mut Self {
+    self.inner.error_code = error_code;
+    self
+  }
+
+   
+  pub fn error_message<T: AsRef<str>>(&mut self, error_message: T) -> &mut Self {
+    self.inner.error_message = error_message.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn can_retry(&mut self, can_retry: bool) -> &mut Self {
+    self.inner.can_retry = can_retry;
+    self
+  }
+
+   
+  pub fn retry_after(&mut self, retry_after: f32) -> &mut Self {
+    self.inner.retry_after = retry_after;
+    self
+  }
 
 }
 

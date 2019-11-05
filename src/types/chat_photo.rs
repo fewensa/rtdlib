@@ -11,9 +11,9 @@ pub struct ChatPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// A small (160x160) chat photo
+  /// A small (160x160) chat photo. The file can be downloaded only before the photo is changed
   small: File,
-  /// A big (640x640) chat photo
+  /// A big (640x640) chat photo. The file can be downloaded only before the photo is changed
   big: File,
   
 }

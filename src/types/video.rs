@@ -25,6 +25,8 @@ pub struct Video {
   has_stickers: bool,
   /// True, if the video should be tried to be streamed
   supports_streaming: bool,
+  /// Video minithumbnail; may be null
+  minithumbnail: Option<Minithumbnail>,
   /// Video thumbnail; as defined by the sender; may be null
   thumbnail: Option<PhotoSize>,
   /// File containing the video
@@ -60,6 +62,8 @@ impl Video {
   pub fn has_stickers(&self) -> bool { self.has_stickers }
 
   pub fn supports_streaming(&self) -> bool { self.supports_streaming }
+
+  pub fn minithumbnail(&self) -> &Option<Minithumbnail> { &self.minithumbnail }
 
   pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
 
@@ -114,6 +118,12 @@ impl RTDVideoBuilder {
    
   pub fn supports_streaming(&mut self, supports_streaming: bool) -> &mut Self {
     self.inner.supports_streaming = supports_streaming;
+    self
+  }
+
+   
+  pub fn minithumbnail<T: AsRef<Minithumbnail>>(&mut self, minithumbnail: T) -> &mut Self {
+    self.inner.minithumbnail = Some(minithumbnail.as_ref().clone());
     self
   }
 

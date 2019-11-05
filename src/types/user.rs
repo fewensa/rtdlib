@@ -35,6 +35,8 @@ pub struct User {
   is_support: bool,
   /// If non-empty, it contains the reason why access to this user must be restricted. The format of the string is "{type}: {description}". {type} contains the type of the restriction and at least one of the suffixes "-all", "-ios", "-android", or "-wp", which describe the platforms on which access should be restricted. (For example, "terms-ios-android". {description} contains a human-readable description of the restriction, which can be shown to the user)
   restriction_reason: String,
+  /// True, if many users reported this user as a scam
+  is_scam: bool,
   /// If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
   have_access: bool,
   /// Type of the user
@@ -82,6 +84,8 @@ impl User {
   pub fn is_support(&self) -> bool { self.is_support }
 
   pub fn restriction_reason(&self) -> &String { &self.restriction_reason }
+
+  pub fn is_scam(&self) -> bool { self.is_scam }
 
   pub fn have_access(&self) -> bool { self.have_access }
 
@@ -168,6 +172,12 @@ impl RTDUserBuilder {
    
   pub fn restriction_reason<T: AsRef<str>>(&mut self, restriction_reason: T) -> &mut Self {
     self.inner.restriction_reason = restriction_reason.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn is_scam(&mut self, is_scam: bool) -> &mut Self {
+    self.inner.is_scam = is_scam;
     self
   }
 

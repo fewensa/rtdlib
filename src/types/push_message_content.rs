@@ -20,7 +20,7 @@ pub enum PushMessageContent {
   #[doc(hidden)] _Default(()),
   /// A general message with hidden content
   Hidden(PushMessageContentHidden),
-  /// An animation message (GIF-style)
+  /// An animation message (GIF-style).
   Animation(PushMessageContentAnimation),
   /// An audio message
   Audio(PushMessageContentAudio),
@@ -363,7 +363,7 @@ impl AsRef<PushMessageContentHidden> for RTDPushMessageContentHiddenBuilder {
 
 
 
-/// An animation message (GIF-style)
+/// An animation message (GIF-style).
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PushMessageContentAnimation {
   #[doc(hidden)]

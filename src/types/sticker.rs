@@ -19,6 +19,8 @@ pub struct Sticker {
   height: i64,
   /// Emoji corresponding to the sticker
   emoji: String,
+  /// True, if the sticker is an animated sticker in TGS format
+  is_animated: bool,
   /// True, if the sticker is a mask
   is_mask: bool,
   /// Position where the mask should be placed; may be null
@@ -52,6 +54,8 @@ impl Sticker {
   pub fn height(&self) -> i64 { self.height }
 
   pub fn emoji(&self) -> &String { &self.emoji }
+
+  pub fn is_animated(&self) -> bool { self.is_animated }
 
   pub fn is_mask(&self) -> bool { self.is_mask }
 
@@ -92,6 +96,12 @@ impl RTDStickerBuilder {
    
   pub fn emoji<T: AsRef<str>>(&mut self, emoji: T) -> &mut Self {
     self.inner.emoji = emoji.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn is_animated(&mut self, is_animated: bool) -> &mut Self {
+    self.inner.is_animated = is_animated;
     self
   }
 

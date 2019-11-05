@@ -48,7 +48,7 @@ pub enum FileType {
   VideoNote(FileTypeVideoNote),
   /// The file is a voice note
   VoiceNote(FileTypeVoiceNote),
-  /// The file is a wallpaper
+  /// The file is a wallpaper or a background pattern
   Wallpaper(FileTypeWallpaper),
 
 }
@@ -1005,7 +1005,7 @@ impl AsRef<FileTypeVoiceNote> for RTDFileTypeVoiceNoteBuilder {
 
 
 
-/// The file is a wallpaper
+/// The file is a wallpaper or a background pattern
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct FileTypeWallpaper {
   #[doc(hidden)]

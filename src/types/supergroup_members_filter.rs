@@ -20,6 +20,8 @@ pub enum SupergroupMembersFilter {
   #[doc(hidden)] _Default(()),
   /// Returns recently active users in reverse chronological order
   Recent(SupergroupMembersFilterRecent),
+  /// Returns contacts of the user, which are members of the supergroup or channel
+  Contacts(SupergroupMembersFilterContacts),
   /// Returns the creator and administrators
   Administrators(SupergroupMembersFilterAdministrators),
   /// Used to search for supergroup or channel members via a (string) query
@@ -43,6 +45,7 @@ impl<'de> Deserialize<'de> for SupergroupMembersFilter {
     rtd_enum_deserialize!(
       SupergroupMembersFilter,
       (supergroupMembersFilterRecent, Recent);
+      (supergroupMembersFilterContacts, Contacts);
       (supergroupMembersFilterAdministrators, Administrators);
       (supergroupMembersFilterSearch, Search);
       (supergroupMembersFilterRestricted, Restricted);
@@ -57,6 +60,7 @@ impl RObject for SupergroupMembersFilter {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
       SupergroupMembersFilter::Recent(t) => t.td_name(),
+      SupergroupMembersFilter::Contacts(t) => t.td_name(),
       SupergroupMembersFilter::Administrators(t) => t.td_name(),
       SupergroupMembersFilter::Search(t) => t.td_name(),
       SupergroupMembersFilter::Restricted(t) => t.td_name(),
@@ -74,6 +78,7 @@ impl SupergroupMembersFilter {
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let SupergroupMembersFilter::_Default(_) = self { true } else { false } }
 
   pub fn is_recent(&self) -> bool { if let SupergroupMembersFilter::Recent(_) = self { true } else { false } }
+  pub fn is_contacts(&self) -> bool { if let SupergroupMembersFilter::Contacts(_) = self { true } else { false } }
   pub fn is_administrators(&self) -> bool { if let SupergroupMembersFilter::Administrators(_) = self { true } else { false } }
   pub fn is_search(&self) -> bool { if let SupergroupMembersFilter::Search(_) = self { true } else { false } }
   pub fn is_restricted(&self) -> bool { if let SupergroupMembersFilter::Restricted(_) = self { true } else { false } }
@@ -81,6 +86,7 @@ impl SupergroupMembersFilter {
   pub fn is_bots(&self) -> bool { if let SupergroupMembersFilter::Bots(_) = self { true } else { false } }
 
   pub fn on_recent<F: FnOnce(&SupergroupMembersFilterRecent)>(&self, fnc: F) -> &Self { if let SupergroupMembersFilter::Recent(t) = self { fnc(t) }; self }
+  pub fn on_contacts<F: FnOnce(&SupergroupMembersFilterContacts)>(&self, fnc: F) -> &Self { if let SupergroupMembersFilter::Contacts(t) = self { fnc(t) }; self }
   pub fn on_administrators<F: FnOnce(&SupergroupMembersFilterAdministrators)>(&self, fnc: F) -> &Self { if let SupergroupMembersFilter::Administrators(t) = self { fnc(t) }; self }
   pub fn on_search<F: FnOnce(&SupergroupMembersFilterSearch)>(&self, fnc: F) -> &Self { if let SupergroupMembersFilter::Search(t) = self { fnc(t) }; self }
   pub fn on_restricted<F: FnOnce(&SupergroupMembersFilterRestricted)>(&self, fnc: F) -> &Self { if let SupergroupMembersFilter::Restricted(t) = self { fnc(t) }; self }
@@ -88,6 +94,7 @@ impl SupergroupMembersFilter {
   pub fn on_bots<F: FnOnce(&SupergroupMembersFilterBots)>(&self, fnc: F) -> &Self { if let SupergroupMembersFilter::Bots(t) = self { fnc(t) }; self }
 
   pub fn as_recent(&self) -> Option<&SupergroupMembersFilterRecent> { if let SupergroupMembersFilter::Recent(t) = self { return Some(t) } None }
+  pub fn as_contacts(&self) -> Option<&SupergroupMembersFilterContacts> { if let SupergroupMembersFilter::Contacts(t) = self { return Some(t) } None }
   pub fn as_administrators(&self) -> Option<&SupergroupMembersFilterAdministrators> { if let SupergroupMembersFilter::Administrators(t) = self { return Some(t) } None }
   pub fn as_search(&self) -> Option<&SupergroupMembersFilterSearch> { if let SupergroupMembersFilter::Search(t) = self { return Some(t) } None }
   pub fn as_restricted(&self) -> Option<&SupergroupMembersFilterRestricted> { if let SupergroupMembersFilter::Restricted(t) = self { return Some(t) } None }
@@ -97,6 +104,8 @@ impl SupergroupMembersFilter {
 
 
   pub fn recent<T: AsRef<SupergroupMembersFilterRecent>>(t: T) -> Self { SupergroupMembersFilter::Recent(t.as_ref().clone()) }
+
+  pub fn contacts<T: AsRef<SupergroupMembersFilterContacts>>(t: T) -> Self { SupergroupMembersFilter::Contacts(t.as_ref().clone()) }
 
   pub fn administrators<T: AsRef<SupergroupMembersFilterAdministrators>>(t: T) -> Self { SupergroupMembersFilter::Administrators(t.as_ref().clone()) }
 
@@ -165,6 +174,69 @@ impl AsRef<SupergroupMembersFilterRecent> for SupergroupMembersFilterRecent {
 
 impl AsRef<SupergroupMembersFilterRecent> for RTDSupergroupMembersFilterRecentBuilder {
   fn as_ref(&self) -> &SupergroupMembersFilterRecent { &self.inner }
+}
+
+
+
+
+
+
+
+/// Returns contacts of the user, which are members of the supergroup or channel
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SupergroupMembersFilterContacts {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Query to search for
+  query: String,
+  
+}
+
+impl RObject for SupergroupMembersFilterContacts {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "supergroupMembersFilterContacts" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDSupergroupMembersFilter for SupergroupMembersFilterContacts {}
+
+
+
+impl SupergroupMembersFilterContacts {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSupergroupMembersFilterContactsBuilder {
+    let mut inner = SupergroupMembersFilterContacts::default();
+    inner.td_name = "supergroupMembersFilterContacts".to_string();
+    RTDSupergroupMembersFilterContactsBuilder { inner }
+  }
+
+  pub fn query(&self) -> &String { &self.query }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSupergroupMembersFilterContactsBuilder {
+  inner: SupergroupMembersFilterContacts
+}
+
+impl RTDSupergroupMembersFilterContactsBuilder {
+  pub fn build(&self) -> SupergroupMembersFilterContacts { self.inner.clone() }
+
+   
+  pub fn query<T: AsRef<str>>(&mut self, query: T) -> &mut Self {
+    self.inner.query = query.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<SupergroupMembersFilterContacts> for SupergroupMembersFilterContacts {
+  fn as_ref(&self) -> &SupergroupMembersFilterContacts { self }
+}
+
+impl AsRef<SupergroupMembersFilterContacts> for RTDSupergroupMembersFilterContactsBuilder {
+  fn as_ref(&self) -> &SupergroupMembersFilterContacts { &self.inner }
 }
 
 
