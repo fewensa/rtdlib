@@ -9,10 +9,6 @@ rtdlib
 `rtdlib` crate have [td](https://github.com/tdlib/td) type (classes). and `tdjson` [binding](../fantasy/template/rtdlib/src/tdjson.rs). if use `rtdlib` you need include `libtdjson.so` to you build path.
 
 
-# Note
-
-This crate code is generate by [fantasy](https://github.com/fewensa/fantasy).
-
 
 # Usage
 
