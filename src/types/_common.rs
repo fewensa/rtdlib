@@ -117,9 +117,6 @@ impl<'a, INPUTFILE: TDInputFile> TDInputFile for &'a mut INPUTFILE {}
 impl<'a, MASKPOINT: TDMaskPoint> TDMaskPoint for &'a MASKPOINT {}
 impl<'a, MASKPOINT: TDMaskPoint> TDMaskPoint for &'a mut MASKPOINT {}
 
-impl<'a, LINKSTATE: TDLinkState> TDLinkState for &'a LINKSTATE {}
-impl<'a, LINKSTATE: TDLinkState> TDLinkState for &'a mut LINKSTATE {}
-
 impl<'a, USERTYPE: TDUserType> TDUserType for &'a USERTYPE {}
 impl<'a, USERTYPE: TDUserType> TDUserType for &'a mut USERTYPE {}
 
@@ -147,6 +144,15 @@ impl<'a, NOTIFICATIONSETTINGSSCOPE: TDNotificationSettingsScope> TDNotificationS
 impl<'a, CHATTYPE: TDChatType> TDChatType for &'a CHATTYPE {}
 impl<'a, CHATTYPE: TDChatType> TDChatType for &'a mut CHATTYPE {}
 
+impl<'a, CHATLIST: TDChatList> TDChatList for &'a CHATLIST {}
+impl<'a, CHATLIST: TDChatList> TDChatList for &'a mut CHATLIST {}
+
+impl<'a, PUBLICCHATTYPE: TDPublicChatType> TDPublicChatType for &'a PUBLICCHATTYPE {}
+impl<'a, PUBLICCHATTYPE: TDPublicChatType> TDPublicChatType for &'a mut PUBLICCHATTYPE {}
+
+impl<'a, CHATACTIONBAR: TDChatActionBar> TDChatActionBar for &'a CHATACTIONBAR {}
+impl<'a, CHATACTIONBAR: TDChatActionBar> TDChatActionBar for &'a mut CHATACTIONBAR {}
+
 impl<'a, KEYBOARDBUTTONTYPE: TDKeyboardButtonType> TDKeyboardButtonType for &'a KEYBOARDBUTTONTYPE {}
 impl<'a, KEYBOARDBUTTONTYPE: TDKeyboardButtonType> TDKeyboardButtonType for &'a mut KEYBOARDBUTTONTYPE {}
 
@@ -155,6 +161,9 @@ impl<'a, INLINEKEYBOARDBUTTONTYPE: TDInlineKeyboardButtonType> TDInlineKeyboardB
 
 impl<'a, REPLYMARKUP: TDReplyMarkup> TDReplyMarkup for &'a REPLYMARKUP {}
 impl<'a, REPLYMARKUP: TDReplyMarkup> TDReplyMarkup for &'a mut REPLYMARKUP {}
+
+impl<'a, LOGINURLINFO: TDLoginUrlInfo> TDLoginUrlInfo for &'a LOGINURLINFO {}
+impl<'a, LOGINURLINFO: TDLoginUrlInfo> TDLoginUrlInfo for &'a mut LOGINURLINFO {}
 
 impl<'a, RICHTEXT: TDRichText> TDRichText for &'a RICHTEXT {}
 impl<'a, RICHTEXT: TDRichText> TDRichText for &'a mut RICHTEXT {}
@@ -191,6 +200,9 @@ impl<'a, MESSAGECONTENT: TDMessageContent> TDMessageContent for &'a mut MESSAGEC
 
 impl<'a, TEXTENTITYTYPE: TDTextEntityType> TDTextEntityType for &'a TEXTENTITYTYPE {}
 impl<'a, TEXTENTITYTYPE: TDTextEntityType> TDTextEntityType for &'a mut TEXTENTITYTYPE {}
+
+impl<'a, MESSAGESCHEDULINGSTATE: TDMessageSchedulingState> TDMessageSchedulingState for &'a MESSAGESCHEDULINGSTATE {}
+impl<'a, MESSAGESCHEDULINGSTATE: TDMessageSchedulingState> TDMessageSchedulingState for &'a mut MESSAGESCHEDULINGSTATE {}
 
 impl<'a, INPUTMESSAGECONTENT: TDInputMessageContent> TDInputMessageContent for &'a INPUTMESSAGECONTENT {}
 impl<'a, INPUTMESSAGECONTENT: TDInputMessageContent> TDInputMessageContent for &'a mut INPUTMESSAGECONTENT {}
@@ -231,11 +243,17 @@ impl<'a, LANGUAGEPACKSTRINGVALUE: TDLanguagePackStringValue> TDLanguagePackStrin
 impl<'a, DEVICETOKEN: TDDeviceToken> TDDeviceToken for &'a DEVICETOKEN {}
 impl<'a, DEVICETOKEN: TDDeviceToken> TDDeviceToken for &'a mut DEVICETOKEN {}
 
+impl<'a, BACKGROUNDFILL: TDBackgroundFill> TDBackgroundFill for &'a BACKGROUNDFILL {}
+impl<'a, BACKGROUNDFILL: TDBackgroundFill> TDBackgroundFill for &'a mut BACKGROUNDFILL {}
+
 impl<'a, BACKGROUNDTYPE: TDBackgroundType> TDBackgroundType for &'a BACKGROUNDTYPE {}
 impl<'a, BACKGROUNDTYPE: TDBackgroundType> TDBackgroundType for &'a mut BACKGROUNDTYPE {}
 
 impl<'a, INPUTBACKGROUND: TDInputBackground> TDInputBackground for &'a INPUTBACKGROUND {}
 impl<'a, INPUTBACKGROUND: TDInputBackground> TDInputBackground for &'a mut INPUTBACKGROUND {}
+
+impl<'a, CANTRANSFEROWNERSHIPRESULT: TDCanTransferOwnershipResult> TDCanTransferOwnershipResult for &'a CANTRANSFEROWNERSHIPRESULT {}
+impl<'a, CANTRANSFEROWNERSHIPRESULT: TDCanTransferOwnershipResult> TDCanTransferOwnershipResult for &'a mut CANTRANSFEROWNERSHIPRESULT {}
 
 impl<'a, CHECKCHATUSERNAMERESULT: TDCheckChatUsernameResult> TDCheckChatUsernameResult for &'a CHECKCHATUSERNAMERESULT {}
 impl<'a, CHECKCHATUSERNAMERESULT: TDCheckChatUsernameResult> TDCheckChatUsernameResult for &'a mut CHECKCHATUSERNAMERESULT {}

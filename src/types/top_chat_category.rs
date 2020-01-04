@@ -30,6 +30,8 @@ pub enum TopChatCategory {
   InlineBots(TopChatCategoryInlineBots),
   /// A category containing frequently used chats used for calls
   Calls(TopChatCategoryCalls),
+  /// A category containing frequently used chats used to forward messages
+  ForwardChats(TopChatCategoryForwardChats),
 
 }
 
@@ -48,6 +50,7 @@ impl<'de> Deserialize<'de> for TopChatCategory {
       (topChatCategoryChannels, Channels);
       (topChatCategoryInlineBots, InlineBots);
       (topChatCategoryCalls, Calls);
+      (topChatCategoryForwardChats, ForwardChats);
 
     )(deserializer)
   }
@@ -62,6 +65,7 @@ impl RObject for TopChatCategory {
       TopChatCategory::Channels(t) => t.td_name(),
       TopChatCategory::InlineBots(t) => t.td_name(),
       TopChatCategory::Calls(t) => t.td_name(),
+      TopChatCategory::ForwardChats(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -79,6 +83,7 @@ impl TopChatCategory {
   pub fn is_channels(&self) -> bool { if let TopChatCategory::Channels(_) = self { true } else { false } }
   pub fn is_inline_bots(&self) -> bool { if let TopChatCategory::InlineBots(_) = self { true } else { false } }
   pub fn is_calls(&self) -> bool { if let TopChatCategory::Calls(_) = self { true } else { false } }
+  pub fn is_forward_chats(&self) -> bool { if let TopChatCategory::ForwardChats(_) = self { true } else { false } }
 
   pub fn on_users<F: FnOnce(&TopChatCategoryUsers)>(&self, fnc: F) -> &Self { if let TopChatCategory::Users(t) = self { fnc(t) }; self }
   pub fn on_bots<F: FnOnce(&TopChatCategoryBots)>(&self, fnc: F) -> &Self { if let TopChatCategory::Bots(t) = self { fnc(t) }; self }
@@ -86,6 +91,7 @@ impl TopChatCategory {
   pub fn on_channels<F: FnOnce(&TopChatCategoryChannels)>(&self, fnc: F) -> &Self { if let TopChatCategory::Channels(t) = self { fnc(t) }; self }
   pub fn on_inline_bots<F: FnOnce(&TopChatCategoryInlineBots)>(&self, fnc: F) -> &Self { if let TopChatCategory::InlineBots(t) = self { fnc(t) }; self }
   pub fn on_calls<F: FnOnce(&TopChatCategoryCalls)>(&self, fnc: F) -> &Self { if let TopChatCategory::Calls(t) = self { fnc(t) }; self }
+  pub fn on_forward_chats<F: FnOnce(&TopChatCategoryForwardChats)>(&self, fnc: F) -> &Self { if let TopChatCategory::ForwardChats(t) = self { fnc(t) }; self }
 
   pub fn as_users(&self) -> Option<&TopChatCategoryUsers> { if let TopChatCategory::Users(t) = self { return Some(t) } None }
   pub fn as_bots(&self) -> Option<&TopChatCategoryBots> { if let TopChatCategory::Bots(t) = self { return Some(t) } None }
@@ -93,6 +99,7 @@ impl TopChatCategory {
   pub fn as_channels(&self) -> Option<&TopChatCategoryChannels> { if let TopChatCategory::Channels(t) = self { return Some(t) } None }
   pub fn as_inline_bots(&self) -> Option<&TopChatCategoryInlineBots> { if let TopChatCategory::InlineBots(t) = self { return Some(t) } None }
   pub fn as_calls(&self) -> Option<&TopChatCategoryCalls> { if let TopChatCategory::Calls(t) = self { return Some(t) } None }
+  pub fn as_forward_chats(&self) -> Option<&TopChatCategoryForwardChats> { if let TopChatCategory::ForwardChats(t) = self { return Some(t) } None }
 
 
 
@@ -107,6 +114,8 @@ impl TopChatCategory {
   pub fn inline_bots<T: AsRef<TopChatCategoryInlineBots>>(t: T) -> Self { TopChatCategory::InlineBots(t.as_ref().clone()) }
 
   pub fn calls<T: AsRef<TopChatCategoryCalls>>(t: T) -> Self { TopChatCategory::Calls(t.as_ref().clone()) }
+
+  pub fn forward_chats<T: AsRef<TopChatCategoryForwardChats>>(t: T) -> Self { TopChatCategory::ForwardChats(t.as_ref().clone()) }
 
 }
 
@@ -430,6 +439,59 @@ impl AsRef<TopChatCategoryCalls> for TopChatCategoryCalls {
 
 impl AsRef<TopChatCategoryCalls> for RTDTopChatCategoryCallsBuilder {
   fn as_ref(&self) -> &TopChatCategoryCalls { &self.inner }
+}
+
+
+
+
+
+
+
+/// A category containing frequently used chats used to forward messages
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct TopChatCategoryForwardChats {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for TopChatCategoryForwardChats {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "topChatCategoryForwardChats" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDTopChatCategory for TopChatCategoryForwardChats {}
+
+
+
+impl TopChatCategoryForwardChats {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTopChatCategoryForwardChatsBuilder {
+    let mut inner = TopChatCategoryForwardChats::default();
+    inner.td_name = "topChatCategoryForwardChats".to_string();
+    RTDTopChatCategoryForwardChatsBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTopChatCategoryForwardChatsBuilder {
+  inner: TopChatCategoryForwardChats
+}
+
+impl RTDTopChatCategoryForwardChatsBuilder {
+  pub fn build(&self) -> TopChatCategoryForwardChats { self.inner.clone() }
+
+}
+
+impl AsRef<TopChatCategoryForwardChats> for TopChatCategoryForwardChats {
+  fn as_ref(&self) -> &TopChatCategoryForwardChats { self }
+}
+
+impl AsRef<TopChatCategoryForwardChats> for RTDTopChatCategoryForwardChatsBuilder {
+  fn as_ref(&self) -> &TopChatCategoryForwardChats { &self.inner }
 }
 
 

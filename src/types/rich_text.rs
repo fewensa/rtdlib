@@ -26,7 +26,7 @@ pub enum RichText {
   Italic(RichTextItalic),
   /// An underlined rich text
   Underline(RichTextUnderline),
-  /// A strike-through rich text
+  /// A strikethrough rich text
   Strikethrough(RichTextStrikethrough),
   /// A fixed-width rich text
   Fixed(RichTextFixed),
@@ -453,7 +453,7 @@ impl AsRef<RichTextUnderline> for RTDRichTextUnderlineBuilder {
 
 
 
-/// A strike-through rich text
+/// A strikethrough rich text
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct RichTextStrikethrough {
   #[doc(hidden)]

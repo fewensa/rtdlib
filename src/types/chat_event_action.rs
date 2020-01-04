@@ -50,10 +50,16 @@ pub enum ChatEventAction {
   ChatEventPhotoChanged(ChatEventPhotoChanged),
   /// The can_invite_users permission of a supergroup chat was toggled
   ChatEventInvitesToggled(ChatEventInvitesToggled),
+  /// The linked chat of a supergroup was changed
+  ChatEventLinkedChatChanged(ChatEventLinkedChatChanged),
+  /// The slow_mode_delay setting of a supergroup was changed
+  ChatEventSlowModeDelayChanged(ChatEventSlowModeDelayChanged),
   /// The sign_messages setting of a channel was toggled
   ChatEventSignMessagesToggled(ChatEventSignMessagesToggled),
   /// The supergroup sticker set was changed
   ChatEventStickerSetChanged(ChatEventStickerSetChanged),
+  /// The supergroup location was changed
+  ChatEventLocationChanged(ChatEventLocationChanged),
   /// The is_all_history_available setting of a supergroup was toggled
   ChatEventIsAllHistoryAvailableToggled(ChatEventIsAllHistoryAvailableToggled),
 
@@ -84,8 +90,11 @@ impl<'de> Deserialize<'de> for ChatEventAction {
       (chatEventUsernameChanged, ChatEventUsernameChanged);
       (chatEventPhotoChanged, ChatEventPhotoChanged);
       (chatEventInvitesToggled, ChatEventInvitesToggled);
+      (chatEventLinkedChatChanged, ChatEventLinkedChatChanged);
+      (chatEventSlowModeDelayChanged, ChatEventSlowModeDelayChanged);
       (chatEventSignMessagesToggled, ChatEventSignMessagesToggled);
       (chatEventStickerSetChanged, ChatEventStickerSetChanged);
+      (chatEventLocationChanged, ChatEventLocationChanged);
       (chatEventIsAllHistoryAvailableToggled, ChatEventIsAllHistoryAvailableToggled);
 
     )(deserializer)
@@ -111,8 +120,11 @@ impl RObject for ChatEventAction {
       ChatEventAction::ChatEventUsernameChanged(t) => t.td_name(),
       ChatEventAction::ChatEventPhotoChanged(t) => t.td_name(),
       ChatEventAction::ChatEventInvitesToggled(t) => t.td_name(),
+      ChatEventAction::ChatEventLinkedChatChanged(t) => t.td_name(),
+      ChatEventAction::ChatEventSlowModeDelayChanged(t) => t.td_name(),
       ChatEventAction::ChatEventSignMessagesToggled(t) => t.td_name(),
       ChatEventAction::ChatEventStickerSetChanged(t) => t.td_name(),
+      ChatEventAction::ChatEventLocationChanged(t) => t.td_name(),
       ChatEventAction::ChatEventIsAllHistoryAvailableToggled(t) => t.td_name(),
 
       _ => "-1",
@@ -141,8 +153,11 @@ impl ChatEventAction {
   pub fn is_chat_event_username_changed(&self) -> bool { if let ChatEventAction::ChatEventUsernameChanged(_) = self { true } else { false } }
   pub fn is_chat_event_photo_changed(&self) -> bool { if let ChatEventAction::ChatEventPhotoChanged(_) = self { true } else { false } }
   pub fn is_chat_event_invites_toggled(&self) -> bool { if let ChatEventAction::ChatEventInvitesToggled(_) = self { true } else { false } }
+  pub fn is_chat_event_linked_chat_changed(&self) -> bool { if let ChatEventAction::ChatEventLinkedChatChanged(_) = self { true } else { false } }
+  pub fn is_chat_event_slow_mode_delay_changed(&self) -> bool { if let ChatEventAction::ChatEventSlowModeDelayChanged(_) = self { true } else { false } }
   pub fn is_chat_event_sign_messages_toggled(&self) -> bool { if let ChatEventAction::ChatEventSignMessagesToggled(_) = self { true } else { false } }
   pub fn is_chat_event_sticker_set_changed(&self) -> bool { if let ChatEventAction::ChatEventStickerSetChanged(_) = self { true } else { false } }
+  pub fn is_chat_event_location_changed(&self) -> bool { if let ChatEventAction::ChatEventLocationChanged(_) = self { true } else { false } }
   pub fn is_chat_event_is_all_history_available_toggled(&self) -> bool { if let ChatEventAction::ChatEventIsAllHistoryAvailableToggled(_) = self { true } else { false } }
 
   pub fn on_chat_event_message_edited<F: FnOnce(&ChatEventMessageEdited)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventMessageEdited(t) = self { fnc(t) }; self }
@@ -161,8 +176,11 @@ impl ChatEventAction {
   pub fn on_chat_event_username_changed<F: FnOnce(&ChatEventUsernameChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventUsernameChanged(t) = self { fnc(t) }; self }
   pub fn on_chat_event_photo_changed<F: FnOnce(&ChatEventPhotoChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventPhotoChanged(t) = self { fnc(t) }; self }
   pub fn on_chat_event_invites_toggled<F: FnOnce(&ChatEventInvitesToggled)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventInvitesToggled(t) = self { fnc(t) }; self }
+  pub fn on_chat_event_linked_chat_changed<F: FnOnce(&ChatEventLinkedChatChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventLinkedChatChanged(t) = self { fnc(t) }; self }
+  pub fn on_chat_event_slow_mode_delay_changed<F: FnOnce(&ChatEventSlowModeDelayChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventSlowModeDelayChanged(t) = self { fnc(t) }; self }
   pub fn on_chat_event_sign_messages_toggled<F: FnOnce(&ChatEventSignMessagesToggled)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventSignMessagesToggled(t) = self { fnc(t) }; self }
   pub fn on_chat_event_sticker_set_changed<F: FnOnce(&ChatEventStickerSetChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventStickerSetChanged(t) = self { fnc(t) }; self }
+  pub fn on_chat_event_location_changed<F: FnOnce(&ChatEventLocationChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventLocationChanged(t) = self { fnc(t) }; self }
   pub fn on_chat_event_is_all_history_available_toggled<F: FnOnce(&ChatEventIsAllHistoryAvailableToggled)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventIsAllHistoryAvailableToggled(t) = self { fnc(t) }; self }
 
   pub fn as_chat_event_message_edited(&self) -> Option<&ChatEventMessageEdited> { if let ChatEventAction::ChatEventMessageEdited(t) = self { return Some(t) } None }
@@ -181,8 +199,11 @@ impl ChatEventAction {
   pub fn as_chat_event_username_changed(&self) -> Option<&ChatEventUsernameChanged> { if let ChatEventAction::ChatEventUsernameChanged(t) = self { return Some(t) } None }
   pub fn as_chat_event_photo_changed(&self) -> Option<&ChatEventPhotoChanged> { if let ChatEventAction::ChatEventPhotoChanged(t) = self { return Some(t) } None }
   pub fn as_chat_event_invites_toggled(&self) -> Option<&ChatEventInvitesToggled> { if let ChatEventAction::ChatEventInvitesToggled(t) = self { return Some(t) } None }
+  pub fn as_chat_event_linked_chat_changed(&self) -> Option<&ChatEventLinkedChatChanged> { if let ChatEventAction::ChatEventLinkedChatChanged(t) = self { return Some(t) } None }
+  pub fn as_chat_event_slow_mode_delay_changed(&self) -> Option<&ChatEventSlowModeDelayChanged> { if let ChatEventAction::ChatEventSlowModeDelayChanged(t) = self { return Some(t) } None }
   pub fn as_chat_event_sign_messages_toggled(&self) -> Option<&ChatEventSignMessagesToggled> { if let ChatEventAction::ChatEventSignMessagesToggled(t) = self { return Some(t) } None }
   pub fn as_chat_event_sticker_set_changed(&self) -> Option<&ChatEventStickerSetChanged> { if let ChatEventAction::ChatEventStickerSetChanged(t) = self { return Some(t) } None }
+  pub fn as_chat_event_location_changed(&self) -> Option<&ChatEventLocationChanged> { if let ChatEventAction::ChatEventLocationChanged(t) = self { return Some(t) } None }
   pub fn as_chat_event_is_all_history_available_toggled(&self) -> Option<&ChatEventIsAllHistoryAvailableToggled> { if let ChatEventAction::ChatEventIsAllHistoryAvailableToggled(t) = self { return Some(t) } None }
 
 
@@ -219,9 +240,15 @@ impl ChatEventAction {
 
   pub fn chat_event_invites_toggled<T: AsRef<ChatEventInvitesToggled>>(t: T) -> Self { ChatEventAction::ChatEventInvitesToggled(t.as_ref().clone()) }
 
+  pub fn chat_event_linked_chat_changed<T: AsRef<ChatEventLinkedChatChanged>>(t: T) -> Self { ChatEventAction::ChatEventLinkedChatChanged(t.as_ref().clone()) }
+
+  pub fn chat_event_slow_mode_delay_changed<T: AsRef<ChatEventSlowModeDelayChanged>>(t: T) -> Self { ChatEventAction::ChatEventSlowModeDelayChanged(t.as_ref().clone()) }
+
   pub fn chat_event_sign_messages_toggled<T: AsRef<ChatEventSignMessagesToggled>>(t: T) -> Self { ChatEventAction::ChatEventSignMessagesToggled(t.as_ref().clone()) }
 
   pub fn chat_event_sticker_set_changed<T: AsRef<ChatEventStickerSetChanged>>(t: T) -> Self { ChatEventAction::ChatEventStickerSetChanged(t.as_ref().clone()) }
+
+  pub fn chat_event_location_changed<T: AsRef<ChatEventLocationChanged>>(t: T) -> Self { ChatEventAction::ChatEventLocationChanged(t.as_ref().clone()) }
 
   pub fn chat_event_is_all_history_available_toggled<T: AsRef<ChatEventIsAllHistoryAvailableToggled>>(t: T) -> Self { ChatEventAction::ChatEventIsAllHistoryAvailableToggled(t.as_ref().clone()) }
 
@@ -1325,6 +1352,152 @@ impl AsRef<ChatEventInvitesToggled> for RTDChatEventInvitesToggledBuilder {
 
 
 
+/// The linked chat of a supergroup was changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventLinkedChatChanged {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Previous supergroup linked chat identifier
+  old_linked_chat_id: i64,
+  /// New supergroup linked chat identifier
+  new_linked_chat_id: i64,
+  
+}
+
+impl RObject for ChatEventLinkedChatChanged {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventLinkedChatChanged" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatEventAction for ChatEventLinkedChatChanged {}
+
+
+
+impl ChatEventLinkedChatChanged {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatEventLinkedChatChangedBuilder {
+    let mut inner = ChatEventLinkedChatChanged::default();
+    inner.td_name = "chatEventLinkedChatChanged".to_string();
+    RTDChatEventLinkedChatChangedBuilder { inner }
+  }
+
+  pub fn old_linked_chat_id(&self) -> i64 { self.old_linked_chat_id }
+
+  pub fn new_linked_chat_id(&self) -> i64 { self.new_linked_chat_id }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventLinkedChatChangedBuilder {
+  inner: ChatEventLinkedChatChanged
+}
+
+impl RTDChatEventLinkedChatChangedBuilder {
+  pub fn build(&self) -> ChatEventLinkedChatChanged { self.inner.clone() }
+
+   
+  pub fn old_linked_chat_id(&mut self, old_linked_chat_id: i64) -> &mut Self {
+    self.inner.old_linked_chat_id = old_linked_chat_id;
+    self
+  }
+
+   
+  pub fn new_linked_chat_id(&mut self, new_linked_chat_id: i64) -> &mut Self {
+    self.inner.new_linked_chat_id = new_linked_chat_id;
+    self
+  }
+
+}
+
+impl AsRef<ChatEventLinkedChatChanged> for ChatEventLinkedChatChanged {
+  fn as_ref(&self) -> &ChatEventLinkedChatChanged { self }
+}
+
+impl AsRef<ChatEventLinkedChatChanged> for RTDChatEventLinkedChatChangedBuilder {
+  fn as_ref(&self) -> &ChatEventLinkedChatChanged { &self.inner }
+}
+
+
+
+
+
+
+
+/// The slow_mode_delay setting of a supergroup was changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventSlowModeDelayChanged {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Previous value of slow_mode_delay
+  old_slow_mode_delay: i64,
+  /// New value of slow_mode_delay
+  new_slow_mode_delay: i64,
+  
+}
+
+impl RObject for ChatEventSlowModeDelayChanged {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventSlowModeDelayChanged" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatEventAction for ChatEventSlowModeDelayChanged {}
+
+
+
+impl ChatEventSlowModeDelayChanged {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatEventSlowModeDelayChangedBuilder {
+    let mut inner = ChatEventSlowModeDelayChanged::default();
+    inner.td_name = "chatEventSlowModeDelayChanged".to_string();
+    RTDChatEventSlowModeDelayChangedBuilder { inner }
+  }
+
+  pub fn old_slow_mode_delay(&self) -> i64 { self.old_slow_mode_delay }
+
+  pub fn new_slow_mode_delay(&self) -> i64 { self.new_slow_mode_delay }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventSlowModeDelayChangedBuilder {
+  inner: ChatEventSlowModeDelayChanged
+}
+
+impl RTDChatEventSlowModeDelayChangedBuilder {
+  pub fn build(&self) -> ChatEventSlowModeDelayChanged { self.inner.clone() }
+
+   
+  pub fn old_slow_mode_delay(&mut self, old_slow_mode_delay: i64) -> &mut Self {
+    self.inner.old_slow_mode_delay = old_slow_mode_delay;
+    self
+  }
+
+   
+  pub fn new_slow_mode_delay(&mut self, new_slow_mode_delay: i64) -> &mut Self {
+    self.inner.new_slow_mode_delay = new_slow_mode_delay;
+    self
+  }
+
+}
+
+impl AsRef<ChatEventSlowModeDelayChanged> for ChatEventSlowModeDelayChanged {
+  fn as_ref(&self) -> &ChatEventSlowModeDelayChanged { self }
+}
+
+impl AsRef<ChatEventSlowModeDelayChanged> for RTDChatEventSlowModeDelayChangedBuilder {
+  fn as_ref(&self) -> &ChatEventSlowModeDelayChanged { &self.inner }
+}
+
+
+
+
+
+
+
 /// The sign_messages setting of a channel was toggled
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatEventSignMessagesToggled {
@@ -1453,6 +1626,79 @@ impl AsRef<ChatEventStickerSetChanged> for ChatEventStickerSetChanged {
 
 impl AsRef<ChatEventStickerSetChanged> for RTDChatEventStickerSetChangedBuilder {
   fn as_ref(&self) -> &ChatEventStickerSetChanged { &self.inner }
+}
+
+
+
+
+
+
+
+/// The supergroup location was changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventLocationChanged {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Previous location; may be null
+  old_location: Option<ChatLocation>,
+  /// New location; may be null
+  new_location: Option<ChatLocation>,
+  
+}
+
+impl RObject for ChatEventLocationChanged {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventLocationChanged" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatEventAction for ChatEventLocationChanged {}
+
+
+
+impl ChatEventLocationChanged {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatEventLocationChangedBuilder {
+    let mut inner = ChatEventLocationChanged::default();
+    inner.td_name = "chatEventLocationChanged".to_string();
+    RTDChatEventLocationChangedBuilder { inner }
+  }
+
+  pub fn old_location(&self) -> &Option<ChatLocation> { &self.old_location }
+
+  pub fn new_location(&self) -> &Option<ChatLocation> { &self.new_location }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventLocationChangedBuilder {
+  inner: ChatEventLocationChanged
+}
+
+impl RTDChatEventLocationChangedBuilder {
+  pub fn build(&self) -> ChatEventLocationChanged { self.inner.clone() }
+
+   
+  pub fn old_location<T: AsRef<ChatLocation>>(&mut self, old_location: T) -> &mut Self {
+    self.inner.old_location = Some(old_location.as_ref().clone());
+    self
+  }
+
+   
+  pub fn new_location<T: AsRef<ChatLocation>>(&mut self, new_location: T) -> &mut Self {
+    self.inner.new_location = Some(new_location.as_ref().clone());
+    self
+  }
+
+}
+
+impl AsRef<ChatEventLocationChanged> for ChatEventLocationChanged {
+  fn as_ref(&self) -> &ChatEventLocationChanged { self }
+}
+
+impl AsRef<ChatEventLocationChanged> for RTDChatEventLocationChangedBuilder {
+  fn as_ref(&self) -> &ChatEventLocationChanged { &self.inner }
 }
 
 

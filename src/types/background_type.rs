@@ -20,10 +20,10 @@ pub enum BackgroundType {
   #[doc(hidden)] _Default(()),
   /// A wallpaper in JPEG format
   Wallpaper(BackgroundTypeWallpaper),
-  /// A PNG pattern to be combined with the color chosen by the user
+  /// A PNG or TGV (gzipped subset of SVG with mime-type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user
   Pattern(BackgroundTypePattern),
-  /// A solid background
-  Solid(BackgroundTypeSolid),
+  /// A filled background
+  Fill(BackgroundTypeFill),
 
 }
 
@@ -38,7 +38,7 @@ impl<'de> Deserialize<'de> for BackgroundType {
       BackgroundType,
       (backgroundTypeWallpaper, Wallpaper);
       (backgroundTypePattern, Pattern);
-      (backgroundTypeSolid, Solid);
+      (backgroundTypeFill, Fill);
 
     )(deserializer)
   }
@@ -49,7 +49,7 @@ impl RObject for BackgroundType {
     match self {
       BackgroundType::Wallpaper(t) => t.td_name(),
       BackgroundType::Pattern(t) => t.td_name(),
-      BackgroundType::Solid(t) => t.td_name(),
+      BackgroundType::Fill(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -63,15 +63,15 @@ impl BackgroundType {
 
   pub fn is_wallpaper(&self) -> bool { if let BackgroundType::Wallpaper(_) = self { true } else { false } }
   pub fn is_pattern(&self) -> bool { if let BackgroundType::Pattern(_) = self { true } else { false } }
-  pub fn is_solid(&self) -> bool { if let BackgroundType::Solid(_) = self { true } else { false } }
+  pub fn is_fill(&self) -> bool { if let BackgroundType::Fill(_) = self { true } else { false } }
 
   pub fn on_wallpaper<F: FnOnce(&BackgroundTypeWallpaper)>(&self, fnc: F) -> &Self { if let BackgroundType::Wallpaper(t) = self { fnc(t) }; self }
   pub fn on_pattern<F: FnOnce(&BackgroundTypePattern)>(&self, fnc: F) -> &Self { if let BackgroundType::Pattern(t) = self { fnc(t) }; self }
-  pub fn on_solid<F: FnOnce(&BackgroundTypeSolid)>(&self, fnc: F) -> &Self { if let BackgroundType::Solid(t) = self { fnc(t) }; self }
+  pub fn on_fill<F: FnOnce(&BackgroundTypeFill)>(&self, fnc: F) -> &Self { if let BackgroundType::Fill(t) = self { fnc(t) }; self }
 
   pub fn as_wallpaper(&self) -> Option<&BackgroundTypeWallpaper> { if let BackgroundType::Wallpaper(t) = self { return Some(t) } None }
   pub fn as_pattern(&self) -> Option<&BackgroundTypePattern> { if let BackgroundType::Pattern(t) = self { return Some(t) } None }
-  pub fn as_solid(&self) -> Option<&BackgroundTypeSolid> { if let BackgroundType::Solid(t) = self { return Some(t) } None }
+  pub fn as_fill(&self) -> Option<&BackgroundTypeFill> { if let BackgroundType::Fill(t) = self { return Some(t) } None }
 
 
 
@@ -79,7 +79,7 @@ impl BackgroundType {
 
   pub fn pattern<T: AsRef<BackgroundTypePattern>>(t: T) -> Self { BackgroundType::Pattern(t.as_ref().clone()) }
 
-  pub fn solid<T: AsRef<BackgroundTypeSolid>>(t: T) -> Self { BackgroundType::Solid(t.as_ref().clone()) }
+  pub fn fill<T: AsRef<BackgroundTypeFill>>(t: T) -> Self { BackgroundType::Fill(t.as_ref().clone()) }
 
 }
 
@@ -101,7 +101,7 @@ pub struct BackgroundTypeWallpaper {
   td_name: String,
   /// True, if the wallpaper must be downscaled to fit in 450x450 square and then box-blurred with radius 12
   is_blurred: bool,
-  /// True, if the background needs to be slightly moved when device is rotated
+  /// True, if the background needs to be slightly moved when device is tilted
   is_moving: bool,
   
 }
@@ -166,18 +166,18 @@ impl AsRef<BackgroundTypeWallpaper> for RTDBackgroundTypeWallpaperBuilder {
 
 
 
-/// A PNG pattern to be combined with the color chosen by the user
+/// A PNG or TGV (gzipped subset of SVG with mime-type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct BackgroundTypePattern {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// True, if the background needs to be slightly moved when device is rotated
-  is_moving: bool,
-  /// Main color of the background in RGB24 format
-  color: i64,
-  /// Intensity of the pattern when it is shown above the main background color, 0-100
+  /// Description of the background fill
+  fill: BackgroundFill,
+  /// Intensity of the pattern when it is shown above the filled background, 0-100
   intensity: i64,
+  /// True, if the background needs to be slightly moved when device is tilted
+  is_moving: bool,
   
 }
 
@@ -199,11 +199,11 @@ impl BackgroundTypePattern {
     RTDBackgroundTypePatternBuilder { inner }
   }
 
-  pub fn is_moving(&self) -> bool { self.is_moving }
-
-  pub fn color(&self) -> i64 { self.color }
+  pub fn fill(&self) -> &BackgroundFill { &self.fill }
 
   pub fn intensity(&self) -> i64 { self.intensity }
+
+  pub fn is_moving(&self) -> bool { self.is_moving }
 
 }
 
@@ -216,20 +216,20 @@ impl RTDBackgroundTypePatternBuilder {
   pub fn build(&self) -> BackgroundTypePattern { self.inner.clone() }
 
    
-  pub fn is_moving(&mut self, is_moving: bool) -> &mut Self {
-    self.inner.is_moving = is_moving;
-    self
-  }
-
-   
-  pub fn color(&mut self, color: i64) -> &mut Self {
-    self.inner.color = color;
+  pub fn fill<T: AsRef<BackgroundFill>>(&mut self, fill: T) -> &mut Self {
+    self.inner.fill = fill.as_ref().clone();
     self
   }
 
    
   pub fn intensity(&mut self, intensity: i64) -> &mut Self {
     self.inner.intensity = intensity;
+    self
+  }
+
+   
+  pub fn is_moving(&mut self, is_moving: bool) -> &mut Self {
+    self.inner.is_moving = is_moving;
     self
   }
 
@@ -249,61 +249,61 @@ impl AsRef<BackgroundTypePattern> for RTDBackgroundTypePatternBuilder {
 
 
 
-/// A solid background
+/// A filled background
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct BackgroundTypeSolid {
+pub struct BackgroundTypeFill {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// A color of the background in RGB24 format
-  color: i64,
+  /// Description of the background fill
+  fill: BackgroundFill,
   
 }
 
-impl RObject for BackgroundTypeSolid {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "backgroundTypeSolid" }
+impl RObject for BackgroundTypeFill {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "backgroundTypeFill" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDBackgroundType for BackgroundTypeSolid {}
+impl TDBackgroundType for BackgroundTypeFill {}
 
 
 
-impl BackgroundTypeSolid {
+impl BackgroundTypeFill {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDBackgroundTypeSolidBuilder {
-    let mut inner = BackgroundTypeSolid::default();
-    inner.td_name = "backgroundTypeSolid".to_string();
-    RTDBackgroundTypeSolidBuilder { inner }
+  pub fn builder() -> RTDBackgroundTypeFillBuilder {
+    let mut inner = BackgroundTypeFill::default();
+    inner.td_name = "backgroundTypeFill".to_string();
+    RTDBackgroundTypeFillBuilder { inner }
   }
 
-  pub fn color(&self) -> i64 { self.color }
+  pub fn fill(&self) -> &BackgroundFill { &self.fill }
 
 }
 
 #[doc(hidden)]
-pub struct RTDBackgroundTypeSolidBuilder {
-  inner: BackgroundTypeSolid
+pub struct RTDBackgroundTypeFillBuilder {
+  inner: BackgroundTypeFill
 }
 
-impl RTDBackgroundTypeSolidBuilder {
-  pub fn build(&self) -> BackgroundTypeSolid { self.inner.clone() }
+impl RTDBackgroundTypeFillBuilder {
+  pub fn build(&self) -> BackgroundTypeFill { self.inner.clone() }
 
    
-  pub fn color(&mut self, color: i64) -> &mut Self {
-    self.inner.color = color;
+  pub fn fill<T: AsRef<BackgroundFill>>(&mut self, fill: T) -> &mut Self {
+    self.inner.fill = fill.as_ref().clone();
     self
   }
 
 }
 
-impl AsRef<BackgroundTypeSolid> for BackgroundTypeSolid {
-  fn as_ref(&self) -> &BackgroundTypeSolid { self }
+impl AsRef<BackgroundTypeFill> for BackgroundTypeFill {
+  fn as_ref(&self) -> &BackgroundTypeFill { self }
 }
 
-impl AsRef<BackgroundTypeSolid> for RTDBackgroundTypeSolidBuilder {
-  fn as_ref(&self) -> &BackgroundTypeSolid { &self.inner }
+impl AsRef<BackgroundTypeFill> for RTDBackgroundTypeFillBuilder {
+  fn as_ref(&self) -> &BackgroundTypeFill { &self.inner }
 }
 
 

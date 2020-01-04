@@ -17,6 +17,8 @@ pub struct UserFullInfo {
   can_be_called: bool,
   /// True, if the user can't be called due to their privacy settings
   has_private_calls: bool,
+  /// True, if the current user needs to explicitly allow to share their phone number with the user when the method addContact is used
+  need_phone_number_privacy_exception: bool,
   /// A short user bio
   bio: String,
   /// For bots, the text that is included with the link when users share the bot
@@ -48,6 +50,8 @@ impl UserFullInfo {
   pub fn can_be_called(&self) -> bool { self.can_be_called }
 
   pub fn has_private_calls(&self) -> bool { self.has_private_calls }
+
+  pub fn need_phone_number_privacy_exception(&self) -> bool { self.need_phone_number_privacy_exception }
 
   pub fn bio(&self) -> &String { &self.bio }
 
@@ -82,6 +86,12 @@ impl RTDUserFullInfoBuilder {
    
   pub fn has_private_calls(&mut self, has_private_calls: bool) -> &mut Self {
     self.inner.has_private_calls = has_private_calls;
+    self
+  }
+
+   
+  pub fn need_phone_number_privacy_exception(&mut self, need_phone_number_privacy_exception: bool) -> &mut Self {
+    self.inner.need_phone_number_privacy_exception = need_phone_number_privacy_exception;
     self
   }
 

@@ -19,6 +19,8 @@ pub struct AutoDownloadSettings {
   max_video_file_size: i64,
   /// Maximum size of other file types to be auto-downloaded
   max_other_file_size: i64,
+  /// Suggested maximum bitrate for uploaded videos
+  video_upload_bitrate: i64,
   /// True, if the beginning of videos needs to be preloaded for instant playback
   preload_large_videos: bool,
   /// True, if the next audio track needs to be preloaded while the user is listening to an audio file
@@ -50,6 +52,8 @@ impl AutoDownloadSettings {
   pub fn max_video_file_size(&self) -> i64 { self.max_video_file_size }
 
   pub fn max_other_file_size(&self) -> i64 { self.max_other_file_size }
+
+  pub fn video_upload_bitrate(&self) -> i64 { self.video_upload_bitrate }
 
   pub fn preload_large_videos(&self) -> bool { self.preload_large_videos }
 
@@ -88,6 +92,12 @@ impl RTDAutoDownloadSettingsBuilder {
    
   pub fn max_other_file_size(&mut self, max_other_file_size: i64) -> &mut Self {
     self.inner.max_other_file_size = max_other_file_size;
+    self
+  }
+
+   
+  pub fn video_upload_bitrate(&mut self, video_upload_bitrate: i64) -> &mut Self {
+    self.inner.video_upload_bitrate = video_upload_bitrate;
     self
   }
 

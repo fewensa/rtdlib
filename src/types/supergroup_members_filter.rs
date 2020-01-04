@@ -22,7 +22,7 @@ pub enum SupergroupMembersFilter {
   Recent(SupergroupMembersFilterRecent),
   /// Returns contacts of the user, which are members of the supergroup or channel
   Contacts(SupergroupMembersFilterContacts),
-  /// Returns the creator and administrators
+  /// Returns the owner and administrators
   Administrators(SupergroupMembersFilterAdministrators),
   /// Used to search for supergroup or channel members via a (string) query
   Search(SupergroupMembersFilterSearch),
@@ -245,7 +245,7 @@ impl AsRef<SupergroupMembersFilterContacts> for RTDSupergroupMembersFilterContac
 
 
 
-/// Returns the creator and administrators
+/// Returns the owner and administrators
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SupergroupMembersFilterAdministrators {
   #[doc(hidden)]

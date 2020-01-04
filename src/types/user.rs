@@ -25,15 +25,15 @@ pub struct User {
   status: UserStatus,
   /// Profile photo of the user; may be null
   profile_photo: Option<ProfilePhoto>,
-  /// Relationship from the current user to the other user
-  outgoing_link: LinkState,
-  /// Relationship from the other user to the current user
-  incoming_link: LinkState,
+  /// The user is a contact of the current user
+  is_contact: bool,
+  /// The user is a contact of the current user and the current user is a contact of the user
+  is_mutual_contact: bool,
   /// True, if the user is verified
   is_verified: bool,
   /// True, if the user is Telegram support account
   is_support: bool,
-  /// If non-empty, it contains the reason why access to this user must be restricted. The format of the string is "{type}: {description}". {type} contains the type of the restriction and at least one of the suffixes "-all", "-ios", "-android", or "-wp", which describe the platforms on which access should be restricted. (For example, "terms-ios-android". {description} contains a human-readable description of the restriction, which can be shown to the user)
+  /// If non-empty, it contains a human-readable description of the reason why access to this user must be restricted
   restriction_reason: String,
   /// True, if many users reported this user as a scam
   is_scam: bool,
@@ -75,9 +75,9 @@ impl User {
 
   pub fn profile_photo(&self) -> &Option<ProfilePhoto> { &self.profile_photo }
 
-  pub fn outgoing_link(&self) -> &LinkState { &self.outgoing_link }
+  pub fn is_contact(&self) -> bool { self.is_contact }
 
-  pub fn incoming_link(&self) -> &LinkState { &self.incoming_link }
+  pub fn is_mutual_contact(&self) -> bool { self.is_mutual_contact }
 
   pub fn is_verified(&self) -> bool { self.is_verified }
 
@@ -146,14 +146,14 @@ impl RTDUserBuilder {
   }
 
    
-  pub fn outgoing_link<T: AsRef<LinkState>>(&mut self, outgoing_link: T) -> &mut Self {
-    self.inner.outgoing_link = outgoing_link.as_ref().clone();
+  pub fn is_contact(&mut self, is_contact: bool) -> &mut Self {
+    self.inner.is_contact = is_contact;
     self
   }
 
    
-  pub fn incoming_link<T: AsRef<LinkState>>(&mut self, incoming_link: T) -> &mut Self {
-    self.inner.incoming_link = incoming_link.as_ref().clone();
+  pub fn is_mutual_contact(&mut self, is_mutual_contact: bool) -> &mut Self {
+    self.inner.is_mutual_contact = is_mutual_contact;
     self
   }
 

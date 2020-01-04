@@ -17,17 +17,23 @@ pub struct Supergroup {
   username: String,
   /// Point in time (Unix timestamp) when the current user joined, or the point in time when the supergroup or channel was created, in case the user is not a member
   date: i64,
-  /// Status of the current user in the supergroup or channel
+  /// Status of the current user in the supergroup or channel; custom title will be always empty
   status: ChatMemberStatus,
   /// Member count; 0 if unknown. Currently it is guaranteed to be known only if the supergroup or channel was found through SearchPublicChats
   member_count: i64,
+  /// True, if the channel has a discussion group, or the supergroup is a discussion group for a channel
+  has_linked_chat: bool,
+  /// True, if the supergroup has a chat location
+  has_location: bool,
   /// True, if messages sent to the channel should contain information about the sender. This field is only applicable to channels
   sign_messages: bool,
+  /// True, if the slow mode is enabled in the supergroup
+  is_slow_mode_enabled: bool,
   /// True, if the supergroup is a channel
   is_channel: bool,
   /// True, if the supergroup or channel is verified
   is_verified: bool,
-  /// If non-empty, contains the reason why access to this supergroup or channel must be restricted. Format of the string is "{type}: {description}". {type} Contains the type of the restriction and at least one of the suffixes "-all", "-ios", "-android", or "-wp", which describe the platforms on which access should be restricted. (For example, "terms-ios-android". {description} contains a human-readable description of the restriction, which can be shown to the user)
+  /// If non-empty, contains a human-readable description of the reason why access to this supergroup or channel must be restricted
   restriction_reason: String,
   /// True, if many users reported this supergroup as a scam
   is_scam: bool,
@@ -59,7 +65,13 @@ impl Supergroup {
 
   pub fn member_count(&self) -> i64 { self.member_count }
 
+  pub fn has_linked_chat(&self) -> bool { self.has_linked_chat }
+
+  pub fn has_location(&self) -> bool { self.has_location }
+
   pub fn sign_messages(&self) -> bool { self.sign_messages }
+
+  pub fn is_slow_mode_enabled(&self) -> bool { self.is_slow_mode_enabled }
 
   pub fn is_channel(&self) -> bool { self.is_channel }
 
@@ -110,8 +122,26 @@ impl RTDSupergroupBuilder {
   }
 
    
+  pub fn has_linked_chat(&mut self, has_linked_chat: bool) -> &mut Self {
+    self.inner.has_linked_chat = has_linked_chat;
+    self
+  }
+
+   
+  pub fn has_location(&mut self, has_location: bool) -> &mut Self {
+    self.inner.has_location = has_location;
+    self
+  }
+
+   
   pub fn sign_messages(&mut self, sign_messages: bool) -> &mut Self {
     self.inner.sign_messages = sign_messages;
+    self
+  }
+
+   
+  pub fn is_slow_mode_enabled(&mut self, is_slow_mode_enabled: bool) -> &mut Self {
+    self.inner.is_slow_mode_enabled = is_slow_mode_enabled;
     self
   }
 

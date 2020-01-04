@@ -19,9 +19,11 @@ pub struct Message {
   chat_id: i64,
   /// Information about the sending state of the message; may be null
   sending_state: Option<MessageSendingState>,
+  /// Information about the scheduling state of the message; may be null
+  scheduling_state: Option<MessageSchedulingState>,
   /// True, if the message is outgoing
   is_outgoing: bool,
-  /// True, if the message can be edited. For live location and poll messages this fields shows, whether editMessageLiveLocation or stopPoll can be used with this message by the client
+  /// True, if the message can be edited. For live location and poll messages this fields shows whether editMessageLiveLocation or stopPoll can be used with this message by the client
   can_be_edited: bool,
   /// True, if the message can be forwarded
   can_be_forwarded: bool,
@@ -53,6 +55,8 @@ pub struct Message {
   views: i64,
   /// Unique identifier of an album this message belongs to. Only photos and videos can be grouped together in albums
   media_album_id: String,
+  /// If non-empty, contains a human-readable description of the reason why access to this message must be restricted
+  restriction_reason: String,
   /// Content of the message
   content: MessageContent,
   /// Reply markup for the message; may be null
@@ -82,6 +86,8 @@ impl Message {
   pub fn chat_id(&self) -> i64 { self.chat_id }
 
   pub fn sending_state(&self) -> &Option<MessageSendingState> { &self.sending_state }
+
+  pub fn scheduling_state(&self) -> &Option<MessageSchedulingState> { &self.scheduling_state }
 
   pub fn is_outgoing(&self) -> bool { self.is_outgoing }
 
@@ -116,6 +122,8 @@ impl Message {
   pub fn views(&self) -> i64 { self.views }
 
   pub fn media_album_id(&self) -> &String { &self.media_album_id }
+
+  pub fn restriction_reason(&self) -> &String { &self.restriction_reason }
 
   pub fn content(&self) -> &MessageContent { &self.content }
 
@@ -152,6 +160,12 @@ impl RTDMessageBuilder {
    
   pub fn sending_state<T: AsRef<MessageSendingState>>(&mut self, sending_state: T) -> &mut Self {
     self.inner.sending_state = Some(sending_state.as_ref().clone());
+    self
+  }
+
+   
+  pub fn scheduling_state<T: AsRef<MessageSchedulingState>>(&mut self, scheduling_state: T) -> &mut Self {
+    self.inner.scheduling_state = Some(scheduling_state.as_ref().clone());
     self
   }
 
@@ -254,6 +268,12 @@ impl RTDMessageBuilder {
    
   pub fn media_album_id<T: AsRef<str>>(&mut self, media_album_id: T) -> &mut Self {
     self.inner.media_album_id = media_album_id.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn restriction_reason<T: AsRef<str>>(&mut self, restriction_reason: T) -> &mut Self {
+    self.inner.restriction_reason = restriction_reason.as_ref().to_string();
     self
   }
 

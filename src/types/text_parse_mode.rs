@@ -90,6 +90,8 @@ pub struct TextParseModeMarkdown {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  /// Version of the parser: 0 or 1  Bot API Markdown parse mode, 2  Bot API MarkdownV2 parse mode
+  version: i64,
   
 }
 
@@ -111,6 +113,8 @@ impl TextParseModeMarkdown {
     RTDTextParseModeMarkdownBuilder { inner }
   }
 
+  pub fn version(&self) -> i64 { self.version }
+
 }
 
 #[doc(hidden)]
@@ -120,6 +124,12 @@ pub struct RTDTextParseModeMarkdownBuilder {
 
 impl RTDTextParseModeMarkdownBuilder {
   pub fn build(&self) -> TextParseModeMarkdown { self.inner.clone() }
+
+   
+  pub fn version(&mut self, version: i64) -> &mut Self {
+    self.inner.version = version;
+    self
+  }
 
 }
 

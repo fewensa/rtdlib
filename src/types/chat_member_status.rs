@@ -18,7 +18,7 @@ pub trait TDChatMemberStatus: Debug + RObject {}
 #[serde(untagged)]
 pub enum ChatMemberStatus {
   #[doc(hidden)] _Default(()),
-  /// The user is the creator of a chat and has all the administrator privileges
+  /// The user is the owner of a chat and has all the administrator privileges
   Creator(ChatMemberStatusCreator),
   /// The user is a member of a chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, and ban unprivileged members. In supergroups and channels, there are more detailed options for administrator privileges
   Administrator(ChatMemberStatusAdministrator),
@@ -120,12 +120,14 @@ impl AsRef<ChatMemberStatus> for ChatMemberStatus {
 
 
 
-/// The user is the creator of a chat and has all the administrator privileges
+/// The user is the owner of a chat and has all the administrator privileges
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatMemberStatusCreator {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  /// A custom title of the owner; 0-16 characters without emojis; applicable to supergroups only
+  custom_title: String,
   /// True, if the user is a member of the chat
   is_member: bool,
   
@@ -149,6 +151,8 @@ impl ChatMemberStatusCreator {
     RTDChatMemberStatusCreatorBuilder { inner }
   }
 
+  pub fn custom_title(&self) -> &String { &self.custom_title }
+
   pub fn is_member(&self) -> bool { self.is_member }
 
 }
@@ -160,6 +164,12 @@ pub struct RTDChatMemberStatusCreatorBuilder {
 
 impl RTDChatMemberStatusCreatorBuilder {
   pub fn build(&self) -> ChatMemberStatusCreator { self.inner.clone() }
+
+   
+  pub fn custom_title<T: AsRef<str>>(&mut self, custom_title: T) -> &mut Self {
+    self.inner.custom_title = custom_title.as_ref().to_string();
+    self
+  }
 
    
   pub fn is_member(&mut self, is_member: bool) -> &mut Self {
@@ -189,6 +199,8 @@ pub struct ChatMemberStatusAdministrator {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  /// A custom title of the administrator; 0-16 characters without emojis; applicable to supergroups only
+  custom_title: String,
   /// True, if the current user can edit the administrator privileges for the called user
   can_be_edited: bool,
   /// True, if the administrator can change the chat title, photo, and other settings
@@ -205,7 +217,7 @@ pub struct ChatMemberStatusAdministrator {
   can_restrict_members: bool,
   /// True, if the administrator can pin messages; applicable to groups only
   can_pin_messages: bool,
-  /// True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that were directly or indirectly promoted by him
+  /// True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that were directly or indirectly promoted by them
   can_promote_members: bool,
   
 }
@@ -227,6 +239,8 @@ impl ChatMemberStatusAdministrator {
     inner.td_name = "chatMemberStatusAdministrator".to_string();
     RTDChatMemberStatusAdministratorBuilder { inner }
   }
+
+  pub fn custom_title(&self) -> &String { &self.custom_title }
 
   pub fn can_be_edited(&self) -> bool { self.can_be_edited }
 
@@ -255,6 +269,12 @@ pub struct RTDChatMemberStatusAdministratorBuilder {
 
 impl RTDChatMemberStatusAdministratorBuilder {
   pub fn build(&self) -> ChatMemberStatusAdministrator { self.inner.clone() }
+
+   
+  pub fn custom_title<T: AsRef<str>>(&mut self, custom_title: T) -> &mut Self {
+    self.inner.custom_title = custom_title.as_ref().to_string();
+    self
+  }
 
    
   pub fn can_be_edited(&mut self, can_be_edited: bool) -> &mut Self {

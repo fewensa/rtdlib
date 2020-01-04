@@ -20,7 +20,7 @@ pub enum ChatMembersFilter {
   #[doc(hidden)] _Default(()),
   /// Returns contacts of the user
   Contacts(ChatMembersFilterContacts),
-  /// Returns the creator and administrators
+  /// Returns the owner and administrators
   Administrators(ChatMembersFilterAdministrators),
   /// Returns all chat members, including restricted chat members
   Members(ChatMembersFilterMembers),
@@ -173,7 +173,7 @@ impl AsRef<ChatMembersFilterContacts> for RTDChatMembersFilterContactsBuilder {
 
 
 
-/// Returns the creator and administrators
+/// Returns the owner and administrators
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatMembersFilterAdministrators {
   #[doc(hidden)]

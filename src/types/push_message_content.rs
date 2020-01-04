@@ -1697,7 +1697,7 @@ pub struct PushMessageContentChatAddMembers {
   member_name: String,
   /// True, if the current user was added to the group
   is_current_user: bool,
-  /// True, if the user has returned to the group himself
+  /// True, if the user has returned to the group themself
   is_returned: bool,
   
 }
@@ -1896,7 +1896,7 @@ pub struct PushMessageContentChatDeleteMember {
   member_name: String,
   /// True, if the current user was deleted from the group
   is_current_user: bool,
-  /// True, if the user has left the group himself
+  /// True, if the user has left the group themself
   is_left: bool,
   
 }

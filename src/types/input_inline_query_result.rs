@@ -36,7 +36,7 @@ pub enum InputInlineQueryResult {
   Location(InputInlineQueryResultLocation),
   /// Represents link to a JPEG image
   Photo(InputInlineQueryResultPhoto),
-  /// Represents a link to a WEBP or a TGS sticker
+  /// Represents a link to a WEBP or TGS sticker
   Sticker(InputInlineQueryResultSticker),
   /// Represents information about a venue
   Venue(InputInlineQueryResultVenue),
@@ -1390,7 +1390,7 @@ impl AsRef<InputInlineQueryResultPhoto> for RTDInputInlineQueryResultPhotoBuilde
 
 
 
-/// Represents a link to a WEBP or a TGS sticker
+/// Represents a link to a WEBP or TGS sticker
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InputInlineQueryResultSticker {
   #[doc(hidden)]
@@ -1400,7 +1400,7 @@ pub struct InputInlineQueryResultSticker {
   id: String,
   /// URL of the sticker thumbnail, if it exists
   thumbnail_url: String,
-  /// The URL of the WEBP or a TGS sticker (sticker file size must not exceed 5MB)
+  /// The URL of the WEBP or TGS sticker (sticker file size must not exceed 5MB)
   sticker_url: String,
   /// Width of the sticker
   sticker_width: i64,

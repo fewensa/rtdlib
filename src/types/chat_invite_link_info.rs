@@ -23,7 +23,7 @@ pub struct ChatInviteLinkInfo {
   member_count: i64,
   /// User identifiers of some chat members that may be known to the current user
   member_user_ids: Vec<i64>,
-  /// True, if the chat is a public supergroup or a channel with a username
+  /// True, if the chat is a public supergroup or channel, i.e. it has a username or it is a location-based supergroup
   is_public: bool,
   
 }

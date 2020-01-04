@@ -189,7 +189,7 @@ pub struct InlineKeyboardButtonTypeLoginUrl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// HTTP URL to open
+  /// An HTTP URL to open
   url: String,
   /// Unique button identifier
   id: i64,

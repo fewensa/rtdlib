@@ -22,10 +22,12 @@ pub enum AuthorizationState {
   WaitTdlibParameters(AuthorizationStateWaitTdlibParameters),
   /// TDLib needs an encryption key to decrypt the local database
   WaitEncryptionKey(AuthorizationStateWaitEncryptionKey),
-  /// TDLib needs the user's phone number to authorize
+  /// TDLib needs the user's phone number to authorize. Call `setAuthenticationPhoneNumber` to provide the phone number, or use `requestQrCodeAuthentication`, or `checkAuthenticationBotToken` for other authentication options
   WaitPhoneNumber(AuthorizationStateWaitPhoneNumber),
   /// TDLib needs the user's authentication code to authorize
   WaitCode(AuthorizationStateWaitCode),
+  /// The user needs to confirm authorization on another logged in device by scanning a QR code with the provided link
+  WaitOtherDeviceConfirmation(AuthorizationStateWaitOtherDeviceConfirmation),
   /// The user is unregistered and need to accept terms of service and enter their first name and last name to finish registration
   WaitRegistration(AuthorizationStateWaitRegistration),
   /// The user has been authorized, but needs to enter a password to start using the application
@@ -56,6 +58,7 @@ impl<'de> Deserialize<'de> for AuthorizationState {
       (authorizationStateWaitEncryptionKey, WaitEncryptionKey);
       (authorizationStateWaitPhoneNumber, WaitPhoneNumber);
       (authorizationStateWaitCode, WaitCode);
+      (authorizationStateWaitOtherDeviceConfirmation, WaitOtherDeviceConfirmation);
       (authorizationStateWaitRegistration, WaitRegistration);
       (authorizationStateWaitPassword, WaitPassword);
       (authorizationStateReady, Ready);
@@ -75,6 +78,7 @@ impl RObject for AuthorizationState {
       AuthorizationState::WaitEncryptionKey(t) => t.td_name(),
       AuthorizationState::WaitPhoneNumber(t) => t.td_name(),
       AuthorizationState::WaitCode(t) => t.td_name(),
+      AuthorizationState::WaitOtherDeviceConfirmation(t) => t.td_name(),
       AuthorizationState::WaitRegistration(t) => t.td_name(),
       AuthorizationState::WaitPassword(t) => t.td_name(),
       AuthorizationState::Ready(t) => t.td_name(),
@@ -97,6 +101,7 @@ impl AuthorizationState {
   pub fn is_wait_encryption_key(&self) -> bool { if let AuthorizationState::WaitEncryptionKey(_) = self { true } else { false } }
   pub fn is_wait_phone_number(&self) -> bool { if let AuthorizationState::WaitPhoneNumber(_) = self { true } else { false } }
   pub fn is_wait_code(&self) -> bool { if let AuthorizationState::WaitCode(_) = self { true } else { false } }
+  pub fn is_wait_other_device_confirmation(&self) -> bool { if let AuthorizationState::WaitOtherDeviceConfirmation(_) = self { true } else { false } }
   pub fn is_wait_registration(&self) -> bool { if let AuthorizationState::WaitRegistration(_) = self { true } else { false } }
   pub fn is_wait_password(&self) -> bool { if let AuthorizationState::WaitPassword(_) = self { true } else { false } }
   pub fn is_ready(&self) -> bool { if let AuthorizationState::Ready(_) = self { true } else { false } }
@@ -109,6 +114,7 @@ impl AuthorizationState {
   pub fn on_wait_encryption_key<F: FnOnce(&AuthorizationStateWaitEncryptionKey)>(&self, fnc: F) -> &Self { if let AuthorizationState::WaitEncryptionKey(t) = self { fnc(t) }; self }
   pub fn on_wait_phone_number<F: FnOnce(&AuthorizationStateWaitPhoneNumber)>(&self, fnc: F) -> &Self { if let AuthorizationState::WaitPhoneNumber(t) = self { fnc(t) }; self }
   pub fn on_wait_code<F: FnOnce(&AuthorizationStateWaitCode)>(&self, fnc: F) -> &Self { if let AuthorizationState::WaitCode(t) = self { fnc(t) }; self }
+  pub fn on_wait_other_device_confirmation<F: FnOnce(&AuthorizationStateWaitOtherDeviceConfirmation)>(&self, fnc: F) -> &Self { if let AuthorizationState::WaitOtherDeviceConfirmation(t) = self { fnc(t) }; self }
   pub fn on_wait_registration<F: FnOnce(&AuthorizationStateWaitRegistration)>(&self, fnc: F) -> &Self { if let AuthorizationState::WaitRegistration(t) = self { fnc(t) }; self }
   pub fn on_wait_password<F: FnOnce(&AuthorizationStateWaitPassword)>(&self, fnc: F) -> &Self { if let AuthorizationState::WaitPassword(t) = self { fnc(t) }; self }
   pub fn on_ready<F: FnOnce(&AuthorizationStateReady)>(&self, fnc: F) -> &Self { if let AuthorizationState::Ready(t) = self { fnc(t) }; self }
@@ -121,6 +127,7 @@ impl AuthorizationState {
   pub fn as_wait_encryption_key(&self) -> Option<&AuthorizationStateWaitEncryptionKey> { if let AuthorizationState::WaitEncryptionKey(t) = self { return Some(t) } None }
   pub fn as_wait_phone_number(&self) -> Option<&AuthorizationStateWaitPhoneNumber> { if let AuthorizationState::WaitPhoneNumber(t) = self { return Some(t) } None }
   pub fn as_wait_code(&self) -> Option<&AuthorizationStateWaitCode> { if let AuthorizationState::WaitCode(t) = self { return Some(t) } None }
+  pub fn as_wait_other_device_confirmation(&self) -> Option<&AuthorizationStateWaitOtherDeviceConfirmation> { if let AuthorizationState::WaitOtherDeviceConfirmation(t) = self { return Some(t) } None }
   pub fn as_wait_registration(&self) -> Option<&AuthorizationStateWaitRegistration> { if let AuthorizationState::WaitRegistration(t) = self { return Some(t) } None }
   pub fn as_wait_password(&self) -> Option<&AuthorizationStateWaitPassword> { if let AuthorizationState::WaitPassword(t) = self { return Some(t) } None }
   pub fn as_ready(&self) -> Option<&AuthorizationStateReady> { if let AuthorizationState::Ready(t) = self { return Some(t) } None }
@@ -138,6 +145,8 @@ impl AuthorizationState {
   pub fn wait_phone_number<T: AsRef<AuthorizationStateWaitPhoneNumber>>(t: T) -> Self { AuthorizationState::WaitPhoneNumber(t.as_ref().clone()) }
 
   pub fn wait_code<T: AsRef<AuthorizationStateWaitCode>>(t: T) -> Self { AuthorizationState::WaitCode(t.as_ref().clone()) }
+
+  pub fn wait_other_device_confirmation<T: AsRef<AuthorizationStateWaitOtherDeviceConfirmation>>(t: T) -> Self { AuthorizationState::WaitOtherDeviceConfirmation(t.as_ref().clone()) }
 
   pub fn wait_registration<T: AsRef<AuthorizationStateWaitRegistration>>(t: T) -> Self { AuthorizationState::WaitRegistration(t.as_ref().clone()) }
 
@@ -281,7 +290,7 @@ impl AsRef<AuthorizationStateWaitEncryptionKey> for RTDAuthorizationStateWaitEnc
 
 
 
-/// TDLib needs the user's phone number to authorize
+/// TDLib needs the user's phone number to authorize. Call `setAuthenticationPhoneNumber` to provide the phone number, or use `requestQrCodeAuthentication`, or `checkAuthenticationBotToken` for other authentication options
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct AuthorizationStateWaitPhoneNumber {
   #[doc(hidden)]
@@ -389,6 +398,69 @@ impl AsRef<AuthorizationStateWaitCode> for AuthorizationStateWaitCode {
 
 impl AsRef<AuthorizationStateWaitCode> for RTDAuthorizationStateWaitCodeBuilder {
   fn as_ref(&self) -> &AuthorizationStateWaitCode { &self.inner }
+}
+
+
+
+
+
+
+
+/// The user needs to confirm authorization on another logged in device by scanning a QR code with the provided link
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct AuthorizationStateWaitOtherDeviceConfirmation {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// A tg:// URL for the QR code. The link will be updated frequently
+  link: String,
+  
+}
+
+impl RObject for AuthorizationStateWaitOtherDeviceConfirmation {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "authorizationStateWaitOtherDeviceConfirmation" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDAuthorizationState for AuthorizationStateWaitOtherDeviceConfirmation {}
+
+
+
+impl AuthorizationStateWaitOtherDeviceConfirmation {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDAuthorizationStateWaitOtherDeviceConfirmationBuilder {
+    let mut inner = AuthorizationStateWaitOtherDeviceConfirmation::default();
+    inner.td_name = "authorizationStateWaitOtherDeviceConfirmation".to_string();
+    RTDAuthorizationStateWaitOtherDeviceConfirmationBuilder { inner }
+  }
+
+  pub fn link(&self) -> &String { &self.link }
+
+}
+
+#[doc(hidden)]
+pub struct RTDAuthorizationStateWaitOtherDeviceConfirmationBuilder {
+  inner: AuthorizationStateWaitOtherDeviceConfirmation
+}
+
+impl RTDAuthorizationStateWaitOtherDeviceConfirmationBuilder {
+  pub fn build(&self) -> AuthorizationStateWaitOtherDeviceConfirmation { self.inner.clone() }
+
+   
+  pub fn link<T: AsRef<str>>(&mut self, link: T) -> &mut Self {
+    self.inner.link = link.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<AuthorizationStateWaitOtherDeviceConfirmation> for AuthorizationStateWaitOtherDeviceConfirmation {
+  fn as_ref(&self) -> &AuthorizationStateWaitOtherDeviceConfirmation { self }
+}
+
+impl AsRef<AuthorizationStateWaitOtherDeviceConfirmation> for RTDAuthorizationStateWaitOtherDeviceConfirmationBuilder {
+  fn as_ref(&self) -> &AuthorizationStateWaitOtherDeviceConfirmation { &self.inner }
 }
 
 

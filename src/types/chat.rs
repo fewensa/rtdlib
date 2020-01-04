@@ -15,6 +15,8 @@ pub struct Chat {
   id: i64,
   /// Type of the chat
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: ChatType,
+  /// A chat list to which the chat belongs; may be null
+  chat_list: Option<ChatList>,
   /// Chat title
   title: String,
   /// Chat photo; may be null
@@ -31,6 +33,8 @@ pub struct Chat {
   is_marked_as_unread: bool,
   /// True, if the chat is sponsored by the user's MTProxy server
   is_sponsored: bool,
+  /// True, if the chat has scheduled messages
+  has_scheduled_messages: bool,
   /// True, if the chat messages can be deleted only for the current user while other users will continue to see the messages
   can_be_deleted_only_for_self: bool,
   /// True, if the chat messages can be deleted for all users
@@ -49,6 +53,8 @@ pub struct Chat {
   unread_mention_count: i64,
   /// Notification settings for this chat
   notification_settings: ChatNotificationSettings,
+  /// Describes actions which should be possible to do through a chat action bar; may be null
+  action_bar: Option<ChatActionBar>,
   /// Identifier of the pinned message in the chat; 0 if none
   pinned_message_id: i64,
   /// Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
@@ -79,6 +85,8 @@ impl Chat {
 
   pub fn type_(&self) -> &ChatType { &self.type_ }
 
+  pub fn chat_list(&self) -> &Option<ChatList> { &self.chat_list }
+
   pub fn title(&self) -> &String { &self.title }
 
   pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
@@ -94,6 +102,8 @@ impl Chat {
   pub fn is_marked_as_unread(&self) -> bool { self.is_marked_as_unread }
 
   pub fn is_sponsored(&self) -> bool { self.is_sponsored }
+
+  pub fn has_scheduled_messages(&self) -> bool { self.has_scheduled_messages }
 
   pub fn can_be_deleted_only_for_self(&self) -> bool { self.can_be_deleted_only_for_self }
 
@@ -112,6 +122,8 @@ impl Chat {
   pub fn unread_mention_count(&self) -> i64 { self.unread_mention_count }
 
   pub fn notification_settings(&self) -> &ChatNotificationSettings { &self.notification_settings }
+
+  pub fn action_bar(&self) -> &Option<ChatActionBar> { &self.action_bar }
 
   pub fn pinned_message_id(&self) -> i64 { self.pinned_message_id }
 
@@ -140,6 +152,12 @@ impl RTDChatBuilder {
    
   pub fn type_<T: AsRef<ChatType>>(&mut self, type_: T) -> &mut Self {
     self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+   
+  pub fn chat_list<T: AsRef<ChatList>>(&mut self, chat_list: T) -> &mut Self {
+    self.inner.chat_list = Some(chat_list.as_ref().clone());
     self
   }
 
@@ -188,6 +206,12 @@ impl RTDChatBuilder {
    
   pub fn is_sponsored(&mut self, is_sponsored: bool) -> &mut Self {
     self.inner.is_sponsored = is_sponsored;
+    self
+  }
+
+   
+  pub fn has_scheduled_messages(&mut self, has_scheduled_messages: bool) -> &mut Self {
+    self.inner.has_scheduled_messages = has_scheduled_messages;
     self
   }
 
@@ -242,6 +266,12 @@ impl RTDChatBuilder {
    
   pub fn notification_settings<T: AsRef<ChatNotificationSettings>>(&mut self, notification_settings: T) -> &mut Self {
     self.inner.notification_settings = notification_settings.as_ref().clone();
+    self
+  }
+
+   
+  pub fn action_bar<T: AsRef<ChatActionBar>>(&mut self, action_bar: T) -> &mut Self {
+    self.inner.action_bar = Some(action_bar.as_ref().clone());
     self
   }
 

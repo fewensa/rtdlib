@@ -21,18 +21,28 @@ pub struct SupergroupFullInfo {
   restricted_count: i64,
   /// Number of users banned from chat; 0 if unknown
   banned_count: i64,
+  /// Chat identifier of a discussion group for the channel, or a channel, for which the supergroup is a discussion group; 0 if none or unknown
+  linked_chat_id: i64,
+  /// Delay between consecutive sent messages for non-administrator supergroup members, in seconds
+  slow_mode_delay: i64,
+  /// Time left before next message can be sent in the supergroup, in seconds. An updateSupergroupFullInfo update is not triggered when value of this field changes, but both new and old values are non-zero
+  slow_mode_delay_expires_in: f32,
   /// True, if members of the chat can be retrieved
   can_get_members: bool,
-  /// True, if the chat can be made public
+  /// True, if the chat username can be changed
   can_set_username: bool,
   /// True, if the supergroup sticker set can be changed
   can_set_sticker_set: bool,
+  /// True, if the supergroup location can be changed
+  can_set_location: bool,
   /// True, if the channel statistics is available through getChatStatisticsUrl
   can_view_statistics: bool,
-  /// True, if new chat members will have access to old messages. In public supergroups and both public and private channels, old messages are always available, so this option affects only private supergroups. The value of this field is only available for chat administrators
+  /// True, if new chat members will have access to old messages. In public or discussion groups and both public and private channels, old messages are always available, so this option affects only private supergroups without a linked chat. The value of this field is only available for chat administrators
   is_all_history_available: bool,
   /// Identifier of the supergroup sticker set; 0 if none
   sticker_set_id: String,
+  /// Location of the supergroup; may be null
+  location: Option<ChatLocation>,
   /// Invite link for this chat
   invite_link: String,
   /// Identifier of the basic group from which supergroup was upgraded; 0 if none
@@ -67,17 +77,27 @@ impl SupergroupFullInfo {
 
   pub fn banned_count(&self) -> i64 { self.banned_count }
 
+  pub fn linked_chat_id(&self) -> i64 { self.linked_chat_id }
+
+  pub fn slow_mode_delay(&self) -> i64 { self.slow_mode_delay }
+
+  pub fn slow_mode_delay_expires_in(&self) -> f32 { self.slow_mode_delay_expires_in }
+
   pub fn can_get_members(&self) -> bool { self.can_get_members }
 
   pub fn can_set_username(&self) -> bool { self.can_set_username }
 
   pub fn can_set_sticker_set(&self) -> bool { self.can_set_sticker_set }
 
+  pub fn can_set_location(&self) -> bool { self.can_set_location }
+
   pub fn can_view_statistics(&self) -> bool { self.can_view_statistics }
 
   pub fn is_all_history_available(&self) -> bool { self.is_all_history_available }
 
   pub fn sticker_set_id(&self) -> &String { &self.sticker_set_id }
+
+  pub fn location(&self) -> &Option<ChatLocation> { &self.location }
 
   pub fn invite_link(&self) -> &String { &self.invite_link }
 
@@ -126,6 +146,24 @@ impl RTDSupergroupFullInfoBuilder {
   }
 
    
+  pub fn linked_chat_id(&mut self, linked_chat_id: i64) -> &mut Self {
+    self.inner.linked_chat_id = linked_chat_id;
+    self
+  }
+
+   
+  pub fn slow_mode_delay(&mut self, slow_mode_delay: i64) -> &mut Self {
+    self.inner.slow_mode_delay = slow_mode_delay;
+    self
+  }
+
+   
+  pub fn slow_mode_delay_expires_in(&mut self, slow_mode_delay_expires_in: f32) -> &mut Self {
+    self.inner.slow_mode_delay_expires_in = slow_mode_delay_expires_in;
+    self
+  }
+
+   
   pub fn can_get_members(&mut self, can_get_members: bool) -> &mut Self {
     self.inner.can_get_members = can_get_members;
     self
@@ -144,6 +182,12 @@ impl RTDSupergroupFullInfoBuilder {
   }
 
    
+  pub fn can_set_location(&mut self, can_set_location: bool) -> &mut Self {
+    self.inner.can_set_location = can_set_location;
+    self
+  }
+
+   
   pub fn can_view_statistics(&mut self, can_view_statistics: bool) -> &mut Self {
     self.inner.can_view_statistics = can_view_statistics;
     self
@@ -158,6 +202,12 @@ impl RTDSupergroupFullInfoBuilder {
    
   pub fn sticker_set_id<T: AsRef<str>>(&mut self, sticker_set_id: T) -> &mut Self {
     self.inner.sticker_set_id = sticker_set_id.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn location<T: AsRef<ChatLocation>>(&mut self, location: T) -> &mut Self {
+    self.inner.location = Some(location.as_ref().clone());
     self
   }
 

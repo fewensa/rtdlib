@@ -28,6 +28,8 @@ pub enum ChatReportReason {
   ChildAbuse(ChatReportReasonChildAbuse),
   /// The chat contains copyrighted content
   Copyright(ChatReportReasonCopyright),
+  /// The chat has unrelated location
+  UnrelatedLocation(ChatReportReasonUnrelatedLocation),
   /// A custom reason provided by the user
   Custom(ChatReportReasonCustom),
 
@@ -47,6 +49,7 @@ impl<'de> Deserialize<'de> for ChatReportReason {
       (chatReportReasonPornography, Pornography);
       (chatReportReasonChildAbuse, ChildAbuse);
       (chatReportReasonCopyright, Copyright);
+      (chatReportReasonUnrelatedLocation, UnrelatedLocation);
       (chatReportReasonCustom, Custom);
 
     )(deserializer)
@@ -61,6 +64,7 @@ impl RObject for ChatReportReason {
       ChatReportReason::Pornography(t) => t.td_name(),
       ChatReportReason::ChildAbuse(t) => t.td_name(),
       ChatReportReason::Copyright(t) => t.td_name(),
+      ChatReportReason::UnrelatedLocation(t) => t.td_name(),
       ChatReportReason::Custom(t) => t.td_name(),
 
       _ => "-1",
@@ -78,6 +82,7 @@ impl ChatReportReason {
   pub fn is_pornography(&self) -> bool { if let ChatReportReason::Pornography(_) = self { true } else { false } }
   pub fn is_child_abuse(&self) -> bool { if let ChatReportReason::ChildAbuse(_) = self { true } else { false } }
   pub fn is_copyright(&self) -> bool { if let ChatReportReason::Copyright(_) = self { true } else { false } }
+  pub fn is_unrelated_location(&self) -> bool { if let ChatReportReason::UnrelatedLocation(_) = self { true } else { false } }
   pub fn is_custom(&self) -> bool { if let ChatReportReason::Custom(_) = self { true } else { false } }
 
   pub fn on_spam<F: FnOnce(&ChatReportReasonSpam)>(&self, fnc: F) -> &Self { if let ChatReportReason::Spam(t) = self { fnc(t) }; self }
@@ -85,6 +90,7 @@ impl ChatReportReason {
   pub fn on_pornography<F: FnOnce(&ChatReportReasonPornography)>(&self, fnc: F) -> &Self { if let ChatReportReason::Pornography(t) = self { fnc(t) }; self }
   pub fn on_child_abuse<F: FnOnce(&ChatReportReasonChildAbuse)>(&self, fnc: F) -> &Self { if let ChatReportReason::ChildAbuse(t) = self { fnc(t) }; self }
   pub fn on_copyright<F: FnOnce(&ChatReportReasonCopyright)>(&self, fnc: F) -> &Self { if let ChatReportReason::Copyright(t) = self { fnc(t) }; self }
+  pub fn on_unrelated_location<F: FnOnce(&ChatReportReasonUnrelatedLocation)>(&self, fnc: F) -> &Self { if let ChatReportReason::UnrelatedLocation(t) = self { fnc(t) }; self }
   pub fn on_custom<F: FnOnce(&ChatReportReasonCustom)>(&self, fnc: F) -> &Self { if let ChatReportReason::Custom(t) = self { fnc(t) }; self }
 
   pub fn as_spam(&self) -> Option<&ChatReportReasonSpam> { if let ChatReportReason::Spam(t) = self { return Some(t) } None }
@@ -92,6 +98,7 @@ impl ChatReportReason {
   pub fn as_pornography(&self) -> Option<&ChatReportReasonPornography> { if let ChatReportReason::Pornography(t) = self { return Some(t) } None }
   pub fn as_child_abuse(&self) -> Option<&ChatReportReasonChildAbuse> { if let ChatReportReason::ChildAbuse(t) = self { return Some(t) } None }
   pub fn as_copyright(&self) -> Option<&ChatReportReasonCopyright> { if let ChatReportReason::Copyright(t) = self { return Some(t) } None }
+  pub fn as_unrelated_location(&self) -> Option<&ChatReportReasonUnrelatedLocation> { if let ChatReportReason::UnrelatedLocation(t) = self { return Some(t) } None }
   pub fn as_custom(&self) -> Option<&ChatReportReasonCustom> { if let ChatReportReason::Custom(t) = self { return Some(t) } None }
 
 
@@ -105,6 +112,8 @@ impl ChatReportReason {
   pub fn child_abuse<T: AsRef<ChatReportReasonChildAbuse>>(t: T) -> Self { ChatReportReason::ChildAbuse(t.as_ref().clone()) }
 
   pub fn copyright<T: AsRef<ChatReportReasonCopyright>>(t: T) -> Self { ChatReportReason::Copyright(t.as_ref().clone()) }
+
+  pub fn unrelated_location<T: AsRef<ChatReportReasonUnrelatedLocation>>(t: T) -> Self { ChatReportReason::UnrelatedLocation(t.as_ref().clone()) }
 
   pub fn custom<T: AsRef<ChatReportReasonCustom>>(t: T) -> Self { ChatReportReason::Custom(t.as_ref().clone()) }
 
@@ -377,6 +386,59 @@ impl AsRef<ChatReportReasonCopyright> for ChatReportReasonCopyright {
 
 impl AsRef<ChatReportReasonCopyright> for RTDChatReportReasonCopyrightBuilder {
   fn as_ref(&self) -> &ChatReportReasonCopyright { &self.inner }
+}
+
+
+
+
+
+
+
+/// The chat has unrelated location
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatReportReasonUnrelatedLocation {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for ChatReportReasonUnrelatedLocation {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonUnrelatedLocation" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatReportReason for ChatReportReasonUnrelatedLocation {}
+
+
+
+impl ChatReportReasonUnrelatedLocation {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatReportReasonUnrelatedLocationBuilder {
+    let mut inner = ChatReportReasonUnrelatedLocation::default();
+    inner.td_name = "chatReportReasonUnrelatedLocation".to_string();
+    RTDChatReportReasonUnrelatedLocationBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatReportReasonUnrelatedLocationBuilder {
+  inner: ChatReportReasonUnrelatedLocation
+}
+
+impl RTDChatReportReasonUnrelatedLocationBuilder {
+  pub fn build(&self) -> ChatReportReasonUnrelatedLocation { self.inner.clone() }
+
+}
+
+impl AsRef<ChatReportReasonUnrelatedLocation> for ChatReportReasonUnrelatedLocation {
+  fn as_ref(&self) -> &ChatReportReasonUnrelatedLocation { self }
+}
+
+impl AsRef<ChatReportReasonUnrelatedLocation> for RTDChatReportReasonUnrelatedLocationBuilder {
+  fn as_ref(&self) -> &ChatReportReasonUnrelatedLocation { &self.inner }
 }
 
 

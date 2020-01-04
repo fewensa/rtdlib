@@ -30,10 +30,16 @@ pub enum TextEntityType {
   Url(TextEntityTypeUrl),
   /// An email address
   EmailAddress(TextEntityTypeEmailAddress),
+  /// A phone number
+  PhoneNumber(TextEntityTypePhoneNumber),
   /// A bold text
   Bold(TextEntityTypeBold),
   /// An italic text
   Italic(TextEntityTypeItalic),
+  /// An underlined text
+  Underline(TextEntityTypeUnderline),
+  /// A strikethrough text
+  Strikethrough(TextEntityTypeStrikethrough),
   /// Text that must be formatted as if inside a code HTML tag
   Code(TextEntityTypeCode),
   /// Text that must be formatted as if inside a pre HTML tag
@@ -44,8 +50,6 @@ pub enum TextEntityType {
   TextUrl(TextEntityTypeTextUrl),
   /// A text shows instead of a raw mention of the user (e.g., when the user has no username)
   MentionName(TextEntityTypeMentionName),
-  /// A phone number
-  PhoneNumber(TextEntityTypePhoneNumber),
 
 }
 
@@ -64,14 +68,16 @@ impl<'de> Deserialize<'de> for TextEntityType {
       (textEntityTypeBotCommand, BotCommand);
       (textEntityTypeUrl, Url);
       (textEntityTypeEmailAddress, EmailAddress);
+      (textEntityTypePhoneNumber, PhoneNumber);
       (textEntityTypeBold, Bold);
       (textEntityTypeItalic, Italic);
+      (textEntityTypeUnderline, Underline);
+      (textEntityTypeStrikethrough, Strikethrough);
       (textEntityTypeCode, Code);
       (textEntityTypePre, Pre);
       (textEntityTypePreCode, PreCode);
       (textEntityTypeTextUrl, TextUrl);
       (textEntityTypeMentionName, MentionName);
-      (textEntityTypePhoneNumber, PhoneNumber);
 
     )(deserializer)
   }
@@ -86,14 +92,16 @@ impl RObject for TextEntityType {
       TextEntityType::BotCommand(t) => t.td_name(),
       TextEntityType::Url(t) => t.td_name(),
       TextEntityType::EmailAddress(t) => t.td_name(),
+      TextEntityType::PhoneNumber(t) => t.td_name(),
       TextEntityType::Bold(t) => t.td_name(),
       TextEntityType::Italic(t) => t.td_name(),
+      TextEntityType::Underline(t) => t.td_name(),
+      TextEntityType::Strikethrough(t) => t.td_name(),
       TextEntityType::Code(t) => t.td_name(),
       TextEntityType::Pre(t) => t.td_name(),
       TextEntityType::PreCode(t) => t.td_name(),
       TextEntityType::TextUrl(t) => t.td_name(),
       TextEntityType::MentionName(t) => t.td_name(),
-      TextEntityType::PhoneNumber(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -111,14 +119,16 @@ impl TextEntityType {
   pub fn is_bot_command(&self) -> bool { if let TextEntityType::BotCommand(_) = self { true } else { false } }
   pub fn is_url(&self) -> bool { if let TextEntityType::Url(_) = self { true } else { false } }
   pub fn is_email_address(&self) -> bool { if let TextEntityType::EmailAddress(_) = self { true } else { false } }
+  pub fn is_phone_number(&self) -> bool { if let TextEntityType::PhoneNumber(_) = self { true } else { false } }
   pub fn is_bold(&self) -> bool { if let TextEntityType::Bold(_) = self { true } else { false } }
   pub fn is_italic(&self) -> bool { if let TextEntityType::Italic(_) = self { true } else { false } }
+  pub fn is_underline(&self) -> bool { if let TextEntityType::Underline(_) = self { true } else { false } }
+  pub fn is_strikethrough(&self) -> bool { if let TextEntityType::Strikethrough(_) = self { true } else { false } }
   pub fn is_code(&self) -> bool { if let TextEntityType::Code(_) = self { true } else { false } }
   pub fn is_pre(&self) -> bool { if let TextEntityType::Pre(_) = self { true } else { false } }
   pub fn is_pre_code(&self) -> bool { if let TextEntityType::PreCode(_) = self { true } else { false } }
   pub fn is_text_url(&self) -> bool { if let TextEntityType::TextUrl(_) = self { true } else { false } }
   pub fn is_mention_name(&self) -> bool { if let TextEntityType::MentionName(_) = self { true } else { false } }
-  pub fn is_phone_number(&self) -> bool { if let TextEntityType::PhoneNumber(_) = self { true } else { false } }
 
   pub fn on_mention<F: FnOnce(&TextEntityTypeMention)>(&self, fnc: F) -> &Self { if let TextEntityType::Mention(t) = self { fnc(t) }; self }
   pub fn on_hashtag<F: FnOnce(&TextEntityTypeHashtag)>(&self, fnc: F) -> &Self { if let TextEntityType::Hashtag(t) = self { fnc(t) }; self }
@@ -126,14 +136,16 @@ impl TextEntityType {
   pub fn on_bot_command<F: FnOnce(&TextEntityTypeBotCommand)>(&self, fnc: F) -> &Self { if let TextEntityType::BotCommand(t) = self { fnc(t) }; self }
   pub fn on_url<F: FnOnce(&TextEntityTypeUrl)>(&self, fnc: F) -> &Self { if let TextEntityType::Url(t) = self { fnc(t) }; self }
   pub fn on_email_address<F: FnOnce(&TextEntityTypeEmailAddress)>(&self, fnc: F) -> &Self { if let TextEntityType::EmailAddress(t) = self { fnc(t) }; self }
+  pub fn on_phone_number<F: FnOnce(&TextEntityTypePhoneNumber)>(&self, fnc: F) -> &Self { if let TextEntityType::PhoneNumber(t) = self { fnc(t) }; self }
   pub fn on_bold<F: FnOnce(&TextEntityTypeBold)>(&self, fnc: F) -> &Self { if let TextEntityType::Bold(t) = self { fnc(t) }; self }
   pub fn on_italic<F: FnOnce(&TextEntityTypeItalic)>(&self, fnc: F) -> &Self { if let TextEntityType::Italic(t) = self { fnc(t) }; self }
+  pub fn on_underline<F: FnOnce(&TextEntityTypeUnderline)>(&self, fnc: F) -> &Self { if let TextEntityType::Underline(t) = self { fnc(t) }; self }
+  pub fn on_strikethrough<F: FnOnce(&TextEntityTypeStrikethrough)>(&self, fnc: F) -> &Self { if let TextEntityType::Strikethrough(t) = self { fnc(t) }; self }
   pub fn on_code<F: FnOnce(&TextEntityTypeCode)>(&self, fnc: F) -> &Self { if let TextEntityType::Code(t) = self { fnc(t) }; self }
   pub fn on_pre<F: FnOnce(&TextEntityTypePre)>(&self, fnc: F) -> &Self { if let TextEntityType::Pre(t) = self { fnc(t) }; self }
   pub fn on_pre_code<F: FnOnce(&TextEntityTypePreCode)>(&self, fnc: F) -> &Self { if let TextEntityType::PreCode(t) = self { fnc(t) }; self }
   pub fn on_text_url<F: FnOnce(&TextEntityTypeTextUrl)>(&self, fnc: F) -> &Self { if let TextEntityType::TextUrl(t) = self { fnc(t) }; self }
   pub fn on_mention_name<F: FnOnce(&TextEntityTypeMentionName)>(&self, fnc: F) -> &Self { if let TextEntityType::MentionName(t) = self { fnc(t) }; self }
-  pub fn on_phone_number<F: FnOnce(&TextEntityTypePhoneNumber)>(&self, fnc: F) -> &Self { if let TextEntityType::PhoneNumber(t) = self { fnc(t) }; self }
 
   pub fn as_mention(&self) -> Option<&TextEntityTypeMention> { if let TextEntityType::Mention(t) = self { return Some(t) } None }
   pub fn as_hashtag(&self) -> Option<&TextEntityTypeHashtag> { if let TextEntityType::Hashtag(t) = self { return Some(t) } None }
@@ -141,14 +153,16 @@ impl TextEntityType {
   pub fn as_bot_command(&self) -> Option<&TextEntityTypeBotCommand> { if let TextEntityType::BotCommand(t) = self { return Some(t) } None }
   pub fn as_url(&self) -> Option<&TextEntityTypeUrl> { if let TextEntityType::Url(t) = self { return Some(t) } None }
   pub fn as_email_address(&self) -> Option<&TextEntityTypeEmailAddress> { if let TextEntityType::EmailAddress(t) = self { return Some(t) } None }
+  pub fn as_phone_number(&self) -> Option<&TextEntityTypePhoneNumber> { if let TextEntityType::PhoneNumber(t) = self { return Some(t) } None }
   pub fn as_bold(&self) -> Option<&TextEntityTypeBold> { if let TextEntityType::Bold(t) = self { return Some(t) } None }
   pub fn as_italic(&self) -> Option<&TextEntityTypeItalic> { if let TextEntityType::Italic(t) = self { return Some(t) } None }
+  pub fn as_underline(&self) -> Option<&TextEntityTypeUnderline> { if let TextEntityType::Underline(t) = self { return Some(t) } None }
+  pub fn as_strikethrough(&self) -> Option<&TextEntityTypeStrikethrough> { if let TextEntityType::Strikethrough(t) = self { return Some(t) } None }
   pub fn as_code(&self) -> Option<&TextEntityTypeCode> { if let TextEntityType::Code(t) = self { return Some(t) } None }
   pub fn as_pre(&self) -> Option<&TextEntityTypePre> { if let TextEntityType::Pre(t) = self { return Some(t) } None }
   pub fn as_pre_code(&self) -> Option<&TextEntityTypePreCode> { if let TextEntityType::PreCode(t) = self { return Some(t) } None }
   pub fn as_text_url(&self) -> Option<&TextEntityTypeTextUrl> { if let TextEntityType::TextUrl(t) = self { return Some(t) } None }
   pub fn as_mention_name(&self) -> Option<&TextEntityTypeMentionName> { if let TextEntityType::MentionName(t) = self { return Some(t) } None }
-  pub fn as_phone_number(&self) -> Option<&TextEntityTypePhoneNumber> { if let TextEntityType::PhoneNumber(t) = self { return Some(t) } None }
 
 
 
@@ -164,9 +178,15 @@ impl TextEntityType {
 
   pub fn email_address<T: AsRef<TextEntityTypeEmailAddress>>(t: T) -> Self { TextEntityType::EmailAddress(t.as_ref().clone()) }
 
+  pub fn phone_number<T: AsRef<TextEntityTypePhoneNumber>>(t: T) -> Self { TextEntityType::PhoneNumber(t.as_ref().clone()) }
+
   pub fn bold<T: AsRef<TextEntityTypeBold>>(t: T) -> Self { TextEntityType::Bold(t.as_ref().clone()) }
 
   pub fn italic<T: AsRef<TextEntityTypeItalic>>(t: T) -> Self { TextEntityType::Italic(t.as_ref().clone()) }
+
+  pub fn underline<T: AsRef<TextEntityTypeUnderline>>(t: T) -> Self { TextEntityType::Underline(t.as_ref().clone()) }
+
+  pub fn strikethrough<T: AsRef<TextEntityTypeStrikethrough>>(t: T) -> Self { TextEntityType::Strikethrough(t.as_ref().clone()) }
 
   pub fn code<T: AsRef<TextEntityTypeCode>>(t: T) -> Self { TextEntityType::Code(t.as_ref().clone()) }
 
@@ -177,8 +197,6 @@ impl TextEntityType {
   pub fn text_url<T: AsRef<TextEntityTypeTextUrl>>(t: T) -> Self { TextEntityType::TextUrl(t.as_ref().clone()) }
 
   pub fn mention_name<T: AsRef<TextEntityTypeMentionName>>(t: T) -> Self { TextEntityType::MentionName(t.as_ref().clone()) }
-
-  pub fn phone_number<T: AsRef<TextEntityTypePhoneNumber>>(t: T) -> Self { TextEntityType::PhoneNumber(t.as_ref().clone()) }
 
 }
 
@@ -510,6 +528,59 @@ impl AsRef<TextEntityTypeEmailAddress> for RTDTextEntityTypeEmailAddressBuilder 
 
 
 
+/// A phone number
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct TextEntityTypePhoneNumber {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for TextEntityTypePhoneNumber {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypePhoneNumber" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDTextEntityType for TextEntityTypePhoneNumber {}
+
+
+
+impl TextEntityTypePhoneNumber {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTextEntityTypePhoneNumberBuilder {
+    let mut inner = TextEntityTypePhoneNumber::default();
+    inner.td_name = "textEntityTypePhoneNumber".to_string();
+    RTDTextEntityTypePhoneNumberBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTextEntityTypePhoneNumberBuilder {
+  inner: TextEntityTypePhoneNumber
+}
+
+impl RTDTextEntityTypePhoneNumberBuilder {
+  pub fn build(&self) -> TextEntityTypePhoneNumber { self.inner.clone() }
+
+}
+
+impl AsRef<TextEntityTypePhoneNumber> for TextEntityTypePhoneNumber {
+  fn as_ref(&self) -> &TextEntityTypePhoneNumber { self }
+}
+
+impl AsRef<TextEntityTypePhoneNumber> for RTDTextEntityTypePhoneNumberBuilder {
+  fn as_ref(&self) -> &TextEntityTypePhoneNumber { &self.inner }
+}
+
+
+
+
+
+
+
 /// A bold text
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TextEntityTypeBold {
@@ -608,6 +679,112 @@ impl AsRef<TextEntityTypeItalic> for TextEntityTypeItalic {
 
 impl AsRef<TextEntityTypeItalic> for RTDTextEntityTypeItalicBuilder {
   fn as_ref(&self) -> &TextEntityTypeItalic { &self.inner }
+}
+
+
+
+
+
+
+
+/// An underlined text
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct TextEntityTypeUnderline {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for TextEntityTypeUnderline {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeUnderline" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDTextEntityType for TextEntityTypeUnderline {}
+
+
+
+impl TextEntityTypeUnderline {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTextEntityTypeUnderlineBuilder {
+    let mut inner = TextEntityTypeUnderline::default();
+    inner.td_name = "textEntityTypeUnderline".to_string();
+    RTDTextEntityTypeUnderlineBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTextEntityTypeUnderlineBuilder {
+  inner: TextEntityTypeUnderline
+}
+
+impl RTDTextEntityTypeUnderlineBuilder {
+  pub fn build(&self) -> TextEntityTypeUnderline { self.inner.clone() }
+
+}
+
+impl AsRef<TextEntityTypeUnderline> for TextEntityTypeUnderline {
+  fn as_ref(&self) -> &TextEntityTypeUnderline { self }
+}
+
+impl AsRef<TextEntityTypeUnderline> for RTDTextEntityTypeUnderlineBuilder {
+  fn as_ref(&self) -> &TextEntityTypeUnderline { &self.inner }
+}
+
+
+
+
+
+
+
+/// A strikethrough text
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct TextEntityTypeStrikethrough {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for TextEntityTypeStrikethrough {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeStrikethrough" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDTextEntityType for TextEntityTypeStrikethrough {}
+
+
+
+impl TextEntityTypeStrikethrough {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTextEntityTypeStrikethroughBuilder {
+    let mut inner = TextEntityTypeStrikethrough::default();
+    inner.td_name = "textEntityTypeStrikethrough".to_string();
+    RTDTextEntityTypeStrikethroughBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTextEntityTypeStrikethroughBuilder {
+  inner: TextEntityTypeStrikethrough
+}
+
+impl RTDTextEntityTypeStrikethroughBuilder {
+  pub fn build(&self) -> TextEntityTypeStrikethrough { self.inner.clone() }
+
+}
+
+impl AsRef<TextEntityTypeStrikethrough> for TextEntityTypeStrikethrough {
+  fn as_ref(&self) -> &TextEntityTypeStrikethrough { self }
+}
+
+impl AsRef<TextEntityTypeStrikethrough> for RTDTextEntityTypeStrikethroughBuilder {
+  fn as_ref(&self) -> &TextEntityTypeStrikethrough { &self.inner }
 }
 
 
@@ -903,59 +1080,6 @@ impl AsRef<TextEntityTypeMentionName> for TextEntityTypeMentionName {
 
 impl AsRef<TextEntityTypeMentionName> for RTDTextEntityTypeMentionNameBuilder {
   fn as_ref(&self) -> &TextEntityTypeMentionName { &self.inner }
-}
-
-
-
-
-
-
-
-/// A phone number
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct TextEntityTypePhoneNumber {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for TextEntityTypePhoneNumber {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypePhoneNumber" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDTextEntityType for TextEntityTypePhoneNumber {}
-
-
-
-impl TextEntityTypePhoneNumber {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDTextEntityTypePhoneNumberBuilder {
-    let mut inner = TextEntityTypePhoneNumber::default();
-    inner.td_name = "textEntityTypePhoneNumber".to_string();
-    RTDTextEntityTypePhoneNumberBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDTextEntityTypePhoneNumberBuilder {
-  inner: TextEntityTypePhoneNumber
-}
-
-impl RTDTextEntityTypePhoneNumberBuilder {
-  pub fn build(&self) -> TextEntityTypePhoneNumber { self.inner.clone() }
-
-}
-
-impl AsRef<TextEntityTypePhoneNumber> for TextEntityTypePhoneNumber {
-  fn as_ref(&self) -> &TextEntityTypePhoneNumber { self }
-}
-
-impl AsRef<TextEntityTypePhoneNumber> for RTDTextEntityTypePhoneNumberBuilder {
-  fn as_ref(&self) -> &TextEntityTypePhoneNumber { &self.inner }
 }
 
 
