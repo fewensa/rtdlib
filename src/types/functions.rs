@@ -7172,7 +7172,7 @@ impl AsRef<EditMessageSchedulingState> for RTDEditMessageSchedulingStateBuilder 
 
 
 
-/// Returns all entities (mentions, hashtags, cashtags, bot commands, URLs, and email addresses) contained in the text. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Returns all entities (mentions, hashtags, cashtags, bot commands, bank card numbers, URLs, and email addresses) contained in the text. This is an offline method. Can be called before authorization. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetTextEntities {
   #[doc(hidden)]
@@ -7241,7 +7241,7 @@ pub struct ParseTextEntities {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// The text which should be parsed
+  /// The text to parse
   text: String,
   /// Text parse mode
   parse_mode: TextParseMode,
@@ -7300,6 +7300,132 @@ impl AsRef<ParseTextEntities> for ParseTextEntities {
 
 impl AsRef<ParseTextEntities> for RTDParseTextEntitiesBuilder {
   fn as_ref(&self) -> &ParseTextEntities { &self.inner }
+}
+
+
+
+
+
+
+
+/// Parses Markdown entities in a human-friendly format, ignoring mark up errors. This is an offline method. Can be called before authorization. Can be called synchronously
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ParseMarkdown {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The text to parse. For example, "__italic__ ~~strikethrough~~ **bold** `code` ```pre``` __[italic__ text_url](telegram.org) __italic**bold italic__bold**"
+  text: FormattedText,
+  
+}
+
+impl RObject for ParseMarkdown {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "parseMarkdown" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for ParseMarkdown {}
+
+impl ParseMarkdown {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDParseMarkdownBuilder {
+    let mut inner = ParseMarkdown::default();
+    inner.td_name = "parseMarkdown".to_string();
+    RTDParseMarkdownBuilder { inner }
+  }
+
+  pub fn text(&self) -> &FormattedText { &self.text }
+
+}
+
+#[doc(hidden)]
+pub struct RTDParseMarkdownBuilder {
+  inner: ParseMarkdown
+}
+
+impl RTDParseMarkdownBuilder {
+  pub fn build(&self) -> ParseMarkdown { self.inner.clone() }
+
+   
+  pub fn text<T: AsRef<FormattedText>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<ParseMarkdown> for ParseMarkdown {
+  fn as_ref(&self) -> &ParseMarkdown { self }
+}
+
+impl AsRef<ParseMarkdown> for RTDParseMarkdownBuilder {
+  fn as_ref(&self) -> &ParseMarkdown { &self.inner }
+}
+
+
+
+
+
+
+
+/// Replaces text entities with Markdown formatting in a human-friendly format. Entities that can't be represented in Markdown unambiguously are kept as is. This is an offline method. Can be called before authorization. Can be called synchronously
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct GetMarkdownText {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The text
+  text: FormattedText,
+  
+}
+
+impl RObject for GetMarkdownText {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "getMarkdownText" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for GetMarkdownText {}
+
+impl GetMarkdownText {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGetMarkdownTextBuilder {
+    let mut inner = GetMarkdownText::default();
+    inner.td_name = "getMarkdownText".to_string();
+    RTDGetMarkdownTextBuilder { inner }
+  }
+
+  pub fn text(&self) -> &FormattedText { &self.text }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGetMarkdownTextBuilder {
+  inner: GetMarkdownText
+}
+
+impl RTDGetMarkdownTextBuilder {
+  pub fn build(&self) -> GetMarkdownText { self.inner.clone() }
+
+   
+  pub fn text<T: AsRef<FormattedText>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<GetMarkdownText> for GetMarkdownText {
+  fn as_ref(&self) -> &GetMarkdownText { self }
+}
+
+impl AsRef<GetMarkdownText> for RTDGetMarkdownTextBuilder {
+  fn as_ref(&self) -> &GetMarkdownText { &self.inner }
 }
 
 
@@ -10174,7 +10300,7 @@ pub struct SetChatChatList {
   td_name: String,
   /// Chat identifier
   chat_id: i64,
-  /// New chat list of the chat
+  /// New chat list of the chat. The chat with the current user (Saved Messages) and the chat 777000 (Telegram) can't be moved to the Archive chat list
   chat_list: ChatList,
   
 }
@@ -17063,6 +17189,69 @@ impl AsRef<SetUsername> for RTDSetUsernameBuilder {
 
 
 
+/// Changes the location of the current user. Needs to be called if GetOption("is_location_visible") is true and location changes for more than 1 kilometer
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SetLocation {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The new location of the user
+  location: Location,
+  
+}
+
+impl RObject for SetLocation {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "setLocation" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for SetLocation {}
+
+impl SetLocation {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSetLocationBuilder {
+    let mut inner = SetLocation::default();
+    inner.td_name = "setLocation".to_string();
+    RTDSetLocationBuilder { inner }
+  }
+
+  pub fn location(&self) -> &Location { &self.location }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSetLocationBuilder {
+  inner: SetLocation
+}
+
+impl RTDSetLocationBuilder {
+  pub fn build(&self) -> SetLocation { self.inner.clone() }
+
+   
+  pub fn location<T: AsRef<Location>>(&mut self, location: T) -> &mut Self {
+    self.inner.location = location.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<SetLocation> for SetLocation {
+  fn as_ref(&self) -> &SetLocation { self }
+}
+
+impl AsRef<SetLocation> for RTDSetLocationBuilder {
+  fn as_ref(&self) -> &SetLocation { &self.inner }
+}
+
+
+
+
+
+
+
 /// Changes the phone number of the user and sends an authentication code to the user's new phone number. On success, returns information about the sent code
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChangePhoneNumber {
@@ -17244,6 +17433,69 @@ impl AsRef<CheckChangePhoneNumberCode> for CheckChangePhoneNumberCode {
 
 impl AsRef<CheckChangePhoneNumberCode> for RTDCheckChangePhoneNumberCodeBuilder {
   fn as_ref(&self) -> &CheckChangePhoneNumberCode { &self.inner }
+}
+
+
+
+
+
+
+
+/// Sets the list of commands supported by the bot; for bots only
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SetCommands {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// List of the bot's commands
+  commands: Vec<BotCommand>,
+  
+}
+
+impl RObject for SetCommands {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "setCommands" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for SetCommands {}
+
+impl SetCommands {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSetCommandsBuilder {
+    let mut inner = SetCommands::default();
+    inner.td_name = "setCommands".to_string();
+    RTDSetCommandsBuilder { inner }
+  }
+
+  pub fn commands(&self) -> &Vec<BotCommand> { &self.commands }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSetCommandsBuilder {
+  inner: SetCommands
+}
+
+impl RTDSetCommandsBuilder {
+  pub fn build(&self) -> SetCommands { self.inner.clone() }
+
+   
+  pub fn commands(&mut self, commands: Vec<BotCommand>) -> &mut Self {
+    self.inner.commands = commands;
+    self
+  }
+
+}
+
+impl AsRef<SetCommands> for SetCommands {
+  fn as_ref(&self) -> &SetCommands { self }
+}
+
+impl AsRef<SetCommands> for RTDSetCommandsBuilder {
+  fn as_ref(&self) -> &SetCommands { &self.inner }
 }
 
 
@@ -20622,7 +20874,7 @@ impl AsRef<RemoveChatActionBar> for RTDRemoveChatActionBarBuilder {
 
 
 
-/// Reports a chat to the Telegram moderators. Supported only for supergroups, channels, or private chats with bots, since other chats can't be checked by moderators, or when the report is done from the chat action bar
+/// Reports a chat to the Telegram moderators. A chat can be reported only from the chat action bar, or if this is a private chats with a bot, a private chat with a user sharing their location, a supergroup, or a channel, since other chats can't be checked by moderators
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ReportChat {
   #[doc(hidden)]
@@ -20705,7 +20957,7 @@ impl AsRef<ReportChat> for RTDReportChatBuilder {
 
 
 
-/// Returns an HTTP URL with the chat statistics. Currently this method can be used only for channels. Can be used only if SupergroupFullInfo.can_view_statistics == true
+/// Returns an HTTP URL with the chat statistics. Currently this method of getting the statistics is disabled and can be deleted in the future
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetChatStatisticsUrl {
   #[doc(hidden)]
@@ -20780,6 +21032,152 @@ impl AsRef<GetChatStatisticsUrl> for GetChatStatisticsUrl {
 
 impl AsRef<GetChatStatisticsUrl> for RTDGetChatStatisticsUrlBuilder {
   fn as_ref(&self) -> &GetChatStatisticsUrl { &self.inner }
+}
+
+
+
+
+
+
+
+/// Retrieve specified channel statistics
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct GetChatStatistics {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// supergroup id
+  chat_id: i64,
+  /// is dark
+  is_dark: bool,
+  
+}
+
+impl RObject for GetChatStatistics {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "getChatStatistics" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for GetChatStatistics {}
+
+impl GetChatStatistics {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGetChatStatisticsBuilder {
+    let mut inner = GetChatStatistics::default();
+    inner.td_name = "getChatStatistics".to_string();
+    RTDGetChatStatisticsBuilder { inner }
+  }
+
+  pub fn chat_id(&self) -> i64 { self.chat_id }
+
+  pub fn is_dark(&self) -> bool { self.is_dark }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGetChatStatisticsBuilder {
+  inner: GetChatStatistics
+}
+
+impl RTDGetChatStatisticsBuilder {
+  pub fn build(&self) -> GetChatStatistics { self.inner.clone() }
+
+   
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
+    self.inner.chat_id = chat_id;
+    self
+  }
+
+   
+  pub fn is_dark(&mut self, is_dark: bool) -> &mut Self {
+    self.inner.is_dark = is_dark;
+    self
+  }
+
+}
+
+impl AsRef<GetChatStatistics> for GetChatStatistics {
+  fn as_ref(&self) -> &GetChatStatistics { self }
+}
+
+impl AsRef<GetChatStatistics> for RTDGetChatStatisticsBuilder {
+  fn as_ref(&self) -> &GetChatStatistics { &self.inner }
+}
+
+
+
+
+
+
+
+/// Load async stats
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct GetChatStatisticsGraph {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// token
+  token: String,
+  /// zoom
+  x: i64,
+  
+}
+
+impl RObject for GetChatStatisticsGraph {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "getChatStatisticsGraph" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatStatisticsGraph for GetChatStatisticsGraph {}
+
+impl RFunction for GetChatStatisticsGraph {}
+
+impl GetChatStatisticsGraph {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGetChatStatisticsGraphBuilder {
+    let mut inner = GetChatStatisticsGraph::default();
+    inner.td_name = "getChatStatisticsGraph".to_string();
+    RTDGetChatStatisticsGraphBuilder { inner }
+  }
+
+  pub fn token(&self) -> &String { &self.token }
+
+  pub fn x(&self) -> i64 { self.x }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGetChatStatisticsGraphBuilder {
+  inner: GetChatStatisticsGraph
+}
+
+impl RTDGetChatStatisticsGraphBuilder {
+  pub fn build(&self) -> GetChatStatisticsGraph { self.inner.clone() }
+
+   
+  pub fn token<T: AsRef<str>>(&mut self, token: T) -> &mut Self {
+    self.inner.token = token.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn x(&mut self, x: i64) -> &mut Self {
+    self.inner.x = x;
+    self
+  }
+
+}
+
+impl AsRef<GetChatStatisticsGraph> for GetChatStatisticsGraph {
+  fn as_ref(&self) -> &GetChatStatisticsGraph { self }
+}
+
+impl AsRef<GetChatStatisticsGraph> for RTDGetChatStatisticsGraphBuilder {
+  fn as_ref(&self) -> &GetChatStatisticsGraph { &self.inner }
 }
 
 
@@ -20977,6 +21375,8 @@ pub struct OptimizeStorage {
   chat_ids: Vec<i64>,
   /// If not empty, files from the given chats are excluded. Use 0 as chat identifier to exclude all files not belonging to any chat (e.g., profile photos)
   exclude_chat_ids: Vec<i64>,
+  /// Pass true, if deleted file statistics needs to be returned instead of the whole storage usage statistics. Affects only returned statistics
+  return_deleted_file_statistics: bool,
   /// Same as in getStorageStatistics. Affects only returned statistics
   chat_limit: i64,
   
@@ -21013,6 +21413,8 @@ impl OptimizeStorage {
   pub fn chat_ids(&self) -> &Vec<i64> { &self.chat_ids }
 
   pub fn exclude_chat_ids(&self) -> &Vec<i64> { &self.exclude_chat_ids }
+
+  pub fn return_deleted_file_statistics(&self) -> bool { self.return_deleted_file_statistics }
 
   pub fn chat_limit(&self) -> i64 { self.chat_limit }
 
@@ -21065,6 +21467,12 @@ impl RTDOptimizeStorageBuilder {
    
   pub fn exclude_chat_ids(&mut self, exclude_chat_ids: Vec<i64>) -> &mut Self {
     self.inner.exclude_chat_ids = exclude_chat_ids;
+    self
+  }
+
+   
+  pub fn return_deleted_file_statistics(&mut self, return_deleted_file_statistics: bool) -> &mut Self {
+    self.inner.return_deleted_file_statistics = return_deleted_file_statistics;
     self
   }
 
@@ -21450,6 +21858,69 @@ impl AsRef<SetAutoDownloadSettings> for SetAutoDownloadSettings {
 
 impl AsRef<SetAutoDownloadSettings> for RTDSetAutoDownloadSettingsBuilder {
   fn as_ref(&self) -> &SetAutoDownloadSettings { &self.inner }
+}
+
+
+
+
+
+
+
+/// Returns information about a bank card
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct GetBankCardInfo {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The bank card number
+  bank_card_number: String,
+  
+}
+
+impl RObject for GetBankCardInfo {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "getBankCardInfo" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for GetBankCardInfo {}
+
+impl GetBankCardInfo {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGetBankCardInfoBuilder {
+    let mut inner = GetBankCardInfo::default();
+    inner.td_name = "getBankCardInfo".to_string();
+    RTDGetBankCardInfoBuilder { inner }
+  }
+
+  pub fn bank_card_number(&self) -> &String { &self.bank_card_number }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGetBankCardInfoBuilder {
+  inner: GetBankCardInfo
+}
+
+impl RTDGetBankCardInfoBuilder {
+  pub fn build(&self) -> GetBankCardInfo { self.inner.clone() }
+
+   
+  pub fn bank_card_number<T: AsRef<str>>(&mut self, bank_card_number: T) -> &mut Self {
+    self.inner.bank_card_number = bank_card_number.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<GetBankCardInfo> for GetBankCardInfo {
+  fn as_ref(&self) -> &GetBankCardInfo { self }
+}
+
+impl AsRef<GetBankCardInfo> for RTDGetBankCardInfoBuilder {
+  fn as_ref(&self) -> &GetBankCardInfo { &self.inner }
 }
 
 
@@ -22753,7 +23224,7 @@ pub struct UploadStickerFile {
   td_name: String,
   /// Sticker file owner
   user_id: i64,
-  /// PNG image with the sticker; must be up to 512 kB in size and fit in 512x512 square
+  /// PNG image with the sticker; must be up to 512 KB in size and fit in 512x512 square
   png_sticker: InputFile,
   
 }
@@ -22830,9 +23301,9 @@ pub struct CreateNewStickerSet {
   title: String,
   /// Sticker set name. Can contain only English letters, digits and underscores. Must end with *"_by_<bot username>"* (*<bot_username>* is case insensitive); 1-64 characters
   name: String,
-  /// True, if stickers are masks
+  /// True, if stickers are masks. Animated stickers can't be masks
   is_masks: bool,
-  /// List of stickers to be added to the set
+  /// List of stickers to be added to the set; must be non-empty. All stickers must be of the same type
   stickers: Vec<InputSticker>,
   
 }
@@ -22996,6 +23467,89 @@ impl AsRef<AddStickerToSet> for AddStickerToSet {
 
 impl AsRef<AddStickerToSet> for RTDAddStickerToSetBuilder {
   fn as_ref(&self) -> &AddStickerToSet { &self.inner }
+}
+
+
+
+
+
+
+
+/// Sets a sticker set thumbnail; for bots only. Returns the sticker set
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SetStickerSetThumbnail {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Sticker set owner
+  user_id: i64,
+  /// Sticker set name
+  name: String,
+  /// Thumbnail to set in PNG or TGS format. Animated thumbnail must be set for animated sticker sets and only for them. You can use a zero InputFileId to delete the thumbnail
+  thumbnail: InputFile,
+  
+}
+
+impl RObject for SetStickerSetThumbnail {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "setStickerSetThumbnail" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for SetStickerSetThumbnail {}
+
+impl SetStickerSetThumbnail {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSetStickerSetThumbnailBuilder {
+    let mut inner = SetStickerSetThumbnail::default();
+    inner.td_name = "setStickerSetThumbnail".to_string();
+    RTDSetStickerSetThumbnailBuilder { inner }
+  }
+
+  pub fn user_id(&self) -> i64 { self.user_id }
+
+  pub fn name(&self) -> &String { &self.name }
+
+  pub fn thumbnail(&self) -> &InputFile { &self.thumbnail }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSetStickerSetThumbnailBuilder {
+  inner: SetStickerSetThumbnail
+}
+
+impl RTDSetStickerSetThumbnailBuilder {
+  pub fn build(&self) -> SetStickerSetThumbnail { self.inner.clone() }
+
+   
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
+    self.inner.user_id = user_id;
+    self
+  }
+
+   
+  pub fn name<T: AsRef<str>>(&mut self, name: T) -> &mut Self {
+    self.inner.name = name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn thumbnail<T: AsRef<InputFile>>(&mut self, thumbnail: T) -> &mut Self {
+    self.inner.thumbnail = thumbnail.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<SetStickerSetThumbnail> for SetStickerSetThumbnail {
+  fn as_ref(&self) -> &SetStickerSetThumbnail { self }
+}
+
+impl AsRef<SetStickerSetThumbnail> for RTDSetStickerSetThumbnailBuilder {
+  fn as_ref(&self) -> &SetStickerSetThumbnail { &self.inner }
 }
 
 

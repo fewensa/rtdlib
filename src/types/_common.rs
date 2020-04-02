@@ -309,6 +309,12 @@ impl<'a, TEXTPARSEMODE: TDTextParseMode> TDTextParseMode for &'a mut TEXTPARSEMO
 impl<'a, PROXYTYPE: TDProxyType> TDProxyType for &'a PROXYTYPE {}
 impl<'a, PROXYTYPE: TDProxyType> TDProxyType for &'a mut PROXYTYPE {}
 
+impl<'a, INPUTSTICKER: TDInputSticker> TDInputSticker for &'a INPUTSTICKER {}
+impl<'a, INPUTSTICKER: TDInputSticker> TDInputSticker for &'a mut INPUTSTICKER {}
+
+impl<'a, CHATSTATISTICSGRAPH: TDChatStatisticsGraph> TDChatStatisticsGraph for &'a CHATSTATISTICSGRAPH {}
+impl<'a, CHATSTATISTICSGRAPH: TDChatStatisticsGraph> TDChatStatisticsGraph for &'a mut CHATSTATISTICSGRAPH {}
+
 impl<'a, UPDATE: TDUpdate> TDUpdate for &'a UPDATE {}
 impl<'a, UPDATE: TDUpdate> TDUpdate for &'a mut UPDATE {}
 

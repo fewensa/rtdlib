@@ -13,10 +13,10 @@ pub struct WebPageInstantView {
   td_name: String,
   /// Content of the web page
   page_blocks: Vec<PageBlock>,
+  /// Number of the instant view views; 0 if unknown
+  view_count: i64,
   /// Version of the instant view, currently can be 1 or 2
   version: i64,
-  /// Instant view URL; may be different from WebPage.url and must be used for the correct anchors handling
-  url: String,
   /// True, if the instant view must be shown from right to left
   is_rtl: bool,
   /// True, if the instant view contains the full page. A network request might be needed to get the full web page instant view
@@ -41,9 +41,9 @@ impl WebPageInstantView {
 
   pub fn page_blocks(&self) -> &Vec<PageBlock> { &self.page_blocks }
 
-  pub fn version(&self) -> i64 { self.version }
+  pub fn view_count(&self) -> i64 { self.view_count }
 
-  pub fn url(&self) -> &String { &self.url }
+  pub fn version(&self) -> i64 { self.version }
 
   pub fn is_rtl(&self) -> bool { self.is_rtl }
 
@@ -66,14 +66,14 @@ impl RTDWebPageInstantViewBuilder {
   }
 
    
-  pub fn version(&mut self, version: i64) -> &mut Self {
-    self.inner.version = version;
+  pub fn view_count(&mut self, view_count: i64) -> &mut Self {
+    self.inner.view_count = view_count;
     self
   }
 
    
-  pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
-    self.inner.url = url.as_ref().to_string();
+  pub fn version(&mut self, version: i64) -> &mut Self {
+    self.inner.version = version;
     self
   }
 

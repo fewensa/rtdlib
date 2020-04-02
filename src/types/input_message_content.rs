@@ -42,6 +42,8 @@ pub enum InputMessageContent {
   InputMessageVenue(InputMessageVenue),
   /// A message containing a user contact
   InputMessageContact(InputMessageContact),
+  /// A dice message
+  InputMessageDice(InputMessageDice),
   /// A message with a game; not supported for channels or secret chats
   InputMessageGame(InputMessageGame),
   /// A message with an invoice; can be used only by bots and only in private chats
@@ -74,6 +76,7 @@ impl<'de> Deserialize<'de> for InputMessageContent {
       (inputMessageLocation, InputMessageLocation);
       (inputMessageVenue, InputMessageVenue);
       (inputMessageContact, InputMessageContact);
+      (inputMessageDice, InputMessageDice);
       (inputMessageGame, InputMessageGame);
       (inputMessageInvoice, InputMessageInvoice);
       (inputMessagePoll, InputMessagePoll);
@@ -98,6 +101,7 @@ impl RObject for InputMessageContent {
       InputMessageContent::InputMessageLocation(t) => t.td_name(),
       InputMessageContent::InputMessageVenue(t) => t.td_name(),
       InputMessageContent::InputMessageContact(t) => t.td_name(),
+      InputMessageContent::InputMessageDice(t) => t.td_name(),
       InputMessageContent::InputMessageGame(t) => t.td_name(),
       InputMessageContent::InputMessageInvoice(t) => t.td_name(),
       InputMessageContent::InputMessagePoll(t) => t.td_name(),
@@ -125,6 +129,7 @@ impl InputMessageContent {
   pub fn is_input_message_location(&self) -> bool { if let InputMessageContent::InputMessageLocation(_) = self { true } else { false } }
   pub fn is_input_message_venue(&self) -> bool { if let InputMessageContent::InputMessageVenue(_) = self { true } else { false } }
   pub fn is_input_message_contact(&self) -> bool { if let InputMessageContent::InputMessageContact(_) = self { true } else { false } }
+  pub fn is_input_message_dice(&self) -> bool { if let InputMessageContent::InputMessageDice(_) = self { true } else { false } }
   pub fn is_input_message_game(&self) -> bool { if let InputMessageContent::InputMessageGame(_) = self { true } else { false } }
   pub fn is_input_message_invoice(&self) -> bool { if let InputMessageContent::InputMessageInvoice(_) = self { true } else { false } }
   pub fn is_input_message_poll(&self) -> bool { if let InputMessageContent::InputMessagePoll(_) = self { true } else { false } }
@@ -142,6 +147,7 @@ impl InputMessageContent {
   pub fn on_input_message_location<F: FnOnce(&InputMessageLocation)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageLocation(t) = self { fnc(t) }; self }
   pub fn on_input_message_venue<F: FnOnce(&InputMessageVenue)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageVenue(t) = self { fnc(t) }; self }
   pub fn on_input_message_contact<F: FnOnce(&InputMessageContact)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageContact(t) = self { fnc(t) }; self }
+  pub fn on_input_message_dice<F: FnOnce(&InputMessageDice)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageDice(t) = self { fnc(t) }; self }
   pub fn on_input_message_game<F: FnOnce(&InputMessageGame)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageGame(t) = self { fnc(t) }; self }
   pub fn on_input_message_invoice<F: FnOnce(&InputMessageInvoice)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageInvoice(t) = self { fnc(t) }; self }
   pub fn on_input_message_poll<F: FnOnce(&InputMessagePoll)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessagePoll(t) = self { fnc(t) }; self }
@@ -159,6 +165,7 @@ impl InputMessageContent {
   pub fn as_input_message_location(&self) -> Option<&InputMessageLocation> { if let InputMessageContent::InputMessageLocation(t) = self { return Some(t) } None }
   pub fn as_input_message_venue(&self) -> Option<&InputMessageVenue> { if let InputMessageContent::InputMessageVenue(t) = self { return Some(t) } None }
   pub fn as_input_message_contact(&self) -> Option<&InputMessageContact> { if let InputMessageContent::InputMessageContact(t) = self { return Some(t) } None }
+  pub fn as_input_message_dice(&self) -> Option<&InputMessageDice> { if let InputMessageContent::InputMessageDice(t) = self { return Some(t) } None }
   pub fn as_input_message_game(&self) -> Option<&InputMessageGame> { if let InputMessageContent::InputMessageGame(t) = self { return Some(t) } None }
   pub fn as_input_message_invoice(&self) -> Option<&InputMessageInvoice> { if let InputMessageContent::InputMessageInvoice(t) = self { return Some(t) } None }
   pub fn as_input_message_poll(&self) -> Option<&InputMessagePoll> { if let InputMessageContent::InputMessagePoll(t) = self { return Some(t) } None }
@@ -189,6 +196,8 @@ impl InputMessageContent {
   pub fn input_message_venue<T: AsRef<InputMessageVenue>>(t: T) -> Self { InputMessageContent::InputMessageVenue(t.as_ref().clone()) }
 
   pub fn input_message_contact<T: AsRef<InputMessageContact>>(t: T) -> Self { InputMessageContent::InputMessageContact(t.as_ref().clone()) }
+
+  pub fn input_message_dice<T: AsRef<InputMessageDice>>(t: T) -> Self { InputMessageContent::InputMessageDice(t.as_ref().clone()) }
 
   pub fn input_message_game<T: AsRef<InputMessageGame>>(t: T) -> Self { InputMessageContent::InputMessageGame(t.as_ref().clone()) }
 
@@ -1338,6 +1347,59 @@ impl AsRef<InputMessageContact> for InputMessageContact {
 
 impl AsRef<InputMessageContact> for RTDInputMessageContactBuilder {
   fn as_ref(&self) -> &InputMessageContact { &self.inner }
+}
+
+
+
+
+
+
+
+/// A dice message
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InputMessageDice {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for InputMessageDice {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageDice" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInputMessageContent for InputMessageDice {}
+
+
+
+impl InputMessageDice {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInputMessageDiceBuilder {
+    let mut inner = InputMessageDice::default();
+    inner.td_name = "inputMessageDice".to_string();
+    RTDInputMessageDiceBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInputMessageDiceBuilder {
+  inner: InputMessageDice
+}
+
+impl RTDInputMessageDiceBuilder {
+  pub fn build(&self) -> InputMessageDice { self.inner.clone() }
+
+}
+
+impl AsRef<InputMessageDice> for InputMessageDice {
+  fn as_ref(&self) -> &InputMessageDice { self }
+}
+
+impl AsRef<InputMessageDice> for RTDInputMessageDiceBuilder {
+  fn as_ref(&self) -> &InputMessageDice { &self.inner }
 }
 
 

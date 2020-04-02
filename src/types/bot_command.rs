@@ -5,7 +5,7 @@ use crate::errors::*;
 
 
 
-/// Represents commands supported by a bot
+/// Represents a command supported by a bot
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct BotCommand {
   #[doc(hidden)]
@@ -13,7 +13,7 @@ pub struct BotCommand {
   td_name: String,
   /// Text of the bot command
   command: String,
-  /// Represents commands supported by a bot
+  /// Represents a command supported by a bot
   description: String,
   
 }

@@ -35,7 +35,7 @@ pub struct SupergroupFullInfo {
   can_set_sticker_set: bool,
   /// True, if the supergroup location can be changed
   can_set_location: bool,
-  /// True, if the channel statistics is available through getChatStatisticsUrl
+  /// True, if the channel statistics is available
   can_view_statistics: bool,
   /// True, if new chat members will have access to old messages. In public or discussion groups and both public and private channels, old messages are always available, so this option affects only private supergroups without a linked chat. The value of this field is only available for chat administrators
   is_all_history_available: bool,

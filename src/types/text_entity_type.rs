@@ -32,6 +32,8 @@ pub enum TextEntityType {
   EmailAddress(TextEntityTypeEmailAddress),
   /// A phone number
   PhoneNumber(TextEntityTypePhoneNumber),
+  /// A bank card number. The getBankCardInfo method can be used to get information about the bank card
+  BankCardNumber(TextEntityTypeBankCardNumber),
   /// A bold text
   Bold(TextEntityTypeBold),
   /// An italic text
@@ -69,6 +71,7 @@ impl<'de> Deserialize<'de> for TextEntityType {
       (textEntityTypeUrl, Url);
       (textEntityTypeEmailAddress, EmailAddress);
       (textEntityTypePhoneNumber, PhoneNumber);
+      (textEntityTypeBankCardNumber, BankCardNumber);
       (textEntityTypeBold, Bold);
       (textEntityTypeItalic, Italic);
       (textEntityTypeUnderline, Underline);
@@ -93,6 +96,7 @@ impl RObject for TextEntityType {
       TextEntityType::Url(t) => t.td_name(),
       TextEntityType::EmailAddress(t) => t.td_name(),
       TextEntityType::PhoneNumber(t) => t.td_name(),
+      TextEntityType::BankCardNumber(t) => t.td_name(),
       TextEntityType::Bold(t) => t.td_name(),
       TextEntityType::Italic(t) => t.td_name(),
       TextEntityType::Underline(t) => t.td_name(),
@@ -120,6 +124,7 @@ impl TextEntityType {
   pub fn is_url(&self) -> bool { if let TextEntityType::Url(_) = self { true } else { false } }
   pub fn is_email_address(&self) -> bool { if let TextEntityType::EmailAddress(_) = self { true } else { false } }
   pub fn is_phone_number(&self) -> bool { if let TextEntityType::PhoneNumber(_) = self { true } else { false } }
+  pub fn is_bank_card_number(&self) -> bool { if let TextEntityType::BankCardNumber(_) = self { true } else { false } }
   pub fn is_bold(&self) -> bool { if let TextEntityType::Bold(_) = self { true } else { false } }
   pub fn is_italic(&self) -> bool { if let TextEntityType::Italic(_) = self { true } else { false } }
   pub fn is_underline(&self) -> bool { if let TextEntityType::Underline(_) = self { true } else { false } }
@@ -137,6 +142,7 @@ impl TextEntityType {
   pub fn on_url<F: FnOnce(&TextEntityTypeUrl)>(&self, fnc: F) -> &Self { if let TextEntityType::Url(t) = self { fnc(t) }; self }
   pub fn on_email_address<F: FnOnce(&TextEntityTypeEmailAddress)>(&self, fnc: F) -> &Self { if let TextEntityType::EmailAddress(t) = self { fnc(t) }; self }
   pub fn on_phone_number<F: FnOnce(&TextEntityTypePhoneNumber)>(&self, fnc: F) -> &Self { if let TextEntityType::PhoneNumber(t) = self { fnc(t) }; self }
+  pub fn on_bank_card_number<F: FnOnce(&TextEntityTypeBankCardNumber)>(&self, fnc: F) -> &Self { if let TextEntityType::BankCardNumber(t) = self { fnc(t) }; self }
   pub fn on_bold<F: FnOnce(&TextEntityTypeBold)>(&self, fnc: F) -> &Self { if let TextEntityType::Bold(t) = self { fnc(t) }; self }
   pub fn on_italic<F: FnOnce(&TextEntityTypeItalic)>(&self, fnc: F) -> &Self { if let TextEntityType::Italic(t) = self { fnc(t) }; self }
   pub fn on_underline<F: FnOnce(&TextEntityTypeUnderline)>(&self, fnc: F) -> &Self { if let TextEntityType::Underline(t) = self { fnc(t) }; self }
@@ -154,6 +160,7 @@ impl TextEntityType {
   pub fn as_url(&self) -> Option<&TextEntityTypeUrl> { if let TextEntityType::Url(t) = self { return Some(t) } None }
   pub fn as_email_address(&self) -> Option<&TextEntityTypeEmailAddress> { if let TextEntityType::EmailAddress(t) = self { return Some(t) } None }
   pub fn as_phone_number(&self) -> Option<&TextEntityTypePhoneNumber> { if let TextEntityType::PhoneNumber(t) = self { return Some(t) } None }
+  pub fn as_bank_card_number(&self) -> Option<&TextEntityTypeBankCardNumber> { if let TextEntityType::BankCardNumber(t) = self { return Some(t) } None }
   pub fn as_bold(&self) -> Option<&TextEntityTypeBold> { if let TextEntityType::Bold(t) = self { return Some(t) } None }
   pub fn as_italic(&self) -> Option<&TextEntityTypeItalic> { if let TextEntityType::Italic(t) = self { return Some(t) } None }
   pub fn as_underline(&self) -> Option<&TextEntityTypeUnderline> { if let TextEntityType::Underline(t) = self { return Some(t) } None }
@@ -179,6 +186,8 @@ impl TextEntityType {
   pub fn email_address<T: AsRef<TextEntityTypeEmailAddress>>(t: T) -> Self { TextEntityType::EmailAddress(t.as_ref().clone()) }
 
   pub fn phone_number<T: AsRef<TextEntityTypePhoneNumber>>(t: T) -> Self { TextEntityType::PhoneNumber(t.as_ref().clone()) }
+
+  pub fn bank_card_number<T: AsRef<TextEntityTypeBankCardNumber>>(t: T) -> Self { TextEntityType::BankCardNumber(t.as_ref().clone()) }
 
   pub fn bold<T: AsRef<TextEntityTypeBold>>(t: T) -> Self { TextEntityType::Bold(t.as_ref().clone()) }
 
@@ -573,6 +582,59 @@ impl AsRef<TextEntityTypePhoneNumber> for TextEntityTypePhoneNumber {
 
 impl AsRef<TextEntityTypePhoneNumber> for RTDTextEntityTypePhoneNumberBuilder {
   fn as_ref(&self) -> &TextEntityTypePhoneNumber { &self.inner }
+}
+
+
+
+
+
+
+
+/// A bank card number. The getBankCardInfo method can be used to get information about the bank card
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct TextEntityTypeBankCardNumber {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for TextEntityTypeBankCardNumber {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeBankCardNumber" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDTextEntityType for TextEntityTypeBankCardNumber {}
+
+
+
+impl TextEntityTypeBankCardNumber {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTextEntityTypeBankCardNumberBuilder {
+    let mut inner = TextEntityTypeBankCardNumber::default();
+    inner.td_name = "textEntityTypeBankCardNumber".to_string();
+    RTDTextEntityTypeBankCardNumberBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTextEntityTypeBankCardNumberBuilder {
+  inner: TextEntityTypeBankCardNumber
+}
+
+impl RTDTextEntityTypeBankCardNumberBuilder {
+  pub fn build(&self) -> TextEntityTypeBankCardNumber { self.inner.clone() }
+
+}
+
+impl AsRef<TextEntityTypeBankCardNumber> for TextEntityTypeBankCardNumber {
+  fn as_ref(&self) -> &TextEntityTypeBankCardNumber { self }
+}
+
+impl AsRef<TextEntityTypeBankCardNumber> for RTDTextEntityTypeBankCardNumberBuilder {
+  fn as_ref(&self) -> &TextEntityTypeBankCardNumber { &self.inner }
 }
 
 

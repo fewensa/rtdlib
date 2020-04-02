@@ -44,8 +44,12 @@ pub enum RichText {
   PhoneNumber(RichTextPhoneNumber),
   /// A small image inside the text
   Icon(RichTextIcon),
-  /// A rich text anchor
+  /// A rich text reference of a text on the same web page
+  Reference(RichTextReference),
+  /// An anchor
   Anchor(RichTextAnchor),
+  /// A link to an anchor on the same web page
+  AnchorLink(RichTextAnchorLink),
   /// A concatenation of rich texts
   RichTexts(RichTexts),
 
@@ -73,7 +77,9 @@ impl<'de> Deserialize<'de> for RichText {
       (richTextMarked, Marked);
       (richTextPhoneNumber, PhoneNumber);
       (richTextIcon, Icon);
+      (richTextReference, Reference);
       (richTextAnchor, Anchor);
+      (richTextAnchorLink, AnchorLink);
       (richTexts, RichTexts);
 
     )(deserializer)
@@ -96,7 +102,9 @@ impl RObject for RichText {
       RichText::Marked(t) => t.td_name(),
       RichText::PhoneNumber(t) => t.td_name(),
       RichText::Icon(t) => t.td_name(),
+      RichText::Reference(t) => t.td_name(),
       RichText::Anchor(t) => t.td_name(),
+      RichText::AnchorLink(t) => t.td_name(),
       RichText::RichTexts(t) => t.td_name(),
 
       _ => "-1",
@@ -122,7 +130,9 @@ impl RichText {
   pub fn is_marked(&self) -> bool { if let RichText::Marked(_) = self { true } else { false } }
   pub fn is_phone_number(&self) -> bool { if let RichText::PhoneNumber(_) = self { true } else { false } }
   pub fn is_icon(&self) -> bool { if let RichText::Icon(_) = self { true } else { false } }
+  pub fn is_reference(&self) -> bool { if let RichText::Reference(_) = self { true } else { false } }
   pub fn is_anchor(&self) -> bool { if let RichText::Anchor(_) = self { true } else { false } }
+  pub fn is_anchor_link(&self) -> bool { if let RichText::AnchorLink(_) = self { true } else { false } }
   pub fn is_rich_texts(&self) -> bool { if let RichText::RichTexts(_) = self { true } else { false } }
 
   pub fn on_plain<F: FnOnce(&RichTextPlain)>(&self, fnc: F) -> &Self { if let RichText::Plain(t) = self { fnc(t) }; self }
@@ -138,7 +148,9 @@ impl RichText {
   pub fn on_marked<F: FnOnce(&RichTextMarked)>(&self, fnc: F) -> &Self { if let RichText::Marked(t) = self { fnc(t) }; self }
   pub fn on_phone_number<F: FnOnce(&RichTextPhoneNumber)>(&self, fnc: F) -> &Self { if let RichText::PhoneNumber(t) = self { fnc(t) }; self }
   pub fn on_icon<F: FnOnce(&RichTextIcon)>(&self, fnc: F) -> &Self { if let RichText::Icon(t) = self { fnc(t) }; self }
+  pub fn on_reference<F: FnOnce(&RichTextReference)>(&self, fnc: F) -> &Self { if let RichText::Reference(t) = self { fnc(t) }; self }
   pub fn on_anchor<F: FnOnce(&RichTextAnchor)>(&self, fnc: F) -> &Self { if let RichText::Anchor(t) = self { fnc(t) }; self }
+  pub fn on_anchor_link<F: FnOnce(&RichTextAnchorLink)>(&self, fnc: F) -> &Self { if let RichText::AnchorLink(t) = self { fnc(t) }; self }
   pub fn on_rich_texts<F: FnOnce(&RichTexts)>(&self, fnc: F) -> &Self { if let RichText::RichTexts(t) = self { fnc(t) }; self }
 
   pub fn as_plain(&self) -> Option<&RichTextPlain> { if let RichText::Plain(t) = self { return Some(t) } None }
@@ -154,7 +166,9 @@ impl RichText {
   pub fn as_marked(&self) -> Option<&RichTextMarked> { if let RichText::Marked(t) = self { return Some(t) } None }
   pub fn as_phone_number(&self) -> Option<&RichTextPhoneNumber> { if let RichText::PhoneNumber(t) = self { return Some(t) } None }
   pub fn as_icon(&self) -> Option<&RichTextIcon> { if let RichText::Icon(t) = self { return Some(t) } None }
+  pub fn as_reference(&self) -> Option<&RichTextReference> { if let RichText::Reference(t) = self { return Some(t) } None }
   pub fn as_anchor(&self) -> Option<&RichTextAnchor> { if let RichText::Anchor(t) = self { return Some(t) } None }
+  pub fn as_anchor_link(&self) -> Option<&RichTextAnchorLink> { if let RichText::AnchorLink(t) = self { return Some(t) } None }
   pub fn as_rich_texts(&self) -> Option<&RichTexts> { if let RichText::RichTexts(t) = self { return Some(t) } None }
 
 
@@ -185,7 +199,11 @@ impl RichText {
 
   pub fn icon<T: AsRef<RichTextIcon>>(t: T) -> Self { RichText::Icon(t.as_ref().clone()) }
 
+  pub fn reference<T: AsRef<RichTextReference>>(t: T) -> Self { RichText::Reference(t.as_ref().clone()) }
+
   pub fn anchor<T: AsRef<RichTextAnchor>>(t: T) -> Self { RichText::Anchor(t.as_ref().clone()) }
+
+  pub fn anchor_link<T: AsRef<RichTextAnchorLink>>(t: T) -> Self { RichText::AnchorLink(t.as_ref().clone()) }
 
   pub fn rich_texts<T: AsRef<RichTexts>>(t: T) -> Self { RichText::RichTexts(t.as_ref().clone()) }
 
@@ -1080,14 +1098,95 @@ impl AsRef<RichTextIcon> for RTDRichTextIconBuilder {
 
 
 
-/// A rich text anchor
+/// A rich text reference of a text on the same web page
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct RichTextReference {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The text
+  text: Box<RichText>,
+  /// The text to show on click
+  reference_text: Box<RichText>,
+  /// An HTTP URL, opening the reference
+  url: String,
+  
+}
+
+impl RObject for RichTextReference {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextReference" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDRichText for RichTextReference {}
+
+
+
+impl RichTextReference {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDRichTextReferenceBuilder {
+    let mut inner = RichTextReference::default();
+    inner.td_name = "richTextReference".to_string();
+    RTDRichTextReferenceBuilder { inner }
+  }
+
+  pub fn text(&self) -> &Box<RichText> { &self.text }
+
+  pub fn reference_text(&self) -> &Box<RichText> { &self.reference_text }
+
+  pub fn url(&self) -> &String { &self.url }
+
+}
+
+#[doc(hidden)]
+pub struct RTDRichTextReferenceBuilder {
+  inner: RichTextReference
+}
+
+impl RTDRichTextReferenceBuilder {
+  pub fn build(&self) -> RichTextReference { self.inner.clone() }
+
+   
+  pub fn text<T: AsRef<Box<RichText>>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().clone();
+    self
+  }
+
+   
+  pub fn reference_text<T: AsRef<Box<RichText>>>(&mut self, reference_text: T) -> &mut Self {
+    self.inner.reference_text = reference_text.as_ref().clone();
+    self
+  }
+
+   
+  pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
+    self.inner.url = url.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<RichTextReference> for RichTextReference {
+  fn as_ref(&self) -> &RichTextReference { self }
+}
+
+impl AsRef<RichTextReference> for RTDRichTextReferenceBuilder {
+  fn as_ref(&self) -> &RichTextReference { &self.inner }
+}
+
+
+
+
+
+
+
+/// An anchor
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct RichTextAnchor {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Text
-  text: Box<RichText>,
   /// Anchor name
   name: String,
   
@@ -1111,8 +1210,6 @@ impl RichTextAnchor {
     RTDRichTextAnchorBuilder { inner }
   }
 
-  pub fn text(&self) -> &Box<RichText> { &self.text }
-
   pub fn name(&self) -> &String { &self.name }
 
 }
@@ -1124,12 +1221,6 @@ pub struct RTDRichTextAnchorBuilder {
 
 impl RTDRichTextAnchorBuilder {
   pub fn build(&self) -> RichTextAnchor { self.inner.clone() }
-
-   
-  pub fn text<T: AsRef<Box<RichText>>>(&mut self, text: T) -> &mut Self {
-    self.inner.text = text.as_ref().clone();
-    self
-  }
 
    
   pub fn name<T: AsRef<str>>(&mut self, name: T) -> &mut Self {
@@ -1145,6 +1236,89 @@ impl AsRef<RichTextAnchor> for RichTextAnchor {
 
 impl AsRef<RichTextAnchor> for RTDRichTextAnchorBuilder {
   fn as_ref(&self) -> &RichTextAnchor { &self.inner }
+}
+
+
+
+
+
+
+
+/// A link to an anchor on the same web page
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct RichTextAnchorLink {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The link text
+  text: Box<RichText>,
+  /// The anchor name. If the name is empty, the link should bring back to top
+  name: String,
+  /// An HTTP URL, opening the anchor
+  url: String,
+  
+}
+
+impl RObject for RichTextAnchorLink {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextAnchorLink" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDRichText for RichTextAnchorLink {}
+
+
+
+impl RichTextAnchorLink {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDRichTextAnchorLinkBuilder {
+    let mut inner = RichTextAnchorLink::default();
+    inner.td_name = "richTextAnchorLink".to_string();
+    RTDRichTextAnchorLinkBuilder { inner }
+  }
+
+  pub fn text(&self) -> &Box<RichText> { &self.text }
+
+  pub fn name(&self) -> &String { &self.name }
+
+  pub fn url(&self) -> &String { &self.url }
+
+}
+
+#[doc(hidden)]
+pub struct RTDRichTextAnchorLinkBuilder {
+  inner: RichTextAnchorLink
+}
+
+impl RTDRichTextAnchorLinkBuilder {
+  pub fn build(&self) -> RichTextAnchorLink { self.inner.clone() }
+
+   
+  pub fn text<T: AsRef<Box<RichText>>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().clone();
+    self
+  }
+
+   
+  pub fn name<T: AsRef<str>>(&mut self, name: T) -> &mut Self {
+    self.inner.name = name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
+    self.inner.url = url.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<RichTextAnchorLink> for RichTextAnchorLink {
+  fn as_ref(&self) -> &RichTextAnchorLink { self }
+}
+
+impl AsRef<RichTextAnchorLink> for RTDRichTextAnchorLinkBuilder {
+  fn as_ref(&self) -> &RichTextAnchorLink { &self.inner }
 }
 
 

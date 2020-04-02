@@ -41,6 +41,13 @@ rtdlib = "1.4.*"
 rtdlib = "1.5.*"
 ```
 
+## 1.6.*
+
+```toml
+[dependencies]
+rtdlib = "1.6.*"
+```
+
 ## version
 
 Since the rtdlib version follows [td](https://github.com/tdlib/td), a version number less than 100 is reserved for td release.
@@ -53,6 +60,7 @@ Version mapping
 | 1.3.*     | 1.3.*   |
 | 1.4.*     | 1.4.*   |
 | 1.5.*     | 1.5.*   |
+| 1.6.*     | 1.6.*   |
 
 
 # Example

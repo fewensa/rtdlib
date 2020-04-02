@@ -19,7 +19,7 @@ pub struct ChatInviteLinkInfo {
   title: String,
   /// Chat photo; may be null
   photo: Option<ChatPhoto>,
-  /// Number of members
+  /// Number of members in the chat
   member_count: i64,
   /// User identifiers of some chat members that may be known to the current user
   member_user_ids: Vec<i64>,

@@ -22,7 +22,7 @@ pub struct WebPage {
   /// Title of the content
   title: String,
   /// Describes a web page preview
-  description: String,
+  description: FormattedText,
   /// Image representing the content; may be null
   photo: Option<Photo>,
   /// URL to show in the embedded preview
@@ -81,7 +81,7 @@ impl WebPage {
 
   pub fn title(&self) -> &String { &self.title }
 
-  pub fn description(&self) -> &String { &self.description }
+  pub fn description(&self) -> &FormattedText { &self.description }
 
   pub fn photo(&self) -> &Option<Photo> { &self.photo }
 
@@ -154,8 +154,8 @@ impl RTDWebPageBuilder {
   }
 
    
-  pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {
-    self.inner.description = description.as_ref().to_string();
+  pub fn description<T: AsRef<FormattedText>>(&mut self, description: T) -> &mut Self {
+    self.inner.description = description.as_ref().clone();
     self
   }
 

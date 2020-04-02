@@ -18,9 +18,9 @@ pub trait TDTextParseMode: Debug + RObject {}
 #[serde(untagged)]
 pub enum TextParseMode {
   #[doc(hidden)] _Default(()),
-  /// The text should be parsed in markdown-style
+  /// The text uses Markdown-style formatting
   Markdown(TextParseModeMarkdown),
-  /// The text should be parsed in HTML-style
+  /// The text uses HTML-style formatting. The same as Telegram Bot API "HTML" parse mode
   HTML(TextParseModeHTML),
 
 }
@@ -84,13 +84,13 @@ impl AsRef<TextParseMode> for TextParseMode {
 
 
 
-/// The text should be parsed in markdown-style
+/// The text uses Markdown-style formatting
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TextParseModeMarkdown {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Version of the parser: 0 or 1  Bot API Markdown parse mode, 2  Bot API MarkdownV2 parse mode
+  /// Version of the parser: 0 or 1  Telegram Bot API "Markdown" parse mode, 2  Telegram Bot API "MarkdownV2" parse mode
   version: i64,
   
 }
@@ -147,7 +147,7 @@ impl AsRef<TextParseModeMarkdown> for RTDTextParseModeMarkdownBuilder {
 
 
 
-/// The text should be parsed in HTML-style
+/// The text uses HTML-style formatting. The same as Telegram Bot API "HTML" parse mode
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TextParseModeHTML {
   #[doc(hidden)]
