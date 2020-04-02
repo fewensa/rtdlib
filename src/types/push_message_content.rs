@@ -1121,6 +1121,8 @@ pub struct PushMessageContentPoll {
   td_name: String,
   /// Poll question
   question: String,
+  /// True, if the poll is regular and not in quiz mode
+  is_regular: bool,
   /// True, if the message is a pinned message with the specified content
   is_pinned: bool,
   
@@ -1146,6 +1148,8 @@ impl PushMessageContentPoll {
 
   pub fn question(&self) -> &String { &self.question }
 
+  pub fn is_regular(&self) -> bool { self.is_regular }
+
   pub fn is_pinned(&self) -> bool { self.is_pinned }
 
 }
@@ -1161,6 +1165,12 @@ impl RTDPushMessageContentPollBuilder {
    
   pub fn question<T: AsRef<str>>(&mut self, question: T) -> &mut Self {
     self.inner.question = question.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn is_regular(&mut self, is_regular: bool) -> &mut Self {
+    self.inner.is_regular = is_regular;
     self
   }
 

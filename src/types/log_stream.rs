@@ -163,7 +163,7 @@ pub struct LogStreamFile {
   td_name: String,
   /// Path to the file to where the internal TDLib log will be written
   path: String,
-  /// Maximum size of the file to where the internal TDLib log is written before the file will be auto-rotated
+  /// The maximum size of the file to where the internal TDLib log is written before the file will be auto-rotated
   max_file_size: i64,
   
 }

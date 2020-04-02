@@ -15,9 +15,9 @@ pub struct CallProtocol {
   udp_p2p: bool,
   /// True, if connection through UDP reflectors is supported
   udp_reflector: bool,
-  /// Minimum supported API layer; use 65
+  /// The minimum supported API layer; use 65
   min_layer: i64,
-  /// Maximum supported API layer; use 65
+  /// The maximum supported API layer; use 65
   max_layer: i64,
   
 }

@@ -10,17 +10,17 @@ use serde::de::{Deserialize, Deserializer};
 
 
 
-/// TRAIT | Describes a type of a background
+/// TRAIT | Describes the type of a background
 pub trait TDBackgroundType: Debug + RObject {}
 
-/// Describes a type of a background
+/// Describes the type of a background
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum BackgroundType {
   #[doc(hidden)] _Default(()),
   /// A wallpaper in JPEG format
   Wallpaper(BackgroundTypeWallpaper),
-  /// A PNG or TGV (gzipped subset of SVG with mime-type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user
+  /// A PNG or TGV (gzipped subset of SVG with MIME type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user
   Pattern(BackgroundTypePattern),
   /// A filled background
   Fill(BackgroundTypeFill),
@@ -166,7 +166,7 @@ impl AsRef<BackgroundTypeWallpaper> for RTDBackgroundTypeWallpaperBuilder {
 
 
 
-/// A PNG or TGV (gzipped subset of SVG with mime-type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user
+/// A PNG or TGV (gzipped subset of SVG with MIME type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct BackgroundTypePattern {
   #[doc(hidden)]

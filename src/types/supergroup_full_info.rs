@@ -21,7 +21,7 @@ pub struct SupergroupFullInfo {
   restricted_count: i64,
   /// Number of users banned from chat; 0 if unknown
   banned_count: i64,
-  /// Chat identifier of a discussion group for the channel, or a channel, for which the supergroup is a discussion group; 0 if none or unknown
+  /// Chat identifier of a discussion group for the channel, or a channel, for which the supergroup is the designated discussion group; 0 if none or unknown
   linked_chat_id: i64,
   /// Delay between consecutive sent messages for non-administrator supergroup members, in seconds
   slow_mode_delay: i64,
@@ -41,7 +41,7 @@ pub struct SupergroupFullInfo {
   is_all_history_available: bool,
   /// Identifier of the supergroup sticker set; 0 if none
   sticker_set_id: String,
-  /// Location of the supergroup; may be null
+  /// Location to which the supergroup is connected; may be null
   location: Option<ChatLocation>,
   /// Invite link for this chat
   invite_link: String,

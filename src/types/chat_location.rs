@@ -5,7 +5,7 @@ use crate::errors::*;
 
 
 
-/// Represents a location of a chat
+/// Represents a location to which a chat is connected
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatLocation {
   #[doc(hidden)]

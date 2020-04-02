@@ -117,6 +117,9 @@ impl<'a, INPUTFILE: TDInputFile> TDInputFile for &'a mut INPUTFILE {}
 impl<'a, MASKPOINT: TDMaskPoint> TDMaskPoint for &'a MASKPOINT {}
 impl<'a, MASKPOINT: TDMaskPoint> TDMaskPoint for &'a mut MASKPOINT {}
 
+impl<'a, POLLTYPE: TDPollType> TDPollType for &'a POLLTYPE {}
+impl<'a, POLLTYPE: TDPollType> TDPollType for &'a mut POLLTYPE {}
+
 impl<'a, USERTYPE: TDUserType> TDUserType for &'a USERTYPE {}
 impl<'a, USERTYPE: TDUserType> TDUserType for &'a mut USERTYPE {}
 

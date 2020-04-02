@@ -184,7 +184,7 @@ impl AsRef<CheckDatabaseEncryptionKey> for RTDCheckDatabaseEncryptionKeyBuilder 
 
 
 
-/// Sets the phone number of the user and sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitPhoneNumber, or if there is no pending authentication query and the current authorization state is authorizationStateWaitCode or authorizationStateWaitPassword
+/// Sets the phone number of the user and sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitPhoneNumber, or if there is no pending authentication query and the current authorization state is authorizationStateWaitCode, authorizationStateWaitRegistration, or authorizationStateWaitPassword
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetAuthenticationPhoneNumber {
   #[doc(hidden)]
@@ -973,7 +973,7 @@ impl AsRef<ConfirmQrCodeAuthentication> for RTDConfirmQrCodeAuthenticationBuilde
 
 
 
-/// Returns all updates needed to restore current TDLib state, i.e. all actual UpdateAuthorizationState/UpdateUser/UpdateNewChat and others. This is especially usefull if TDLib is run in a separate process. This is an offline method. Can be called before authorization
+/// Returns all updates needed to restore current TDLib state, i.e. all actual UpdateAuthorizationState/UpdateUser/UpdateNewChat and others. This is especially useful if TDLib is run in a separate process. This is an offline method. Can be called before authorization
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetCurrentState {
   #[doc(hidden)]
@@ -2714,7 +2714,7 @@ impl AsRef<GetFile> for RTDGetFileBuilder {
 
 
 
-/// Returns information about a file by its remote ID; this is an offline request. Can be used to register a URL as a file for further uploading, or sending as a message. Even the request succeeds, the file can be used only if it is still accessible to the user. For example, if the file is from a message, then the message must be not deleted and accessible to the user. If a file database is disabled, then the corresponding object with the file must be preloaded by the client
+/// Returns information about a file by its remote ID; this is an offline request. Can be used to register a URL as a file for further uploading, or sending as a message. Even the request succeeds, the file can be used only if it is still accessible to the user. For example, if the file is from a message, then the message must be not deleted and accessible to the user. If the file database is disabled, then the corresponding object with the file must be preloaded by the client
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetRemoteFile {
   #[doc(hidden)]
@@ -3014,7 +3014,7 @@ pub struct SearchChats {
   td_name: String,
   /// Query to search for. If the query is empty, returns up to 20 recently found chats
   query: String,
-  /// Maximum number of chats to be returned
+  /// The maximum number of chats to be returned
   limit: i64,
   
 }
@@ -3087,7 +3087,7 @@ pub struct SearchChatsOnServer {
   td_name: String,
   /// Query to search for
   query: String,
-  /// Maximum number of chats to be returned
+  /// The maximum number of chats to be returned
   limit: i64,
   
 }
@@ -3223,7 +3223,7 @@ pub struct GetTopChats {
   td_name: String,
   /// Category of chats to be returned
   category: TopChatCategory,
-  /// Maximum number of chats to be returned; up to 30
+  /// The maximum number of chats to be returned; up to 30
   limit: i64,
   
 }
@@ -3676,7 +3676,7 @@ impl AsRef<GetCreatedPublicChats> for RTDGetCreatedPublicChatsBuilder {
 
 
 
-/// Checks whether a maximum number of owned public chats is reached. Returns corresponding error if the limit was reached
+/// Checks whether the maximum number of owned public chats has been reached. Returns corresponding error if the limit was reached
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct CheckCreatedPublicChatsLimit {
   #[doc(hidden)]
@@ -3855,7 +3855,7 @@ pub struct GetGroupsInCommon {
   user_id: i64,
   /// Chat identifier starting from which to return chats; use 0 for the first request
   offset_chat_id: i64,
-  /// Maximum number of chats to be returned; up to 100
+  /// The maximum number of chats to be returned; up to 100
   limit: i64,
   
 }
@@ -4362,7 +4362,7 @@ pub struct SearchSecretMessages {
   query: String,
   /// The identifier from the result of a previous request, use 0 to get results from the last message
   from_search_id: isize,
-  /// Maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
+  /// The maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
   limit: i64,
   /// A filter for the content of messages in the search results
   filter: SearchMessagesFilter,
@@ -4544,7 +4544,7 @@ pub struct SearchChatRecentLocationMessages {
   td_name: String,
   /// Chat identifier
   chat_id: i64,
-  /// Maximum number of messages to be returned
+  /// The maximum number of messages to be returned
   limit: i64,
   
 }
@@ -4962,7 +4962,7 @@ pub struct RemoveNotificationGroup {
   td_name: String,
   /// Notification group identifier
   notification_group_id: i64,
-  /// Maximum identifier of removed notifications
+  /// The maximum identifier of removed notifications
   max_notification_id: i64,
   
 }
@@ -7716,7 +7716,7 @@ impl AsRef<GetJsonString> for RTDGetJsonStringBuilder {
 
 
 
-/// Changes user answer to a poll
+/// Changes the user answer to a poll. A poll in quiz mode can be answered only once
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetPollAnswer {
   #[doc(hidden)]
@@ -7726,7 +7726,7 @@ pub struct SetPollAnswer {
   chat_id: i64,
   /// Identifier of the message containing the poll
   message_id: i64,
-  /// 0-based identifiers of options, chosen by the user. Currently user can't choose more than 1 option
+  /// 0-based identifiers of answer options, chosen by the user. User can choose more than 1 answer option only is the poll allows multiple answers
   option_ids: Vec<i64>,
   
 }
@@ -7791,6 +7791,109 @@ impl AsRef<SetPollAnswer> for SetPollAnswer {
 
 impl AsRef<SetPollAnswer> for RTDSetPollAnswerBuilder {
   fn as_ref(&self) -> &SetPollAnswer { &self.inner }
+}
+
+
+
+
+
+
+
+/// Returns users voted for the specified option in a non-anonymous polls. For the optimal performance the number of returned users is chosen by the library
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct GetPollVoters {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Identifier of the chat to which the poll belongs
+  chat_id: i64,
+  /// Identifier of the message containing the poll
+  message_id: i64,
+  /// 0-based identifier of the answer option
+  option_id: i64,
+  /// Number of users to skip in the result; must be non-negative
+  offset: i64,
+  /// The maximum number of users to be returned; must be positive and can't be greater than 50. Fewer users may be returned than specified by the limit, even if the end of the voter list has not been reached
+  limit: i64,
+  
+}
+
+impl RObject for GetPollVoters {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "getPollVoters" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for GetPollVoters {}
+
+impl GetPollVoters {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGetPollVotersBuilder {
+    let mut inner = GetPollVoters::default();
+    inner.td_name = "getPollVoters".to_string();
+    RTDGetPollVotersBuilder { inner }
+  }
+
+  pub fn chat_id(&self) -> i64 { self.chat_id }
+
+  pub fn message_id(&self) -> i64 { self.message_id }
+
+  pub fn option_id(&self) -> i64 { self.option_id }
+
+  pub fn offset(&self) -> i64 { self.offset }
+
+  pub fn limit(&self) -> i64 { self.limit }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGetPollVotersBuilder {
+  inner: GetPollVoters
+}
+
+impl RTDGetPollVotersBuilder {
+  pub fn build(&self) -> GetPollVoters { self.inner.clone() }
+
+   
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
+    self.inner.chat_id = chat_id;
+    self
+  }
+
+   
+  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
+    self.inner.message_id = message_id;
+    self
+  }
+
+   
+  pub fn option_id(&mut self, option_id: i64) -> &mut Self {
+    self.inner.option_id = option_id;
+    self
+  }
+
+   
+  pub fn offset(&mut self, offset: i64) -> &mut Self {
+    self.inner.offset = offset;
+    self
+  }
+
+   
+  pub fn limit(&mut self, limit: i64) -> &mut Self {
+    self.inner.limit = limit;
+    self
+  }
+
+}
+
+impl AsRef<GetPollVoters> for GetPollVoters {
+  fn as_ref(&self) -> &GetPollVoters { self }
+}
+
+impl AsRef<GetPollVoters> for RTDGetPollVotersBuilder {
+  fn as_ref(&self) -> &GetPollVoters { &self.inner }
 }
 
 
@@ -12837,7 +12940,7 @@ impl AsRef<WriteGeneratedFilePart> for RTDWriteGeneratedFilePartBuilder {
 
 
 
-/// Informs TDLib on a file generation prograss
+/// Informs TDLib on a file generation progress
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetFileGenerationProgress {
   #[doc(hidden)]
@@ -13867,7 +13970,7 @@ pub struct GetBlockedUsers {
   td_name: String,
   /// Number of users to skip in the result; must be non-negative
   offset: i64,
-  /// Maximum number of users to return; up to 100
+  /// The maximum number of users to return; up to 100
   limit: i64,
   
 }
@@ -14129,7 +14232,7 @@ pub struct SearchContacts {
   td_name: String,
   /// Query to search for; may be empty to return all contacts
   query: String,
-  /// Maximum number of users to be returned
+  /// The maximum number of users to be returned
   limit: i64,
   
 }
@@ -14426,7 +14529,7 @@ impl AsRef<ClearImportedContacts> for RTDClearImportedContactsBuilder {
 
 
 
-/// Shares a phone number of the current user with a mutual contact. Supposed to be called when the user clicks on chatActionBarSharePhoneNumber
+/// Shares the phone number of the current user with a mutual contact. Supposed to be called when the user clicks on chatActionBarSharePhoneNumber
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SharePhoneNumber {
   #[doc(hidden)]
@@ -14499,7 +14602,7 @@ pub struct GetUserProfilePhotos {
   user_id: i64,
   /// The number of photos to skip; must be non-negative
   offset: i64,
-  /// Maximum number of photos to be returned; up to 100
+  /// The maximum number of photos to be returned; up to 100
   limit: i64,
   
 }
@@ -14580,7 +14683,7 @@ pub struct GetStickers {
   td_name: String,
   /// String representation of emoji. If empty, returns all known installed stickers
   emoji: String,
-  /// Maximum number of stickers to be returned
+  /// The maximum number of stickers to be returned
   limit: i64,
   
 }
@@ -14653,7 +14756,7 @@ pub struct SearchStickers {
   td_name: String,
   /// String representation of emoji; must be non-empty
   emoji: String,
-  /// Maximum number of stickers to be returned
+  /// The maximum number of stickers to be returned
   limit: i64,
   
 }
@@ -14791,7 +14894,7 @@ pub struct GetArchivedStickerSets {
   is_masks: bool,
   /// Identifier of the sticker set from which to return the result
   offset_sticker_set_id: isize,
-  /// Maximum number of sticker sets to return
+  /// The maximum number of sticker sets to return
   limit: i64,
   
 }
@@ -15116,7 +15219,7 @@ pub struct SearchInstalledStickerSets {
   is_masks: bool,
   /// Query to search for
   query: String,
-  /// Maximum number of sticker sets to return
+  /// The maximum number of sticker sets to return
   limit: i64,
   
 }
@@ -15995,6 +16098,8 @@ pub struct SearchEmojis {
   text: String,
   /// True, if only emojis, which exactly match text needs to be returned
   exact_match: bool,
+  /// IETF language tag of the user's input language; may be empty if unknown
+  input_language_code: String,
   
 }
 
@@ -16020,6 +16125,8 @@ impl SearchEmojis {
 
   pub fn exact_match(&self) -> bool { self.exact_match }
 
+  pub fn input_language_code(&self) -> &String { &self.input_language_code }
+
 }
 
 #[doc(hidden)]
@@ -16039,6 +16146,12 @@ impl RTDSearchEmojisBuilder {
    
   pub fn exact_match(&mut self, exact_match: bool) -> &mut Self {
     self.inner.exact_match = exact_match;
+    self
+  }
+
+   
+  pub fn input_language_code<T: AsRef<str>>(&mut self, input_language_code: T) -> &mut Self {
+    self.inner.input_language_code = input_language_code.as_ref().to_string();
     self
   }
 
@@ -16361,7 +16474,7 @@ pub struct SearchHashtags {
   td_name: String,
   /// Hashtag prefix to search for
   prefix: String,
-  /// Maximum number of hashtags to be returned
+  /// The maximum number of hashtags to be returned
   limit: i64,
   
 }
@@ -18008,7 +18121,7 @@ impl AsRef<DeleteSupergroup> for RTDDeleteSupergroupBuilder {
 
 
 
-/// Closes a secret chat, effectively transfering its state to secretChatStateClosed
+/// Closes a secret chat, effectively transferring its state to secretChatStateClosed
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct CloseSecretChat {
   #[doc(hidden)]
@@ -18083,7 +18196,7 @@ pub struct GetChatEventLog {
   query: String,
   /// Identifier of an event from which to return results. Use 0 to get results from the latest events
   from_event_id: isize,
-  /// Maximum number of events to return; up to 100
+  /// The maximum number of events to return; up to 100
   limit: i64,
   /// The types of events to return. By default, all types will be returned
   filters: ChatEventLogFilters,
@@ -19026,7 +19139,7 @@ pub struct RemoveBackground {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// The background indentifier
+  /// The background identifier
   background_id: isize,
   
 }
@@ -20681,7 +20794,7 @@ pub struct GetStorageStatistics {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Maximum number of chats with the largest storage usage for which separate statistics should be returned. All other chats will be grouped in entries with chat_id == 0. If the chat info database is not used, the chat_limit is ignored and is always set to 0
+  /// The maximum number of chats with the largest storage usage for which separate statistics should be returned. All other chats will be grouped in entries with chat_id == 0. If the chat info database is not used, the chat_limit is ignored and is always set to 0
   chat_limit: i64,
   
 }
@@ -23349,122 +23462,6 @@ impl AsRef<AnswerCustomQuery> for RTDAnswerCustomQueryBuilder {
 
 
 
-/// Sends a request to TON lite server through Telegram servers. Can be called before authorization
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct SendTonLiteServerRequest {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// The request
-  request: String,
-  
-}
-
-impl RObject for SendTonLiteServerRequest {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "sendTonLiteServerRequest" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-
-
-impl RFunction for SendTonLiteServerRequest {}
-
-impl SendTonLiteServerRequest {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDSendTonLiteServerRequestBuilder {
-    let mut inner = SendTonLiteServerRequest::default();
-    inner.td_name = "sendTonLiteServerRequest".to_string();
-    RTDSendTonLiteServerRequestBuilder { inner }
-  }
-
-  pub fn request(&self) -> &String { &self.request }
-
-}
-
-#[doc(hidden)]
-pub struct RTDSendTonLiteServerRequestBuilder {
-  inner: SendTonLiteServerRequest
-}
-
-impl RTDSendTonLiteServerRequestBuilder {
-  pub fn build(&self) -> SendTonLiteServerRequest { self.inner.clone() }
-
-   
-  pub fn request<T: AsRef<str>>(&mut self, request: T) -> &mut Self {
-    self.inner.request = request.as_ref().to_string();
-    self
-  }
-
-}
-
-impl AsRef<SendTonLiteServerRequest> for SendTonLiteServerRequest {
-  fn as_ref(&self) -> &SendTonLiteServerRequest { self }
-}
-
-impl AsRef<SendTonLiteServerRequest> for RTDSendTonLiteServerRequestBuilder {
-  fn as_ref(&self) -> &SendTonLiteServerRequest { &self.inner }
-}
-
-
-
-
-
-
-
-/// Returns a salt to be used with locally stored password to access a local TON-based wallet
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct GetTonWalletPasswordSalt {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for GetTonWalletPasswordSalt {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "getTonWalletPasswordSalt" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-
-
-impl RFunction for GetTonWalletPasswordSalt {}
-
-impl GetTonWalletPasswordSalt {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDGetTonWalletPasswordSaltBuilder {
-    let mut inner = GetTonWalletPasswordSalt::default();
-    inner.td_name = "getTonWalletPasswordSalt".to_string();
-    RTDGetTonWalletPasswordSaltBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDGetTonWalletPasswordSaltBuilder {
-  inner: GetTonWalletPasswordSalt
-}
-
-impl RTDGetTonWalletPasswordSaltBuilder {
-  pub fn build(&self) -> GetTonWalletPasswordSalt { self.inner.clone() }
-
-}
-
-impl AsRef<GetTonWalletPasswordSalt> for GetTonWalletPasswordSalt {
-  fn as_ref(&self) -> &GetTonWalletPasswordSalt { self }
-}
-
-impl AsRef<GetTonWalletPasswordSalt> for RTDGetTonWalletPasswordSaltBuilder {
-  fn as_ref(&self) -> &GetTonWalletPasswordSalt { &self.inner }
-}
-
-
-
-
-
-
-
 /// Succeeds after a specified amount of time has passed. Can be called before authorization. Can be called before initialization
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetAlarm {
@@ -24814,7 +24811,7 @@ pub struct AddLogMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Minimum verbosity level needed for the message to be logged, 0-1023
+  /// The minimum verbosity level needed for the message to be logged, 0-1023
   verbosity_level: i64,
   /// Text of a message to log
   text: String,
@@ -25442,7 +25439,7 @@ pub struct TestProxy {
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: ProxyType,
   /// Identifier of a datacenter, with which to test connection
   dc_id: i64,
-  /// Maximum overall timeout for the request
+  /// The maximum overall timeout for the request
   timeout: f32,
   
 }

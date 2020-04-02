@@ -21,9 +21,9 @@ pub struct Supergroup {
   status: ChatMemberStatus,
   /// Member count; 0 if unknown. Currently it is guaranteed to be known only if the supergroup or channel was found through SearchPublicChats
   member_count: i64,
-  /// True, if the channel has a discussion group, or the supergroup is a discussion group for a channel
+  /// True, if the channel has a discussion group, or the supergroup is the designated discussion group for a channel
   has_linked_chat: bool,
-  /// True, if the supergroup has a chat location
+  /// True, if the supergroup is connected to a location, i.e. the supergroup is a location-based supergroup
   has_location: bool,
   /// True, if messages sent to the channel should contain information about the sender. This field is only applicable to channels
   sign_messages: bool,

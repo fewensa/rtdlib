@@ -505,7 +505,7 @@ pub struct MessageAnimation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Message content
+  /// The animation description
   animation: Animation,
   /// Animation caption
   caption: FormattedText,
@@ -588,7 +588,7 @@ pub struct MessageAudio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Message content
+  /// The audio description
   audio: Audio,
   /// Audio caption
   caption: FormattedText,
@@ -661,7 +661,7 @@ pub struct MessageDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Message content
+  /// The document description
   document: Document,
   /// Document caption
   caption: FormattedText,
@@ -734,7 +734,7 @@ pub struct MessagePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Message content
+  /// The photo description
   photo: Photo,
   /// Photo caption
   caption: FormattedText,
@@ -870,7 +870,7 @@ pub struct MessageSticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Message content
+  /// The sticker description
   sticker: Sticker,
   
 }
@@ -933,7 +933,7 @@ pub struct MessageVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Message content
+  /// The video description
   video: Video,
   /// Video caption
   caption: FormattedText,
@@ -1069,7 +1069,7 @@ pub struct MessageVideoNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Message content
+  /// The video note description
   video_note: VideoNote,
   /// True, if at least one of the recipients has viewed the video note
   is_viewed: bool,
@@ -1152,7 +1152,7 @@ pub struct MessageVoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Message content
+  /// The voice note description
   voice_note: VoiceNote,
   /// Voice note caption
   caption: FormattedText,
@@ -1235,7 +1235,7 @@ pub struct MessageLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Message content
+  /// The location description
   location: Location,
   /// Time relative to the message sent date until which the location can be updated, in seconds
   live_period: i64,
@@ -1318,7 +1318,7 @@ pub struct MessageVenue {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Message content
+  /// The venue description
   venue: Venue,
   
 }
@@ -1381,7 +1381,7 @@ pub struct MessageContact {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Message content
+  /// The contact description
   contact: Contact,
   
 }
@@ -1444,7 +1444,7 @@ pub struct MessageGame {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Game
+  /// The game description
   game: Game,
   
 }
@@ -1507,7 +1507,7 @@ pub struct MessagePoll {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Poll
+  /// The poll description
   poll: Poll,
   
 }

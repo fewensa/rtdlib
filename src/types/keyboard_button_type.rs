@@ -24,6 +24,8 @@ pub enum KeyboardButtonType {
   RequestPhoneNumber(KeyboardButtonTypeRequestPhoneNumber),
   /// A button that sends the user's location when pressed; available only in private chats
   RequestLocation(KeyboardButtonTypeRequestLocation),
+  /// A button that allows the user to create and send a poll when pressed; available only in private chats
+  RequestPoll(KeyboardButtonTypeRequestPoll),
 
 }
 
@@ -39,6 +41,7 @@ impl<'de> Deserialize<'de> for KeyboardButtonType {
       (keyboardButtonTypeText, Text);
       (keyboardButtonTypeRequestPhoneNumber, RequestPhoneNumber);
       (keyboardButtonTypeRequestLocation, RequestLocation);
+      (keyboardButtonTypeRequestPoll, RequestPoll);
 
     )(deserializer)
   }
@@ -50,6 +53,7 @@ impl RObject for KeyboardButtonType {
       KeyboardButtonType::Text(t) => t.td_name(),
       KeyboardButtonType::RequestPhoneNumber(t) => t.td_name(),
       KeyboardButtonType::RequestLocation(t) => t.td_name(),
+      KeyboardButtonType::RequestPoll(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -64,14 +68,17 @@ impl KeyboardButtonType {
   pub fn is_text(&self) -> bool { if let KeyboardButtonType::Text(_) = self { true } else { false } }
   pub fn is_request_phone_number(&self) -> bool { if let KeyboardButtonType::RequestPhoneNumber(_) = self { true } else { false } }
   pub fn is_request_location(&self) -> bool { if let KeyboardButtonType::RequestLocation(_) = self { true } else { false } }
+  pub fn is_request_poll(&self) -> bool { if let KeyboardButtonType::RequestPoll(_) = self { true } else { false } }
 
   pub fn on_text<F: FnOnce(&KeyboardButtonTypeText)>(&self, fnc: F) -> &Self { if let KeyboardButtonType::Text(t) = self { fnc(t) }; self }
   pub fn on_request_phone_number<F: FnOnce(&KeyboardButtonTypeRequestPhoneNumber)>(&self, fnc: F) -> &Self { if let KeyboardButtonType::RequestPhoneNumber(t) = self { fnc(t) }; self }
   pub fn on_request_location<F: FnOnce(&KeyboardButtonTypeRequestLocation)>(&self, fnc: F) -> &Self { if let KeyboardButtonType::RequestLocation(t) = self { fnc(t) }; self }
+  pub fn on_request_poll<F: FnOnce(&KeyboardButtonTypeRequestPoll)>(&self, fnc: F) -> &Self { if let KeyboardButtonType::RequestPoll(t) = self { fnc(t) }; self }
 
   pub fn as_text(&self) -> Option<&KeyboardButtonTypeText> { if let KeyboardButtonType::Text(t) = self { return Some(t) } None }
   pub fn as_request_phone_number(&self) -> Option<&KeyboardButtonTypeRequestPhoneNumber> { if let KeyboardButtonType::RequestPhoneNumber(t) = self { return Some(t) } None }
   pub fn as_request_location(&self) -> Option<&KeyboardButtonTypeRequestLocation> { if let KeyboardButtonType::RequestLocation(t) = self { return Some(t) } None }
+  pub fn as_request_poll(&self) -> Option<&KeyboardButtonTypeRequestPoll> { if let KeyboardButtonType::RequestPoll(t) = self { return Some(t) } None }
 
 
 
@@ -80,6 +87,8 @@ impl KeyboardButtonType {
   pub fn request_phone_number<T: AsRef<KeyboardButtonTypeRequestPhoneNumber>>(t: T) -> Self { KeyboardButtonType::RequestPhoneNumber(t.as_ref().clone()) }
 
   pub fn request_location<T: AsRef<KeyboardButtonTypeRequestLocation>>(t: T) -> Self { KeyboardButtonType::RequestLocation(t.as_ref().clone()) }
+
+  pub fn request_poll<T: AsRef<KeyboardButtonTypeRequestPoll>>(t: T) -> Self { KeyboardButtonType::RequestPoll(t.as_ref().clone()) }
 
 }
 
@@ -244,6 +253,79 @@ impl AsRef<KeyboardButtonTypeRequestLocation> for KeyboardButtonTypeRequestLocat
 
 impl AsRef<KeyboardButtonTypeRequestLocation> for RTDKeyboardButtonTypeRequestLocationBuilder {
   fn as_ref(&self) -> &KeyboardButtonTypeRequestLocation { &self.inner }
+}
+
+
+
+
+
+
+
+/// A button that allows the user to create and send a poll when pressed; available only in private chats
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct KeyboardButtonTypeRequestPoll {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// If true, only regular polls must be allowed to create
+  force_regular: bool,
+  /// If true, only polls in quiz mode must be allowed to create
+  force_quiz: bool,
+  
+}
+
+impl RObject for KeyboardButtonTypeRequestPoll {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "keyboardButtonTypeRequestPoll" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDKeyboardButtonType for KeyboardButtonTypeRequestPoll {}
+
+
+
+impl KeyboardButtonTypeRequestPoll {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDKeyboardButtonTypeRequestPollBuilder {
+    let mut inner = KeyboardButtonTypeRequestPoll::default();
+    inner.td_name = "keyboardButtonTypeRequestPoll".to_string();
+    RTDKeyboardButtonTypeRequestPollBuilder { inner }
+  }
+
+  pub fn force_regular(&self) -> bool { self.force_regular }
+
+  pub fn force_quiz(&self) -> bool { self.force_quiz }
+
+}
+
+#[doc(hidden)]
+pub struct RTDKeyboardButtonTypeRequestPollBuilder {
+  inner: KeyboardButtonTypeRequestPoll
+}
+
+impl RTDKeyboardButtonTypeRequestPollBuilder {
+  pub fn build(&self) -> KeyboardButtonTypeRequestPoll { self.inner.clone() }
+
+   
+  pub fn force_regular(&mut self, force_regular: bool) -> &mut Self {
+    self.inner.force_regular = force_regular;
+    self
+  }
+
+   
+  pub fn force_quiz(&mut self, force_quiz: bool) -> &mut Self {
+    self.inner.force_quiz = force_quiz;
+    self
+  }
+
+}
+
+impl AsRef<KeyboardButtonTypeRequestPoll> for KeyboardButtonTypeRequestPoll {
+  fn as_ref(&self) -> &KeyboardButtonTypeRequestPoll { self }
+}
+
+impl AsRef<KeyboardButtonTypeRequestPoll> for RTDKeyboardButtonTypeRequestPollBuilder {
+  fn as_ref(&self) -> &KeyboardButtonTypeRequestPoll { &self.inner }
 }
 
 

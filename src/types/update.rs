@@ -88,7 +88,7 @@ pub enum Update {
   Notification(UpdateNotification),
   /// A list of active notifications in a notification group has changed
   NotificationGroup(UpdateNotificationGroup),
-  /// Contains active notifications that was shown on previous application launches. This update is sent only if a message database is used. In that case it comes once before any updateNotification and updateNotificationGroup update
+  /// Contains active notifications that was shown on previous application launches. This update is sent only if the message database is used. In that case it comes once before any updateNotification and updateNotificationGroup update
   ActiveNotifications(UpdateActiveNotifications),
   /// Describes whether there are some pending notification updates. Can be used to prevent application from killing, while there are some pending notifications
   HavePendingNotifications(UpdateHavePendingNotifications),
@@ -124,9 +124,9 @@ pub enum Update {
   Call(UpdateCall),
   /// Some privacy setting rules have been changed
   UserPrivacySettingRules(UpdateUserPrivacySettingRules),
-  /// Number of unread messages in a chat list has changed. This update is sent only if a message database is used
+  /// Number of unread messages in a chat list has changed. This update is sent only if the message database is used
   UnreadMessageCount(UpdateUnreadMessageCount),
-  /// Number of unread chats, i.e. with unread messages or marked as unread, has changed. This update is sent only if a message database is used
+  /// Number of unread chats, i.e. with unread messages or marked as unread, has changed. This update is sent only if the message database is used
   UnreadChatCount(UpdateUnreadChatCount),
   /// An option changed its value
   Option(UpdateOption),
@@ -166,8 +166,10 @@ pub enum Update {
   NewCustomEvent(UpdateNewCustomEvent),
   /// A new incoming query; for bots only
   NewCustomQuery(UpdateNewCustomQuery),
-  /// Information about a poll was updated; for bots only
+  /// A poll was updated; for bots only
   Poll(UpdatePoll),
+  /// A user changed the answer to a poll; for bots only
+  PollAnswer(UpdatePollAnswer),
   /// Does nothing and ensures that the Update object is used; for testing only. This is an offline method. Can be called before authorization
   TestUseUpdate(TestUseUpdate),
 
@@ -257,6 +259,7 @@ impl<'de> Deserialize<'de> for Update {
       (updateNewCustomEvent, NewCustomEvent);
       (updateNewCustomQuery, NewCustomQuery);
       (updatePoll, Poll);
+      (updatePollAnswer, PollAnswer);
       (testUseUpdate, TestUseUpdate);
 
     )(deserializer)
@@ -341,6 +344,7 @@ impl RObject for Update {
       Update::NewCustomEvent(t) => t.td_name(),
       Update::NewCustomQuery(t) => t.td_name(),
       Update::Poll(t) => t.td_name(),
+      Update::PollAnswer(t) => t.td_name(),
       Update::TestUseUpdate(t) => t.td_name(),
 
       _ => "-1",
@@ -428,6 +432,7 @@ impl Update {
   pub fn is_new_custom_event(&self) -> bool { if let Update::NewCustomEvent(_) = self { true } else { false } }
   pub fn is_new_custom_query(&self) -> bool { if let Update::NewCustomQuery(_) = self { true } else { false } }
   pub fn is_poll(&self) -> bool { if let Update::Poll(_) = self { true } else { false } }
+  pub fn is_poll_answer(&self) -> bool { if let Update::PollAnswer(_) = self { true } else { false } }
   pub fn is_test_use_update(&self) -> bool { if let Update::TestUseUpdate(_) = self { true } else { false } }
 
   pub fn on_authorization_state<F: FnOnce(&UpdateAuthorizationState)>(&self, fnc: F) -> &Self { if let Update::AuthorizationState(t) = self { fnc(t) }; self }
@@ -505,6 +510,7 @@ impl Update {
   pub fn on_new_custom_event<F: FnOnce(&UpdateNewCustomEvent)>(&self, fnc: F) -> &Self { if let Update::NewCustomEvent(t) = self { fnc(t) }; self }
   pub fn on_new_custom_query<F: FnOnce(&UpdateNewCustomQuery)>(&self, fnc: F) -> &Self { if let Update::NewCustomQuery(t) = self { fnc(t) }; self }
   pub fn on_poll<F: FnOnce(&UpdatePoll)>(&self, fnc: F) -> &Self { if let Update::Poll(t) = self { fnc(t) }; self }
+  pub fn on_poll_answer<F: FnOnce(&UpdatePollAnswer)>(&self, fnc: F) -> &Self { if let Update::PollAnswer(t) = self { fnc(t) }; self }
   pub fn on_test_use_update<F: FnOnce(&TestUseUpdate)>(&self, fnc: F) -> &Self { if let Update::TestUseUpdate(t) = self { fnc(t) }; self }
 
   pub fn as_authorization_state(&self) -> Option<&UpdateAuthorizationState> { if let Update::AuthorizationState(t) = self { return Some(t) } None }
@@ -582,6 +588,7 @@ impl Update {
   pub fn as_new_custom_event(&self) -> Option<&UpdateNewCustomEvent> { if let Update::NewCustomEvent(t) = self { return Some(t) } None }
   pub fn as_new_custom_query(&self) -> Option<&UpdateNewCustomQuery> { if let Update::NewCustomQuery(t) = self { return Some(t) } None }
   pub fn as_poll(&self) -> Option<&UpdatePoll> { if let Update::Poll(t) = self { return Some(t) } None }
+  pub fn as_poll_answer(&self) -> Option<&UpdatePollAnswer> { if let Update::PollAnswer(t) = self { return Some(t) } None }
   pub fn as_test_use_update(&self) -> Option<&TestUseUpdate> { if let Update::TestUseUpdate(t) = self { return Some(t) } None }
 
 
@@ -735,6 +742,8 @@ impl Update {
   pub fn new_custom_query<T: AsRef<UpdateNewCustomQuery>>(t: T) -> Self { Update::NewCustomQuery(t.as_ref().clone()) }
 
   pub fn poll<T: AsRef<UpdatePoll>>(t: T) -> Self { Update::Poll(t.as_ref().clone()) }
+
+  pub fn poll_answer<T: AsRef<UpdatePollAnswer>>(t: T) -> Self { Update::PollAnswer(t.as_ref().clone()) }
 
   pub fn test_use_update<T: AsRef<TestUseUpdate>>(t: T) -> Self { Update::TestUseUpdate(t.as_ref().clone()) }
 
@@ -3455,7 +3464,7 @@ impl AsRef<UpdateNotificationGroup> for RTDUpdateNotificationGroupBuilder {
 
 
 
-/// Contains active notifications that was shown on previous application launches. This update is sent only if a message database is used. In that case it comes once before any updateNotification and updateNotificationGroup update
+/// Contains active notifications that was shown on previous application launches. This update is sent only if the message database is used. In that case it comes once before any updateNotification and updateNotificationGroup update
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateActiveNotifications {
   #[doc(hidden)]
@@ -4739,7 +4748,7 @@ impl AsRef<UpdateUserPrivacySettingRules> for RTDUpdateUserPrivacySettingRulesBu
 
 
 
-/// Number of unread messages in a chat list has changed. This update is sent only if a message database is used
+/// Number of unread messages in a chat list has changed. This update is sent only if the message database is used
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateUnreadMessageCount {
   #[doc(hidden)]
@@ -4822,7 +4831,7 @@ impl AsRef<UpdateUnreadMessageCount> for RTDUpdateUnreadMessageCountBuilder {
 
 
 
-/// Number of unread chats, i.e. with unread messages or marked as unread, has changed. This update is sent only if a message database is used
+/// Number of unread chats, i.e. with unread messages or marked as unread, has changed. This update is sent only if the message database is used
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateUnreadChatCount {
   #[doc(hidden)]
@@ -6482,7 +6491,7 @@ impl AsRef<UpdateNewCustomQuery> for RTDUpdateNewCustomQueryBuilder {
 
 
 
-/// Information about a poll was updated; for bots only
+/// A poll was updated; for bots only
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdatePoll {
   #[doc(hidden)]
@@ -6537,6 +6546,89 @@ impl AsRef<UpdatePoll> for UpdatePoll {
 
 impl AsRef<UpdatePoll> for RTDUpdatePollBuilder {
   fn as_ref(&self) -> &UpdatePoll { &self.inner }
+}
+
+
+
+
+
+
+
+/// A user changed the answer to a poll; for bots only
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UpdatePollAnswer {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Unique poll identifier
+  poll_id: isize,
+  /// The user, who changed the answer to the poll
+  user_id: i64,
+  /// 0-based identifiers of answer options, chosen by the user
+  option_ids: Vec<i64>,
+  
+}
+
+impl RObject for UpdatePollAnswer {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "updatePollAnswer" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUpdate for UpdatePollAnswer {}
+
+
+
+impl UpdatePollAnswer {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUpdatePollAnswerBuilder {
+    let mut inner = UpdatePollAnswer::default();
+    inner.td_name = "updatePollAnswer".to_string();
+    RTDUpdatePollAnswerBuilder { inner }
+  }
+
+  pub fn poll_id(&self) -> isize { self.poll_id }
+
+  pub fn user_id(&self) -> i64 { self.user_id }
+
+  pub fn option_ids(&self) -> &Vec<i64> { &self.option_ids }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUpdatePollAnswerBuilder {
+  inner: UpdatePollAnswer
+}
+
+impl RTDUpdatePollAnswerBuilder {
+  pub fn build(&self) -> UpdatePollAnswer { self.inner.clone() }
+
+   
+  pub fn poll_id(&mut self, poll_id: isize) -> &mut Self {
+    self.inner.poll_id = poll_id;
+    self
+  }
+
+   
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
+    self.inner.user_id = user_id;
+    self
+  }
+
+   
+  pub fn option_ids(&mut self, option_ids: Vec<i64>) -> &mut Self {
+    self.inner.option_ids = option_ids;
+    self
+  }
+
+}
+
+impl AsRef<UpdatePollAnswer> for UpdatePollAnswer {
+  fn as_ref(&self) -> &UpdatePollAnswer { self }
+}
+
+impl AsRef<UpdatePollAnswer> for RTDUpdatePollAnswerBuilder {
+  fn as_ref(&self) -> &UpdatePollAnswer { &self.inner }
 }
 
 

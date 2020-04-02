@@ -61,7 +61,7 @@ pub struct Chat {
   reply_markup_message_id: i64,
   /// A draft of a message in the chat; may be null
   draft_message: Option<DraftMessage>,
-  /// Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used
+  /// Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if the message database is used
   client_data: String,
   
 }

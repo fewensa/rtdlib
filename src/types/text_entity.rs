@@ -11,9 +11,9 @@ pub struct TextEntity {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Offset of the entity in UTF-16 code points
+  /// Offset of the entity in UTF-16 code units
   offset: i64,
-  /// Length of the entity, in UTF-16 code points
+  /// Length of the entity, in UTF-16 code units
   length: i64,
   /// Type of the entity
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: TextEntityType,

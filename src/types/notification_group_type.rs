@@ -10,10 +10,10 @@ use serde::de::{Deserialize, Deserializer};
 
 
 
-/// TRAIT | Describes type of notifications in the group
+/// TRAIT | Describes the type of notifications in a notification group
 pub trait TDNotificationGroupType: Debug + RObject {}
 
-/// Describes type of notifications in the group
+/// Describes the type of notifications in a notification group
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum NotificationGroupType {

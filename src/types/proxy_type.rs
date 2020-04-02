@@ -10,10 +10,10 @@ use serde::de::{Deserialize, Deserializer};
 
 
 
-/// TRAIT | Describes the type of the proxy server
+/// TRAIT | Describes the type of a proxy server
 pub trait TDProxyType: Debug + RObject {}
 
-/// Describes the type of the proxy server
+/// Describes the type of a proxy server
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum ProxyType {

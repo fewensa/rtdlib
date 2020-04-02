@@ -46,7 +46,7 @@ pub enum InputMessageContent {
   InputMessageGame(InputMessageGame),
   /// A message with an invoice; can be used only by bots and only in private chats
   InputMessageInvoice(InputMessageInvoice),
-  /// A message with a poll. Polls can't be sent to private or secret chats
+  /// A message with a poll. Polls can't be sent to secret chats. Polls can be sent only to a private chat with a bot
   InputMessagePoll(InputMessagePoll),
   /// A forwarded message
   InputMessageForwarded(InputMessageForwarded),
@@ -1155,7 +1155,7 @@ pub struct InputMessageLocation {
   td_name: String,
   /// Location to be sent
   location: Location,
-  /// Period for which the location can be updated, in seconds; should bebetween 60 and 86400 for a live location and 0 otherwise
+  /// Period for which the location can be updated, in seconds; should be between 60 and 86400 for a live location and 0 otherwise
   live_period: i64,
   
 }
@@ -1582,7 +1582,7 @@ impl AsRef<InputMessageInvoice> for RTDInputMessageInvoiceBuilder {
 
 
 
-/// A message with a poll. Polls can't be sent to private or secret chats
+/// A message with a poll. Polls can't be sent to secret chats. Polls can be sent only to a private chat with a bot
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InputMessagePoll {
   #[doc(hidden)]
@@ -1592,6 +1592,12 @@ pub struct InputMessagePoll {
   question: String,
   /// List of poll answer options, 2-10 strings 1-100 characters each
   options: Vec<String>,
+  /// True, if the poll voters are anonymous. Non-anonymous polls can't be sent or forwarded to channels
+  is_anonymous: bool,
+  /// Type of the poll
+  #[serde(rename(serialize = "type", deserialize = "type"))] type_: PollType,
+  /// True, if the poll needs to be sent already closed; for bots only
+  is_closed: bool,
   
 }
 
@@ -1617,6 +1623,12 @@ impl InputMessagePoll {
 
   pub fn options(&self) -> &Vec<String> { &self.options }
 
+  pub fn is_anonymous(&self) -> bool { self.is_anonymous }
+
+  pub fn type_(&self) -> &PollType { &self.type_ }
+
+  pub fn is_closed(&self) -> bool { self.is_closed }
+
 }
 
 #[doc(hidden)]
@@ -1636,6 +1648,24 @@ impl RTDInputMessagePollBuilder {
    
   pub fn options(&mut self, options: Vec<String>) -> &mut Self {
     self.inner.options = options;
+    self
+  }
+
+   
+  pub fn is_anonymous(&mut self, is_anonymous: bool) -> &mut Self {
+    self.inner.is_anonymous = is_anonymous;
+    self
+  }
+
+   
+  pub fn type_<T: AsRef<PollType>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+   
+  pub fn is_closed(&mut self, is_closed: bool) -> &mut Self {
+    self.inner.is_closed = is_closed;
     self
   }
 

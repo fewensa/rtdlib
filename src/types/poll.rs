@@ -19,6 +19,12 @@ pub struct Poll {
   options: Vec<PollOption>,
   /// Total number of voters, participating in the poll
   total_voter_count: i64,
+  /// User identifiers of recent voters, if the poll is non-anonymous
+  recent_voter_user_ids: Vec<i64>,
+  /// True, if the poll is anonymous
+  is_anonymous: bool,
+  /// Type of the poll
+  #[serde(rename(serialize = "type", deserialize = "type"))] type_: PollType,
   /// True, if the poll is closed
   is_closed: bool,
   
@@ -46,6 +52,12 @@ impl Poll {
   pub fn options(&self) -> &Vec<PollOption> { &self.options }
 
   pub fn total_voter_count(&self) -> i64 { self.total_voter_count }
+
+  pub fn recent_voter_user_ids(&self) -> &Vec<i64> { &self.recent_voter_user_ids }
+
+  pub fn is_anonymous(&self) -> bool { self.is_anonymous }
+
+  pub fn type_(&self) -> &PollType { &self.type_ }
 
   pub fn is_closed(&self) -> bool { self.is_closed }
 
@@ -80,6 +92,24 @@ impl RTDPollBuilder {
    
   pub fn total_voter_count(&mut self, total_voter_count: i64) -> &mut Self {
     self.inner.total_voter_count = total_voter_count;
+    self
+  }
+
+   
+  pub fn recent_voter_user_ids(&mut self, recent_voter_user_ids: Vec<i64>) -> &mut Self {
+    self.inner.recent_voter_user_ids = recent_voter_user_ids;
+    self
+  }
+
+   
+  pub fn is_anonymous(&mut self, is_anonymous: bool) -> &mut Self {
+    self.inner.is_anonymous = is_anonymous;
+    self
+  }
+
+   
+  pub fn type_<T: AsRef<PollType>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().clone();
     self
   }
 

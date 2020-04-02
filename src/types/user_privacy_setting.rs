@@ -32,7 +32,7 @@ pub enum UserPrivacySetting {
   AllowCalls(UserPrivacySettingAllowCalls),
   /// A privacy setting for managing whether peer-to-peer connections can be used for calls
   AllowPeerToPeerCalls(UserPrivacySettingAllowPeerToPeerCalls),
-  /// A privacy setting for managing whether the user can be found by its phone number. Checked only if the phone number is not known to the other user. Can be set only to "Allow contacts" or "Allow all"
+  /// A privacy setting for managing whether the user can be found by their phone number. Checked only if the phone number is not known to the other user. Can be set only to "Allow contacts" or "Allow all"
   AllowFindingByPhoneNumber(UserPrivacySettingAllowFindingByPhoneNumber),
 
 }
@@ -509,7 +509,7 @@ impl AsRef<UserPrivacySettingAllowPeerToPeerCalls> for RTDUserPrivacySettingAllo
 
 
 
-/// A privacy setting for managing whether the user can be found by its phone number. Checked only if the phone number is not known to the other user. Can be set only to "Allow contacts" or "Allow all"
+/// A privacy setting for managing whether the user can be found by their phone number. Checked only if the phone number is not known to the other user. Can be set only to "Allow contacts" or "Allow all"
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UserPrivacySettingAllowFindingByPhoneNumber {
   #[doc(hidden)]

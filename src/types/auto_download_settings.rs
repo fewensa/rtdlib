@@ -13,13 +13,13 @@ pub struct AutoDownloadSettings {
   td_name: String,
   /// True, if the auto-download is enabled
   is_auto_download_enabled: bool,
-  /// Maximum size of a photo file to be auto-downloaded
+  /// The maximum size of a photo file to be auto-downloaded
   max_photo_file_size: i64,
-  /// Maximum size of a video file to be auto-downloaded
+  /// The maximum size of a video file to be auto-downloaded
   max_video_file_size: i64,
-  /// Maximum size of other file types to be auto-downloaded
+  /// The maximum size of other file types to be auto-downloaded
   max_other_file_size: i64,
-  /// Suggested maximum bitrate for uploaded videos
+  /// The maximum suggested bitrate for uploaded videos
   video_upload_bitrate: i64,
   /// True, if the beginning of videos needs to be preloaded for instant playback
   preload_large_videos: bool,

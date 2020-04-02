@@ -10,10 +10,10 @@ use serde::de::{Deserialize, Deserializer};
 
 
 
-/// TRAIT | Represents the type of the user. The following types are possible: regular users, deleted users and bots
+/// TRAIT | Represents the type of a user. The following types are possible: regular users, deleted users and bots
 pub trait TDUserType: Debug + RObject {}
 
-/// Represents the type of the user. The following types are possible: regular users, deleted users and bots
+/// Represents the type of a user. The following types are possible: regular users, deleted users and bots
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum UserType {

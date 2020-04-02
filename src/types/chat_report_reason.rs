@@ -28,7 +28,7 @@ pub enum ChatReportReason {
   ChildAbuse(ChatReportReasonChildAbuse),
   /// The chat contains copyrighted content
   Copyright(ChatReportReasonCopyright),
-  /// The chat has unrelated location
+  /// The location-based chat is unrelated to its stated location
   UnrelatedLocation(ChatReportReasonUnrelatedLocation),
   /// A custom reason provided by the user
   Custom(ChatReportReasonCustom),
@@ -394,7 +394,7 @@ impl AsRef<ChatReportReasonCopyright> for RTDChatReportReasonCopyrightBuilder {
 
 
 
-/// The chat has unrelated location
+/// The location-based chat is unrelated to its stated location
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatReportReasonUnrelatedLocation {
   #[doc(hidden)]
