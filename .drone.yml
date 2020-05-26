@@ -14,7 +14,7 @@ steps:
       event:
         - push
     commands:
-      - echo "https://$(echo GITHUB_TOKEN)@github.com" > /root/.git-credentials
+      - echo "https://$(echo $GITHUB_TOKEN)@github.com" > /root/.git-credentials
       - git config --global credential.helper store
       - git config --global user.email fewensa@protonmail.com
       - git config --global user.name fewensa
@@ -31,7 +31,7 @@ steps:
       event:
         - tag
     commands:
-      - echo "https://$(echo GITHUB_TOKEN)@github.com" > /root/.git-credentials
+      - echo "https://$(echo $GITHUB_TOKEN)@github.com" > /root/.git-credentials
       - git config --global credential.helper store
       - git config --global user.email fewensa@protonmail.com
       - git config --global user.name fewensa
