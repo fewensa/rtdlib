@@ -18,10 +18,10 @@ pub trait TDInputSticker: Debug + RObject {}
 #[serde(untagged)]
 pub enum InputSticker {
   #[doc(hidden)] _Default(()),
-  /// A static sticker in PNG format, which will be converted to WEBP server-side
-  Static(InputStickerStatic),
   /// An animated sticker in TGS format
   Animated(InputStickerAnimated),
+  /// A static sticker in PNG format, which will be converted to WEBP server-side
+  Static(InputStickerStatic),
 
 }
 
@@ -34,8 +34,8 @@ impl<'de> Deserialize<'de> for InputSticker {
     use serde::de::Error;
     rtd_enum_deserialize!(
       InputSticker,
-      (inputStickerStatic, Static);
       (inputStickerAnimated, Animated);
+      (inputStickerStatic, Static);
 
     )(deserializer)
   }
@@ -44,8 +44,8 @@ impl<'de> Deserialize<'de> for InputSticker {
 impl RObject for InputSticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
-      InputSticker::Static(t) => t.td_name(),
       InputSticker::Animated(t) => t.td_name(),
+      InputSticker::Static(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -57,25 +57,98 @@ impl InputSticker {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let InputSticker::_Default(_) = self { true } else { false } }
 
-  pub fn is_static(&self) -> bool { if let InputSticker::Static(_) = self { true } else { false } }
   pub fn is_animated(&self) -> bool { if let InputSticker::Animated(_) = self { true } else { false } }
+  pub fn is_static(&self) -> bool { if let InputSticker::Static(_) = self { true } else { false } }
 
-  pub fn on_static<F: FnOnce(&InputStickerStatic)>(&self, fnc: F) -> &Self { if let InputSticker::Static(t) = self { fnc(t) }; self }
   pub fn on_animated<F: FnOnce(&InputStickerAnimated)>(&self, fnc: F) -> &Self { if let InputSticker::Animated(t) = self { fnc(t) }; self }
+  pub fn on_static<F: FnOnce(&InputStickerStatic)>(&self, fnc: F) -> &Self { if let InputSticker::Static(t) = self { fnc(t) }; self }
 
-  pub fn as_static(&self) -> Option<&InputStickerStatic> { if let InputSticker::Static(t) = self { return Some(t) } None }
   pub fn as_animated(&self) -> Option<&InputStickerAnimated> { if let InputSticker::Animated(t) = self { return Some(t) } None }
+  pub fn as_static(&self) -> Option<&InputStickerStatic> { if let InputSticker::Static(t) = self { return Some(t) } None }
 
 
-
-  pub fn static_<T: AsRef<InputStickerStatic>>(t: T) -> Self { InputSticker::Static(t.as_ref().clone()) }
 
   pub fn animated<T: AsRef<InputStickerAnimated>>(t: T) -> Self { InputSticker::Animated(t.as_ref().clone()) }
+
+  pub fn static_<T: AsRef<InputStickerStatic>>(t: T) -> Self { InputSticker::Static(t.as_ref().clone()) }
 
 }
 
 impl AsRef<InputSticker> for InputSticker {
   fn as_ref(&self) -> &InputSticker { self }
+}
+
+
+
+
+
+
+
+/// An animated sticker in TGS format
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InputStickerAnimated {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// File with the animated sticker. Only local or uploaded within a week files are supported. See https://core.telegram.org/animated_stickers#technical-requirements for technical requirements
+  sticker: InputFile,
+  /// Emojis corresponding to the sticker
+  emojis: String,
+  
+}
+
+impl RObject for InputStickerAnimated {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputStickerAnimated" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInputSticker for InputStickerAnimated {}
+
+
+
+impl InputStickerAnimated {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInputStickerAnimatedBuilder {
+    let mut inner = InputStickerAnimated::default();
+    inner.td_name = "inputStickerAnimated".to_string();
+    RTDInputStickerAnimatedBuilder { inner }
+  }
+
+  pub fn sticker(&self) -> &InputFile { &self.sticker }
+
+  pub fn emojis(&self) -> &String { &self.emojis }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInputStickerAnimatedBuilder {
+  inner: InputStickerAnimated
+}
+
+impl RTDInputStickerAnimatedBuilder {
+  pub fn build(&self) -> InputStickerAnimated { self.inner.clone() }
+
+   
+  pub fn sticker<T: AsRef<InputFile>>(&mut self, sticker: T) -> &mut Self {
+    self.inner.sticker = sticker.as_ref().clone();
+    self
+  }
+
+   
+  pub fn emojis<T: AsRef<str>>(&mut self, emojis: T) -> &mut Self {
+    self.inner.emojis = emojis.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<InputStickerAnimated> for InputStickerAnimated {
+  fn as_ref(&self) -> &InputStickerAnimated { self }
+}
+
+impl AsRef<InputStickerAnimated> for RTDInputStickerAnimatedBuilder {
+  fn as_ref(&self) -> &InputStickerAnimated { &self.inner }
 }
 
 
@@ -159,79 +232,6 @@ impl AsRef<InputStickerStatic> for InputStickerStatic {
 
 impl AsRef<InputStickerStatic> for RTDInputStickerStaticBuilder {
   fn as_ref(&self) -> &InputStickerStatic { &self.inner }
-}
-
-
-
-
-
-
-
-/// An animated sticker in TGS format
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InputStickerAnimated {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// File with the animated sticker. Only local or uploaded within a week files are supported. See https://core.telegram.org/animated_stickers#technical-requirements for technical requirements
-  sticker: InputFile,
-  /// Emojis corresponding to the sticker
-  emojis: String,
-  
-}
-
-impl RObject for InputStickerAnimated {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputStickerAnimated" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDInputSticker for InputStickerAnimated {}
-
-
-
-impl InputStickerAnimated {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInputStickerAnimatedBuilder {
-    let mut inner = InputStickerAnimated::default();
-    inner.td_name = "inputStickerAnimated".to_string();
-    RTDInputStickerAnimatedBuilder { inner }
-  }
-
-  pub fn sticker(&self) -> &InputFile { &self.sticker }
-
-  pub fn emojis(&self) -> &String { &self.emojis }
-
-}
-
-#[doc(hidden)]
-pub struct RTDInputStickerAnimatedBuilder {
-  inner: InputStickerAnimated
-}
-
-impl RTDInputStickerAnimatedBuilder {
-  pub fn build(&self) -> InputStickerAnimated { self.inner.clone() }
-
-   
-  pub fn sticker<T: AsRef<InputFile>>(&mut self, sticker: T) -> &mut Self {
-    self.inner.sticker = sticker.as_ref().clone();
-    self
-  }
-
-   
-  pub fn emojis<T: AsRef<str>>(&mut self, emojis: T) -> &mut Self {
-    self.inner.emojis = emojis.as_ref().to_string();
-    self
-  }
-
-}
-
-impl AsRef<InputStickerAnimated> for InputStickerAnimated {
-  fn as_ref(&self) -> &InputStickerAnimated { self }
-}
-
-impl AsRef<InputStickerAnimated> for RTDInputStickerAnimatedBuilder {
-  fn as_ref(&self) -> &InputStickerAnimated { &self.inner }
 }
 
 

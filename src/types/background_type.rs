@@ -18,12 +18,12 @@ pub trait TDBackgroundType: Debug + RObject {}
 #[serde(untagged)]
 pub enum BackgroundType {
   #[doc(hidden)] _Default(()),
-  /// A wallpaper in JPEG format
-  Wallpaper(BackgroundTypeWallpaper),
-  /// A PNG or TGV (gzipped subset of SVG with MIME type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user
-  Pattern(BackgroundTypePattern),
   /// A filled background
   Fill(BackgroundTypeFill),
+  /// A PNG or TGV (gzipped subset of SVG with MIME type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user
+  Pattern(BackgroundTypePattern),
+  /// A wallpaper in JPEG format
+  Wallpaper(BackgroundTypeWallpaper),
 
 }
 
@@ -36,9 +36,9 @@ impl<'de> Deserialize<'de> for BackgroundType {
     use serde::de::Error;
     rtd_enum_deserialize!(
       BackgroundType,
-      (backgroundTypeWallpaper, Wallpaper);
-      (backgroundTypePattern, Pattern);
       (backgroundTypeFill, Fill);
+      (backgroundTypePattern, Pattern);
+      (backgroundTypeWallpaper, Wallpaper);
 
     )(deserializer)
   }
@@ -47,9 +47,9 @@ impl<'de> Deserialize<'de> for BackgroundType {
 impl RObject for BackgroundType {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
-      BackgroundType::Wallpaper(t) => t.td_name(),
-      BackgroundType::Pattern(t) => t.td_name(),
       BackgroundType::Fill(t) => t.td_name(),
+      BackgroundType::Pattern(t) => t.td_name(),
+      BackgroundType::Wallpaper(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -61,25 +61,25 @@ impl BackgroundType {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let BackgroundType::_Default(_) = self { true } else { false } }
 
-  pub fn is_wallpaper(&self) -> bool { if let BackgroundType::Wallpaper(_) = self { true } else { false } }
-  pub fn is_pattern(&self) -> bool { if let BackgroundType::Pattern(_) = self { true } else { false } }
   pub fn is_fill(&self) -> bool { if let BackgroundType::Fill(_) = self { true } else { false } }
+  pub fn is_pattern(&self) -> bool { if let BackgroundType::Pattern(_) = self { true } else { false } }
+  pub fn is_wallpaper(&self) -> bool { if let BackgroundType::Wallpaper(_) = self { true } else { false } }
 
-  pub fn on_wallpaper<F: FnOnce(&BackgroundTypeWallpaper)>(&self, fnc: F) -> &Self { if let BackgroundType::Wallpaper(t) = self { fnc(t) }; self }
-  pub fn on_pattern<F: FnOnce(&BackgroundTypePattern)>(&self, fnc: F) -> &Self { if let BackgroundType::Pattern(t) = self { fnc(t) }; self }
   pub fn on_fill<F: FnOnce(&BackgroundTypeFill)>(&self, fnc: F) -> &Self { if let BackgroundType::Fill(t) = self { fnc(t) }; self }
+  pub fn on_pattern<F: FnOnce(&BackgroundTypePattern)>(&self, fnc: F) -> &Self { if let BackgroundType::Pattern(t) = self { fnc(t) }; self }
+  pub fn on_wallpaper<F: FnOnce(&BackgroundTypeWallpaper)>(&self, fnc: F) -> &Self { if let BackgroundType::Wallpaper(t) = self { fnc(t) }; self }
 
-  pub fn as_wallpaper(&self) -> Option<&BackgroundTypeWallpaper> { if let BackgroundType::Wallpaper(t) = self { return Some(t) } None }
-  pub fn as_pattern(&self) -> Option<&BackgroundTypePattern> { if let BackgroundType::Pattern(t) = self { return Some(t) } None }
   pub fn as_fill(&self) -> Option<&BackgroundTypeFill> { if let BackgroundType::Fill(t) = self { return Some(t) } None }
+  pub fn as_pattern(&self) -> Option<&BackgroundTypePattern> { if let BackgroundType::Pattern(t) = self { return Some(t) } None }
+  pub fn as_wallpaper(&self) -> Option<&BackgroundTypeWallpaper> { if let BackgroundType::Wallpaper(t) = self { return Some(t) } None }
 
 
 
-  pub fn wallpaper<T: AsRef<BackgroundTypeWallpaper>>(t: T) -> Self { BackgroundType::Wallpaper(t.as_ref().clone()) }
+  pub fn fill<T: AsRef<BackgroundTypeFill>>(t: T) -> Self { BackgroundType::Fill(t.as_ref().clone()) }
 
   pub fn pattern<T: AsRef<BackgroundTypePattern>>(t: T) -> Self { BackgroundType::Pattern(t.as_ref().clone()) }
 
-  pub fn fill<T: AsRef<BackgroundTypeFill>>(t: T) -> Self { BackgroundType::Fill(t.as_ref().clone()) }
+  pub fn wallpaper<T: AsRef<BackgroundTypeWallpaper>>(t: T) -> Self { BackgroundType::Wallpaper(t.as_ref().clone()) }
 
 }
 
@@ -93,71 +93,61 @@ impl AsRef<BackgroundType> for BackgroundType {
 
 
 
-/// A wallpaper in JPEG format
+/// A filled background
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct BackgroundTypeWallpaper {
+pub struct BackgroundTypeFill {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// True, if the wallpaper must be downscaled to fit in 450x450 square and then box-blurred with radius 12
-  is_blurred: bool,
-  /// True, if the background needs to be slightly moved when device is tilted
-  is_moving: bool,
+  /// Description of the background fill
+  fill: BackgroundFill,
   
 }
 
-impl RObject for BackgroundTypeWallpaper {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "backgroundTypeWallpaper" }
+impl RObject for BackgroundTypeFill {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "backgroundTypeFill" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDBackgroundType for BackgroundTypeWallpaper {}
+impl TDBackgroundType for BackgroundTypeFill {}
 
 
 
-impl BackgroundTypeWallpaper {
+impl BackgroundTypeFill {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDBackgroundTypeWallpaperBuilder {
-    let mut inner = BackgroundTypeWallpaper::default();
-    inner.td_name = "backgroundTypeWallpaper".to_string();
-    RTDBackgroundTypeWallpaperBuilder { inner }
+  pub fn builder() -> RTDBackgroundTypeFillBuilder {
+    let mut inner = BackgroundTypeFill::default();
+    inner.td_name = "backgroundTypeFill".to_string();
+    RTDBackgroundTypeFillBuilder { inner }
   }
 
-  pub fn is_blurred(&self) -> bool { self.is_blurred }
-
-  pub fn is_moving(&self) -> bool { self.is_moving }
+  pub fn fill(&self) -> &BackgroundFill { &self.fill }
 
 }
 
 #[doc(hidden)]
-pub struct RTDBackgroundTypeWallpaperBuilder {
-  inner: BackgroundTypeWallpaper
+pub struct RTDBackgroundTypeFillBuilder {
+  inner: BackgroundTypeFill
 }
 
-impl RTDBackgroundTypeWallpaperBuilder {
-  pub fn build(&self) -> BackgroundTypeWallpaper { self.inner.clone() }
+impl RTDBackgroundTypeFillBuilder {
+  pub fn build(&self) -> BackgroundTypeFill { self.inner.clone() }
 
    
-  pub fn is_blurred(&mut self, is_blurred: bool) -> &mut Self {
-    self.inner.is_blurred = is_blurred;
-    self
-  }
-
-   
-  pub fn is_moving(&mut self, is_moving: bool) -> &mut Self {
-    self.inner.is_moving = is_moving;
+  pub fn fill<T: AsRef<BackgroundFill>>(&mut self, fill: T) -> &mut Self {
+    self.inner.fill = fill.as_ref().clone();
     self
   }
 
 }
 
-impl AsRef<BackgroundTypeWallpaper> for BackgroundTypeWallpaper {
-  fn as_ref(&self) -> &BackgroundTypeWallpaper { self }
+impl AsRef<BackgroundTypeFill> for BackgroundTypeFill {
+  fn as_ref(&self) -> &BackgroundTypeFill { self }
 }
 
-impl AsRef<BackgroundTypeWallpaper> for RTDBackgroundTypeWallpaperBuilder {
-  fn as_ref(&self) -> &BackgroundTypeWallpaper { &self.inner }
+impl AsRef<BackgroundTypeFill> for RTDBackgroundTypeFillBuilder {
+  fn as_ref(&self) -> &BackgroundTypeFill { &self.inner }
 }
 
 
@@ -249,61 +239,71 @@ impl AsRef<BackgroundTypePattern> for RTDBackgroundTypePatternBuilder {
 
 
 
-/// A filled background
+/// A wallpaper in JPEG format
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct BackgroundTypeFill {
+pub struct BackgroundTypeWallpaper {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Description of the background fill
-  fill: BackgroundFill,
+  /// True, if the wallpaper must be downscaled to fit in 450x450 square and then box-blurred with radius 12
+  is_blurred: bool,
+  /// True, if the background needs to be slightly moved when device is tilted
+  is_moving: bool,
   
 }
 
-impl RObject for BackgroundTypeFill {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "backgroundTypeFill" }
+impl RObject for BackgroundTypeWallpaper {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "backgroundTypeWallpaper" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDBackgroundType for BackgroundTypeFill {}
+impl TDBackgroundType for BackgroundTypeWallpaper {}
 
 
 
-impl BackgroundTypeFill {
+impl BackgroundTypeWallpaper {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDBackgroundTypeFillBuilder {
-    let mut inner = BackgroundTypeFill::default();
-    inner.td_name = "backgroundTypeFill".to_string();
-    RTDBackgroundTypeFillBuilder { inner }
+  pub fn builder() -> RTDBackgroundTypeWallpaperBuilder {
+    let mut inner = BackgroundTypeWallpaper::default();
+    inner.td_name = "backgroundTypeWallpaper".to_string();
+    RTDBackgroundTypeWallpaperBuilder { inner }
   }
 
-  pub fn fill(&self) -> &BackgroundFill { &self.fill }
+  pub fn is_blurred(&self) -> bool { self.is_blurred }
+
+  pub fn is_moving(&self) -> bool { self.is_moving }
 
 }
 
 #[doc(hidden)]
-pub struct RTDBackgroundTypeFillBuilder {
-  inner: BackgroundTypeFill
+pub struct RTDBackgroundTypeWallpaperBuilder {
+  inner: BackgroundTypeWallpaper
 }
 
-impl RTDBackgroundTypeFillBuilder {
-  pub fn build(&self) -> BackgroundTypeFill { self.inner.clone() }
+impl RTDBackgroundTypeWallpaperBuilder {
+  pub fn build(&self) -> BackgroundTypeWallpaper { self.inner.clone() }
 
    
-  pub fn fill<T: AsRef<BackgroundFill>>(&mut self, fill: T) -> &mut Self {
-    self.inner.fill = fill.as_ref().clone();
+  pub fn is_blurred(&mut self, is_blurred: bool) -> &mut Self {
+    self.inner.is_blurred = is_blurred;
+    self
+  }
+
+   
+  pub fn is_moving(&mut self, is_moving: bool) -> &mut Self {
+    self.inner.is_moving = is_moving;
     self
   }
 
 }
 
-impl AsRef<BackgroundTypeFill> for BackgroundTypeFill {
-  fn as_ref(&self) -> &BackgroundTypeFill { self }
+impl AsRef<BackgroundTypeWallpaper> for BackgroundTypeWallpaper {
+  fn as_ref(&self) -> &BackgroundTypeWallpaper { self }
 }
 
-impl AsRef<BackgroundTypeFill> for RTDBackgroundTypeFillBuilder {
-  fn as_ref(&self) -> &BackgroundTypeFill { &self.inner }
+impl AsRef<BackgroundTypeWallpaper> for RTDBackgroundTypeWallpaperBuilder {
+  fn as_ref(&self) -> &BackgroundTypeWallpaper { &self.inner }
 }
 
 

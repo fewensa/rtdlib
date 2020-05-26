@@ -27,12 +27,12 @@ pub struct Chat {
   last_message: Option<Message>,
   /// Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined
   order: String,
+  /// Source of the chat in a chat list; may be null
+  source: Option<ChatSource>,
   /// True, if the chat is pinned
   is_pinned: bool,
   /// True, if the chat is marked as unread
   is_marked_as_unread: bool,
-  /// True, if the chat is sponsored by the user's MTProxy server
-  is_sponsored: bool,
   /// True, if the chat has scheduled messages
   has_scheduled_messages: bool,
   /// True, if the chat messages can be deleted only for the current user while other users will continue to see the messages
@@ -97,11 +97,11 @@ impl Chat {
 
   pub fn order(&self) -> &String { &self.order }
 
+  pub fn source(&self) -> &Option<ChatSource> { &self.source }
+
   pub fn is_pinned(&self) -> bool { self.is_pinned }
 
   pub fn is_marked_as_unread(&self) -> bool { self.is_marked_as_unread }
-
-  pub fn is_sponsored(&self) -> bool { self.is_sponsored }
 
   pub fn has_scheduled_messages(&self) -> bool { self.has_scheduled_messages }
 
@@ -192,6 +192,12 @@ impl RTDChatBuilder {
   }
 
    
+  pub fn source<T: AsRef<ChatSource>>(&mut self, source: T) -> &mut Self {
+    self.inner.source = Some(source.as_ref().clone());
+    self
+  }
+
+   
   pub fn is_pinned(&mut self, is_pinned: bool) -> &mut Self {
     self.inner.is_pinned = is_pinned;
     self
@@ -200,12 +206,6 @@ impl RTDChatBuilder {
    
   pub fn is_marked_as_unread(&mut self, is_marked_as_unread: bool) -> &mut Self {
     self.inner.is_marked_as_unread = is_marked_as_unread;
-    self
-  }
-
-   
-  pub fn is_sponsored(&mut self, is_sponsored: bool) -> &mut Self {
-    self.inner.is_sponsored = is_sponsored;
     self
   }
 

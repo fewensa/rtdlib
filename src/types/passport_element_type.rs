@@ -18,32 +18,32 @@ pub trait TDPassportElementType: Debug + RObject {}
 #[serde(untagged)]
 pub enum PassportElementType {
   #[doc(hidden)] _Default(()),
-  /// A Telegram Passport element containing the user's personal details
-  PersonalDetails(PassportElementTypePersonalDetails),
-  /// A Telegram Passport element containing the user's passport
-  Passport(PassportElementTypePassport),
+  /// A Telegram Passport element containing the user's address
+  Address(PassportElementTypeAddress),
+  /// A Telegram Passport element containing the user's bank statement
+  BankStatement(PassportElementTypeBankStatement),
   /// A Telegram Passport element containing the user's driver license
   DriverLicense(PassportElementTypeDriverLicense),
+  /// A Telegram Passport element containing the user's email address
+  EmailAddress(PassportElementTypeEmailAddress),
   /// A Telegram Passport element containing the user's identity card
   IdentityCard(PassportElementTypeIdentityCard),
   /// A Telegram Passport element containing the user's internal passport
   InternalPassport(PassportElementTypeInternalPassport),
-  /// A Telegram Passport element containing the user's address
-  Address(PassportElementTypeAddress),
-  /// A Telegram Passport element containing the user's utility bill
-  UtilityBill(PassportElementTypeUtilityBill),
-  /// A Telegram Passport element containing the user's bank statement
-  BankStatement(PassportElementTypeBankStatement),
-  /// A Telegram Passport element containing the user's rental agreement
-  RentalAgreement(PassportElementTypeRentalAgreement),
+  /// A Telegram Passport element containing the user's passport
+  Passport(PassportElementTypePassport),
   /// A Telegram Passport element containing the registration page of the user's passport
   PassportRegistration(PassportElementTypePassportRegistration),
-  /// A Telegram Passport element containing the user's temporary registration
-  TemporaryRegistration(PassportElementTypeTemporaryRegistration),
+  /// A Telegram Passport element containing the user's personal details
+  PersonalDetails(PassportElementTypePersonalDetails),
   /// A Telegram Passport element containing the user's phone number
   PhoneNumber(PassportElementTypePhoneNumber),
-  /// A Telegram Passport element containing the user's email address
-  EmailAddress(PassportElementTypeEmailAddress),
+  /// A Telegram Passport element containing the user's rental agreement
+  RentalAgreement(PassportElementTypeRentalAgreement),
+  /// A Telegram Passport element containing the user's temporary registration
+  TemporaryRegistration(PassportElementTypeTemporaryRegistration),
+  /// A Telegram Passport element containing the user's utility bill
+  UtilityBill(PassportElementTypeUtilityBill),
 
 }
 
@@ -56,19 +56,19 @@ impl<'de> Deserialize<'de> for PassportElementType {
     use serde::de::Error;
     rtd_enum_deserialize!(
       PassportElementType,
-      (passportElementTypePersonalDetails, PersonalDetails);
-      (passportElementTypePassport, Passport);
+      (passportElementTypeAddress, Address);
+      (passportElementTypeBankStatement, BankStatement);
       (passportElementTypeDriverLicense, DriverLicense);
+      (passportElementTypeEmailAddress, EmailAddress);
       (passportElementTypeIdentityCard, IdentityCard);
       (passportElementTypeInternalPassport, InternalPassport);
-      (passportElementTypeAddress, Address);
-      (passportElementTypeUtilityBill, UtilityBill);
-      (passportElementTypeBankStatement, BankStatement);
-      (passportElementTypeRentalAgreement, RentalAgreement);
+      (passportElementTypePassport, Passport);
       (passportElementTypePassportRegistration, PassportRegistration);
-      (passportElementTypeTemporaryRegistration, TemporaryRegistration);
+      (passportElementTypePersonalDetails, PersonalDetails);
       (passportElementTypePhoneNumber, PhoneNumber);
-      (passportElementTypeEmailAddress, EmailAddress);
+      (passportElementTypeRentalAgreement, RentalAgreement);
+      (passportElementTypeTemporaryRegistration, TemporaryRegistration);
+      (passportElementTypeUtilityBill, UtilityBill);
 
     )(deserializer)
   }
@@ -77,19 +77,19 @@ impl<'de> Deserialize<'de> for PassportElementType {
 impl RObject for PassportElementType {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
-      PassportElementType::PersonalDetails(t) => t.td_name(),
-      PassportElementType::Passport(t) => t.td_name(),
+      PassportElementType::Address(t) => t.td_name(),
+      PassportElementType::BankStatement(t) => t.td_name(),
       PassportElementType::DriverLicense(t) => t.td_name(),
+      PassportElementType::EmailAddress(t) => t.td_name(),
       PassportElementType::IdentityCard(t) => t.td_name(),
       PassportElementType::InternalPassport(t) => t.td_name(),
-      PassportElementType::Address(t) => t.td_name(),
-      PassportElementType::UtilityBill(t) => t.td_name(),
-      PassportElementType::BankStatement(t) => t.td_name(),
-      PassportElementType::RentalAgreement(t) => t.td_name(),
+      PassportElementType::Passport(t) => t.td_name(),
       PassportElementType::PassportRegistration(t) => t.td_name(),
-      PassportElementType::TemporaryRegistration(t) => t.td_name(),
+      PassportElementType::PersonalDetails(t) => t.td_name(),
       PassportElementType::PhoneNumber(t) => t.td_name(),
-      PassportElementType::EmailAddress(t) => t.td_name(),
+      PassportElementType::RentalAgreement(t) => t.td_name(),
+      PassportElementType::TemporaryRegistration(t) => t.td_name(),
+      PassportElementType::UtilityBill(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -101,75 +101,75 @@ impl PassportElementType {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let PassportElementType::_Default(_) = self { true } else { false } }
 
-  pub fn is_personal_details(&self) -> bool { if let PassportElementType::PersonalDetails(_) = self { true } else { false } }
-  pub fn is_passport(&self) -> bool { if let PassportElementType::Passport(_) = self { true } else { false } }
+  pub fn is_address(&self) -> bool { if let PassportElementType::Address(_) = self { true } else { false } }
+  pub fn is_bank_statement(&self) -> bool { if let PassportElementType::BankStatement(_) = self { true } else { false } }
   pub fn is_driver_license(&self) -> bool { if let PassportElementType::DriverLicense(_) = self { true } else { false } }
+  pub fn is_email_address(&self) -> bool { if let PassportElementType::EmailAddress(_) = self { true } else { false } }
   pub fn is_identity_card(&self) -> bool { if let PassportElementType::IdentityCard(_) = self { true } else { false } }
   pub fn is_internal_passport(&self) -> bool { if let PassportElementType::InternalPassport(_) = self { true } else { false } }
-  pub fn is_address(&self) -> bool { if let PassportElementType::Address(_) = self { true } else { false } }
-  pub fn is_utility_bill(&self) -> bool { if let PassportElementType::UtilityBill(_) = self { true } else { false } }
-  pub fn is_bank_statement(&self) -> bool { if let PassportElementType::BankStatement(_) = self { true } else { false } }
-  pub fn is_rental_agreement(&self) -> bool { if let PassportElementType::RentalAgreement(_) = self { true } else { false } }
+  pub fn is_passport(&self) -> bool { if let PassportElementType::Passport(_) = self { true } else { false } }
   pub fn is_passport_registration(&self) -> bool { if let PassportElementType::PassportRegistration(_) = self { true } else { false } }
-  pub fn is_temporary_registration(&self) -> bool { if let PassportElementType::TemporaryRegistration(_) = self { true } else { false } }
+  pub fn is_personal_details(&self) -> bool { if let PassportElementType::PersonalDetails(_) = self { true } else { false } }
   pub fn is_phone_number(&self) -> bool { if let PassportElementType::PhoneNumber(_) = self { true } else { false } }
-  pub fn is_email_address(&self) -> bool { if let PassportElementType::EmailAddress(_) = self { true } else { false } }
+  pub fn is_rental_agreement(&self) -> bool { if let PassportElementType::RentalAgreement(_) = self { true } else { false } }
+  pub fn is_temporary_registration(&self) -> bool { if let PassportElementType::TemporaryRegistration(_) = self { true } else { false } }
+  pub fn is_utility_bill(&self) -> bool { if let PassportElementType::UtilityBill(_) = self { true } else { false } }
 
-  pub fn on_personal_details<F: FnOnce(&PassportElementTypePersonalDetails)>(&self, fnc: F) -> &Self { if let PassportElementType::PersonalDetails(t) = self { fnc(t) }; self }
-  pub fn on_passport<F: FnOnce(&PassportElementTypePassport)>(&self, fnc: F) -> &Self { if let PassportElementType::Passport(t) = self { fnc(t) }; self }
+  pub fn on_address<F: FnOnce(&PassportElementTypeAddress)>(&self, fnc: F) -> &Self { if let PassportElementType::Address(t) = self { fnc(t) }; self }
+  pub fn on_bank_statement<F: FnOnce(&PassportElementTypeBankStatement)>(&self, fnc: F) -> &Self { if let PassportElementType::BankStatement(t) = self { fnc(t) }; self }
   pub fn on_driver_license<F: FnOnce(&PassportElementTypeDriverLicense)>(&self, fnc: F) -> &Self { if let PassportElementType::DriverLicense(t) = self { fnc(t) }; self }
+  pub fn on_email_address<F: FnOnce(&PassportElementTypeEmailAddress)>(&self, fnc: F) -> &Self { if let PassportElementType::EmailAddress(t) = self { fnc(t) }; self }
   pub fn on_identity_card<F: FnOnce(&PassportElementTypeIdentityCard)>(&self, fnc: F) -> &Self { if let PassportElementType::IdentityCard(t) = self { fnc(t) }; self }
   pub fn on_internal_passport<F: FnOnce(&PassportElementTypeInternalPassport)>(&self, fnc: F) -> &Self { if let PassportElementType::InternalPassport(t) = self { fnc(t) }; self }
-  pub fn on_address<F: FnOnce(&PassportElementTypeAddress)>(&self, fnc: F) -> &Self { if let PassportElementType::Address(t) = self { fnc(t) }; self }
-  pub fn on_utility_bill<F: FnOnce(&PassportElementTypeUtilityBill)>(&self, fnc: F) -> &Self { if let PassportElementType::UtilityBill(t) = self { fnc(t) }; self }
-  pub fn on_bank_statement<F: FnOnce(&PassportElementTypeBankStatement)>(&self, fnc: F) -> &Self { if let PassportElementType::BankStatement(t) = self { fnc(t) }; self }
-  pub fn on_rental_agreement<F: FnOnce(&PassportElementTypeRentalAgreement)>(&self, fnc: F) -> &Self { if let PassportElementType::RentalAgreement(t) = self { fnc(t) }; self }
+  pub fn on_passport<F: FnOnce(&PassportElementTypePassport)>(&self, fnc: F) -> &Self { if let PassportElementType::Passport(t) = self { fnc(t) }; self }
   pub fn on_passport_registration<F: FnOnce(&PassportElementTypePassportRegistration)>(&self, fnc: F) -> &Self { if let PassportElementType::PassportRegistration(t) = self { fnc(t) }; self }
-  pub fn on_temporary_registration<F: FnOnce(&PassportElementTypeTemporaryRegistration)>(&self, fnc: F) -> &Self { if let PassportElementType::TemporaryRegistration(t) = self { fnc(t) }; self }
+  pub fn on_personal_details<F: FnOnce(&PassportElementTypePersonalDetails)>(&self, fnc: F) -> &Self { if let PassportElementType::PersonalDetails(t) = self { fnc(t) }; self }
   pub fn on_phone_number<F: FnOnce(&PassportElementTypePhoneNumber)>(&self, fnc: F) -> &Self { if let PassportElementType::PhoneNumber(t) = self { fnc(t) }; self }
-  pub fn on_email_address<F: FnOnce(&PassportElementTypeEmailAddress)>(&self, fnc: F) -> &Self { if let PassportElementType::EmailAddress(t) = self { fnc(t) }; self }
+  pub fn on_rental_agreement<F: FnOnce(&PassportElementTypeRentalAgreement)>(&self, fnc: F) -> &Self { if let PassportElementType::RentalAgreement(t) = self { fnc(t) }; self }
+  pub fn on_temporary_registration<F: FnOnce(&PassportElementTypeTemporaryRegistration)>(&self, fnc: F) -> &Self { if let PassportElementType::TemporaryRegistration(t) = self { fnc(t) }; self }
+  pub fn on_utility_bill<F: FnOnce(&PassportElementTypeUtilityBill)>(&self, fnc: F) -> &Self { if let PassportElementType::UtilityBill(t) = self { fnc(t) }; self }
 
-  pub fn as_personal_details(&self) -> Option<&PassportElementTypePersonalDetails> { if let PassportElementType::PersonalDetails(t) = self { return Some(t) } None }
-  pub fn as_passport(&self) -> Option<&PassportElementTypePassport> { if let PassportElementType::Passport(t) = self { return Some(t) } None }
+  pub fn as_address(&self) -> Option<&PassportElementTypeAddress> { if let PassportElementType::Address(t) = self { return Some(t) } None }
+  pub fn as_bank_statement(&self) -> Option<&PassportElementTypeBankStatement> { if let PassportElementType::BankStatement(t) = self { return Some(t) } None }
   pub fn as_driver_license(&self) -> Option<&PassportElementTypeDriverLicense> { if let PassportElementType::DriverLicense(t) = self { return Some(t) } None }
+  pub fn as_email_address(&self) -> Option<&PassportElementTypeEmailAddress> { if let PassportElementType::EmailAddress(t) = self { return Some(t) } None }
   pub fn as_identity_card(&self) -> Option<&PassportElementTypeIdentityCard> { if let PassportElementType::IdentityCard(t) = self { return Some(t) } None }
   pub fn as_internal_passport(&self) -> Option<&PassportElementTypeInternalPassport> { if let PassportElementType::InternalPassport(t) = self { return Some(t) } None }
-  pub fn as_address(&self) -> Option<&PassportElementTypeAddress> { if let PassportElementType::Address(t) = self { return Some(t) } None }
-  pub fn as_utility_bill(&self) -> Option<&PassportElementTypeUtilityBill> { if let PassportElementType::UtilityBill(t) = self { return Some(t) } None }
-  pub fn as_bank_statement(&self) -> Option<&PassportElementTypeBankStatement> { if let PassportElementType::BankStatement(t) = self { return Some(t) } None }
-  pub fn as_rental_agreement(&self) -> Option<&PassportElementTypeRentalAgreement> { if let PassportElementType::RentalAgreement(t) = self { return Some(t) } None }
+  pub fn as_passport(&self) -> Option<&PassportElementTypePassport> { if let PassportElementType::Passport(t) = self { return Some(t) } None }
   pub fn as_passport_registration(&self) -> Option<&PassportElementTypePassportRegistration> { if let PassportElementType::PassportRegistration(t) = self { return Some(t) } None }
-  pub fn as_temporary_registration(&self) -> Option<&PassportElementTypeTemporaryRegistration> { if let PassportElementType::TemporaryRegistration(t) = self { return Some(t) } None }
+  pub fn as_personal_details(&self) -> Option<&PassportElementTypePersonalDetails> { if let PassportElementType::PersonalDetails(t) = self { return Some(t) } None }
   pub fn as_phone_number(&self) -> Option<&PassportElementTypePhoneNumber> { if let PassportElementType::PhoneNumber(t) = self { return Some(t) } None }
-  pub fn as_email_address(&self) -> Option<&PassportElementTypeEmailAddress> { if let PassportElementType::EmailAddress(t) = self { return Some(t) } None }
+  pub fn as_rental_agreement(&self) -> Option<&PassportElementTypeRentalAgreement> { if let PassportElementType::RentalAgreement(t) = self { return Some(t) } None }
+  pub fn as_temporary_registration(&self) -> Option<&PassportElementTypeTemporaryRegistration> { if let PassportElementType::TemporaryRegistration(t) = self { return Some(t) } None }
+  pub fn as_utility_bill(&self) -> Option<&PassportElementTypeUtilityBill> { if let PassportElementType::UtilityBill(t) = self { return Some(t) } None }
 
 
 
-  pub fn personal_details<T: AsRef<PassportElementTypePersonalDetails>>(t: T) -> Self { PassportElementType::PersonalDetails(t.as_ref().clone()) }
+  pub fn address<T: AsRef<PassportElementTypeAddress>>(t: T) -> Self { PassportElementType::Address(t.as_ref().clone()) }
 
-  pub fn passport<T: AsRef<PassportElementTypePassport>>(t: T) -> Self { PassportElementType::Passport(t.as_ref().clone()) }
+  pub fn bank_statement<T: AsRef<PassportElementTypeBankStatement>>(t: T) -> Self { PassportElementType::BankStatement(t.as_ref().clone()) }
 
   pub fn driver_license<T: AsRef<PassportElementTypeDriverLicense>>(t: T) -> Self { PassportElementType::DriverLicense(t.as_ref().clone()) }
+
+  pub fn email_address<T: AsRef<PassportElementTypeEmailAddress>>(t: T) -> Self { PassportElementType::EmailAddress(t.as_ref().clone()) }
 
   pub fn identity_card<T: AsRef<PassportElementTypeIdentityCard>>(t: T) -> Self { PassportElementType::IdentityCard(t.as_ref().clone()) }
 
   pub fn internal_passport<T: AsRef<PassportElementTypeInternalPassport>>(t: T) -> Self { PassportElementType::InternalPassport(t.as_ref().clone()) }
 
-  pub fn address<T: AsRef<PassportElementTypeAddress>>(t: T) -> Self { PassportElementType::Address(t.as_ref().clone()) }
-
-  pub fn utility_bill<T: AsRef<PassportElementTypeUtilityBill>>(t: T) -> Self { PassportElementType::UtilityBill(t.as_ref().clone()) }
-
-  pub fn bank_statement<T: AsRef<PassportElementTypeBankStatement>>(t: T) -> Self { PassportElementType::BankStatement(t.as_ref().clone()) }
-
-  pub fn rental_agreement<T: AsRef<PassportElementTypeRentalAgreement>>(t: T) -> Self { PassportElementType::RentalAgreement(t.as_ref().clone()) }
+  pub fn passport<T: AsRef<PassportElementTypePassport>>(t: T) -> Self { PassportElementType::Passport(t.as_ref().clone()) }
 
   pub fn passport_registration<T: AsRef<PassportElementTypePassportRegistration>>(t: T) -> Self { PassportElementType::PassportRegistration(t.as_ref().clone()) }
 
-  pub fn temporary_registration<T: AsRef<PassportElementTypeTemporaryRegistration>>(t: T) -> Self { PassportElementType::TemporaryRegistration(t.as_ref().clone()) }
+  pub fn personal_details<T: AsRef<PassportElementTypePersonalDetails>>(t: T) -> Self { PassportElementType::PersonalDetails(t.as_ref().clone()) }
 
   pub fn phone_number<T: AsRef<PassportElementTypePhoneNumber>>(t: T) -> Self { PassportElementType::PhoneNumber(t.as_ref().clone()) }
 
-  pub fn email_address<T: AsRef<PassportElementTypeEmailAddress>>(t: T) -> Self { PassportElementType::EmailAddress(t.as_ref().clone()) }
+  pub fn rental_agreement<T: AsRef<PassportElementTypeRentalAgreement>>(t: T) -> Self { PassportElementType::RentalAgreement(t.as_ref().clone()) }
+
+  pub fn temporary_registration<T: AsRef<PassportElementTypeTemporaryRegistration>>(t: T) -> Self { PassportElementType::TemporaryRegistration(t.as_ref().clone()) }
+
+  pub fn utility_bill<T: AsRef<PassportElementTypeUtilityBill>>(t: T) -> Self { PassportElementType::UtilityBill(t.as_ref().clone()) }
 
 }
 
@@ -183,51 +183,51 @@ impl AsRef<PassportElementType> for PassportElementType {
 
 
 
-/// A Telegram Passport element containing the user's personal details
+/// A Telegram Passport element containing the user's address
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PassportElementTypePersonalDetails {
+pub struct PassportElementTypeAddress {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   
 }
 
-impl RObject for PassportElementTypePersonalDetails {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypePersonalDetails" }
+impl RObject for PassportElementTypeAddress {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeAddress" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDPassportElementType for PassportElementTypePersonalDetails {}
+impl TDPassportElementType for PassportElementTypeAddress {}
 
 
 
-impl PassportElementTypePersonalDetails {
+impl PassportElementTypeAddress {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPassportElementTypePersonalDetailsBuilder {
-    let mut inner = PassportElementTypePersonalDetails::default();
-    inner.td_name = "passportElementTypePersonalDetails".to_string();
-    RTDPassportElementTypePersonalDetailsBuilder { inner }
+  pub fn builder() -> RTDPassportElementTypeAddressBuilder {
+    let mut inner = PassportElementTypeAddress::default();
+    inner.td_name = "passportElementTypeAddress".to_string();
+    RTDPassportElementTypeAddressBuilder { inner }
   }
 
 }
 
 #[doc(hidden)]
-pub struct RTDPassportElementTypePersonalDetailsBuilder {
-  inner: PassportElementTypePersonalDetails
+pub struct RTDPassportElementTypeAddressBuilder {
+  inner: PassportElementTypeAddress
 }
 
-impl RTDPassportElementTypePersonalDetailsBuilder {
-  pub fn build(&self) -> PassportElementTypePersonalDetails { self.inner.clone() }
+impl RTDPassportElementTypeAddressBuilder {
+  pub fn build(&self) -> PassportElementTypeAddress { self.inner.clone() }
 
 }
 
-impl AsRef<PassportElementTypePersonalDetails> for PassportElementTypePersonalDetails {
-  fn as_ref(&self) -> &PassportElementTypePersonalDetails { self }
+impl AsRef<PassportElementTypeAddress> for PassportElementTypeAddress {
+  fn as_ref(&self) -> &PassportElementTypeAddress { self }
 }
 
-impl AsRef<PassportElementTypePersonalDetails> for RTDPassportElementTypePersonalDetailsBuilder {
-  fn as_ref(&self) -> &PassportElementTypePersonalDetails { &self.inner }
+impl AsRef<PassportElementTypeAddress> for RTDPassportElementTypeAddressBuilder {
+  fn as_ref(&self) -> &PassportElementTypeAddress { &self.inner }
 }
 
 
@@ -236,51 +236,51 @@ impl AsRef<PassportElementTypePersonalDetails> for RTDPassportElementTypePersona
 
 
 
-/// A Telegram Passport element containing the user's passport
+/// A Telegram Passport element containing the user's bank statement
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PassportElementTypePassport {
+pub struct PassportElementTypeBankStatement {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   
 }
 
-impl RObject for PassportElementTypePassport {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypePassport" }
+impl RObject for PassportElementTypeBankStatement {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeBankStatement" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDPassportElementType for PassportElementTypePassport {}
+impl TDPassportElementType for PassportElementTypeBankStatement {}
 
 
 
-impl PassportElementTypePassport {
+impl PassportElementTypeBankStatement {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPassportElementTypePassportBuilder {
-    let mut inner = PassportElementTypePassport::default();
-    inner.td_name = "passportElementTypePassport".to_string();
-    RTDPassportElementTypePassportBuilder { inner }
+  pub fn builder() -> RTDPassportElementTypeBankStatementBuilder {
+    let mut inner = PassportElementTypeBankStatement::default();
+    inner.td_name = "passportElementTypeBankStatement".to_string();
+    RTDPassportElementTypeBankStatementBuilder { inner }
   }
 
 }
 
 #[doc(hidden)]
-pub struct RTDPassportElementTypePassportBuilder {
-  inner: PassportElementTypePassport
+pub struct RTDPassportElementTypeBankStatementBuilder {
+  inner: PassportElementTypeBankStatement
 }
 
-impl RTDPassportElementTypePassportBuilder {
-  pub fn build(&self) -> PassportElementTypePassport { self.inner.clone() }
+impl RTDPassportElementTypeBankStatementBuilder {
+  pub fn build(&self) -> PassportElementTypeBankStatement { self.inner.clone() }
 
 }
 
-impl AsRef<PassportElementTypePassport> for PassportElementTypePassport {
-  fn as_ref(&self) -> &PassportElementTypePassport { self }
+impl AsRef<PassportElementTypeBankStatement> for PassportElementTypeBankStatement {
+  fn as_ref(&self) -> &PassportElementTypeBankStatement { self }
 }
 
-impl AsRef<PassportElementTypePassport> for RTDPassportElementTypePassportBuilder {
-  fn as_ref(&self) -> &PassportElementTypePassport { &self.inner }
+impl AsRef<PassportElementTypeBankStatement> for RTDPassportElementTypeBankStatementBuilder {
+  fn as_ref(&self) -> &PassportElementTypeBankStatement { &self.inner }
 }
 
 
@@ -334,6 +334,59 @@ impl AsRef<PassportElementTypeDriverLicense> for PassportElementTypeDriverLicens
 
 impl AsRef<PassportElementTypeDriverLicense> for RTDPassportElementTypeDriverLicenseBuilder {
   fn as_ref(&self) -> &PassportElementTypeDriverLicense { &self.inner }
+}
+
+
+
+
+
+
+
+/// A Telegram Passport element containing the user's email address
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PassportElementTypeEmailAddress {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for PassportElementTypeEmailAddress {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeEmailAddress" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDPassportElementType for PassportElementTypeEmailAddress {}
+
+
+
+impl PassportElementTypeEmailAddress {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPassportElementTypeEmailAddressBuilder {
+    let mut inner = PassportElementTypeEmailAddress::default();
+    inner.td_name = "passportElementTypeEmailAddress".to_string();
+    RTDPassportElementTypeEmailAddressBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPassportElementTypeEmailAddressBuilder {
+  inner: PassportElementTypeEmailAddress
+}
+
+impl RTDPassportElementTypeEmailAddressBuilder {
+  pub fn build(&self) -> PassportElementTypeEmailAddress { self.inner.clone() }
+
+}
+
+impl AsRef<PassportElementTypeEmailAddress> for PassportElementTypeEmailAddress {
+  fn as_ref(&self) -> &PassportElementTypeEmailAddress { self }
+}
+
+impl AsRef<PassportElementTypeEmailAddress> for RTDPassportElementTypeEmailAddressBuilder {
+  fn as_ref(&self) -> &PassportElementTypeEmailAddress { &self.inner }
 }
 
 
@@ -448,210 +501,51 @@ impl AsRef<PassportElementTypeInternalPassport> for RTDPassportElementTypeIntern
 
 
 
-/// A Telegram Passport element containing the user's address
+/// A Telegram Passport element containing the user's passport
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PassportElementTypeAddress {
+pub struct PassportElementTypePassport {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   
 }
 
-impl RObject for PassportElementTypeAddress {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeAddress" }
+impl RObject for PassportElementTypePassport {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypePassport" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDPassportElementType for PassportElementTypeAddress {}
+impl TDPassportElementType for PassportElementTypePassport {}
 
 
 
-impl PassportElementTypeAddress {
+impl PassportElementTypePassport {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPassportElementTypeAddressBuilder {
-    let mut inner = PassportElementTypeAddress::default();
-    inner.td_name = "passportElementTypeAddress".to_string();
-    RTDPassportElementTypeAddressBuilder { inner }
+  pub fn builder() -> RTDPassportElementTypePassportBuilder {
+    let mut inner = PassportElementTypePassport::default();
+    inner.td_name = "passportElementTypePassport".to_string();
+    RTDPassportElementTypePassportBuilder { inner }
   }
 
 }
 
 #[doc(hidden)]
-pub struct RTDPassportElementTypeAddressBuilder {
-  inner: PassportElementTypeAddress
+pub struct RTDPassportElementTypePassportBuilder {
+  inner: PassportElementTypePassport
 }
 
-impl RTDPassportElementTypeAddressBuilder {
-  pub fn build(&self) -> PassportElementTypeAddress { self.inner.clone() }
-
-}
-
-impl AsRef<PassportElementTypeAddress> for PassportElementTypeAddress {
-  fn as_ref(&self) -> &PassportElementTypeAddress { self }
-}
-
-impl AsRef<PassportElementTypeAddress> for RTDPassportElementTypeAddressBuilder {
-  fn as_ref(&self) -> &PassportElementTypeAddress { &self.inner }
-}
-
-
-
-
-
-
-
-/// A Telegram Passport element containing the user's utility bill
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PassportElementTypeUtilityBill {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for PassportElementTypeUtilityBill {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeUtilityBill" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPassportElementType for PassportElementTypeUtilityBill {}
-
-
-
-impl PassportElementTypeUtilityBill {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPassportElementTypeUtilityBillBuilder {
-    let mut inner = PassportElementTypeUtilityBill::default();
-    inner.td_name = "passportElementTypeUtilityBill".to_string();
-    RTDPassportElementTypeUtilityBillBuilder { inner }
-  }
+impl RTDPassportElementTypePassportBuilder {
+  pub fn build(&self) -> PassportElementTypePassport { self.inner.clone() }
 
 }
 
-#[doc(hidden)]
-pub struct RTDPassportElementTypeUtilityBillBuilder {
-  inner: PassportElementTypeUtilityBill
+impl AsRef<PassportElementTypePassport> for PassportElementTypePassport {
+  fn as_ref(&self) -> &PassportElementTypePassport { self }
 }
 
-impl RTDPassportElementTypeUtilityBillBuilder {
-  pub fn build(&self) -> PassportElementTypeUtilityBill { self.inner.clone() }
-
-}
-
-impl AsRef<PassportElementTypeUtilityBill> for PassportElementTypeUtilityBill {
-  fn as_ref(&self) -> &PassportElementTypeUtilityBill { self }
-}
-
-impl AsRef<PassportElementTypeUtilityBill> for RTDPassportElementTypeUtilityBillBuilder {
-  fn as_ref(&self) -> &PassportElementTypeUtilityBill { &self.inner }
-}
-
-
-
-
-
-
-
-/// A Telegram Passport element containing the user's bank statement
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PassportElementTypeBankStatement {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for PassportElementTypeBankStatement {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeBankStatement" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPassportElementType for PassportElementTypeBankStatement {}
-
-
-
-impl PassportElementTypeBankStatement {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPassportElementTypeBankStatementBuilder {
-    let mut inner = PassportElementTypeBankStatement::default();
-    inner.td_name = "passportElementTypeBankStatement".to_string();
-    RTDPassportElementTypeBankStatementBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPassportElementTypeBankStatementBuilder {
-  inner: PassportElementTypeBankStatement
-}
-
-impl RTDPassportElementTypeBankStatementBuilder {
-  pub fn build(&self) -> PassportElementTypeBankStatement { self.inner.clone() }
-
-}
-
-impl AsRef<PassportElementTypeBankStatement> for PassportElementTypeBankStatement {
-  fn as_ref(&self) -> &PassportElementTypeBankStatement { self }
-}
-
-impl AsRef<PassportElementTypeBankStatement> for RTDPassportElementTypeBankStatementBuilder {
-  fn as_ref(&self) -> &PassportElementTypeBankStatement { &self.inner }
-}
-
-
-
-
-
-
-
-/// A Telegram Passport element containing the user's rental agreement
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PassportElementTypeRentalAgreement {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for PassportElementTypeRentalAgreement {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeRentalAgreement" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPassportElementType for PassportElementTypeRentalAgreement {}
-
-
-
-impl PassportElementTypeRentalAgreement {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPassportElementTypeRentalAgreementBuilder {
-    let mut inner = PassportElementTypeRentalAgreement::default();
-    inner.td_name = "passportElementTypeRentalAgreement".to_string();
-    RTDPassportElementTypeRentalAgreementBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPassportElementTypeRentalAgreementBuilder {
-  inner: PassportElementTypeRentalAgreement
-}
-
-impl RTDPassportElementTypeRentalAgreementBuilder {
-  pub fn build(&self) -> PassportElementTypeRentalAgreement { self.inner.clone() }
-
-}
-
-impl AsRef<PassportElementTypeRentalAgreement> for PassportElementTypeRentalAgreement {
-  fn as_ref(&self) -> &PassportElementTypeRentalAgreement { self }
-}
-
-impl AsRef<PassportElementTypeRentalAgreement> for RTDPassportElementTypeRentalAgreementBuilder {
-  fn as_ref(&self) -> &PassportElementTypeRentalAgreement { &self.inner }
+impl AsRef<PassportElementTypePassport> for RTDPassportElementTypePassportBuilder {
+  fn as_ref(&self) -> &PassportElementTypePassport { &self.inner }
 }
 
 
@@ -713,51 +607,51 @@ impl AsRef<PassportElementTypePassportRegistration> for RTDPassportElementTypePa
 
 
 
-/// A Telegram Passport element containing the user's temporary registration
+/// A Telegram Passport element containing the user's personal details
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PassportElementTypeTemporaryRegistration {
+pub struct PassportElementTypePersonalDetails {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   
 }
 
-impl RObject for PassportElementTypeTemporaryRegistration {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeTemporaryRegistration" }
+impl RObject for PassportElementTypePersonalDetails {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypePersonalDetails" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDPassportElementType for PassportElementTypeTemporaryRegistration {}
+impl TDPassportElementType for PassportElementTypePersonalDetails {}
 
 
 
-impl PassportElementTypeTemporaryRegistration {
+impl PassportElementTypePersonalDetails {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPassportElementTypeTemporaryRegistrationBuilder {
-    let mut inner = PassportElementTypeTemporaryRegistration::default();
-    inner.td_name = "passportElementTypeTemporaryRegistration".to_string();
-    RTDPassportElementTypeTemporaryRegistrationBuilder { inner }
+  pub fn builder() -> RTDPassportElementTypePersonalDetailsBuilder {
+    let mut inner = PassportElementTypePersonalDetails::default();
+    inner.td_name = "passportElementTypePersonalDetails".to_string();
+    RTDPassportElementTypePersonalDetailsBuilder { inner }
   }
 
 }
 
 #[doc(hidden)]
-pub struct RTDPassportElementTypeTemporaryRegistrationBuilder {
-  inner: PassportElementTypeTemporaryRegistration
+pub struct RTDPassportElementTypePersonalDetailsBuilder {
+  inner: PassportElementTypePersonalDetails
 }
 
-impl RTDPassportElementTypeTemporaryRegistrationBuilder {
-  pub fn build(&self) -> PassportElementTypeTemporaryRegistration { self.inner.clone() }
+impl RTDPassportElementTypePersonalDetailsBuilder {
+  pub fn build(&self) -> PassportElementTypePersonalDetails { self.inner.clone() }
 
 }
 
-impl AsRef<PassportElementTypeTemporaryRegistration> for PassportElementTypeTemporaryRegistration {
-  fn as_ref(&self) -> &PassportElementTypeTemporaryRegistration { self }
+impl AsRef<PassportElementTypePersonalDetails> for PassportElementTypePersonalDetails {
+  fn as_ref(&self) -> &PassportElementTypePersonalDetails { self }
 }
 
-impl AsRef<PassportElementTypeTemporaryRegistration> for RTDPassportElementTypeTemporaryRegistrationBuilder {
-  fn as_ref(&self) -> &PassportElementTypeTemporaryRegistration { &self.inner }
+impl AsRef<PassportElementTypePersonalDetails> for RTDPassportElementTypePersonalDetailsBuilder {
+  fn as_ref(&self) -> &PassportElementTypePersonalDetails { &self.inner }
 }
 
 
@@ -819,51 +713,157 @@ impl AsRef<PassportElementTypePhoneNumber> for RTDPassportElementTypePhoneNumber
 
 
 
-/// A Telegram Passport element containing the user's email address
+/// A Telegram Passport element containing the user's rental agreement
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PassportElementTypeEmailAddress {
+pub struct PassportElementTypeRentalAgreement {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   
 }
 
-impl RObject for PassportElementTypeEmailAddress {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeEmailAddress" }
+impl RObject for PassportElementTypeRentalAgreement {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeRentalAgreement" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDPassportElementType for PassportElementTypeEmailAddress {}
+impl TDPassportElementType for PassportElementTypeRentalAgreement {}
 
 
 
-impl PassportElementTypeEmailAddress {
+impl PassportElementTypeRentalAgreement {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPassportElementTypeEmailAddressBuilder {
-    let mut inner = PassportElementTypeEmailAddress::default();
-    inner.td_name = "passportElementTypeEmailAddress".to_string();
-    RTDPassportElementTypeEmailAddressBuilder { inner }
+  pub fn builder() -> RTDPassportElementTypeRentalAgreementBuilder {
+    let mut inner = PassportElementTypeRentalAgreement::default();
+    inner.td_name = "passportElementTypeRentalAgreement".to_string();
+    RTDPassportElementTypeRentalAgreementBuilder { inner }
   }
 
 }
 
 #[doc(hidden)]
-pub struct RTDPassportElementTypeEmailAddressBuilder {
-  inner: PassportElementTypeEmailAddress
+pub struct RTDPassportElementTypeRentalAgreementBuilder {
+  inner: PassportElementTypeRentalAgreement
 }
 
-impl RTDPassportElementTypeEmailAddressBuilder {
-  pub fn build(&self) -> PassportElementTypeEmailAddress { self.inner.clone() }
+impl RTDPassportElementTypeRentalAgreementBuilder {
+  pub fn build(&self) -> PassportElementTypeRentalAgreement { self.inner.clone() }
 
 }
 
-impl AsRef<PassportElementTypeEmailAddress> for PassportElementTypeEmailAddress {
-  fn as_ref(&self) -> &PassportElementTypeEmailAddress { self }
+impl AsRef<PassportElementTypeRentalAgreement> for PassportElementTypeRentalAgreement {
+  fn as_ref(&self) -> &PassportElementTypeRentalAgreement { self }
 }
 
-impl AsRef<PassportElementTypeEmailAddress> for RTDPassportElementTypeEmailAddressBuilder {
-  fn as_ref(&self) -> &PassportElementTypeEmailAddress { &self.inner }
+impl AsRef<PassportElementTypeRentalAgreement> for RTDPassportElementTypeRentalAgreementBuilder {
+  fn as_ref(&self) -> &PassportElementTypeRentalAgreement { &self.inner }
+}
+
+
+
+
+
+
+
+/// A Telegram Passport element containing the user's temporary registration
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PassportElementTypeTemporaryRegistration {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for PassportElementTypeTemporaryRegistration {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeTemporaryRegistration" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDPassportElementType for PassportElementTypeTemporaryRegistration {}
+
+
+
+impl PassportElementTypeTemporaryRegistration {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPassportElementTypeTemporaryRegistrationBuilder {
+    let mut inner = PassportElementTypeTemporaryRegistration::default();
+    inner.td_name = "passportElementTypeTemporaryRegistration".to_string();
+    RTDPassportElementTypeTemporaryRegistrationBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPassportElementTypeTemporaryRegistrationBuilder {
+  inner: PassportElementTypeTemporaryRegistration
+}
+
+impl RTDPassportElementTypeTemporaryRegistrationBuilder {
+  pub fn build(&self) -> PassportElementTypeTemporaryRegistration { self.inner.clone() }
+
+}
+
+impl AsRef<PassportElementTypeTemporaryRegistration> for PassportElementTypeTemporaryRegistration {
+  fn as_ref(&self) -> &PassportElementTypeTemporaryRegistration { self }
+}
+
+impl AsRef<PassportElementTypeTemporaryRegistration> for RTDPassportElementTypeTemporaryRegistrationBuilder {
+  fn as_ref(&self) -> &PassportElementTypeTemporaryRegistration { &self.inner }
+}
+
+
+
+
+
+
+
+/// A Telegram Passport element containing the user's utility bill
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PassportElementTypeUtilityBill {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for PassportElementTypeUtilityBill {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementTypeUtilityBill" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDPassportElementType for PassportElementTypeUtilityBill {}
+
+
+
+impl PassportElementTypeUtilityBill {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPassportElementTypeUtilityBillBuilder {
+    let mut inner = PassportElementTypeUtilityBill::default();
+    inner.td_name = "passportElementTypeUtilityBill".to_string();
+    RTDPassportElementTypeUtilityBillBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPassportElementTypeUtilityBillBuilder {
+  inner: PassportElementTypeUtilityBill
+}
+
+impl RTDPassportElementTypeUtilityBillBuilder {
+  pub fn build(&self) -> PassportElementTypeUtilityBill { self.inner.clone() }
+
+}
+
+impl AsRef<PassportElementTypeUtilityBill> for PassportElementTypeUtilityBill {
+  fn as_ref(&self) -> &PassportElementTypeUtilityBill { self }
+}
+
+impl AsRef<PassportElementTypeUtilityBill> for RTDPassportElementTypeUtilityBillBuilder {
+  fn as_ref(&self) -> &PassportElementTypeUtilityBill { &self.inner }
 }
 
 

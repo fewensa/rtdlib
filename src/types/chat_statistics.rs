@@ -5,41 +5,41 @@ use crate::errors::*;
 
 
 
-/// chatStatistics
+/// A detailed statistics about a chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatStatistics {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// period
-  period: ChatStatisticsDateRange,
-  /// followers
-  followers: ChatStatisticsAbsoluteValue,
-  /// views_per_post
-  views_per_post: ChatStatisticsAbsoluteValue,
-  /// shares_per_post
-  shares_per_post: ChatStatisticsAbsoluteValue,
-  /// enabled_notifications
-  enabled_notifications: ChatStatisticsRelativeValue,
-  /// growth_graph
-  growth_graph: ChatStatisticsGraph,
-  /// followers_graph
-  followers_graph: ChatStatisticsGraph,
-  /// mute_graph
-  mute_graph: ChatStatisticsGraph,
-  /// top_hours_graph
-  top_hours_graph: ChatStatisticsGraph,
-  /// interactions_graph
-  interactions_graph: ChatStatisticsGraph,
-  /// iv_interactions_graph
-  iv_interactions_graph: ChatStatisticsGraph,
-  /// views_by_source_graph
-  views_by_source_graph: ChatStatisticsGraph,
-  /// new_followers_by_source_graph
-  new_followers_by_source_graph: ChatStatisticsGraph,
-  /// languages_graph
-  languages_graph: ChatStatisticsGraph,
-  /// recent_message_interactions
+  /// A period to which the statistics applies
+  period: DateRange,
+  /// Number of members in the chat
+  member_count: StatisticsValue,
+  /// Mean number of times the recently sent messages was viewed
+  mean_view_count: StatisticsValue,
+  /// Mean number of times the recently sent messages was shared
+  mean_share_count: StatisticsValue,
+  /// A percentage of users with enabled notifications for the chat
+  enabled_notifications_percentage: f32,
+  /// A graph containing number of members in the chat
+  member_count_graph: StatisticsGraph,
+  /// A graph containing number of members joined and left the chat
+  join_graph: StatisticsGraph,
+  /// A graph containing number of members muted and unmuted the chat
+  mute_graph: StatisticsGraph,
+  /// A graph containing number of message views in a given hour in the last two weeks
+  view_count_by_hour_graph: StatisticsGraph,
+  /// A graph containing number of message views per source
+  view_count_by_source_graph: StatisticsGraph,
+  /// A graph containing number of new member joins per source
+  join_by_source_graph: StatisticsGraph,
+  /// A graph containing number of users viewed chat messages per language
+  language_graph: StatisticsGraph,
+  /// A graph containing number of chat message views and shares
+  message_interaction_graph: StatisticsGraph,
+  /// A graph containing number of views of associated with the chat instant views
+  instant_view_interaction_graph: StatisticsGraph,
+  /// Detailed statistics about number of views and shares of recently sent messages
   recent_message_interactions: Vec<ChatStatisticsMessageInteractionCounters>,
   
 }
@@ -59,33 +59,33 @@ impl ChatStatistics {
     RTDChatStatisticsBuilder { inner }
   }
 
-  pub fn period(&self) -> &ChatStatisticsDateRange { &self.period }
+  pub fn period(&self) -> &DateRange { &self.period }
 
-  pub fn followers(&self) -> &ChatStatisticsAbsoluteValue { &self.followers }
+  pub fn member_count(&self) -> &StatisticsValue { &self.member_count }
 
-  pub fn views_per_post(&self) -> &ChatStatisticsAbsoluteValue { &self.views_per_post }
+  pub fn mean_view_count(&self) -> &StatisticsValue { &self.mean_view_count }
 
-  pub fn shares_per_post(&self) -> &ChatStatisticsAbsoluteValue { &self.shares_per_post }
+  pub fn mean_share_count(&self) -> &StatisticsValue { &self.mean_share_count }
 
-  pub fn enabled_notifications(&self) -> &ChatStatisticsRelativeValue { &self.enabled_notifications }
+  pub fn enabled_notifications_percentage(&self) -> f32 { self.enabled_notifications_percentage }
 
-  pub fn growth_graph(&self) -> &ChatStatisticsGraph { &self.growth_graph }
+  pub fn member_count_graph(&self) -> &StatisticsGraph { &self.member_count_graph }
 
-  pub fn followers_graph(&self) -> &ChatStatisticsGraph { &self.followers_graph }
+  pub fn join_graph(&self) -> &StatisticsGraph { &self.join_graph }
 
-  pub fn mute_graph(&self) -> &ChatStatisticsGraph { &self.mute_graph }
+  pub fn mute_graph(&self) -> &StatisticsGraph { &self.mute_graph }
 
-  pub fn top_hours_graph(&self) -> &ChatStatisticsGraph { &self.top_hours_graph }
+  pub fn view_count_by_hour_graph(&self) -> &StatisticsGraph { &self.view_count_by_hour_graph }
 
-  pub fn interactions_graph(&self) -> &ChatStatisticsGraph { &self.interactions_graph }
+  pub fn view_count_by_source_graph(&self) -> &StatisticsGraph { &self.view_count_by_source_graph }
 
-  pub fn iv_interactions_graph(&self) -> &ChatStatisticsGraph { &self.iv_interactions_graph }
+  pub fn join_by_source_graph(&self) -> &StatisticsGraph { &self.join_by_source_graph }
 
-  pub fn views_by_source_graph(&self) -> &ChatStatisticsGraph { &self.views_by_source_graph }
+  pub fn language_graph(&self) -> &StatisticsGraph { &self.language_graph }
 
-  pub fn new_followers_by_source_graph(&self) -> &ChatStatisticsGraph { &self.new_followers_by_source_graph }
+  pub fn message_interaction_graph(&self) -> &StatisticsGraph { &self.message_interaction_graph }
 
-  pub fn languages_graph(&self) -> &ChatStatisticsGraph { &self.languages_graph }
+  pub fn instant_view_interaction_graph(&self) -> &StatisticsGraph { &self.instant_view_interaction_graph }
 
   pub fn recent_message_interactions(&self) -> &Vec<ChatStatisticsMessageInteractionCounters> { &self.recent_message_interactions }
 
@@ -100,86 +100,86 @@ impl RTDChatStatisticsBuilder {
   pub fn build(&self) -> ChatStatistics { self.inner.clone() }
 
    
-  pub fn period<T: AsRef<ChatStatisticsDateRange>>(&mut self, period: T) -> &mut Self {
+  pub fn period<T: AsRef<DateRange>>(&mut self, period: T) -> &mut Self {
     self.inner.period = period.as_ref().clone();
     self
   }
 
    
-  pub fn followers<T: AsRef<ChatStatisticsAbsoluteValue>>(&mut self, followers: T) -> &mut Self {
-    self.inner.followers = followers.as_ref().clone();
+  pub fn member_count<T: AsRef<StatisticsValue>>(&mut self, member_count: T) -> &mut Self {
+    self.inner.member_count = member_count.as_ref().clone();
     self
   }
 
    
-  pub fn views_per_post<T: AsRef<ChatStatisticsAbsoluteValue>>(&mut self, views_per_post: T) -> &mut Self {
-    self.inner.views_per_post = views_per_post.as_ref().clone();
+  pub fn mean_view_count<T: AsRef<StatisticsValue>>(&mut self, mean_view_count: T) -> &mut Self {
+    self.inner.mean_view_count = mean_view_count.as_ref().clone();
     self
   }
 
    
-  pub fn shares_per_post<T: AsRef<ChatStatisticsAbsoluteValue>>(&mut self, shares_per_post: T) -> &mut Self {
-    self.inner.shares_per_post = shares_per_post.as_ref().clone();
+  pub fn mean_share_count<T: AsRef<StatisticsValue>>(&mut self, mean_share_count: T) -> &mut Self {
+    self.inner.mean_share_count = mean_share_count.as_ref().clone();
     self
   }
 
    
-  pub fn enabled_notifications<T: AsRef<ChatStatisticsRelativeValue>>(&mut self, enabled_notifications: T) -> &mut Self {
-    self.inner.enabled_notifications = enabled_notifications.as_ref().clone();
+  pub fn enabled_notifications_percentage(&mut self, enabled_notifications_percentage: f32) -> &mut Self {
+    self.inner.enabled_notifications_percentage = enabled_notifications_percentage;
     self
   }
 
    
-  pub fn growth_graph<T: AsRef<ChatStatisticsGraph>>(&mut self, growth_graph: T) -> &mut Self {
-    self.inner.growth_graph = growth_graph.as_ref().clone();
+  pub fn member_count_graph<T: AsRef<StatisticsGraph>>(&mut self, member_count_graph: T) -> &mut Self {
+    self.inner.member_count_graph = member_count_graph.as_ref().clone();
     self
   }
 
    
-  pub fn followers_graph<T: AsRef<ChatStatisticsGraph>>(&mut self, followers_graph: T) -> &mut Self {
-    self.inner.followers_graph = followers_graph.as_ref().clone();
+  pub fn join_graph<T: AsRef<StatisticsGraph>>(&mut self, join_graph: T) -> &mut Self {
+    self.inner.join_graph = join_graph.as_ref().clone();
     self
   }
 
    
-  pub fn mute_graph<T: AsRef<ChatStatisticsGraph>>(&mut self, mute_graph: T) -> &mut Self {
+  pub fn mute_graph<T: AsRef<StatisticsGraph>>(&mut self, mute_graph: T) -> &mut Self {
     self.inner.mute_graph = mute_graph.as_ref().clone();
     self
   }
 
    
-  pub fn top_hours_graph<T: AsRef<ChatStatisticsGraph>>(&mut self, top_hours_graph: T) -> &mut Self {
-    self.inner.top_hours_graph = top_hours_graph.as_ref().clone();
+  pub fn view_count_by_hour_graph<T: AsRef<StatisticsGraph>>(&mut self, view_count_by_hour_graph: T) -> &mut Self {
+    self.inner.view_count_by_hour_graph = view_count_by_hour_graph.as_ref().clone();
     self
   }
 
    
-  pub fn interactions_graph<T: AsRef<ChatStatisticsGraph>>(&mut self, interactions_graph: T) -> &mut Self {
-    self.inner.interactions_graph = interactions_graph.as_ref().clone();
+  pub fn view_count_by_source_graph<T: AsRef<StatisticsGraph>>(&mut self, view_count_by_source_graph: T) -> &mut Self {
+    self.inner.view_count_by_source_graph = view_count_by_source_graph.as_ref().clone();
     self
   }
 
    
-  pub fn iv_interactions_graph<T: AsRef<ChatStatisticsGraph>>(&mut self, iv_interactions_graph: T) -> &mut Self {
-    self.inner.iv_interactions_graph = iv_interactions_graph.as_ref().clone();
+  pub fn join_by_source_graph<T: AsRef<StatisticsGraph>>(&mut self, join_by_source_graph: T) -> &mut Self {
+    self.inner.join_by_source_graph = join_by_source_graph.as_ref().clone();
     self
   }
 
    
-  pub fn views_by_source_graph<T: AsRef<ChatStatisticsGraph>>(&mut self, views_by_source_graph: T) -> &mut Self {
-    self.inner.views_by_source_graph = views_by_source_graph.as_ref().clone();
+  pub fn language_graph<T: AsRef<StatisticsGraph>>(&mut self, language_graph: T) -> &mut Self {
+    self.inner.language_graph = language_graph.as_ref().clone();
     self
   }
 
    
-  pub fn new_followers_by_source_graph<T: AsRef<ChatStatisticsGraph>>(&mut self, new_followers_by_source_graph: T) -> &mut Self {
-    self.inner.new_followers_by_source_graph = new_followers_by_source_graph.as_ref().clone();
+  pub fn message_interaction_graph<T: AsRef<StatisticsGraph>>(&mut self, message_interaction_graph: T) -> &mut Self {
+    self.inner.message_interaction_graph = message_interaction_graph.as_ref().clone();
     self
   }
 
    
-  pub fn languages_graph<T: AsRef<ChatStatisticsGraph>>(&mut self, languages_graph: T) -> &mut Self {
-    self.inner.languages_graph = languages_graph.as_ref().clone();
+  pub fn instant_view_interaction_graph<T: AsRef<StatisticsGraph>>(&mut self, instant_view_interaction_graph: T) -> &mut Self {
+    self.inner.instant_view_interaction_graph = instant_view_interaction_graph.as_ref().clone();
     self
   }
 

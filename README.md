@@ -6,42 +6,11 @@ rtdlib
 
 `rtdlib` is [td](https://github.com/tdlib/td) for rust.
 
-`rtdlib` crate have [td](https://github.com/tdlib/td) type (classes). and `tdjson` [binding](../fantasy/template/rtdlib/src/tdjson.rs). if use `rtdlib` you need include `libtdjson.so` to you build path.
+`rtdlib` crate have [td](https://github.com/tdlib/td) type (classes). and `tdjson` [binding](../fantasy/template/rtdlib/src/tdjson.rs). if use `rtdlib` you need include `tdjson` dylib file(libtdjson.so/tdjson.lib/tdjson.dll) to you build path.
 
 
 
 # Usage
-
-## 0.*
-
-```toml
-[dependencies]
-rtdlib = "0.*"
-```
-
-
-## 1.3.*
-
-```toml
-[dependencies]
-rtdlib = "1.3.*"
-```
-
-## 1.4.*
-
-```toml
-[dependencies]
-rtdlib = "1.4.*"
-```
-
-## 1.5.*
-
-```toml
-[dependencies]
-rtdlib = "1.5.*"
-```
-
-## 1.6.*
 
 ```toml
 [dependencies]
@@ -90,19 +59,28 @@ tdlib.send(request);
 
 More document you need check [telegram api](https://core.telegram.org/api)
 
-## How include libtdjson.so
+## How include tdjson
 
 The first you need read [td](https://github.com/tdlib/td#building) know how to build td.
 
-And then, when you have `libtdjson.so` copy this file to `/usr/lib`.
+And then, when you have `tdjson` dylib file (.so/.lib/.dll) copy the file to the path of the system `$PATH` variable.
 
-Or set an environment
+Or set an environment `RUSTFLAGS`, in the development phase, you can set `RUSTFLAGS` environment to you IDE.
+
+### Linux
 
 ```bash
 export RUSTFLAGS="-C link-args=-Wl,-rpath,/path/to/lib_dir"
 cargo run
 ```
 
-In the development phase, you can set `RUSTFLAGS` environment to you IDE.
+### Windows
+
+**MSVC**
+
+```bash
+RUSTFLAGS=-C link-args=-LIBPATH:D:/path/to/lib_dir
+```
+
 
 

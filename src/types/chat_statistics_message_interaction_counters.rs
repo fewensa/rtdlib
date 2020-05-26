@@ -5,18 +5,18 @@ use crate::errors::*;
 
 
 
-/// chatStatisticsMessageInteractionCounters
+/// Contains statistics about interactions with a message
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatStatisticsMessageInteractionCounters {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// message_id
+  /// Message identifier
   message_id: i64,
-  /// views
-  views: i64,
-  /// forwards
-  forwards: i64,
+  /// Number of times the message was viewed
+  view_count: i64,
+  /// Number of times the message was forwarded
+  forward_count: i64,
   
 }
 
@@ -37,9 +37,9 @@ impl ChatStatisticsMessageInteractionCounters {
 
   pub fn message_id(&self) -> i64 { self.message_id }
 
-  pub fn views(&self) -> i64 { self.views }
+  pub fn view_count(&self) -> i64 { self.view_count }
 
-  pub fn forwards(&self) -> i64 { self.forwards }
+  pub fn forward_count(&self) -> i64 { self.forward_count }
 
 }
 
@@ -58,14 +58,14 @@ impl RTDChatStatisticsMessageInteractionCountersBuilder {
   }
 
    
-  pub fn views(&mut self, views: i64) -> &mut Self {
-    self.inner.views = views;
+  pub fn view_count(&mut self, view_count: i64) -> &mut Self {
+    self.inner.view_count = view_count;
     self
   }
 
    
-  pub fn forwards(&mut self, forwards: i64) -> &mut Self {
-    self.inner.forwards = forwards;
+  pub fn forward_count(&mut self, forward_count: i64) -> &mut Self {
+    self.inner.forward_count = forward_count;
     self
   }
 

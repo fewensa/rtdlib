@@ -25,6 +25,10 @@ pub struct Poll {
   is_anonymous: bool,
   /// Type of the poll
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: PollType,
+  /// Amount of time the poll will be active after creation, in seconds
+  open_period: i64,
+  /// Point in time (Unix timestamp) when the poll will be automatically closed
+  close_date: i64,
   /// True, if the poll is closed
   is_closed: bool,
   
@@ -58,6 +62,10 @@ impl Poll {
   pub fn is_anonymous(&self) -> bool { self.is_anonymous }
 
   pub fn type_(&self) -> &PollType { &self.type_ }
+
+  pub fn open_period(&self) -> i64 { self.open_period }
+
+  pub fn close_date(&self) -> i64 { self.close_date }
 
   pub fn is_closed(&self) -> bool { self.is_closed }
 
@@ -110,6 +118,18 @@ impl RTDPollBuilder {
    
   pub fn type_<T: AsRef<PollType>>(&mut self, type_: T) -> &mut Self {
     self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+   
+  pub fn open_period(&mut self, open_period: i64) -> &mut Self {
+    self.inner.open_period = open_period;
+    self
+  }
+
+   
+  pub fn close_date(&mut self, close_date: i64) -> &mut Self {
+    self.inner.close_date = close_date;
     self
   }
 

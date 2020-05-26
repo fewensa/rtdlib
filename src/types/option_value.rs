@@ -18,6 +18,8 @@ pub trait TDOptionValue: Debug + RObject {}
 #[serde(untagged)]
 pub enum OptionValue {
   #[doc(hidden)] _Default(()),
+  /// Returns the value of an option by its name. (Check the list of available options on https://core.telegram.org/tdlib/options.) Can be called before authorization
+  GetOption(GetOption),
   /// Represents a boolean option
   Boolean(OptionValueBoolean),
   /// Represents an unknown option or an option which has a default value
@@ -26,8 +28,6 @@ pub enum OptionValue {
   Integer(OptionValueInteger),
   /// Represents a string option
   String(OptionValueString),
-  /// Returns the value of an option by its name. (Check the list of available options on https://core.telegram.org/tdlib/options.) Can be called before authorization
-  GetOption(GetOption),
 
 }
 
@@ -40,11 +40,11 @@ impl<'de> Deserialize<'de> for OptionValue {
     use serde::de::Error;
     rtd_enum_deserialize!(
       OptionValue,
+      (getOption, GetOption);
       (optionValueBoolean, Boolean);
       (optionValueEmpty, Empty);
       (optionValueInteger, Integer);
       (optionValueString, String);
-      (getOption, GetOption);
 
     )(deserializer)
   }
@@ -53,11 +53,11 @@ impl<'de> Deserialize<'de> for OptionValue {
 impl RObject for OptionValue {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
+      OptionValue::GetOption(t) => t.td_name(),
       OptionValue::Boolean(t) => t.td_name(),
       OptionValue::Empty(t) => t.td_name(),
       OptionValue::Integer(t) => t.td_name(),
       OptionValue::String(t) => t.td_name(),
-      OptionValue::GetOption(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -69,25 +69,27 @@ impl OptionValue {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let OptionValue::_Default(_) = self { true } else { false } }
 
+  pub fn is_get_option(&self) -> bool { if let OptionValue::GetOption(_) = self { true } else { false } }
   pub fn is_boolean(&self) -> bool { if let OptionValue::Boolean(_) = self { true } else { false } }
   pub fn is_empty(&self) -> bool { if let OptionValue::Empty(_) = self { true } else { false } }
   pub fn is_integer(&self) -> bool { if let OptionValue::Integer(_) = self { true } else { false } }
   pub fn is_string(&self) -> bool { if let OptionValue::String(_) = self { true } else { false } }
-  pub fn is_get_option(&self) -> bool { if let OptionValue::GetOption(_) = self { true } else { false } }
 
+  pub fn on_get_option<F: FnOnce(&GetOption)>(&self, fnc: F) -> &Self { if let OptionValue::GetOption(t) = self { fnc(t) }; self }
   pub fn on_boolean<F: FnOnce(&OptionValueBoolean)>(&self, fnc: F) -> &Self { if let OptionValue::Boolean(t) = self { fnc(t) }; self }
   pub fn on_empty<F: FnOnce(&OptionValueEmpty)>(&self, fnc: F) -> &Self { if let OptionValue::Empty(t) = self { fnc(t) }; self }
   pub fn on_integer<F: FnOnce(&OptionValueInteger)>(&self, fnc: F) -> &Self { if let OptionValue::Integer(t) = self { fnc(t) }; self }
   pub fn on_string<F: FnOnce(&OptionValueString)>(&self, fnc: F) -> &Self { if let OptionValue::String(t) = self { fnc(t) }; self }
-  pub fn on_get_option<F: FnOnce(&GetOption)>(&self, fnc: F) -> &Self { if let OptionValue::GetOption(t) = self { fnc(t) }; self }
 
+  pub fn as_get_option(&self) -> Option<&GetOption> { if let OptionValue::GetOption(t) = self { return Some(t) } None }
   pub fn as_boolean(&self) -> Option<&OptionValueBoolean> { if let OptionValue::Boolean(t) = self { return Some(t) } None }
   pub fn as_empty(&self) -> Option<&OptionValueEmpty> { if let OptionValue::Empty(t) = self { return Some(t) } None }
   pub fn as_integer(&self) -> Option<&OptionValueInteger> { if let OptionValue::Integer(t) = self { return Some(t) } None }
   pub fn as_string(&self) -> Option<&OptionValueString> { if let OptionValue::String(t) = self { return Some(t) } None }
-  pub fn as_get_option(&self) -> Option<&GetOption> { if let OptionValue::GetOption(t) = self { return Some(t) } None }
 
 
+
+  pub fn get_option<T: AsRef<GetOption>>(t: T) -> Self { OptionValue::GetOption(t.as_ref().clone()) }
 
   pub fn boolean<T: AsRef<OptionValueBoolean>>(t: T) -> Self { OptionValue::Boolean(t.as_ref().clone()) }
 
@@ -96,8 +98,6 @@ impl OptionValue {
   pub fn integer<T: AsRef<OptionValueInteger>>(t: T) -> Self { OptionValue::Integer(t.as_ref().clone()) }
 
   pub fn string<T: AsRef<OptionValueString>>(t: T) -> Self { OptionValue::String(t.as_ref().clone()) }
-
-  pub fn get_option<T: AsRef<GetOption>>(t: T) -> Self { OptionValue::GetOption(t.as_ref().clone()) }
 
 }
 

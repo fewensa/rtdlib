@@ -18,22 +18,22 @@ pub trait TDUserPrivacySetting: Debug + RObject {}
 #[serde(untagged)]
 pub enum UserPrivacySetting {
   #[doc(hidden)] _Default(()),
-  /// A privacy setting for managing whether the user's online status is visible
-  ShowStatus(UserPrivacySettingShowStatus),
-  /// A privacy setting for managing whether the user's profile photo is visible
-  ShowProfilePhoto(UserPrivacySettingShowProfilePhoto),
+  /// A privacy setting for managing whether the user can be called
+  AllowCalls(UserPrivacySettingAllowCalls),
+  /// A privacy setting for managing whether the user can be invited to chats
+  AllowChatInvites(UserPrivacySettingAllowChatInvites),
+  /// A privacy setting for managing whether the user can be found by their phone number. Checked only if the phone number is not known to the other user. Can be set only to "Allow contacts" or "Allow all"
+  AllowFindingByPhoneNumber(UserPrivacySettingAllowFindingByPhoneNumber),
+  /// A privacy setting for managing whether peer-to-peer connections can be used for calls
+  AllowPeerToPeerCalls(UserPrivacySettingAllowPeerToPeerCalls),
   /// A privacy setting for managing whether a link to the user's account is included in forwarded messages
   ShowLinkInForwardedMessages(UserPrivacySettingShowLinkInForwardedMessages),
   /// A privacy setting for managing whether the user's phone number is visible
   ShowPhoneNumber(UserPrivacySettingShowPhoneNumber),
-  /// A privacy setting for managing whether the user can be invited to chats
-  AllowChatInvites(UserPrivacySettingAllowChatInvites),
-  /// A privacy setting for managing whether the user can be called
-  AllowCalls(UserPrivacySettingAllowCalls),
-  /// A privacy setting for managing whether peer-to-peer connections can be used for calls
-  AllowPeerToPeerCalls(UserPrivacySettingAllowPeerToPeerCalls),
-  /// A privacy setting for managing whether the user can be found by their phone number. Checked only if the phone number is not known to the other user. Can be set only to "Allow contacts" or "Allow all"
-  AllowFindingByPhoneNumber(UserPrivacySettingAllowFindingByPhoneNumber),
+  /// A privacy setting for managing whether the user's profile photo is visible
+  ShowProfilePhoto(UserPrivacySettingShowProfilePhoto),
+  /// A privacy setting for managing whether the user's online status is visible
+  ShowStatus(UserPrivacySettingShowStatus),
 
 }
 
@@ -46,14 +46,14 @@ impl<'de> Deserialize<'de> for UserPrivacySetting {
     use serde::de::Error;
     rtd_enum_deserialize!(
       UserPrivacySetting,
-      (userPrivacySettingShowStatus, ShowStatus);
-      (userPrivacySettingShowProfilePhoto, ShowProfilePhoto);
+      (userPrivacySettingAllowCalls, AllowCalls);
+      (userPrivacySettingAllowChatInvites, AllowChatInvites);
+      (userPrivacySettingAllowFindingByPhoneNumber, AllowFindingByPhoneNumber);
+      (userPrivacySettingAllowPeerToPeerCalls, AllowPeerToPeerCalls);
       (userPrivacySettingShowLinkInForwardedMessages, ShowLinkInForwardedMessages);
       (userPrivacySettingShowPhoneNumber, ShowPhoneNumber);
-      (userPrivacySettingAllowChatInvites, AllowChatInvites);
-      (userPrivacySettingAllowCalls, AllowCalls);
-      (userPrivacySettingAllowPeerToPeerCalls, AllowPeerToPeerCalls);
-      (userPrivacySettingAllowFindingByPhoneNumber, AllowFindingByPhoneNumber);
+      (userPrivacySettingShowProfilePhoto, ShowProfilePhoto);
+      (userPrivacySettingShowStatus, ShowStatus);
 
     )(deserializer)
   }
@@ -62,14 +62,14 @@ impl<'de> Deserialize<'de> for UserPrivacySetting {
 impl RObject for UserPrivacySetting {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
-      UserPrivacySetting::ShowStatus(t) => t.td_name(),
-      UserPrivacySetting::ShowProfilePhoto(t) => t.td_name(),
+      UserPrivacySetting::AllowCalls(t) => t.td_name(),
+      UserPrivacySetting::AllowChatInvites(t) => t.td_name(),
+      UserPrivacySetting::AllowFindingByPhoneNumber(t) => t.td_name(),
+      UserPrivacySetting::AllowPeerToPeerCalls(t) => t.td_name(),
       UserPrivacySetting::ShowLinkInForwardedMessages(t) => t.td_name(),
       UserPrivacySetting::ShowPhoneNumber(t) => t.td_name(),
-      UserPrivacySetting::AllowChatInvites(t) => t.td_name(),
-      UserPrivacySetting::AllowCalls(t) => t.td_name(),
-      UserPrivacySetting::AllowPeerToPeerCalls(t) => t.td_name(),
-      UserPrivacySetting::AllowFindingByPhoneNumber(t) => t.td_name(),
+      UserPrivacySetting::ShowProfilePhoto(t) => t.td_name(),
+      UserPrivacySetting::ShowStatus(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -81,50 +81,50 @@ impl UserPrivacySetting {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let UserPrivacySetting::_Default(_) = self { true } else { false } }
 
-  pub fn is_show_status(&self) -> bool { if let UserPrivacySetting::ShowStatus(_) = self { true } else { false } }
-  pub fn is_show_profile_photo(&self) -> bool { if let UserPrivacySetting::ShowProfilePhoto(_) = self { true } else { false } }
+  pub fn is_allow_calls(&self) -> bool { if let UserPrivacySetting::AllowCalls(_) = self { true } else { false } }
+  pub fn is_allow_chat_invites(&self) -> bool { if let UserPrivacySetting::AllowChatInvites(_) = self { true } else { false } }
+  pub fn is_allow_finding_by_phone_number(&self) -> bool { if let UserPrivacySetting::AllowFindingByPhoneNumber(_) = self { true } else { false } }
+  pub fn is_allow_peer_to_peer_calls(&self) -> bool { if let UserPrivacySetting::AllowPeerToPeerCalls(_) = self { true } else { false } }
   pub fn is_show_link_in_forwarded_messages(&self) -> bool { if let UserPrivacySetting::ShowLinkInForwardedMessages(_) = self { true } else { false } }
   pub fn is_show_phone_number(&self) -> bool { if let UserPrivacySetting::ShowPhoneNumber(_) = self { true } else { false } }
-  pub fn is_allow_chat_invites(&self) -> bool { if let UserPrivacySetting::AllowChatInvites(_) = self { true } else { false } }
-  pub fn is_allow_calls(&self) -> bool { if let UserPrivacySetting::AllowCalls(_) = self { true } else { false } }
-  pub fn is_allow_peer_to_peer_calls(&self) -> bool { if let UserPrivacySetting::AllowPeerToPeerCalls(_) = self { true } else { false } }
-  pub fn is_allow_finding_by_phone_number(&self) -> bool { if let UserPrivacySetting::AllowFindingByPhoneNumber(_) = self { true } else { false } }
+  pub fn is_show_profile_photo(&self) -> bool { if let UserPrivacySetting::ShowProfilePhoto(_) = self { true } else { false } }
+  pub fn is_show_status(&self) -> bool { if let UserPrivacySetting::ShowStatus(_) = self { true } else { false } }
 
-  pub fn on_show_status<F: FnOnce(&UserPrivacySettingShowStatus)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::ShowStatus(t) = self { fnc(t) }; self }
-  pub fn on_show_profile_photo<F: FnOnce(&UserPrivacySettingShowProfilePhoto)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::ShowProfilePhoto(t) = self { fnc(t) }; self }
+  pub fn on_allow_calls<F: FnOnce(&UserPrivacySettingAllowCalls)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::AllowCalls(t) = self { fnc(t) }; self }
+  pub fn on_allow_chat_invites<F: FnOnce(&UserPrivacySettingAllowChatInvites)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::AllowChatInvites(t) = self { fnc(t) }; self }
+  pub fn on_allow_finding_by_phone_number<F: FnOnce(&UserPrivacySettingAllowFindingByPhoneNumber)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::AllowFindingByPhoneNumber(t) = self { fnc(t) }; self }
+  pub fn on_allow_peer_to_peer_calls<F: FnOnce(&UserPrivacySettingAllowPeerToPeerCalls)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::AllowPeerToPeerCalls(t) = self { fnc(t) }; self }
   pub fn on_show_link_in_forwarded_messages<F: FnOnce(&UserPrivacySettingShowLinkInForwardedMessages)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::ShowLinkInForwardedMessages(t) = self { fnc(t) }; self }
   pub fn on_show_phone_number<F: FnOnce(&UserPrivacySettingShowPhoneNumber)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::ShowPhoneNumber(t) = self { fnc(t) }; self }
-  pub fn on_allow_chat_invites<F: FnOnce(&UserPrivacySettingAllowChatInvites)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::AllowChatInvites(t) = self { fnc(t) }; self }
-  pub fn on_allow_calls<F: FnOnce(&UserPrivacySettingAllowCalls)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::AllowCalls(t) = self { fnc(t) }; self }
-  pub fn on_allow_peer_to_peer_calls<F: FnOnce(&UserPrivacySettingAllowPeerToPeerCalls)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::AllowPeerToPeerCalls(t) = self { fnc(t) }; self }
-  pub fn on_allow_finding_by_phone_number<F: FnOnce(&UserPrivacySettingAllowFindingByPhoneNumber)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::AllowFindingByPhoneNumber(t) = self { fnc(t) }; self }
+  pub fn on_show_profile_photo<F: FnOnce(&UserPrivacySettingShowProfilePhoto)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::ShowProfilePhoto(t) = self { fnc(t) }; self }
+  pub fn on_show_status<F: FnOnce(&UserPrivacySettingShowStatus)>(&self, fnc: F) -> &Self { if let UserPrivacySetting::ShowStatus(t) = self { fnc(t) }; self }
 
-  pub fn as_show_status(&self) -> Option<&UserPrivacySettingShowStatus> { if let UserPrivacySetting::ShowStatus(t) = self { return Some(t) } None }
-  pub fn as_show_profile_photo(&self) -> Option<&UserPrivacySettingShowProfilePhoto> { if let UserPrivacySetting::ShowProfilePhoto(t) = self { return Some(t) } None }
+  pub fn as_allow_calls(&self) -> Option<&UserPrivacySettingAllowCalls> { if let UserPrivacySetting::AllowCalls(t) = self { return Some(t) } None }
+  pub fn as_allow_chat_invites(&self) -> Option<&UserPrivacySettingAllowChatInvites> { if let UserPrivacySetting::AllowChatInvites(t) = self { return Some(t) } None }
+  pub fn as_allow_finding_by_phone_number(&self) -> Option<&UserPrivacySettingAllowFindingByPhoneNumber> { if let UserPrivacySetting::AllowFindingByPhoneNumber(t) = self { return Some(t) } None }
+  pub fn as_allow_peer_to_peer_calls(&self) -> Option<&UserPrivacySettingAllowPeerToPeerCalls> { if let UserPrivacySetting::AllowPeerToPeerCalls(t) = self { return Some(t) } None }
   pub fn as_show_link_in_forwarded_messages(&self) -> Option<&UserPrivacySettingShowLinkInForwardedMessages> { if let UserPrivacySetting::ShowLinkInForwardedMessages(t) = self { return Some(t) } None }
   pub fn as_show_phone_number(&self) -> Option<&UserPrivacySettingShowPhoneNumber> { if let UserPrivacySetting::ShowPhoneNumber(t) = self { return Some(t) } None }
-  pub fn as_allow_chat_invites(&self) -> Option<&UserPrivacySettingAllowChatInvites> { if let UserPrivacySetting::AllowChatInvites(t) = self { return Some(t) } None }
-  pub fn as_allow_calls(&self) -> Option<&UserPrivacySettingAllowCalls> { if let UserPrivacySetting::AllowCalls(t) = self { return Some(t) } None }
-  pub fn as_allow_peer_to_peer_calls(&self) -> Option<&UserPrivacySettingAllowPeerToPeerCalls> { if let UserPrivacySetting::AllowPeerToPeerCalls(t) = self { return Some(t) } None }
-  pub fn as_allow_finding_by_phone_number(&self) -> Option<&UserPrivacySettingAllowFindingByPhoneNumber> { if let UserPrivacySetting::AllowFindingByPhoneNumber(t) = self { return Some(t) } None }
+  pub fn as_show_profile_photo(&self) -> Option<&UserPrivacySettingShowProfilePhoto> { if let UserPrivacySetting::ShowProfilePhoto(t) = self { return Some(t) } None }
+  pub fn as_show_status(&self) -> Option<&UserPrivacySettingShowStatus> { if let UserPrivacySetting::ShowStatus(t) = self { return Some(t) } None }
 
 
 
-  pub fn show_status<T: AsRef<UserPrivacySettingShowStatus>>(t: T) -> Self { UserPrivacySetting::ShowStatus(t.as_ref().clone()) }
+  pub fn allow_calls<T: AsRef<UserPrivacySettingAllowCalls>>(t: T) -> Self { UserPrivacySetting::AllowCalls(t.as_ref().clone()) }
 
-  pub fn show_profile_photo<T: AsRef<UserPrivacySettingShowProfilePhoto>>(t: T) -> Self { UserPrivacySetting::ShowProfilePhoto(t.as_ref().clone()) }
+  pub fn allow_chat_invites<T: AsRef<UserPrivacySettingAllowChatInvites>>(t: T) -> Self { UserPrivacySetting::AllowChatInvites(t.as_ref().clone()) }
+
+  pub fn allow_finding_by_phone_number<T: AsRef<UserPrivacySettingAllowFindingByPhoneNumber>>(t: T) -> Self { UserPrivacySetting::AllowFindingByPhoneNumber(t.as_ref().clone()) }
+
+  pub fn allow_peer_to_peer_calls<T: AsRef<UserPrivacySettingAllowPeerToPeerCalls>>(t: T) -> Self { UserPrivacySetting::AllowPeerToPeerCalls(t.as_ref().clone()) }
 
   pub fn show_link_in_forwarded_messages<T: AsRef<UserPrivacySettingShowLinkInForwardedMessages>>(t: T) -> Self { UserPrivacySetting::ShowLinkInForwardedMessages(t.as_ref().clone()) }
 
   pub fn show_phone_number<T: AsRef<UserPrivacySettingShowPhoneNumber>>(t: T) -> Self { UserPrivacySetting::ShowPhoneNumber(t.as_ref().clone()) }
 
-  pub fn allow_chat_invites<T: AsRef<UserPrivacySettingAllowChatInvites>>(t: T) -> Self { UserPrivacySetting::AllowChatInvites(t.as_ref().clone()) }
+  pub fn show_profile_photo<T: AsRef<UserPrivacySettingShowProfilePhoto>>(t: T) -> Self { UserPrivacySetting::ShowProfilePhoto(t.as_ref().clone()) }
 
-  pub fn allow_calls<T: AsRef<UserPrivacySettingAllowCalls>>(t: T) -> Self { UserPrivacySetting::AllowCalls(t.as_ref().clone()) }
-
-  pub fn allow_peer_to_peer_calls<T: AsRef<UserPrivacySettingAllowPeerToPeerCalls>>(t: T) -> Self { UserPrivacySetting::AllowPeerToPeerCalls(t.as_ref().clone()) }
-
-  pub fn allow_finding_by_phone_number<T: AsRef<UserPrivacySettingAllowFindingByPhoneNumber>>(t: T) -> Self { UserPrivacySetting::AllowFindingByPhoneNumber(t.as_ref().clone()) }
+  pub fn show_status<T: AsRef<UserPrivacySettingShowStatus>>(t: T) -> Self { UserPrivacySetting::ShowStatus(t.as_ref().clone()) }
 
 }
 
@@ -138,51 +138,51 @@ impl AsRef<UserPrivacySetting> for UserPrivacySetting {
 
 
 
-/// A privacy setting for managing whether the user's online status is visible
+/// A privacy setting for managing whether the user can be called
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UserPrivacySettingShowStatus {
+pub struct UserPrivacySettingAllowCalls {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   
 }
 
-impl RObject for UserPrivacySettingShowStatus {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingShowStatus" }
+impl RObject for UserPrivacySettingAllowCalls {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingAllowCalls" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDUserPrivacySetting for UserPrivacySettingShowStatus {}
+impl TDUserPrivacySetting for UserPrivacySettingAllowCalls {}
 
 
 
-impl UserPrivacySettingShowStatus {
+impl UserPrivacySettingAllowCalls {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUserPrivacySettingShowStatusBuilder {
-    let mut inner = UserPrivacySettingShowStatus::default();
-    inner.td_name = "userPrivacySettingShowStatus".to_string();
-    RTDUserPrivacySettingShowStatusBuilder { inner }
+  pub fn builder() -> RTDUserPrivacySettingAllowCallsBuilder {
+    let mut inner = UserPrivacySettingAllowCalls::default();
+    inner.td_name = "userPrivacySettingAllowCalls".to_string();
+    RTDUserPrivacySettingAllowCallsBuilder { inner }
   }
 
 }
 
 #[doc(hidden)]
-pub struct RTDUserPrivacySettingShowStatusBuilder {
-  inner: UserPrivacySettingShowStatus
+pub struct RTDUserPrivacySettingAllowCallsBuilder {
+  inner: UserPrivacySettingAllowCalls
 }
 
-impl RTDUserPrivacySettingShowStatusBuilder {
-  pub fn build(&self) -> UserPrivacySettingShowStatus { self.inner.clone() }
+impl RTDUserPrivacySettingAllowCallsBuilder {
+  pub fn build(&self) -> UserPrivacySettingAllowCalls { self.inner.clone() }
 
 }
 
-impl AsRef<UserPrivacySettingShowStatus> for UserPrivacySettingShowStatus {
-  fn as_ref(&self) -> &UserPrivacySettingShowStatus { self }
+impl AsRef<UserPrivacySettingAllowCalls> for UserPrivacySettingAllowCalls {
+  fn as_ref(&self) -> &UserPrivacySettingAllowCalls { self }
 }
 
-impl AsRef<UserPrivacySettingShowStatus> for RTDUserPrivacySettingShowStatusBuilder {
-  fn as_ref(&self) -> &UserPrivacySettingShowStatus { &self.inner }
+impl AsRef<UserPrivacySettingAllowCalls> for RTDUserPrivacySettingAllowCallsBuilder {
+  fn as_ref(&self) -> &UserPrivacySettingAllowCalls { &self.inner }
 }
 
 
@@ -191,51 +191,157 @@ impl AsRef<UserPrivacySettingShowStatus> for RTDUserPrivacySettingShowStatusBuil
 
 
 
-/// A privacy setting for managing whether the user's profile photo is visible
+/// A privacy setting for managing whether the user can be invited to chats
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UserPrivacySettingShowProfilePhoto {
+pub struct UserPrivacySettingAllowChatInvites {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   
 }
 
-impl RObject for UserPrivacySettingShowProfilePhoto {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingShowProfilePhoto" }
+impl RObject for UserPrivacySettingAllowChatInvites {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingAllowChatInvites" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDUserPrivacySetting for UserPrivacySettingShowProfilePhoto {}
+impl TDUserPrivacySetting for UserPrivacySettingAllowChatInvites {}
 
 
 
-impl UserPrivacySettingShowProfilePhoto {
+impl UserPrivacySettingAllowChatInvites {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUserPrivacySettingShowProfilePhotoBuilder {
-    let mut inner = UserPrivacySettingShowProfilePhoto::default();
-    inner.td_name = "userPrivacySettingShowProfilePhoto".to_string();
-    RTDUserPrivacySettingShowProfilePhotoBuilder { inner }
+  pub fn builder() -> RTDUserPrivacySettingAllowChatInvitesBuilder {
+    let mut inner = UserPrivacySettingAllowChatInvites::default();
+    inner.td_name = "userPrivacySettingAllowChatInvites".to_string();
+    RTDUserPrivacySettingAllowChatInvitesBuilder { inner }
   }
 
 }
 
 #[doc(hidden)]
-pub struct RTDUserPrivacySettingShowProfilePhotoBuilder {
-  inner: UserPrivacySettingShowProfilePhoto
+pub struct RTDUserPrivacySettingAllowChatInvitesBuilder {
+  inner: UserPrivacySettingAllowChatInvites
 }
 
-impl RTDUserPrivacySettingShowProfilePhotoBuilder {
-  pub fn build(&self) -> UserPrivacySettingShowProfilePhoto { self.inner.clone() }
+impl RTDUserPrivacySettingAllowChatInvitesBuilder {
+  pub fn build(&self) -> UserPrivacySettingAllowChatInvites { self.inner.clone() }
 
 }
 
-impl AsRef<UserPrivacySettingShowProfilePhoto> for UserPrivacySettingShowProfilePhoto {
-  fn as_ref(&self) -> &UserPrivacySettingShowProfilePhoto { self }
+impl AsRef<UserPrivacySettingAllowChatInvites> for UserPrivacySettingAllowChatInvites {
+  fn as_ref(&self) -> &UserPrivacySettingAllowChatInvites { self }
 }
 
-impl AsRef<UserPrivacySettingShowProfilePhoto> for RTDUserPrivacySettingShowProfilePhotoBuilder {
-  fn as_ref(&self) -> &UserPrivacySettingShowProfilePhoto { &self.inner }
+impl AsRef<UserPrivacySettingAllowChatInvites> for RTDUserPrivacySettingAllowChatInvitesBuilder {
+  fn as_ref(&self) -> &UserPrivacySettingAllowChatInvites { &self.inner }
+}
+
+
+
+
+
+
+
+/// A privacy setting for managing whether the user can be found by their phone number. Checked only if the phone number is not known to the other user. Can be set only to "Allow contacts" or "Allow all"
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UserPrivacySettingAllowFindingByPhoneNumber {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for UserPrivacySettingAllowFindingByPhoneNumber {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingAllowFindingByPhoneNumber" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUserPrivacySetting for UserPrivacySettingAllowFindingByPhoneNumber {}
+
+
+
+impl UserPrivacySettingAllowFindingByPhoneNumber {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUserPrivacySettingAllowFindingByPhoneNumberBuilder {
+    let mut inner = UserPrivacySettingAllowFindingByPhoneNumber::default();
+    inner.td_name = "userPrivacySettingAllowFindingByPhoneNumber".to_string();
+    RTDUserPrivacySettingAllowFindingByPhoneNumberBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUserPrivacySettingAllowFindingByPhoneNumberBuilder {
+  inner: UserPrivacySettingAllowFindingByPhoneNumber
+}
+
+impl RTDUserPrivacySettingAllowFindingByPhoneNumberBuilder {
+  pub fn build(&self) -> UserPrivacySettingAllowFindingByPhoneNumber { self.inner.clone() }
+
+}
+
+impl AsRef<UserPrivacySettingAllowFindingByPhoneNumber> for UserPrivacySettingAllowFindingByPhoneNumber {
+  fn as_ref(&self) -> &UserPrivacySettingAllowFindingByPhoneNumber { self }
+}
+
+impl AsRef<UserPrivacySettingAllowFindingByPhoneNumber> for RTDUserPrivacySettingAllowFindingByPhoneNumberBuilder {
+  fn as_ref(&self) -> &UserPrivacySettingAllowFindingByPhoneNumber { &self.inner }
+}
+
+
+
+
+
+
+
+/// A privacy setting for managing whether peer-to-peer connections can be used for calls
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UserPrivacySettingAllowPeerToPeerCalls {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for UserPrivacySettingAllowPeerToPeerCalls {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingAllowPeerToPeerCalls" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUserPrivacySetting for UserPrivacySettingAllowPeerToPeerCalls {}
+
+
+
+impl UserPrivacySettingAllowPeerToPeerCalls {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUserPrivacySettingAllowPeerToPeerCallsBuilder {
+    let mut inner = UserPrivacySettingAllowPeerToPeerCalls::default();
+    inner.td_name = "userPrivacySettingAllowPeerToPeerCalls".to_string();
+    RTDUserPrivacySettingAllowPeerToPeerCallsBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUserPrivacySettingAllowPeerToPeerCallsBuilder {
+  inner: UserPrivacySettingAllowPeerToPeerCalls
+}
+
+impl RTDUserPrivacySettingAllowPeerToPeerCallsBuilder {
+  pub fn build(&self) -> UserPrivacySettingAllowPeerToPeerCalls { self.inner.clone() }
+
+}
+
+impl AsRef<UserPrivacySettingAllowPeerToPeerCalls> for UserPrivacySettingAllowPeerToPeerCalls {
+  fn as_ref(&self) -> &UserPrivacySettingAllowPeerToPeerCalls { self }
+}
+
+impl AsRef<UserPrivacySettingAllowPeerToPeerCalls> for RTDUserPrivacySettingAllowPeerToPeerCallsBuilder {
+  fn as_ref(&self) -> &UserPrivacySettingAllowPeerToPeerCalls { &self.inner }
 }
 
 
@@ -350,51 +456,51 @@ impl AsRef<UserPrivacySettingShowPhoneNumber> for RTDUserPrivacySettingShowPhone
 
 
 
-/// A privacy setting for managing whether the user can be invited to chats
+/// A privacy setting for managing whether the user's profile photo is visible
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UserPrivacySettingAllowChatInvites {
+pub struct UserPrivacySettingShowProfilePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   
 }
 
-impl RObject for UserPrivacySettingAllowChatInvites {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingAllowChatInvites" }
+impl RObject for UserPrivacySettingShowProfilePhoto {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingShowProfilePhoto" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDUserPrivacySetting for UserPrivacySettingAllowChatInvites {}
+impl TDUserPrivacySetting for UserPrivacySettingShowProfilePhoto {}
 
 
 
-impl UserPrivacySettingAllowChatInvites {
+impl UserPrivacySettingShowProfilePhoto {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUserPrivacySettingAllowChatInvitesBuilder {
-    let mut inner = UserPrivacySettingAllowChatInvites::default();
-    inner.td_name = "userPrivacySettingAllowChatInvites".to_string();
-    RTDUserPrivacySettingAllowChatInvitesBuilder { inner }
+  pub fn builder() -> RTDUserPrivacySettingShowProfilePhotoBuilder {
+    let mut inner = UserPrivacySettingShowProfilePhoto::default();
+    inner.td_name = "userPrivacySettingShowProfilePhoto".to_string();
+    RTDUserPrivacySettingShowProfilePhotoBuilder { inner }
   }
 
 }
 
 #[doc(hidden)]
-pub struct RTDUserPrivacySettingAllowChatInvitesBuilder {
-  inner: UserPrivacySettingAllowChatInvites
+pub struct RTDUserPrivacySettingShowProfilePhotoBuilder {
+  inner: UserPrivacySettingShowProfilePhoto
 }
 
-impl RTDUserPrivacySettingAllowChatInvitesBuilder {
-  pub fn build(&self) -> UserPrivacySettingAllowChatInvites { self.inner.clone() }
+impl RTDUserPrivacySettingShowProfilePhotoBuilder {
+  pub fn build(&self) -> UserPrivacySettingShowProfilePhoto { self.inner.clone() }
 
 }
 
-impl AsRef<UserPrivacySettingAllowChatInvites> for UserPrivacySettingAllowChatInvites {
-  fn as_ref(&self) -> &UserPrivacySettingAllowChatInvites { self }
+impl AsRef<UserPrivacySettingShowProfilePhoto> for UserPrivacySettingShowProfilePhoto {
+  fn as_ref(&self) -> &UserPrivacySettingShowProfilePhoto { self }
 }
 
-impl AsRef<UserPrivacySettingAllowChatInvites> for RTDUserPrivacySettingAllowChatInvitesBuilder {
-  fn as_ref(&self) -> &UserPrivacySettingAllowChatInvites { &self.inner }
+impl AsRef<UserPrivacySettingShowProfilePhoto> for RTDUserPrivacySettingShowProfilePhotoBuilder {
+  fn as_ref(&self) -> &UserPrivacySettingShowProfilePhoto { &self.inner }
 }
 
 
@@ -403,157 +509,51 @@ impl AsRef<UserPrivacySettingAllowChatInvites> for RTDUserPrivacySettingAllowCha
 
 
 
-/// A privacy setting for managing whether the user can be called
+/// A privacy setting for managing whether the user's online status is visible
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UserPrivacySettingAllowCalls {
+pub struct UserPrivacySettingShowStatus {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   
 }
 
-impl RObject for UserPrivacySettingAllowCalls {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingAllowCalls" }
+impl RObject for UserPrivacySettingShowStatus {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingShowStatus" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDUserPrivacySetting for UserPrivacySettingAllowCalls {}
+impl TDUserPrivacySetting for UserPrivacySettingShowStatus {}
 
 
 
-impl UserPrivacySettingAllowCalls {
+impl UserPrivacySettingShowStatus {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUserPrivacySettingAllowCallsBuilder {
-    let mut inner = UserPrivacySettingAllowCalls::default();
-    inner.td_name = "userPrivacySettingAllowCalls".to_string();
-    RTDUserPrivacySettingAllowCallsBuilder { inner }
+  pub fn builder() -> RTDUserPrivacySettingShowStatusBuilder {
+    let mut inner = UserPrivacySettingShowStatus::default();
+    inner.td_name = "userPrivacySettingShowStatus".to_string();
+    RTDUserPrivacySettingShowStatusBuilder { inner }
   }
 
 }
 
 #[doc(hidden)]
-pub struct RTDUserPrivacySettingAllowCallsBuilder {
-  inner: UserPrivacySettingAllowCalls
+pub struct RTDUserPrivacySettingShowStatusBuilder {
+  inner: UserPrivacySettingShowStatus
 }
 
-impl RTDUserPrivacySettingAllowCallsBuilder {
-  pub fn build(&self) -> UserPrivacySettingAllowCalls { self.inner.clone() }
-
-}
-
-impl AsRef<UserPrivacySettingAllowCalls> for UserPrivacySettingAllowCalls {
-  fn as_ref(&self) -> &UserPrivacySettingAllowCalls { self }
-}
-
-impl AsRef<UserPrivacySettingAllowCalls> for RTDUserPrivacySettingAllowCallsBuilder {
-  fn as_ref(&self) -> &UserPrivacySettingAllowCalls { &self.inner }
-}
-
-
-
-
-
-
-
-/// A privacy setting for managing whether peer-to-peer connections can be used for calls
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UserPrivacySettingAllowPeerToPeerCalls {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for UserPrivacySettingAllowPeerToPeerCalls {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingAllowPeerToPeerCalls" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUserPrivacySetting for UserPrivacySettingAllowPeerToPeerCalls {}
-
-
-
-impl UserPrivacySettingAllowPeerToPeerCalls {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUserPrivacySettingAllowPeerToPeerCallsBuilder {
-    let mut inner = UserPrivacySettingAllowPeerToPeerCalls::default();
-    inner.td_name = "userPrivacySettingAllowPeerToPeerCalls".to_string();
-    RTDUserPrivacySettingAllowPeerToPeerCallsBuilder { inner }
-  }
+impl RTDUserPrivacySettingShowStatusBuilder {
+  pub fn build(&self) -> UserPrivacySettingShowStatus { self.inner.clone() }
 
 }
 
-#[doc(hidden)]
-pub struct RTDUserPrivacySettingAllowPeerToPeerCallsBuilder {
-  inner: UserPrivacySettingAllowPeerToPeerCalls
+impl AsRef<UserPrivacySettingShowStatus> for UserPrivacySettingShowStatus {
+  fn as_ref(&self) -> &UserPrivacySettingShowStatus { self }
 }
 
-impl RTDUserPrivacySettingAllowPeerToPeerCallsBuilder {
-  pub fn build(&self) -> UserPrivacySettingAllowPeerToPeerCalls { self.inner.clone() }
-
-}
-
-impl AsRef<UserPrivacySettingAllowPeerToPeerCalls> for UserPrivacySettingAllowPeerToPeerCalls {
-  fn as_ref(&self) -> &UserPrivacySettingAllowPeerToPeerCalls { self }
-}
-
-impl AsRef<UserPrivacySettingAllowPeerToPeerCalls> for RTDUserPrivacySettingAllowPeerToPeerCallsBuilder {
-  fn as_ref(&self) -> &UserPrivacySettingAllowPeerToPeerCalls { &self.inner }
-}
-
-
-
-
-
-
-
-/// A privacy setting for managing whether the user can be found by their phone number. Checked only if the phone number is not known to the other user. Can be set only to "Allow contacts" or "Allow all"
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UserPrivacySettingAllowFindingByPhoneNumber {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for UserPrivacySettingAllowFindingByPhoneNumber {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "userPrivacySettingAllowFindingByPhoneNumber" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUserPrivacySetting for UserPrivacySettingAllowFindingByPhoneNumber {}
-
-
-
-impl UserPrivacySettingAllowFindingByPhoneNumber {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUserPrivacySettingAllowFindingByPhoneNumberBuilder {
-    let mut inner = UserPrivacySettingAllowFindingByPhoneNumber::default();
-    inner.td_name = "userPrivacySettingAllowFindingByPhoneNumber".to_string();
-    RTDUserPrivacySettingAllowFindingByPhoneNumberBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUserPrivacySettingAllowFindingByPhoneNumberBuilder {
-  inner: UserPrivacySettingAllowFindingByPhoneNumber
-}
-
-impl RTDUserPrivacySettingAllowFindingByPhoneNumberBuilder {
-  pub fn build(&self) -> UserPrivacySettingAllowFindingByPhoneNumber { self.inner.clone() }
-
-}
-
-impl AsRef<UserPrivacySettingAllowFindingByPhoneNumber> for UserPrivacySettingAllowFindingByPhoneNumber {
-  fn as_ref(&self) -> &UserPrivacySettingAllowFindingByPhoneNumber { self }
-}
-
-impl AsRef<UserPrivacySettingAllowFindingByPhoneNumber> for RTDUserPrivacySettingAllowFindingByPhoneNumberBuilder {
-  fn as_ref(&self) -> &UserPrivacySettingAllowFindingByPhoneNumber { &self.inner }
+impl AsRef<UserPrivacySettingShowStatus> for RTDUserPrivacySettingShowStatusBuilder {
+  fn as_ref(&self) -> &UserPrivacySettingShowStatus { &self.inner }
 }
 
 
