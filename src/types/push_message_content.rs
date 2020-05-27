@@ -18,12 +18,22 @@ pub trait TDPushMessageContent: Debug + RObject {}
 #[serde(untagged)]
 pub enum PushMessageContent {
   #[doc(hidden)] _Default(()),
-  /// A general message with hidden content
-  Hidden(PushMessageContentHidden),
   /// An animation message (GIF-style)
   Animation(PushMessageContentAnimation),
   /// An audio message
   Audio(PushMessageContentAudio),
+  /// A newly created basic group
+  BasicGroupChatCreate(PushMessageContentBasicGroupChatCreate),
+  /// New chat members were invited to a group
+  ChatAddMembers(PushMessageContentChatAddMembers),
+  /// A chat photo was edited
+  ChatChangePhoto(PushMessageContentChatChangePhoto),
+  /// A chat title was edited
+  ChatChangeTitle(PushMessageContentChatChangeTitle),
+  /// A chat member was deleted
+  ChatDeleteMember(PushMessageContentChatDeleteMember),
+  /// A new member joined the chat by invite link
+  ChatJoinByLink(PushMessageContentChatJoinByLink),
   /// A message with a user contact
   Contact(PushMessageContentContact),
   /// A contact has registered with Telegram
@@ -34,10 +44,16 @@ pub enum PushMessageContent {
   Game(PushMessageContentGame),
   /// A new high score was achieved in a game
   GameScore(PushMessageContentGameScore),
+  /// A general message with hidden content
+  Hidden(PushMessageContentHidden),
   /// A message with an invoice from a bot
   Invoice(PushMessageContentInvoice),
   /// A message with a location
   Location(PushMessageContentLocation),
+  /// A media album
+  MediaAlbum(PushMessageContentMediaAlbum),
+  /// A forwarded messages
+  MessageForwards(PushMessageContentMessageForwards),
   /// A photo message
   Photo(PushMessageContentPhoto),
   /// A message with a poll
@@ -54,22 +70,6 @@ pub enum PushMessageContent {
   VideoNote(PushMessageContentVideoNote),
   /// A voice note message
   VoiceNote(PushMessageContentVoiceNote),
-  /// A newly created basic group
-  BasicGroupChatCreate(PushMessageContentBasicGroupChatCreate),
-  /// New chat members were invited to a group
-  ChatAddMembers(PushMessageContentChatAddMembers),
-  /// A chat photo was edited
-  ChatChangePhoto(PushMessageContentChatChangePhoto),
-  /// A chat title was edited
-  ChatChangeTitle(PushMessageContentChatChangeTitle),
-  /// A chat member was deleted
-  ChatDeleteMember(PushMessageContentChatDeleteMember),
-  /// A new member joined the chat by invite link
-  ChatJoinByLink(PushMessageContentChatJoinByLink),
-  /// A forwarded messages
-  MessageForwards(PushMessageContentMessageForwards),
-  /// A media album
-  MediaAlbum(PushMessageContentMediaAlbum),
 
 }
 
@@ -82,16 +82,24 @@ impl<'de> Deserialize<'de> for PushMessageContent {
     use serde::de::Error;
     rtd_enum_deserialize!(
       PushMessageContent,
-      (pushMessageContentHidden, Hidden);
       (pushMessageContentAnimation, Animation);
       (pushMessageContentAudio, Audio);
+      (pushMessageContentBasicGroupChatCreate, BasicGroupChatCreate);
+      (pushMessageContentChatAddMembers, ChatAddMembers);
+      (pushMessageContentChatChangePhoto, ChatChangePhoto);
+      (pushMessageContentChatChangeTitle, ChatChangeTitle);
+      (pushMessageContentChatDeleteMember, ChatDeleteMember);
+      (pushMessageContentChatJoinByLink, ChatJoinByLink);
       (pushMessageContentContact, Contact);
       (pushMessageContentContactRegistered, ContactRegistered);
       (pushMessageContentDocument, Document);
       (pushMessageContentGame, Game);
       (pushMessageContentGameScore, GameScore);
+      (pushMessageContentHidden, Hidden);
       (pushMessageContentInvoice, Invoice);
       (pushMessageContentLocation, Location);
+      (pushMessageContentMediaAlbum, MediaAlbum);
+      (pushMessageContentMessageForwards, MessageForwards);
       (pushMessageContentPhoto, Photo);
       (pushMessageContentPoll, Poll);
       (pushMessageContentScreenshotTaken, ScreenshotTaken);
@@ -100,14 +108,6 @@ impl<'de> Deserialize<'de> for PushMessageContent {
       (pushMessageContentVideo, Video);
       (pushMessageContentVideoNote, VideoNote);
       (pushMessageContentVoiceNote, VoiceNote);
-      (pushMessageContentBasicGroupChatCreate, BasicGroupChatCreate);
-      (pushMessageContentChatAddMembers, ChatAddMembers);
-      (pushMessageContentChatChangePhoto, ChatChangePhoto);
-      (pushMessageContentChatChangeTitle, ChatChangeTitle);
-      (pushMessageContentChatDeleteMember, ChatDeleteMember);
-      (pushMessageContentChatJoinByLink, ChatJoinByLink);
-      (pushMessageContentMessageForwards, MessageForwards);
-      (pushMessageContentMediaAlbum, MediaAlbum);
 
     )(deserializer)
   }
@@ -116,16 +116,24 @@ impl<'de> Deserialize<'de> for PushMessageContent {
 impl RObject for PushMessageContent {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
-      PushMessageContent::Hidden(t) => t.td_name(),
       PushMessageContent::Animation(t) => t.td_name(),
       PushMessageContent::Audio(t) => t.td_name(),
+      PushMessageContent::BasicGroupChatCreate(t) => t.td_name(),
+      PushMessageContent::ChatAddMembers(t) => t.td_name(),
+      PushMessageContent::ChatChangePhoto(t) => t.td_name(),
+      PushMessageContent::ChatChangeTitle(t) => t.td_name(),
+      PushMessageContent::ChatDeleteMember(t) => t.td_name(),
+      PushMessageContent::ChatJoinByLink(t) => t.td_name(),
       PushMessageContent::Contact(t) => t.td_name(),
       PushMessageContent::ContactRegistered(t) => t.td_name(),
       PushMessageContent::Document(t) => t.td_name(),
       PushMessageContent::Game(t) => t.td_name(),
       PushMessageContent::GameScore(t) => t.td_name(),
+      PushMessageContent::Hidden(t) => t.td_name(),
       PushMessageContent::Invoice(t) => t.td_name(),
       PushMessageContent::Location(t) => t.td_name(),
+      PushMessageContent::MediaAlbum(t) => t.td_name(),
+      PushMessageContent::MessageForwards(t) => t.td_name(),
       PushMessageContent::Photo(t) => t.td_name(),
       PushMessageContent::Poll(t) => t.td_name(),
       PushMessageContent::ScreenshotTaken(t) => t.td_name(),
@@ -134,14 +142,6 @@ impl RObject for PushMessageContent {
       PushMessageContent::Video(t) => t.td_name(),
       PushMessageContent::VideoNote(t) => t.td_name(),
       PushMessageContent::VoiceNote(t) => t.td_name(),
-      PushMessageContent::BasicGroupChatCreate(t) => t.td_name(),
-      PushMessageContent::ChatAddMembers(t) => t.td_name(),
-      PushMessageContent::ChatChangePhoto(t) => t.td_name(),
-      PushMessageContent::ChatChangeTitle(t) => t.td_name(),
-      PushMessageContent::ChatDeleteMember(t) => t.td_name(),
-      PushMessageContent::ChatJoinByLink(t) => t.td_name(),
-      PushMessageContent::MessageForwards(t) => t.td_name(),
-      PushMessageContent::MediaAlbum(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -153,16 +153,24 @@ impl PushMessageContent {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let PushMessageContent::_Default(_) = self { true } else { false } }
 
-  pub fn is_hidden(&self) -> bool { if let PushMessageContent::Hidden(_) = self { true } else { false } }
   pub fn is_animation(&self) -> bool { if let PushMessageContent::Animation(_) = self { true } else { false } }
   pub fn is_audio(&self) -> bool { if let PushMessageContent::Audio(_) = self { true } else { false } }
+  pub fn is_basic_group_chat_create(&self) -> bool { if let PushMessageContent::BasicGroupChatCreate(_) = self { true } else { false } }
+  pub fn is_chat_add_members(&self) -> bool { if let PushMessageContent::ChatAddMembers(_) = self { true } else { false } }
+  pub fn is_chat_change_photo(&self) -> bool { if let PushMessageContent::ChatChangePhoto(_) = self { true } else { false } }
+  pub fn is_chat_change_title(&self) -> bool { if let PushMessageContent::ChatChangeTitle(_) = self { true } else { false } }
+  pub fn is_chat_delete_member(&self) -> bool { if let PushMessageContent::ChatDeleteMember(_) = self { true } else { false } }
+  pub fn is_chat_join_by_link(&self) -> bool { if let PushMessageContent::ChatJoinByLink(_) = self { true } else { false } }
   pub fn is_contact(&self) -> bool { if let PushMessageContent::Contact(_) = self { true } else { false } }
   pub fn is_contact_registered(&self) -> bool { if let PushMessageContent::ContactRegistered(_) = self { true } else { false } }
   pub fn is_document(&self) -> bool { if let PushMessageContent::Document(_) = self { true } else { false } }
   pub fn is_game(&self) -> bool { if let PushMessageContent::Game(_) = self { true } else { false } }
   pub fn is_game_score(&self) -> bool { if let PushMessageContent::GameScore(_) = self { true } else { false } }
+  pub fn is_hidden(&self) -> bool { if let PushMessageContent::Hidden(_) = self { true } else { false } }
   pub fn is_invoice(&self) -> bool { if let PushMessageContent::Invoice(_) = self { true } else { false } }
   pub fn is_location(&self) -> bool { if let PushMessageContent::Location(_) = self { true } else { false } }
+  pub fn is_media_album(&self) -> bool { if let PushMessageContent::MediaAlbum(_) = self { true } else { false } }
+  pub fn is_message_forwards(&self) -> bool { if let PushMessageContent::MessageForwards(_) = self { true } else { false } }
   pub fn is_photo(&self) -> bool { if let PushMessageContent::Photo(_) = self { true } else { false } }
   pub fn is_poll(&self) -> bool { if let PushMessageContent::Poll(_) = self { true } else { false } }
   pub fn is_screenshot_taken(&self) -> bool { if let PushMessageContent::ScreenshotTaken(_) = self { true } else { false } }
@@ -171,25 +179,25 @@ impl PushMessageContent {
   pub fn is_video(&self) -> bool { if let PushMessageContent::Video(_) = self { true } else { false } }
   pub fn is_video_note(&self) -> bool { if let PushMessageContent::VideoNote(_) = self { true } else { false } }
   pub fn is_voice_note(&self) -> bool { if let PushMessageContent::VoiceNote(_) = self { true } else { false } }
-  pub fn is_basic_group_chat_create(&self) -> bool { if let PushMessageContent::BasicGroupChatCreate(_) = self { true } else { false } }
-  pub fn is_chat_add_members(&self) -> bool { if let PushMessageContent::ChatAddMembers(_) = self { true } else { false } }
-  pub fn is_chat_change_photo(&self) -> bool { if let PushMessageContent::ChatChangePhoto(_) = self { true } else { false } }
-  pub fn is_chat_change_title(&self) -> bool { if let PushMessageContent::ChatChangeTitle(_) = self { true } else { false } }
-  pub fn is_chat_delete_member(&self) -> bool { if let PushMessageContent::ChatDeleteMember(_) = self { true } else { false } }
-  pub fn is_chat_join_by_link(&self) -> bool { if let PushMessageContent::ChatJoinByLink(_) = self { true } else { false } }
-  pub fn is_message_forwards(&self) -> bool { if let PushMessageContent::MessageForwards(_) = self { true } else { false } }
-  pub fn is_media_album(&self) -> bool { if let PushMessageContent::MediaAlbum(_) = self { true } else { false } }
 
-  pub fn on_hidden<F: FnOnce(&PushMessageContentHidden)>(&self, fnc: F) -> &Self { if let PushMessageContent::Hidden(t) = self { fnc(t) }; self }
   pub fn on_animation<F: FnOnce(&PushMessageContentAnimation)>(&self, fnc: F) -> &Self { if let PushMessageContent::Animation(t) = self { fnc(t) }; self }
   pub fn on_audio<F: FnOnce(&PushMessageContentAudio)>(&self, fnc: F) -> &Self { if let PushMessageContent::Audio(t) = self { fnc(t) }; self }
+  pub fn on_basic_group_chat_create<F: FnOnce(&PushMessageContentBasicGroupChatCreate)>(&self, fnc: F) -> &Self { if let PushMessageContent::BasicGroupChatCreate(t) = self { fnc(t) }; self }
+  pub fn on_chat_add_members<F: FnOnce(&PushMessageContentChatAddMembers)>(&self, fnc: F) -> &Self { if let PushMessageContent::ChatAddMembers(t) = self { fnc(t) }; self }
+  pub fn on_chat_change_photo<F: FnOnce(&PushMessageContentChatChangePhoto)>(&self, fnc: F) -> &Self { if let PushMessageContent::ChatChangePhoto(t) = self { fnc(t) }; self }
+  pub fn on_chat_change_title<F: FnOnce(&PushMessageContentChatChangeTitle)>(&self, fnc: F) -> &Self { if let PushMessageContent::ChatChangeTitle(t) = self { fnc(t) }; self }
+  pub fn on_chat_delete_member<F: FnOnce(&PushMessageContentChatDeleteMember)>(&self, fnc: F) -> &Self { if let PushMessageContent::ChatDeleteMember(t) = self { fnc(t) }; self }
+  pub fn on_chat_join_by_link<F: FnOnce(&PushMessageContentChatJoinByLink)>(&self, fnc: F) -> &Self { if let PushMessageContent::ChatJoinByLink(t) = self { fnc(t) }; self }
   pub fn on_contact<F: FnOnce(&PushMessageContentContact)>(&self, fnc: F) -> &Self { if let PushMessageContent::Contact(t) = self { fnc(t) }; self }
   pub fn on_contact_registered<F: FnOnce(&PushMessageContentContactRegistered)>(&self, fnc: F) -> &Self { if let PushMessageContent::ContactRegistered(t) = self { fnc(t) }; self }
   pub fn on_document<F: FnOnce(&PushMessageContentDocument)>(&self, fnc: F) -> &Self { if let PushMessageContent::Document(t) = self { fnc(t) }; self }
   pub fn on_game<F: FnOnce(&PushMessageContentGame)>(&self, fnc: F) -> &Self { if let PushMessageContent::Game(t) = self { fnc(t) }; self }
   pub fn on_game_score<F: FnOnce(&PushMessageContentGameScore)>(&self, fnc: F) -> &Self { if let PushMessageContent::GameScore(t) = self { fnc(t) }; self }
+  pub fn on_hidden<F: FnOnce(&PushMessageContentHidden)>(&self, fnc: F) -> &Self { if let PushMessageContent::Hidden(t) = self { fnc(t) }; self }
   pub fn on_invoice<F: FnOnce(&PushMessageContentInvoice)>(&self, fnc: F) -> &Self { if let PushMessageContent::Invoice(t) = self { fnc(t) }; self }
   pub fn on_location<F: FnOnce(&PushMessageContentLocation)>(&self, fnc: F) -> &Self { if let PushMessageContent::Location(t) = self { fnc(t) }; self }
+  pub fn on_media_album<F: FnOnce(&PushMessageContentMediaAlbum)>(&self, fnc: F) -> &Self { if let PushMessageContent::MediaAlbum(t) = self { fnc(t) }; self }
+  pub fn on_message_forwards<F: FnOnce(&PushMessageContentMessageForwards)>(&self, fnc: F) -> &Self { if let PushMessageContent::MessageForwards(t) = self { fnc(t) }; self }
   pub fn on_photo<F: FnOnce(&PushMessageContentPhoto)>(&self, fnc: F) -> &Self { if let PushMessageContent::Photo(t) = self { fnc(t) }; self }
   pub fn on_poll<F: FnOnce(&PushMessageContentPoll)>(&self, fnc: F) -> &Self { if let PushMessageContent::Poll(t) = self { fnc(t) }; self }
   pub fn on_screenshot_taken<F: FnOnce(&PushMessageContentScreenshotTaken)>(&self, fnc: F) -> &Self { if let PushMessageContent::ScreenshotTaken(t) = self { fnc(t) }; self }
@@ -198,25 +206,25 @@ impl PushMessageContent {
   pub fn on_video<F: FnOnce(&PushMessageContentVideo)>(&self, fnc: F) -> &Self { if let PushMessageContent::Video(t) = self { fnc(t) }; self }
   pub fn on_video_note<F: FnOnce(&PushMessageContentVideoNote)>(&self, fnc: F) -> &Self { if let PushMessageContent::VideoNote(t) = self { fnc(t) }; self }
   pub fn on_voice_note<F: FnOnce(&PushMessageContentVoiceNote)>(&self, fnc: F) -> &Self { if let PushMessageContent::VoiceNote(t) = self { fnc(t) }; self }
-  pub fn on_basic_group_chat_create<F: FnOnce(&PushMessageContentBasicGroupChatCreate)>(&self, fnc: F) -> &Self { if let PushMessageContent::BasicGroupChatCreate(t) = self { fnc(t) }; self }
-  pub fn on_chat_add_members<F: FnOnce(&PushMessageContentChatAddMembers)>(&self, fnc: F) -> &Self { if let PushMessageContent::ChatAddMembers(t) = self { fnc(t) }; self }
-  pub fn on_chat_change_photo<F: FnOnce(&PushMessageContentChatChangePhoto)>(&self, fnc: F) -> &Self { if let PushMessageContent::ChatChangePhoto(t) = self { fnc(t) }; self }
-  pub fn on_chat_change_title<F: FnOnce(&PushMessageContentChatChangeTitle)>(&self, fnc: F) -> &Self { if let PushMessageContent::ChatChangeTitle(t) = self { fnc(t) }; self }
-  pub fn on_chat_delete_member<F: FnOnce(&PushMessageContentChatDeleteMember)>(&self, fnc: F) -> &Self { if let PushMessageContent::ChatDeleteMember(t) = self { fnc(t) }; self }
-  pub fn on_chat_join_by_link<F: FnOnce(&PushMessageContentChatJoinByLink)>(&self, fnc: F) -> &Self { if let PushMessageContent::ChatJoinByLink(t) = self { fnc(t) }; self }
-  pub fn on_message_forwards<F: FnOnce(&PushMessageContentMessageForwards)>(&self, fnc: F) -> &Self { if let PushMessageContent::MessageForwards(t) = self { fnc(t) }; self }
-  pub fn on_media_album<F: FnOnce(&PushMessageContentMediaAlbum)>(&self, fnc: F) -> &Self { if let PushMessageContent::MediaAlbum(t) = self { fnc(t) }; self }
 
-  pub fn as_hidden(&self) -> Option<&PushMessageContentHidden> { if let PushMessageContent::Hidden(t) = self { return Some(t) } None }
   pub fn as_animation(&self) -> Option<&PushMessageContentAnimation> { if let PushMessageContent::Animation(t) = self { return Some(t) } None }
   pub fn as_audio(&self) -> Option<&PushMessageContentAudio> { if let PushMessageContent::Audio(t) = self { return Some(t) } None }
+  pub fn as_basic_group_chat_create(&self) -> Option<&PushMessageContentBasicGroupChatCreate> { if let PushMessageContent::BasicGroupChatCreate(t) = self { return Some(t) } None }
+  pub fn as_chat_add_members(&self) -> Option<&PushMessageContentChatAddMembers> { if let PushMessageContent::ChatAddMembers(t) = self { return Some(t) } None }
+  pub fn as_chat_change_photo(&self) -> Option<&PushMessageContentChatChangePhoto> { if let PushMessageContent::ChatChangePhoto(t) = self { return Some(t) } None }
+  pub fn as_chat_change_title(&self) -> Option<&PushMessageContentChatChangeTitle> { if let PushMessageContent::ChatChangeTitle(t) = self { return Some(t) } None }
+  pub fn as_chat_delete_member(&self) -> Option<&PushMessageContentChatDeleteMember> { if let PushMessageContent::ChatDeleteMember(t) = self { return Some(t) } None }
+  pub fn as_chat_join_by_link(&self) -> Option<&PushMessageContentChatJoinByLink> { if let PushMessageContent::ChatJoinByLink(t) = self { return Some(t) } None }
   pub fn as_contact(&self) -> Option<&PushMessageContentContact> { if let PushMessageContent::Contact(t) = self { return Some(t) } None }
   pub fn as_contact_registered(&self) -> Option<&PushMessageContentContactRegistered> { if let PushMessageContent::ContactRegistered(t) = self { return Some(t) } None }
   pub fn as_document(&self) -> Option<&PushMessageContentDocument> { if let PushMessageContent::Document(t) = self { return Some(t) } None }
   pub fn as_game(&self) -> Option<&PushMessageContentGame> { if let PushMessageContent::Game(t) = self { return Some(t) } None }
   pub fn as_game_score(&self) -> Option<&PushMessageContentGameScore> { if let PushMessageContent::GameScore(t) = self { return Some(t) } None }
+  pub fn as_hidden(&self) -> Option<&PushMessageContentHidden> { if let PushMessageContent::Hidden(t) = self { return Some(t) } None }
   pub fn as_invoice(&self) -> Option<&PushMessageContentInvoice> { if let PushMessageContent::Invoice(t) = self { return Some(t) } None }
   pub fn as_location(&self) -> Option<&PushMessageContentLocation> { if let PushMessageContent::Location(t) = self { return Some(t) } None }
+  pub fn as_media_album(&self) -> Option<&PushMessageContentMediaAlbum> { if let PushMessageContent::MediaAlbum(t) = self { return Some(t) } None }
+  pub fn as_message_forwards(&self) -> Option<&PushMessageContentMessageForwards> { if let PushMessageContent::MessageForwards(t) = self { return Some(t) } None }
   pub fn as_photo(&self) -> Option<&PushMessageContentPhoto> { if let PushMessageContent::Photo(t) = self { return Some(t) } None }
   pub fn as_poll(&self) -> Option<&PushMessageContentPoll> { if let PushMessageContent::Poll(t) = self { return Some(t) } None }
   pub fn as_screenshot_taken(&self) -> Option<&PushMessageContentScreenshotTaken> { if let PushMessageContent::ScreenshotTaken(t) = self { return Some(t) } None }
@@ -225,22 +233,24 @@ impl PushMessageContent {
   pub fn as_video(&self) -> Option<&PushMessageContentVideo> { if let PushMessageContent::Video(t) = self { return Some(t) } None }
   pub fn as_video_note(&self) -> Option<&PushMessageContentVideoNote> { if let PushMessageContent::VideoNote(t) = self { return Some(t) } None }
   pub fn as_voice_note(&self) -> Option<&PushMessageContentVoiceNote> { if let PushMessageContent::VoiceNote(t) = self { return Some(t) } None }
-  pub fn as_basic_group_chat_create(&self) -> Option<&PushMessageContentBasicGroupChatCreate> { if let PushMessageContent::BasicGroupChatCreate(t) = self { return Some(t) } None }
-  pub fn as_chat_add_members(&self) -> Option<&PushMessageContentChatAddMembers> { if let PushMessageContent::ChatAddMembers(t) = self { return Some(t) } None }
-  pub fn as_chat_change_photo(&self) -> Option<&PushMessageContentChatChangePhoto> { if let PushMessageContent::ChatChangePhoto(t) = self { return Some(t) } None }
-  pub fn as_chat_change_title(&self) -> Option<&PushMessageContentChatChangeTitle> { if let PushMessageContent::ChatChangeTitle(t) = self { return Some(t) } None }
-  pub fn as_chat_delete_member(&self) -> Option<&PushMessageContentChatDeleteMember> { if let PushMessageContent::ChatDeleteMember(t) = self { return Some(t) } None }
-  pub fn as_chat_join_by_link(&self) -> Option<&PushMessageContentChatJoinByLink> { if let PushMessageContent::ChatJoinByLink(t) = self { return Some(t) } None }
-  pub fn as_message_forwards(&self) -> Option<&PushMessageContentMessageForwards> { if let PushMessageContent::MessageForwards(t) = self { return Some(t) } None }
-  pub fn as_media_album(&self) -> Option<&PushMessageContentMediaAlbum> { if let PushMessageContent::MediaAlbum(t) = self { return Some(t) } None }
 
 
-
-  pub fn hidden<T: AsRef<PushMessageContentHidden>>(t: T) -> Self { PushMessageContent::Hidden(t.as_ref().clone()) }
 
   pub fn animation<T: AsRef<PushMessageContentAnimation>>(t: T) -> Self { PushMessageContent::Animation(t.as_ref().clone()) }
 
   pub fn audio<T: AsRef<PushMessageContentAudio>>(t: T) -> Self { PushMessageContent::Audio(t.as_ref().clone()) }
+
+  pub fn basic_group_chat_create<T: AsRef<PushMessageContentBasicGroupChatCreate>>(t: T) -> Self { PushMessageContent::BasicGroupChatCreate(t.as_ref().clone()) }
+
+  pub fn chat_add_members<T: AsRef<PushMessageContentChatAddMembers>>(t: T) -> Self { PushMessageContent::ChatAddMembers(t.as_ref().clone()) }
+
+  pub fn chat_change_photo<T: AsRef<PushMessageContentChatChangePhoto>>(t: T) -> Self { PushMessageContent::ChatChangePhoto(t.as_ref().clone()) }
+
+  pub fn chat_change_title<T: AsRef<PushMessageContentChatChangeTitle>>(t: T) -> Self { PushMessageContent::ChatChangeTitle(t.as_ref().clone()) }
+
+  pub fn chat_delete_member<T: AsRef<PushMessageContentChatDeleteMember>>(t: T) -> Self { PushMessageContent::ChatDeleteMember(t.as_ref().clone()) }
+
+  pub fn chat_join_by_link<T: AsRef<PushMessageContentChatJoinByLink>>(t: T) -> Self { PushMessageContent::ChatJoinByLink(t.as_ref().clone()) }
 
   pub fn contact<T: AsRef<PushMessageContentContact>>(t: T) -> Self { PushMessageContent::Contact(t.as_ref().clone()) }
 
@@ -252,9 +262,15 @@ impl PushMessageContent {
 
   pub fn game_score<T: AsRef<PushMessageContentGameScore>>(t: T) -> Self { PushMessageContent::GameScore(t.as_ref().clone()) }
 
+  pub fn hidden<T: AsRef<PushMessageContentHidden>>(t: T) -> Self { PushMessageContent::Hidden(t.as_ref().clone()) }
+
   pub fn invoice<T: AsRef<PushMessageContentInvoice>>(t: T) -> Self { PushMessageContent::Invoice(t.as_ref().clone()) }
 
   pub fn location<T: AsRef<PushMessageContentLocation>>(t: T) -> Self { PushMessageContent::Location(t.as_ref().clone()) }
+
+  pub fn media_album<T: AsRef<PushMessageContentMediaAlbum>>(t: T) -> Self { PushMessageContent::MediaAlbum(t.as_ref().clone()) }
+
+  pub fn message_forwards<T: AsRef<PushMessageContentMessageForwards>>(t: T) -> Self { PushMessageContent::MessageForwards(t.as_ref().clone()) }
 
   pub fn photo<T: AsRef<PushMessageContentPhoto>>(t: T) -> Self { PushMessageContent::Photo(t.as_ref().clone()) }
 
@@ -272,89 +288,10 @@ impl PushMessageContent {
 
   pub fn voice_note<T: AsRef<PushMessageContentVoiceNote>>(t: T) -> Self { PushMessageContent::VoiceNote(t.as_ref().clone()) }
 
-  pub fn basic_group_chat_create<T: AsRef<PushMessageContentBasicGroupChatCreate>>(t: T) -> Self { PushMessageContent::BasicGroupChatCreate(t.as_ref().clone()) }
-
-  pub fn chat_add_members<T: AsRef<PushMessageContentChatAddMembers>>(t: T) -> Self { PushMessageContent::ChatAddMembers(t.as_ref().clone()) }
-
-  pub fn chat_change_photo<T: AsRef<PushMessageContentChatChangePhoto>>(t: T) -> Self { PushMessageContent::ChatChangePhoto(t.as_ref().clone()) }
-
-  pub fn chat_change_title<T: AsRef<PushMessageContentChatChangeTitle>>(t: T) -> Self { PushMessageContent::ChatChangeTitle(t.as_ref().clone()) }
-
-  pub fn chat_delete_member<T: AsRef<PushMessageContentChatDeleteMember>>(t: T) -> Self { PushMessageContent::ChatDeleteMember(t.as_ref().clone()) }
-
-  pub fn chat_join_by_link<T: AsRef<PushMessageContentChatJoinByLink>>(t: T) -> Self { PushMessageContent::ChatJoinByLink(t.as_ref().clone()) }
-
-  pub fn message_forwards<T: AsRef<PushMessageContentMessageForwards>>(t: T) -> Self { PushMessageContent::MessageForwards(t.as_ref().clone()) }
-
-  pub fn media_album<T: AsRef<PushMessageContentMediaAlbum>>(t: T) -> Self { PushMessageContent::MediaAlbum(t.as_ref().clone()) }
-
 }
 
 impl AsRef<PushMessageContent> for PushMessageContent {
   fn as_ref(&self) -> &PushMessageContent { self }
-}
-
-
-
-
-
-
-
-/// A general message with hidden content
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PushMessageContentHidden {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// True, if the message is a pinned message with the specified content
-  is_pinned: bool,
-  
-}
-
-impl RObject for PushMessageContentHidden {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentHidden" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPushMessageContent for PushMessageContentHidden {}
-
-
-
-impl PushMessageContentHidden {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPushMessageContentHiddenBuilder {
-    let mut inner = PushMessageContentHidden::default();
-    inner.td_name = "pushMessageContentHidden".to_string();
-    RTDPushMessageContentHiddenBuilder { inner }
-  }
-
-  pub fn is_pinned(&self) -> bool { self.is_pinned }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPushMessageContentHiddenBuilder {
-  inner: PushMessageContentHidden
-}
-
-impl RTDPushMessageContentHiddenBuilder {
-  pub fn build(&self) -> PushMessageContentHidden { self.inner.clone() }
-
-   
-  pub fn is_pinned(&mut self, is_pinned: bool) -> &mut Self {
-    self.inner.is_pinned = is_pinned;
-    self
-  }
-
-}
-
-impl AsRef<PushMessageContentHidden> for PushMessageContentHidden {
-  fn as_ref(&self) -> &PushMessageContentHidden { self }
-}
-
-impl AsRef<PushMessageContentHidden> for RTDPushMessageContentHiddenBuilder {
-  fn as_ref(&self) -> &PushMessageContentHidden { &self.inner }
 }
 
 
@@ -511,6 +448,394 @@ impl AsRef<PushMessageContentAudio> for PushMessageContentAudio {
 
 impl AsRef<PushMessageContentAudio> for RTDPushMessageContentAudioBuilder {
   fn as_ref(&self) -> &PushMessageContentAudio { &self.inner }
+}
+
+
+
+
+
+
+
+/// A newly created basic group
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentBasicGroupChatCreate {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for PushMessageContentBasicGroupChatCreate {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentBasicGroupChatCreate" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDPushMessageContent for PushMessageContentBasicGroupChatCreate {}
+
+
+
+impl PushMessageContentBasicGroupChatCreate {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPushMessageContentBasicGroupChatCreateBuilder {
+    let mut inner = PushMessageContentBasicGroupChatCreate::default();
+    inner.td_name = "pushMessageContentBasicGroupChatCreate".to_string();
+    RTDPushMessageContentBasicGroupChatCreateBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentBasicGroupChatCreateBuilder {
+  inner: PushMessageContentBasicGroupChatCreate
+}
+
+impl RTDPushMessageContentBasicGroupChatCreateBuilder {
+  pub fn build(&self) -> PushMessageContentBasicGroupChatCreate { self.inner.clone() }
+
+}
+
+impl AsRef<PushMessageContentBasicGroupChatCreate> for PushMessageContentBasicGroupChatCreate {
+  fn as_ref(&self) -> &PushMessageContentBasicGroupChatCreate { self }
+}
+
+impl AsRef<PushMessageContentBasicGroupChatCreate> for RTDPushMessageContentBasicGroupChatCreateBuilder {
+  fn as_ref(&self) -> &PushMessageContentBasicGroupChatCreate { &self.inner }
+}
+
+
+
+
+
+
+
+/// New chat members were invited to a group
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentChatAddMembers {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Name of the added member
+  member_name: String,
+  /// True, if the current user was added to the group
+  is_current_user: bool,
+  /// True, if the user has returned to the group himself
+  is_returned: bool,
+  
+}
+
+impl RObject for PushMessageContentChatAddMembers {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatAddMembers" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDPushMessageContent for PushMessageContentChatAddMembers {}
+
+
+
+impl PushMessageContentChatAddMembers {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPushMessageContentChatAddMembersBuilder {
+    let mut inner = PushMessageContentChatAddMembers::default();
+    inner.td_name = "pushMessageContentChatAddMembers".to_string();
+    RTDPushMessageContentChatAddMembersBuilder { inner }
+  }
+
+  pub fn member_name(&self) -> &String { &self.member_name }
+
+  pub fn is_current_user(&self) -> bool { self.is_current_user }
+
+  pub fn is_returned(&self) -> bool { self.is_returned }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentChatAddMembersBuilder {
+  inner: PushMessageContentChatAddMembers
+}
+
+impl RTDPushMessageContentChatAddMembersBuilder {
+  pub fn build(&self) -> PushMessageContentChatAddMembers { self.inner.clone() }
+
+   
+  pub fn member_name<T: AsRef<str>>(&mut self, member_name: T) -> &mut Self {
+    self.inner.member_name = member_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn is_current_user(&mut self, is_current_user: bool) -> &mut Self {
+    self.inner.is_current_user = is_current_user;
+    self
+  }
+
+   
+  pub fn is_returned(&mut self, is_returned: bool) -> &mut Self {
+    self.inner.is_returned = is_returned;
+    self
+  }
+
+}
+
+impl AsRef<PushMessageContentChatAddMembers> for PushMessageContentChatAddMembers {
+  fn as_ref(&self) -> &PushMessageContentChatAddMembers { self }
+}
+
+impl AsRef<PushMessageContentChatAddMembers> for RTDPushMessageContentChatAddMembersBuilder {
+  fn as_ref(&self) -> &PushMessageContentChatAddMembers { &self.inner }
+}
+
+
+
+
+
+
+
+/// A chat photo was edited
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentChatChangePhoto {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for PushMessageContentChatChangePhoto {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatChangePhoto" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDPushMessageContent for PushMessageContentChatChangePhoto {}
+
+
+
+impl PushMessageContentChatChangePhoto {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPushMessageContentChatChangePhotoBuilder {
+    let mut inner = PushMessageContentChatChangePhoto::default();
+    inner.td_name = "pushMessageContentChatChangePhoto".to_string();
+    RTDPushMessageContentChatChangePhotoBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentChatChangePhotoBuilder {
+  inner: PushMessageContentChatChangePhoto
+}
+
+impl RTDPushMessageContentChatChangePhotoBuilder {
+  pub fn build(&self) -> PushMessageContentChatChangePhoto { self.inner.clone() }
+
+}
+
+impl AsRef<PushMessageContentChatChangePhoto> for PushMessageContentChatChangePhoto {
+  fn as_ref(&self) -> &PushMessageContentChatChangePhoto { self }
+}
+
+impl AsRef<PushMessageContentChatChangePhoto> for RTDPushMessageContentChatChangePhotoBuilder {
+  fn as_ref(&self) -> &PushMessageContentChatChangePhoto { &self.inner }
+}
+
+
+
+
+
+
+
+/// A chat title was edited
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentChatChangeTitle {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// New chat title
+  title: String,
+  
+}
+
+impl RObject for PushMessageContentChatChangeTitle {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatChangeTitle" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDPushMessageContent for PushMessageContentChatChangeTitle {}
+
+
+
+impl PushMessageContentChatChangeTitle {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPushMessageContentChatChangeTitleBuilder {
+    let mut inner = PushMessageContentChatChangeTitle::default();
+    inner.td_name = "pushMessageContentChatChangeTitle".to_string();
+    RTDPushMessageContentChatChangeTitleBuilder { inner }
+  }
+
+  pub fn title(&self) -> &String { &self.title }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentChatChangeTitleBuilder {
+  inner: PushMessageContentChatChangeTitle
+}
+
+impl RTDPushMessageContentChatChangeTitleBuilder {
+  pub fn build(&self) -> PushMessageContentChatChangeTitle { self.inner.clone() }
+
+   
+  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
+    self.inner.title = title.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<PushMessageContentChatChangeTitle> for PushMessageContentChatChangeTitle {
+  fn as_ref(&self) -> &PushMessageContentChatChangeTitle { self }
+}
+
+impl AsRef<PushMessageContentChatChangeTitle> for RTDPushMessageContentChatChangeTitleBuilder {
+  fn as_ref(&self) -> &PushMessageContentChatChangeTitle { &self.inner }
+}
+
+
+
+
+
+
+
+/// A chat member was deleted
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentChatDeleteMember {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Name of the deleted member
+  member_name: String,
+  /// True, if the current user was deleted from the group
+  is_current_user: bool,
+  /// True, if the user has left the group himself
+  is_left: bool,
+  
+}
+
+impl RObject for PushMessageContentChatDeleteMember {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatDeleteMember" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDPushMessageContent for PushMessageContentChatDeleteMember {}
+
+
+
+impl PushMessageContentChatDeleteMember {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPushMessageContentChatDeleteMemberBuilder {
+    let mut inner = PushMessageContentChatDeleteMember::default();
+    inner.td_name = "pushMessageContentChatDeleteMember".to_string();
+    RTDPushMessageContentChatDeleteMemberBuilder { inner }
+  }
+
+  pub fn member_name(&self) -> &String { &self.member_name }
+
+  pub fn is_current_user(&self) -> bool { self.is_current_user }
+
+  pub fn is_left(&self) -> bool { self.is_left }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentChatDeleteMemberBuilder {
+  inner: PushMessageContentChatDeleteMember
+}
+
+impl RTDPushMessageContentChatDeleteMemberBuilder {
+  pub fn build(&self) -> PushMessageContentChatDeleteMember { self.inner.clone() }
+
+   
+  pub fn member_name<T: AsRef<str>>(&mut self, member_name: T) -> &mut Self {
+    self.inner.member_name = member_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn is_current_user(&mut self, is_current_user: bool) -> &mut Self {
+    self.inner.is_current_user = is_current_user;
+    self
+  }
+
+   
+  pub fn is_left(&mut self, is_left: bool) -> &mut Self {
+    self.inner.is_left = is_left;
+    self
+  }
+
+}
+
+impl AsRef<PushMessageContentChatDeleteMember> for PushMessageContentChatDeleteMember {
+  fn as_ref(&self) -> &PushMessageContentChatDeleteMember { self }
+}
+
+impl AsRef<PushMessageContentChatDeleteMember> for RTDPushMessageContentChatDeleteMemberBuilder {
+  fn as_ref(&self) -> &PushMessageContentChatDeleteMember { &self.inner }
+}
+
+
+
+
+
+
+
+/// A new member joined the chat by invite link
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentChatJoinByLink {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for PushMessageContentChatJoinByLink {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatJoinByLink" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDPushMessageContent for PushMessageContentChatJoinByLink {}
+
+
+
+impl PushMessageContentChatJoinByLink {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPushMessageContentChatJoinByLinkBuilder {
+    let mut inner = PushMessageContentChatJoinByLink::default();
+    inner.td_name = "pushMessageContentChatJoinByLink".to_string();
+    RTDPushMessageContentChatJoinByLinkBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentChatJoinByLinkBuilder {
+  inner: PushMessageContentChatJoinByLink
+}
+
+impl RTDPushMessageContentChatJoinByLinkBuilder {
+  pub fn build(&self) -> PushMessageContentChatJoinByLink { self.inner.clone() }
+
+}
+
+impl AsRef<PushMessageContentChatJoinByLink> for PushMessageContentChatJoinByLink {
+  fn as_ref(&self) -> &PushMessageContentChatJoinByLink { self }
+}
+
+impl AsRef<PushMessageContentChatJoinByLink> for RTDPushMessageContentChatJoinByLinkBuilder {
+  fn as_ref(&self) -> &PushMessageContentChatJoinByLink { &self.inner }
 }
 
 
@@ -874,6 +1199,69 @@ impl AsRef<PushMessageContentGameScore> for RTDPushMessageContentGameScoreBuilde
 
 
 
+/// A general message with hidden content
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentHidden {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// True, if the message is a pinned message with the specified content
+  is_pinned: bool,
+  
+}
+
+impl RObject for PushMessageContentHidden {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentHidden" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDPushMessageContent for PushMessageContentHidden {}
+
+
+
+impl PushMessageContentHidden {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPushMessageContentHiddenBuilder {
+    let mut inner = PushMessageContentHidden::default();
+    inner.td_name = "pushMessageContentHidden".to_string();
+    RTDPushMessageContentHiddenBuilder { inner }
+  }
+
+  pub fn is_pinned(&self) -> bool { self.is_pinned }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentHiddenBuilder {
+  inner: PushMessageContentHidden
+}
+
+impl RTDPushMessageContentHiddenBuilder {
+  pub fn build(&self) -> PushMessageContentHidden { self.inner.clone() }
+
+   
+  pub fn is_pinned(&mut self, is_pinned: bool) -> &mut Self {
+    self.inner.is_pinned = is_pinned;
+    self
+  }
+
+}
+
+impl AsRef<PushMessageContentHidden> for PushMessageContentHidden {
+  fn as_ref(&self) -> &PushMessageContentHidden { self }
+}
+
+impl AsRef<PushMessageContentHidden> for RTDPushMessageContentHiddenBuilder {
+  fn as_ref(&self) -> &PushMessageContentHidden { &self.inner }
+}
+
+
+
+
+
+
+
 /// A message with an invoice from a bot
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PushMessageContentInvoice {
@@ -1012,6 +1400,152 @@ impl AsRef<PushMessageContentLocation> for PushMessageContentLocation {
 
 impl AsRef<PushMessageContentLocation> for RTDPushMessageContentLocationBuilder {
   fn as_ref(&self) -> &PushMessageContentLocation { &self.inner }
+}
+
+
+
+
+
+
+
+/// A media album
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentMediaAlbum {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Number of messages in the album
+  total_count: i64,
+  /// True, if the album has at least one photo
+  has_photos: bool,
+  /// True, if the album has at least one video
+  has_videos: bool,
+  
+}
+
+impl RObject for PushMessageContentMediaAlbum {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentMediaAlbum" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDPushMessageContent for PushMessageContentMediaAlbum {}
+
+
+
+impl PushMessageContentMediaAlbum {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPushMessageContentMediaAlbumBuilder {
+    let mut inner = PushMessageContentMediaAlbum::default();
+    inner.td_name = "pushMessageContentMediaAlbum".to_string();
+    RTDPushMessageContentMediaAlbumBuilder { inner }
+  }
+
+  pub fn total_count(&self) -> i64 { self.total_count }
+
+  pub fn has_photos(&self) -> bool { self.has_photos }
+
+  pub fn has_videos(&self) -> bool { self.has_videos }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentMediaAlbumBuilder {
+  inner: PushMessageContentMediaAlbum
+}
+
+impl RTDPushMessageContentMediaAlbumBuilder {
+  pub fn build(&self) -> PushMessageContentMediaAlbum { self.inner.clone() }
+
+   
+  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
+    self.inner.total_count = total_count;
+    self
+  }
+
+   
+  pub fn has_photos(&mut self, has_photos: bool) -> &mut Self {
+    self.inner.has_photos = has_photos;
+    self
+  }
+
+   
+  pub fn has_videos(&mut self, has_videos: bool) -> &mut Self {
+    self.inner.has_videos = has_videos;
+    self
+  }
+
+}
+
+impl AsRef<PushMessageContentMediaAlbum> for PushMessageContentMediaAlbum {
+  fn as_ref(&self) -> &PushMessageContentMediaAlbum { self }
+}
+
+impl AsRef<PushMessageContentMediaAlbum> for RTDPushMessageContentMediaAlbumBuilder {
+  fn as_ref(&self) -> &PushMessageContentMediaAlbum { &self.inner }
+}
+
+
+
+
+
+
+
+/// A forwarded messages
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentMessageForwards {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Number of forwarded messages
+  total_count: i64,
+  
+}
+
+impl RObject for PushMessageContentMessageForwards {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentMessageForwards" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDPushMessageContent for PushMessageContentMessageForwards {}
+
+
+
+impl PushMessageContentMessageForwards {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPushMessageContentMessageForwardsBuilder {
+    let mut inner = PushMessageContentMessageForwards::default();
+    inner.td_name = "pushMessageContentMessageForwards".to_string();
+    RTDPushMessageContentMessageForwardsBuilder { inner }
+  }
+
+  pub fn total_count(&self) -> i64 { self.total_count }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentMessageForwardsBuilder {
+  inner: PushMessageContentMessageForwards
+}
+
+impl RTDPushMessageContentMessageForwardsBuilder {
+  pub fn build(&self) -> PushMessageContentMessageForwards { self.inner.clone() }
+
+   
+  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
+    self.inner.total_count = total_count;
+    self
+  }
+
+}
+
+impl AsRef<PushMessageContentMessageForwards> for PushMessageContentMessageForwards {
+  fn as_ref(&self) -> &PushMessageContentMessageForwards { self }
+}
+
+impl AsRef<PushMessageContentMessageForwards> for RTDPushMessageContentMessageForwardsBuilder {
+  fn as_ref(&self) -> &PushMessageContentMessageForwards { &self.inner }
 }
 
 
@@ -1626,540 +2160,6 @@ impl AsRef<PushMessageContentVoiceNote> for PushMessageContentVoiceNote {
 
 impl AsRef<PushMessageContentVoiceNote> for RTDPushMessageContentVoiceNoteBuilder {
   fn as_ref(&self) -> &PushMessageContentVoiceNote { &self.inner }
-}
-
-
-
-
-
-
-
-/// A newly created basic group
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PushMessageContentBasicGroupChatCreate {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for PushMessageContentBasicGroupChatCreate {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentBasicGroupChatCreate" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPushMessageContent for PushMessageContentBasicGroupChatCreate {}
-
-
-
-impl PushMessageContentBasicGroupChatCreate {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPushMessageContentBasicGroupChatCreateBuilder {
-    let mut inner = PushMessageContentBasicGroupChatCreate::default();
-    inner.td_name = "pushMessageContentBasicGroupChatCreate".to_string();
-    RTDPushMessageContentBasicGroupChatCreateBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPushMessageContentBasicGroupChatCreateBuilder {
-  inner: PushMessageContentBasicGroupChatCreate
-}
-
-impl RTDPushMessageContentBasicGroupChatCreateBuilder {
-  pub fn build(&self) -> PushMessageContentBasicGroupChatCreate { self.inner.clone() }
-
-}
-
-impl AsRef<PushMessageContentBasicGroupChatCreate> for PushMessageContentBasicGroupChatCreate {
-  fn as_ref(&self) -> &PushMessageContentBasicGroupChatCreate { self }
-}
-
-impl AsRef<PushMessageContentBasicGroupChatCreate> for RTDPushMessageContentBasicGroupChatCreateBuilder {
-  fn as_ref(&self) -> &PushMessageContentBasicGroupChatCreate { &self.inner }
-}
-
-
-
-
-
-
-
-/// New chat members were invited to a group
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PushMessageContentChatAddMembers {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Name of the added member
-  member_name: String,
-  /// True, if the current user was added to the group
-  is_current_user: bool,
-  /// True, if the user has returned to the group himself
-  is_returned: bool,
-  
-}
-
-impl RObject for PushMessageContentChatAddMembers {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatAddMembers" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPushMessageContent for PushMessageContentChatAddMembers {}
-
-
-
-impl PushMessageContentChatAddMembers {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPushMessageContentChatAddMembersBuilder {
-    let mut inner = PushMessageContentChatAddMembers::default();
-    inner.td_name = "pushMessageContentChatAddMembers".to_string();
-    RTDPushMessageContentChatAddMembersBuilder { inner }
-  }
-
-  pub fn member_name(&self) -> &String { &self.member_name }
-
-  pub fn is_current_user(&self) -> bool { self.is_current_user }
-
-  pub fn is_returned(&self) -> bool { self.is_returned }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPushMessageContentChatAddMembersBuilder {
-  inner: PushMessageContentChatAddMembers
-}
-
-impl RTDPushMessageContentChatAddMembersBuilder {
-  pub fn build(&self) -> PushMessageContentChatAddMembers { self.inner.clone() }
-
-   
-  pub fn member_name<T: AsRef<str>>(&mut self, member_name: T) -> &mut Self {
-    self.inner.member_name = member_name.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn is_current_user(&mut self, is_current_user: bool) -> &mut Self {
-    self.inner.is_current_user = is_current_user;
-    self
-  }
-
-   
-  pub fn is_returned(&mut self, is_returned: bool) -> &mut Self {
-    self.inner.is_returned = is_returned;
-    self
-  }
-
-}
-
-impl AsRef<PushMessageContentChatAddMembers> for PushMessageContentChatAddMembers {
-  fn as_ref(&self) -> &PushMessageContentChatAddMembers { self }
-}
-
-impl AsRef<PushMessageContentChatAddMembers> for RTDPushMessageContentChatAddMembersBuilder {
-  fn as_ref(&self) -> &PushMessageContentChatAddMembers { &self.inner }
-}
-
-
-
-
-
-
-
-/// A chat photo was edited
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PushMessageContentChatChangePhoto {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for PushMessageContentChatChangePhoto {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatChangePhoto" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPushMessageContent for PushMessageContentChatChangePhoto {}
-
-
-
-impl PushMessageContentChatChangePhoto {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPushMessageContentChatChangePhotoBuilder {
-    let mut inner = PushMessageContentChatChangePhoto::default();
-    inner.td_name = "pushMessageContentChatChangePhoto".to_string();
-    RTDPushMessageContentChatChangePhotoBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPushMessageContentChatChangePhotoBuilder {
-  inner: PushMessageContentChatChangePhoto
-}
-
-impl RTDPushMessageContentChatChangePhotoBuilder {
-  pub fn build(&self) -> PushMessageContentChatChangePhoto { self.inner.clone() }
-
-}
-
-impl AsRef<PushMessageContentChatChangePhoto> for PushMessageContentChatChangePhoto {
-  fn as_ref(&self) -> &PushMessageContentChatChangePhoto { self }
-}
-
-impl AsRef<PushMessageContentChatChangePhoto> for RTDPushMessageContentChatChangePhotoBuilder {
-  fn as_ref(&self) -> &PushMessageContentChatChangePhoto { &self.inner }
-}
-
-
-
-
-
-
-
-/// A chat title was edited
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PushMessageContentChatChangeTitle {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// New chat title
-  title: String,
-  
-}
-
-impl RObject for PushMessageContentChatChangeTitle {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatChangeTitle" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPushMessageContent for PushMessageContentChatChangeTitle {}
-
-
-
-impl PushMessageContentChatChangeTitle {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPushMessageContentChatChangeTitleBuilder {
-    let mut inner = PushMessageContentChatChangeTitle::default();
-    inner.td_name = "pushMessageContentChatChangeTitle".to_string();
-    RTDPushMessageContentChatChangeTitleBuilder { inner }
-  }
-
-  pub fn title(&self) -> &String { &self.title }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPushMessageContentChatChangeTitleBuilder {
-  inner: PushMessageContentChatChangeTitle
-}
-
-impl RTDPushMessageContentChatChangeTitleBuilder {
-  pub fn build(&self) -> PushMessageContentChatChangeTitle { self.inner.clone() }
-
-   
-  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
-    self.inner.title = title.as_ref().to_string();
-    self
-  }
-
-}
-
-impl AsRef<PushMessageContentChatChangeTitle> for PushMessageContentChatChangeTitle {
-  fn as_ref(&self) -> &PushMessageContentChatChangeTitle { self }
-}
-
-impl AsRef<PushMessageContentChatChangeTitle> for RTDPushMessageContentChatChangeTitleBuilder {
-  fn as_ref(&self) -> &PushMessageContentChatChangeTitle { &self.inner }
-}
-
-
-
-
-
-
-
-/// A chat member was deleted
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PushMessageContentChatDeleteMember {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Name of the deleted member
-  member_name: String,
-  /// True, if the current user was deleted from the group
-  is_current_user: bool,
-  /// True, if the user has left the group himself
-  is_left: bool,
-  
-}
-
-impl RObject for PushMessageContentChatDeleteMember {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatDeleteMember" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPushMessageContent for PushMessageContentChatDeleteMember {}
-
-
-
-impl PushMessageContentChatDeleteMember {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPushMessageContentChatDeleteMemberBuilder {
-    let mut inner = PushMessageContentChatDeleteMember::default();
-    inner.td_name = "pushMessageContentChatDeleteMember".to_string();
-    RTDPushMessageContentChatDeleteMemberBuilder { inner }
-  }
-
-  pub fn member_name(&self) -> &String { &self.member_name }
-
-  pub fn is_current_user(&self) -> bool { self.is_current_user }
-
-  pub fn is_left(&self) -> bool { self.is_left }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPushMessageContentChatDeleteMemberBuilder {
-  inner: PushMessageContentChatDeleteMember
-}
-
-impl RTDPushMessageContentChatDeleteMemberBuilder {
-  pub fn build(&self) -> PushMessageContentChatDeleteMember { self.inner.clone() }
-
-   
-  pub fn member_name<T: AsRef<str>>(&mut self, member_name: T) -> &mut Self {
-    self.inner.member_name = member_name.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn is_current_user(&mut self, is_current_user: bool) -> &mut Self {
-    self.inner.is_current_user = is_current_user;
-    self
-  }
-
-   
-  pub fn is_left(&mut self, is_left: bool) -> &mut Self {
-    self.inner.is_left = is_left;
-    self
-  }
-
-}
-
-impl AsRef<PushMessageContentChatDeleteMember> for PushMessageContentChatDeleteMember {
-  fn as_ref(&self) -> &PushMessageContentChatDeleteMember { self }
-}
-
-impl AsRef<PushMessageContentChatDeleteMember> for RTDPushMessageContentChatDeleteMemberBuilder {
-  fn as_ref(&self) -> &PushMessageContentChatDeleteMember { &self.inner }
-}
-
-
-
-
-
-
-
-/// A new member joined the chat by invite link
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PushMessageContentChatJoinByLink {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for PushMessageContentChatJoinByLink {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatJoinByLink" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPushMessageContent for PushMessageContentChatJoinByLink {}
-
-
-
-impl PushMessageContentChatJoinByLink {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPushMessageContentChatJoinByLinkBuilder {
-    let mut inner = PushMessageContentChatJoinByLink::default();
-    inner.td_name = "pushMessageContentChatJoinByLink".to_string();
-    RTDPushMessageContentChatJoinByLinkBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPushMessageContentChatJoinByLinkBuilder {
-  inner: PushMessageContentChatJoinByLink
-}
-
-impl RTDPushMessageContentChatJoinByLinkBuilder {
-  pub fn build(&self) -> PushMessageContentChatJoinByLink { self.inner.clone() }
-
-}
-
-impl AsRef<PushMessageContentChatJoinByLink> for PushMessageContentChatJoinByLink {
-  fn as_ref(&self) -> &PushMessageContentChatJoinByLink { self }
-}
-
-impl AsRef<PushMessageContentChatJoinByLink> for RTDPushMessageContentChatJoinByLinkBuilder {
-  fn as_ref(&self) -> &PushMessageContentChatJoinByLink { &self.inner }
-}
-
-
-
-
-
-
-
-/// A forwarded messages
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PushMessageContentMessageForwards {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Number of forwarded messages
-  total_count: i64,
-  
-}
-
-impl RObject for PushMessageContentMessageForwards {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentMessageForwards" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPushMessageContent for PushMessageContentMessageForwards {}
-
-
-
-impl PushMessageContentMessageForwards {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPushMessageContentMessageForwardsBuilder {
-    let mut inner = PushMessageContentMessageForwards::default();
-    inner.td_name = "pushMessageContentMessageForwards".to_string();
-    RTDPushMessageContentMessageForwardsBuilder { inner }
-  }
-
-  pub fn total_count(&self) -> i64 { self.total_count }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPushMessageContentMessageForwardsBuilder {
-  inner: PushMessageContentMessageForwards
-}
-
-impl RTDPushMessageContentMessageForwardsBuilder {
-  pub fn build(&self) -> PushMessageContentMessageForwards { self.inner.clone() }
-
-   
-  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
-    self.inner.total_count = total_count;
-    self
-  }
-
-}
-
-impl AsRef<PushMessageContentMessageForwards> for PushMessageContentMessageForwards {
-  fn as_ref(&self) -> &PushMessageContentMessageForwards { self }
-}
-
-impl AsRef<PushMessageContentMessageForwards> for RTDPushMessageContentMessageForwardsBuilder {
-  fn as_ref(&self) -> &PushMessageContentMessageForwards { &self.inner }
-}
-
-
-
-
-
-
-
-/// A media album
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PushMessageContentMediaAlbum {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Number of messages in the album
-  total_count: i64,
-  /// True, if the album has at least one photo
-  has_photos: bool,
-  /// True, if the album has at least one video
-  has_videos: bool,
-  
-}
-
-impl RObject for PushMessageContentMediaAlbum {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentMediaAlbum" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDPushMessageContent for PushMessageContentMediaAlbum {}
-
-
-
-impl PushMessageContentMediaAlbum {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDPushMessageContentMediaAlbumBuilder {
-    let mut inner = PushMessageContentMediaAlbum::default();
-    inner.td_name = "pushMessageContentMediaAlbum".to_string();
-    RTDPushMessageContentMediaAlbumBuilder { inner }
-  }
-
-  pub fn total_count(&self) -> i64 { self.total_count }
-
-  pub fn has_photos(&self) -> bool { self.has_photos }
-
-  pub fn has_videos(&self) -> bool { self.has_videos }
-
-}
-
-#[doc(hidden)]
-pub struct RTDPushMessageContentMediaAlbumBuilder {
-  inner: PushMessageContentMediaAlbum
-}
-
-impl RTDPushMessageContentMediaAlbumBuilder {
-  pub fn build(&self) -> PushMessageContentMediaAlbum { self.inner.clone() }
-
-   
-  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
-    self.inner.total_count = total_count;
-    self
-  }
-
-   
-  pub fn has_photos(&mut self, has_photos: bool) -> &mut Self {
-    self.inner.has_photos = has_photos;
-    self
-  }
-
-   
-  pub fn has_videos(&mut self, has_videos: bool) -> &mut Self {
-    self.inner.has_videos = has_videos;
-    self
-  }
-
-}
-
-impl AsRef<PushMessageContentMediaAlbum> for PushMessageContentMediaAlbum {
-  fn as_ref(&self) -> &PushMessageContentMediaAlbum { self }
-}
-
-impl AsRef<PushMessageContentMediaAlbum> for RTDPushMessageContentMediaAlbumBuilder {
-  fn as_ref(&self) -> &PushMessageContentMediaAlbum { &self.inner }
 }
 
 

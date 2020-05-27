@@ -18,38 +18,38 @@ pub trait TDInputMessageContent: Debug + RObject {}
 #[serde(untagged)]
 pub enum InputMessageContent {
   #[doc(hidden)] _Default(()),
-  /// A text message
-  InputMessageText(InputMessageText),
   /// An animation message (GIF-style).
   InputMessageAnimation(InputMessageAnimation),
   /// An audio message
   InputMessageAudio(InputMessageAudio),
+  /// A message containing a user contact
+  InputMessageContact(InputMessageContact),
   /// A document message (general file)
   InputMessageDocument(InputMessageDocument),
+  /// A forwarded message
+  InputMessageForwarded(InputMessageForwarded),
+  /// A message with a game; not supported for channels or secret chats
+  InputMessageGame(InputMessageGame),
+  /// A message with an invoice; can be used only by bots and only in private chats
+  InputMessageInvoice(InputMessageInvoice),
+  /// A message with a location
+  InputMessageLocation(InputMessageLocation),
   /// A photo message
   InputMessagePhoto(InputMessagePhoto),
+  /// A message with a poll. Polls can't be sent to private or secret chats
+  InputMessagePoll(InputMessagePoll),
   /// A sticker message
   InputMessageSticker(InputMessageSticker),
+  /// A text message
+  InputMessageText(InputMessageText),
+  /// A message with information about a venue
+  InputMessageVenue(InputMessageVenue),
   /// A video message
   InputMessageVideo(InputMessageVideo),
   /// A video note message
   InputMessageVideoNote(InputMessageVideoNote),
   /// A voice note message
   InputMessageVoiceNote(InputMessageVoiceNote),
-  /// A message with a location
-  InputMessageLocation(InputMessageLocation),
-  /// A message with information about a venue
-  InputMessageVenue(InputMessageVenue),
-  /// A message containing a user contact
-  InputMessageContact(InputMessageContact),
-  /// A message with a game; not supported for channels or secret chats
-  InputMessageGame(InputMessageGame),
-  /// A message with an invoice; can be used only by bots and only in private chats
-  InputMessageInvoice(InputMessageInvoice),
-  /// A message with a poll. Polls can't be sent to private or secret chats
-  InputMessagePoll(InputMessagePoll),
-  /// A forwarded message
-  InputMessageForwarded(InputMessageForwarded),
 
 }
 
@@ -62,22 +62,22 @@ impl<'de> Deserialize<'de> for InputMessageContent {
     use serde::de::Error;
     rtd_enum_deserialize!(
       InputMessageContent,
-      (inputMessageText, InputMessageText);
       (inputMessageAnimation, InputMessageAnimation);
       (inputMessageAudio, InputMessageAudio);
+      (inputMessageContact, InputMessageContact);
       (inputMessageDocument, InputMessageDocument);
+      (inputMessageForwarded, InputMessageForwarded);
+      (inputMessageGame, InputMessageGame);
+      (inputMessageInvoice, InputMessageInvoice);
+      (inputMessageLocation, InputMessageLocation);
       (inputMessagePhoto, InputMessagePhoto);
+      (inputMessagePoll, InputMessagePoll);
       (inputMessageSticker, InputMessageSticker);
+      (inputMessageText, InputMessageText);
+      (inputMessageVenue, InputMessageVenue);
       (inputMessageVideo, InputMessageVideo);
       (inputMessageVideoNote, InputMessageVideoNote);
       (inputMessageVoiceNote, InputMessageVoiceNote);
-      (inputMessageLocation, InputMessageLocation);
-      (inputMessageVenue, InputMessageVenue);
-      (inputMessageContact, InputMessageContact);
-      (inputMessageGame, InputMessageGame);
-      (inputMessageInvoice, InputMessageInvoice);
-      (inputMessagePoll, InputMessagePoll);
-      (inputMessageForwarded, InputMessageForwarded);
 
     )(deserializer)
   }
@@ -86,22 +86,22 @@ impl<'de> Deserialize<'de> for InputMessageContent {
 impl RObject for InputMessageContent {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
-      InputMessageContent::InputMessageText(t) => t.td_name(),
       InputMessageContent::InputMessageAnimation(t) => t.td_name(),
       InputMessageContent::InputMessageAudio(t) => t.td_name(),
+      InputMessageContent::InputMessageContact(t) => t.td_name(),
       InputMessageContent::InputMessageDocument(t) => t.td_name(),
+      InputMessageContent::InputMessageForwarded(t) => t.td_name(),
+      InputMessageContent::InputMessageGame(t) => t.td_name(),
+      InputMessageContent::InputMessageInvoice(t) => t.td_name(),
+      InputMessageContent::InputMessageLocation(t) => t.td_name(),
       InputMessageContent::InputMessagePhoto(t) => t.td_name(),
+      InputMessageContent::InputMessagePoll(t) => t.td_name(),
       InputMessageContent::InputMessageSticker(t) => t.td_name(),
+      InputMessageContent::InputMessageText(t) => t.td_name(),
+      InputMessageContent::InputMessageVenue(t) => t.td_name(),
       InputMessageContent::InputMessageVideo(t) => t.td_name(),
       InputMessageContent::InputMessageVideoNote(t) => t.td_name(),
       InputMessageContent::InputMessageVoiceNote(t) => t.td_name(),
-      InputMessageContent::InputMessageLocation(t) => t.td_name(),
-      InputMessageContent::InputMessageVenue(t) => t.td_name(),
-      InputMessageContent::InputMessageContact(t) => t.td_name(),
-      InputMessageContent::InputMessageGame(t) => t.td_name(),
-      InputMessageContent::InputMessageInvoice(t) => t.td_name(),
-      InputMessageContent::InputMessagePoll(t) => t.td_name(),
-      InputMessageContent::InputMessageForwarded(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -113,70 +113,84 @@ impl InputMessageContent {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let InputMessageContent::_Default(_) = self { true } else { false } }
 
-  pub fn is_input_message_text(&self) -> bool { if let InputMessageContent::InputMessageText(_) = self { true } else { false } }
   pub fn is_input_message_animation(&self) -> bool { if let InputMessageContent::InputMessageAnimation(_) = self { true } else { false } }
   pub fn is_input_message_audio(&self) -> bool { if let InputMessageContent::InputMessageAudio(_) = self { true } else { false } }
+  pub fn is_input_message_contact(&self) -> bool { if let InputMessageContent::InputMessageContact(_) = self { true } else { false } }
   pub fn is_input_message_document(&self) -> bool { if let InputMessageContent::InputMessageDocument(_) = self { true } else { false } }
+  pub fn is_input_message_forwarded(&self) -> bool { if let InputMessageContent::InputMessageForwarded(_) = self { true } else { false } }
+  pub fn is_input_message_game(&self) -> bool { if let InputMessageContent::InputMessageGame(_) = self { true } else { false } }
+  pub fn is_input_message_invoice(&self) -> bool { if let InputMessageContent::InputMessageInvoice(_) = self { true } else { false } }
+  pub fn is_input_message_location(&self) -> bool { if let InputMessageContent::InputMessageLocation(_) = self { true } else { false } }
   pub fn is_input_message_photo(&self) -> bool { if let InputMessageContent::InputMessagePhoto(_) = self { true } else { false } }
+  pub fn is_input_message_poll(&self) -> bool { if let InputMessageContent::InputMessagePoll(_) = self { true } else { false } }
   pub fn is_input_message_sticker(&self) -> bool { if let InputMessageContent::InputMessageSticker(_) = self { true } else { false } }
+  pub fn is_input_message_text(&self) -> bool { if let InputMessageContent::InputMessageText(_) = self { true } else { false } }
+  pub fn is_input_message_venue(&self) -> bool { if let InputMessageContent::InputMessageVenue(_) = self { true } else { false } }
   pub fn is_input_message_video(&self) -> bool { if let InputMessageContent::InputMessageVideo(_) = self { true } else { false } }
   pub fn is_input_message_video_note(&self) -> bool { if let InputMessageContent::InputMessageVideoNote(_) = self { true } else { false } }
   pub fn is_input_message_voice_note(&self) -> bool { if let InputMessageContent::InputMessageVoiceNote(_) = self { true } else { false } }
-  pub fn is_input_message_location(&self) -> bool { if let InputMessageContent::InputMessageLocation(_) = self { true } else { false } }
-  pub fn is_input_message_venue(&self) -> bool { if let InputMessageContent::InputMessageVenue(_) = self { true } else { false } }
-  pub fn is_input_message_contact(&self) -> bool { if let InputMessageContent::InputMessageContact(_) = self { true } else { false } }
-  pub fn is_input_message_game(&self) -> bool { if let InputMessageContent::InputMessageGame(_) = self { true } else { false } }
-  pub fn is_input_message_invoice(&self) -> bool { if let InputMessageContent::InputMessageInvoice(_) = self { true } else { false } }
-  pub fn is_input_message_poll(&self) -> bool { if let InputMessageContent::InputMessagePoll(_) = self { true } else { false } }
-  pub fn is_input_message_forwarded(&self) -> bool { if let InputMessageContent::InputMessageForwarded(_) = self { true } else { false } }
 
-  pub fn on_input_message_text<F: FnOnce(&InputMessageText)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageText(t) = self { fnc(t) }; self }
   pub fn on_input_message_animation<F: FnOnce(&InputMessageAnimation)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageAnimation(t) = self { fnc(t) }; self }
   pub fn on_input_message_audio<F: FnOnce(&InputMessageAudio)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageAudio(t) = self { fnc(t) }; self }
+  pub fn on_input_message_contact<F: FnOnce(&InputMessageContact)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageContact(t) = self { fnc(t) }; self }
   pub fn on_input_message_document<F: FnOnce(&InputMessageDocument)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageDocument(t) = self { fnc(t) }; self }
+  pub fn on_input_message_forwarded<F: FnOnce(&InputMessageForwarded)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageForwarded(t) = self { fnc(t) }; self }
+  pub fn on_input_message_game<F: FnOnce(&InputMessageGame)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageGame(t) = self { fnc(t) }; self }
+  pub fn on_input_message_invoice<F: FnOnce(&InputMessageInvoice)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageInvoice(t) = self { fnc(t) }; self }
+  pub fn on_input_message_location<F: FnOnce(&InputMessageLocation)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageLocation(t) = self { fnc(t) }; self }
   pub fn on_input_message_photo<F: FnOnce(&InputMessagePhoto)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessagePhoto(t) = self { fnc(t) }; self }
+  pub fn on_input_message_poll<F: FnOnce(&InputMessagePoll)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessagePoll(t) = self { fnc(t) }; self }
   pub fn on_input_message_sticker<F: FnOnce(&InputMessageSticker)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageSticker(t) = self { fnc(t) }; self }
+  pub fn on_input_message_text<F: FnOnce(&InputMessageText)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageText(t) = self { fnc(t) }; self }
+  pub fn on_input_message_venue<F: FnOnce(&InputMessageVenue)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageVenue(t) = self { fnc(t) }; self }
   pub fn on_input_message_video<F: FnOnce(&InputMessageVideo)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageVideo(t) = self { fnc(t) }; self }
   pub fn on_input_message_video_note<F: FnOnce(&InputMessageVideoNote)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageVideoNote(t) = self { fnc(t) }; self }
   pub fn on_input_message_voice_note<F: FnOnce(&InputMessageVoiceNote)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageVoiceNote(t) = self { fnc(t) }; self }
-  pub fn on_input_message_location<F: FnOnce(&InputMessageLocation)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageLocation(t) = self { fnc(t) }; self }
-  pub fn on_input_message_venue<F: FnOnce(&InputMessageVenue)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageVenue(t) = self { fnc(t) }; self }
-  pub fn on_input_message_contact<F: FnOnce(&InputMessageContact)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageContact(t) = self { fnc(t) }; self }
-  pub fn on_input_message_game<F: FnOnce(&InputMessageGame)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageGame(t) = self { fnc(t) }; self }
-  pub fn on_input_message_invoice<F: FnOnce(&InputMessageInvoice)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageInvoice(t) = self { fnc(t) }; self }
-  pub fn on_input_message_poll<F: FnOnce(&InputMessagePoll)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessagePoll(t) = self { fnc(t) }; self }
-  pub fn on_input_message_forwarded<F: FnOnce(&InputMessageForwarded)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageForwarded(t) = self { fnc(t) }; self }
 
-  pub fn as_input_message_text(&self) -> Option<&InputMessageText> { if let InputMessageContent::InputMessageText(t) = self { return Some(t) } None }
   pub fn as_input_message_animation(&self) -> Option<&InputMessageAnimation> { if let InputMessageContent::InputMessageAnimation(t) = self { return Some(t) } None }
   pub fn as_input_message_audio(&self) -> Option<&InputMessageAudio> { if let InputMessageContent::InputMessageAudio(t) = self { return Some(t) } None }
+  pub fn as_input_message_contact(&self) -> Option<&InputMessageContact> { if let InputMessageContent::InputMessageContact(t) = self { return Some(t) } None }
   pub fn as_input_message_document(&self) -> Option<&InputMessageDocument> { if let InputMessageContent::InputMessageDocument(t) = self { return Some(t) } None }
+  pub fn as_input_message_forwarded(&self) -> Option<&InputMessageForwarded> { if let InputMessageContent::InputMessageForwarded(t) = self { return Some(t) } None }
+  pub fn as_input_message_game(&self) -> Option<&InputMessageGame> { if let InputMessageContent::InputMessageGame(t) = self { return Some(t) } None }
+  pub fn as_input_message_invoice(&self) -> Option<&InputMessageInvoice> { if let InputMessageContent::InputMessageInvoice(t) = self { return Some(t) } None }
+  pub fn as_input_message_location(&self) -> Option<&InputMessageLocation> { if let InputMessageContent::InputMessageLocation(t) = self { return Some(t) } None }
   pub fn as_input_message_photo(&self) -> Option<&InputMessagePhoto> { if let InputMessageContent::InputMessagePhoto(t) = self { return Some(t) } None }
+  pub fn as_input_message_poll(&self) -> Option<&InputMessagePoll> { if let InputMessageContent::InputMessagePoll(t) = self { return Some(t) } None }
   pub fn as_input_message_sticker(&self) -> Option<&InputMessageSticker> { if let InputMessageContent::InputMessageSticker(t) = self { return Some(t) } None }
+  pub fn as_input_message_text(&self) -> Option<&InputMessageText> { if let InputMessageContent::InputMessageText(t) = self { return Some(t) } None }
+  pub fn as_input_message_venue(&self) -> Option<&InputMessageVenue> { if let InputMessageContent::InputMessageVenue(t) = self { return Some(t) } None }
   pub fn as_input_message_video(&self) -> Option<&InputMessageVideo> { if let InputMessageContent::InputMessageVideo(t) = self { return Some(t) } None }
   pub fn as_input_message_video_note(&self) -> Option<&InputMessageVideoNote> { if let InputMessageContent::InputMessageVideoNote(t) = self { return Some(t) } None }
   pub fn as_input_message_voice_note(&self) -> Option<&InputMessageVoiceNote> { if let InputMessageContent::InputMessageVoiceNote(t) = self { return Some(t) } None }
-  pub fn as_input_message_location(&self) -> Option<&InputMessageLocation> { if let InputMessageContent::InputMessageLocation(t) = self { return Some(t) } None }
-  pub fn as_input_message_venue(&self) -> Option<&InputMessageVenue> { if let InputMessageContent::InputMessageVenue(t) = self { return Some(t) } None }
-  pub fn as_input_message_contact(&self) -> Option<&InputMessageContact> { if let InputMessageContent::InputMessageContact(t) = self { return Some(t) } None }
-  pub fn as_input_message_game(&self) -> Option<&InputMessageGame> { if let InputMessageContent::InputMessageGame(t) = self { return Some(t) } None }
-  pub fn as_input_message_invoice(&self) -> Option<&InputMessageInvoice> { if let InputMessageContent::InputMessageInvoice(t) = self { return Some(t) } None }
-  pub fn as_input_message_poll(&self) -> Option<&InputMessagePoll> { if let InputMessageContent::InputMessagePoll(t) = self { return Some(t) } None }
-  pub fn as_input_message_forwarded(&self) -> Option<&InputMessageForwarded> { if let InputMessageContent::InputMessageForwarded(t) = self { return Some(t) } None }
 
 
-
-  pub fn input_message_text<T: AsRef<InputMessageText>>(t: T) -> Self { InputMessageContent::InputMessageText(t.as_ref().clone()) }
 
   pub fn input_message_animation<T: AsRef<InputMessageAnimation>>(t: T) -> Self { InputMessageContent::InputMessageAnimation(t.as_ref().clone()) }
 
   pub fn input_message_audio<T: AsRef<InputMessageAudio>>(t: T) -> Self { InputMessageContent::InputMessageAudio(t.as_ref().clone()) }
 
+  pub fn input_message_contact<T: AsRef<InputMessageContact>>(t: T) -> Self { InputMessageContent::InputMessageContact(t.as_ref().clone()) }
+
   pub fn input_message_document<T: AsRef<InputMessageDocument>>(t: T) -> Self { InputMessageContent::InputMessageDocument(t.as_ref().clone()) }
+
+  pub fn input_message_forwarded<T: AsRef<InputMessageForwarded>>(t: T) -> Self { InputMessageContent::InputMessageForwarded(t.as_ref().clone()) }
+
+  pub fn input_message_game<T: AsRef<InputMessageGame>>(t: T) -> Self { InputMessageContent::InputMessageGame(t.as_ref().clone()) }
+
+  pub fn input_message_invoice<T: AsRef<InputMessageInvoice>>(t: T) -> Self { InputMessageContent::InputMessageInvoice(t.as_ref().clone()) }
+
+  pub fn input_message_location<T: AsRef<InputMessageLocation>>(t: T) -> Self { InputMessageContent::InputMessageLocation(t.as_ref().clone()) }
 
   pub fn input_message_photo<T: AsRef<InputMessagePhoto>>(t: T) -> Self { InputMessageContent::InputMessagePhoto(t.as_ref().clone()) }
 
+  pub fn input_message_poll<T: AsRef<InputMessagePoll>>(t: T) -> Self { InputMessageContent::InputMessagePoll(t.as_ref().clone()) }
+
   pub fn input_message_sticker<T: AsRef<InputMessageSticker>>(t: T) -> Self { InputMessageContent::InputMessageSticker(t.as_ref().clone()) }
+
+  pub fn input_message_text<T: AsRef<InputMessageText>>(t: T) -> Self { InputMessageContent::InputMessageText(t.as_ref().clone()) }
+
+  pub fn input_message_venue<T: AsRef<InputMessageVenue>>(t: T) -> Self { InputMessageContent::InputMessageVenue(t.as_ref().clone()) }
 
   pub fn input_message_video<T: AsRef<InputMessageVideo>>(t: T) -> Self { InputMessageContent::InputMessageVideo(t.as_ref().clone()) }
 
@@ -184,107 +198,10 @@ impl InputMessageContent {
 
   pub fn input_message_voice_note<T: AsRef<InputMessageVoiceNote>>(t: T) -> Self { InputMessageContent::InputMessageVoiceNote(t.as_ref().clone()) }
 
-  pub fn input_message_location<T: AsRef<InputMessageLocation>>(t: T) -> Self { InputMessageContent::InputMessageLocation(t.as_ref().clone()) }
-
-  pub fn input_message_venue<T: AsRef<InputMessageVenue>>(t: T) -> Self { InputMessageContent::InputMessageVenue(t.as_ref().clone()) }
-
-  pub fn input_message_contact<T: AsRef<InputMessageContact>>(t: T) -> Self { InputMessageContent::InputMessageContact(t.as_ref().clone()) }
-
-  pub fn input_message_game<T: AsRef<InputMessageGame>>(t: T) -> Self { InputMessageContent::InputMessageGame(t.as_ref().clone()) }
-
-  pub fn input_message_invoice<T: AsRef<InputMessageInvoice>>(t: T) -> Self { InputMessageContent::InputMessageInvoice(t.as_ref().clone()) }
-
-  pub fn input_message_poll<T: AsRef<InputMessagePoll>>(t: T) -> Self { InputMessageContent::InputMessagePoll(t.as_ref().clone()) }
-
-  pub fn input_message_forwarded<T: AsRef<InputMessageForwarded>>(t: T) -> Self { InputMessageContent::InputMessageForwarded(t.as_ref().clone()) }
-
 }
 
 impl AsRef<InputMessageContent> for InputMessageContent {
   fn as_ref(&self) -> &InputMessageContent { self }
-}
-
-
-
-
-
-
-
-/// A text message
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InputMessageText {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Formatted text to be sent; 1-GetOption("message_text_length_max") characters. Only Bold, Italic, Code, Pre, PreCode and TextUrl entities are allowed to be specified manually
-  text: FormattedText,
-  /// True, if rich web page previews for URLs in the message text should be disabled
-  disable_web_page_preview: bool,
-  /// True, if a chat message draft should be deleted
-  clear_draft: bool,
-  
-}
-
-impl RObject for InputMessageText {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageText" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDInputMessageContent for InputMessageText {}
-
-
-
-impl InputMessageText {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInputMessageTextBuilder {
-    let mut inner = InputMessageText::default();
-    inner.td_name = "inputMessageText".to_string();
-    RTDInputMessageTextBuilder { inner }
-  }
-
-  pub fn text(&self) -> &FormattedText { &self.text }
-
-  pub fn disable_web_page_preview(&self) -> bool { self.disable_web_page_preview }
-
-  pub fn clear_draft(&self) -> bool { self.clear_draft }
-
-}
-
-#[doc(hidden)]
-pub struct RTDInputMessageTextBuilder {
-  inner: InputMessageText
-}
-
-impl RTDInputMessageTextBuilder {
-  pub fn build(&self) -> InputMessageText { self.inner.clone() }
-
-   
-  pub fn text<T: AsRef<FormattedText>>(&mut self, text: T) -> &mut Self {
-    self.inner.text = text.as_ref().clone();
-    self
-  }
-
-   
-  pub fn disable_web_page_preview(&mut self, disable_web_page_preview: bool) -> &mut Self {
-    self.inner.disable_web_page_preview = disable_web_page_preview;
-    self
-  }
-
-   
-  pub fn clear_draft(&mut self, clear_draft: bool) -> &mut Self {
-    self.inner.clear_draft = clear_draft;
-    self
-  }
-
-}
-
-impl AsRef<InputMessageText> for InputMessageText {
-  fn as_ref(&self) -> &InputMessageText { self }
-}
-
-impl AsRef<InputMessageText> for RTDInputMessageTextBuilder {
-  fn as_ref(&self) -> &InputMessageText { &self.inner }
 }
 
 
@@ -519,6 +436,69 @@ impl AsRef<InputMessageAudio> for RTDInputMessageAudioBuilder {
 
 
 
+/// A message containing a user contact
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InputMessageContact {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Contact to send
+  contact: Contact,
+  
+}
+
+impl RObject for InputMessageContact {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageContact" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInputMessageContent for InputMessageContact {}
+
+
+
+impl InputMessageContact {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInputMessageContactBuilder {
+    let mut inner = InputMessageContact::default();
+    inner.td_name = "inputMessageContact".to_string();
+    RTDInputMessageContactBuilder { inner }
+  }
+
+  pub fn contact(&self) -> &Contact { &self.contact }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInputMessageContactBuilder {
+  inner: InputMessageContact
+}
+
+impl RTDInputMessageContactBuilder {
+  pub fn build(&self) -> InputMessageContact { self.inner.clone() }
+
+   
+  pub fn contact<T: AsRef<Contact>>(&mut self, contact: T) -> &mut Self {
+    self.inner.contact = contact.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<InputMessageContact> for InputMessageContact {
+  fn as_ref(&self) -> &InputMessageContact { self }
+}
+
+impl AsRef<InputMessageContact> for RTDInputMessageContactBuilder {
+  fn as_ref(&self) -> &InputMessageContact { &self.inner }
+}
+
+
+
+
+
+
+
 /// A document message (general file)
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InputMessageDocument {
@@ -594,6 +574,398 @@ impl AsRef<InputMessageDocument> for InputMessageDocument {
 
 impl AsRef<InputMessageDocument> for RTDInputMessageDocumentBuilder {
   fn as_ref(&self) -> &InputMessageDocument { &self.inner }
+}
+
+
+
+
+
+
+
+/// A forwarded message
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InputMessageForwarded {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Identifier for the chat this forwarded message came from
+  from_chat_id: i64,
+  /// Identifier of the message to forward
+  message_id: i64,
+  /// True, if a game message should be shared within a launched game; applies only to game messages
+  in_game_share: bool,
+  
+}
+
+impl RObject for InputMessageForwarded {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageForwarded" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInputMessageContent for InputMessageForwarded {}
+
+
+
+impl InputMessageForwarded {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInputMessageForwardedBuilder {
+    let mut inner = InputMessageForwarded::default();
+    inner.td_name = "inputMessageForwarded".to_string();
+    RTDInputMessageForwardedBuilder { inner }
+  }
+
+  pub fn from_chat_id(&self) -> i64 { self.from_chat_id }
+
+  pub fn message_id(&self) -> i64 { self.message_id }
+
+  pub fn in_game_share(&self) -> bool { self.in_game_share }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInputMessageForwardedBuilder {
+  inner: InputMessageForwarded
+}
+
+impl RTDInputMessageForwardedBuilder {
+  pub fn build(&self) -> InputMessageForwarded { self.inner.clone() }
+
+   
+  pub fn from_chat_id(&mut self, from_chat_id: i64) -> &mut Self {
+    self.inner.from_chat_id = from_chat_id;
+    self
+  }
+
+   
+  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
+    self.inner.message_id = message_id;
+    self
+  }
+
+   
+  pub fn in_game_share(&mut self, in_game_share: bool) -> &mut Self {
+    self.inner.in_game_share = in_game_share;
+    self
+  }
+
+}
+
+impl AsRef<InputMessageForwarded> for InputMessageForwarded {
+  fn as_ref(&self) -> &InputMessageForwarded { self }
+}
+
+impl AsRef<InputMessageForwarded> for RTDInputMessageForwardedBuilder {
+  fn as_ref(&self) -> &InputMessageForwarded { &self.inner }
+}
+
+
+
+
+
+
+
+/// A message with a game; not supported for channels or secret chats
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InputMessageGame {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// User identifier of the bot that owns the game
+  bot_user_id: i64,
+  /// Short name of the game
+  game_short_name: String,
+  
+}
+
+impl RObject for InputMessageGame {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageGame" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInputMessageContent for InputMessageGame {}
+
+
+
+impl InputMessageGame {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInputMessageGameBuilder {
+    let mut inner = InputMessageGame::default();
+    inner.td_name = "inputMessageGame".to_string();
+    RTDInputMessageGameBuilder { inner }
+  }
+
+  pub fn bot_user_id(&self) -> i64 { self.bot_user_id }
+
+  pub fn game_short_name(&self) -> &String { &self.game_short_name }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInputMessageGameBuilder {
+  inner: InputMessageGame
+}
+
+impl RTDInputMessageGameBuilder {
+  pub fn build(&self) -> InputMessageGame { self.inner.clone() }
+
+   
+  pub fn bot_user_id(&mut self, bot_user_id: i64) -> &mut Self {
+    self.inner.bot_user_id = bot_user_id;
+    self
+  }
+
+   
+  pub fn game_short_name<T: AsRef<str>>(&mut self, game_short_name: T) -> &mut Self {
+    self.inner.game_short_name = game_short_name.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<InputMessageGame> for InputMessageGame {
+  fn as_ref(&self) -> &InputMessageGame { self }
+}
+
+impl AsRef<InputMessageGame> for RTDInputMessageGameBuilder {
+  fn as_ref(&self) -> &InputMessageGame { &self.inner }
+}
+
+
+
+
+
+
+
+/// A message with an invoice; can be used only by bots and only in private chats
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InputMessageInvoice {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Invoice
+  invoice: Invoice,
+  /// Product title; 1-32 characters
+  title: String,
+  /// A message with an invoice; can be used only by bots and only in private chats
+  description: String,
+  /// Product photo URL; optional
+  photo_url: String,
+  /// Product photo size
+  photo_size: i64,
+  /// Product photo width
+  photo_width: i64,
+  /// Product photo height
+  photo_height: i64,
+  /// The invoice payload
+  payload: String,
+  /// Payment provider token
+  provider_token: String,
+  /// JSON-encoded data about the invoice, which will be shared with the payment provider
+  provider_data: String,
+  /// Unique invoice bot start_parameter for the generation of this invoice
+  start_parameter: String,
+  
+}
+
+impl RObject for InputMessageInvoice {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageInvoice" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInputMessageContent for InputMessageInvoice {}
+
+
+
+impl InputMessageInvoice {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInputMessageInvoiceBuilder {
+    let mut inner = InputMessageInvoice::default();
+    inner.td_name = "inputMessageInvoice".to_string();
+    RTDInputMessageInvoiceBuilder { inner }
+  }
+
+  pub fn invoice(&self) -> &Invoice { &self.invoice }
+
+  pub fn title(&self) -> &String { &self.title }
+
+  pub fn description(&self) -> &String { &self.description }
+
+  pub fn photo_url(&self) -> &String { &self.photo_url }
+
+  pub fn photo_size(&self) -> i64 { self.photo_size }
+
+  pub fn photo_width(&self) -> i64 { self.photo_width }
+
+  pub fn photo_height(&self) -> i64 { self.photo_height }
+
+  pub fn payload(&self) -> &String { &self.payload }
+
+  pub fn provider_token(&self) -> &String { &self.provider_token }
+
+  pub fn provider_data(&self) -> &String { &self.provider_data }
+
+  pub fn start_parameter(&self) -> &String { &self.start_parameter }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInputMessageInvoiceBuilder {
+  inner: InputMessageInvoice
+}
+
+impl RTDInputMessageInvoiceBuilder {
+  pub fn build(&self) -> InputMessageInvoice { self.inner.clone() }
+
+   
+  pub fn invoice<T: AsRef<Invoice>>(&mut self, invoice: T) -> &mut Self {
+    self.inner.invoice = invoice.as_ref().clone();
+    self
+  }
+
+   
+  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
+    self.inner.title = title.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {
+    self.inner.description = description.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn photo_url<T: AsRef<str>>(&mut self, photo_url: T) -> &mut Self {
+    self.inner.photo_url = photo_url.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn photo_size(&mut self, photo_size: i64) -> &mut Self {
+    self.inner.photo_size = photo_size;
+    self
+  }
+
+   
+  pub fn photo_width(&mut self, photo_width: i64) -> &mut Self {
+    self.inner.photo_width = photo_width;
+    self
+  }
+
+   
+  pub fn photo_height(&mut self, photo_height: i64) -> &mut Self {
+    self.inner.photo_height = photo_height;
+    self
+  }
+
+   
+  pub fn payload<T: AsRef<str>>(&mut self, payload: T) -> &mut Self {
+    self.inner.payload = payload.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn provider_token<T: AsRef<str>>(&mut self, provider_token: T) -> &mut Self {
+    self.inner.provider_token = provider_token.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn provider_data<T: AsRef<str>>(&mut self, provider_data: T) -> &mut Self {
+    self.inner.provider_data = provider_data.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn start_parameter<T: AsRef<str>>(&mut self, start_parameter: T) -> &mut Self {
+    self.inner.start_parameter = start_parameter.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<InputMessageInvoice> for InputMessageInvoice {
+  fn as_ref(&self) -> &InputMessageInvoice { self }
+}
+
+impl AsRef<InputMessageInvoice> for RTDInputMessageInvoiceBuilder {
+  fn as_ref(&self) -> &InputMessageInvoice { &self.inner }
+}
+
+
+
+
+
+
+
+/// A message with a location
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InputMessageLocation {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Location to be sent
+  location: Location,
+  /// Period for which the location can be updated, in seconds; should bebetween 60 and 86400 for a live location and 0 otherwise
+  live_period: i64,
+  
+}
+
+impl RObject for InputMessageLocation {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageLocation" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInputMessageContent for InputMessageLocation {}
+
+
+
+impl InputMessageLocation {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInputMessageLocationBuilder {
+    let mut inner = InputMessageLocation::default();
+    inner.td_name = "inputMessageLocation".to_string();
+    RTDInputMessageLocationBuilder { inner }
+  }
+
+  pub fn location(&self) -> &Location { &self.location }
+
+  pub fn live_period(&self) -> i64 { self.live_period }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInputMessageLocationBuilder {
+  inner: InputMessageLocation
+}
+
+impl RTDInputMessageLocationBuilder {
+  pub fn build(&self) -> InputMessageLocation { self.inner.clone() }
+
+   
+  pub fn location<T: AsRef<Location>>(&mut self, location: T) -> &mut Self {
+    self.inner.location = location.as_ref().clone();
+    self
+  }
+
+   
+  pub fn live_period(&mut self, live_period: i64) -> &mut Self {
+    self.inner.live_period = live_period;
+    self
+  }
+
+}
+
+impl AsRef<InputMessageLocation> for InputMessageLocation {
+  fn as_ref(&self) -> &InputMessageLocation { self }
+}
+
+impl AsRef<InputMessageLocation> for RTDInputMessageLocationBuilder {
+  fn as_ref(&self) -> &InputMessageLocation { &self.inner }
 }
 
 
@@ -725,6 +1097,79 @@ impl AsRef<InputMessagePhoto> for RTDInputMessagePhotoBuilder {
 
 
 
+/// A message with a poll. Polls can't be sent to private or secret chats
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InputMessagePoll {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Poll question, 1-255 characters
+  question: String,
+  /// List of poll answer options, 2-10 strings 1-100 characters each
+  options: Vec<String>,
+  
+}
+
+impl RObject for InputMessagePoll {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessagePoll" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInputMessageContent for InputMessagePoll {}
+
+
+
+impl InputMessagePoll {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInputMessagePollBuilder {
+    let mut inner = InputMessagePoll::default();
+    inner.td_name = "inputMessagePoll".to_string();
+    RTDInputMessagePollBuilder { inner }
+  }
+
+  pub fn question(&self) -> &String { &self.question }
+
+  pub fn options(&self) -> &Vec<String> { &self.options }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInputMessagePollBuilder {
+  inner: InputMessagePoll
+}
+
+impl RTDInputMessagePollBuilder {
+  pub fn build(&self) -> InputMessagePoll { self.inner.clone() }
+
+   
+  pub fn question<T: AsRef<str>>(&mut self, question: T) -> &mut Self {
+    self.inner.question = question.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn options(&mut self, options: Vec<String>) -> &mut Self {
+    self.inner.options = options;
+    self
+  }
+
+}
+
+impl AsRef<InputMessagePoll> for InputMessagePoll {
+  fn as_ref(&self) -> &InputMessagePoll { self }
+}
+
+impl AsRef<InputMessagePoll> for RTDInputMessagePollBuilder {
+  fn as_ref(&self) -> &InputMessagePoll { &self.inner }
+}
+
+
+
+
+
+
+
 /// A sticker message
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InputMessageSticker {
@@ -810,6 +1255,152 @@ impl AsRef<InputMessageSticker> for InputMessageSticker {
 
 impl AsRef<InputMessageSticker> for RTDInputMessageStickerBuilder {
   fn as_ref(&self) -> &InputMessageSticker { &self.inner }
+}
+
+
+
+
+
+
+
+/// A text message
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InputMessageText {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Formatted text to be sent; 1-GetOption("message_text_length_max") characters. Only Bold, Italic, Code, Pre, PreCode and TextUrl entities are allowed to be specified manually
+  text: FormattedText,
+  /// True, if rich web page previews for URLs in the message text should be disabled
+  disable_web_page_preview: bool,
+  /// True, if a chat message draft should be deleted
+  clear_draft: bool,
+  
+}
+
+impl RObject for InputMessageText {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageText" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInputMessageContent for InputMessageText {}
+
+
+
+impl InputMessageText {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInputMessageTextBuilder {
+    let mut inner = InputMessageText::default();
+    inner.td_name = "inputMessageText".to_string();
+    RTDInputMessageTextBuilder { inner }
+  }
+
+  pub fn text(&self) -> &FormattedText { &self.text }
+
+  pub fn disable_web_page_preview(&self) -> bool { self.disable_web_page_preview }
+
+  pub fn clear_draft(&self) -> bool { self.clear_draft }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInputMessageTextBuilder {
+  inner: InputMessageText
+}
+
+impl RTDInputMessageTextBuilder {
+  pub fn build(&self) -> InputMessageText { self.inner.clone() }
+
+   
+  pub fn text<T: AsRef<FormattedText>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().clone();
+    self
+  }
+
+   
+  pub fn disable_web_page_preview(&mut self, disable_web_page_preview: bool) -> &mut Self {
+    self.inner.disable_web_page_preview = disable_web_page_preview;
+    self
+  }
+
+   
+  pub fn clear_draft(&mut self, clear_draft: bool) -> &mut Self {
+    self.inner.clear_draft = clear_draft;
+    self
+  }
+
+}
+
+impl AsRef<InputMessageText> for InputMessageText {
+  fn as_ref(&self) -> &InputMessageText { self }
+}
+
+impl AsRef<InputMessageText> for RTDInputMessageTextBuilder {
+  fn as_ref(&self) -> &InputMessageText { &self.inner }
+}
+
+
+
+
+
+
+
+/// A message with information about a venue
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InputMessageVenue {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Venue to send
+  venue: Venue,
+  
+}
+
+impl RObject for InputMessageVenue {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageVenue" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInputMessageContent for InputMessageVenue {}
+
+
+
+impl InputMessageVenue {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInputMessageVenueBuilder {
+    let mut inner = InputMessageVenue::default();
+    inner.td_name = "inputMessageVenue".to_string();
+    RTDInputMessageVenueBuilder { inner }
+  }
+
+  pub fn venue(&self) -> &Venue { &self.venue }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInputMessageVenueBuilder {
+  inner: InputMessageVenue
+}
+
+impl RTDInputMessageVenueBuilder {
+  pub fn build(&self) -> InputMessageVenue { self.inner.clone() }
+
+   
+  pub fn venue<T: AsRef<Venue>>(&mut self, venue: T) -> &mut Self {
+    self.inner.venue = venue.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<InputMessageVenue> for InputMessageVenue {
+  fn as_ref(&self) -> &InputMessageVenue { self }
+}
+
+impl AsRef<InputMessageVenue> for RTDInputMessageVenueBuilder {
+  fn as_ref(&self) -> &InputMessageVenue { &self.inner }
 }
 
 
@@ -1139,597 +1730,6 @@ impl AsRef<InputMessageVoiceNote> for InputMessageVoiceNote {
 
 impl AsRef<InputMessageVoiceNote> for RTDInputMessageVoiceNoteBuilder {
   fn as_ref(&self) -> &InputMessageVoiceNote { &self.inner }
-}
-
-
-
-
-
-
-
-/// A message with a location
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InputMessageLocation {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Location to be sent
-  location: Location,
-  /// Period for which the location can be updated, in seconds; should bebetween 60 and 86400 for a live location and 0 otherwise
-  live_period: i64,
-  
-}
-
-impl RObject for InputMessageLocation {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageLocation" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDInputMessageContent for InputMessageLocation {}
-
-
-
-impl InputMessageLocation {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInputMessageLocationBuilder {
-    let mut inner = InputMessageLocation::default();
-    inner.td_name = "inputMessageLocation".to_string();
-    RTDInputMessageLocationBuilder { inner }
-  }
-
-  pub fn location(&self) -> &Location { &self.location }
-
-  pub fn live_period(&self) -> i64 { self.live_period }
-
-}
-
-#[doc(hidden)]
-pub struct RTDInputMessageLocationBuilder {
-  inner: InputMessageLocation
-}
-
-impl RTDInputMessageLocationBuilder {
-  pub fn build(&self) -> InputMessageLocation { self.inner.clone() }
-
-   
-  pub fn location<T: AsRef<Location>>(&mut self, location: T) -> &mut Self {
-    self.inner.location = location.as_ref().clone();
-    self
-  }
-
-   
-  pub fn live_period(&mut self, live_period: i64) -> &mut Self {
-    self.inner.live_period = live_period;
-    self
-  }
-
-}
-
-impl AsRef<InputMessageLocation> for InputMessageLocation {
-  fn as_ref(&self) -> &InputMessageLocation { self }
-}
-
-impl AsRef<InputMessageLocation> for RTDInputMessageLocationBuilder {
-  fn as_ref(&self) -> &InputMessageLocation { &self.inner }
-}
-
-
-
-
-
-
-
-/// A message with information about a venue
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InputMessageVenue {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Venue to send
-  venue: Venue,
-  
-}
-
-impl RObject for InputMessageVenue {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageVenue" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDInputMessageContent for InputMessageVenue {}
-
-
-
-impl InputMessageVenue {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInputMessageVenueBuilder {
-    let mut inner = InputMessageVenue::default();
-    inner.td_name = "inputMessageVenue".to_string();
-    RTDInputMessageVenueBuilder { inner }
-  }
-
-  pub fn venue(&self) -> &Venue { &self.venue }
-
-}
-
-#[doc(hidden)]
-pub struct RTDInputMessageVenueBuilder {
-  inner: InputMessageVenue
-}
-
-impl RTDInputMessageVenueBuilder {
-  pub fn build(&self) -> InputMessageVenue { self.inner.clone() }
-
-   
-  pub fn venue<T: AsRef<Venue>>(&mut self, venue: T) -> &mut Self {
-    self.inner.venue = venue.as_ref().clone();
-    self
-  }
-
-}
-
-impl AsRef<InputMessageVenue> for InputMessageVenue {
-  fn as_ref(&self) -> &InputMessageVenue { self }
-}
-
-impl AsRef<InputMessageVenue> for RTDInputMessageVenueBuilder {
-  fn as_ref(&self) -> &InputMessageVenue { &self.inner }
-}
-
-
-
-
-
-
-
-/// A message containing a user contact
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InputMessageContact {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Contact to send
-  contact: Contact,
-  
-}
-
-impl RObject for InputMessageContact {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageContact" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDInputMessageContent for InputMessageContact {}
-
-
-
-impl InputMessageContact {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInputMessageContactBuilder {
-    let mut inner = InputMessageContact::default();
-    inner.td_name = "inputMessageContact".to_string();
-    RTDInputMessageContactBuilder { inner }
-  }
-
-  pub fn contact(&self) -> &Contact { &self.contact }
-
-}
-
-#[doc(hidden)]
-pub struct RTDInputMessageContactBuilder {
-  inner: InputMessageContact
-}
-
-impl RTDInputMessageContactBuilder {
-  pub fn build(&self) -> InputMessageContact { self.inner.clone() }
-
-   
-  pub fn contact<T: AsRef<Contact>>(&mut self, contact: T) -> &mut Self {
-    self.inner.contact = contact.as_ref().clone();
-    self
-  }
-
-}
-
-impl AsRef<InputMessageContact> for InputMessageContact {
-  fn as_ref(&self) -> &InputMessageContact { self }
-}
-
-impl AsRef<InputMessageContact> for RTDInputMessageContactBuilder {
-  fn as_ref(&self) -> &InputMessageContact { &self.inner }
-}
-
-
-
-
-
-
-
-/// A message with a game; not supported for channels or secret chats
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InputMessageGame {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// User identifier of the bot that owns the game
-  bot_user_id: i64,
-  /// Short name of the game
-  game_short_name: String,
-  
-}
-
-impl RObject for InputMessageGame {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageGame" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDInputMessageContent for InputMessageGame {}
-
-
-
-impl InputMessageGame {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInputMessageGameBuilder {
-    let mut inner = InputMessageGame::default();
-    inner.td_name = "inputMessageGame".to_string();
-    RTDInputMessageGameBuilder { inner }
-  }
-
-  pub fn bot_user_id(&self) -> i64 { self.bot_user_id }
-
-  pub fn game_short_name(&self) -> &String { &self.game_short_name }
-
-}
-
-#[doc(hidden)]
-pub struct RTDInputMessageGameBuilder {
-  inner: InputMessageGame
-}
-
-impl RTDInputMessageGameBuilder {
-  pub fn build(&self) -> InputMessageGame { self.inner.clone() }
-
-   
-  pub fn bot_user_id(&mut self, bot_user_id: i64) -> &mut Self {
-    self.inner.bot_user_id = bot_user_id;
-    self
-  }
-
-   
-  pub fn game_short_name<T: AsRef<str>>(&mut self, game_short_name: T) -> &mut Self {
-    self.inner.game_short_name = game_short_name.as_ref().to_string();
-    self
-  }
-
-}
-
-impl AsRef<InputMessageGame> for InputMessageGame {
-  fn as_ref(&self) -> &InputMessageGame { self }
-}
-
-impl AsRef<InputMessageGame> for RTDInputMessageGameBuilder {
-  fn as_ref(&self) -> &InputMessageGame { &self.inner }
-}
-
-
-
-
-
-
-
-/// A message with an invoice; can be used only by bots and only in private chats
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InputMessageInvoice {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Invoice
-  invoice: Invoice,
-  /// Product title; 1-32 characters
-  title: String,
-  /// A message with an invoice; can be used only by bots and only in private chats
-  description: String,
-  /// Product photo URL; optional
-  photo_url: String,
-  /// Product photo size
-  photo_size: i64,
-  /// Product photo width
-  photo_width: i64,
-  /// Product photo height
-  photo_height: i64,
-  /// The invoice payload
-  payload: String,
-  /// Payment provider token
-  provider_token: String,
-  /// JSON-encoded data about the invoice, which will be shared with the payment provider
-  provider_data: String,
-  /// Unique invoice bot start_parameter for the generation of this invoice
-  start_parameter: String,
-  
-}
-
-impl RObject for InputMessageInvoice {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageInvoice" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDInputMessageContent for InputMessageInvoice {}
-
-
-
-impl InputMessageInvoice {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInputMessageInvoiceBuilder {
-    let mut inner = InputMessageInvoice::default();
-    inner.td_name = "inputMessageInvoice".to_string();
-    RTDInputMessageInvoiceBuilder { inner }
-  }
-
-  pub fn invoice(&self) -> &Invoice { &self.invoice }
-
-  pub fn title(&self) -> &String { &self.title }
-
-  pub fn description(&self) -> &String { &self.description }
-
-  pub fn photo_url(&self) -> &String { &self.photo_url }
-
-  pub fn photo_size(&self) -> i64 { self.photo_size }
-
-  pub fn photo_width(&self) -> i64 { self.photo_width }
-
-  pub fn photo_height(&self) -> i64 { self.photo_height }
-
-  pub fn payload(&self) -> &String { &self.payload }
-
-  pub fn provider_token(&self) -> &String { &self.provider_token }
-
-  pub fn provider_data(&self) -> &String { &self.provider_data }
-
-  pub fn start_parameter(&self) -> &String { &self.start_parameter }
-
-}
-
-#[doc(hidden)]
-pub struct RTDInputMessageInvoiceBuilder {
-  inner: InputMessageInvoice
-}
-
-impl RTDInputMessageInvoiceBuilder {
-  pub fn build(&self) -> InputMessageInvoice { self.inner.clone() }
-
-   
-  pub fn invoice<T: AsRef<Invoice>>(&mut self, invoice: T) -> &mut Self {
-    self.inner.invoice = invoice.as_ref().clone();
-    self
-  }
-
-   
-  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
-    self.inner.title = title.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {
-    self.inner.description = description.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn photo_url<T: AsRef<str>>(&mut self, photo_url: T) -> &mut Self {
-    self.inner.photo_url = photo_url.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn photo_size(&mut self, photo_size: i64) -> &mut Self {
-    self.inner.photo_size = photo_size;
-    self
-  }
-
-   
-  pub fn photo_width(&mut self, photo_width: i64) -> &mut Self {
-    self.inner.photo_width = photo_width;
-    self
-  }
-
-   
-  pub fn photo_height(&mut self, photo_height: i64) -> &mut Self {
-    self.inner.photo_height = photo_height;
-    self
-  }
-
-   
-  pub fn payload<T: AsRef<str>>(&mut self, payload: T) -> &mut Self {
-    self.inner.payload = payload.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn provider_token<T: AsRef<str>>(&mut self, provider_token: T) -> &mut Self {
-    self.inner.provider_token = provider_token.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn provider_data<T: AsRef<str>>(&mut self, provider_data: T) -> &mut Self {
-    self.inner.provider_data = provider_data.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn start_parameter<T: AsRef<str>>(&mut self, start_parameter: T) -> &mut Self {
-    self.inner.start_parameter = start_parameter.as_ref().to_string();
-    self
-  }
-
-}
-
-impl AsRef<InputMessageInvoice> for InputMessageInvoice {
-  fn as_ref(&self) -> &InputMessageInvoice { self }
-}
-
-impl AsRef<InputMessageInvoice> for RTDInputMessageInvoiceBuilder {
-  fn as_ref(&self) -> &InputMessageInvoice { &self.inner }
-}
-
-
-
-
-
-
-
-/// A message with a poll. Polls can't be sent to private or secret chats
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InputMessagePoll {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Poll question, 1-255 characters
-  question: String,
-  /// List of poll answer options, 2-10 strings 1-100 characters each
-  options: Vec<String>,
-  
-}
-
-impl RObject for InputMessagePoll {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessagePoll" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDInputMessageContent for InputMessagePoll {}
-
-
-
-impl InputMessagePoll {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInputMessagePollBuilder {
-    let mut inner = InputMessagePoll::default();
-    inner.td_name = "inputMessagePoll".to_string();
-    RTDInputMessagePollBuilder { inner }
-  }
-
-  pub fn question(&self) -> &String { &self.question }
-
-  pub fn options(&self) -> &Vec<String> { &self.options }
-
-}
-
-#[doc(hidden)]
-pub struct RTDInputMessagePollBuilder {
-  inner: InputMessagePoll
-}
-
-impl RTDInputMessagePollBuilder {
-  pub fn build(&self) -> InputMessagePoll { self.inner.clone() }
-
-   
-  pub fn question<T: AsRef<str>>(&mut self, question: T) -> &mut Self {
-    self.inner.question = question.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn options(&mut self, options: Vec<String>) -> &mut Self {
-    self.inner.options = options;
-    self
-  }
-
-}
-
-impl AsRef<InputMessagePoll> for InputMessagePoll {
-  fn as_ref(&self) -> &InputMessagePoll { self }
-}
-
-impl AsRef<InputMessagePoll> for RTDInputMessagePollBuilder {
-  fn as_ref(&self) -> &InputMessagePoll { &self.inner }
-}
-
-
-
-
-
-
-
-/// A forwarded message
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InputMessageForwarded {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Identifier for the chat this forwarded message came from
-  from_chat_id: i64,
-  /// Identifier of the message to forward
-  message_id: i64,
-  /// True, if a game message should be shared within a launched game; applies only to game messages
-  in_game_share: bool,
-  
-}
-
-impl RObject for InputMessageForwarded {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageForwarded" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDInputMessageContent for InputMessageForwarded {}
-
-
-
-impl InputMessageForwarded {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInputMessageForwardedBuilder {
-    let mut inner = InputMessageForwarded::default();
-    inner.td_name = "inputMessageForwarded".to_string();
-    RTDInputMessageForwardedBuilder { inner }
-  }
-
-  pub fn from_chat_id(&self) -> i64 { self.from_chat_id }
-
-  pub fn message_id(&self) -> i64 { self.message_id }
-
-  pub fn in_game_share(&self) -> bool { self.in_game_share }
-
-}
-
-#[doc(hidden)]
-pub struct RTDInputMessageForwardedBuilder {
-  inner: InputMessageForwarded
-}
-
-impl RTDInputMessageForwardedBuilder {
-  pub fn build(&self) -> InputMessageForwarded { self.inner.clone() }
-
-   
-  pub fn from_chat_id(&mut self, from_chat_id: i64) -> &mut Self {
-    self.inner.from_chat_id = from_chat_id;
-    self
-  }
-
-   
-  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
-    self.inner.message_id = message_id;
-    self
-  }
-
-   
-  pub fn in_game_share(&mut self, in_game_share: bool) -> &mut Self {
-    self.inner.in_game_share = in_game_share;
-    self
-  }
-
-}
-
-impl AsRef<InputMessageForwarded> for InputMessageForwarded {
-  fn as_ref(&self) -> &InputMessageForwarded { self }
-}
-
-impl AsRef<InputMessageForwarded> for RTDInputMessageForwardedBuilder {
-  fn as_ref(&self) -> &InputMessageForwarded { &self.inner }
 }
 
 

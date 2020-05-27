@@ -18,14 +18,14 @@ pub trait TDLogStream: Debug + RObject {}
 #[serde(untagged)]
 pub enum LogStream {
   #[doc(hidden)] _Default(()),
-  /// The log is written to stderr or an OS specific log
-  Default(LogStreamDefault),
-  /// The log is written to a file
-  File(LogStreamFile),
-  /// The log is written nowhere
-  Empty(LogStreamEmpty),
   /// Returns information about currently used log stream for internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously
   GetLogStream(GetLogStream),
+  /// The log is written to stderr or an OS specific log
+  Default(LogStreamDefault),
+  /// The log is written nowhere
+  Empty(LogStreamEmpty),
+  /// The log is written to a file
+  File(LogStreamFile),
 
 }
 
@@ -38,10 +38,10 @@ impl<'de> Deserialize<'de> for LogStream {
     use serde::de::Error;
     rtd_enum_deserialize!(
       LogStream,
-      (logStreamDefault, Default);
-      (logStreamFile, File);
-      (logStreamEmpty, Empty);
       (getLogStream, GetLogStream);
+      (logStreamDefault, Default);
+      (logStreamEmpty, Empty);
+      (logStreamFile, File);
 
     )(deserializer)
   }
@@ -50,10 +50,10 @@ impl<'de> Deserialize<'de> for LogStream {
 impl RObject for LogStream {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
-      LogStream::Default(t) => t.td_name(),
-      LogStream::File(t) => t.td_name(),
-      LogStream::Empty(t) => t.td_name(),
       LogStream::GetLogStream(t) => t.td_name(),
+      LogStream::Default(t) => t.td_name(),
+      LogStream::Empty(t) => t.td_name(),
+      LogStream::File(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -65,30 +65,30 @@ impl LogStream {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let LogStream::_Default(_) = self { true } else { false } }
 
-  pub fn is_default(&self) -> bool { if let LogStream::Default(_) = self { true } else { false } }
-  pub fn is_file(&self) -> bool { if let LogStream::File(_) = self { true } else { false } }
-  pub fn is_empty(&self) -> bool { if let LogStream::Empty(_) = self { true } else { false } }
   pub fn is_get_log_stream(&self) -> bool { if let LogStream::GetLogStream(_) = self { true } else { false } }
+  pub fn is_default(&self) -> bool { if let LogStream::Default(_) = self { true } else { false } }
+  pub fn is_empty(&self) -> bool { if let LogStream::Empty(_) = self { true } else { false } }
+  pub fn is_file(&self) -> bool { if let LogStream::File(_) = self { true } else { false } }
 
-  pub fn on_default<F: FnOnce(&LogStreamDefault)>(&self, fnc: F) -> &Self { if let LogStream::Default(t) = self { fnc(t) }; self }
-  pub fn on_file<F: FnOnce(&LogStreamFile)>(&self, fnc: F) -> &Self { if let LogStream::File(t) = self { fnc(t) }; self }
-  pub fn on_empty<F: FnOnce(&LogStreamEmpty)>(&self, fnc: F) -> &Self { if let LogStream::Empty(t) = self { fnc(t) }; self }
   pub fn on_get_log_stream<F: FnOnce(&GetLogStream)>(&self, fnc: F) -> &Self { if let LogStream::GetLogStream(t) = self { fnc(t) }; self }
+  pub fn on_default<F: FnOnce(&LogStreamDefault)>(&self, fnc: F) -> &Self { if let LogStream::Default(t) = self { fnc(t) }; self }
+  pub fn on_empty<F: FnOnce(&LogStreamEmpty)>(&self, fnc: F) -> &Self { if let LogStream::Empty(t) = self { fnc(t) }; self }
+  pub fn on_file<F: FnOnce(&LogStreamFile)>(&self, fnc: F) -> &Self { if let LogStream::File(t) = self { fnc(t) }; self }
 
-  pub fn as_default(&self) -> Option<&LogStreamDefault> { if let LogStream::Default(t) = self { return Some(t) } None }
-  pub fn as_file(&self) -> Option<&LogStreamFile> { if let LogStream::File(t) = self { return Some(t) } None }
-  pub fn as_empty(&self) -> Option<&LogStreamEmpty> { if let LogStream::Empty(t) = self { return Some(t) } None }
   pub fn as_get_log_stream(&self) -> Option<&GetLogStream> { if let LogStream::GetLogStream(t) = self { return Some(t) } None }
+  pub fn as_default(&self) -> Option<&LogStreamDefault> { if let LogStream::Default(t) = self { return Some(t) } None }
+  pub fn as_empty(&self) -> Option<&LogStreamEmpty> { if let LogStream::Empty(t) = self { return Some(t) } None }
+  pub fn as_file(&self) -> Option<&LogStreamFile> { if let LogStream::File(t) = self { return Some(t) } None }
 
 
+
+  pub fn get_log_stream<T: AsRef<GetLogStream>>(t: T) -> Self { LogStream::GetLogStream(t.as_ref().clone()) }
 
   pub fn default<T: AsRef<LogStreamDefault>>(t: T) -> Self { LogStream::Default(t.as_ref().clone()) }
 
-  pub fn file<T: AsRef<LogStreamFile>>(t: T) -> Self { LogStream::File(t.as_ref().clone()) }
-
   pub fn empty<T: AsRef<LogStreamEmpty>>(t: T) -> Self { LogStream::Empty(t.as_ref().clone()) }
 
-  pub fn get_log_stream<T: AsRef<GetLogStream>>(t: T) -> Self { LogStream::GetLogStream(t.as_ref().clone()) }
+  pub fn file<T: AsRef<LogStreamFile>>(t: T) -> Self { LogStream::File(t.as_ref().clone()) }
 
 }
 
@@ -147,6 +147,59 @@ impl AsRef<LogStreamDefault> for LogStreamDefault {
 
 impl AsRef<LogStreamDefault> for RTDLogStreamDefaultBuilder {
   fn as_ref(&self) -> &LogStreamDefault { &self.inner }
+}
+
+
+
+
+
+
+
+/// The log is written nowhere
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct LogStreamEmpty {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for LogStreamEmpty {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "logStreamEmpty" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDLogStream for LogStreamEmpty {}
+
+
+
+impl LogStreamEmpty {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDLogStreamEmptyBuilder {
+    let mut inner = LogStreamEmpty::default();
+    inner.td_name = "logStreamEmpty".to_string();
+    RTDLogStreamEmptyBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDLogStreamEmptyBuilder {
+  inner: LogStreamEmpty
+}
+
+impl RTDLogStreamEmptyBuilder {
+  pub fn build(&self) -> LogStreamEmpty { self.inner.clone() }
+
+}
+
+impl AsRef<LogStreamEmpty> for LogStreamEmpty {
+  fn as_ref(&self) -> &LogStreamEmpty { self }
+}
+
+impl AsRef<LogStreamEmpty> for RTDLogStreamEmptyBuilder {
+  fn as_ref(&self) -> &LogStreamEmpty { &self.inner }
 }
 
 
@@ -220,59 +273,6 @@ impl AsRef<LogStreamFile> for LogStreamFile {
 
 impl AsRef<LogStreamFile> for RTDLogStreamFileBuilder {
   fn as_ref(&self) -> &LogStreamFile { &self.inner }
-}
-
-
-
-
-
-
-
-/// The log is written nowhere
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct LogStreamEmpty {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for LogStreamEmpty {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "logStreamEmpty" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDLogStream for LogStreamEmpty {}
-
-
-
-impl LogStreamEmpty {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDLogStreamEmptyBuilder {
-    let mut inner = LogStreamEmpty::default();
-    inner.td_name = "logStreamEmpty".to_string();
-    RTDLogStreamEmptyBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDLogStreamEmptyBuilder {
-  inner: LogStreamEmpty
-}
-
-impl RTDLogStreamEmptyBuilder {
-  pub fn build(&self) -> LogStreamEmpty { self.inner.clone() }
-
-}
-
-impl AsRef<LogStreamEmpty> for LogStreamEmpty {
-  fn as_ref(&self) -> &LogStreamEmpty { self }
-}
-
-impl AsRef<LogStreamEmpty> for RTDLogStreamEmptyBuilder {
-  fn as_ref(&self) -> &LogStreamEmpty { &self.inner }
 }
 
 
