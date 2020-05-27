@@ -18,14 +18,14 @@ pub trait TDLanguagePackStringValue: Debug + RObject {}
 #[serde(untagged)]
 pub enum LanguagePackStringValue {
   #[doc(hidden)] _Default(()),
+  /// Returns a string stored in the local database from the specified localization target and language pack by its key. Returns a 404 error if the string is not found. This is an offline method. Can be called before authorization. Can be called synchronously
+  GetLanguagePackString(GetLanguagePackString),
+  /// A deleted language pack string, the value should be taken from the built-in english language pack
+  Deleted(LanguagePackStringValueDeleted),
   /// An ordinary language pack string
   Ordinary(LanguagePackStringValueOrdinary),
   /// A language pack string which has different forms based on the number of some object it mentions. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more info
   Pluralized(LanguagePackStringValuePluralized),
-  /// A deleted language pack string, the value should be taken from the built-in english language pack
-  Deleted(LanguagePackStringValueDeleted),
-  /// Returns a string stored in the local database from the specified localization target and language pack by its key. Returns a 404 error if the string is not found. This is an offline method. Can be called before authorization. Can be called synchronously
-  GetLanguagePackString(GetLanguagePackString),
 
 }
 
@@ -38,10 +38,10 @@ impl<'de> Deserialize<'de> for LanguagePackStringValue {
     use serde::de::Error;
     rtd_enum_deserialize!(
       LanguagePackStringValue,
+      (getLanguagePackString, GetLanguagePackString);
+      (languagePackStringValueDeleted, Deleted);
       (languagePackStringValueOrdinary, Ordinary);
       (languagePackStringValuePluralized, Pluralized);
-      (languagePackStringValueDeleted, Deleted);
-      (getLanguagePackString, GetLanguagePackString);
 
     )(deserializer)
   }
@@ -50,10 +50,10 @@ impl<'de> Deserialize<'de> for LanguagePackStringValue {
 impl RObject for LanguagePackStringValue {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
+      LanguagePackStringValue::GetLanguagePackString(t) => t.td_name(),
+      LanguagePackStringValue::Deleted(t) => t.td_name(),
       LanguagePackStringValue::Ordinary(t) => t.td_name(),
       LanguagePackStringValue::Pluralized(t) => t.td_name(),
-      LanguagePackStringValue::Deleted(t) => t.td_name(),
-      LanguagePackStringValue::GetLanguagePackString(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -65,35 +65,88 @@ impl LanguagePackStringValue {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let LanguagePackStringValue::_Default(_) = self { true } else { false } }
 
+  pub fn is_get_language_pack_string(&self) -> bool { if let LanguagePackStringValue::GetLanguagePackString(_) = self { true } else { false } }
+  pub fn is_deleted(&self) -> bool { if let LanguagePackStringValue::Deleted(_) = self { true } else { false } }
   pub fn is_ordinary(&self) -> bool { if let LanguagePackStringValue::Ordinary(_) = self { true } else { false } }
   pub fn is_pluralized(&self) -> bool { if let LanguagePackStringValue::Pluralized(_) = self { true } else { false } }
-  pub fn is_deleted(&self) -> bool { if let LanguagePackStringValue::Deleted(_) = self { true } else { false } }
-  pub fn is_get_language_pack_string(&self) -> bool { if let LanguagePackStringValue::GetLanguagePackString(_) = self { true } else { false } }
 
+  pub fn on_get_language_pack_string<F: FnOnce(&GetLanguagePackString)>(&self, fnc: F) -> &Self { if let LanguagePackStringValue::GetLanguagePackString(t) = self { fnc(t) }; self }
+  pub fn on_deleted<F: FnOnce(&LanguagePackStringValueDeleted)>(&self, fnc: F) -> &Self { if let LanguagePackStringValue::Deleted(t) = self { fnc(t) }; self }
   pub fn on_ordinary<F: FnOnce(&LanguagePackStringValueOrdinary)>(&self, fnc: F) -> &Self { if let LanguagePackStringValue::Ordinary(t) = self { fnc(t) }; self }
   pub fn on_pluralized<F: FnOnce(&LanguagePackStringValuePluralized)>(&self, fnc: F) -> &Self { if let LanguagePackStringValue::Pluralized(t) = self { fnc(t) }; self }
-  pub fn on_deleted<F: FnOnce(&LanguagePackStringValueDeleted)>(&self, fnc: F) -> &Self { if let LanguagePackStringValue::Deleted(t) = self { fnc(t) }; self }
-  pub fn on_get_language_pack_string<F: FnOnce(&GetLanguagePackString)>(&self, fnc: F) -> &Self { if let LanguagePackStringValue::GetLanguagePackString(t) = self { fnc(t) }; self }
 
+  pub fn as_get_language_pack_string(&self) -> Option<&GetLanguagePackString> { if let LanguagePackStringValue::GetLanguagePackString(t) = self { return Some(t) } None }
+  pub fn as_deleted(&self) -> Option<&LanguagePackStringValueDeleted> { if let LanguagePackStringValue::Deleted(t) = self { return Some(t) } None }
   pub fn as_ordinary(&self) -> Option<&LanguagePackStringValueOrdinary> { if let LanguagePackStringValue::Ordinary(t) = self { return Some(t) } None }
   pub fn as_pluralized(&self) -> Option<&LanguagePackStringValuePluralized> { if let LanguagePackStringValue::Pluralized(t) = self { return Some(t) } None }
-  pub fn as_deleted(&self) -> Option<&LanguagePackStringValueDeleted> { if let LanguagePackStringValue::Deleted(t) = self { return Some(t) } None }
-  pub fn as_get_language_pack_string(&self) -> Option<&GetLanguagePackString> { if let LanguagePackStringValue::GetLanguagePackString(t) = self { return Some(t) } None }
 
 
+
+  pub fn get_language_pack_string<T: AsRef<GetLanguagePackString>>(t: T) -> Self { LanguagePackStringValue::GetLanguagePackString(t.as_ref().clone()) }
+
+  pub fn deleted<T: AsRef<LanguagePackStringValueDeleted>>(t: T) -> Self { LanguagePackStringValue::Deleted(t.as_ref().clone()) }
 
   pub fn ordinary<T: AsRef<LanguagePackStringValueOrdinary>>(t: T) -> Self { LanguagePackStringValue::Ordinary(t.as_ref().clone()) }
 
   pub fn pluralized<T: AsRef<LanguagePackStringValuePluralized>>(t: T) -> Self { LanguagePackStringValue::Pluralized(t.as_ref().clone()) }
 
-  pub fn deleted<T: AsRef<LanguagePackStringValueDeleted>>(t: T) -> Self { LanguagePackStringValue::Deleted(t.as_ref().clone()) }
-
-  pub fn get_language_pack_string<T: AsRef<GetLanguagePackString>>(t: T) -> Self { LanguagePackStringValue::GetLanguagePackString(t.as_ref().clone()) }
-
 }
 
 impl AsRef<LanguagePackStringValue> for LanguagePackStringValue {
   fn as_ref(&self) -> &LanguagePackStringValue { self }
+}
+
+
+
+
+
+
+
+/// A deleted language pack string, the value should be taken from the built-in english language pack
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct LanguagePackStringValueDeleted {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for LanguagePackStringValueDeleted {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "languagePackStringValueDeleted" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDLanguagePackStringValue for LanguagePackStringValueDeleted {}
+
+
+
+impl LanguagePackStringValueDeleted {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDLanguagePackStringValueDeletedBuilder {
+    let mut inner = LanguagePackStringValueDeleted::default();
+    inner.td_name = "languagePackStringValueDeleted".to_string();
+    RTDLanguagePackStringValueDeletedBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDLanguagePackStringValueDeletedBuilder {
+  inner: LanguagePackStringValueDeleted
+}
+
+impl RTDLanguagePackStringValueDeletedBuilder {
+  pub fn build(&self) -> LanguagePackStringValueDeleted { self.inner.clone() }
+
+}
+
+impl AsRef<LanguagePackStringValueDeleted> for LanguagePackStringValueDeleted {
+  fn as_ref(&self) -> &LanguagePackStringValueDeleted { self }
+}
+
+impl AsRef<LanguagePackStringValueDeleted> for RTDLanguagePackStringValueDeletedBuilder {
+  fn as_ref(&self) -> &LanguagePackStringValueDeleted { &self.inner }
 }
 
 
@@ -270,59 +323,6 @@ impl AsRef<LanguagePackStringValuePluralized> for LanguagePackStringValuePlurali
 
 impl AsRef<LanguagePackStringValuePluralized> for RTDLanguagePackStringValuePluralizedBuilder {
   fn as_ref(&self) -> &LanguagePackStringValuePluralized { &self.inner }
-}
-
-
-
-
-
-
-
-/// A deleted language pack string, the value should be taken from the built-in english language pack
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct LanguagePackStringValueDeleted {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for LanguagePackStringValueDeleted {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "languagePackStringValueDeleted" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDLanguagePackStringValue for LanguagePackStringValueDeleted {}
-
-
-
-impl LanguagePackStringValueDeleted {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDLanguagePackStringValueDeletedBuilder {
-    let mut inner = LanguagePackStringValueDeleted::default();
-    inner.td_name = "languagePackStringValueDeleted".to_string();
-    RTDLanguagePackStringValueDeletedBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDLanguagePackStringValueDeletedBuilder {
-  inner: LanguagePackStringValueDeleted
-}
-
-impl RTDLanguagePackStringValueDeletedBuilder {
-  pub fn build(&self) -> LanguagePackStringValueDeleted { self.inner.clone() }
-
-}
-
-impl AsRef<LanguagePackStringValueDeleted> for LanguagePackStringValueDeleted {
-  fn as_ref(&self) -> &LanguagePackStringValueDeleted { self }
-}
-
-impl AsRef<LanguagePackStringValueDeleted> for RTDLanguagePackStringValueDeletedBuilder {
-  fn as_ref(&self) -> &LanguagePackStringValueDeleted { &self.inner }
 }
 
 

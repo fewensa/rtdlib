@@ -18,12 +18,12 @@ pub trait TDUserType: Debug + RObject {}
 #[serde(untagged)]
 pub enum UserType {
   #[doc(hidden)] _Default(()),
-  /// A regular user
-  Regular(UserTypeRegular),
-  /// A deleted user or deleted bot. No information on the user besides the user_id is available. It is not possible to perform any active actions on this type of user
-  Deleted(UserTypeDeleted),
   /// A bot (see https://core.telegram.org/bots)
   Bot(UserTypeBot),
+  /// A deleted user or deleted bot. No information on the user besides the user_id is available. It is not possible to perform any active actions on this type of user
+  Deleted(UserTypeDeleted),
+  /// A regular user
+  Regular(UserTypeRegular),
   /// No information on the user besides the user_id is available, yet this user has not been deleted. This object is extremely rare and must be handled like a deleted user. It is not possible to perform any actions on users of this type
   Unknown(UserTypeUnknown),
 
@@ -38,9 +38,9 @@ impl<'de> Deserialize<'de> for UserType {
     use serde::de::Error;
     rtd_enum_deserialize!(
       UserType,
-      (userTypeRegular, Regular);
-      (userTypeDeleted, Deleted);
       (userTypeBot, Bot);
+      (userTypeDeleted, Deleted);
+      (userTypeRegular, Regular);
       (userTypeUnknown, Unknown);
 
     )(deserializer)
@@ -50,9 +50,9 @@ impl<'de> Deserialize<'de> for UserType {
 impl RObject for UserType {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
-      UserType::Regular(t) => t.td_name(),
-      UserType::Deleted(t) => t.td_name(),
       UserType::Bot(t) => t.td_name(),
+      UserType::Deleted(t) => t.td_name(),
+      UserType::Regular(t) => t.td_name(),
       UserType::Unknown(t) => t.td_name(),
 
       _ => "-1",
@@ -65,28 +65,28 @@ impl UserType {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let UserType::_Default(_) = self { true } else { false } }
 
-  pub fn is_regular(&self) -> bool { if let UserType::Regular(_) = self { true } else { false } }
-  pub fn is_deleted(&self) -> bool { if let UserType::Deleted(_) = self { true } else { false } }
   pub fn is_bot(&self) -> bool { if let UserType::Bot(_) = self { true } else { false } }
+  pub fn is_deleted(&self) -> bool { if let UserType::Deleted(_) = self { true } else { false } }
+  pub fn is_regular(&self) -> bool { if let UserType::Regular(_) = self { true } else { false } }
   pub fn is_unknown(&self) -> bool { if let UserType::Unknown(_) = self { true } else { false } }
 
-  pub fn on_regular<F: FnOnce(&UserTypeRegular)>(&self, fnc: F) -> &Self { if let UserType::Regular(t) = self { fnc(t) }; self }
-  pub fn on_deleted<F: FnOnce(&UserTypeDeleted)>(&self, fnc: F) -> &Self { if let UserType::Deleted(t) = self { fnc(t) }; self }
   pub fn on_bot<F: FnOnce(&UserTypeBot)>(&self, fnc: F) -> &Self { if let UserType::Bot(t) = self { fnc(t) }; self }
+  pub fn on_deleted<F: FnOnce(&UserTypeDeleted)>(&self, fnc: F) -> &Self { if let UserType::Deleted(t) = self { fnc(t) }; self }
+  pub fn on_regular<F: FnOnce(&UserTypeRegular)>(&self, fnc: F) -> &Self { if let UserType::Regular(t) = self { fnc(t) }; self }
   pub fn on_unknown<F: FnOnce(&UserTypeUnknown)>(&self, fnc: F) -> &Self { if let UserType::Unknown(t) = self { fnc(t) }; self }
 
-  pub fn as_regular(&self) -> Option<&UserTypeRegular> { if let UserType::Regular(t) = self { return Some(t) } None }
-  pub fn as_deleted(&self) -> Option<&UserTypeDeleted> { if let UserType::Deleted(t) = self { return Some(t) } None }
   pub fn as_bot(&self) -> Option<&UserTypeBot> { if let UserType::Bot(t) = self { return Some(t) } None }
+  pub fn as_deleted(&self) -> Option<&UserTypeDeleted> { if let UserType::Deleted(t) = self { return Some(t) } None }
+  pub fn as_regular(&self) -> Option<&UserTypeRegular> { if let UserType::Regular(t) = self { return Some(t) } None }
   pub fn as_unknown(&self) -> Option<&UserTypeUnknown> { if let UserType::Unknown(t) = self { return Some(t) } None }
 
 
 
-  pub fn regular<T: AsRef<UserTypeRegular>>(t: T) -> Self { UserType::Regular(t.as_ref().clone()) }
+  pub fn bot<T: AsRef<UserTypeBot>>(t: T) -> Self { UserType::Bot(t.as_ref().clone()) }
 
   pub fn deleted<T: AsRef<UserTypeDeleted>>(t: T) -> Self { UserType::Deleted(t.as_ref().clone()) }
 
-  pub fn bot<T: AsRef<UserTypeBot>>(t: T) -> Self { UserType::Bot(t.as_ref().clone()) }
+  pub fn regular<T: AsRef<UserTypeRegular>>(t: T) -> Self { UserType::Regular(t.as_ref().clone()) }
 
   pub fn unknown<T: AsRef<UserTypeUnknown>>(t: T) -> Self { UserType::Unknown(t.as_ref().clone()) }
 
@@ -94,112 +94,6 @@ impl UserType {
 
 impl AsRef<UserType> for UserType {
   fn as_ref(&self) -> &UserType { self }
-}
-
-
-
-
-
-
-
-/// A regular user
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UserTypeRegular {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for UserTypeRegular {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "userTypeRegular" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUserType for UserTypeRegular {}
-
-
-
-impl UserTypeRegular {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUserTypeRegularBuilder {
-    let mut inner = UserTypeRegular::default();
-    inner.td_name = "userTypeRegular".to_string();
-    RTDUserTypeRegularBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUserTypeRegularBuilder {
-  inner: UserTypeRegular
-}
-
-impl RTDUserTypeRegularBuilder {
-  pub fn build(&self) -> UserTypeRegular { self.inner.clone() }
-
-}
-
-impl AsRef<UserTypeRegular> for UserTypeRegular {
-  fn as_ref(&self) -> &UserTypeRegular { self }
-}
-
-impl AsRef<UserTypeRegular> for RTDUserTypeRegularBuilder {
-  fn as_ref(&self) -> &UserTypeRegular { &self.inner }
-}
-
-
-
-
-
-
-
-/// A deleted user or deleted bot. No information on the user besides the user_id is available. It is not possible to perform any active actions on this type of user
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UserTypeDeleted {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for UserTypeDeleted {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "userTypeDeleted" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUserType for UserTypeDeleted {}
-
-
-
-impl UserTypeDeleted {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUserTypeDeletedBuilder {
-    let mut inner = UserTypeDeleted::default();
-    inner.td_name = "userTypeDeleted".to_string();
-    RTDUserTypeDeletedBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUserTypeDeletedBuilder {
-  inner: UserTypeDeleted
-}
-
-impl RTDUserTypeDeletedBuilder {
-  pub fn build(&self) -> UserTypeDeleted { self.inner.clone() }
-
-}
-
-impl AsRef<UserTypeDeleted> for UserTypeDeleted {
-  fn as_ref(&self) -> &UserTypeDeleted { self }
-}
-
-impl AsRef<UserTypeDeleted> for RTDUserTypeDeletedBuilder {
-  fn as_ref(&self) -> &UserTypeDeleted { &self.inner }
 }
 
 
@@ -303,6 +197,112 @@ impl AsRef<UserTypeBot> for UserTypeBot {
 
 impl AsRef<UserTypeBot> for RTDUserTypeBotBuilder {
   fn as_ref(&self) -> &UserTypeBot { &self.inner }
+}
+
+
+
+
+
+
+
+/// A deleted user or deleted bot. No information on the user besides the user_id is available. It is not possible to perform any active actions on this type of user
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UserTypeDeleted {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for UserTypeDeleted {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "userTypeDeleted" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUserType for UserTypeDeleted {}
+
+
+
+impl UserTypeDeleted {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUserTypeDeletedBuilder {
+    let mut inner = UserTypeDeleted::default();
+    inner.td_name = "userTypeDeleted".to_string();
+    RTDUserTypeDeletedBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUserTypeDeletedBuilder {
+  inner: UserTypeDeleted
+}
+
+impl RTDUserTypeDeletedBuilder {
+  pub fn build(&self) -> UserTypeDeleted { self.inner.clone() }
+
+}
+
+impl AsRef<UserTypeDeleted> for UserTypeDeleted {
+  fn as_ref(&self) -> &UserTypeDeleted { self }
+}
+
+impl AsRef<UserTypeDeleted> for RTDUserTypeDeletedBuilder {
+  fn as_ref(&self) -> &UserTypeDeleted { &self.inner }
+}
+
+
+
+
+
+
+
+/// A regular user
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UserTypeRegular {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for UserTypeRegular {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "userTypeRegular" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUserType for UserTypeRegular {}
+
+
+
+impl UserTypeRegular {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUserTypeRegularBuilder {
+    let mut inner = UserTypeRegular::default();
+    inner.td_name = "userTypeRegular".to_string();
+    RTDUserTypeRegularBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUserTypeRegularBuilder {
+  inner: UserTypeRegular
+}
+
+impl RTDUserTypeRegularBuilder {
+  pub fn build(&self) -> UserTypeRegular { self.inner.clone() }
+
+}
+
+impl AsRef<UserTypeRegular> for UserTypeRegular {
+  fn as_ref(&self) -> &UserTypeRegular { self }
+}
+
+impl AsRef<UserTypeRegular> for RTDUserTypeRegularBuilder {
+  fn as_ref(&self) -> &UserTypeRegular { &self.inner }
 }
 
 

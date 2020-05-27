@@ -18,12 +18,12 @@ pub trait TDMessageForwardOrigin: Debug + RObject {}
 #[serde(untagged)]
 pub enum MessageForwardOrigin {
   #[doc(hidden)] _Default(()),
-  /// The message was originally written by a known user
-  User(MessageForwardOriginUser),
-  /// The message was originally written by a user, which is hidden by their privacy settings
-  HiddenUser(MessageForwardOriginHiddenUser),
   /// The message was originally a post in a channel
   Channel(MessageForwardOriginChannel),
+  /// The message was originally written by a user, which is hidden by their privacy settings
+  HiddenUser(MessageForwardOriginHiddenUser),
+  /// The message was originally written by a known user
+  User(MessageForwardOriginUser),
 
 }
 
@@ -36,9 +36,9 @@ impl<'de> Deserialize<'de> for MessageForwardOrigin {
     use serde::de::Error;
     rtd_enum_deserialize!(
       MessageForwardOrigin,
-      (messageForwardOriginUser, User);
-      (messageForwardOriginHiddenUser, HiddenUser);
       (messageForwardOriginChannel, Channel);
+      (messageForwardOriginHiddenUser, HiddenUser);
+      (messageForwardOriginUser, User);
 
     )(deserializer)
   }
@@ -47,9 +47,9 @@ impl<'de> Deserialize<'de> for MessageForwardOrigin {
 impl RObject for MessageForwardOrigin {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
-      MessageForwardOrigin::User(t) => t.td_name(),
-      MessageForwardOrigin::HiddenUser(t) => t.td_name(),
       MessageForwardOrigin::Channel(t) => t.td_name(),
+      MessageForwardOrigin::HiddenUser(t) => t.td_name(),
+      MessageForwardOrigin::User(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -61,156 +61,30 @@ impl MessageForwardOrigin {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let MessageForwardOrigin::_Default(_) = self { true } else { false } }
 
-  pub fn is_user(&self) -> bool { if let MessageForwardOrigin::User(_) = self { true } else { false } }
-  pub fn is_hidden_user(&self) -> bool { if let MessageForwardOrigin::HiddenUser(_) = self { true } else { false } }
   pub fn is_channel(&self) -> bool { if let MessageForwardOrigin::Channel(_) = self { true } else { false } }
+  pub fn is_hidden_user(&self) -> bool { if let MessageForwardOrigin::HiddenUser(_) = self { true } else { false } }
+  pub fn is_user(&self) -> bool { if let MessageForwardOrigin::User(_) = self { true } else { false } }
 
-  pub fn on_user<F: FnOnce(&MessageForwardOriginUser)>(&self, fnc: F) -> &Self { if let MessageForwardOrigin::User(t) = self { fnc(t) }; self }
-  pub fn on_hidden_user<F: FnOnce(&MessageForwardOriginHiddenUser)>(&self, fnc: F) -> &Self { if let MessageForwardOrigin::HiddenUser(t) = self { fnc(t) }; self }
   pub fn on_channel<F: FnOnce(&MessageForwardOriginChannel)>(&self, fnc: F) -> &Self { if let MessageForwardOrigin::Channel(t) = self { fnc(t) }; self }
+  pub fn on_hidden_user<F: FnOnce(&MessageForwardOriginHiddenUser)>(&self, fnc: F) -> &Self { if let MessageForwardOrigin::HiddenUser(t) = self { fnc(t) }; self }
+  pub fn on_user<F: FnOnce(&MessageForwardOriginUser)>(&self, fnc: F) -> &Self { if let MessageForwardOrigin::User(t) = self { fnc(t) }; self }
 
-  pub fn as_user(&self) -> Option<&MessageForwardOriginUser> { if let MessageForwardOrigin::User(t) = self { return Some(t) } None }
-  pub fn as_hidden_user(&self) -> Option<&MessageForwardOriginHiddenUser> { if let MessageForwardOrigin::HiddenUser(t) = self { return Some(t) } None }
   pub fn as_channel(&self) -> Option<&MessageForwardOriginChannel> { if let MessageForwardOrigin::Channel(t) = self { return Some(t) } None }
+  pub fn as_hidden_user(&self) -> Option<&MessageForwardOriginHiddenUser> { if let MessageForwardOrigin::HiddenUser(t) = self { return Some(t) } None }
+  pub fn as_user(&self) -> Option<&MessageForwardOriginUser> { if let MessageForwardOrigin::User(t) = self { return Some(t) } None }
 
 
 
-  pub fn user<T: AsRef<MessageForwardOriginUser>>(t: T) -> Self { MessageForwardOrigin::User(t.as_ref().clone()) }
+  pub fn channel<T: AsRef<MessageForwardOriginChannel>>(t: T) -> Self { MessageForwardOrigin::Channel(t.as_ref().clone()) }
 
   pub fn hidden_user<T: AsRef<MessageForwardOriginHiddenUser>>(t: T) -> Self { MessageForwardOrigin::HiddenUser(t.as_ref().clone()) }
 
-  pub fn channel<T: AsRef<MessageForwardOriginChannel>>(t: T) -> Self { MessageForwardOrigin::Channel(t.as_ref().clone()) }
+  pub fn user<T: AsRef<MessageForwardOriginUser>>(t: T) -> Self { MessageForwardOrigin::User(t.as_ref().clone()) }
 
 }
 
 impl AsRef<MessageForwardOrigin> for MessageForwardOrigin {
   fn as_ref(&self) -> &MessageForwardOrigin { self }
-}
-
-
-
-
-
-
-
-/// The message was originally written by a known user
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct MessageForwardOriginUser {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Identifier of the user that originally sent the message
-  sender_user_id: i64,
-  
-}
-
-impl RObject for MessageForwardOriginUser {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageForwardOriginUser" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDMessageForwardOrigin for MessageForwardOriginUser {}
-
-
-
-impl MessageForwardOriginUser {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDMessageForwardOriginUserBuilder {
-    let mut inner = MessageForwardOriginUser::default();
-    inner.td_name = "messageForwardOriginUser".to_string();
-    RTDMessageForwardOriginUserBuilder { inner }
-  }
-
-  pub fn sender_user_id(&self) -> i64 { self.sender_user_id }
-
-}
-
-#[doc(hidden)]
-pub struct RTDMessageForwardOriginUserBuilder {
-  inner: MessageForwardOriginUser
-}
-
-impl RTDMessageForwardOriginUserBuilder {
-  pub fn build(&self) -> MessageForwardOriginUser { self.inner.clone() }
-
-   
-  pub fn sender_user_id(&mut self, sender_user_id: i64) -> &mut Self {
-    self.inner.sender_user_id = sender_user_id;
-    self
-  }
-
-}
-
-impl AsRef<MessageForwardOriginUser> for MessageForwardOriginUser {
-  fn as_ref(&self) -> &MessageForwardOriginUser { self }
-}
-
-impl AsRef<MessageForwardOriginUser> for RTDMessageForwardOriginUserBuilder {
-  fn as_ref(&self) -> &MessageForwardOriginUser { &self.inner }
-}
-
-
-
-
-
-
-
-/// The message was originally written by a user, which is hidden by their privacy settings
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct MessageForwardOriginHiddenUser {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Name of the sender
-  sender_name: String,
-  
-}
-
-impl RObject for MessageForwardOriginHiddenUser {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageForwardOriginHiddenUser" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDMessageForwardOrigin for MessageForwardOriginHiddenUser {}
-
-
-
-impl MessageForwardOriginHiddenUser {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDMessageForwardOriginHiddenUserBuilder {
-    let mut inner = MessageForwardOriginHiddenUser::default();
-    inner.td_name = "messageForwardOriginHiddenUser".to_string();
-    RTDMessageForwardOriginHiddenUserBuilder { inner }
-  }
-
-  pub fn sender_name(&self) -> &String { &self.sender_name }
-
-}
-
-#[doc(hidden)]
-pub struct RTDMessageForwardOriginHiddenUserBuilder {
-  inner: MessageForwardOriginHiddenUser
-}
-
-impl RTDMessageForwardOriginHiddenUserBuilder {
-  pub fn build(&self) -> MessageForwardOriginHiddenUser { self.inner.clone() }
-
-   
-  pub fn sender_name<T: AsRef<str>>(&mut self, sender_name: T) -> &mut Self {
-    self.inner.sender_name = sender_name.as_ref().to_string();
-    self
-  }
-
-}
-
-impl AsRef<MessageForwardOriginHiddenUser> for MessageForwardOriginHiddenUser {
-  fn as_ref(&self) -> &MessageForwardOriginHiddenUser { self }
-}
-
-impl AsRef<MessageForwardOriginHiddenUser> for RTDMessageForwardOriginHiddenUserBuilder {
-  fn as_ref(&self) -> &MessageForwardOriginHiddenUser { &self.inner }
 }
 
 
@@ -294,6 +168,132 @@ impl AsRef<MessageForwardOriginChannel> for MessageForwardOriginChannel {
 
 impl AsRef<MessageForwardOriginChannel> for RTDMessageForwardOriginChannelBuilder {
   fn as_ref(&self) -> &MessageForwardOriginChannel { &self.inner }
+}
+
+
+
+
+
+
+
+/// The message was originally written by a user, which is hidden by their privacy settings
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct MessageForwardOriginHiddenUser {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Name of the sender
+  sender_name: String,
+  
+}
+
+impl RObject for MessageForwardOriginHiddenUser {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageForwardOriginHiddenUser" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDMessageForwardOrigin for MessageForwardOriginHiddenUser {}
+
+
+
+impl MessageForwardOriginHiddenUser {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDMessageForwardOriginHiddenUserBuilder {
+    let mut inner = MessageForwardOriginHiddenUser::default();
+    inner.td_name = "messageForwardOriginHiddenUser".to_string();
+    RTDMessageForwardOriginHiddenUserBuilder { inner }
+  }
+
+  pub fn sender_name(&self) -> &String { &self.sender_name }
+
+}
+
+#[doc(hidden)]
+pub struct RTDMessageForwardOriginHiddenUserBuilder {
+  inner: MessageForwardOriginHiddenUser
+}
+
+impl RTDMessageForwardOriginHiddenUserBuilder {
+  pub fn build(&self) -> MessageForwardOriginHiddenUser { self.inner.clone() }
+
+   
+  pub fn sender_name<T: AsRef<str>>(&mut self, sender_name: T) -> &mut Self {
+    self.inner.sender_name = sender_name.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<MessageForwardOriginHiddenUser> for MessageForwardOriginHiddenUser {
+  fn as_ref(&self) -> &MessageForwardOriginHiddenUser { self }
+}
+
+impl AsRef<MessageForwardOriginHiddenUser> for RTDMessageForwardOriginHiddenUserBuilder {
+  fn as_ref(&self) -> &MessageForwardOriginHiddenUser { &self.inner }
+}
+
+
+
+
+
+
+
+/// The message was originally written by a known user
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct MessageForwardOriginUser {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Identifier of the user that originally sent the message
+  sender_user_id: i64,
+  
+}
+
+impl RObject for MessageForwardOriginUser {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageForwardOriginUser" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDMessageForwardOrigin for MessageForwardOriginUser {}
+
+
+
+impl MessageForwardOriginUser {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDMessageForwardOriginUserBuilder {
+    let mut inner = MessageForwardOriginUser::default();
+    inner.td_name = "messageForwardOriginUser".to_string();
+    RTDMessageForwardOriginUserBuilder { inner }
+  }
+
+  pub fn sender_user_id(&self) -> i64 { self.sender_user_id }
+
+}
+
+#[doc(hidden)]
+pub struct RTDMessageForwardOriginUserBuilder {
+  inner: MessageForwardOriginUser
+}
+
+impl RTDMessageForwardOriginUserBuilder {
+  pub fn build(&self) -> MessageForwardOriginUser { self.inner.clone() }
+
+   
+  pub fn sender_user_id(&mut self, sender_user_id: i64) -> &mut Self {
+    self.inner.sender_user_id = sender_user_id;
+    self
+  }
+
+}
+
+impl AsRef<MessageForwardOriginUser> for MessageForwardOriginUser {
+  fn as_ref(&self) -> &MessageForwardOriginUser { self }
+}
+
+impl AsRef<MessageForwardOriginUser> for RTDMessageForwardOriginUserBuilder {
+  fn as_ref(&self) -> &MessageForwardOriginUser { &self.inner }
 }
 
 

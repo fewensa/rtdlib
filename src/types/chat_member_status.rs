@@ -18,18 +18,18 @@ pub trait TDChatMemberStatus: Debug + RObject {}
 #[serde(untagged)]
 pub enum ChatMemberStatus {
   #[doc(hidden)] _Default(()),
-  /// The user is the creator of a chat and has all the administrator privileges
-  Creator(ChatMemberStatusCreator),
   /// The user is a member of a chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, and ban unprivileged members. In supergroups and channels, there are more detailed options for administrator privileges
   Administrator(ChatMemberStatusAdministrator),
+  /// The user was banned (and hence is not a member of the chat). Implies the user can't return to the chat or view messages
+  Banned(ChatMemberStatusBanned),
+  /// The user is the creator of a chat and has all the administrator privileges
+  Creator(ChatMemberStatusCreator),
+  /// The user is not a chat member
+  Left(ChatMemberStatusLeft),
   /// The user is a member of a chat, without any additional privileges or restrictions
   Member(ChatMemberStatusMember),
   /// The user is under certain restrictions in the chat. Not supported in basic groups and channels
   Restricted(ChatMemberStatusRestricted),
-  /// The user is not a chat member
-  Left(ChatMemberStatusLeft),
-  /// The user was banned (and hence is not a member of the chat). Implies the user can't return to the chat or view messages
-  Banned(ChatMemberStatusBanned),
 
 }
 
@@ -42,12 +42,12 @@ impl<'de> Deserialize<'de> for ChatMemberStatus {
     use serde::de::Error;
     rtd_enum_deserialize!(
       ChatMemberStatus,
-      (chatMemberStatusCreator, Creator);
       (chatMemberStatusAdministrator, Administrator);
+      (chatMemberStatusBanned, Banned);
+      (chatMemberStatusCreator, Creator);
+      (chatMemberStatusLeft, Left);
       (chatMemberStatusMember, Member);
       (chatMemberStatusRestricted, Restricted);
-      (chatMemberStatusLeft, Left);
-      (chatMemberStatusBanned, Banned);
 
     )(deserializer)
   }
@@ -56,12 +56,12 @@ impl<'de> Deserialize<'de> for ChatMemberStatus {
 impl RObject for ChatMemberStatus {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
-      ChatMemberStatus::Creator(t) => t.td_name(),
       ChatMemberStatus::Administrator(t) => t.td_name(),
+      ChatMemberStatus::Banned(t) => t.td_name(),
+      ChatMemberStatus::Creator(t) => t.td_name(),
+      ChatMemberStatus::Left(t) => t.td_name(),
       ChatMemberStatus::Member(t) => t.td_name(),
       ChatMemberStatus::Restricted(t) => t.td_name(),
-      ChatMemberStatus::Left(t) => t.td_name(),
-      ChatMemberStatus::Banned(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -73,108 +73,45 @@ impl ChatMemberStatus {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let ChatMemberStatus::_Default(_) = self { true } else { false } }
 
-  pub fn is_creator(&self) -> bool { if let ChatMemberStatus::Creator(_) = self { true } else { false } }
   pub fn is_administrator(&self) -> bool { if let ChatMemberStatus::Administrator(_) = self { true } else { false } }
+  pub fn is_banned(&self) -> bool { if let ChatMemberStatus::Banned(_) = self { true } else { false } }
+  pub fn is_creator(&self) -> bool { if let ChatMemberStatus::Creator(_) = self { true } else { false } }
+  pub fn is_left(&self) -> bool { if let ChatMemberStatus::Left(_) = self { true } else { false } }
   pub fn is_member(&self) -> bool { if let ChatMemberStatus::Member(_) = self { true } else { false } }
   pub fn is_restricted(&self) -> bool { if let ChatMemberStatus::Restricted(_) = self { true } else { false } }
-  pub fn is_left(&self) -> bool { if let ChatMemberStatus::Left(_) = self { true } else { false } }
-  pub fn is_banned(&self) -> bool { if let ChatMemberStatus::Banned(_) = self { true } else { false } }
 
-  pub fn on_creator<F: FnOnce(&ChatMemberStatusCreator)>(&self, fnc: F) -> &Self { if let ChatMemberStatus::Creator(t) = self { fnc(t) }; self }
   pub fn on_administrator<F: FnOnce(&ChatMemberStatusAdministrator)>(&self, fnc: F) -> &Self { if let ChatMemberStatus::Administrator(t) = self { fnc(t) }; self }
+  pub fn on_banned<F: FnOnce(&ChatMemberStatusBanned)>(&self, fnc: F) -> &Self { if let ChatMemberStatus::Banned(t) = self { fnc(t) }; self }
+  pub fn on_creator<F: FnOnce(&ChatMemberStatusCreator)>(&self, fnc: F) -> &Self { if let ChatMemberStatus::Creator(t) = self { fnc(t) }; self }
+  pub fn on_left<F: FnOnce(&ChatMemberStatusLeft)>(&self, fnc: F) -> &Self { if let ChatMemberStatus::Left(t) = self { fnc(t) }; self }
   pub fn on_member<F: FnOnce(&ChatMemberStatusMember)>(&self, fnc: F) -> &Self { if let ChatMemberStatus::Member(t) = self { fnc(t) }; self }
   pub fn on_restricted<F: FnOnce(&ChatMemberStatusRestricted)>(&self, fnc: F) -> &Self { if let ChatMemberStatus::Restricted(t) = self { fnc(t) }; self }
-  pub fn on_left<F: FnOnce(&ChatMemberStatusLeft)>(&self, fnc: F) -> &Self { if let ChatMemberStatus::Left(t) = self { fnc(t) }; self }
-  pub fn on_banned<F: FnOnce(&ChatMemberStatusBanned)>(&self, fnc: F) -> &Self { if let ChatMemberStatus::Banned(t) = self { fnc(t) }; self }
 
-  pub fn as_creator(&self) -> Option<&ChatMemberStatusCreator> { if let ChatMemberStatus::Creator(t) = self { return Some(t) } None }
   pub fn as_administrator(&self) -> Option<&ChatMemberStatusAdministrator> { if let ChatMemberStatus::Administrator(t) = self { return Some(t) } None }
+  pub fn as_banned(&self) -> Option<&ChatMemberStatusBanned> { if let ChatMemberStatus::Banned(t) = self { return Some(t) } None }
+  pub fn as_creator(&self) -> Option<&ChatMemberStatusCreator> { if let ChatMemberStatus::Creator(t) = self { return Some(t) } None }
+  pub fn as_left(&self) -> Option<&ChatMemberStatusLeft> { if let ChatMemberStatus::Left(t) = self { return Some(t) } None }
   pub fn as_member(&self) -> Option<&ChatMemberStatusMember> { if let ChatMemberStatus::Member(t) = self { return Some(t) } None }
   pub fn as_restricted(&self) -> Option<&ChatMemberStatusRestricted> { if let ChatMemberStatus::Restricted(t) = self { return Some(t) } None }
-  pub fn as_left(&self) -> Option<&ChatMemberStatusLeft> { if let ChatMemberStatus::Left(t) = self { return Some(t) } None }
-  pub fn as_banned(&self) -> Option<&ChatMemberStatusBanned> { if let ChatMemberStatus::Banned(t) = self { return Some(t) } None }
 
 
+
+  pub fn administrator<T: AsRef<ChatMemberStatusAdministrator>>(t: T) -> Self { ChatMemberStatus::Administrator(t.as_ref().clone()) }
+
+  pub fn banned<T: AsRef<ChatMemberStatusBanned>>(t: T) -> Self { ChatMemberStatus::Banned(t.as_ref().clone()) }
 
   pub fn creator<T: AsRef<ChatMemberStatusCreator>>(t: T) -> Self { ChatMemberStatus::Creator(t.as_ref().clone()) }
 
-  pub fn administrator<T: AsRef<ChatMemberStatusAdministrator>>(t: T) -> Self { ChatMemberStatus::Administrator(t.as_ref().clone()) }
+  pub fn left<T: AsRef<ChatMemberStatusLeft>>(t: T) -> Self { ChatMemberStatus::Left(t.as_ref().clone()) }
 
   pub fn member<T: AsRef<ChatMemberStatusMember>>(t: T) -> Self { ChatMemberStatus::Member(t.as_ref().clone()) }
 
   pub fn restricted<T: AsRef<ChatMemberStatusRestricted>>(t: T) -> Self { ChatMemberStatus::Restricted(t.as_ref().clone()) }
 
-  pub fn left<T: AsRef<ChatMemberStatusLeft>>(t: T) -> Self { ChatMemberStatus::Left(t.as_ref().clone()) }
-
-  pub fn banned<T: AsRef<ChatMemberStatusBanned>>(t: T) -> Self { ChatMemberStatus::Banned(t.as_ref().clone()) }
-
 }
 
 impl AsRef<ChatMemberStatus> for ChatMemberStatus {
   fn as_ref(&self) -> &ChatMemberStatus { self }
-}
-
-
-
-
-
-
-
-/// The user is the creator of a chat and has all the administrator privileges
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ChatMemberStatusCreator {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// True, if the user is a member of the chat
-  is_member: bool,
-  
-}
-
-impl RObject for ChatMemberStatusCreator {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMemberStatusCreator" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDChatMemberStatus for ChatMemberStatusCreator {}
-
-
-
-impl ChatMemberStatusCreator {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDChatMemberStatusCreatorBuilder {
-    let mut inner = ChatMemberStatusCreator::default();
-    inner.td_name = "chatMemberStatusCreator".to_string();
-    RTDChatMemberStatusCreatorBuilder { inner }
-  }
-
-  pub fn is_member(&self) -> bool { self.is_member }
-
-}
-
-#[doc(hidden)]
-pub struct RTDChatMemberStatusCreatorBuilder {
-  inner: ChatMemberStatusCreator
-}
-
-impl RTDChatMemberStatusCreatorBuilder {
-  pub fn build(&self) -> ChatMemberStatusCreator { self.inner.clone() }
-
-   
-  pub fn is_member(&mut self, is_member: bool) -> &mut Self {
-    self.inner.is_member = is_member;
-    self
-  }
-
-}
-
-impl AsRef<ChatMemberStatusCreator> for ChatMemberStatusCreator {
-  fn as_ref(&self) -> &ChatMemberStatusCreator { self }
-}
-
-impl AsRef<ChatMemberStatusCreator> for RTDChatMemberStatusCreatorBuilder {
-  fn as_ref(&self) -> &ChatMemberStatusCreator { &self.inner }
 }
 
 
@@ -326,6 +263,185 @@ impl AsRef<ChatMemberStatusAdministrator> for RTDChatMemberStatusAdministratorBu
 
 
 
+/// The user was banned (and hence is not a member of the chat). Implies the user can't return to the chat or view messages
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatMemberStatusBanned {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever
+  banned_until_date: i64,
+  
+}
+
+impl RObject for ChatMemberStatusBanned {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMemberStatusBanned" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatMemberStatus for ChatMemberStatusBanned {}
+
+
+
+impl ChatMemberStatusBanned {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatMemberStatusBannedBuilder {
+    let mut inner = ChatMemberStatusBanned::default();
+    inner.td_name = "chatMemberStatusBanned".to_string();
+    RTDChatMemberStatusBannedBuilder { inner }
+  }
+
+  pub fn banned_until_date(&self) -> i64 { self.banned_until_date }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatMemberStatusBannedBuilder {
+  inner: ChatMemberStatusBanned
+}
+
+impl RTDChatMemberStatusBannedBuilder {
+  pub fn build(&self) -> ChatMemberStatusBanned { self.inner.clone() }
+
+   
+  pub fn banned_until_date(&mut self, banned_until_date: i64) -> &mut Self {
+    self.inner.banned_until_date = banned_until_date;
+    self
+  }
+
+}
+
+impl AsRef<ChatMemberStatusBanned> for ChatMemberStatusBanned {
+  fn as_ref(&self) -> &ChatMemberStatusBanned { self }
+}
+
+impl AsRef<ChatMemberStatusBanned> for RTDChatMemberStatusBannedBuilder {
+  fn as_ref(&self) -> &ChatMemberStatusBanned { &self.inner }
+}
+
+
+
+
+
+
+
+/// The user is the creator of a chat and has all the administrator privileges
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatMemberStatusCreator {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// True, if the user is a member of the chat
+  is_member: bool,
+  
+}
+
+impl RObject for ChatMemberStatusCreator {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMemberStatusCreator" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatMemberStatus for ChatMemberStatusCreator {}
+
+
+
+impl ChatMemberStatusCreator {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatMemberStatusCreatorBuilder {
+    let mut inner = ChatMemberStatusCreator::default();
+    inner.td_name = "chatMemberStatusCreator".to_string();
+    RTDChatMemberStatusCreatorBuilder { inner }
+  }
+
+  pub fn is_member(&self) -> bool { self.is_member }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatMemberStatusCreatorBuilder {
+  inner: ChatMemberStatusCreator
+}
+
+impl RTDChatMemberStatusCreatorBuilder {
+  pub fn build(&self) -> ChatMemberStatusCreator { self.inner.clone() }
+
+   
+  pub fn is_member(&mut self, is_member: bool) -> &mut Self {
+    self.inner.is_member = is_member;
+    self
+  }
+
+}
+
+impl AsRef<ChatMemberStatusCreator> for ChatMemberStatusCreator {
+  fn as_ref(&self) -> &ChatMemberStatusCreator { self }
+}
+
+impl AsRef<ChatMemberStatusCreator> for RTDChatMemberStatusCreatorBuilder {
+  fn as_ref(&self) -> &ChatMemberStatusCreator { &self.inner }
+}
+
+
+
+
+
+
+
+/// The user is not a chat member
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatMemberStatusLeft {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for ChatMemberStatusLeft {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMemberStatusLeft" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatMemberStatus for ChatMemberStatusLeft {}
+
+
+
+impl ChatMemberStatusLeft {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatMemberStatusLeftBuilder {
+    let mut inner = ChatMemberStatusLeft::default();
+    inner.td_name = "chatMemberStatusLeft".to_string();
+    RTDChatMemberStatusLeftBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatMemberStatusLeftBuilder {
+  inner: ChatMemberStatusLeft
+}
+
+impl RTDChatMemberStatusLeftBuilder {
+  pub fn build(&self) -> ChatMemberStatusLeft { self.inner.clone() }
+
+}
+
+impl AsRef<ChatMemberStatusLeft> for ChatMemberStatusLeft {
+  fn as_ref(&self) -> &ChatMemberStatusLeft { self }
+}
+
+impl AsRef<ChatMemberStatusLeft> for RTDChatMemberStatusLeftBuilder {
+  fn as_ref(&self) -> &ChatMemberStatusLeft { &self.inner }
+}
+
+
+
+
+
+
+
 /// The user is a member of a chat, without any additional privileges or restrictions
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatMemberStatusMember {
@@ -454,122 +570,6 @@ impl AsRef<ChatMemberStatusRestricted> for ChatMemberStatusRestricted {
 
 impl AsRef<ChatMemberStatusRestricted> for RTDChatMemberStatusRestrictedBuilder {
   fn as_ref(&self) -> &ChatMemberStatusRestricted { &self.inner }
-}
-
-
-
-
-
-
-
-/// The user is not a chat member
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ChatMemberStatusLeft {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for ChatMemberStatusLeft {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMemberStatusLeft" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDChatMemberStatus for ChatMemberStatusLeft {}
-
-
-
-impl ChatMemberStatusLeft {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDChatMemberStatusLeftBuilder {
-    let mut inner = ChatMemberStatusLeft::default();
-    inner.td_name = "chatMemberStatusLeft".to_string();
-    RTDChatMemberStatusLeftBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDChatMemberStatusLeftBuilder {
-  inner: ChatMemberStatusLeft
-}
-
-impl RTDChatMemberStatusLeftBuilder {
-  pub fn build(&self) -> ChatMemberStatusLeft { self.inner.clone() }
-
-}
-
-impl AsRef<ChatMemberStatusLeft> for ChatMemberStatusLeft {
-  fn as_ref(&self) -> &ChatMemberStatusLeft { self }
-}
-
-impl AsRef<ChatMemberStatusLeft> for RTDChatMemberStatusLeftBuilder {
-  fn as_ref(&self) -> &ChatMemberStatusLeft { &self.inner }
-}
-
-
-
-
-
-
-
-/// The user was banned (and hence is not a member of the chat). Implies the user can't return to the chat or view messages
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ChatMemberStatusBanned {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever
-  banned_until_date: i64,
-  
-}
-
-impl RObject for ChatMemberStatusBanned {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMemberStatusBanned" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDChatMemberStatus for ChatMemberStatusBanned {}
-
-
-
-impl ChatMemberStatusBanned {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDChatMemberStatusBannedBuilder {
-    let mut inner = ChatMemberStatusBanned::default();
-    inner.td_name = "chatMemberStatusBanned".to_string();
-    RTDChatMemberStatusBannedBuilder { inner }
-  }
-
-  pub fn banned_until_date(&self) -> i64 { self.banned_until_date }
-
-}
-
-#[doc(hidden)]
-pub struct RTDChatMemberStatusBannedBuilder {
-  inner: ChatMemberStatusBanned
-}
-
-impl RTDChatMemberStatusBannedBuilder {
-  pub fn build(&self) -> ChatMemberStatusBanned { self.inner.clone() }
-
-   
-  pub fn banned_until_date(&mut self, banned_until_date: i64) -> &mut Self {
-    self.inner.banned_until_date = banned_until_date;
-    self
-  }
-
-}
-
-impl AsRef<ChatMemberStatusBanned> for ChatMemberStatusBanned {
-  fn as_ref(&self) -> &ChatMemberStatusBanned { self }
-}
-
-impl AsRef<ChatMemberStatusBanned> for RTDChatMemberStatusBannedBuilder {
-  fn as_ref(&self) -> &ChatMemberStatusBanned { &self.inner }
 }
 
 
