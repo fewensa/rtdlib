@@ -18,6 +18,8 @@ pub trait TDCanTransferOwnershipResult: Debug + RObject {}
 #[serde(untagged)]
 pub enum CanTransferOwnershipResult {
   #[doc(hidden)] _Default(()),
+  /// Checks whether the current session can be used to transfer a chat ownership to another user
+  CanTransferOwnership(CanTransferOwnership),
   /// The session can be used
   Ok(CanTransferOwnershipResultOk),
   /// The 2-step verification needs to be enabled first
@@ -26,8 +28,6 @@ pub enum CanTransferOwnershipResult {
   PasswordTooFresh(CanTransferOwnershipResultPasswordTooFresh),
   /// The session was created recently, user needs to wait
   SessionTooFresh(CanTransferOwnershipResultSessionTooFresh),
-  /// Checks whether the current session can be used to transfer a chat ownership to another user
-  CanTransferOwnership(CanTransferOwnership),
 
 }
 
@@ -40,11 +40,11 @@ impl<'de> Deserialize<'de> for CanTransferOwnershipResult {
     use serde::de::Error;
     rtd_enum_deserialize!(
       CanTransferOwnershipResult,
+      (canTransferOwnership, CanTransferOwnership);
       (canTransferOwnershipResultOk, Ok);
       (canTransferOwnershipResultPasswordNeeded, PasswordNeeded);
       (canTransferOwnershipResultPasswordTooFresh, PasswordTooFresh);
       (canTransferOwnershipResultSessionTooFresh, SessionTooFresh);
-      (canTransferOwnership, CanTransferOwnership);
 
     )(deserializer)
   }
@@ -53,11 +53,11 @@ impl<'de> Deserialize<'de> for CanTransferOwnershipResult {
 impl RObject for CanTransferOwnershipResult {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
+      CanTransferOwnershipResult::CanTransferOwnership(t) => t.td_name(),
       CanTransferOwnershipResult::Ok(t) => t.td_name(),
       CanTransferOwnershipResult::PasswordNeeded(t) => t.td_name(),
       CanTransferOwnershipResult::PasswordTooFresh(t) => t.td_name(),
       CanTransferOwnershipResult::SessionTooFresh(t) => t.td_name(),
-      CanTransferOwnershipResult::CanTransferOwnership(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -69,25 +69,27 @@ impl CanTransferOwnershipResult {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let CanTransferOwnershipResult::_Default(_) = self { true } else { false } }
 
+  pub fn is_can_transfer_ownership(&self) -> bool { if let CanTransferOwnershipResult::CanTransferOwnership(_) = self { true } else { false } }
   pub fn is_ok(&self) -> bool { if let CanTransferOwnershipResult::Ok(_) = self { true } else { false } }
   pub fn is_password_needed(&self) -> bool { if let CanTransferOwnershipResult::PasswordNeeded(_) = self { true } else { false } }
   pub fn is_password_too_fresh(&self) -> bool { if let CanTransferOwnershipResult::PasswordTooFresh(_) = self { true } else { false } }
   pub fn is_session_too_fresh(&self) -> bool { if let CanTransferOwnershipResult::SessionTooFresh(_) = self { true } else { false } }
-  pub fn is_can_transfer_ownership(&self) -> bool { if let CanTransferOwnershipResult::CanTransferOwnership(_) = self { true } else { false } }
 
+  pub fn on_can_transfer_ownership<F: FnOnce(&CanTransferOwnership)>(&self, fnc: F) -> &Self { if let CanTransferOwnershipResult::CanTransferOwnership(t) = self { fnc(t) }; self }
   pub fn on_ok<F: FnOnce(&CanTransferOwnershipResultOk)>(&self, fnc: F) -> &Self { if let CanTransferOwnershipResult::Ok(t) = self { fnc(t) }; self }
   pub fn on_password_needed<F: FnOnce(&CanTransferOwnershipResultPasswordNeeded)>(&self, fnc: F) -> &Self { if let CanTransferOwnershipResult::PasswordNeeded(t) = self { fnc(t) }; self }
   pub fn on_password_too_fresh<F: FnOnce(&CanTransferOwnershipResultPasswordTooFresh)>(&self, fnc: F) -> &Self { if let CanTransferOwnershipResult::PasswordTooFresh(t) = self { fnc(t) }; self }
   pub fn on_session_too_fresh<F: FnOnce(&CanTransferOwnershipResultSessionTooFresh)>(&self, fnc: F) -> &Self { if let CanTransferOwnershipResult::SessionTooFresh(t) = self { fnc(t) }; self }
-  pub fn on_can_transfer_ownership<F: FnOnce(&CanTransferOwnership)>(&self, fnc: F) -> &Self { if let CanTransferOwnershipResult::CanTransferOwnership(t) = self { fnc(t) }; self }
 
+  pub fn as_can_transfer_ownership(&self) -> Option<&CanTransferOwnership> { if let CanTransferOwnershipResult::CanTransferOwnership(t) = self { return Some(t) } None }
   pub fn as_ok(&self) -> Option<&CanTransferOwnershipResultOk> { if let CanTransferOwnershipResult::Ok(t) = self { return Some(t) } None }
   pub fn as_password_needed(&self) -> Option<&CanTransferOwnershipResultPasswordNeeded> { if let CanTransferOwnershipResult::PasswordNeeded(t) = self { return Some(t) } None }
   pub fn as_password_too_fresh(&self) -> Option<&CanTransferOwnershipResultPasswordTooFresh> { if let CanTransferOwnershipResult::PasswordTooFresh(t) = self { return Some(t) } None }
   pub fn as_session_too_fresh(&self) -> Option<&CanTransferOwnershipResultSessionTooFresh> { if let CanTransferOwnershipResult::SessionTooFresh(t) = self { return Some(t) } None }
-  pub fn as_can_transfer_ownership(&self) -> Option<&CanTransferOwnership> { if let CanTransferOwnershipResult::CanTransferOwnership(t) = self { return Some(t) } None }
 
 
+
+  pub fn can_transfer_ownership<T: AsRef<CanTransferOwnership>>(t: T) -> Self { CanTransferOwnershipResult::CanTransferOwnership(t.as_ref().clone()) }
 
   pub fn ok<T: AsRef<CanTransferOwnershipResultOk>>(t: T) -> Self { CanTransferOwnershipResult::Ok(t.as_ref().clone()) }
 
@@ -96,8 +98,6 @@ impl CanTransferOwnershipResult {
   pub fn password_too_fresh<T: AsRef<CanTransferOwnershipResultPasswordTooFresh>>(t: T) -> Self { CanTransferOwnershipResult::PasswordTooFresh(t.as_ref().clone()) }
 
   pub fn session_too_fresh<T: AsRef<CanTransferOwnershipResultSessionTooFresh>>(t: T) -> Self { CanTransferOwnershipResult::SessionTooFresh(t.as_ref().clone()) }
-
-  pub fn can_transfer_ownership<T: AsRef<CanTransferOwnership>>(t: T) -> Self { CanTransferOwnershipResult::CanTransferOwnership(t.as_ref().clone()) }
 
 }
 

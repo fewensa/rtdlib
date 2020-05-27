@@ -18,12 +18,12 @@ pub trait TDLoginUrlInfo: Debug + RObject {}
 #[serde(untagged)]
 pub enum LoginUrlInfo {
   #[doc(hidden)] _Default(()),
+  /// Returns information about a button of type inlineKeyboardButtonTypeLoginUrl. The method needs to be called when the user presses the button
+  GetLoginUrlInfo(GetLoginUrlInfo),
   /// An HTTP url needs to be open
   Open(LoginUrlInfoOpen),
   /// An authorization confirmation dialog needs to be shown to the user
   RequestConfirmation(LoginUrlInfoRequestConfirmation),
-  /// Returns information about a button of type inlineKeyboardButtonTypeLoginUrl. The method needs to be called when the user presses the button
-  GetLoginUrlInfo(GetLoginUrlInfo),
 
 }
 
@@ -36,9 +36,9 @@ impl<'de> Deserialize<'de> for LoginUrlInfo {
     use serde::de::Error;
     rtd_enum_deserialize!(
       LoginUrlInfo,
+      (getLoginUrlInfo, GetLoginUrlInfo);
       (loginUrlInfoOpen, Open);
       (loginUrlInfoRequestConfirmation, RequestConfirmation);
-      (getLoginUrlInfo, GetLoginUrlInfo);
 
     )(deserializer)
   }
@@ -47,9 +47,9 @@ impl<'de> Deserialize<'de> for LoginUrlInfo {
 impl RObject for LoginUrlInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
+      LoginUrlInfo::GetLoginUrlInfo(t) => t.td_name(),
       LoginUrlInfo::Open(t) => t.td_name(),
       LoginUrlInfo::RequestConfirmation(t) => t.td_name(),
-      LoginUrlInfo::GetLoginUrlInfo(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -61,25 +61,25 @@ impl LoginUrlInfo {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let LoginUrlInfo::_Default(_) = self { true } else { false } }
 
+  pub fn is_get_login_url_info(&self) -> bool { if let LoginUrlInfo::GetLoginUrlInfo(_) = self { true } else { false } }
   pub fn is_open(&self) -> bool { if let LoginUrlInfo::Open(_) = self { true } else { false } }
   pub fn is_request_confirmation(&self) -> bool { if let LoginUrlInfo::RequestConfirmation(_) = self { true } else { false } }
-  pub fn is_get_login_url_info(&self) -> bool { if let LoginUrlInfo::GetLoginUrlInfo(_) = self { true } else { false } }
 
+  pub fn on_get_login_url_info<F: FnOnce(&GetLoginUrlInfo)>(&self, fnc: F) -> &Self { if let LoginUrlInfo::GetLoginUrlInfo(t) = self { fnc(t) }; self }
   pub fn on_open<F: FnOnce(&LoginUrlInfoOpen)>(&self, fnc: F) -> &Self { if let LoginUrlInfo::Open(t) = self { fnc(t) }; self }
   pub fn on_request_confirmation<F: FnOnce(&LoginUrlInfoRequestConfirmation)>(&self, fnc: F) -> &Self { if let LoginUrlInfo::RequestConfirmation(t) = self { fnc(t) }; self }
-  pub fn on_get_login_url_info<F: FnOnce(&GetLoginUrlInfo)>(&self, fnc: F) -> &Self { if let LoginUrlInfo::GetLoginUrlInfo(t) = self { fnc(t) }; self }
 
+  pub fn as_get_login_url_info(&self) -> Option<&GetLoginUrlInfo> { if let LoginUrlInfo::GetLoginUrlInfo(t) = self { return Some(t) } None }
   pub fn as_open(&self) -> Option<&LoginUrlInfoOpen> { if let LoginUrlInfo::Open(t) = self { return Some(t) } None }
   pub fn as_request_confirmation(&self) -> Option<&LoginUrlInfoRequestConfirmation> { if let LoginUrlInfo::RequestConfirmation(t) = self { return Some(t) } None }
-  pub fn as_get_login_url_info(&self) -> Option<&GetLoginUrlInfo> { if let LoginUrlInfo::GetLoginUrlInfo(t) = self { return Some(t) } None }
 
 
+
+  pub fn get_login_url_info<T: AsRef<GetLoginUrlInfo>>(t: T) -> Self { LoginUrlInfo::GetLoginUrlInfo(t.as_ref().clone()) }
 
   pub fn open<T: AsRef<LoginUrlInfoOpen>>(t: T) -> Self { LoginUrlInfo::Open(t.as_ref().clone()) }
 
   pub fn request_confirmation<T: AsRef<LoginUrlInfoRequestConfirmation>>(t: T) -> Self { LoginUrlInfo::RequestConfirmation(t.as_ref().clone()) }
-
-  pub fn get_login_url_info<T: AsRef<GetLoginUrlInfo>>(t: T) -> Self { LoginUrlInfo::GetLoginUrlInfo(t.as_ref().clone()) }
 
 }
 

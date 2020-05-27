@@ -18,26 +18,26 @@ pub trait TDInlineQueryResult: Debug + RObject {}
 #[serde(untagged)]
 pub enum InlineQueryResult {
   #[doc(hidden)] _Default(()),
-  /// Represents a link to an article or web page
-  Article(InlineQueryResultArticle),
-  /// Represents a user contact
-  Contact(InlineQueryResultContact),
-  /// Represents a point on the map
-  Location(InlineQueryResultLocation),
-  /// Represents information about a venue
-  Venue(InlineQueryResultVenue),
-  /// Represents information about a game
-  Game(InlineQueryResultGame),
   /// Represents an animation file
   Animation(InlineQueryResultAnimation),
+  /// Represents a link to an article or web page
+  Article(InlineQueryResultArticle),
   /// Represents an audio file
   Audio(InlineQueryResultAudio),
+  /// Represents a user contact
+  Contact(InlineQueryResultContact),
   /// Represents a document
   Document(InlineQueryResultDocument),
+  /// Represents information about a game
+  Game(InlineQueryResultGame),
+  /// Represents a point on the map
+  Location(InlineQueryResultLocation),
   /// Represents a photo
   Photo(InlineQueryResultPhoto),
   /// Represents a sticker
   Sticker(InlineQueryResultSticker),
+  /// Represents information about a venue
+  Venue(InlineQueryResultVenue),
   /// Represents a video
   Video(InlineQueryResultVideo),
   /// Represents a voice note
@@ -54,16 +54,16 @@ impl<'de> Deserialize<'de> for InlineQueryResult {
     use serde::de::Error;
     rtd_enum_deserialize!(
       InlineQueryResult,
-      (inlineQueryResultArticle, Article);
-      (inlineQueryResultContact, Contact);
-      (inlineQueryResultLocation, Location);
-      (inlineQueryResultVenue, Venue);
-      (inlineQueryResultGame, Game);
       (inlineQueryResultAnimation, Animation);
+      (inlineQueryResultArticle, Article);
       (inlineQueryResultAudio, Audio);
+      (inlineQueryResultContact, Contact);
       (inlineQueryResultDocument, Document);
+      (inlineQueryResultGame, Game);
+      (inlineQueryResultLocation, Location);
       (inlineQueryResultPhoto, Photo);
       (inlineQueryResultSticker, Sticker);
+      (inlineQueryResultVenue, Venue);
       (inlineQueryResultVideo, Video);
       (inlineQueryResultVoiceNote, VoiceNote);
 
@@ -74,16 +74,16 @@ impl<'de> Deserialize<'de> for InlineQueryResult {
 impl RObject for InlineQueryResult {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
-      InlineQueryResult::Article(t) => t.td_name(),
-      InlineQueryResult::Contact(t) => t.td_name(),
-      InlineQueryResult::Location(t) => t.td_name(),
-      InlineQueryResult::Venue(t) => t.td_name(),
-      InlineQueryResult::Game(t) => t.td_name(),
       InlineQueryResult::Animation(t) => t.td_name(),
+      InlineQueryResult::Article(t) => t.td_name(),
       InlineQueryResult::Audio(t) => t.td_name(),
+      InlineQueryResult::Contact(t) => t.td_name(),
       InlineQueryResult::Document(t) => t.td_name(),
+      InlineQueryResult::Game(t) => t.td_name(),
+      InlineQueryResult::Location(t) => t.td_name(),
       InlineQueryResult::Photo(t) => t.td_name(),
       InlineQueryResult::Sticker(t) => t.td_name(),
+      InlineQueryResult::Venue(t) => t.td_name(),
       InlineQueryResult::Video(t) => t.td_name(),
       InlineQueryResult::VoiceNote(t) => t.td_name(),
 
@@ -97,66 +97,66 @@ impl InlineQueryResult {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let InlineQueryResult::_Default(_) = self { true } else { false } }
 
-  pub fn is_article(&self) -> bool { if let InlineQueryResult::Article(_) = self { true } else { false } }
-  pub fn is_contact(&self) -> bool { if let InlineQueryResult::Contact(_) = self { true } else { false } }
-  pub fn is_location(&self) -> bool { if let InlineQueryResult::Location(_) = self { true } else { false } }
-  pub fn is_venue(&self) -> bool { if let InlineQueryResult::Venue(_) = self { true } else { false } }
-  pub fn is_game(&self) -> bool { if let InlineQueryResult::Game(_) = self { true } else { false } }
   pub fn is_animation(&self) -> bool { if let InlineQueryResult::Animation(_) = self { true } else { false } }
+  pub fn is_article(&self) -> bool { if let InlineQueryResult::Article(_) = self { true } else { false } }
   pub fn is_audio(&self) -> bool { if let InlineQueryResult::Audio(_) = self { true } else { false } }
+  pub fn is_contact(&self) -> bool { if let InlineQueryResult::Contact(_) = self { true } else { false } }
   pub fn is_document(&self) -> bool { if let InlineQueryResult::Document(_) = self { true } else { false } }
+  pub fn is_game(&self) -> bool { if let InlineQueryResult::Game(_) = self { true } else { false } }
+  pub fn is_location(&self) -> bool { if let InlineQueryResult::Location(_) = self { true } else { false } }
   pub fn is_photo(&self) -> bool { if let InlineQueryResult::Photo(_) = self { true } else { false } }
   pub fn is_sticker(&self) -> bool { if let InlineQueryResult::Sticker(_) = self { true } else { false } }
+  pub fn is_venue(&self) -> bool { if let InlineQueryResult::Venue(_) = self { true } else { false } }
   pub fn is_video(&self) -> bool { if let InlineQueryResult::Video(_) = self { true } else { false } }
   pub fn is_voice_note(&self) -> bool { if let InlineQueryResult::VoiceNote(_) = self { true } else { false } }
 
-  pub fn on_article<F: FnOnce(&InlineQueryResultArticle)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Article(t) = self { fnc(t) }; self }
-  pub fn on_contact<F: FnOnce(&InlineQueryResultContact)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Contact(t) = self { fnc(t) }; self }
-  pub fn on_location<F: FnOnce(&InlineQueryResultLocation)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Location(t) = self { fnc(t) }; self }
-  pub fn on_venue<F: FnOnce(&InlineQueryResultVenue)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Venue(t) = self { fnc(t) }; self }
-  pub fn on_game<F: FnOnce(&InlineQueryResultGame)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Game(t) = self { fnc(t) }; self }
   pub fn on_animation<F: FnOnce(&InlineQueryResultAnimation)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Animation(t) = self { fnc(t) }; self }
+  pub fn on_article<F: FnOnce(&InlineQueryResultArticle)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Article(t) = self { fnc(t) }; self }
   pub fn on_audio<F: FnOnce(&InlineQueryResultAudio)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Audio(t) = self { fnc(t) }; self }
+  pub fn on_contact<F: FnOnce(&InlineQueryResultContact)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Contact(t) = self { fnc(t) }; self }
   pub fn on_document<F: FnOnce(&InlineQueryResultDocument)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Document(t) = self { fnc(t) }; self }
+  pub fn on_game<F: FnOnce(&InlineQueryResultGame)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Game(t) = self { fnc(t) }; self }
+  pub fn on_location<F: FnOnce(&InlineQueryResultLocation)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Location(t) = self { fnc(t) }; self }
   pub fn on_photo<F: FnOnce(&InlineQueryResultPhoto)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Photo(t) = self { fnc(t) }; self }
   pub fn on_sticker<F: FnOnce(&InlineQueryResultSticker)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Sticker(t) = self { fnc(t) }; self }
+  pub fn on_venue<F: FnOnce(&InlineQueryResultVenue)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Venue(t) = self { fnc(t) }; self }
   pub fn on_video<F: FnOnce(&InlineQueryResultVideo)>(&self, fnc: F) -> &Self { if let InlineQueryResult::Video(t) = self { fnc(t) }; self }
   pub fn on_voice_note<F: FnOnce(&InlineQueryResultVoiceNote)>(&self, fnc: F) -> &Self { if let InlineQueryResult::VoiceNote(t) = self { fnc(t) }; self }
 
-  pub fn as_article(&self) -> Option<&InlineQueryResultArticle> { if let InlineQueryResult::Article(t) = self { return Some(t) } None }
-  pub fn as_contact(&self) -> Option<&InlineQueryResultContact> { if let InlineQueryResult::Contact(t) = self { return Some(t) } None }
-  pub fn as_location(&self) -> Option<&InlineQueryResultLocation> { if let InlineQueryResult::Location(t) = self { return Some(t) } None }
-  pub fn as_venue(&self) -> Option<&InlineQueryResultVenue> { if let InlineQueryResult::Venue(t) = self { return Some(t) } None }
-  pub fn as_game(&self) -> Option<&InlineQueryResultGame> { if let InlineQueryResult::Game(t) = self { return Some(t) } None }
   pub fn as_animation(&self) -> Option<&InlineQueryResultAnimation> { if let InlineQueryResult::Animation(t) = self { return Some(t) } None }
+  pub fn as_article(&self) -> Option<&InlineQueryResultArticle> { if let InlineQueryResult::Article(t) = self { return Some(t) } None }
   pub fn as_audio(&self) -> Option<&InlineQueryResultAudio> { if let InlineQueryResult::Audio(t) = self { return Some(t) } None }
+  pub fn as_contact(&self) -> Option<&InlineQueryResultContact> { if let InlineQueryResult::Contact(t) = self { return Some(t) } None }
   pub fn as_document(&self) -> Option<&InlineQueryResultDocument> { if let InlineQueryResult::Document(t) = self { return Some(t) } None }
+  pub fn as_game(&self) -> Option<&InlineQueryResultGame> { if let InlineQueryResult::Game(t) = self { return Some(t) } None }
+  pub fn as_location(&self) -> Option<&InlineQueryResultLocation> { if let InlineQueryResult::Location(t) = self { return Some(t) } None }
   pub fn as_photo(&self) -> Option<&InlineQueryResultPhoto> { if let InlineQueryResult::Photo(t) = self { return Some(t) } None }
   pub fn as_sticker(&self) -> Option<&InlineQueryResultSticker> { if let InlineQueryResult::Sticker(t) = self { return Some(t) } None }
+  pub fn as_venue(&self) -> Option<&InlineQueryResultVenue> { if let InlineQueryResult::Venue(t) = self { return Some(t) } None }
   pub fn as_video(&self) -> Option<&InlineQueryResultVideo> { if let InlineQueryResult::Video(t) = self { return Some(t) } None }
   pub fn as_voice_note(&self) -> Option<&InlineQueryResultVoiceNote> { if let InlineQueryResult::VoiceNote(t) = self { return Some(t) } None }
 
 
 
-  pub fn article<T: AsRef<InlineQueryResultArticle>>(t: T) -> Self { InlineQueryResult::Article(t.as_ref().clone()) }
-
-  pub fn contact<T: AsRef<InlineQueryResultContact>>(t: T) -> Self { InlineQueryResult::Contact(t.as_ref().clone()) }
-
-  pub fn location<T: AsRef<InlineQueryResultLocation>>(t: T) -> Self { InlineQueryResult::Location(t.as_ref().clone()) }
-
-  pub fn venue<T: AsRef<InlineQueryResultVenue>>(t: T) -> Self { InlineQueryResult::Venue(t.as_ref().clone()) }
-
-  pub fn game<T: AsRef<InlineQueryResultGame>>(t: T) -> Self { InlineQueryResult::Game(t.as_ref().clone()) }
-
   pub fn animation<T: AsRef<InlineQueryResultAnimation>>(t: T) -> Self { InlineQueryResult::Animation(t.as_ref().clone()) }
+
+  pub fn article<T: AsRef<InlineQueryResultArticle>>(t: T) -> Self { InlineQueryResult::Article(t.as_ref().clone()) }
 
   pub fn audio<T: AsRef<InlineQueryResultAudio>>(t: T) -> Self { InlineQueryResult::Audio(t.as_ref().clone()) }
 
+  pub fn contact<T: AsRef<InlineQueryResultContact>>(t: T) -> Self { InlineQueryResult::Contact(t.as_ref().clone()) }
+
   pub fn document<T: AsRef<InlineQueryResultDocument>>(t: T) -> Self { InlineQueryResult::Document(t.as_ref().clone()) }
+
+  pub fn game<T: AsRef<InlineQueryResultGame>>(t: T) -> Self { InlineQueryResult::Game(t.as_ref().clone()) }
+
+  pub fn location<T: AsRef<InlineQueryResultLocation>>(t: T) -> Self { InlineQueryResult::Location(t.as_ref().clone()) }
 
   pub fn photo<T: AsRef<InlineQueryResultPhoto>>(t: T) -> Self { InlineQueryResult::Photo(t.as_ref().clone()) }
 
   pub fn sticker<T: AsRef<InlineQueryResultSticker>>(t: T) -> Self { InlineQueryResult::Sticker(t.as_ref().clone()) }
+
+  pub fn venue<T: AsRef<InlineQueryResultVenue>>(t: T) -> Self { InlineQueryResult::Venue(t.as_ref().clone()) }
 
   pub fn video<T: AsRef<InlineQueryResultVideo>>(t: T) -> Self { InlineQueryResult::Video(t.as_ref().clone()) }
 
@@ -166,6 +166,89 @@ impl InlineQueryResult {
 
 impl AsRef<InlineQueryResult> for InlineQueryResult {
   fn as_ref(&self) -> &InlineQueryResult { self }
+}
+
+
+
+
+
+
+
+/// Represents an animation file
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InlineQueryResultAnimation {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Unique identifier of the query result
+  id: String,
+  /// Animation file
+  animation: Animation,
+  /// Animation title
+  title: String,
+  
+}
+
+impl RObject for InlineQueryResultAnimation {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultAnimation" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInlineQueryResult for InlineQueryResultAnimation {}
+
+
+
+impl InlineQueryResultAnimation {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInlineQueryResultAnimationBuilder {
+    let mut inner = InlineQueryResultAnimation::default();
+    inner.td_name = "inlineQueryResultAnimation".to_string();
+    RTDInlineQueryResultAnimationBuilder { inner }
+  }
+
+  pub fn id(&self) -> &String { &self.id }
+
+  pub fn animation(&self) -> &Animation { &self.animation }
+
+  pub fn title(&self) -> &String { &self.title }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInlineQueryResultAnimationBuilder {
+  inner: InlineQueryResultAnimation
+}
+
+impl RTDInlineQueryResultAnimationBuilder {
+  pub fn build(&self) -> InlineQueryResultAnimation { self.inner.clone() }
+
+   
+  pub fn id<T: AsRef<str>>(&mut self, id: T) -> &mut Self {
+    self.inner.id = id.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn animation<T: AsRef<Animation>>(&mut self, animation: T) -> &mut Self {
+    self.inner.animation = animation.as_ref().clone();
+    self
+  }
+
+   
+  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
+    self.inner.title = title.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<InlineQueryResultAnimation> for InlineQueryResultAnimation {
+  fn as_ref(&self) -> &InlineQueryResultAnimation { self }
+}
+
+impl AsRef<InlineQueryResultAnimation> for RTDInlineQueryResultAnimationBuilder {
+  fn as_ref(&self) -> &InlineQueryResultAnimation { &self.inner }
 }
 
 
@@ -287,6 +370,79 @@ impl AsRef<InlineQueryResultArticle> for RTDInlineQueryResultArticleBuilder {
 
 
 
+/// Represents an audio file
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InlineQueryResultAudio {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Unique identifier of the query result
+  id: String,
+  /// Audio file
+  audio: Audio,
+  
+}
+
+impl RObject for InlineQueryResultAudio {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultAudio" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInlineQueryResult for InlineQueryResultAudio {}
+
+
+
+impl InlineQueryResultAudio {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInlineQueryResultAudioBuilder {
+    let mut inner = InlineQueryResultAudio::default();
+    inner.td_name = "inlineQueryResultAudio".to_string();
+    RTDInlineQueryResultAudioBuilder { inner }
+  }
+
+  pub fn id(&self) -> &String { &self.id }
+
+  pub fn audio(&self) -> &Audio { &self.audio }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInlineQueryResultAudioBuilder {
+  inner: InlineQueryResultAudio
+}
+
+impl RTDInlineQueryResultAudioBuilder {
+  pub fn build(&self) -> InlineQueryResultAudio { self.inner.clone() }
+
+   
+  pub fn id<T: AsRef<str>>(&mut self, id: T) -> &mut Self {
+    self.inner.id = id.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn audio<T: AsRef<Audio>>(&mut self, audio: T) -> &mut Self {
+    self.inner.audio = audio.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<InlineQueryResultAudio> for InlineQueryResultAudio {
+  fn as_ref(&self) -> &InlineQueryResultAudio { self }
+}
+
+impl AsRef<InlineQueryResultAudio> for RTDInlineQueryResultAudioBuilder {
+  fn as_ref(&self) -> &InlineQueryResultAudio { &self.inner }
+}
+
+
+
+
+
+
+
 /// Represents a user contact
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InlineQueryResultContact {
@@ -362,411 +518,6 @@ impl AsRef<InlineQueryResultContact> for InlineQueryResultContact {
 
 impl AsRef<InlineQueryResultContact> for RTDInlineQueryResultContactBuilder {
   fn as_ref(&self) -> &InlineQueryResultContact { &self.inner }
-}
-
-
-
-
-
-
-
-/// Represents a point on the map
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InlineQueryResultLocation {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Unique identifier of the query result
-  id: String,
-  /// Location result
-  location: Location,
-  /// Title of the result
-  title: String,
-  /// Result thumbnail; may be null
-  thumbnail: Option<PhotoSize>,
-  
-}
-
-impl RObject for InlineQueryResultLocation {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultLocation" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDInlineQueryResult for InlineQueryResultLocation {}
-
-
-
-impl InlineQueryResultLocation {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInlineQueryResultLocationBuilder {
-    let mut inner = InlineQueryResultLocation::default();
-    inner.td_name = "inlineQueryResultLocation".to_string();
-    RTDInlineQueryResultLocationBuilder { inner }
-  }
-
-  pub fn id(&self) -> &String { &self.id }
-
-  pub fn location(&self) -> &Location { &self.location }
-
-  pub fn title(&self) -> &String { &self.title }
-
-  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
-
-}
-
-#[doc(hidden)]
-pub struct RTDInlineQueryResultLocationBuilder {
-  inner: InlineQueryResultLocation
-}
-
-impl RTDInlineQueryResultLocationBuilder {
-  pub fn build(&self) -> InlineQueryResultLocation { self.inner.clone() }
-
-   
-  pub fn id<T: AsRef<str>>(&mut self, id: T) -> &mut Self {
-    self.inner.id = id.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn location<T: AsRef<Location>>(&mut self, location: T) -> &mut Self {
-    self.inner.location = location.as_ref().clone();
-    self
-  }
-
-   
-  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
-    self.inner.title = title.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
-    self.inner.thumbnail = Some(thumbnail.as_ref().clone());
-    self
-  }
-
-}
-
-impl AsRef<InlineQueryResultLocation> for InlineQueryResultLocation {
-  fn as_ref(&self) -> &InlineQueryResultLocation { self }
-}
-
-impl AsRef<InlineQueryResultLocation> for RTDInlineQueryResultLocationBuilder {
-  fn as_ref(&self) -> &InlineQueryResultLocation { &self.inner }
-}
-
-
-
-
-
-
-
-/// Represents information about a venue
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InlineQueryResultVenue {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Unique identifier of the query result
-  id: String,
-  /// Venue result
-  venue: Venue,
-  /// Result thumbnail; may be null
-  thumbnail: Option<PhotoSize>,
-  
-}
-
-impl RObject for InlineQueryResultVenue {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultVenue" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDInlineQueryResult for InlineQueryResultVenue {}
-
-
-
-impl InlineQueryResultVenue {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInlineQueryResultVenueBuilder {
-    let mut inner = InlineQueryResultVenue::default();
-    inner.td_name = "inlineQueryResultVenue".to_string();
-    RTDInlineQueryResultVenueBuilder { inner }
-  }
-
-  pub fn id(&self) -> &String { &self.id }
-
-  pub fn venue(&self) -> &Venue { &self.venue }
-
-  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
-
-}
-
-#[doc(hidden)]
-pub struct RTDInlineQueryResultVenueBuilder {
-  inner: InlineQueryResultVenue
-}
-
-impl RTDInlineQueryResultVenueBuilder {
-  pub fn build(&self) -> InlineQueryResultVenue { self.inner.clone() }
-
-   
-  pub fn id<T: AsRef<str>>(&mut self, id: T) -> &mut Self {
-    self.inner.id = id.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn venue<T: AsRef<Venue>>(&mut self, venue: T) -> &mut Self {
-    self.inner.venue = venue.as_ref().clone();
-    self
-  }
-
-   
-  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
-    self.inner.thumbnail = Some(thumbnail.as_ref().clone());
-    self
-  }
-
-}
-
-impl AsRef<InlineQueryResultVenue> for InlineQueryResultVenue {
-  fn as_ref(&self) -> &InlineQueryResultVenue { self }
-}
-
-impl AsRef<InlineQueryResultVenue> for RTDInlineQueryResultVenueBuilder {
-  fn as_ref(&self) -> &InlineQueryResultVenue { &self.inner }
-}
-
-
-
-
-
-
-
-/// Represents information about a game
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InlineQueryResultGame {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Unique identifier of the query result
-  id: String,
-  /// Game result
-  game: Game,
-  
-}
-
-impl RObject for InlineQueryResultGame {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultGame" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDInlineQueryResult for InlineQueryResultGame {}
-
-
-
-impl InlineQueryResultGame {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInlineQueryResultGameBuilder {
-    let mut inner = InlineQueryResultGame::default();
-    inner.td_name = "inlineQueryResultGame".to_string();
-    RTDInlineQueryResultGameBuilder { inner }
-  }
-
-  pub fn id(&self) -> &String { &self.id }
-
-  pub fn game(&self) -> &Game { &self.game }
-
-}
-
-#[doc(hidden)]
-pub struct RTDInlineQueryResultGameBuilder {
-  inner: InlineQueryResultGame
-}
-
-impl RTDInlineQueryResultGameBuilder {
-  pub fn build(&self) -> InlineQueryResultGame { self.inner.clone() }
-
-   
-  pub fn id<T: AsRef<str>>(&mut self, id: T) -> &mut Self {
-    self.inner.id = id.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn game<T: AsRef<Game>>(&mut self, game: T) -> &mut Self {
-    self.inner.game = game.as_ref().clone();
-    self
-  }
-
-}
-
-impl AsRef<InlineQueryResultGame> for InlineQueryResultGame {
-  fn as_ref(&self) -> &InlineQueryResultGame { self }
-}
-
-impl AsRef<InlineQueryResultGame> for RTDInlineQueryResultGameBuilder {
-  fn as_ref(&self) -> &InlineQueryResultGame { &self.inner }
-}
-
-
-
-
-
-
-
-/// Represents an animation file
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InlineQueryResultAnimation {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Unique identifier of the query result
-  id: String,
-  /// Animation file
-  animation: Animation,
-  /// Animation title
-  title: String,
-  
-}
-
-impl RObject for InlineQueryResultAnimation {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultAnimation" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDInlineQueryResult for InlineQueryResultAnimation {}
-
-
-
-impl InlineQueryResultAnimation {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInlineQueryResultAnimationBuilder {
-    let mut inner = InlineQueryResultAnimation::default();
-    inner.td_name = "inlineQueryResultAnimation".to_string();
-    RTDInlineQueryResultAnimationBuilder { inner }
-  }
-
-  pub fn id(&self) -> &String { &self.id }
-
-  pub fn animation(&self) -> &Animation { &self.animation }
-
-  pub fn title(&self) -> &String { &self.title }
-
-}
-
-#[doc(hidden)]
-pub struct RTDInlineQueryResultAnimationBuilder {
-  inner: InlineQueryResultAnimation
-}
-
-impl RTDInlineQueryResultAnimationBuilder {
-  pub fn build(&self) -> InlineQueryResultAnimation { self.inner.clone() }
-
-   
-  pub fn id<T: AsRef<str>>(&mut self, id: T) -> &mut Self {
-    self.inner.id = id.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn animation<T: AsRef<Animation>>(&mut self, animation: T) -> &mut Self {
-    self.inner.animation = animation.as_ref().clone();
-    self
-  }
-
-   
-  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
-    self.inner.title = title.as_ref().to_string();
-    self
-  }
-
-}
-
-impl AsRef<InlineQueryResultAnimation> for InlineQueryResultAnimation {
-  fn as_ref(&self) -> &InlineQueryResultAnimation { self }
-}
-
-impl AsRef<InlineQueryResultAnimation> for RTDInlineQueryResultAnimationBuilder {
-  fn as_ref(&self) -> &InlineQueryResultAnimation { &self.inner }
-}
-
-
-
-
-
-
-
-/// Represents an audio file
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InlineQueryResultAudio {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Unique identifier of the query result
-  id: String,
-  /// Audio file
-  audio: Audio,
-  
-}
-
-impl RObject for InlineQueryResultAudio {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultAudio" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDInlineQueryResult for InlineQueryResultAudio {}
-
-
-
-impl InlineQueryResultAudio {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInlineQueryResultAudioBuilder {
-    let mut inner = InlineQueryResultAudio::default();
-    inner.td_name = "inlineQueryResultAudio".to_string();
-    RTDInlineQueryResultAudioBuilder { inner }
-  }
-
-  pub fn id(&self) -> &String { &self.id }
-
-  pub fn audio(&self) -> &Audio { &self.audio }
-
-}
-
-#[doc(hidden)]
-pub struct RTDInlineQueryResultAudioBuilder {
-  inner: InlineQueryResultAudio
-}
-
-impl RTDInlineQueryResultAudioBuilder {
-  pub fn build(&self) -> InlineQueryResultAudio { self.inner.clone() }
-
-   
-  pub fn id<T: AsRef<str>>(&mut self, id: T) -> &mut Self {
-    self.inner.id = id.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn audio<T: AsRef<Audio>>(&mut self, audio: T) -> &mut Self {
-    self.inner.audio = audio.as_ref().clone();
-    self
-  }
-
-}
-
-impl AsRef<InlineQueryResultAudio> for InlineQueryResultAudio {
-  fn as_ref(&self) -> &InlineQueryResultAudio { self }
-}
-
-impl AsRef<InlineQueryResultAudio> for RTDInlineQueryResultAudioBuilder {
-  fn as_ref(&self) -> &InlineQueryResultAudio { &self.inner }
 }
 
 
@@ -860,6 +611,172 @@ impl AsRef<InlineQueryResultDocument> for InlineQueryResultDocument {
 
 impl AsRef<InlineQueryResultDocument> for RTDInlineQueryResultDocumentBuilder {
   fn as_ref(&self) -> &InlineQueryResultDocument { &self.inner }
+}
+
+
+
+
+
+
+
+/// Represents information about a game
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InlineQueryResultGame {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Unique identifier of the query result
+  id: String,
+  /// Game result
+  game: Game,
+  
+}
+
+impl RObject for InlineQueryResultGame {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultGame" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInlineQueryResult for InlineQueryResultGame {}
+
+
+
+impl InlineQueryResultGame {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInlineQueryResultGameBuilder {
+    let mut inner = InlineQueryResultGame::default();
+    inner.td_name = "inlineQueryResultGame".to_string();
+    RTDInlineQueryResultGameBuilder { inner }
+  }
+
+  pub fn id(&self) -> &String { &self.id }
+
+  pub fn game(&self) -> &Game { &self.game }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInlineQueryResultGameBuilder {
+  inner: InlineQueryResultGame
+}
+
+impl RTDInlineQueryResultGameBuilder {
+  pub fn build(&self) -> InlineQueryResultGame { self.inner.clone() }
+
+   
+  pub fn id<T: AsRef<str>>(&mut self, id: T) -> &mut Self {
+    self.inner.id = id.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn game<T: AsRef<Game>>(&mut self, game: T) -> &mut Self {
+    self.inner.game = game.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<InlineQueryResultGame> for InlineQueryResultGame {
+  fn as_ref(&self) -> &InlineQueryResultGame { self }
+}
+
+impl AsRef<InlineQueryResultGame> for RTDInlineQueryResultGameBuilder {
+  fn as_ref(&self) -> &InlineQueryResultGame { &self.inner }
+}
+
+
+
+
+
+
+
+/// Represents a point on the map
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InlineQueryResultLocation {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Unique identifier of the query result
+  id: String,
+  /// Location result
+  location: Location,
+  /// Title of the result
+  title: String,
+  /// Result thumbnail; may be null
+  thumbnail: Option<PhotoSize>,
+  
+}
+
+impl RObject for InlineQueryResultLocation {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultLocation" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInlineQueryResult for InlineQueryResultLocation {}
+
+
+
+impl InlineQueryResultLocation {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInlineQueryResultLocationBuilder {
+    let mut inner = InlineQueryResultLocation::default();
+    inner.td_name = "inlineQueryResultLocation".to_string();
+    RTDInlineQueryResultLocationBuilder { inner }
+  }
+
+  pub fn id(&self) -> &String { &self.id }
+
+  pub fn location(&self) -> &Location { &self.location }
+
+  pub fn title(&self) -> &String { &self.title }
+
+  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInlineQueryResultLocationBuilder {
+  inner: InlineQueryResultLocation
+}
+
+impl RTDInlineQueryResultLocationBuilder {
+  pub fn build(&self) -> InlineQueryResultLocation { self.inner.clone() }
+
+   
+  pub fn id<T: AsRef<str>>(&mut self, id: T) -> &mut Self {
+    self.inner.id = id.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn location<T: AsRef<Location>>(&mut self, location: T) -> &mut Self {
+    self.inner.location = location.as_ref().clone();
+    self
+  }
+
+   
+  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
+    self.inner.title = title.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
+    self.inner.thumbnail = Some(thumbnail.as_ref().clone());
+    self
+  }
+
+}
+
+impl AsRef<InlineQueryResultLocation> for InlineQueryResultLocation {
+  fn as_ref(&self) -> &InlineQueryResultLocation { self }
+}
+
+impl AsRef<InlineQueryResultLocation> for RTDInlineQueryResultLocationBuilder {
+  fn as_ref(&self) -> &InlineQueryResultLocation { &self.inner }
 }
 
 
@@ -1026,6 +943,89 @@ impl AsRef<InlineQueryResultSticker> for InlineQueryResultSticker {
 
 impl AsRef<InlineQueryResultSticker> for RTDInlineQueryResultStickerBuilder {
   fn as_ref(&self) -> &InlineQueryResultSticker { &self.inner }
+}
+
+
+
+
+
+
+
+/// Represents information about a venue
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InlineQueryResultVenue {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Unique identifier of the query result
+  id: String,
+  /// Venue result
+  venue: Venue,
+  /// Result thumbnail; may be null
+  thumbnail: Option<PhotoSize>,
+  
+}
+
+impl RObject for InlineQueryResultVenue {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineQueryResultVenue" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInlineQueryResult for InlineQueryResultVenue {}
+
+
+
+impl InlineQueryResultVenue {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInlineQueryResultVenueBuilder {
+    let mut inner = InlineQueryResultVenue::default();
+    inner.td_name = "inlineQueryResultVenue".to_string();
+    RTDInlineQueryResultVenueBuilder { inner }
+  }
+
+  pub fn id(&self) -> &String { &self.id }
+
+  pub fn venue(&self) -> &Venue { &self.venue }
+
+  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInlineQueryResultVenueBuilder {
+  inner: InlineQueryResultVenue
+}
+
+impl RTDInlineQueryResultVenueBuilder {
+  pub fn build(&self) -> InlineQueryResultVenue { self.inner.clone() }
+
+   
+  pub fn id<T: AsRef<str>>(&mut self, id: T) -> &mut Self {
+    self.inner.id = id.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn venue<T: AsRef<Venue>>(&mut self, venue: T) -> &mut Self {
+    self.inner.venue = venue.as_ref().clone();
+    self
+  }
+
+   
+  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
+    self.inner.thumbnail = Some(thumbnail.as_ref().clone());
+    self
+  }
+
+}
+
+impl AsRef<InlineQueryResultVenue> for InlineQueryResultVenue {
+  fn as_ref(&self) -> &InlineQueryResultVenue { self }
+}
+
+impl AsRef<InlineQueryResultVenue> for RTDInlineQueryResultVenueBuilder {
+  fn as_ref(&self) -> &InlineQueryResultVenue { &self.inner }
 }
 
 

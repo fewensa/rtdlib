@@ -18,14 +18,14 @@ pub trait TDFileType: Debug + RObject {}
 #[serde(untagged)]
 pub enum FileType {
   #[doc(hidden)] _Default(()),
-  /// The data is not a file
-  None(FileTypeNone),
   /// The file is an animation
   Animation(FileTypeAnimation),
   /// The file is an audio file
   Audio(FileTypeAudio),
   /// The file is a document
   Document(FileTypeDocument),
+  /// The data is not a file
+  None(FileTypeNone),
   /// The file is a photo
   Photo(FileTypePhoto),
   /// The file is a profile photo
@@ -62,10 +62,10 @@ impl<'de> Deserialize<'de> for FileType {
     use serde::de::Error;
     rtd_enum_deserialize!(
       FileType,
-      (fileTypeNone, None);
       (fileTypeAnimation, Animation);
       (fileTypeAudio, Audio);
       (fileTypeDocument, Document);
+      (fileTypeNone, None);
       (fileTypePhoto, Photo);
       (fileTypeProfilePhoto, ProfilePhoto);
       (fileTypeSecret, Secret);
@@ -86,10 +86,10 @@ impl<'de> Deserialize<'de> for FileType {
 impl RObject for FileType {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
-      FileType::None(t) => t.td_name(),
       FileType::Animation(t) => t.td_name(),
       FileType::Audio(t) => t.td_name(),
       FileType::Document(t) => t.td_name(),
+      FileType::None(t) => t.td_name(),
       FileType::Photo(t) => t.td_name(),
       FileType::ProfilePhoto(t) => t.td_name(),
       FileType::Secret(t) => t.td_name(),
@@ -113,10 +113,10 @@ impl FileType {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let FileType::_Default(_) = self { true } else { false } }
 
-  pub fn is_none(&self) -> bool { if let FileType::None(_) = self { true } else { false } }
   pub fn is_animation(&self) -> bool { if let FileType::Animation(_) = self { true } else { false } }
   pub fn is_audio(&self) -> bool { if let FileType::Audio(_) = self { true } else { false } }
   pub fn is_document(&self) -> bool { if let FileType::Document(_) = self { true } else { false } }
+  pub fn is_none(&self) -> bool { if let FileType::None(_) = self { true } else { false } }
   pub fn is_photo(&self) -> bool { if let FileType::Photo(_) = self { true } else { false } }
   pub fn is_profile_photo(&self) -> bool { if let FileType::ProfilePhoto(_) = self { true } else { false } }
   pub fn is_secret(&self) -> bool { if let FileType::Secret(_) = self { true } else { false } }
@@ -130,10 +130,10 @@ impl FileType {
   pub fn is_voice_note(&self) -> bool { if let FileType::VoiceNote(_) = self { true } else { false } }
   pub fn is_wallpaper(&self) -> bool { if let FileType::Wallpaper(_) = self { true } else { false } }
 
-  pub fn on_none<F: FnOnce(&FileTypeNone)>(&self, fnc: F) -> &Self { if let FileType::None(t) = self { fnc(t) }; self }
   pub fn on_animation<F: FnOnce(&FileTypeAnimation)>(&self, fnc: F) -> &Self { if let FileType::Animation(t) = self { fnc(t) }; self }
   pub fn on_audio<F: FnOnce(&FileTypeAudio)>(&self, fnc: F) -> &Self { if let FileType::Audio(t) = self { fnc(t) }; self }
   pub fn on_document<F: FnOnce(&FileTypeDocument)>(&self, fnc: F) -> &Self { if let FileType::Document(t) = self { fnc(t) }; self }
+  pub fn on_none<F: FnOnce(&FileTypeNone)>(&self, fnc: F) -> &Self { if let FileType::None(t) = self { fnc(t) }; self }
   pub fn on_photo<F: FnOnce(&FileTypePhoto)>(&self, fnc: F) -> &Self { if let FileType::Photo(t) = self { fnc(t) }; self }
   pub fn on_profile_photo<F: FnOnce(&FileTypeProfilePhoto)>(&self, fnc: F) -> &Self { if let FileType::ProfilePhoto(t) = self { fnc(t) }; self }
   pub fn on_secret<F: FnOnce(&FileTypeSecret)>(&self, fnc: F) -> &Self { if let FileType::Secret(t) = self { fnc(t) }; self }
@@ -147,10 +147,10 @@ impl FileType {
   pub fn on_voice_note<F: FnOnce(&FileTypeVoiceNote)>(&self, fnc: F) -> &Self { if let FileType::VoiceNote(t) = self { fnc(t) }; self }
   pub fn on_wallpaper<F: FnOnce(&FileTypeWallpaper)>(&self, fnc: F) -> &Self { if let FileType::Wallpaper(t) = self { fnc(t) }; self }
 
-  pub fn as_none(&self) -> Option<&FileTypeNone> { if let FileType::None(t) = self { return Some(t) } None }
   pub fn as_animation(&self) -> Option<&FileTypeAnimation> { if let FileType::Animation(t) = self { return Some(t) } None }
   pub fn as_audio(&self) -> Option<&FileTypeAudio> { if let FileType::Audio(t) = self { return Some(t) } None }
   pub fn as_document(&self) -> Option<&FileTypeDocument> { if let FileType::Document(t) = self { return Some(t) } None }
+  pub fn as_none(&self) -> Option<&FileTypeNone> { if let FileType::None(t) = self { return Some(t) } None }
   pub fn as_photo(&self) -> Option<&FileTypePhoto> { if let FileType::Photo(t) = self { return Some(t) } None }
   pub fn as_profile_photo(&self) -> Option<&FileTypeProfilePhoto> { if let FileType::ProfilePhoto(t) = self { return Some(t) } None }
   pub fn as_secret(&self) -> Option<&FileTypeSecret> { if let FileType::Secret(t) = self { return Some(t) } None }
@@ -166,13 +166,13 @@ impl FileType {
 
 
 
-  pub fn none<T: AsRef<FileTypeNone>>(t: T) -> Self { FileType::None(t.as_ref().clone()) }
-
   pub fn animation<T: AsRef<FileTypeAnimation>>(t: T) -> Self { FileType::Animation(t.as_ref().clone()) }
 
   pub fn audio<T: AsRef<FileTypeAudio>>(t: T) -> Self { FileType::Audio(t.as_ref().clone()) }
 
   pub fn document<T: AsRef<FileTypeDocument>>(t: T) -> Self { FileType::Document(t.as_ref().clone()) }
+
+  pub fn none<T: AsRef<FileTypeNone>>(t: T) -> Self { FileType::None(t.as_ref().clone()) }
 
   pub fn photo<T: AsRef<FileTypePhoto>>(t: T) -> Self { FileType::Photo(t.as_ref().clone()) }
 
@@ -202,59 +202,6 @@ impl FileType {
 
 impl AsRef<FileType> for FileType {
   fn as_ref(&self) -> &FileType { self }
-}
-
-
-
-
-
-
-
-/// The data is not a file
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct FileTypeNone {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for FileTypeNone {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeNone" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDFileType for FileTypeNone {}
-
-
-
-impl FileTypeNone {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDFileTypeNoneBuilder {
-    let mut inner = FileTypeNone::default();
-    inner.td_name = "fileTypeNone".to_string();
-    RTDFileTypeNoneBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDFileTypeNoneBuilder {
-  inner: FileTypeNone
-}
-
-impl RTDFileTypeNoneBuilder {
-  pub fn build(&self) -> FileTypeNone { self.inner.clone() }
-
-}
-
-impl AsRef<FileTypeNone> for FileTypeNone {
-  fn as_ref(&self) -> &FileTypeNone { self }
-}
-
-impl AsRef<FileTypeNone> for RTDFileTypeNoneBuilder {
-  fn as_ref(&self) -> &FileTypeNone { &self.inner }
 }
 
 
@@ -414,6 +361,59 @@ impl AsRef<FileTypeDocument> for FileTypeDocument {
 
 impl AsRef<FileTypeDocument> for RTDFileTypeDocumentBuilder {
   fn as_ref(&self) -> &FileTypeDocument { &self.inner }
+}
+
+
+
+
+
+
+
+/// The data is not a file
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct FileTypeNone {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for FileTypeNone {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "fileTypeNone" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDFileType for FileTypeNone {}
+
+
+
+impl FileTypeNone {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDFileTypeNoneBuilder {
+    let mut inner = FileTypeNone::default();
+    inner.td_name = "fileTypeNone".to_string();
+    RTDFileTypeNoneBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDFileTypeNoneBuilder {
+  inner: FileTypeNone
+}
+
+impl RTDFileTypeNoneBuilder {
+  pub fn build(&self) -> FileTypeNone { self.inner.clone() }
+
+}
+
+impl AsRef<FileTypeNone> for FileTypeNone {
+  fn as_ref(&self) -> &FileTypeNone { self }
+}
+
+impl AsRef<FileTypeNone> for RTDFileTypeNoneBuilder {
+  fn as_ref(&self) -> &FileTypeNone { &self.inner }
 }
 
 
