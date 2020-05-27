@@ -18,10 +18,10 @@ pub trait TDTextParseMode: Debug + RObject {}
 #[serde(untagged)]
 pub enum TextParseMode {
   #[doc(hidden)] _Default(()),
-  /// The text should be parsed in markdown-style
-  Markdown(TextParseModeMarkdown),
   /// The text should be parsed in HTML-style
   HTML(TextParseModeHTML),
+  /// The text should be parsed in markdown-style
+  Markdown(TextParseModeMarkdown),
 
 }
 
@@ -34,8 +34,8 @@ impl<'de> Deserialize<'de> for TextParseMode {
     use serde::de::Error;
     rtd_enum_deserialize!(
       TextParseMode,
-      (textParseModeMarkdown, Markdown);
       (textParseModeHTML, HTML);
+      (textParseModeMarkdown, Markdown);
 
     )(deserializer)
   }
@@ -44,8 +44,8 @@ impl<'de> Deserialize<'de> for TextParseMode {
 impl RObject for TextParseMode {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
-      TextParseMode::Markdown(t) => t.td_name(),
       TextParseMode::HTML(t) => t.td_name(),
+      TextParseMode::Markdown(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -57,78 +57,25 @@ impl TextParseMode {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let TextParseMode::_Default(_) = self { true } else { false } }
 
-  pub fn is_markdown(&self) -> bool { if let TextParseMode::Markdown(_) = self { true } else { false } }
   pub fn is_h_t_m_l(&self) -> bool { if let TextParseMode::HTML(_) = self { true } else { false } }
+  pub fn is_markdown(&self) -> bool { if let TextParseMode::Markdown(_) = self { true } else { false } }
 
-  pub fn on_markdown<F: FnOnce(&TextParseModeMarkdown)>(&self, fnc: F) -> &Self { if let TextParseMode::Markdown(t) = self { fnc(t) }; self }
   pub fn on_h_t_m_l<F: FnOnce(&TextParseModeHTML)>(&self, fnc: F) -> &Self { if let TextParseMode::HTML(t) = self { fnc(t) }; self }
+  pub fn on_markdown<F: FnOnce(&TextParseModeMarkdown)>(&self, fnc: F) -> &Self { if let TextParseMode::Markdown(t) = self { fnc(t) }; self }
 
-  pub fn as_markdown(&self) -> Option<&TextParseModeMarkdown> { if let TextParseMode::Markdown(t) = self { return Some(t) } None }
   pub fn as_h_t_m_l(&self) -> Option<&TextParseModeHTML> { if let TextParseMode::HTML(t) = self { return Some(t) } None }
+  pub fn as_markdown(&self) -> Option<&TextParseModeMarkdown> { if let TextParseMode::Markdown(t) = self { return Some(t) } None }
 
 
-
-  pub fn markdown<T: AsRef<TextParseModeMarkdown>>(t: T) -> Self { TextParseMode::Markdown(t.as_ref().clone()) }
 
   pub fn h_t_m_l<T: AsRef<TextParseModeHTML>>(t: T) -> Self { TextParseMode::HTML(t.as_ref().clone()) }
+
+  pub fn markdown<T: AsRef<TextParseModeMarkdown>>(t: T) -> Self { TextParseMode::Markdown(t.as_ref().clone()) }
 
 }
 
 impl AsRef<TextParseMode> for TextParseMode {
   fn as_ref(&self) -> &TextParseMode { self }
-}
-
-
-
-
-
-
-
-/// The text should be parsed in markdown-style
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct TextParseModeMarkdown {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  
-}
-
-impl RObject for TextParseModeMarkdown {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "textParseModeMarkdown" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDTextParseMode for TextParseModeMarkdown {}
-
-
-
-impl TextParseModeMarkdown {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDTextParseModeMarkdownBuilder {
-    let mut inner = TextParseModeMarkdown::default();
-    inner.td_name = "textParseModeMarkdown".to_string();
-    RTDTextParseModeMarkdownBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDTextParseModeMarkdownBuilder {
-  inner: TextParseModeMarkdown
-}
-
-impl RTDTextParseModeMarkdownBuilder {
-  pub fn build(&self) -> TextParseModeMarkdown { self.inner.clone() }
-
-}
-
-impl AsRef<TextParseModeMarkdown> for TextParseModeMarkdown {
-  fn as_ref(&self) -> &TextParseModeMarkdown { self }
-}
-
-impl AsRef<TextParseModeMarkdown> for RTDTextParseModeMarkdownBuilder {
-  fn as_ref(&self) -> &TextParseModeMarkdown { &self.inner }
 }
 
 
@@ -182,6 +129,59 @@ impl AsRef<TextParseModeHTML> for TextParseModeHTML {
 
 impl AsRef<TextParseModeHTML> for RTDTextParseModeHTMLBuilder {
   fn as_ref(&self) -> &TextParseModeHTML { &self.inner }
+}
+
+
+
+
+
+
+
+/// The text should be parsed in markdown-style
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct TextParseModeMarkdown {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for TextParseModeMarkdown {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "textParseModeMarkdown" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDTextParseMode for TextParseModeMarkdown {}
+
+
+
+impl TextParseModeMarkdown {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTextParseModeMarkdownBuilder {
+    let mut inner = TextParseModeMarkdown::default();
+    inner.td_name = "textParseModeMarkdown".to_string();
+    RTDTextParseModeMarkdownBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTextParseModeMarkdownBuilder {
+  inner: TextParseModeMarkdown
+}
+
+impl RTDTextParseModeMarkdownBuilder {
+  pub fn build(&self) -> TextParseModeMarkdown { self.inner.clone() }
+
+}
+
+impl AsRef<TextParseModeMarkdown> for TextParseModeMarkdown {
+  fn as_ref(&self) -> &TextParseModeMarkdown { self }
+}
+
+impl AsRef<TextParseModeMarkdown> for RTDTextParseModeMarkdownBuilder {
+  fn as_ref(&self) -> &TextParseModeMarkdown { &self.inner }
 }
 
 
