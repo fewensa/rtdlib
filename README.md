@@ -6,51 +6,26 @@ rtdlib
 
 `rtdlib` is [td](https://github.com/tdlib/td) for rust.
 
-`rtdlib` crate have [td](https://github.com/tdlib/td) type (classes). and `tdjson` [binding](../fantasy/template/rtdlib/src/tdjson.rs). if use `rtdlib` you need include `libtdjson.so` to you build path.
-
+`rtdlib` crate have [td](https://github.com/tdlib/td) type (classes).
 
 
 # Usage
-
-## 0.*
-
-```toml
-[dependencies]
-rtdlib = "0.*"
-```
-
-
-## 1.3.*
-
-```toml
-[dependencies]
-rtdlib = "1.3.*"
-```
-
-## 1.4.*
-
-```toml
-[dependencies]
-rtdlib = "1.4.*"
-```
-
-## 1.5.*
-
-```toml
-[dependencies]
-rtdlib = "1.5.*"
-```
-
-## 1.6.*
 
 ```toml
 [dependencies]
 rtdlib = "1.6.*"
 ```
 
+The default, `rtdlib` only have `td` types, not have call tdjson dylib, if you want , you need add `features` to your dependency.
+
+```toml
+[dependencies]
+rtdlib = { version = "1.6.*", features = "sys" }
+```
+
 ## version
 
-Since the rtdlib version follows [td](https://github.com/tdlib/td), a version number less than 100 is reserved for td release.
+Since the `rtdlib` version follows [td](https://github.com/tdlib/td), a version number less than 100 is reserved for td release.
 
 Version mapping
 
@@ -78,8 +53,10 @@ assert_eq!(json, rjson.unwrap());
 
 ## tdjson
 
+If you enable `sys` features, you can use `Tdlib` to call tdjson dylib.
+
 ```rust
-use rtdlib::tdjson::Tdlib;
+use rtdlib::Tdlib;
 let tdlib = Tdlib::new();
 let request = r#"{"@type": "getMe"}"#;
 tdlib.send(request);
@@ -89,20 +66,5 @@ tdlib.send(request);
 # td
 
 More document you need check [telegram api](https://core.telegram.org/api)
-
-## How include libtdjson.so
-
-The first you need read [td](https://github.com/tdlib/td#building) know how to build td.
-
-And then, when you have `libtdjson.so` copy this file to `/usr/lib`.
-
-Or set an environment
-
-```bash
-export RUSTFLAGS="-C link-args=-Wl,-rpath,/path/to/lib_dir"
-cargo run
-```
-
-In the development phase, you can set `RUSTFLAGS` environment to you IDE.
 
 
