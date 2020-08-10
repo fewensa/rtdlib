@@ -229,6 +229,8 @@ pub struct InputMessageAnimation {
   animation: InputFile,
   /// Animation thumbnail, if available
   thumbnail: InputThumbnail,
+  /// File identifiers of the stickers added to the animation, if applicable
+  added_sticker_file_ids: Vec<i64>,
   /// Duration of the animation, in seconds
   duration: i64,
   /// Width of the animation; may be replaced by the server
@@ -262,6 +264,8 @@ impl InputMessageAnimation {
 
   pub fn thumbnail(&self) -> &InputThumbnail { &self.thumbnail }
 
+  pub fn added_sticker_file_ids(&self) -> &Vec<i64> { &self.added_sticker_file_ids }
+
   pub fn duration(&self) -> i64 { self.duration }
 
   pub fn width(&self) -> i64 { self.width }
@@ -289,6 +293,12 @@ impl RTDInputMessageAnimationBuilder {
    
   pub fn thumbnail<T: AsRef<InputThumbnail>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = thumbnail.as_ref().clone();
+    self
+  }
+
+   
+  pub fn added_sticker_file_ids(&mut self, added_sticker_file_ids: Vec<i64>) -> &mut Self {
+    self.inner.added_sticker_file_ids = added_sticker_file_ids;
     self
   }
 
@@ -591,6 +601,8 @@ pub struct InputMessageDocument {
   document: InputFile,
   /// Document thumbnail, if available
   thumbnail: InputThumbnail,
+  /// If true, automatic file type detection will be disabled and the document will be always sent as file. Always true for files sent to secret chats
+  force_file: bool,
   /// Document caption; 0-GetOption("message_caption_length_max") characters
   caption: FormattedText,
   
@@ -618,6 +630,8 @@ impl InputMessageDocument {
 
   pub fn thumbnail(&self) -> &InputThumbnail { &self.thumbnail }
 
+  pub fn force_file(&self) -> bool { self.force_file }
+
   pub fn caption(&self) -> &FormattedText { &self.caption }
 
 }
@@ -639,6 +653,12 @@ impl RTDInputMessageDocumentBuilder {
    
   pub fn thumbnail<T: AsRef<InputThumbnail>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = thumbnail.as_ref().clone();
+    self
+  }
+
+   
+  pub fn force_file(&mut self, force_file: bool) -> &mut Self {
+    self.inner.force_file = force_file;
     self
   }
 

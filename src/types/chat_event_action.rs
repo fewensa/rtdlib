@@ -1286,9 +1286,9 @@ pub struct ChatEventPhotoChanged {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Previous chat photo value; may be null
-  old_photo: Option<Photo>,
+  old_photo: Option<ChatPhoto>,
   /// New chat photo value; may be null
-  new_photo: Option<Photo>,
+  new_photo: Option<ChatPhoto>,
   
 }
 
@@ -1310,9 +1310,9 @@ impl ChatEventPhotoChanged {
     RTDChatEventPhotoChangedBuilder { inner }
   }
 
-  pub fn old_photo(&self) -> &Option<Photo> { &self.old_photo }
+  pub fn old_photo(&self) -> &Option<ChatPhoto> { &self.old_photo }
 
-  pub fn new_photo(&self) -> &Option<Photo> { &self.new_photo }
+  pub fn new_photo(&self) -> &Option<ChatPhoto> { &self.new_photo }
 
 }
 
@@ -1325,13 +1325,13 @@ impl RTDChatEventPhotoChangedBuilder {
   pub fn build(&self) -> ChatEventPhotoChanged { self.inner.clone() }
 
    
-  pub fn old_photo<T: AsRef<Photo>>(&mut self, old_photo: T) -> &mut Self {
+  pub fn old_photo<T: AsRef<ChatPhoto>>(&mut self, old_photo: T) -> &mut Self {
     self.inner.old_photo = Some(old_photo.as_ref().clone());
     self
   }
 
    
-  pub fn new_photo<T: AsRef<Photo>>(&mut self, new_photo: T) -> &mut Self {
+  pub fn new_photo<T: AsRef<ChatPhoto>>(&mut self, new_photo: T) -> &mut Self {
     self.inner.new_photo = Some(new_photo.as_ref().clone());
     self
   }

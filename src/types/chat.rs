@@ -15,22 +15,16 @@ pub struct Chat {
   id: i64,
   /// Type of the chat
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: ChatType,
-  /// A chat list to which the chat belongs; may be null
-  chat_list: Option<ChatList>,
   /// Chat title
   title: String,
   /// Chat photo; may be null
-  photo: Option<ChatPhoto>,
+  photo: Option<ChatPhotoInfo>,
   /// Actions that non-administrator chat members are allowed to take in the chat
   permissions: ChatPermissions,
   /// Last message in the chat; may be null
   last_message: Option<Message>,
-  /// Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined
-  order: String,
-  /// Source of the chat in a chat list; may be null
-  source: Option<ChatSource>,
-  /// True, if the chat is pinned
-  is_pinned: bool,
+  /// Positions of the chat in chat lists
+  positions: Vec<ChatPosition>,
   /// True, if the chat is marked as unread
   is_marked_as_unread: bool,
   /// True, if the chat has scheduled messages
@@ -61,7 +55,7 @@ pub struct Chat {
   reply_markup_message_id: i64,
   /// A draft of a message in the chat; may be null
   draft_message: Option<DraftMessage>,
-  /// Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if the message database is used
+  /// Contains application-specific data associated with the chat. (For example, the chat scroll position or local chat notification settings can be stored here.) Persistent if the message database is used
   client_data: String,
   
 }
@@ -85,21 +79,15 @@ impl Chat {
 
   pub fn type_(&self) -> &ChatType { &self.type_ }
 
-  pub fn chat_list(&self) -> &Option<ChatList> { &self.chat_list }
-
   pub fn title(&self) -> &String { &self.title }
 
-  pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
+  pub fn photo(&self) -> &Option<ChatPhotoInfo> { &self.photo }
 
   pub fn permissions(&self) -> &ChatPermissions { &self.permissions }
 
   pub fn last_message(&self) -> &Option<Message> { &self.last_message }
 
-  pub fn order(&self) -> &String { &self.order }
-
-  pub fn source(&self) -> &Option<ChatSource> { &self.source }
-
-  pub fn is_pinned(&self) -> bool { self.is_pinned }
+  pub fn positions(&self) -> &Vec<ChatPosition> { &self.positions }
 
   pub fn is_marked_as_unread(&self) -> bool { self.is_marked_as_unread }
 
@@ -156,19 +144,13 @@ impl RTDChatBuilder {
   }
 
    
-  pub fn chat_list<T: AsRef<ChatList>>(&mut self, chat_list: T) -> &mut Self {
-    self.inner.chat_list = Some(chat_list.as_ref().clone());
-    self
-  }
-
-   
   pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
     self.inner.title = title.as_ref().to_string();
     self
   }
 
    
-  pub fn photo<T: AsRef<ChatPhoto>>(&mut self, photo: T) -> &mut Self {
+  pub fn photo<T: AsRef<ChatPhotoInfo>>(&mut self, photo: T) -> &mut Self {
     self.inner.photo = Some(photo.as_ref().clone());
     self
   }
@@ -186,20 +168,8 @@ impl RTDChatBuilder {
   }
 
    
-  pub fn order<T: AsRef<str>>(&mut self, order: T) -> &mut Self {
-    self.inner.order = order.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn source<T: AsRef<ChatSource>>(&mut self, source: T) -> &mut Self {
-    self.inner.source = Some(source.as_ref().clone());
-    self
-  }
-
-   
-  pub fn is_pinned(&mut self, is_pinned: bool) -> &mut Self {
-    self.inner.is_pinned = is_pinned;
+  pub fn positions(&mut self, positions: Vec<ChatPosition>) -> &mut Self {
+    self.inner.positions = positions;
     self
   }
 

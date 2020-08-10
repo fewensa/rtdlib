@@ -20,7 +20,7 @@ pub enum ChatActionBar {
   #[doc(hidden)] _Default(()),
   /// The chat is a private or secret chat and the other user can be added to the contact list using the method addContact
   AddContact(ChatActionBarAddContact),
-  /// The chat is a private or secret chat, which can be reported using the method reportChat, or the other user can be added to the contact list using the method addContact, or the other user can be blocked using the method blockUser
+  /// The chat is a private or secret chat, which can be reported using the method reportChat, or the other user can be blocked using the method blockUser, or the other user can be added to the contact list using the method addContact
   ReportAddBlock(ChatActionBarReportAddBlock),
   /// The chat can be reported as spam using the method reportChat with the reason chatReportReasonSpam
   ReportSpam(ChatActionBarReportSpam),
@@ -164,12 +164,16 @@ impl AsRef<ChatActionBarAddContact> for RTDChatActionBarAddContactBuilder {
 
 
 
-/// The chat is a private or secret chat, which can be reported using the method reportChat, or the other user can be added to the contact list using the method addContact, or the other user can be blocked using the method blockUser
+/// The chat is a private or secret chat, which can be reported using the method reportChat, or the other user can be blocked using the method blockUser, or the other user can be added to the contact list using the method addContact
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatActionBarReportAddBlock {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  /// If true, the chat was automatically archived and can be moved back to the main chat list using addChatToList simultaneously with setting chat notification settings to default using setChatNotificationSettings
+  can_unarchive: bool,
+  /// If non-negative, the current user was found by the peer through searchChatsNearby and this is the distance between the users
+  distance: i64,
   
 }
 
@@ -191,6 +195,10 @@ impl ChatActionBarReportAddBlock {
     RTDChatActionBarReportAddBlockBuilder { inner }
   }
 
+  pub fn can_unarchive(&self) -> bool { self.can_unarchive }
+
+  pub fn distance(&self) -> i64 { self.distance }
+
 }
 
 #[doc(hidden)]
@@ -200,6 +208,18 @@ pub struct RTDChatActionBarReportAddBlockBuilder {
 
 impl RTDChatActionBarReportAddBlockBuilder {
   pub fn build(&self) -> ChatActionBarReportAddBlock { self.inner.clone() }
+
+   
+  pub fn can_unarchive(&mut self, can_unarchive: bool) -> &mut Self {
+    self.inner.can_unarchive = can_unarchive;
+    self
+  }
+
+   
+  pub fn distance(&mut self, distance: i64) -> &mut Self {
+    self.inner.distance = distance;
+    self
+  }
 
 }
 
@@ -223,6 +243,8 @@ pub struct ChatActionBarReportSpam {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  /// If true, the chat was automatically archived and can be moved back to the main chat list using addChatToList simultaneously with setting chat notification settings to default using setChatNotificationSettings
+  can_unarchive: bool,
   
 }
 
@@ -244,6 +266,8 @@ impl ChatActionBarReportSpam {
     RTDChatActionBarReportSpamBuilder { inner }
   }
 
+  pub fn can_unarchive(&self) -> bool { self.can_unarchive }
+
 }
 
 #[doc(hidden)]
@@ -253,6 +277,12 @@ pub struct RTDChatActionBarReportSpamBuilder {
 
 impl RTDChatActionBarReportSpamBuilder {
   pub fn build(&self) -> ChatActionBarReportSpam { self.inner.clone() }
+
+   
+  pub fn can_unarchive(&mut self, can_unarchive: bool) -> &mut Self {
+    self.inner.can_unarchive = can_unarchive;
+    self
+  }
 
 }
 

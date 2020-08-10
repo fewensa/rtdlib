@@ -24,7 +24,7 @@ pub enum ConnectionState {
   ConnectingToProxy(ConnectionStateConnectingToProxy),
   /// There is a working connection to the Telegram servers
   Ready(ConnectionStateReady),
-  /// Downloading data received while the client was offline
+  /// Downloading data received while the application was offline
   Updating(ConnectionStateUpdating),
   /// Currently waiting for the network to become available. Use setNetworkType to change the available network type
   WaitingForNetwork(ConnectionStateWaitingForNetwork),
@@ -270,7 +270,7 @@ impl AsRef<ConnectionStateReady> for RTDConnectionStateReadyBuilder {
 
 
 
-/// Downloading data received while the client was offline
+/// Downloading data received while the application was offline
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ConnectionStateUpdating {
   #[doc(hidden)]

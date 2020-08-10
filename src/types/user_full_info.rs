@@ -5,13 +5,15 @@ use crate::errors::*;
 
 
 
-/// Contains full information about a user (except the full list of profile photos)
+/// Contains full information about a user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UserFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// True, if the user is blacklisted by the current user
+  /// User profile photo; may be null
+  photo: Option<ChatPhoto>,
+  /// True, if the user is blocked by the current user
   is_blocked: bool,
   /// True, if the user can be called
   can_be_called: bool,
@@ -45,6 +47,8 @@ impl UserFullInfo {
     RTDUserFullInfoBuilder { inner }
   }
 
+  pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
+
   pub fn is_blocked(&self) -> bool { self.is_blocked }
 
   pub fn can_be_called(&self) -> bool { self.can_be_called }
@@ -70,6 +74,12 @@ pub struct RTDUserFullInfoBuilder {
 
 impl RTDUserFullInfoBuilder {
   pub fn build(&self) -> UserFullInfo { self.inner.clone() }
+
+   
+  pub fn photo<T: AsRef<ChatPhoto>>(&mut self, photo: T) -> &mut Self {
+    self.inner.photo = Some(photo.as_ref().clone());
+    self
+  }
 
    
   pub fn is_blocked(&mut self, is_blocked: bool) -> &mut Self {

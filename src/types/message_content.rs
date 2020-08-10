@@ -88,7 +88,7 @@ pub enum MessageContent {
   MessageSupergroupChatCreate(MessageSupergroupChatCreate),
   /// A text message
   MessageText(MessageText),
-  /// Message content that is not supported by the client
+  /// Message content that is not supported in the current TDLib version
   MessageUnsupported(MessageUnsupported),
   /// A message with information about a venue
   MessageVenue(MessageVenue),
@@ -807,7 +807,7 @@ pub struct MessageChatChangePhoto {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// New chat photo
-  photo: Photo,
+  photo: ChatPhoto,
   
 }
 
@@ -829,7 +829,7 @@ impl MessageChatChangePhoto {
     RTDMessageChatChangePhotoBuilder { inner }
   }
 
-  pub fn photo(&self) -> &Photo { &self.photo }
+  pub fn photo(&self) -> &ChatPhoto { &self.photo }
 
 }
 
@@ -842,7 +842,7 @@ impl RTDMessageChatChangePhotoBuilder {
   pub fn build(&self) -> MessageChatChangePhoto { self.inner.clone() }
 
    
-  pub fn photo<T: AsRef<Photo>>(&mut self, photo: T) -> &mut Self {
+  pub fn photo<T: AsRef<ChatPhoto>>(&mut self, photo: T) -> &mut Self {
     self.inner.photo = photo.as_ref().clone();
     self
   }
@@ -2940,7 +2940,7 @@ impl AsRef<MessageText> for RTDMessageTextBuilder {
 
 
 
-/// Message content that is not supported by the client
+/// Message content that is not supported in the current TDLib version
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageUnsupported {
   #[doc(hidden)]

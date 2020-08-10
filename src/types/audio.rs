@@ -23,8 +23,8 @@ pub struct Audio {
   mime_type: String,
   /// The minithumbnail of the album cover; may be null
   album_cover_minithumbnail: Option<Minithumbnail>,
-  /// The thumbnail of the album cover; as defined by the sender. The full size thumbnail should be extracted from the downloaded file; may be null
-  album_cover_thumbnail: Option<PhotoSize>,
+  /// The thumbnail of the album cover in JPEG format; as defined by the sender. The full size thumbnail should be extracted from the downloaded file; may be null
+  album_cover_thumbnail: Option<Thumbnail>,
   /// File containing the audio
   audio: File,
   
@@ -57,7 +57,7 @@ impl Audio {
 
   pub fn album_cover_minithumbnail(&self) -> &Option<Minithumbnail> { &self.album_cover_minithumbnail }
 
-  pub fn album_cover_thumbnail(&self) -> &Option<PhotoSize> { &self.album_cover_thumbnail }
+  pub fn album_cover_thumbnail(&self) -> &Option<Thumbnail> { &self.album_cover_thumbnail }
 
   pub fn audio(&self) -> &File { &self.audio }
 
@@ -108,7 +108,7 @@ impl RTDAudioBuilder {
   }
 
    
-  pub fn album_cover_thumbnail<T: AsRef<PhotoSize>>(&mut self, album_cover_thumbnail: T) -> &mut Self {
+  pub fn album_cover_thumbnail<T: AsRef<Thumbnail>>(&mut self, album_cover_thumbnail: T) -> &mut Self {
     self.inner.album_cover_thumbnail = Some(album_cover_thumbnail.as_ref().clone());
     self
   }

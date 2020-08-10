@@ -10,10 +10,10 @@ use serde::de::{Deserialize, Deserializer};
 
 
 
-/// TRAIT | Represents the current authorization state of the client
+/// TRAIT | Represents the current authorization state of the TDLib client
 pub trait TDAuthorizationState: Debug + RObject {}
 
-/// Represents the current authorization state of the client
+/// Represents the current authorization state of the TDLib client
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum AuthorizationState {

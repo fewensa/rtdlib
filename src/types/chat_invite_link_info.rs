@@ -11,14 +11,16 @@ pub struct ChatInviteLinkInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Chat identifier of the invite link; 0 if the user is not a member of this chat
+  /// Chat identifier of the invite link; 0 if the user have no access to the chat before joining
   chat_id: i64,
+  /// If non-zero, the remaining time for which read access is granted to the chat, in seconds
+  accessible_for: i64,
   /// Contains information about the type of the chat
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: ChatType,
   /// Title of the chat
   title: String,
   /// Chat photo; may be null
-  photo: Option<ChatPhoto>,
+  photo: Option<ChatPhotoInfo>,
   /// Number of members in the chat
   member_count: i64,
   /// User identifiers of some chat members that may be known to the current user
@@ -45,11 +47,13 @@ impl ChatInviteLinkInfo {
 
   pub fn chat_id(&self) -> i64 { self.chat_id }
 
+  pub fn accessible_for(&self) -> i64 { self.accessible_for }
+
   pub fn type_(&self) -> &ChatType { &self.type_ }
 
   pub fn title(&self) -> &String { &self.title }
 
-  pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
+  pub fn photo(&self) -> &Option<ChatPhotoInfo> { &self.photo }
 
   pub fn member_count(&self) -> i64 { self.member_count }
 
@@ -74,6 +78,12 @@ impl RTDChatInviteLinkInfoBuilder {
   }
 
    
+  pub fn accessible_for(&mut self, accessible_for: i64) -> &mut Self {
+    self.inner.accessible_for = accessible_for;
+    self
+  }
+
+   
   pub fn type_<T: AsRef<ChatType>>(&mut self, type_: T) -> &mut Self {
     self.inner.type_ = type_.as_ref().clone();
     self
@@ -86,7 +96,7 @@ impl RTDChatInviteLinkInfoBuilder {
   }
 
    
-  pub fn photo<T: AsRef<ChatPhoto>>(&mut self, photo: T) -> &mut Self {
+  pub fn photo<T: AsRef<ChatPhotoInfo>>(&mut self, photo: T) -> &mut Self {
     self.inner.photo = Some(photo.as_ref().clone());
     self
   }

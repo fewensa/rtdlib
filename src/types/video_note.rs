@@ -17,8 +17,8 @@ pub struct VideoNote {
   length: i64,
   /// Video minithumbnail; may be null
   minithumbnail: Option<Minithumbnail>,
-  /// Video thumbnail; as defined by the sender; may be null
-  thumbnail: Option<PhotoSize>,
+  /// Video thumbnail in JPEG format; as defined by the sender; may be null
+  thumbnail: Option<Thumbnail>,
   /// File containing the video
   video: File,
   
@@ -45,7 +45,7 @@ impl VideoNote {
 
   pub fn minithumbnail(&self) -> &Option<Minithumbnail> { &self.minithumbnail }
 
-  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
+  pub fn thumbnail(&self) -> &Option<Thumbnail> { &self.thumbnail }
 
   pub fn video(&self) -> &File { &self.video }
 
@@ -78,7 +78,7 @@ impl RTDVideoNoteBuilder {
   }
 
    
-  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
+  pub fn thumbnail<T: AsRef<Thumbnail>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = Some(thumbnail.as_ref().clone());
     self
   }

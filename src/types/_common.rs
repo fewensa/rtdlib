@@ -156,6 +156,9 @@ impl<'a, CHATREPORTREASON: TDChatReportReason> TDChatReportReason for &'a mut CH
 impl<'a, CHATSOURCE: TDChatSource> TDChatSource for &'a CHATSOURCE {}
 impl<'a, CHATSOURCE: TDChatSource> TDChatSource for &'a mut CHATSOURCE {}
 
+impl<'a, CHATSTATISTICS: TDChatStatistics> TDChatStatistics for &'a CHATSTATISTICS {}
+impl<'a, CHATSTATISTICS: TDChatStatistics> TDChatStatistics for &'a mut CHATSTATISTICS {}
+
 impl<'a, CHATTYPE: TDChatType> TDChatType for &'a CHATTYPE {}
 impl<'a, CHATTYPE: TDChatType> TDChatType for &'a mut CHATTYPE {}
 
@@ -179,6 +182,9 @@ impl<'a, INLINEQUERYRESULT: TDInlineQueryResult> TDInlineQueryResult for &'a mut
 
 impl<'a, INPUTBACKGROUND: TDInputBackground> TDInputBackground for &'a INPUTBACKGROUND {}
 impl<'a, INPUTBACKGROUND: TDInputBackground> TDInputBackground for &'a mut INPUTBACKGROUND {}
+
+impl<'a, INPUTCHATPHOTO: TDInputChatPhoto> TDInputChatPhoto for &'a INPUTCHATPHOTO {}
+impl<'a, INPUTCHATPHOTO: TDInputChatPhoto> TDInputChatPhoto for &'a mut INPUTCHATPHOTO {}
 
 impl<'a, INPUTCREDENTIALS: TDInputCredentials> TDInputCredentials for &'a INPUTCREDENTIALS {}
 impl<'a, INPUTCREDENTIALS: TDInputCredentials> TDInputCredentials for &'a mut INPUTCREDENTIALS {}
@@ -294,6 +300,9 @@ impl<'a, SECRETCHATSTATE: TDSecretChatState> TDSecretChatState for &'a mut SECRE
 impl<'a, STATISTICSGRAPH: TDStatisticsGraph> TDStatisticsGraph for &'a STATISTICSGRAPH {}
 impl<'a, STATISTICSGRAPH: TDStatisticsGraph> TDStatisticsGraph for &'a mut STATISTICSGRAPH {}
 
+impl<'a, SUGGESTEDACTION: TDSuggestedAction> TDSuggestedAction for &'a SUGGESTEDACTION {}
+impl<'a, SUGGESTEDACTION: TDSuggestedAction> TDSuggestedAction for &'a mut SUGGESTEDACTION {}
+
 impl<'a, SUPERGROUPMEMBERSFILTER: TDSupergroupMembersFilter> TDSupergroupMembersFilter for &'a SUPERGROUPMEMBERSFILTER {}
 impl<'a, SUPERGROUPMEMBERSFILTER: TDSupergroupMembersFilter> TDSupergroupMembersFilter for &'a mut SUPERGROUPMEMBERSFILTER {}
 
@@ -305,6 +314,9 @@ impl<'a, TEXTENTITYTYPE: TDTextEntityType> TDTextEntityType for &'a mut TEXTENTI
 
 impl<'a, TEXTPARSEMODE: TDTextParseMode> TDTextParseMode for &'a TEXTPARSEMODE {}
 impl<'a, TEXTPARSEMODE: TDTextParseMode> TDTextParseMode for &'a mut TEXTPARSEMODE {}
+
+impl<'a, THUMBNAILFORMAT: TDThumbnailFormat> TDThumbnailFormat for &'a THUMBNAILFORMAT {}
+impl<'a, THUMBNAILFORMAT: TDThumbnailFormat> TDThumbnailFormat for &'a mut THUMBNAILFORMAT {}
 
 impl<'a, TOPCHATCATEGORY: TDTopChatCategory> TDTopChatCategory for &'a TOPCHATCATEGORY {}
 impl<'a, TOPCHATCATEGORY: TDTopChatCategory> TDTopChatCategory for &'a mut TOPCHATCATEGORY {}

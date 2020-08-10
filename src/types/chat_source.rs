@@ -10,10 +10,10 @@ use serde::de::{Deserialize, Deserializer};
 
 
 
-/// TRAIT | Describes a reason why the chat is shown in a chat list
+/// TRAIT | Describes a reason why an external chat is shown in a chat list
 pub trait TDChatSource: Debug + RObject {}
 
-/// Describes a reason why the chat is shown in a chat list
+/// Describes a reason why an external chat is shown in a chat list
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum ChatSource {

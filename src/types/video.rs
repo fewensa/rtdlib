@@ -21,14 +21,14 @@ pub struct Video {
   file_name: String,
   /// MIME type of the file; as defined by the sender
   mime_type: String,
-  /// True, if stickers were added to the video
+  /// True, if stickers were added to the video. The list of corresponding sticker sets can be received using getAttachedStickerSets
   has_stickers: bool,
   /// True, if the video should be tried to be streamed
   supports_streaming: bool,
   /// Video minithumbnail; may be null
   minithumbnail: Option<Minithumbnail>,
-  /// Video thumbnail; as defined by the sender; may be null
-  thumbnail: Option<PhotoSize>,
+  /// Video thumbnail in JPEG or MPEG4 format; as defined by the sender; may be null
+  thumbnail: Option<Thumbnail>,
   /// File containing the video
   video: File,
   
@@ -65,7 +65,7 @@ impl Video {
 
   pub fn minithumbnail(&self) -> &Option<Minithumbnail> { &self.minithumbnail }
 
-  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
+  pub fn thumbnail(&self) -> &Option<Thumbnail> { &self.thumbnail }
 
   pub fn video(&self) -> &File { &self.video }
 
@@ -128,7 +128,7 @@ impl RTDVideoBuilder {
   }
 
    
-  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
+  pub fn thumbnail<T: AsRef<Thumbnail>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = Some(thumbnail.as_ref().clone());
     self
   }

@@ -13,7 +13,7 @@ pub struct AcceptCall {
   td_name: String,
   /// Call identifier
   call_id: i64,
-  /// Description of the call protocols supported by the client
+  /// Description of the call protocols supported by the application
   protocol: CallProtocol,
   
 }
@@ -289,6 +289,79 @@ impl AsRef<AddChatMembers> for AddChatMembers {
 
 impl AsRef<AddChatMembers> for RTDAddChatMembersBuilder {
   fn as_ref(&self) -> &AddChatMembers { &self.inner }
+}
+
+
+
+
+
+
+
+/// Adds a chat to a chat list. A chat can't be simultaneously in Main and Archive chat lists, so it is automatically removed from another one if needed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct AddChatToList {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Chat identifier
+  chat_id: i64,
+  /// The chat list. Use getChatListsToAddChat to get suitable chat lists
+  chat_list: ChatList,
+  
+}
+
+impl RObject for AddChatToList {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "addChatToList" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for AddChatToList {}
+
+impl AddChatToList {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDAddChatToListBuilder {
+    let mut inner = AddChatToList::default();
+    inner.td_name = "addChatToList".to_string();
+    RTDAddChatToListBuilder { inner }
+  }
+
+  pub fn chat_id(&self) -> i64 { self.chat_id }
+
+  pub fn chat_list(&self) -> &ChatList { &self.chat_list }
+
+}
+
+#[doc(hidden)]
+pub struct RTDAddChatToListBuilder {
+  inner: AddChatToList
+}
+
+impl RTDAddChatToListBuilder {
+  pub fn build(&self) -> AddChatToList { self.inner.clone() }
+
+   
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
+    self.inner.chat_id = chat_id;
+    self
+  }
+
+   
+  pub fn chat_list<T: AsRef<ChatList>>(&mut self, chat_list: T) -> &mut Self {
+    self.inner.chat_list = chat_list.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<AddChatToList> for AddChatToList {
+  fn as_ref(&self) -> &AddChatToList { self }
+}
+
+impl AsRef<AddChatToList> for RTDAddChatToListBuilder {
+  fn as_ref(&self) -> &AddChatToList { &self.inner }
 }
 
 
@@ -1565,7 +1638,7 @@ impl AsRef<AnswerShippingQuery> for RTDAnswerShippingQueryBuilder {
 
 
 
-/// Adds a user to the blacklist
+/// Blocks a user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct BlockUser {
   #[doc(hidden)]
@@ -3420,7 +3493,7 @@ pub struct CreateCall {
   td_name: String,
   /// Identifier of the user to be called
   user_id: i64,
-  /// Description of the call protocols supported by the client
+  /// Description of the call protocols supported by the application
   protocol: CallProtocol,
   
 }
@@ -3477,6 +3550,69 @@ impl AsRef<CreateCall> for CreateCall {
 
 impl AsRef<CreateCall> for RTDCreateCallBuilder {
   fn as_ref(&self) -> &CreateCall { &self.inner }
+}
+
+
+
+
+
+
+
+/// Creates new chat filter. Returns information about the created chat filter
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct CreateChatFilter {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Chat filter
+  filter: ChatFilter,
+  
+}
+
+impl RObject for CreateChatFilter {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "createChatFilter" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for CreateChatFilter {}
+
+impl CreateChatFilter {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDCreateChatFilterBuilder {
+    let mut inner = CreateChatFilter::default();
+    inner.td_name = "createChatFilter".to_string();
+    RTDCreateChatFilterBuilder { inner }
+  }
+
+  pub fn filter(&self) -> &ChatFilter { &self.filter }
+
+}
+
+#[doc(hidden)]
+pub struct RTDCreateChatFilterBuilder {
+  inner: CreateChatFilter
+}
+
+impl RTDCreateChatFilterBuilder {
+  pub fn build(&self) -> CreateChatFilter { self.inner.clone() }
+
+   
+  pub fn filter<T: AsRef<ChatFilter>>(&mut self, filter: T) -> &mut Self {
+    self.inner.filter = filter.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<CreateChatFilter> for CreateChatFilter {
+  fn as_ref(&self) -> &CreateChatFilter { self }
+}
+
+impl AsRef<CreateChatFilter> for RTDCreateChatFilterBuilder {
+  fn as_ref(&self) -> &CreateChatFilter { &self.inner }
 }
 
 
@@ -4162,6 +4298,69 @@ impl AsRef<DeleteAccount> for RTDDeleteAccountBuilder {
 
 
 
+/// Deletes existing chat filter
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct DeleteChatFilter {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Chat filter identifier
+  chat_filter_id: i64,
+  
+}
+
+impl RObject for DeleteChatFilter {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "deleteChatFilter" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for DeleteChatFilter {}
+
+impl DeleteChatFilter {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDDeleteChatFilterBuilder {
+    let mut inner = DeleteChatFilter::default();
+    inner.td_name = "deleteChatFilter".to_string();
+    RTDDeleteChatFilterBuilder { inner }
+  }
+
+  pub fn chat_filter_id(&self) -> i64 { self.chat_filter_id }
+
+}
+
+#[doc(hidden)]
+pub struct RTDDeleteChatFilterBuilder {
+  inner: DeleteChatFilter
+}
+
+impl RTDDeleteChatFilterBuilder {
+  pub fn build(&self) -> DeleteChatFilter { self.inner.clone() }
+
+   
+  pub fn chat_filter_id(&mut self, chat_filter_id: i64) -> &mut Self {
+    self.inner.chat_filter_id = chat_filter_id;
+    self
+  }
+
+}
+
+impl AsRef<DeleteChatFilter> for DeleteChatFilter {
+  fn as_ref(&self) -> &DeleteChatFilter { self }
+}
+
+impl AsRef<DeleteChatFilter> for RTDDeleteChatFilterBuilder {
+  fn as_ref(&self) -> &DeleteChatFilter { &self.inner }
+}
+
+
+
+
+
+
+
 /// Deletes all messages in the chat. Use Chat.can_be_deleted_only_for_self and Chat.can_be_deleted_for_all_users fields to find whether and how the method can be applied to the chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct DeleteChatHistory {
@@ -4663,7 +4862,7 @@ impl AsRef<DeletePassportElement> for RTDDeletePassportElementBuilder {
 
 
 
-/// Deletes a profile photo. If something changes, updateUser will be sent
+/// Deletes a profile photo
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct DeleteProfilePhoto {
   #[doc(hidden)]
@@ -5305,6 +5504,79 @@ impl AsRef<DownloadFile> for DownloadFile {
 
 impl AsRef<DownloadFile> for RTDDownloadFileBuilder {
   fn as_ref(&self) -> &DownloadFile { &self.inner }
+}
+
+
+
+
+
+
+
+/// Edits existing chat filter. Returns information about the edited chat filter
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct EditChatFilter {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Chat filter identifier
+  chat_filter_id: i64,
+  /// The edited chat filter
+  filter: ChatFilter,
+  
+}
+
+impl RObject for EditChatFilter {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "editChatFilter" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for EditChatFilter {}
+
+impl EditChatFilter {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDEditChatFilterBuilder {
+    let mut inner = EditChatFilter::default();
+    inner.td_name = "editChatFilter".to_string();
+    RTDEditChatFilterBuilder { inner }
+  }
+
+  pub fn chat_filter_id(&self) -> i64 { self.chat_filter_id }
+
+  pub fn filter(&self) -> &ChatFilter { &self.filter }
+
+}
+
+#[doc(hidden)]
+pub struct RTDEditChatFilterBuilder {
+  inner: EditChatFilter
+}
+
+impl RTDEditChatFilterBuilder {
+  pub fn build(&self) -> EditChatFilter { self.inner.clone() }
+
+   
+  pub fn chat_filter_id(&mut self, chat_filter_id: i64) -> &mut Self {
+    self.inner.chat_filter_id = chat_filter_id;
+    self
+  }
+
+   
+  pub fn filter<T: AsRef<ChatFilter>>(&mut self, filter: T) -> &mut Self {
+    self.inner.filter = filter.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<EditChatFilter> for EditChatFilter {
+  fn as_ref(&self) -> &EditChatFilter { self }
+}
+
+impl AsRef<EditChatFilter> for RTDEditChatFilterBuilder {
+  fn as_ref(&self) -> &EditChatFilter { &self.inner }
 }
 
 
@@ -6797,7 +7069,7 @@ impl AsRef<GetAccountTtl> for RTDGetAccountTtlBuilder {
 
 
 
-/// Returns all active live locations that should be updated by the client. The list is persistent across application restarts only if the message database is used
+/// Returns all active live locations that should be updated by the application. The list is persistent across application restarts only if the message database is used
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetActiveLiveLocationMessages {
   #[doc(hidden)]
@@ -7991,6 +8263,132 @@ impl AsRef<GetChatEventLog> for RTDGetChatEventLogBuilder {
 
 
 
+/// Returns information about a chat filter by its identifier
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct GetChatFilter {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Chat filter identifier
+  chat_filter_id: i64,
+  
+}
+
+impl RObject for GetChatFilter {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "getChatFilter" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for GetChatFilter {}
+
+impl GetChatFilter {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGetChatFilterBuilder {
+    let mut inner = GetChatFilter::default();
+    inner.td_name = "getChatFilter".to_string();
+    RTDGetChatFilterBuilder { inner }
+  }
+
+  pub fn chat_filter_id(&self) -> i64 { self.chat_filter_id }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGetChatFilterBuilder {
+  inner: GetChatFilter
+}
+
+impl RTDGetChatFilterBuilder {
+  pub fn build(&self) -> GetChatFilter { self.inner.clone() }
+
+   
+  pub fn chat_filter_id(&mut self, chat_filter_id: i64) -> &mut Self {
+    self.inner.chat_filter_id = chat_filter_id;
+    self
+  }
+
+}
+
+impl AsRef<GetChatFilter> for GetChatFilter {
+  fn as_ref(&self) -> &GetChatFilter { self }
+}
+
+impl AsRef<GetChatFilter> for RTDGetChatFilterBuilder {
+  fn as_ref(&self) -> &GetChatFilter { &self.inner }
+}
+
+
+
+
+
+
+
+/// Returns default icon name for a filter. This is an offline method. Can be called before authorization. Can be called synchronously
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct GetChatFilterDefaultIconName {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Chat filter
+  filter: ChatFilter,
+  
+}
+
+impl RObject for GetChatFilterDefaultIconName {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "getChatFilterDefaultIconName" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for GetChatFilterDefaultIconName {}
+
+impl GetChatFilterDefaultIconName {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGetChatFilterDefaultIconNameBuilder {
+    let mut inner = GetChatFilterDefaultIconName::default();
+    inner.td_name = "getChatFilterDefaultIconName".to_string();
+    RTDGetChatFilterDefaultIconNameBuilder { inner }
+  }
+
+  pub fn filter(&self) -> &ChatFilter { &self.filter }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGetChatFilterDefaultIconNameBuilder {
+  inner: GetChatFilterDefaultIconName
+}
+
+impl RTDGetChatFilterDefaultIconNameBuilder {
+  pub fn build(&self) -> GetChatFilterDefaultIconName { self.inner.clone() }
+
+   
+  pub fn filter<T: AsRef<ChatFilter>>(&mut self, filter: T) -> &mut Self {
+    self.inner.filter = filter.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<GetChatFilterDefaultIconName> for GetChatFilterDefaultIconName {
+  fn as_ref(&self) -> &GetChatFilterDefaultIconName { self }
+}
+
+impl AsRef<GetChatFilterDefaultIconName> for RTDGetChatFilterDefaultIconNameBuilder {
+  fn as_ref(&self) -> &GetChatFilterDefaultIconName { &self.inner }
+}
+
+
+
+
+
+
+
 /// Returns messages in a chat. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id). For optimal performance the number of returned messages is chosen by the library. This is an offline request if only_local is true
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetChatHistory {
@@ -8086,6 +8484,69 @@ impl AsRef<GetChatHistory> for GetChatHistory {
 
 impl AsRef<GetChatHistory> for RTDGetChatHistoryBuilder {
   fn as_ref(&self) -> &GetChatHistory { &self.inner }
+}
+
+
+
+
+
+
+
+/// Returns chat lists to which the chat can be added. This is an offline request
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct GetChatListsToAddChat {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Chat identifier
+  chat_id: i64,
+  
+}
+
+impl RObject for GetChatListsToAddChat {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "getChatListsToAddChat" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for GetChatListsToAddChat {}
+
+impl GetChatListsToAddChat {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGetChatListsToAddChatBuilder {
+    let mut inner = GetChatListsToAddChat::default();
+    inner.td_name = "getChatListsToAddChat".to_string();
+    RTDGetChatListsToAddChatBuilder { inner }
+  }
+
+  pub fn chat_id(&self) -> i64 { self.chat_id }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGetChatListsToAddChatBuilder {
+  inner: GetChatListsToAddChat
+}
+
+impl RTDGetChatListsToAddChatBuilder {
+  pub fn build(&self) -> GetChatListsToAddChat { self.inner.clone() }
+
+   
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
+    self.inner.chat_id = chat_id;
+    self
+  }
+
+}
+
+impl AsRef<GetChatListsToAddChat> for GetChatListsToAddChat {
+  fn as_ref(&self) -> &GetChatListsToAddChat { self }
+}
+
+impl AsRef<GetChatListsToAddChat> for RTDGetChatListsToAddChatBuilder {
+  fn as_ref(&self) -> &GetChatListsToAddChat { &self.inner }
 }
 
 
@@ -8522,7 +8983,7 @@ impl AsRef<GetChatScheduledMessages> for RTDGetChatScheduledMessagesBuilder {
 
 
 
-/// Returns detailed statistics about a chat. Currently this method can be used only for channels. Requires administrator rights in the channel
+/// Returns detailed statistics about a chat. Currently this method can be used only for supergroups and channels. Requires administrator rights in the channel
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetChatStatistics {
   #[doc(hidden)]
@@ -8541,7 +9002,7 @@ impl RObject for GetChatStatistics {
 }
 
 
-
+impl TDChatStatistics for GetChatStatistics {}
 
 impl RFunction for GetChatStatistics {}
 
@@ -8761,7 +9222,7 @@ impl AsRef<GetChatStatisticsUrl> for RTDGetChatStatisticsUrlBuilder {
 
 
 
-/// Returns an ordered list of chats in a chat list. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63  1). For optimal performance the number of returned chats is chosen by the library
+/// Returns an ordered list of chats in a chat list. Chats are sorted by the pair (chat.position.order, chat.id) in descending order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63  1). For optimal performance the number of returned chats is chosen by the library
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetChats {
   #[doc(hidden)]
@@ -8960,7 +9421,7 @@ impl AsRef<GetContacts> for RTDGetContactsBuilder {
 
 
 
-/// Uses current user IP address to found their country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization
+/// Uses current user IP address to find their country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetCountryCode {
   #[doc(hidden)]
@@ -12758,6 +13219,59 @@ impl AsRef<GetRecentlyVisitedTMeUrls> for RTDGetRecentlyVisitedTMeUrlsBuilder {
 
 
 
+/// Returns recommended chat filters for the current user
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct GetRecommendedChatFilters {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for GetRecommendedChatFilters {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "getRecommendedChatFilters" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for GetRecommendedChatFilters {}
+
+impl GetRecommendedChatFilters {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDGetRecommendedChatFiltersBuilder {
+    let mut inner = GetRecommendedChatFilters::default();
+    inner.td_name = "getRecommendedChatFilters".to_string();
+    RTDGetRecommendedChatFiltersBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDGetRecommendedChatFiltersBuilder {
+  inner: GetRecommendedChatFilters
+}
+
+impl RTDGetRecommendedChatFiltersBuilder {
+  pub fn build(&self) -> GetRecommendedChatFilters { self.inner.clone() }
+
+}
+
+impl AsRef<GetRecommendedChatFilters> for GetRecommendedChatFilters {
+  fn as_ref(&self) -> &GetRecommendedChatFilters { self }
+}
+
+impl AsRef<GetRecommendedChatFilters> for RTDGetRecommendedChatFiltersBuilder {
+  fn as_ref(&self) -> &GetRecommendedChatFilters { &self.inner }
+}
+
+
+
+
+
+
+
 /// Returns a 2-step verification recovery email address that was previously set up. This method can be used to verify a password provided by the user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetRecoveryEmailAddress {
@@ -12821,7 +13335,7 @@ impl AsRef<GetRecoveryEmailAddress> for RTDGetRecoveryEmailAddressBuilder {
 
 
 
-/// Returns information about a file by its remote ID; this is an offline request. Can be used to register a URL as a file for further uploading, or sending as a message. Even the request succeeds, the file can be used only if it is still accessible to the user. For example, if the file is from a message, then the message must be not deleted and accessible to the user. If the file database is disabled, then the corresponding object with the file must be preloaded by the client
+/// Returns information about a file by its remote ID; this is an offline request. Can be used to register a URL as a file for further uploading, or sending as a message. Even the request succeeds, the file can be used only if it is still accessible to the user. For example, if the file is from a message, then the message must be not deleted and accessible to the user. If the file database is disabled, then the corresponding object with the file must be preloaded by the application
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetRemoteFile {
   #[doc(hidden)]
@@ -14509,6 +15023,69 @@ impl AsRef<GetWebPagePreview> for RTDGetWebPagePreviewBuilder {
 
 
 
+/// Hides a suggested action
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct HideSuggestedAction {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Suggested action to hide
+  action: SuggestedAction,
+  
+}
+
+impl RObject for HideSuggestedAction {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "hideSuggestedAction" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for HideSuggestedAction {}
+
+impl HideSuggestedAction {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDHideSuggestedActionBuilder {
+    let mut inner = HideSuggestedAction::default();
+    inner.td_name = "hideSuggestedAction".to_string();
+    RTDHideSuggestedActionBuilder { inner }
+  }
+
+  pub fn action(&self) -> &SuggestedAction { &self.action }
+
+}
+
+#[doc(hidden)]
+pub struct RTDHideSuggestedActionBuilder {
+  inner: HideSuggestedAction
+}
+
+impl RTDHideSuggestedActionBuilder {
+  pub fn build(&self) -> HideSuggestedAction { self.inner.clone() }
+
+   
+  pub fn action<T: AsRef<SuggestedAction>>(&mut self, action: T) -> &mut Self {
+    self.inner.action = action.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<HideSuggestedAction> for HideSuggestedAction {
+  fn as_ref(&self) -> &HideSuggestedAction { self }
+}
+
+impl AsRef<HideSuggestedAction> for RTDHideSuggestedActionBuilder {
+  fn as_ref(&self) -> &HideSuggestedAction { &self.inner }
+}
+
+
+
+
+
+
+
 /// Adds new contacts or edits existing contacts by their phone numbers; contacts' user identifiers are ignored
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ImportContacts {
@@ -15501,7 +16078,7 @@ impl AsRef<ReadAllChatMentions> for RTDReadAllChatMentionsBuilder {
 
 
 
-/// Reads a part of a file from the TDLib file cache and returns read bytes. This method is intended to be used only if the client has no direct access to TDLib's file system, because it is usually slower than a direct read from the file
+/// Reads a part of a file from the TDLib file cache and returns read bytes. This method is intended to be used only if the application has no direct access to TDLib's file system, because it is usually slower than a direct read from the file
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ReadFilePart {
   #[doc(hidden)]
@@ -15718,7 +16295,7 @@ pub struct RegisterDevice {
   td_name: String,
   /// Device token
   device_token: DeviceToken,
-  /// List of user identifiers of other users currently using the client
+  /// List of user identifiers of other users currently using the application
   other_user_ids: Vec<i64>,
   
 }
@@ -16715,6 +17292,69 @@ impl AsRef<RemoveTopChat> for RTDRemoveTopChatBuilder {
 
 
 
+/// Changes the order of chat filters
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ReorderChatFilters {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Identifiers of chat filters in the new correct order
+  chat_filter_ids: Vec<i64>,
+  
+}
+
+impl RObject for ReorderChatFilters {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "reorderChatFilters" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for ReorderChatFilters {}
+
+impl ReorderChatFilters {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDReorderChatFiltersBuilder {
+    let mut inner = ReorderChatFilters::default();
+    inner.td_name = "reorderChatFilters".to_string();
+    RTDReorderChatFiltersBuilder { inner }
+  }
+
+  pub fn chat_filter_ids(&self) -> &Vec<i64> { &self.chat_filter_ids }
+
+}
+
+#[doc(hidden)]
+pub struct RTDReorderChatFiltersBuilder {
+  inner: ReorderChatFilters
+}
+
+impl RTDReorderChatFiltersBuilder {
+  pub fn build(&self) -> ReorderChatFilters { self.inner.clone() }
+
+   
+  pub fn chat_filter_ids(&mut self, chat_filter_ids: Vec<i64>) -> &mut Self {
+    self.inner.chat_filter_ids = chat_filter_ids;
+    self
+  }
+
+}
+
+impl AsRef<ReorderChatFilters> for ReorderChatFilters {
+  fn as_ref(&self) -> &ReorderChatFilters { self }
+}
+
+impl AsRef<ReorderChatFilters> for RTDReorderChatFiltersBuilder {
+  fn as_ref(&self) -> &ReorderChatFilters { &self.inner }
+}
+
+
+
+
+
+
+
 /// Changes the order of installed sticker sets
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ReorderInstalledStickerSets {
@@ -17060,13 +17700,13 @@ impl AsRef<RequestPasswordRecovery> for RTDRequestPasswordRecoveryBuilder {
 
 
 
-/// Requests QR code authentication by scanning a QR code on another logged in device. Works only when the current authorization state is authorizationStateWaitPhoneNumber
+/// Requests QR code authentication by scanning a QR code on another logged in device. Works only when the current authorization state is authorizationStateWaitPhoneNumber, or if there is no pending authentication query and the current authorization state is authorizationStateWaitCode, authorizationStateWaitRegistration, or authorizationStateWaitPassword
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct RequestQrCodeAuthentication {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// List of user identifiers of other users currently using the client
+  /// List of user identifiers of other users currently using the application
   other_user_ids: Vec<i64>,
   
 }
@@ -18191,7 +18831,7 @@ impl AsRef<SearchChatRecentLocationMessages> for RTDSearchChatRecentLocationMess
 
 
 
-/// Searches for the specified query in the title and username of already known chats, this is an offline request. Returns chats in the order seen in the chat list
+/// Searches for the specified query in the title and username of already known chats, this is an offline request. Returns chats in the order seen in the main chat list
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SearchChats {
   #[doc(hidden)]
@@ -18327,7 +18967,7 @@ impl AsRef<SearchChatsNearby> for RTDSearchChatsNearbyBuilder {
 
 
 
-/// Searches for the specified query in the title and username of already known chats via request to the server. Returns chats in the order seen in the chat list
+/// Searches for the specified query in the title and username of already known chats via request to the server. Returns chats in the order seen in the main chat list
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SearchChatsOnServer {
   #[doc(hidden)]
@@ -20979,80 +21619,7 @@ impl AsRef<SetBotUpdatesStatus> for RTDSetBotUpdatesStatusBuilder {
 
 
 
-/// Moves a chat to a different chat list. Current chat list of the chat must ne non-null
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct SetChatChatList {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Chat identifier
-  chat_id: i64,
-  /// New chat list of the chat. The chat with the current user (Saved Messages) and the chat 777000 (Telegram) can't be moved to the Archive chat list
-  chat_list: ChatList,
-  
-}
-
-impl RObject for SetChatChatList {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "setChatChatList" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-
-
-impl RFunction for SetChatChatList {}
-
-impl SetChatChatList {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDSetChatChatListBuilder {
-    let mut inner = SetChatChatList::default();
-    inner.td_name = "setChatChatList".to_string();
-    RTDSetChatChatListBuilder { inner }
-  }
-
-  pub fn chat_id(&self) -> i64 { self.chat_id }
-
-  pub fn chat_list(&self) -> &ChatList { &self.chat_list }
-
-}
-
-#[doc(hidden)]
-pub struct RTDSetChatChatListBuilder {
-  inner: SetChatChatList
-}
-
-impl RTDSetChatChatListBuilder {
-  pub fn build(&self) -> SetChatChatList { self.inner.clone() }
-
-   
-  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
-    self.inner.chat_id = chat_id;
-    self
-  }
-
-   
-  pub fn chat_list<T: AsRef<ChatList>>(&mut self, chat_list: T) -> &mut Self {
-    self.inner.chat_list = chat_list.as_ref().clone();
-    self
-  }
-
-}
-
-impl AsRef<SetChatChatList> for SetChatChatList {
-  fn as_ref(&self) -> &SetChatChatList { self }
-}
-
-impl AsRef<SetChatChatList> for RTDSetChatChatListBuilder {
-  fn as_ref(&self) -> &SetChatChatList { &self.inner }
-}
-
-
-
-
-
-
-
-/// Changes client data associated with a chat
+/// Changes application-specific data associated with a chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetChatClientData {
   #[doc(hidden)]
@@ -21646,7 +22213,7 @@ impl AsRef<SetChatPermissions> for RTDSetChatPermissionsBuilder {
 
 
 
-/// Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires can_change_info rights. The photo will not be changed before request to the server has been completed
+/// Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires can_change_info rights
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetChatPhoto {
   #[doc(hidden)]
@@ -21654,8 +22221,8 @@ pub struct SetChatPhoto {
   td_name: String,
   /// Chat identifier
   chat_id: i64,
-  /// New chat photo. You can use a zero InputFileId to delete the chat photo. Files that are accessible only by HTTP URL are not acceptable
-  photo: InputFile,
+  /// New chat photo. You can pass null to delete the chat photo
+  photo: InputChatPhoto,
   
 }
 
@@ -21679,7 +22246,7 @@ impl SetChatPhoto {
 
   pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn photo(&self) -> &InputFile { &self.photo }
+  pub fn photo(&self) -> &InputChatPhoto { &self.photo }
 
 }
 
@@ -21698,7 +22265,7 @@ impl RTDSetChatPhotoBuilder {
   }
 
    
-  pub fn photo<T: AsRef<InputFile>>(&mut self, photo: T) -> &mut Self {
+  pub fn photo<T: AsRef<InputChatPhoto>>(&mut self, photo: T) -> &mut Self {
     self.inner.photo = photo.as_ref().clone();
     self
   }
@@ -21792,7 +22359,7 @@ impl AsRef<SetChatSlowModeDelay> for RTDSetChatSlowModeDelayBuilder {
 
 
 
-/// Changes the chat title. Supported only for basic groups, supergroups and channels. Requires can_change_info rights. The title will not be changed until the request to the server has been completed
+/// Changes the chat title. Supported only for basic groups, supergroups and channels. Requires can_change_info rights
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetChatTitle {
   #[doc(hidden)]
@@ -22698,7 +23265,7 @@ impl AsRef<SetLogVerbosityLevel> for RTDSetLogVerbosityLevelBuilder {
 
 
 
-/// Changes the first and last name of the current user. If something changes, updateUser will be sent
+/// Changes the first and last name of the current user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetName {
   #[doc(hidden)]
@@ -23312,14 +23879,14 @@ impl AsRef<SetPollAnswer> for RTDSetPollAnswerBuilder {
 
 
 
-/// Uploads a new profile photo for the current user. If something changes, updateUser will be sent
+/// Changes a profile photo for the current user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetProfilePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Profile photo to set. inputFileId and inputFileRemote may still be unsupported
-  photo: InputFile,
+  /// Profile photo to set
+  photo: InputChatPhoto,
   
 }
 
@@ -23341,7 +23908,7 @@ impl SetProfilePhoto {
     RTDSetProfilePhotoBuilder { inner }
   }
 
-  pub fn photo(&self) -> &InputFile { &self.photo }
+  pub fn photo(&self) -> &InputChatPhoto { &self.photo }
 
 }
 
@@ -23354,7 +23921,7 @@ impl RTDSetProfilePhotoBuilder {
   pub fn build(&self) -> SetProfilePhoto { self.inner.clone() }
 
    
-  pub fn photo<T: AsRef<InputFile>>(&mut self, photo: T) -> &mut Self {
+  pub fn photo<T: AsRef<InputChatPhoto>>(&mut self, photo: T) -> &mut Self {
     self.inner.photo = photo.as_ref().clone();
     self
   }
@@ -23959,7 +24526,7 @@ impl AsRef<SetUserPrivacySettingRules> for RTDSetUserPrivacySettingRulesBuilder 
 
 
 
-/// Changes the username of the current user. If something changes, updateUser will be sent
+/// Changes the username of the current user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetUsername {
   #[doc(hidden)]
@@ -25312,15 +25879,17 @@ impl AsRef<ToggleChatIsMarkedAsUnread> for RTDToggleChatIsMarkedAsUnreadBuilder 
 
 
 
-/// Changes the pinned state of a chat. You can pin up to GetOption("pinned_chat_count_max")/GetOption("pinned_archived_chat_count_max") non-secret chats and the same number of secret chats in the main/archive chat list
+/// Changes the pinned state of a chat. You can pin up to GetOption("pinned_chat_count_max")/GetOption("pinned_archived_chat_count_max") non-secret chats and the same number of secret chats in the main/arhive chat list
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ToggleChatIsPinned {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  /// Chat list in which to change the pinned state of the chat
+  chat_list: ChatList,
   /// Chat identifier
   chat_id: i64,
-  /// New value of is_pinned
+  /// True, if the chat is pinned
   is_pinned: bool,
   
 }
@@ -25343,6 +25912,8 @@ impl ToggleChatIsPinned {
     RTDToggleChatIsPinnedBuilder { inner }
   }
 
+  pub fn chat_list(&self) -> &ChatList { &self.chat_list }
+
   pub fn chat_id(&self) -> i64 { self.chat_id }
 
   pub fn is_pinned(&self) -> bool { self.is_pinned }
@@ -25356,6 +25927,12 @@ pub struct RTDToggleChatIsPinnedBuilder {
 
 impl RTDToggleChatIsPinnedBuilder {
   pub fn build(&self) -> ToggleChatIsPinned { self.inner.clone() }
+
+   
+  pub fn chat_list<T: AsRef<ChatList>>(&mut self, chat_list: T) -> &mut Self {
+    self.inner.chat_list = chat_list.as_ref().clone();
+    self
+  }
 
    
   pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
@@ -25614,7 +26191,7 @@ impl AsRef<TransferChatOwnership> for RTDTransferChatOwnershipBuilder {
 
 
 
-/// Removes a user from the blacklist
+/// Unblocks a user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UnblockUser {
   #[doc(hidden)]
@@ -26198,7 +26775,7 @@ impl AsRef<ViewTrendingStickerSets> for RTDViewTrendingStickerSetsBuilder {
 
 
 
-/// Writes a part of a generated file. This method is intended to be used only if the client has no direct access to TDLib's file system, because it is usually slower than a direct write to the destination file
+/// Writes a part of a generated file. This method is intended to be used only if the application has no direct access to TDLib's file system, because it is usually slower than a direct write to the destination file
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct WriteGeneratedFilePart {
   #[doc(hidden)]

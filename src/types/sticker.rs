@@ -26,7 +26,7 @@ pub struct Sticker {
   /// Position where the mask should be placed; may be null
   mask_position: Option<MaskPosition>,
   /// Sticker thumbnail in WEBP or JPEG format; may be null
-  thumbnail: Option<PhotoSize>,
+  thumbnail: Option<Thumbnail>,
   /// File containing the sticker
   sticker: File,
   
@@ -61,7 +61,7 @@ impl Sticker {
 
   pub fn mask_position(&self) -> &Option<MaskPosition> { &self.mask_position }
 
-  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
+  pub fn thumbnail(&self) -> &Option<Thumbnail> { &self.thumbnail }
 
   pub fn sticker(&self) -> &File { &self.sticker }
 
@@ -118,7 +118,7 @@ impl RTDStickerBuilder {
   }
 
    
-  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
+  pub fn thumbnail<T: AsRef<Thumbnail>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = Some(thumbnail.as_ref().clone());
     self
   }

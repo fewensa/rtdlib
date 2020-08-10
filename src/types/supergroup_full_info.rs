@@ -11,6 +11,8 @@ pub struct SupergroupFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  /// Chat photo; may be null
+  photo: Option<ChatPhoto>,
   /// Contains full information about a supergroup or channel
   description: String,
   /// Number of members in the supergroup or channel; 0 if unknown
@@ -67,6 +69,8 @@ impl SupergroupFullInfo {
     RTDSupergroupFullInfoBuilder { inner }
   }
 
+  pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
+
   pub fn description(&self) -> &String { &self.description }
 
   pub fn member_count(&self) -> i64 { self.member_count }
@@ -114,6 +118,12 @@ pub struct RTDSupergroupFullInfoBuilder {
 
 impl RTDSupergroupFullInfoBuilder {
   pub fn build(&self) -> SupergroupFullInfo { self.inner.clone() }
+
+   
+  pub fn photo<T: AsRef<ChatPhoto>>(&mut self, photo: T) -> &mut Self {
+    self.inner.photo = Some(photo.as_ref().clone());
+    self
+  }
 
    
   pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {
