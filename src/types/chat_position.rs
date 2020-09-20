@@ -14,7 +14,7 @@ pub struct ChatPosition {
   /// The chat list
   list: ChatList,
   /// A parameter used to determine order of the chat in the chat list. Chats must be sorted by the pair (order, chat.id) in descending order
-  order: String,
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] order: isize,
   /// True, if the chat is pinned in the chat list
   is_pinned: bool,
   /// Source of the chat in the chat list; may be null
@@ -39,7 +39,7 @@ impl ChatPosition {
 
   pub fn list(&self) -> &ChatList { &self.list }
 
-  pub fn order(&self) -> &String { &self.order }
+  pub fn order(&self) -> isize { self.order }
 
   pub fn is_pinned(&self) -> bool { self.is_pinned }
 
@@ -62,8 +62,8 @@ impl RTDChatPositionBuilder {
   }
 
    
-  pub fn order<T: AsRef<str>>(&mut self, order: T) -> &mut Self {
-    self.inner.order = order.as_ref().to_string();
+  pub fn order(&mut self, order: isize) -> &mut Self {
+    self.inner.order = order;
     self
   }
 
