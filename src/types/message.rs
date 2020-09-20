@@ -52,7 +52,7 @@ pub struct Message {
   /// Number of times this message was viewed
   views: i64,
   /// Unique identifier of an album this message belongs to. Only photos and videos can be grouped together in albums
-  media_album_id: String,
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] media_album_id: isize,
   /// Content of the message
   content: MessageContent,
   /// Reply markup for the message; may be null
@@ -115,7 +115,7 @@ impl Message {
 
   pub fn views(&self) -> i64 { self.views }
 
-  pub fn media_album_id(&self) -> &String { &self.media_album_id }
+  pub fn media_album_id(&self) -> isize { self.media_album_id }
 
   pub fn content(&self) -> &MessageContent { &self.content }
 
@@ -252,8 +252,8 @@ impl RTDMessageBuilder {
   }
 
    
-  pub fn media_album_id<T: AsRef<str>>(&mut self, media_album_id: T) -> &mut Self {
-    self.inner.media_album_id = media_album_id.as_ref().to_string();
+  pub fn media_album_id(&mut self, media_album_id: isize) -> &mut Self {
+    self.inner.media_album_id = media_album_id;
     self
   }
 

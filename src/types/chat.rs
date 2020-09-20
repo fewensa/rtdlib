@@ -24,7 +24,7 @@ pub struct Chat {
   /// Last message in the chat; may be null
   last_message: Option<Message>,
   /// Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined
-  order: String,
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] order: isize,
   /// True, if the chat is pinned
   is_pinned: bool,
   /// True, if the chat is marked as unread
@@ -87,7 +87,7 @@ impl Chat {
 
   pub fn last_message(&self) -> &Option<Message> { &self.last_message }
 
-  pub fn order(&self) -> &String { &self.order }
+  pub fn order(&self) -> isize { self.order }
 
   pub fn is_pinned(&self) -> bool { self.is_pinned }
 
@@ -168,8 +168,8 @@ impl RTDChatBuilder {
   }
 
    
-  pub fn order<T: AsRef<str>>(&mut self, order: T) -> &mut Self {
-    self.inner.order = order.as_ref().to_string();
+  pub fn order(&mut self, order: isize) -> &mut Self {
+    self.inner.order = order;
     self
   }
 
