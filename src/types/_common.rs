@@ -123,6 +123,9 @@ impl<'a, CALLDISCARDREASON: TDCallDiscardReason> TDCallDiscardReason for &'a mut
 impl<'a, CALLPROBLEM: TDCallProblem> TDCallProblem for &'a CALLPROBLEM {}
 impl<'a, CALLPROBLEM: TDCallProblem> TDCallProblem for &'a mut CALLPROBLEM {}
 
+impl<'a, CALLSERVERTYPE: TDCallServerType> TDCallServerType for &'a CALLSERVERTYPE {}
+impl<'a, CALLSERVERTYPE: TDCallServerType> TDCallServerType for &'a mut CALLSERVERTYPE {}
+
 impl<'a, CALLSTATE: TDCallState> TDCallState for &'a CALLSTATE {}
 impl<'a, CALLSTATE: TDCallState> TDCallState for &'a mut CALLSTATE {}
 

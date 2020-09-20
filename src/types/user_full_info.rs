@@ -17,6 +17,8 @@ pub struct UserFullInfo {
   is_blocked: bool,
   /// True, if the user can be called
   can_be_called: bool,
+  /// True, if a video call can be created with the user
+  supports_video_calls: bool,
   /// True, if the user can't be called due to their privacy settings
   has_private_calls: bool,
   /// True, if the current user needs to explicitly allow to share their phone number with the user when the method addContact is used
@@ -52,6 +54,8 @@ impl UserFullInfo {
   pub fn is_blocked(&self) -> bool { self.is_blocked }
 
   pub fn can_be_called(&self) -> bool { self.can_be_called }
+
+  pub fn supports_video_calls(&self) -> bool { self.supports_video_calls }
 
   pub fn has_private_calls(&self) -> bool { self.has_private_calls }
 
@@ -90,6 +94,12 @@ impl RTDUserFullInfoBuilder {
    
   pub fn can_be_called(&mut self, can_be_called: bool) -> &mut Self {
     self.inner.can_be_called = can_be_called;
+    self
+  }
+
+   
+  pub fn supports_video_calls(&mut self, supports_video_calls: bool) -> &mut Self {
+    self.inner.supports_video_calls = supports_video_calls;
     self
   }
 

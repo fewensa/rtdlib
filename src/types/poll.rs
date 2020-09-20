@@ -13,7 +13,7 @@ pub struct Poll {
   td_name: String,
   /// Unique poll identifier
   id: String,
-  /// Poll question, 1-255 characters
+  /// Poll question, 1-300 characters
   question: String,
   /// List of poll answer options
   options: Vec<PollOption>,

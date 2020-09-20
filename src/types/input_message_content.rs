@@ -696,10 +696,8 @@ pub struct InputMessageForwarded {
   message_id: i64,
   /// True, if a game message should be shared within a launched game; applies only to game messages
   in_game_share: bool,
-  /// True, if content of the message needs to be copied without a link to the original message. Always true if the message is forwarded to a secret chat
-  send_copy: bool,
-  /// True, if media caption of the message copy needs to be removed. Ignored if send_copy is false
-  remove_caption: bool,
+  /// Options to be used to copy content of the message without a link to the original message
+  copy_options: MessageCopyOptions,
   
 }
 
@@ -727,9 +725,7 @@ impl InputMessageForwarded {
 
   pub fn in_game_share(&self) -> bool { self.in_game_share }
 
-  pub fn send_copy(&self) -> bool { self.send_copy }
-
-  pub fn remove_caption(&self) -> bool { self.remove_caption }
+  pub fn copy_options(&self) -> &MessageCopyOptions { &self.copy_options }
 
 }
 
@@ -760,14 +756,8 @@ impl RTDInputMessageForwardedBuilder {
   }
 
    
-  pub fn send_copy(&mut self, send_copy: bool) -> &mut Self {
-    self.inner.send_copy = send_copy;
-    self
-  }
-
-   
-  pub fn remove_caption(&mut self, remove_caption: bool) -> &mut Self {
-    self.inner.remove_caption = remove_caption;
+  pub fn copy_options<T: AsRef<MessageCopyOptions>>(&mut self, copy_options: T) -> &mut Self {
+    self.inner.copy_options = copy_options.as_ref().clone();
     self
   }
 
@@ -1225,7 +1215,7 @@ pub struct InputMessagePoll {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Poll question, 1-255 characters
+  /// Poll question, 1-255 characters (up to 300 characters for bots)
   question: String,
   /// List of poll answer options, 2-10 strings 1-100 characters each
   options: Vec<String>,

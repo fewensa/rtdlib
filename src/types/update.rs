@@ -68,7 +68,7 @@ pub enum Update {
   ChatTitle(UpdateChatTitle),
   /// The chat unread_mention_count has changed
   ChatUnreadMentionCount(UpdateChatUnreadMentionCount),
-  /// The connection state has changed
+  /// The connection state has changed. This update must be used only to show the user a human-readable description of the connection state
   ConnectionState(UpdateConnectionState),
   /// Some messages were deleted
   DeleteMessages(UpdateDeleteMessages),
@@ -106,6 +106,8 @@ pub enum Update {
   MessageSendSucceeded(UpdateMessageSendSucceeded),
   /// The view count of the message has changed
   MessageViews(UpdateMessageViews),
+  /// New call signaling data arrived
+  NewCallSignalingData(UpdateNewCallSignalingData),
   /// A new incoming callback query; for bots only
   NewCallbackQuery(UpdateNewCallbackQuery),
   /// A new chat has been loaded/created. This update is guaranteed to come before the chat identifier is returned to the application. The chat field changes will be reported through separate updates
@@ -232,6 +234,7 @@ impl<'de> Deserialize<'de> for Update {
       (updateMessageSendFailed, MessageSendFailed);
       (updateMessageSendSucceeded, MessageSendSucceeded);
       (updateMessageViews, MessageViews);
+      (updateNewCallSignalingData, NewCallSignalingData);
       (updateNewCallbackQuery, NewCallbackQuery);
       (updateNewChat, NewChat);
       (updateNewChosenInlineResult, NewChosenInlineResult);
@@ -319,6 +322,7 @@ impl RObject for Update {
       Update::MessageSendFailed(t) => t.td_name(),
       Update::MessageSendSucceeded(t) => t.td_name(),
       Update::MessageViews(t) => t.td_name(),
+      Update::NewCallSignalingData(t) => t.td_name(),
       Update::NewCallbackQuery(t) => t.td_name(),
       Update::NewChat(t) => t.td_name(),
       Update::NewChosenInlineResult(t) => t.td_name(),
@@ -409,6 +413,7 @@ impl Update {
   pub fn is_message_send_failed(&self) -> bool { if let Update::MessageSendFailed(_) = self { true } else { false } }
   pub fn is_message_send_succeeded(&self) -> bool { if let Update::MessageSendSucceeded(_) = self { true } else { false } }
   pub fn is_message_views(&self) -> bool { if let Update::MessageViews(_) = self { true } else { false } }
+  pub fn is_new_call_signaling_data(&self) -> bool { if let Update::NewCallSignalingData(_) = self { true } else { false } }
   pub fn is_new_callback_query(&self) -> bool { if let Update::NewCallbackQuery(_) = self { true } else { false } }
   pub fn is_new_chat(&self) -> bool { if let Update::NewChat(_) = self { true } else { false } }
   pub fn is_new_chosen_inline_result(&self) -> bool { if let Update::NewChosenInlineResult(_) = self { true } else { false } }
@@ -489,6 +494,7 @@ impl Update {
   pub fn on_message_send_failed<F: FnOnce(&UpdateMessageSendFailed)>(&self, fnc: F) -> &Self { if let Update::MessageSendFailed(t) = self { fnc(t) }; self }
   pub fn on_message_send_succeeded<F: FnOnce(&UpdateMessageSendSucceeded)>(&self, fnc: F) -> &Self { if let Update::MessageSendSucceeded(t) = self { fnc(t) }; self }
   pub fn on_message_views<F: FnOnce(&UpdateMessageViews)>(&self, fnc: F) -> &Self { if let Update::MessageViews(t) = self { fnc(t) }; self }
+  pub fn on_new_call_signaling_data<F: FnOnce(&UpdateNewCallSignalingData)>(&self, fnc: F) -> &Self { if let Update::NewCallSignalingData(t) = self { fnc(t) }; self }
   pub fn on_new_callback_query<F: FnOnce(&UpdateNewCallbackQuery)>(&self, fnc: F) -> &Self { if let Update::NewCallbackQuery(t) = self { fnc(t) }; self }
   pub fn on_new_chat<F: FnOnce(&UpdateNewChat)>(&self, fnc: F) -> &Self { if let Update::NewChat(t) = self { fnc(t) }; self }
   pub fn on_new_chosen_inline_result<F: FnOnce(&UpdateNewChosenInlineResult)>(&self, fnc: F) -> &Self { if let Update::NewChosenInlineResult(t) = self { fnc(t) }; self }
@@ -569,6 +575,7 @@ impl Update {
   pub fn as_message_send_failed(&self) -> Option<&UpdateMessageSendFailed> { if let Update::MessageSendFailed(t) = self { return Some(t) } None }
   pub fn as_message_send_succeeded(&self) -> Option<&UpdateMessageSendSucceeded> { if let Update::MessageSendSucceeded(t) = self { return Some(t) } None }
   pub fn as_message_views(&self) -> Option<&UpdateMessageViews> { if let Update::MessageViews(t) = self { return Some(t) } None }
+  pub fn as_new_call_signaling_data(&self) -> Option<&UpdateNewCallSignalingData> { if let Update::NewCallSignalingData(t) = self { return Some(t) } None }
   pub fn as_new_callback_query(&self) -> Option<&UpdateNewCallbackQuery> { if let Update::NewCallbackQuery(t) = self { return Some(t) } None }
   pub fn as_new_chat(&self) -> Option<&UpdateNewChat> { if let Update::NewChat(t) = self { return Some(t) } None }
   pub fn as_new_chosen_inline_result(&self) -> Option<&UpdateNewChosenInlineResult> { if let Update::NewChosenInlineResult(t) = self { return Some(t) } None }
@@ -694,6 +701,8 @@ impl Update {
   pub fn message_send_succeeded<T: AsRef<UpdateMessageSendSucceeded>>(t: T) -> Self { Update::MessageSendSucceeded(t.as_ref().clone()) }
 
   pub fn message_views<T: AsRef<UpdateMessageViews>>(t: T) -> Self { Update::MessageViews(t.as_ref().clone()) }
+
+  pub fn new_call_signaling_data<T: AsRef<UpdateNewCallSignalingData>>(t: T) -> Self { Update::NewCallSignalingData(t.as_ref().clone()) }
 
   pub fn new_callback_query<T: AsRef<UpdateNewCallbackQuery>>(t: T) -> Self { Update::NewCallbackQuery(t.as_ref().clone()) }
 
@@ -2509,7 +2518,7 @@ impl AsRef<UpdateChatUnreadMentionCount> for RTDUpdateChatUnreadMentionCountBuil
 
 
 
-/// The connection state has changed
+/// The connection state has changed. This update must be used only to show the user a human-readable description of the connection state
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateConnectionState {
   #[doc(hidden)]
@@ -3958,6 +3967,79 @@ impl AsRef<UpdateMessageViews> for UpdateMessageViews {
 
 impl AsRef<UpdateMessageViews> for RTDUpdateMessageViewsBuilder {
   fn as_ref(&self) -> &UpdateMessageViews { &self.inner }
+}
+
+
+
+
+
+
+
+/// New call signaling data arrived
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UpdateNewCallSignalingData {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The call identifier
+  call_id: i64,
+  /// The data
+  data: String,
+  
+}
+
+impl RObject for UpdateNewCallSignalingData {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateNewCallSignalingData" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUpdate for UpdateNewCallSignalingData {}
+
+
+
+impl UpdateNewCallSignalingData {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUpdateNewCallSignalingDataBuilder {
+    let mut inner = UpdateNewCallSignalingData::default();
+    inner.td_name = "updateNewCallSignalingData".to_string();
+    RTDUpdateNewCallSignalingDataBuilder { inner }
+  }
+
+  pub fn call_id(&self) -> i64 { self.call_id }
+
+  pub fn data(&self) -> &String { &self.data }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUpdateNewCallSignalingDataBuilder {
+  inner: UpdateNewCallSignalingData
+}
+
+impl RTDUpdateNewCallSignalingDataBuilder {
+  pub fn build(&self) -> UpdateNewCallSignalingData { self.inner.clone() }
+
+   
+  pub fn call_id(&mut self, call_id: i64) -> &mut Self {
+    self.inner.call_id = call_id;
+    self
+  }
+
+   
+  pub fn data<T: AsRef<str>>(&mut self, data: T) -> &mut Self {
+    self.inner.data = data.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<UpdateNewCallSignalingData> for UpdateNewCallSignalingData {
+  fn as_ref(&self) -> &UpdateNewCallSignalingData { self }
+}
+
+impl AsRef<UpdateNewCallSignalingData> for RTDUpdateNewCallSignalingDataBuilder {
+  fn as_ref(&self) -> &UpdateNewCallSignalingData { &self.inner }
 }
 
 

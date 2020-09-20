@@ -40,7 +40,7 @@ pub enum AuthorizationState {
   WaitRegistration(AuthorizationStateWaitRegistration),
   /// TDLib needs TdlibParameters for initialization
   WaitTdlibParameters(AuthorizationStateWaitTdlibParameters),
-  /// Returns the current authorization state; this is an offline request. For informational purposes only. Use updateAuthorizationState instead to maintain the current authorization state
+  /// Returns the current authorization state; this is an offline request. For informational purposes only. Use updateAuthorizationState instead to maintain the current authorization state. Can be called before initialization
   GetAuthorizationState(GetAuthorizationState),
 
 }

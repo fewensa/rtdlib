@@ -20,7 +20,7 @@ pub enum JsonValue {
   #[doc(hidden)] _Default(()),
   /// Returns application config, provided by the server. Can be called before authorization
   GetApplicationConfig(GetApplicationConfig),
-  /// Converts a JSON-serialized string to corresponding JsonValue object. This is an offline method. Can be called before authorization. Can be called synchronously
+  /// Converts a JSON-serialized string to corresponding JsonValue object. Can be called synchronously
   GetJsonValue(GetJsonValue),
   /// Represents a JSON array
   Array(JsonValueArray),

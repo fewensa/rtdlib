@@ -670,6 +670,8 @@ pub struct MessageCall {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  /// True, if the call was a video call
+  is_video: bool,
   /// Reason why the call was discarded
   discard_reason: CallDiscardReason,
   /// Call duration, in seconds
@@ -695,6 +697,8 @@ impl MessageCall {
     RTDMessageCallBuilder { inner }
   }
 
+  pub fn is_video(&self) -> bool { self.is_video }
+
   pub fn discard_reason(&self) -> &CallDiscardReason { &self.discard_reason }
 
   pub fn duration(&self) -> i64 { self.duration }
@@ -708,6 +712,12 @@ pub struct RTDMessageCallBuilder {
 
 impl RTDMessageCallBuilder {
   pub fn build(&self) -> MessageCall { self.inner.clone() }
+
+   
+  pub fn is_video(&mut self, is_video: bool) -> &mut Self {
+    self.inner.is_video = is_video;
+    self
+  }
 
    
   pub fn discard_reason<T: AsRef<CallDiscardReason>>(&mut self, discard_reason: T) -> &mut Self {

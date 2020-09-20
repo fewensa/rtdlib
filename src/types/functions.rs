@@ -672,7 +672,7 @@ impl AsRef<AddLocalMessage> for RTDAddLocalMessageBuilder {
 
 
 
-/// Adds a message to TDLib internal log. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Adds a message to TDLib internal log. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct AddLogMessage {
   #[doc(hidden)]
@@ -2875,7 +2875,7 @@ impl AsRef<CheckRecoveryEmailAddressCode> for RTDCheckRecoveryEmailAddressCodeBu
 
 
 
-/// Removes potentially dangerous characters from the name of a file. The encoding of the file name is supposed to be UTF-8. Returns an empty string on failure. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Removes potentially dangerous characters from the name of a file. The encoding of the file name is supposed to be UTF-8. Returns an empty string on failure. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct CleanFileName {
   #[doc(hidden)]
@@ -3170,7 +3170,7 @@ impl AsRef<ClearRecentlyFoundChats> for RTDClearRecentlyFoundChatsBuilder {
 
 
 
-/// Closes the TDLib instance. All databases will be flushed to disk and properly closed. After the close completes, updateAuthorizationState with authorizationStateClosed will be sent
+/// Closes the TDLib instance. All databases will be flushed to disk and properly closed. After the close completes, updateAuthorizationState with authorizationStateClosed will be sent. Can be called before initialization
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Close {
   #[doc(hidden)]
@@ -3495,6 +3495,8 @@ pub struct CreateCall {
   user_id: i64,
   /// Description of the call protocols supported by the application
   protocol: CallProtocol,
+  /// True, if a video call needs to be created
+  is_video: bool,
   
 }
 
@@ -3520,6 +3522,8 @@ impl CreateCall {
 
   pub fn protocol(&self) -> &CallProtocol { &self.protocol }
 
+  pub fn is_video(&self) -> bool { self.is_video }
+
 }
 
 #[doc(hidden)]
@@ -3539,6 +3543,12 @@ impl RTDCreateCallBuilder {
    
   pub fn protocol<T: AsRef<CallProtocol>>(&mut self, protocol: T) -> &mut Self {
     self.inner.protocol = protocol.as_ref().clone();
+    self
+  }
+
+   
+  pub fn is_video(&mut self, is_video: bool) -> &mut Self {
+    self.inner.is_video = is_video;
     self
   }
 
@@ -5094,7 +5104,7 @@ impl AsRef<DeleteSupergroup> for RTDDeleteSupergroupBuilder {
 
 
 
-/// Closes the TDLib instance, destroying all local data without a proper logout. The current user session will remain in the list of all active sessions. All local data will be destroyed. After the destruction completes updateAuthorizationState with authorizationStateClosed will be sent
+/// Closes the TDLib instance, destroying all local data without a proper logout. The current user session will remain in the list of all active sessions. All local data will be destroyed. After the destruction completes updateAuthorizationState with authorizationStateClosed will be sent. Can be called before authorization
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Destroy {
   #[doc(hidden)]
@@ -5212,6 +5222,8 @@ pub struct DiscardCall {
   is_disconnected: bool,
   /// The call duration, in seconds
   duration: i64,
+  /// True, if the call was a video call
+  is_video: bool,
   /// Identifier of the connection used during the call
   connection_id: isize,
   
@@ -5241,6 +5253,8 @@ impl DiscardCall {
 
   pub fn duration(&self) -> i64 { self.duration }
 
+  pub fn is_video(&self) -> bool { self.is_video }
+
   pub fn connection_id(&self) -> isize { self.connection_id }
 
 }
@@ -5268,6 +5282,12 @@ impl RTDDiscardCallBuilder {
    
   pub fn duration(&mut self, duration: i64) -> &mut Self {
     self.inner.duration = duration;
+    self
+  }
+
+   
+  pub fn is_video(&mut self, is_video: bool) -> &mut Self {
+    self.inner.is_video = is_video;
     self
   }
 
@@ -6843,7 +6863,7 @@ pub struct ForwardMessages {
   /// Identifiers of the messages to forward
   message_ids: Vec<i64>,
   /// Options to be used to send the messages
-  options: SendMessageOptions,
+  options: MessageSendOptions,
   /// True, if the messages should be grouped into an album after forwarding. For this to work, no more than 10 messages may be forwarded, and all of them must be photo or video messages
   as_album: bool,
   /// True, if content of the messages needs to be copied without links to the original messages. Always true if the messages are forwarded to a secret chat
@@ -6877,7 +6897,7 @@ impl ForwardMessages {
 
   pub fn message_ids(&self) -> &Vec<i64> { &self.message_ids }
 
-  pub fn options(&self) -> &SendMessageOptions { &self.options }
+  pub fn options(&self) -> &MessageSendOptions { &self.options }
 
   pub fn as_album(&self) -> bool { self.as_album }
 
@@ -6914,7 +6934,7 @@ impl RTDForwardMessagesBuilder {
   }
 
    
-  pub fn options<T: AsRef<SendMessageOptions>>(&mut self, options: T) -> &mut Self {
+  pub fn options<T: AsRef<MessageSendOptions>>(&mut self, options: T) -> &mut Self {
     self.inner.options = options.as_ref().clone();
     self
   }
@@ -7437,7 +7457,7 @@ impl AsRef<GetAttachedStickerSets> for RTDGetAttachedStickerSetsBuilder {
 
 
 
-/// Returns the current authorization state; this is an offline request. For informational purposes only. Use updateAuthorizationState instead to maintain the current authorization state
+/// Returns the current authorization state; this is an offline request. For informational purposes only. Use updateAuthorizationState instead to maintain the current authorization state. Can be called before initialization
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetAuthorizationState {
   #[doc(hidden)]
@@ -8326,7 +8346,7 @@ impl AsRef<GetChatFilter> for RTDGetChatFilterBuilder {
 
 
 
-/// Returns default icon name for a filter. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Returns default icon name for a filter. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetChatFilterDefaultIconName {
   #[doc(hidden)]
@@ -9537,7 +9557,7 @@ impl AsRef<GetCreatedPublicChats> for RTDGetCreatedPublicChatsBuilder {
 
 
 
-/// Returns all updates needed to restore current TDLib state, i.e. all actual UpdateAuthorizationState/UpdateUser/UpdateNewChat and others. This is especially useful if TDLib is run in a separate process. This is an offline method. Can be called before authorization
+/// Returns all updates needed to restore current TDLib state, i.e. all actual UpdateAuthorizationState/UpdateUser/UpdateNewChat and others. This is especially useful if TDLib is run in a separate process. Can be called before initialization
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetCurrentState {
   #[doc(hidden)]
@@ -9958,7 +9978,7 @@ impl AsRef<GetFileDownloadedPrefixSize> for RTDGetFileDownloadedPrefixSizeBuilde
 
 
 
-/// Returns the extension of a file, guessed by its MIME type. Returns an empty string on failure. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Returns the extension of a file, guessed by its MIME type. Returns an empty string on failure. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetFileExtension {
   #[doc(hidden)]
@@ -10021,7 +10041,7 @@ impl AsRef<GetFileExtension> for RTDGetFileExtensionBuilder {
 
 
 
-/// Returns the MIME type of a file, guessed by its extension. Returns an empty string on failure. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Returns the MIME type of a file, guessed by its extension. Returns an empty string on failure. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetFileMimeType {
   #[doc(hidden)]
@@ -10648,7 +10668,7 @@ impl AsRef<GetInviteText> for RTDGetInviteTextBuilder {
 
 
 
-/// Converts a JsonValue object to corresponding JSON-serialized string. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Converts a JsonValue object to corresponding JSON-serialized string. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetJsonString {
   #[doc(hidden)]
@@ -10711,7 +10731,7 @@ impl AsRef<GetJsonString> for RTDGetJsonStringBuilder {
 
 
 
-/// Converts a JSON-serialized string to corresponding JsonValue object. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Converts a JSON-serialized string to corresponding JsonValue object. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetJsonValue {
   #[doc(hidden)]
@@ -10837,7 +10857,7 @@ impl AsRef<GetLanguagePackInfo> for RTDGetLanguagePackInfoBuilder {
 
 
 
-/// Returns a string stored in the local database from the specified localization target and language pack by its key. Returns a 404 error if the string is not found. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Returns a string stored in the local database from the specified localization target and language pack by its key. Returns a 404 error if the string is not found. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetLanguagePackString {
   #[doc(hidden)]
@@ -11066,7 +11086,7 @@ impl AsRef<GetLocalizationTargetInfo> for RTDGetLocalizationTargetInfoBuilder {
 
 
 
-/// Returns information about currently used log stream for internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Returns information about currently used log stream for internal logging of TDLib. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetLogStream {
   #[doc(hidden)]
@@ -11119,7 +11139,7 @@ impl AsRef<GetLogStream> for RTDGetLogStreamBuilder {
 
 
 
-/// Returns current verbosity level for a specified TDLib internal log tag. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Returns current verbosity level for a specified TDLib internal log tag. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetLogTagVerbosityLevel {
   #[doc(hidden)]
@@ -11182,7 +11202,7 @@ impl AsRef<GetLogTagVerbosityLevel> for RTDGetLogTagVerbosityLevelBuilder {
 
 
 
-/// Returns list of available TDLib internal log tags, for example, ["actor", "binlog", "connections", "notifications", "proxy"]. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Returns list of available TDLib internal log tags, for example, ["actor", "binlog", "connections", "notifications", "proxy"]. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetLogTags {
   #[doc(hidden)]
@@ -11235,7 +11255,7 @@ impl AsRef<GetLogTags> for RTDGetLogTagsBuilder {
 
 
 
-/// Returns current verbosity level of the internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Returns current verbosity level of the internal logging of TDLib. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetLogVerbosityLevel {
   #[doc(hidden)]
@@ -11577,7 +11597,7 @@ impl AsRef<GetMapThumbnailFile> for RTDGetMapThumbnailFileBuilder {
 
 
 
-/// Replaces text entities with Markdown formatting in a human-friendly format. Entities that can't be represented in Markdown unambiguously are kept as is. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Replaces text entities with Markdown formatting in a human-friendly format. Entities that can't be represented in Markdown unambiguously are kept as is. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetMarkdownText {
   #[doc(hidden)]
@@ -12977,7 +12997,7 @@ impl AsRef<GetPublicMessageLink> for RTDGetPublicMessageLinkBuilder {
 
 
 
-/// Returns a globally unique push notification subscription identifier for identification of an account, which has received a push notification. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Returns a globally unique push notification subscription identifier for identification of an account, which has received a push notification. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetPushReceiverId {
   #[doc(hidden)]
@@ -14406,7 +14426,7 @@ impl AsRef<GetTemporaryPasswordState> for RTDGetTemporaryPasswordStateBuilder {
 
 
 
-/// Returns all entities (mentions, hashtags, cashtags, bot commands, bank card numbers, URLs, and email addresses) contained in the text. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Returns all entities (mentions, hashtags, cashtags, bot commands, bank card numbers, URLs, and email addresses) contained in the text. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GetTextEntities {
   #[doc(hidden)]
@@ -15670,7 +15690,7 @@ impl AsRef<OptimizeStorage> for RTDOptimizeStorageBuilder {
 
 
 
-/// Parses Markdown entities in a human-friendly format, ignoring mark up errors. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Parses Markdown entities in a human-friendly format, ignoring markup errors. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ParseMarkdown {
   #[doc(hidden)]
@@ -15733,7 +15753,7 @@ impl AsRef<ParseMarkdown> for RTDParseMarkdownBuilder {
 
 
 
-/// Parses Bold, Italic, Underline, Strikethrough, Code, Pre, PreCode, TextUrl and MentionName entities contained in the text. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Parses Bold, Italic, Underline, Strikethrough, Code, Pre, PreCode, TextUrl and MentionName entities contained in the text. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ParseTextEntities {
   #[doc(hidden)]
@@ -20142,6 +20162,79 @@ impl AsRef<SendCallRating> for RTDSendCallRatingBuilder {
 
 
 
+/// Sends call signaling data
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SendCallSignalingData {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Call identifier
+  call_id: i64,
+  /// The data
+  data: String,
+  
+}
+
+impl RObject for SendCallSignalingData {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "sendCallSignalingData" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+
+
+impl RFunction for SendCallSignalingData {}
+
+impl SendCallSignalingData {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSendCallSignalingDataBuilder {
+    let mut inner = SendCallSignalingData::default();
+    inner.td_name = "sendCallSignalingData".to_string();
+    RTDSendCallSignalingDataBuilder { inner }
+  }
+
+  pub fn call_id(&self) -> i64 { self.call_id }
+
+  pub fn data(&self) -> &String { &self.data }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSendCallSignalingDataBuilder {
+  inner: SendCallSignalingData
+}
+
+impl RTDSendCallSignalingDataBuilder {
+  pub fn build(&self) -> SendCallSignalingData { self.inner.clone() }
+
+   
+  pub fn call_id(&mut self, call_id: i64) -> &mut Self {
+    self.inner.call_id = call_id;
+    self
+  }
+
+   
+  pub fn data<T: AsRef<str>>(&mut self, data: T) -> &mut Self {
+    self.inner.data = data.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<SendCallSignalingData> for SendCallSignalingData {
+  fn as_ref(&self) -> &SendCallSignalingData { self }
+}
+
+impl AsRef<SendCallSignalingData> for RTDSendCallSignalingDataBuilder {
+  fn as_ref(&self) -> &SendCallSignalingData { &self.inner }
+}
+
+
+
+
+
+
+
 /// Sends a notification about user activity in a chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SendChatAction {
@@ -20498,7 +20591,7 @@ pub struct SendInlineQueryResultMessage {
   /// Identifier of a message to reply to or 0
   reply_to_message_id: i64,
   /// Options to be used to send the message
-  options: SendMessageOptions,
+  options: MessageSendOptions,
   /// Identifier of the inline query
   query_id: isize,
   /// Identifier of the inline result
@@ -20530,7 +20623,7 @@ impl SendInlineQueryResultMessage {
 
   pub fn reply_to_message_id(&self) -> i64 { self.reply_to_message_id }
 
-  pub fn options(&self) -> &SendMessageOptions { &self.options }
+  pub fn options(&self) -> &MessageSendOptions { &self.options }
 
   pub fn query_id(&self) -> isize { self.query_id }
 
@@ -20561,7 +20654,7 @@ impl RTDSendInlineQueryResultMessageBuilder {
   }
 
    
-  pub fn options<T: AsRef<SendMessageOptions>>(&mut self, options: T) -> &mut Self {
+  pub fn options<T: AsRef<MessageSendOptions>>(&mut self, options: T) -> &mut Self {
     self.inner.options = options.as_ref().clone();
     self
   }
@@ -20611,7 +20704,7 @@ pub struct SendMessage {
   /// Identifier of the message to reply to or 0
   reply_to_message_id: i64,
   /// Options to be used to send the message
-  options: SendMessageOptions,
+  options: MessageSendOptions,
   /// Markup for replying to the message; for bots only
   reply_markup: ReplyMarkup,
   /// The content of the message to be sent
@@ -20641,7 +20734,7 @@ impl SendMessage {
 
   pub fn reply_to_message_id(&self) -> i64 { self.reply_to_message_id }
 
-  pub fn options(&self) -> &SendMessageOptions { &self.options }
+  pub fn options(&self) -> &MessageSendOptions { &self.options }
 
   pub fn reply_markup(&self) -> &ReplyMarkup { &self.reply_markup }
 
@@ -20670,7 +20763,7 @@ impl RTDSendMessageBuilder {
   }
 
    
-  pub fn options<T: AsRef<SendMessageOptions>>(&mut self, options: T) -> &mut Self {
+  pub fn options<T: AsRef<MessageSendOptions>>(&mut self, options: T) -> &mut Self {
     self.inner.options = options.as_ref().clone();
     self
   }
@@ -20714,7 +20807,7 @@ pub struct SendMessageAlbum {
   /// Identifier of a message to reply to or 0
   reply_to_message_id: i64,
   /// Options to be used to send the messages
-  options: SendMessageOptions,
+  options: MessageSendOptions,
   /// Contents of messages to be sent
   input_message_contents: Vec<InputMessageContent>,
   
@@ -20742,7 +20835,7 @@ impl SendMessageAlbum {
 
   pub fn reply_to_message_id(&self) -> i64 { self.reply_to_message_id }
 
-  pub fn options(&self) -> &SendMessageOptions { &self.options }
+  pub fn options(&self) -> &MessageSendOptions { &self.options }
 
   pub fn input_message_contents(&self) -> &Vec<InputMessageContent> { &self.input_message_contents }
 
@@ -20769,7 +20862,7 @@ impl RTDSendMessageAlbumBuilder {
   }
 
    
-  pub fn options<T: AsRef<SendMessageOptions>>(&mut self, options: T) -> &mut Self {
+  pub fn options<T: AsRef<MessageSendOptions>>(&mut self, options: T) -> &mut Self {
     self.inner.options = options.as_ref().clone();
     self
   }
@@ -21191,7 +21284,7 @@ impl AsRef<SetAccountTtl> for RTDSetAccountTtlBuilder {
 
 
 
-/// Succeeds after a specified amount of time has passed. Can be called before authorization. Can be called before initialization
+/// Succeeds after a specified amount of time has passed. Can be called before initialization
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetAlarm {
   #[doc(hidden)]
@@ -23066,7 +23159,7 @@ impl AsRef<SetLocation> for RTDSetLocationBuilder {
 
 
 
-/// Sets new log stream for internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Sets new log stream for internal logging of TDLib. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetLogStream {
   #[doc(hidden)]
@@ -23129,7 +23222,7 @@ impl AsRef<SetLogStream> for RTDSetLogStreamBuilder {
 
 
 
-/// Sets the verbosity level for a specified TDLib internal log tag. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Sets the verbosity level for a specified TDLib internal log tag. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetLogTagVerbosityLevel {
   #[doc(hidden)]
@@ -23202,7 +23295,7 @@ impl AsRef<SetLogTagVerbosityLevel> for RTDSetLogTagVerbosityLevelBuilder {
 
 
 
-/// Sets the verbosity level of the internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Sets the verbosity level of the internal logging of TDLib. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SetLogVerbosityLevel {
   #[doc(hidden)]
@@ -25554,7 +25647,7 @@ impl AsRef<TestProxy> for RTDTestProxyBuilder {
 
 
 
-/// Returns the specified error and ensures that the Error object is used; for testing only. This is an offline method. Can be called before authorization. Can be called synchronously
+/// Returns the specified error and ensures that the Error object is used; for testing only. Can be called synchronously
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TestReturnError {
   #[doc(hidden)]
