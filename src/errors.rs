@@ -33,7 +33,7 @@ impl error::Error for RTDError {
     }
   }
 
-  fn cause(&self) -> Option<&error::Error> {
+  fn cause(&self) -> Option<&dyn error::Error> {
     match *self {
       RTDError::Io(ref err) => Some(err),
       RTDError::SerdeJson(ref err) => Some(err),

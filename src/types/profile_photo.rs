@@ -12,7 +12,7 @@ pub struct ProfilePhoto {
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   /// Photo identifier; 0 for an empty photo. Can be used to find a photo in a list of userProfilePhotos
-  id: String,
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] id: isize,
   /// A small (160x160) user profile photo
   small: File,
   /// A big (640x640) user profile photo
@@ -35,7 +35,7 @@ impl ProfilePhoto {
     RTDProfilePhotoBuilder { inner }
   }
 
-  pub fn id(&self) -> &String { &self.id }
+  pub fn id(&self) -> isize { self.id }
 
   pub fn small(&self) -> &File { &self.small }
 
@@ -52,8 +52,8 @@ impl RTDProfilePhotoBuilder {
   pub fn build(&self) -> ProfilePhoto { self.inner.clone() }
 
    
-  pub fn id<T: AsRef<str>>(&mut self, id: T) -> &mut Self {
-    self.inner.id = id.as_ref().to_string();
+  pub fn id(&mut self, id: isize) -> &mut Self {
+    self.inner.id = id;
     self
   }
 

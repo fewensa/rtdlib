@@ -30,7 +30,7 @@ pub struct SupergroupFullInfo {
   /// True, if new chat members will have access to old messages. In public supergroups and both public and private channels, old messages are always available, so this option affects only private supergroups. The value of this field is only available for chat administrators
   is_all_history_available: bool,
   /// Identifier of the supergroup sticker set; 0 if none
-  sticker_set_id: String,
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] sticker_set_id: isize,
   /// Invite link for this chat
   invite_link: String,
   /// Identifier of the pinned message in the chat; 0 if none
@@ -75,7 +75,7 @@ impl SupergroupFullInfo {
 
   pub fn is_all_history_available(&self) -> bool { self.is_all_history_available }
 
-  pub fn sticker_set_id(&self) -> &String { &self.sticker_set_id }
+  pub fn sticker_set_id(&self) -> isize { self.sticker_set_id }
 
   pub fn invite_link(&self) -> &String { &self.invite_link }
 
@@ -150,8 +150,8 @@ impl RTDSupergroupFullInfoBuilder {
   }
 
    
-  pub fn sticker_set_id<T: AsRef<str>>(&mut self, sticker_set_id: T) -> &mut Self {
-    self.inner.sticker_set_id = sticker_set_id.as_ref().to_string();
+  pub fn sticker_set_id(&mut self, sticker_set_id: isize) -> &mut Self {
+    self.inner.sticker_set_id = sticker_set_id;
     self
   }
 
