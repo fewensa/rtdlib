@@ -14,7 +14,7 @@ pub struct Messages {
   /// Approximate total count of messages found
   total_count: i64,
   /// List of messages; messages may be null
-  messages: Option<Vec<Message>>,
+  messages: Vec<Option<Message>>,
   
 }
 
@@ -35,7 +35,7 @@ impl Messages {
 
   pub fn total_count(&self) -> i64 { self.total_count }
 
-  pub fn messages(&self) -> &Option<Vec<Message>> { &self.messages }
+  pub fn messages(&self) -> &Vec<Option<Message>> { &self.messages }
 
 }
 
@@ -54,8 +54,8 @@ impl RTDMessagesBuilder {
   }
 
    
-  pub fn messages(&mut self, messages: Vec<Message>) -> &mut Self {
-    self.inner.messages = Some(messages);
+  pub fn messages(&mut self, messages: Vec<Option<Message>>) -> &mut Self {
+    self.inner.messages = messages;
     self
   }
 

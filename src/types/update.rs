@@ -1096,7 +1096,7 @@ pub struct UpdateChatDraftMessage {
   /// The new draft message; may be null
   draft_message: Option<DraftMessage>,
   /// New value of the chat order
-  order: isize,
+  order: String,
   
 }
 
@@ -1122,7 +1122,7 @@ impl UpdateChatDraftMessage {
 
   pub fn draft_message(&self) -> &Option<DraftMessage> { &self.draft_message }
 
-  pub fn order(&self) -> isize { self.order }
+  pub fn order(&self) -> &String { &self.order }
 
 }
 
@@ -1147,8 +1147,8 @@ impl RTDUpdateChatDraftMessageBuilder {
   }
 
    
-  pub fn order(&mut self, order: isize) -> &mut Self {
-    self.inner.order = order;
+  pub fn order<T: AsRef<str>>(&mut self, order: T) -> &mut Self {
+    self.inner.order = order.as_ref().to_string();
     self
   }
 
@@ -1252,7 +1252,7 @@ pub struct UpdateChatIsPinned {
   /// New value of is_pinned
   is_pinned: bool,
   /// New value of the chat order
-  order: isize,
+  order: String,
   
 }
 
@@ -1278,7 +1278,7 @@ impl UpdateChatIsPinned {
 
   pub fn is_pinned(&self) -> bool { self.is_pinned }
 
-  pub fn order(&self) -> isize { self.order }
+  pub fn order(&self) -> &String { &self.order }
 
 }
 
@@ -1303,8 +1303,8 @@ impl RTDUpdateChatIsPinnedBuilder {
   }
 
    
-  pub fn order(&mut self, order: isize) -> &mut Self {
-    self.inner.order = order;
+  pub fn order<T: AsRef<str>>(&mut self, order: T) -> &mut Self {
+    self.inner.order = order.as_ref().to_string();
     self
   }
 
@@ -1335,7 +1335,7 @@ pub struct UpdateChatIsSponsored {
   /// New value of is_sponsored
   is_sponsored: bool,
   /// New value of chat order
-  order: isize,
+  order: String,
   
 }
 
@@ -1361,7 +1361,7 @@ impl UpdateChatIsSponsored {
 
   pub fn is_sponsored(&self) -> bool { self.is_sponsored }
 
-  pub fn order(&self) -> isize { self.order }
+  pub fn order(&self) -> &String { &self.order }
 
 }
 
@@ -1386,8 +1386,8 @@ impl RTDUpdateChatIsSponsoredBuilder {
   }
 
    
-  pub fn order(&mut self, order: isize) -> &mut Self {
-    self.inner.order = order;
+  pub fn order<T: AsRef<str>>(&mut self, order: T) -> &mut Self {
+    self.inner.order = order.as_ref().to_string();
     self
   }
 
@@ -1645,7 +1645,7 @@ pub struct UpdateChatOrder {
   /// Chat identifier
   chat_id: i64,
   /// New value of the order
-  order: isize,
+  order: String,
   
 }
 
@@ -1669,7 +1669,7 @@ impl UpdateChatOrder {
 
   pub fn chat_id(&self) -> i64 { self.chat_id }
 
-  pub fn order(&self) -> isize { self.order }
+  pub fn order(&self) -> &String { &self.order }
 
 }
 
@@ -1688,8 +1688,8 @@ impl RTDUpdateChatOrderBuilder {
   }
 
    
-  pub fn order(&mut self, order: isize) -> &mut Self {
-    self.inner.order = order;
+  pub fn order<T: AsRef<str>>(&mut self, order: T) -> &mut Self {
+    self.inner.order = order.as_ref().to_string();
     self
   }
 
