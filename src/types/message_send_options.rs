@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct MessageSendOptions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Pass true to disable notification for the message. Must be false if the message is sent to a secret chat
   disable_notification: bool,
   /// Pass true if the message is sent from the background
@@ -22,6 +26,7 @@ pub struct MessageSendOptions {
 
 impl RObject for MessageSendOptions {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageSendOptions" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl MessageSendOptions {
   pub fn builder() -> RTDMessageSendOptionsBuilder {
     let mut inner = MessageSendOptions::default();
     inner.td_name = "messageSendOptions".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMessageSendOptionsBuilder { inner }
   }
 

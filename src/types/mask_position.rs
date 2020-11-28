@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct MaskPosition {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Part of the face, relative to which the mask should be placed
   point: MaskPoint,
   /// Shift by X-axis measured in widths of the mask scaled to the face size, from left to right. (For example, 1.0 will place the mask just to the left of the default mask position)
@@ -24,6 +28,7 @@ pub struct MaskPosition {
 
 impl RObject for MaskPosition {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "maskPosition" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -34,6 +39,7 @@ impl MaskPosition {
   pub fn builder() -> RTDMaskPositionBuilder {
     let mut inner = MaskPosition::default();
     inner.td_name = "maskPosition".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMaskPositionBuilder { inner }
   }
 

@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct MessageCopyOptions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if content of the message needs to be copied without a link to the original message. Always true if the message is forwarded to a secret chat
   send_copy: bool,
   /// True, if media caption of the message copy needs to be replaced. Ignored if send_copy is false
@@ -22,6 +26,7 @@ pub struct MessageCopyOptions {
 
 impl RObject for MessageCopyOptions {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageCopyOptions" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl MessageCopyOptions {
   pub fn builder() -> RTDMessageCopyOptionsBuilder {
     let mut inner = MessageCopyOptions::default();
     inner.td_name = "messageCopyOptions".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMessageCopyOptionsBuilder { inner }
   }
 

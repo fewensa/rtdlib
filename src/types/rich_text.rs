@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -108,6 +109,29 @@ impl RObject for RichText {
       RichText::RichTexts(t) => t.td_name(),
 
       _ => "-1",
+    }
+  }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      RichText::Anchor(t) => t.extra(),
+      RichText::AnchorLink(t) => t.extra(),
+      RichText::Bold(t) => t.extra(),
+      RichText::EmailAddress(t) => t.extra(),
+      RichText::Fixed(t) => t.extra(),
+      RichText::Icon(t) => t.extra(),
+      RichText::Italic(t) => t.extra(),
+      RichText::Marked(t) => t.extra(),
+      RichText::PhoneNumber(t) => t.extra(),
+      RichText::Plain(t) => t.extra(),
+      RichText::Reference(t) => t.extra(),
+      RichText::Strikethrough(t) => t.extra(),
+      RichText::Subscript(t) => t.extra(),
+      RichText::Superscript(t) => t.extra(),
+      RichText::Underline(t) => t.extra(),
+      RichText::Url(t) => t.extra(),
+      RichText::RichTexts(t) => t.extra(),
+
+      _ => None,
     }
   }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
@@ -225,6 +249,9 @@ pub struct RichTextAnchor {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Anchor name
   name: String,
   
@@ -232,6 +259,7 @@ pub struct RichTextAnchor {
 
 impl RObject for RichTextAnchor {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextAnchor" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -245,6 +273,7 @@ impl RichTextAnchor {
   pub fn builder() -> RTDRichTextAnchorBuilder {
     let mut inner = RichTextAnchor::default();
     inner.td_name = "richTextAnchor".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextAnchorBuilder { inner }
   }
 
@@ -288,6 +317,9 @@ pub struct RichTextAnchorLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The link text
   text: Box<RichText>,
   /// The anchor name. If the name is empty, the link should bring back to top
@@ -299,6 +331,7 @@ pub struct RichTextAnchorLink {
 
 impl RObject for RichTextAnchorLink {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextAnchorLink" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -312,6 +345,7 @@ impl RichTextAnchorLink {
   pub fn builder() -> RTDRichTextAnchorLinkBuilder {
     let mut inner = RichTextAnchorLink::default();
     inner.td_name = "richTextAnchorLink".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextAnchorLinkBuilder { inner }
   }
 
@@ -371,6 +405,9 @@ pub struct RichTextBold {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text
   text: Box<RichText>,
   
@@ -378,6 +415,7 @@ pub struct RichTextBold {
 
 impl RObject for RichTextBold {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextBold" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -391,6 +429,7 @@ impl RichTextBold {
   pub fn builder() -> RTDRichTextBoldBuilder {
     let mut inner = RichTextBold::default();
     inner.td_name = "richTextBold".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextBoldBuilder { inner }
   }
 
@@ -434,6 +473,9 @@ pub struct RichTextEmailAddress {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text
   text: Box<RichText>,
   /// Email address
@@ -443,6 +485,7 @@ pub struct RichTextEmailAddress {
 
 impl RObject for RichTextEmailAddress {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextEmailAddress" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -456,6 +499,7 @@ impl RichTextEmailAddress {
   pub fn builder() -> RTDRichTextEmailAddressBuilder {
     let mut inner = RichTextEmailAddress::default();
     inner.td_name = "richTextEmailAddress".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextEmailAddressBuilder { inner }
   }
 
@@ -507,6 +551,9 @@ pub struct RichTextFixed {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text
   text: Box<RichText>,
   
@@ -514,6 +561,7 @@ pub struct RichTextFixed {
 
 impl RObject for RichTextFixed {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextFixed" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -527,6 +575,7 @@ impl RichTextFixed {
   pub fn builder() -> RTDRichTextFixedBuilder {
     let mut inner = RichTextFixed::default();
     inner.td_name = "richTextFixed".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextFixedBuilder { inner }
   }
 
@@ -570,6 +619,9 @@ pub struct RichTextIcon {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The image represented as a document. The image can be in GIF, JPEG or PNG format
   document: Document,
   /// Width of a bounding box in which the image should be shown; 0 if unknown
@@ -581,6 +633,7 @@ pub struct RichTextIcon {
 
 impl RObject for RichTextIcon {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextIcon" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -594,6 +647,7 @@ impl RichTextIcon {
   pub fn builder() -> RTDRichTextIconBuilder {
     let mut inner = RichTextIcon::default();
     inner.td_name = "richTextIcon".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextIconBuilder { inner }
   }
 
@@ -653,6 +707,9 @@ pub struct RichTextItalic {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text
   text: Box<RichText>,
   
@@ -660,6 +717,7 @@ pub struct RichTextItalic {
 
 impl RObject for RichTextItalic {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextItalic" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -673,6 +731,7 @@ impl RichTextItalic {
   pub fn builder() -> RTDRichTextItalicBuilder {
     let mut inner = RichTextItalic::default();
     inner.td_name = "richTextItalic".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextItalicBuilder { inner }
   }
 
@@ -716,6 +775,9 @@ pub struct RichTextMarked {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text
   text: Box<RichText>,
   
@@ -723,6 +785,7 @@ pub struct RichTextMarked {
 
 impl RObject for RichTextMarked {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextMarked" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -736,6 +799,7 @@ impl RichTextMarked {
   pub fn builder() -> RTDRichTextMarkedBuilder {
     let mut inner = RichTextMarked::default();
     inner.td_name = "richTextMarked".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextMarkedBuilder { inner }
   }
 
@@ -779,6 +843,9 @@ pub struct RichTextPhoneNumber {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text
   text: Box<RichText>,
   /// Phone number
@@ -788,6 +855,7 @@ pub struct RichTextPhoneNumber {
 
 impl RObject for RichTextPhoneNumber {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextPhoneNumber" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -801,6 +869,7 @@ impl RichTextPhoneNumber {
   pub fn builder() -> RTDRichTextPhoneNumberBuilder {
     let mut inner = RichTextPhoneNumber::default();
     inner.td_name = "richTextPhoneNumber".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextPhoneNumberBuilder { inner }
   }
 
@@ -852,6 +921,9 @@ pub struct RichTextPlain {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text
   text: Box<RichText>,
   
@@ -859,6 +931,7 @@ pub struct RichTextPlain {
 
 impl RObject for RichTextPlain {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextPlain" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -872,6 +945,7 @@ impl RichTextPlain {
   pub fn builder() -> RTDRichTextPlainBuilder {
     let mut inner = RichTextPlain::default();
     inner.td_name = "richTextPlain".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextPlainBuilder { inner }
   }
 
@@ -915,6 +989,9 @@ pub struct RichTextReference {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The text
   text: Box<RichText>,
   /// The text to show on click
@@ -926,6 +1003,7 @@ pub struct RichTextReference {
 
 impl RObject for RichTextReference {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextReference" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -939,6 +1017,7 @@ impl RichTextReference {
   pub fn builder() -> RTDRichTextReferenceBuilder {
     let mut inner = RichTextReference::default();
     inner.td_name = "richTextReference".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextReferenceBuilder { inner }
   }
 
@@ -998,6 +1077,9 @@ pub struct RichTextStrikethrough {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text
   text: Box<RichText>,
   
@@ -1005,6 +1087,7 @@ pub struct RichTextStrikethrough {
 
 impl RObject for RichTextStrikethrough {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextStrikethrough" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1018,6 +1101,7 @@ impl RichTextStrikethrough {
   pub fn builder() -> RTDRichTextStrikethroughBuilder {
     let mut inner = RichTextStrikethrough::default();
     inner.td_name = "richTextStrikethrough".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextStrikethroughBuilder { inner }
   }
 
@@ -1061,6 +1145,9 @@ pub struct RichTextSubscript {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text
   text: Box<RichText>,
   
@@ -1068,6 +1155,7 @@ pub struct RichTextSubscript {
 
 impl RObject for RichTextSubscript {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextSubscript" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1081,6 +1169,7 @@ impl RichTextSubscript {
   pub fn builder() -> RTDRichTextSubscriptBuilder {
     let mut inner = RichTextSubscript::default();
     inner.td_name = "richTextSubscript".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextSubscriptBuilder { inner }
   }
 
@@ -1124,6 +1213,9 @@ pub struct RichTextSuperscript {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text
   text: Box<RichText>,
   
@@ -1131,6 +1223,7 @@ pub struct RichTextSuperscript {
 
 impl RObject for RichTextSuperscript {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextSuperscript" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1144,6 +1237,7 @@ impl RichTextSuperscript {
   pub fn builder() -> RTDRichTextSuperscriptBuilder {
     let mut inner = RichTextSuperscript::default();
     inner.td_name = "richTextSuperscript".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextSuperscriptBuilder { inner }
   }
 
@@ -1187,6 +1281,9 @@ pub struct RichTextUnderline {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text
   text: Box<RichText>,
   
@@ -1194,6 +1291,7 @@ pub struct RichTextUnderline {
 
 impl RObject for RichTextUnderline {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextUnderline" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1207,6 +1305,7 @@ impl RichTextUnderline {
   pub fn builder() -> RTDRichTextUnderlineBuilder {
     let mut inner = RichTextUnderline::default();
     inner.td_name = "richTextUnderline".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextUnderlineBuilder { inner }
   }
 
@@ -1250,6 +1349,9 @@ pub struct RichTextUrl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text
   text: Box<RichText>,
   /// URL
@@ -1261,6 +1363,7 @@ pub struct RichTextUrl {
 
 impl RObject for RichTextUrl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTextUrl" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1274,6 +1377,7 @@ impl RichTextUrl {
   pub fn builder() -> RTDRichTextUrlBuilder {
     let mut inner = RichTextUrl::default();
     inner.td_name = "richTextUrl".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextUrlBuilder { inner }
   }
 
@@ -1333,6 +1437,9 @@ pub struct RichTexts {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Texts
   texts: Vec<RichText>,
   
@@ -1340,6 +1447,7 @@ pub struct RichTexts {
 
 impl RObject for RichTexts {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "richTexts" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1353,6 +1461,7 @@ impl RichTexts {
   pub fn builder() -> RTDRichTextsBuilder {
     let mut inner = RichTexts::default();
     inner.td_name = "richTexts".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRichTextsBuilder { inner }
   }
 

@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -54,6 +55,15 @@ impl RObject for ChatList {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      ChatList::Archive(t) => t.extra(),
+      ChatList::Filter(t) => t.extra(),
+      ChatList::Main(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -99,11 +109,15 @@ pub struct ChatListArchive {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatListArchive {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatListArchive" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -117,6 +131,7 @@ impl ChatListArchive {
   pub fn builder() -> RTDChatListArchiveBuilder {
     let mut inner = ChatListArchive::default();
     inner.td_name = "chatListArchive".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatListArchiveBuilder { inner }
   }
 
@@ -152,6 +167,9 @@ pub struct ChatListFilter {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Chat filter identifier
   chat_filter_id: i64,
   
@@ -159,6 +177,7 @@ pub struct ChatListFilter {
 
 impl RObject for ChatListFilter {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatListFilter" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -172,6 +191,7 @@ impl ChatListFilter {
   pub fn builder() -> RTDChatListFilterBuilder {
     let mut inner = ChatListFilter::default();
     inner.td_name = "chatListFilter".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatListFilterBuilder { inner }
   }
 
@@ -215,11 +235,15 @@ pub struct ChatListMain {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatListMain {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatListMain" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -233,6 +257,7 @@ impl ChatListMain {
   pub fn builder() -> RTDChatListMainBuilder {
     let mut inner = ChatListMain::default();
     inner.td_name = "chatListMain".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatListMainBuilder { inner }
   }
 

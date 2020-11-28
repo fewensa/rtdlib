@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct SupergroupFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Chat photo; may be null
   photo: Option<ChatPhoto>,
   /// Contains full information about a supergroup or channel
@@ -56,6 +60,7 @@ pub struct SupergroupFullInfo {
 
 impl RObject for SupergroupFullInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "supergroupFullInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -66,6 +71,7 @@ impl SupergroupFullInfo {
   pub fn builder() -> RTDSupergroupFullInfoBuilder {
     let mut inner = SupergroupFullInfo::default();
     inner.td_name = "supergroupFullInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDSupergroupFullInfoBuilder { inner }
   }
 

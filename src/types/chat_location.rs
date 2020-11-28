@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ChatLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The location
   location: Location,
   /// Location address; 1-64 characters, as defined by the chat owner
@@ -20,6 +24,7 @@ pub struct ChatLocation {
 
 impl RObject for ChatLocation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatLocation" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl ChatLocation {
   pub fn builder() -> RTDChatLocationBuilder {
     let mut inner = ChatLocation::default();
     inner.td_name = "chatLocation".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatLocationBuilder { inner }
   }
 

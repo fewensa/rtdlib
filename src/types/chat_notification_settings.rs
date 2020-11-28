@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ChatNotificationSettings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// If true, mute_for is ignored and the value for the relevant type of chat is used instead
   use_default_mute_for: bool,
   /// Time left before notifications will be unmuted, in seconds
@@ -36,6 +40,7 @@ pub struct ChatNotificationSettings {
 
 impl RObject for ChatNotificationSettings {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatNotificationSettings" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -46,6 +51,7 @@ impl ChatNotificationSettings {
   pub fn builder() -> RTDChatNotificationSettingsBuilder {
     let mut inner = ChatNotificationSettings::default();
     inner.td_name = "chatNotificationSettings".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatNotificationSettingsBuilder { inner }
   }
 

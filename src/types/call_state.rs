@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -66,6 +67,18 @@ impl RObject for CallState {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      CallState::Discarded(t) => t.extra(),
+      CallState::Error(t) => t.extra(),
+      CallState::ExchangingKeys(t) => t.extra(),
+      CallState::HangingUp(t) => t.extra(),
+      CallState::Pending(t) => t.extra(),
+      CallState::Ready(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -126,6 +139,9 @@ pub struct CallStateDiscarded {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The reason, why the call has ended
   reason: CallDiscardReason,
   /// True, if the call rating should be sent to the server
@@ -137,6 +153,7 @@ pub struct CallStateDiscarded {
 
 impl RObject for CallStateDiscarded {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callStateDiscarded" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -150,6 +167,7 @@ impl CallStateDiscarded {
   pub fn builder() -> RTDCallStateDiscardedBuilder {
     let mut inner = CallStateDiscarded::default();
     inner.td_name = "callStateDiscarded".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallStateDiscardedBuilder { inner }
   }
 
@@ -209,6 +227,9 @@ pub struct CallStateError {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Error. An error with the code 4005000 will be returned if an outgoing call is missed because of an expired timeout
   error: Error,
   
@@ -216,6 +237,7 @@ pub struct CallStateError {
 
 impl RObject for CallStateError {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callStateError" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -229,6 +251,7 @@ impl CallStateError {
   pub fn builder() -> RTDCallStateErrorBuilder {
     let mut inner = CallStateError::default();
     inner.td_name = "callStateError".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallStateErrorBuilder { inner }
   }
 
@@ -272,11 +295,15 @@ pub struct CallStateExchangingKeys {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CallStateExchangingKeys {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callStateExchangingKeys" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -290,6 +317,7 @@ impl CallStateExchangingKeys {
   pub fn builder() -> RTDCallStateExchangingKeysBuilder {
     let mut inner = CallStateExchangingKeys::default();
     inner.td_name = "callStateExchangingKeys".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallStateExchangingKeysBuilder { inner }
   }
 
@@ -325,11 +353,15 @@ pub struct CallStateHangingUp {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CallStateHangingUp {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callStateHangingUp" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -343,6 +375,7 @@ impl CallStateHangingUp {
   pub fn builder() -> RTDCallStateHangingUpBuilder {
     let mut inner = CallStateHangingUp::default();
     inner.td_name = "callStateHangingUp".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallStateHangingUpBuilder { inner }
   }
 
@@ -378,6 +411,9 @@ pub struct CallStatePending {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if the call has already been created by the server
   is_created: bool,
   /// True, if the call has already been received by the other party
@@ -387,6 +423,7 @@ pub struct CallStatePending {
 
 impl RObject for CallStatePending {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callStatePending" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -400,6 +437,7 @@ impl CallStatePending {
   pub fn builder() -> RTDCallStatePendingBuilder {
     let mut inner = CallStatePending::default();
     inner.td_name = "callStatePending".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallStatePendingBuilder { inner }
   }
 
@@ -451,6 +489,9 @@ pub struct CallStateReady {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Call protocols supported by the peer
   protocol: CallProtocol,
   /// List of available call servers
@@ -468,6 +509,7 @@ pub struct CallStateReady {
 
 impl RObject for CallStateReady {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callStateReady" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -481,6 +523,7 @@ impl CallStateReady {
   pub fn builder() -> RTDCallStateReadyBuilder {
     let mut inner = CallStateReady::default();
     inner.td_name = "callStateReady".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallStateReadyBuilder { inner }
   }
 

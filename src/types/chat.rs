@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Chat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Chat unique identifier
   id: i64,
   /// Type of the chat
@@ -24,7 +28,7 @@ pub struct Chat {
   /// Last message in the chat; may be null
   last_message: Option<Message>,
   /// Positions of the chat in chat lists
-  positions: Vec<ChatPosition>,
+  positions: Option<Vec<ChatPosition>>,
   /// True, if the chat is marked as unread
   is_marked_as_unread: bool,
   /// True, if the chat has scheduled messages
@@ -62,6 +66,7 @@ pub struct Chat {
 
 impl RObject for Chat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chat" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -72,6 +77,7 @@ impl Chat {
   pub fn builder() -> RTDChatBuilder {
     let mut inner = Chat::default();
     inner.td_name = "chat".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatBuilder { inner }
   }
 
@@ -87,7 +93,7 @@ impl Chat {
 
   pub fn last_message(&self) -> &Option<Message> { &self.last_message }
 
-  pub fn positions(&self) -> &Vec<ChatPosition> { &self.positions }
+  pub fn positions(&self) -> &Option<Vec<ChatPosition>> { &self.positions }
 
   pub fn is_marked_as_unread(&self) -> bool { self.is_marked_as_unread }
 
@@ -169,7 +175,7 @@ impl RTDChatBuilder {
 
    
   pub fn positions(&mut self, positions: Vec<ChatPosition>) -> &mut Self {
-    self.inner.positions = positions;
+    self.inner.positions = Some(positions);
     self
   }
 

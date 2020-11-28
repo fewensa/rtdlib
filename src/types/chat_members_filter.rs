@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -66,6 +67,18 @@ impl RObject for ChatMembersFilter {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      ChatMembersFilter::Administrators(t) => t.extra(),
+      ChatMembersFilter::Banned(t) => t.extra(),
+      ChatMembersFilter::Bots(t) => t.extra(),
+      ChatMembersFilter::Contacts(t) => t.extra(),
+      ChatMembersFilter::Members(t) => t.extra(),
+      ChatMembersFilter::Restricted(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -126,11 +139,15 @@ pub struct ChatMembersFilterAdministrators {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatMembersFilterAdministrators {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMembersFilterAdministrators" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -144,6 +161,7 @@ impl ChatMembersFilterAdministrators {
   pub fn builder() -> RTDChatMembersFilterAdministratorsBuilder {
     let mut inner = ChatMembersFilterAdministrators::default();
     inner.td_name = "chatMembersFilterAdministrators".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatMembersFilterAdministratorsBuilder { inner }
   }
 
@@ -179,11 +197,15 @@ pub struct ChatMembersFilterBanned {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatMembersFilterBanned {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMembersFilterBanned" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -197,6 +219,7 @@ impl ChatMembersFilterBanned {
   pub fn builder() -> RTDChatMembersFilterBannedBuilder {
     let mut inner = ChatMembersFilterBanned::default();
     inner.td_name = "chatMembersFilterBanned".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatMembersFilterBannedBuilder { inner }
   }
 
@@ -232,11 +255,15 @@ pub struct ChatMembersFilterBots {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatMembersFilterBots {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMembersFilterBots" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -250,6 +277,7 @@ impl ChatMembersFilterBots {
   pub fn builder() -> RTDChatMembersFilterBotsBuilder {
     let mut inner = ChatMembersFilterBots::default();
     inner.td_name = "chatMembersFilterBots".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatMembersFilterBotsBuilder { inner }
   }
 
@@ -285,11 +313,15 @@ pub struct ChatMembersFilterContacts {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatMembersFilterContacts {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMembersFilterContacts" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -303,6 +335,7 @@ impl ChatMembersFilterContacts {
   pub fn builder() -> RTDChatMembersFilterContactsBuilder {
     let mut inner = ChatMembersFilterContacts::default();
     inner.td_name = "chatMembersFilterContacts".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatMembersFilterContactsBuilder { inner }
   }
 
@@ -338,11 +371,15 @@ pub struct ChatMembersFilterMembers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatMembersFilterMembers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMembersFilterMembers" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -356,6 +393,7 @@ impl ChatMembersFilterMembers {
   pub fn builder() -> RTDChatMembersFilterMembersBuilder {
     let mut inner = ChatMembersFilterMembers::default();
     inner.td_name = "chatMembersFilterMembers".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatMembersFilterMembersBuilder { inner }
   }
 
@@ -391,11 +429,15 @@ pub struct ChatMembersFilterRestricted {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatMembersFilterRestricted {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMembersFilterRestricted" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -409,6 +451,7 @@ impl ChatMembersFilterRestricted {
   pub fn builder() -> RTDChatMembersFilterRestrictedBuilder {
     let mut inner = ChatMembersFilterRestricted::default();
     inner.td_name = "chatMembersFilterRestricted".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatMembersFilterRestrictedBuilder { inner }
   }
 

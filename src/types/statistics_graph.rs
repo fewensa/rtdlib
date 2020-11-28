@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -58,6 +59,16 @@ impl RObject for StatisticsGraph {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      StatisticsGraph::GetChatStatisticsGraph(t) => t.extra(),
+      StatisticsGraph::Async(t) => t.extra(),
+      StatisticsGraph::Data(t) => t.extra(),
+      StatisticsGraph::Error(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -108,6 +119,9 @@ pub struct StatisticsGraphAsync {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The token to use for data loading
   token: String,
   
@@ -115,6 +129,7 @@ pub struct StatisticsGraphAsync {
 
 impl RObject for StatisticsGraphAsync {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "statisticsGraphAsync" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -128,6 +143,7 @@ impl StatisticsGraphAsync {
   pub fn builder() -> RTDStatisticsGraphAsyncBuilder {
     let mut inner = StatisticsGraphAsync::default();
     inner.td_name = "statisticsGraphAsync".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDStatisticsGraphAsyncBuilder { inner }
   }
 
@@ -171,6 +187,9 @@ pub struct StatisticsGraphData {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Graph data in JSON format
   json_data: String,
   /// If non-empty, a token which can be used to receive a zoomed in graph
@@ -180,6 +199,7 @@ pub struct StatisticsGraphData {
 
 impl RObject for StatisticsGraphData {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "statisticsGraphData" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -193,6 +213,7 @@ impl StatisticsGraphData {
   pub fn builder() -> RTDStatisticsGraphDataBuilder {
     let mut inner = StatisticsGraphData::default();
     inner.td_name = "statisticsGraphData".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDStatisticsGraphDataBuilder { inner }
   }
 
@@ -244,6 +265,9 @@ pub struct StatisticsGraphError {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The error message
   error_message: String,
   
@@ -251,6 +275,7 @@ pub struct StatisticsGraphError {
 
 impl RObject for StatisticsGraphError {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "statisticsGraphError" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -264,6 +289,7 @@ impl StatisticsGraphError {
   pub fn builder() -> RTDStatisticsGraphErrorBuilder {
     let mut inner = StatisticsGraphError::default();
     inner.td_name = "statisticsGraphError".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDStatisticsGraphErrorBuilder { inner }
   }
 

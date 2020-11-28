@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct DateRange {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Point in time (Unix timestamp) at which the date range begins
   start_date: i64,
   /// Point in time (Unix timestamp) at which the date range ends
@@ -20,6 +24,7 @@ pub struct DateRange {
 
 impl RObject for DateRange {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "dateRange" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl DateRange {
   pub fn builder() -> RTDDateRangeBuilder {
     let mut inner = DateRange::default();
     inner.td_name = "dateRange".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDDateRangeBuilder { inner }
   }
 

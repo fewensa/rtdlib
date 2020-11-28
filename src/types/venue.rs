@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Venue {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Venue location; as defined by the sender
   location: Location,
   /// Venue name; as defined by the sender
@@ -28,6 +32,7 @@ pub struct Venue {
 
 impl RObject for Venue {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "venue" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -38,6 +43,7 @@ impl Venue {
   pub fn builder() -> RTDVenueBuilder {
     let mut inner = Venue::default();
     inner.td_name = "venue".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDVenueBuilder { inner }
   }
 

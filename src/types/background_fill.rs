@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -50,6 +51,14 @@ impl RObject for BackgroundFill {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      BackgroundFill::Gradient(t) => t.extra(),
+      BackgroundFill::Solid(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -90,6 +99,9 @@ pub struct BackgroundFillGradient {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// A top color of the background in the RGB24 format
   top_color: i64,
   /// A bottom color of the background in the RGB24 format
@@ -101,6 +113,7 @@ pub struct BackgroundFillGradient {
 
 impl RObject for BackgroundFillGradient {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "backgroundFillGradient" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -114,6 +127,7 @@ impl BackgroundFillGradient {
   pub fn builder() -> RTDBackgroundFillGradientBuilder {
     let mut inner = BackgroundFillGradient::default();
     inner.td_name = "backgroundFillGradient".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDBackgroundFillGradientBuilder { inner }
   }
 
@@ -173,6 +187,9 @@ pub struct BackgroundFillSolid {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// A color of the background in the RGB24 format
   color: i64,
   
@@ -180,6 +197,7 @@ pub struct BackgroundFillSolid {
 
 impl RObject for BackgroundFillSolid {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "backgroundFillSolid" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -193,6 +211,7 @@ impl BackgroundFillSolid {
   pub fn builder() -> RTDBackgroundFillSolidBuilder {
     let mut inner = BackgroundFillSolid::default();
     inner.td_name = "backgroundFillSolid".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDBackgroundFillSolidBuilder { inner }
   }
 

@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -54,6 +55,15 @@ impl RObject for MessageForwardOrigin {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      MessageForwardOrigin::Channel(t) => t.extra(),
+      MessageForwardOrigin::HiddenUser(t) => t.extra(),
+      MessageForwardOrigin::User(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -99,6 +109,9 @@ pub struct MessageForwardOriginChannel {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Identifier of the chat from which the message was originally forwarded
   chat_id: i64,
   /// Message identifier of the original message; 0 if unknown
@@ -110,6 +123,7 @@ pub struct MessageForwardOriginChannel {
 
 impl RObject for MessageForwardOriginChannel {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageForwardOriginChannel" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -123,6 +137,7 @@ impl MessageForwardOriginChannel {
   pub fn builder() -> RTDMessageForwardOriginChannelBuilder {
     let mut inner = MessageForwardOriginChannel::default();
     inner.td_name = "messageForwardOriginChannel".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMessageForwardOriginChannelBuilder { inner }
   }
 
@@ -182,6 +197,9 @@ pub struct MessageForwardOriginHiddenUser {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Name of the sender
   sender_name: String,
   
@@ -189,6 +207,7 @@ pub struct MessageForwardOriginHiddenUser {
 
 impl RObject for MessageForwardOriginHiddenUser {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageForwardOriginHiddenUser" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -202,6 +221,7 @@ impl MessageForwardOriginHiddenUser {
   pub fn builder() -> RTDMessageForwardOriginHiddenUserBuilder {
     let mut inner = MessageForwardOriginHiddenUser::default();
     inner.td_name = "messageForwardOriginHiddenUser".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMessageForwardOriginHiddenUserBuilder { inner }
   }
 
@@ -245,6 +265,9 @@ pub struct MessageForwardOriginUser {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Identifier of the user that originally sent the message
   sender_user_id: i64,
   
@@ -252,6 +275,7 @@ pub struct MessageForwardOriginUser {
 
 impl RObject for MessageForwardOriginUser {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageForwardOriginUser" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -265,6 +289,7 @@ impl MessageForwardOriginUser {
   pub fn builder() -> RTDMessageForwardOriginUserBuilder {
     let mut inner = MessageForwardOriginUser::default();
     inner.td_name = "messageForwardOriginUser".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMessageForwardOriginUserBuilder { inner }
   }
 

@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -128,6 +129,34 @@ impl RObject for ChatEventAction {
       ChatEventAction::ChatEventUsernameChanged(t) => t.td_name(),
 
       _ => "-1",
+    }
+  }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      ChatEventAction::ChatEventDescriptionChanged(t) => t.extra(),
+      ChatEventAction::ChatEventInvitesToggled(t) => t.extra(),
+      ChatEventAction::ChatEventIsAllHistoryAvailableToggled(t) => t.extra(),
+      ChatEventAction::ChatEventLinkedChatChanged(t) => t.extra(),
+      ChatEventAction::ChatEventLocationChanged(t) => t.extra(),
+      ChatEventAction::ChatEventMemberInvited(t) => t.extra(),
+      ChatEventAction::ChatEventMemberJoined(t) => t.extra(),
+      ChatEventAction::ChatEventMemberLeft(t) => t.extra(),
+      ChatEventAction::ChatEventMemberPromoted(t) => t.extra(),
+      ChatEventAction::ChatEventMemberRestricted(t) => t.extra(),
+      ChatEventAction::ChatEventMessageDeleted(t) => t.extra(),
+      ChatEventAction::ChatEventMessageEdited(t) => t.extra(),
+      ChatEventAction::ChatEventMessagePinned(t) => t.extra(),
+      ChatEventAction::ChatEventMessageUnpinned(t) => t.extra(),
+      ChatEventAction::ChatEventPermissionsChanged(t) => t.extra(),
+      ChatEventAction::ChatEventPhotoChanged(t) => t.extra(),
+      ChatEventAction::ChatEventPollStopped(t) => t.extra(),
+      ChatEventAction::ChatEventSignMessagesToggled(t) => t.extra(),
+      ChatEventAction::ChatEventSlowModeDelayChanged(t) => t.extra(),
+      ChatEventAction::ChatEventStickerSetChanged(t) => t.extra(),
+      ChatEventAction::ChatEventTitleChanged(t) => t.extra(),
+      ChatEventAction::ChatEventUsernameChanged(t) => t.extra(),
+
+      _ => None,
     }
   }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
@@ -270,6 +299,9 @@ pub struct ChatEventDescriptionChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Previous chat description
   old_description: String,
   /// New chat description
@@ -279,6 +311,7 @@ pub struct ChatEventDescriptionChanged {
 
 impl RObject for ChatEventDescriptionChanged {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventDescriptionChanged" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -292,6 +325,7 @@ impl ChatEventDescriptionChanged {
   pub fn builder() -> RTDChatEventDescriptionChangedBuilder {
     let mut inner = ChatEventDescriptionChanged::default();
     inner.td_name = "chatEventDescriptionChanged".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventDescriptionChangedBuilder { inner }
   }
 
@@ -343,6 +377,9 @@ pub struct ChatEventInvitesToggled {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// New value of can_invite_users permission
   can_invite_users: bool,
   
@@ -350,6 +387,7 @@ pub struct ChatEventInvitesToggled {
 
 impl RObject for ChatEventInvitesToggled {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventInvitesToggled" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -363,6 +401,7 @@ impl ChatEventInvitesToggled {
   pub fn builder() -> RTDChatEventInvitesToggledBuilder {
     let mut inner = ChatEventInvitesToggled::default();
     inner.td_name = "chatEventInvitesToggled".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventInvitesToggledBuilder { inner }
   }
 
@@ -406,6 +445,9 @@ pub struct ChatEventIsAllHistoryAvailableToggled {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// New value of is_all_history_available
   is_all_history_available: bool,
   
@@ -413,6 +455,7 @@ pub struct ChatEventIsAllHistoryAvailableToggled {
 
 impl RObject for ChatEventIsAllHistoryAvailableToggled {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventIsAllHistoryAvailableToggled" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -426,6 +469,7 @@ impl ChatEventIsAllHistoryAvailableToggled {
   pub fn builder() -> RTDChatEventIsAllHistoryAvailableToggledBuilder {
     let mut inner = ChatEventIsAllHistoryAvailableToggled::default();
     inner.td_name = "chatEventIsAllHistoryAvailableToggled".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventIsAllHistoryAvailableToggledBuilder { inner }
   }
 
@@ -469,6 +513,9 @@ pub struct ChatEventLinkedChatChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Previous supergroup linked chat identifier
   old_linked_chat_id: i64,
   /// New supergroup linked chat identifier
@@ -478,6 +525,7 @@ pub struct ChatEventLinkedChatChanged {
 
 impl RObject for ChatEventLinkedChatChanged {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventLinkedChatChanged" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -491,6 +539,7 @@ impl ChatEventLinkedChatChanged {
   pub fn builder() -> RTDChatEventLinkedChatChangedBuilder {
     let mut inner = ChatEventLinkedChatChanged::default();
     inner.td_name = "chatEventLinkedChatChanged".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventLinkedChatChangedBuilder { inner }
   }
 
@@ -542,6 +591,9 @@ pub struct ChatEventLocationChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Previous location; may be null
   old_location: Option<ChatLocation>,
   /// New location; may be null
@@ -551,6 +603,7 @@ pub struct ChatEventLocationChanged {
 
 impl RObject for ChatEventLocationChanged {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventLocationChanged" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -564,6 +617,7 @@ impl ChatEventLocationChanged {
   pub fn builder() -> RTDChatEventLocationChangedBuilder {
     let mut inner = ChatEventLocationChanged::default();
     inner.td_name = "chatEventLocationChanged".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventLocationChangedBuilder { inner }
   }
 
@@ -615,6 +669,9 @@ pub struct ChatEventMemberInvited {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// New member user identifier
   user_id: i64,
   /// New member status
@@ -624,6 +681,7 @@ pub struct ChatEventMemberInvited {
 
 impl RObject for ChatEventMemberInvited {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMemberInvited" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -637,6 +695,7 @@ impl ChatEventMemberInvited {
   pub fn builder() -> RTDChatEventMemberInvitedBuilder {
     let mut inner = ChatEventMemberInvited::default();
     inner.td_name = "chatEventMemberInvited".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventMemberInvitedBuilder { inner }
   }
 
@@ -688,11 +747,15 @@ pub struct ChatEventMemberJoined {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatEventMemberJoined {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMemberJoined" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -706,6 +769,7 @@ impl ChatEventMemberJoined {
   pub fn builder() -> RTDChatEventMemberJoinedBuilder {
     let mut inner = ChatEventMemberJoined::default();
     inner.td_name = "chatEventMemberJoined".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventMemberJoinedBuilder { inner }
   }
 
@@ -741,11 +805,15 @@ pub struct ChatEventMemberLeft {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatEventMemberLeft {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMemberLeft" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -759,6 +827,7 @@ impl ChatEventMemberLeft {
   pub fn builder() -> RTDChatEventMemberLeftBuilder {
     let mut inner = ChatEventMemberLeft::default();
     inner.td_name = "chatEventMemberLeft".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventMemberLeftBuilder { inner }
   }
 
@@ -794,6 +863,9 @@ pub struct ChatEventMemberPromoted {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Chat member user identifier
   user_id: i64,
   /// Previous status of the chat member
@@ -805,6 +877,7 @@ pub struct ChatEventMemberPromoted {
 
 impl RObject for ChatEventMemberPromoted {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMemberPromoted" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -818,6 +891,7 @@ impl ChatEventMemberPromoted {
   pub fn builder() -> RTDChatEventMemberPromotedBuilder {
     let mut inner = ChatEventMemberPromoted::default();
     inner.td_name = "chatEventMemberPromoted".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventMemberPromotedBuilder { inner }
   }
 
@@ -877,6 +951,9 @@ pub struct ChatEventMemberRestricted {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Chat member user identifier
   user_id: i64,
   /// Previous status of the chat member
@@ -888,6 +965,7 @@ pub struct ChatEventMemberRestricted {
 
 impl RObject for ChatEventMemberRestricted {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMemberRestricted" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -901,6 +979,7 @@ impl ChatEventMemberRestricted {
   pub fn builder() -> RTDChatEventMemberRestrictedBuilder {
     let mut inner = ChatEventMemberRestricted::default();
     inner.td_name = "chatEventMemberRestricted".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventMemberRestrictedBuilder { inner }
   }
 
@@ -960,6 +1039,9 @@ pub struct ChatEventMessageDeleted {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Deleted message
   message: Message,
   
@@ -967,6 +1049,7 @@ pub struct ChatEventMessageDeleted {
 
 impl RObject for ChatEventMessageDeleted {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMessageDeleted" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -980,6 +1063,7 @@ impl ChatEventMessageDeleted {
   pub fn builder() -> RTDChatEventMessageDeletedBuilder {
     let mut inner = ChatEventMessageDeleted::default();
     inner.td_name = "chatEventMessageDeleted".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventMessageDeletedBuilder { inner }
   }
 
@@ -1023,6 +1107,9 @@ pub struct ChatEventMessageEdited {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The original message before the edit
   old_message: Message,
   /// The message after it was edited
@@ -1032,6 +1119,7 @@ pub struct ChatEventMessageEdited {
 
 impl RObject for ChatEventMessageEdited {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMessageEdited" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1045,6 +1133,7 @@ impl ChatEventMessageEdited {
   pub fn builder() -> RTDChatEventMessageEditedBuilder {
     let mut inner = ChatEventMessageEdited::default();
     inner.td_name = "chatEventMessageEdited".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventMessageEditedBuilder { inner }
   }
 
@@ -1096,6 +1185,9 @@ pub struct ChatEventMessagePinned {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Pinned message
   message: Message,
   
@@ -1103,6 +1195,7 @@ pub struct ChatEventMessagePinned {
 
 impl RObject for ChatEventMessagePinned {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMessagePinned" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1116,6 +1209,7 @@ impl ChatEventMessagePinned {
   pub fn builder() -> RTDChatEventMessagePinnedBuilder {
     let mut inner = ChatEventMessagePinned::default();
     inner.td_name = "chatEventMessagePinned".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventMessagePinnedBuilder { inner }
   }
 
@@ -1159,11 +1253,15 @@ pub struct ChatEventMessageUnpinned {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatEventMessageUnpinned {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMessageUnpinned" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1177,6 +1275,7 @@ impl ChatEventMessageUnpinned {
   pub fn builder() -> RTDChatEventMessageUnpinnedBuilder {
     let mut inner = ChatEventMessageUnpinned::default();
     inner.td_name = "chatEventMessageUnpinned".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventMessageUnpinnedBuilder { inner }
   }
 
@@ -1212,6 +1311,9 @@ pub struct ChatEventPermissionsChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Previous chat permissions
   old_permissions: ChatPermissions,
   /// New chat permissions
@@ -1221,6 +1323,7 @@ pub struct ChatEventPermissionsChanged {
 
 impl RObject for ChatEventPermissionsChanged {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventPermissionsChanged" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1234,6 +1337,7 @@ impl ChatEventPermissionsChanged {
   pub fn builder() -> RTDChatEventPermissionsChangedBuilder {
     let mut inner = ChatEventPermissionsChanged::default();
     inner.td_name = "chatEventPermissionsChanged".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventPermissionsChangedBuilder { inner }
   }
 
@@ -1285,6 +1389,9 @@ pub struct ChatEventPhotoChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Previous chat photo value; may be null
   old_photo: Option<ChatPhoto>,
   /// New chat photo value; may be null
@@ -1294,6 +1401,7 @@ pub struct ChatEventPhotoChanged {
 
 impl RObject for ChatEventPhotoChanged {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventPhotoChanged" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1307,6 +1415,7 @@ impl ChatEventPhotoChanged {
   pub fn builder() -> RTDChatEventPhotoChangedBuilder {
     let mut inner = ChatEventPhotoChanged::default();
     inner.td_name = "chatEventPhotoChanged".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventPhotoChangedBuilder { inner }
   }
 
@@ -1358,6 +1467,9 @@ pub struct ChatEventPollStopped {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The message with the poll
   message: Message,
   
@@ -1365,6 +1477,7 @@ pub struct ChatEventPollStopped {
 
 impl RObject for ChatEventPollStopped {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventPollStopped" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1378,6 +1491,7 @@ impl ChatEventPollStopped {
   pub fn builder() -> RTDChatEventPollStoppedBuilder {
     let mut inner = ChatEventPollStopped::default();
     inner.td_name = "chatEventPollStopped".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventPollStoppedBuilder { inner }
   }
 
@@ -1421,6 +1535,9 @@ pub struct ChatEventSignMessagesToggled {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// New value of sign_messages
   sign_messages: bool,
   
@@ -1428,6 +1545,7 @@ pub struct ChatEventSignMessagesToggled {
 
 impl RObject for ChatEventSignMessagesToggled {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventSignMessagesToggled" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1441,6 +1559,7 @@ impl ChatEventSignMessagesToggled {
   pub fn builder() -> RTDChatEventSignMessagesToggledBuilder {
     let mut inner = ChatEventSignMessagesToggled::default();
     inner.td_name = "chatEventSignMessagesToggled".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventSignMessagesToggledBuilder { inner }
   }
 
@@ -1484,6 +1603,9 @@ pub struct ChatEventSlowModeDelayChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Previous value of slow_mode_delay
   old_slow_mode_delay: i64,
   /// New value of slow_mode_delay
@@ -1493,6 +1615,7 @@ pub struct ChatEventSlowModeDelayChanged {
 
 impl RObject for ChatEventSlowModeDelayChanged {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventSlowModeDelayChanged" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1506,6 +1629,7 @@ impl ChatEventSlowModeDelayChanged {
   pub fn builder() -> RTDChatEventSlowModeDelayChangedBuilder {
     let mut inner = ChatEventSlowModeDelayChanged::default();
     inner.td_name = "chatEventSlowModeDelayChanged".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventSlowModeDelayChangedBuilder { inner }
   }
 
@@ -1557,6 +1681,9 @@ pub struct ChatEventStickerSetChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Previous identifier of the chat sticker set; 0 if none
   old_sticker_set_id: isize,
   /// New identifier of the chat sticker set; 0 if none
@@ -1566,6 +1693,7 @@ pub struct ChatEventStickerSetChanged {
 
 impl RObject for ChatEventStickerSetChanged {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventStickerSetChanged" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1579,6 +1707,7 @@ impl ChatEventStickerSetChanged {
   pub fn builder() -> RTDChatEventStickerSetChangedBuilder {
     let mut inner = ChatEventStickerSetChanged::default();
     inner.td_name = "chatEventStickerSetChanged".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventStickerSetChangedBuilder { inner }
   }
 
@@ -1630,6 +1759,9 @@ pub struct ChatEventTitleChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Previous chat title
   old_title: String,
   /// New chat title
@@ -1639,6 +1771,7 @@ pub struct ChatEventTitleChanged {
 
 impl RObject for ChatEventTitleChanged {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventTitleChanged" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1652,6 +1785,7 @@ impl ChatEventTitleChanged {
   pub fn builder() -> RTDChatEventTitleChangedBuilder {
     let mut inner = ChatEventTitleChanged::default();
     inner.td_name = "chatEventTitleChanged".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventTitleChangedBuilder { inner }
   }
 
@@ -1703,6 +1837,9 @@ pub struct ChatEventUsernameChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Previous chat username
   old_username: String,
   /// New chat username
@@ -1712,6 +1849,7 @@ pub struct ChatEventUsernameChanged {
 
 impl RObject for ChatEventUsernameChanged {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventUsernameChanged" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1725,6 +1863,7 @@ impl ChatEventUsernameChanged {
   pub fn builder() -> RTDChatEventUsernameChangedBuilder {
     let mut inner = ChatEventUsernameChanged::default();
     inner.td_name = "chatEventUsernameChanged".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventUsernameChangedBuilder { inner }
   }
 

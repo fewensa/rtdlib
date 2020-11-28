@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -50,6 +51,14 @@ impl RObject for PollType {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      PollType::Quiz(t) => t.extra(),
+      PollType::Regular(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -90,6 +99,9 @@ pub struct PollTypeQuiz {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// 0-based identifier of the correct answer option; 1 for a yet unanswered poll
   correct_option_id: i64,
   /// Text that is shown when the user chooses an incorrect answer or taps on the lamp icon, 0-200 characters with at most 2 line feeds; empty for a yet unanswered poll
@@ -99,6 +111,7 @@ pub struct PollTypeQuiz {
 
 impl RObject for PollTypeQuiz {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pollTypeQuiz" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -112,6 +125,7 @@ impl PollTypeQuiz {
   pub fn builder() -> RTDPollTypeQuizBuilder {
     let mut inner = PollTypeQuiz::default();
     inner.td_name = "pollTypeQuiz".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPollTypeQuizBuilder { inner }
   }
 
@@ -163,6 +177,9 @@ pub struct PollTypeRegular {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if multiple answer options can be chosen simultaneously
   allow_multiple_answers: bool,
   
@@ -170,6 +187,7 @@ pub struct PollTypeRegular {
 
 impl RObject for PollTypeRegular {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pollTypeRegular" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -183,6 +201,7 @@ impl PollTypeRegular {
   pub fn builder() -> RTDPollTypeRegularBuilder {
     let mut inner = PollTypeRegular::default();
     inner.td_name = "pollTypeRegular".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPollTypeRegularBuilder { inner }
   }
 

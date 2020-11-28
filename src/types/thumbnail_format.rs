@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -66,6 +67,18 @@ impl RObject for ThumbnailFormat {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      ThumbnailFormat::Gif(t) => t.extra(),
+      ThumbnailFormat::Jpeg(t) => t.extra(),
+      ThumbnailFormat::Mpeg4(t) => t.extra(),
+      ThumbnailFormat::Png(t) => t.extra(),
+      ThumbnailFormat::Tgs(t) => t.extra(),
+      ThumbnailFormat::Webp(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -126,11 +139,15 @@ pub struct ThumbnailFormatGif {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ThumbnailFormatGif {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "thumbnailFormatGif" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -144,6 +161,7 @@ impl ThumbnailFormatGif {
   pub fn builder() -> RTDThumbnailFormatGifBuilder {
     let mut inner = ThumbnailFormatGif::default();
     inner.td_name = "thumbnailFormatGif".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDThumbnailFormatGifBuilder { inner }
   }
 
@@ -179,11 +197,15 @@ pub struct ThumbnailFormatJpeg {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ThumbnailFormatJpeg {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "thumbnailFormatJpeg" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -197,6 +219,7 @@ impl ThumbnailFormatJpeg {
   pub fn builder() -> RTDThumbnailFormatJpegBuilder {
     let mut inner = ThumbnailFormatJpeg::default();
     inner.td_name = "thumbnailFormatJpeg".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDThumbnailFormatJpegBuilder { inner }
   }
 
@@ -232,11 +255,15 @@ pub struct ThumbnailFormatMpeg4 {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ThumbnailFormatMpeg4 {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "thumbnailFormatMpeg4" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -250,6 +277,7 @@ impl ThumbnailFormatMpeg4 {
   pub fn builder() -> RTDThumbnailFormatMpeg4Builder {
     let mut inner = ThumbnailFormatMpeg4::default();
     inner.td_name = "thumbnailFormatMpeg4".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDThumbnailFormatMpeg4Builder { inner }
   }
 
@@ -285,11 +313,15 @@ pub struct ThumbnailFormatPng {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ThumbnailFormatPng {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "thumbnailFormatPng" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -303,6 +335,7 @@ impl ThumbnailFormatPng {
   pub fn builder() -> RTDThumbnailFormatPngBuilder {
     let mut inner = ThumbnailFormatPng::default();
     inner.td_name = "thumbnailFormatPng".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDThumbnailFormatPngBuilder { inner }
   }
 
@@ -338,11 +371,15 @@ pub struct ThumbnailFormatTgs {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ThumbnailFormatTgs {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "thumbnailFormatTgs" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -356,6 +393,7 @@ impl ThumbnailFormatTgs {
   pub fn builder() -> RTDThumbnailFormatTgsBuilder {
     let mut inner = ThumbnailFormatTgs::default();
     inner.td_name = "thumbnailFormatTgs".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDThumbnailFormatTgsBuilder { inner }
   }
 
@@ -391,11 +429,15 @@ pub struct ThumbnailFormatWebp {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ThumbnailFormatWebp {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "thumbnailFormatWebp" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -409,6 +451,7 @@ impl ThumbnailFormatWebp {
   pub fn builder() -> RTDThumbnailFormatWebpBuilder {
     let mut inner = ThumbnailFormatWebp::default();
     inner.td_name = "thumbnailFormatWebp".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDThumbnailFormatWebpBuilder { inner }
   }
 

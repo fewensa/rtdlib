@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ChatFilterInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique chat filter identifier
   id: i64,
   /// The title of the filter; 1-12 characters without line feeds
@@ -22,6 +26,7 @@ pub struct ChatFilterInfo {
 
 impl RObject for ChatFilterInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatFilterInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl ChatFilterInfo {
   pub fn builder() -> RTDChatFilterInfoBuilder {
     let mut inner = ChatFilterInfo::default();
     inner.td_name = "chatFilterInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatFilterInfoBuilder { inner }
   }
 

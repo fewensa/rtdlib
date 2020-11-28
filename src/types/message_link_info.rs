@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct MessageLinkInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if the link is a public link for a message in a chat
   is_public: bool,
   /// If found, identifier of the chat to which the message belongs, 0 otherwise
@@ -24,6 +28,7 @@ pub struct MessageLinkInfo {
 
 impl RObject for MessageLinkInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageLinkInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -34,6 +39,7 @@ impl MessageLinkInfo {
   pub fn builder() -> RTDMessageLinkInfoBuilder {
     let mut inner = MessageLinkInfo::default();
     inner.td_name = "messageLinkInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMessageLinkInfoBuilder { inner }
   }
 

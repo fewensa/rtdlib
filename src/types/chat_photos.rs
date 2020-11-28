@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ChatPhotos {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Total number of photos
   total_count: i64,
   /// List of photos
@@ -20,6 +24,7 @@ pub struct ChatPhotos {
 
 impl RObject for ChatPhotos {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatPhotos" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl ChatPhotos {
   pub fn builder() -> RTDChatPhotosBuilder {
     let mut inner = ChatPhotos::default();
     inner.td_name = "chatPhotos".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatPhotosBuilder { inner }
   }
 

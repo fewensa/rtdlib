@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Location {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Latitude of the location in degrees; as defined by the sender
   latitude: f32,
   /// Longitude of the location, in degrees; as defined by the sender
@@ -20,6 +24,7 @@ pub struct Location {
 
 impl RObject for Location {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "location" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl Location {
   pub fn builder() -> RTDLocationBuilder {
     let mut inner = Location::default();
     inner.td_name = "location".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDLocationBuilder { inner }
   }
 

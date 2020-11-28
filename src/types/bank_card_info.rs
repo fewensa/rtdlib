@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct BankCardInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Title of the bank card description
   title: String,
   /// Actions that can be done with the bank card number
@@ -20,6 +24,7 @@ pub struct BankCardInfo {
 
 impl RObject for BankCardInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "bankCardInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl BankCardInfo {
   pub fn builder() -> RTDBankCardInfoBuilder {
     let mut inner = BankCardInfo::default();
     inner.td_name = "bankCardInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDBankCardInfoBuilder { inner }
   }
 

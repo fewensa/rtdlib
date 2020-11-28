@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -50,6 +51,14 @@ impl RObject for SuggestedAction {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      SuggestedAction::CheckPhoneNumber(t) => t.extra(),
+      SuggestedAction::EnableArchiveAndMuteNewChats(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -90,11 +99,15 @@ pub struct SuggestedActionCheckPhoneNumber {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for SuggestedActionCheckPhoneNumber {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "suggestedActionCheckPhoneNumber" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -108,6 +121,7 @@ impl SuggestedActionCheckPhoneNumber {
   pub fn builder() -> RTDSuggestedActionCheckPhoneNumberBuilder {
     let mut inner = SuggestedActionCheckPhoneNumber::default();
     inner.td_name = "suggestedActionCheckPhoneNumber".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDSuggestedActionCheckPhoneNumberBuilder { inner }
   }
 
@@ -143,11 +157,15 @@ pub struct SuggestedActionEnableArchiveAndMuteNewChats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for SuggestedActionEnableArchiveAndMuteNewChats {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "suggestedActionEnableArchiveAndMuteNewChats" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -161,6 +179,7 @@ impl SuggestedActionEnableArchiveAndMuteNewChats {
   pub fn builder() -> RTDSuggestedActionEnableArchiveAndMuteNewChatsBuilder {
     let mut inner = SuggestedActionEnableArchiveAndMuteNewChats::default();
     inner.td_name = "suggestedActionEnableArchiveAndMuteNewChats".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDSuggestedActionEnableArchiveAndMuteNewChatsBuilder { inner }
   }
 

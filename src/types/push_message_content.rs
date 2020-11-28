@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -144,6 +145,38 @@ impl RObject for PushMessageContent {
       PushMessageContent::VoiceNote(t) => t.td_name(),
 
       _ => "-1",
+    }
+  }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      PushMessageContent::Animation(t) => t.extra(),
+      PushMessageContent::Audio(t) => t.extra(),
+      PushMessageContent::BasicGroupChatCreate(t) => t.extra(),
+      PushMessageContent::ChatAddMembers(t) => t.extra(),
+      PushMessageContent::ChatChangePhoto(t) => t.extra(),
+      PushMessageContent::ChatChangeTitle(t) => t.extra(),
+      PushMessageContent::ChatDeleteMember(t) => t.extra(),
+      PushMessageContent::ChatJoinByLink(t) => t.extra(),
+      PushMessageContent::Contact(t) => t.extra(),
+      PushMessageContent::ContactRegistered(t) => t.extra(),
+      PushMessageContent::Document(t) => t.extra(),
+      PushMessageContent::Game(t) => t.extra(),
+      PushMessageContent::GameScore(t) => t.extra(),
+      PushMessageContent::Hidden(t) => t.extra(),
+      PushMessageContent::Invoice(t) => t.extra(),
+      PushMessageContent::Location(t) => t.extra(),
+      PushMessageContent::MediaAlbum(t) => t.extra(),
+      PushMessageContent::MessageForwards(t) => t.extra(),
+      PushMessageContent::Photo(t) => t.extra(),
+      PushMessageContent::Poll(t) => t.extra(),
+      PushMessageContent::ScreenshotTaken(t) => t.extra(),
+      PushMessageContent::Sticker(t) => t.extra(),
+      PushMessageContent::Text(t) => t.extra(),
+      PushMessageContent::Video(t) => t.extra(),
+      PushMessageContent::VideoNote(t) => t.extra(),
+      PushMessageContent::VoiceNote(t) => t.extra(),
+
+      _ => None,
     }
   }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
@@ -306,6 +339,9 @@ pub struct PushMessageContentAnimation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Message content; may be null
   animation: Option<Animation>,
   /// Animation caption
@@ -317,6 +353,7 @@ pub struct PushMessageContentAnimation {
 
 impl RObject for PushMessageContentAnimation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentAnimation" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -330,6 +367,7 @@ impl PushMessageContentAnimation {
   pub fn builder() -> RTDPushMessageContentAnimationBuilder {
     let mut inner = PushMessageContentAnimation::default();
     inner.td_name = "pushMessageContentAnimation".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentAnimationBuilder { inner }
   }
 
@@ -389,6 +427,9 @@ pub struct PushMessageContentAudio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Message content; may be null
   audio: Option<Audio>,
   /// True, if the message is a pinned message with the specified content
@@ -398,6 +439,7 @@ pub struct PushMessageContentAudio {
 
 impl RObject for PushMessageContentAudio {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentAudio" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -411,6 +453,7 @@ impl PushMessageContentAudio {
   pub fn builder() -> RTDPushMessageContentAudioBuilder {
     let mut inner = PushMessageContentAudio::default();
     inner.td_name = "pushMessageContentAudio".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentAudioBuilder { inner }
   }
 
@@ -462,11 +505,15 @@ pub struct PushMessageContentBasicGroupChatCreate {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for PushMessageContentBasicGroupChatCreate {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentBasicGroupChatCreate" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -480,6 +527,7 @@ impl PushMessageContentBasicGroupChatCreate {
   pub fn builder() -> RTDPushMessageContentBasicGroupChatCreateBuilder {
     let mut inner = PushMessageContentBasicGroupChatCreate::default();
     inner.td_name = "pushMessageContentBasicGroupChatCreate".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentBasicGroupChatCreateBuilder { inner }
   }
 
@@ -515,6 +563,9 @@ pub struct PushMessageContentChatAddMembers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Name of the added member
   member_name: String,
   /// True, if the current user was added to the group
@@ -526,6 +577,7 @@ pub struct PushMessageContentChatAddMembers {
 
 impl RObject for PushMessageContentChatAddMembers {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatAddMembers" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -539,6 +591,7 @@ impl PushMessageContentChatAddMembers {
   pub fn builder() -> RTDPushMessageContentChatAddMembersBuilder {
     let mut inner = PushMessageContentChatAddMembers::default();
     inner.td_name = "pushMessageContentChatAddMembers".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentChatAddMembersBuilder { inner }
   }
 
@@ -598,11 +651,15 @@ pub struct PushMessageContentChatChangePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for PushMessageContentChatChangePhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatChangePhoto" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -616,6 +673,7 @@ impl PushMessageContentChatChangePhoto {
   pub fn builder() -> RTDPushMessageContentChatChangePhotoBuilder {
     let mut inner = PushMessageContentChatChangePhoto::default();
     inner.td_name = "pushMessageContentChatChangePhoto".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentChatChangePhotoBuilder { inner }
   }
 
@@ -651,6 +709,9 @@ pub struct PushMessageContentChatChangeTitle {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// New chat title
   title: String,
   
@@ -658,6 +719,7 @@ pub struct PushMessageContentChatChangeTitle {
 
 impl RObject for PushMessageContentChatChangeTitle {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatChangeTitle" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -671,6 +733,7 @@ impl PushMessageContentChatChangeTitle {
   pub fn builder() -> RTDPushMessageContentChatChangeTitleBuilder {
     let mut inner = PushMessageContentChatChangeTitle::default();
     inner.td_name = "pushMessageContentChatChangeTitle".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentChatChangeTitleBuilder { inner }
   }
 
@@ -714,6 +777,9 @@ pub struct PushMessageContentChatDeleteMember {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Name of the deleted member
   member_name: String,
   /// True, if the current user was deleted from the group
@@ -725,6 +791,7 @@ pub struct PushMessageContentChatDeleteMember {
 
 impl RObject for PushMessageContentChatDeleteMember {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatDeleteMember" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -738,6 +805,7 @@ impl PushMessageContentChatDeleteMember {
   pub fn builder() -> RTDPushMessageContentChatDeleteMemberBuilder {
     let mut inner = PushMessageContentChatDeleteMember::default();
     inner.td_name = "pushMessageContentChatDeleteMember".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentChatDeleteMemberBuilder { inner }
   }
 
@@ -797,11 +865,15 @@ pub struct PushMessageContentChatJoinByLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for PushMessageContentChatJoinByLink {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatJoinByLink" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -815,6 +887,7 @@ impl PushMessageContentChatJoinByLink {
   pub fn builder() -> RTDPushMessageContentChatJoinByLinkBuilder {
     let mut inner = PushMessageContentChatJoinByLink::default();
     inner.td_name = "pushMessageContentChatJoinByLink".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentChatJoinByLinkBuilder { inner }
   }
 
@@ -850,6 +923,9 @@ pub struct PushMessageContentContact {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Contact's name
   name: String,
   /// True, if the message is a pinned message with the specified content
@@ -859,6 +935,7 @@ pub struct PushMessageContentContact {
 
 impl RObject for PushMessageContentContact {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentContact" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -872,6 +949,7 @@ impl PushMessageContentContact {
   pub fn builder() -> RTDPushMessageContentContactBuilder {
     let mut inner = PushMessageContentContact::default();
     inner.td_name = "pushMessageContentContact".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentContactBuilder { inner }
   }
 
@@ -923,11 +1001,15 @@ pub struct PushMessageContentContactRegistered {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for PushMessageContentContactRegistered {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentContactRegistered" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -941,6 +1023,7 @@ impl PushMessageContentContactRegistered {
   pub fn builder() -> RTDPushMessageContentContactRegisteredBuilder {
     let mut inner = PushMessageContentContactRegistered::default();
     inner.td_name = "pushMessageContentContactRegistered".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentContactRegisteredBuilder { inner }
   }
 
@@ -976,6 +1059,9 @@ pub struct PushMessageContentDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Message content; may be null
   document: Option<Document>,
   /// True, if the message is a pinned message with the specified content
@@ -985,6 +1071,7 @@ pub struct PushMessageContentDocument {
 
 impl RObject for PushMessageContentDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentDocument" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -998,6 +1085,7 @@ impl PushMessageContentDocument {
   pub fn builder() -> RTDPushMessageContentDocumentBuilder {
     let mut inner = PushMessageContentDocument::default();
     inner.td_name = "pushMessageContentDocument".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentDocumentBuilder { inner }
   }
 
@@ -1049,6 +1137,9 @@ pub struct PushMessageContentGame {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Game title, empty for pinned game message
   title: String,
   /// True, if the message is a pinned message with the specified content
@@ -1058,6 +1149,7 @@ pub struct PushMessageContentGame {
 
 impl RObject for PushMessageContentGame {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentGame" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1071,6 +1163,7 @@ impl PushMessageContentGame {
   pub fn builder() -> RTDPushMessageContentGameBuilder {
     let mut inner = PushMessageContentGame::default();
     inner.td_name = "pushMessageContentGame".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentGameBuilder { inner }
   }
 
@@ -1122,6 +1215,9 @@ pub struct PushMessageContentGameScore {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Game title, empty for pinned message
   title: String,
   /// New score, 0 for pinned message
@@ -1133,6 +1229,7 @@ pub struct PushMessageContentGameScore {
 
 impl RObject for PushMessageContentGameScore {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentGameScore" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1146,6 +1243,7 @@ impl PushMessageContentGameScore {
   pub fn builder() -> RTDPushMessageContentGameScoreBuilder {
     let mut inner = PushMessageContentGameScore::default();
     inner.td_name = "pushMessageContentGameScore".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentGameScoreBuilder { inner }
   }
 
@@ -1205,6 +1303,9 @@ pub struct PushMessageContentHidden {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if the message is a pinned message with the specified content
   is_pinned: bool,
   
@@ -1212,6 +1313,7 @@ pub struct PushMessageContentHidden {
 
 impl RObject for PushMessageContentHidden {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentHidden" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1225,6 +1327,7 @@ impl PushMessageContentHidden {
   pub fn builder() -> RTDPushMessageContentHiddenBuilder {
     let mut inner = PushMessageContentHidden::default();
     inner.td_name = "pushMessageContentHidden".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentHiddenBuilder { inner }
   }
 
@@ -1268,6 +1371,9 @@ pub struct PushMessageContentInvoice {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Product price
   price: String,
   /// True, if the message is a pinned message with the specified content
@@ -1277,6 +1383,7 @@ pub struct PushMessageContentInvoice {
 
 impl RObject for PushMessageContentInvoice {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentInvoice" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1290,6 +1397,7 @@ impl PushMessageContentInvoice {
   pub fn builder() -> RTDPushMessageContentInvoiceBuilder {
     let mut inner = PushMessageContentInvoice::default();
     inner.td_name = "pushMessageContentInvoice".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentInvoiceBuilder { inner }
   }
 
@@ -1341,6 +1449,9 @@ pub struct PushMessageContentLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if the location is live
   is_live: bool,
   /// True, if the message is a pinned message with the specified content
@@ -1350,6 +1461,7 @@ pub struct PushMessageContentLocation {
 
 impl RObject for PushMessageContentLocation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentLocation" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1363,6 +1475,7 @@ impl PushMessageContentLocation {
   pub fn builder() -> RTDPushMessageContentLocationBuilder {
     let mut inner = PushMessageContentLocation::default();
     inner.td_name = "pushMessageContentLocation".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentLocationBuilder { inner }
   }
 
@@ -1414,6 +1527,9 @@ pub struct PushMessageContentMediaAlbum {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Number of messages in the album
   total_count: i64,
   /// True, if the album has at least one photo
@@ -1425,6 +1541,7 @@ pub struct PushMessageContentMediaAlbum {
 
 impl RObject for PushMessageContentMediaAlbum {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentMediaAlbum" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1438,6 +1555,7 @@ impl PushMessageContentMediaAlbum {
   pub fn builder() -> RTDPushMessageContentMediaAlbumBuilder {
     let mut inner = PushMessageContentMediaAlbum::default();
     inner.td_name = "pushMessageContentMediaAlbum".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentMediaAlbumBuilder { inner }
   }
 
@@ -1497,6 +1615,9 @@ pub struct PushMessageContentMessageForwards {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Number of forwarded messages
   total_count: i64,
   
@@ -1504,6 +1625,7 @@ pub struct PushMessageContentMessageForwards {
 
 impl RObject for PushMessageContentMessageForwards {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentMessageForwards" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1517,6 +1639,7 @@ impl PushMessageContentMessageForwards {
   pub fn builder() -> RTDPushMessageContentMessageForwardsBuilder {
     let mut inner = PushMessageContentMessageForwards::default();
     inner.td_name = "pushMessageContentMessageForwards".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentMessageForwardsBuilder { inner }
   }
 
@@ -1560,6 +1683,9 @@ pub struct PushMessageContentPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Message content; may be null
   photo: Option<Photo>,
   /// Photo caption
@@ -1573,6 +1699,7 @@ pub struct PushMessageContentPhoto {
 
 impl RObject for PushMessageContentPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentPhoto" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1586,6 +1713,7 @@ impl PushMessageContentPhoto {
   pub fn builder() -> RTDPushMessageContentPhotoBuilder {
     let mut inner = PushMessageContentPhoto::default();
     inner.td_name = "pushMessageContentPhoto".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentPhotoBuilder { inner }
   }
 
@@ -1653,6 +1781,9 @@ pub struct PushMessageContentPoll {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Poll question
   question: String,
   /// True, if the poll is regular and not in quiz mode
@@ -1664,6 +1795,7 @@ pub struct PushMessageContentPoll {
 
 impl RObject for PushMessageContentPoll {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentPoll" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1677,6 +1809,7 @@ impl PushMessageContentPoll {
   pub fn builder() -> RTDPushMessageContentPollBuilder {
     let mut inner = PushMessageContentPoll::default();
     inner.td_name = "pushMessageContentPoll".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentPollBuilder { inner }
   }
 
@@ -1736,11 +1869,15 @@ pub struct PushMessageContentScreenshotTaken {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for PushMessageContentScreenshotTaken {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentScreenshotTaken" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1754,6 +1891,7 @@ impl PushMessageContentScreenshotTaken {
   pub fn builder() -> RTDPushMessageContentScreenshotTakenBuilder {
     let mut inner = PushMessageContentScreenshotTaken::default();
     inner.td_name = "pushMessageContentScreenshotTaken".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentScreenshotTakenBuilder { inner }
   }
 
@@ -1789,6 +1927,9 @@ pub struct PushMessageContentSticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Message content; may be null
   sticker: Option<Sticker>,
   /// Emoji corresponding to the sticker; may be empty
@@ -1800,6 +1941,7 @@ pub struct PushMessageContentSticker {
 
 impl RObject for PushMessageContentSticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentSticker" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1813,6 +1955,7 @@ impl PushMessageContentSticker {
   pub fn builder() -> RTDPushMessageContentStickerBuilder {
     let mut inner = PushMessageContentSticker::default();
     inner.td_name = "pushMessageContentSticker".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentStickerBuilder { inner }
   }
 
@@ -1872,6 +2015,9 @@ pub struct PushMessageContentText {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Message text
   text: String,
   /// True, if the message is a pinned message with the specified content
@@ -1881,6 +2027,7 @@ pub struct PushMessageContentText {
 
 impl RObject for PushMessageContentText {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentText" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1894,6 +2041,7 @@ impl PushMessageContentText {
   pub fn builder() -> RTDPushMessageContentTextBuilder {
     let mut inner = PushMessageContentText::default();
     inner.td_name = "pushMessageContentText".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentTextBuilder { inner }
   }
 
@@ -1945,6 +2093,9 @@ pub struct PushMessageContentVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Message content; may be null
   video: Option<Video>,
   /// Video caption
@@ -1958,6 +2109,7 @@ pub struct PushMessageContentVideo {
 
 impl RObject for PushMessageContentVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentVideo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1971,6 +2123,7 @@ impl PushMessageContentVideo {
   pub fn builder() -> RTDPushMessageContentVideoBuilder {
     let mut inner = PushMessageContentVideo::default();
     inner.td_name = "pushMessageContentVideo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentVideoBuilder { inner }
   }
 
@@ -2038,6 +2191,9 @@ pub struct PushMessageContentVideoNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Message content; may be null
   video_note: Option<VideoNote>,
   /// True, if the message is a pinned message with the specified content
@@ -2047,6 +2203,7 @@ pub struct PushMessageContentVideoNote {
 
 impl RObject for PushMessageContentVideoNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentVideoNote" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -2060,6 +2217,7 @@ impl PushMessageContentVideoNote {
   pub fn builder() -> RTDPushMessageContentVideoNoteBuilder {
     let mut inner = PushMessageContentVideoNote::default();
     inner.td_name = "pushMessageContentVideoNote".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentVideoNoteBuilder { inner }
   }
 
@@ -2111,6 +2269,9 @@ pub struct PushMessageContentVoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Message content; may be null
   voice_note: Option<VoiceNote>,
   /// True, if the message is a pinned message with the specified content
@@ -2120,6 +2281,7 @@ pub struct PushMessageContentVoiceNote {
 
 impl RObject for PushMessageContentVoiceNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentVoiceNote" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -2133,6 +2295,7 @@ impl PushMessageContentVoiceNote {
   pub fn builder() -> RTDPushMessageContentVoiceNoteBuilder {
     let mut inner = PushMessageContentVoiceNote::default();
     inner.td_name = "pushMessageContentVoiceNote".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPushMessageContentVoiceNoteBuilder { inner }
   }
 

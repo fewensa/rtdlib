@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Notification {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique persistent identifier of this notification
   id: i64,
   /// Notification date
@@ -24,6 +28,7 @@ pub struct Notification {
 
 impl RObject for Notification {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notification" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -34,6 +39,7 @@ impl Notification {
   pub fn builder() -> RTDNotificationBuilder {
     let mut inner = Notification::default();
     inner.td_name = "notification".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDNotificationBuilder { inner }
   }
 

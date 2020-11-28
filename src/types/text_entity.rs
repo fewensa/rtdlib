@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct TextEntity {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Offset of the entity, in UTF-16 code units
   offset: i64,
   /// Length of the entity, in UTF-16 code units
@@ -22,6 +26,7 @@ pub struct TextEntity {
 
 impl RObject for TextEntity {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntity" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl TextEntity {
   pub fn builder() -> RTDTextEntityBuilder {
     let mut inner = TextEntity::default();
     inner.td_name = "textEntity".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDTextEntityBuilder { inner }
   }
 

@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct PageBlockCaption {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Content of the caption
   text: RichText,
   /// Block credit (like HTML tag <cite>)
@@ -20,6 +24,7 @@ pub struct PageBlockCaption {
 
 impl RObject for PageBlockCaption {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockCaption" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl PageBlockCaption {
   pub fn builder() -> RTDPageBlockCaptionBuilder {
     let mut inner = PageBlockCaption::default();
     inner.td_name = "pageBlockCaption".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPageBlockCaptionBuilder { inner }
   }
 

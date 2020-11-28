@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct TMeUrls {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// List of URLs
   urls: Vec<TMeUrl>,
   
@@ -18,6 +22,7 @@ pub struct TMeUrls {
 
 impl RObject for TMeUrls {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "tMeUrls" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -28,6 +33,7 @@ impl TMeUrls {
   pub fn builder() -> RTDTMeUrlsBuilder {
     let mut inner = TMeUrls::default();
     inner.td_name = "tMeUrls".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDTMeUrlsBuilder { inner }
   }
 
