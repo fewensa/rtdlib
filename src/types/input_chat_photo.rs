@@ -18,7 +18,7 @@ pub trait TDInputChatPhoto: Debug + RObject {}
 #[serde(untagged)]
 pub enum InputChatPhoto {
   #[doc(hidden)] _Default(()),
-  /// An animation in MPEG4 format; must be square, shorter than 10 seconds, have width between 160 and 800 and be at most 2MB in size
+  /// An animation in MPEG4 format; must be square, at most 10 seconds long, have width between 160 and 800 and be at most 2MB in size
   Animation(InputChatPhotoAnimation),
   /// A previously used profile photo of the current user
   Previous(InputChatPhotoPrevious),
@@ -93,7 +93,7 @@ impl AsRef<InputChatPhoto> for InputChatPhoto {
 
 
 
-/// An animation in MPEG4 format; must be square, shorter than 10 seconds, have width between 160 and 800 and be at most 2MB in size
+/// An animation in MPEG4 format; must be square, at most 10 seconds long, have width between 160 and 800 and be at most 2MB in size
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InputChatPhotoAnimation {
   #[doc(hidden)]

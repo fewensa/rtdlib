@@ -15,11 +15,11 @@ pub struct ChatMember {
   user_id: i64,
   /// Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
   inviter_user_id: i64,
-  /// Point in time (Unix timestamp) when the user joined a chat
+  /// Point in time (Unix timestamp) when the user joined the chat
   joined_chat_date: i64,
   /// Status of the member in the chat
   status: ChatMemberStatus,
-  /// If the user is a bot, information about the bot; may be null. Can be null even for a bot if the bot is not a chat member
+  /// If the user is a bot, information about the bot; may be null. Can be null even for a bot if the bot is not the chat member
   bot_info: Option<BotInfo>,
   
 }

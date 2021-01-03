@@ -602,7 +602,7 @@ pub struct InputMessageDocument {
   /// Document thumbnail, if available
   thumbnail: InputThumbnail,
   /// If true, automatic file type detection will be disabled and the document will be always sent as file. Always true for files sent to secret chats
-  force_file: bool,
+  disable_content_type_detection: bool,
   /// Document caption; 0-GetOption("message_caption_length_max") characters
   caption: FormattedText,
   
@@ -630,7 +630,7 @@ impl InputMessageDocument {
 
   pub fn thumbnail(&self) -> &InputThumbnail { &self.thumbnail }
 
-  pub fn force_file(&self) -> bool { self.force_file }
+  pub fn disable_content_type_detection(&self) -> bool { self.disable_content_type_detection }
 
   pub fn caption(&self) -> &FormattedText { &self.caption }
 
@@ -657,8 +657,8 @@ impl RTDInputMessageDocumentBuilder {
   }
 
    
-  pub fn force_file(&mut self, force_file: bool) -> &mut Self {
-    self.inner.force_file = force_file;
+  pub fn disable_content_type_detection(&mut self, disable_content_type_detection: bool) -> &mut Self {
+    self.inner.disable_content_type_detection = disable_content_type_detection;
     self
   }
 
@@ -1023,6 +1023,10 @@ pub struct InputMessageLocation {
   location: Location,
   /// Period for which the location can be updated, in seconds; should be between 60 and 86400 for a live location and 0 otherwise
   live_period: i64,
+  /// For live locations, a direction in which the location moves, in degrees; 1-360. Pass 0 if unknown
+  heading: i64,
+  /// For live locations, a maximum distance to another chat member for proximity alerts, in meters (0-100000). Pass 0 if the notification is disabled. Can't be enabled in channels and Saved Messages
+  proximity_alert_radius: i64,
   
 }
 
@@ -1048,6 +1052,10 @@ impl InputMessageLocation {
 
   pub fn live_period(&self) -> i64 { self.live_period }
 
+  pub fn heading(&self) -> i64 { self.heading }
+
+  pub fn proximity_alert_radius(&self) -> i64 { self.proximity_alert_radius }
+
 }
 
 #[doc(hidden)]
@@ -1067,6 +1075,18 @@ impl RTDInputMessageLocationBuilder {
    
   pub fn live_period(&mut self, live_period: i64) -> &mut Self {
     self.inner.live_period = live_period;
+    self
+  }
+
+   
+  pub fn heading(&mut self, heading: i64) -> &mut Self {
+    self.inner.heading = heading;
+    self
+  }
+
+   
+  pub fn proximity_alert_radius(&mut self, proximity_alert_radius: i64) -> &mut Self {
+    self.inner.proximity_alert_radius = proximity_alert_radius;
     self
   }
 

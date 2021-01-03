@@ -218,6 +218,8 @@ pub struct LogStreamFile {
   path: String,
   /// The maximum size of the file to where the internal TDLib log is written before the file will be auto-rotated
   max_file_size: i64,
+  /// Pass true to additionally redirect stderr to the log file. Ignored on Windows
+  redirect_stderr: bool,
   
 }
 
@@ -243,6 +245,8 @@ impl LogStreamFile {
 
   pub fn max_file_size(&self) -> i64 { self.max_file_size }
 
+  pub fn redirect_stderr(&self) -> bool { self.redirect_stderr }
+
 }
 
 #[doc(hidden)]
@@ -262,6 +266,12 @@ impl RTDLogStreamFileBuilder {
    
   pub fn max_file_size(&mut self, max_file_size: i64) -> &mut Self {
     self.inner.max_file_size = max_file_size;
+    self
+  }
+
+   
+  pub fn redirect_stderr(&mut self, redirect_stderr: bool) -> &mut Self {
+    self.inner.redirect_stderr = redirect_stderr;
     self
   }
 

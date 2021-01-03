@@ -11,9 +11,9 @@ pub struct ChatInviteLinkInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Chat identifier of the invite link; 0 if the user have no access to the chat before joining
+  /// Chat identifier of the invite link; 0 if the user has no access to the chat before joining
   chat_id: i64,
-  /// If non-zero, the remaining time for which read access is granted to the chat, in seconds
+  /// If non-zero, the amount of time for which read access to the chat will remain available, in seconds
   accessible_for: i64,
   /// Contains information about the type of the chat
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: ChatType,

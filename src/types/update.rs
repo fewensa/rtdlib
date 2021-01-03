@@ -42,6 +42,8 @@ pub enum Update {
   ChatFilters(UpdateChatFilters),
   /// A chat's has_scheduled_messages field has changed
   ChatHasScheduledMessages(UpdateChatHasScheduledMessages),
+  /// A chat was blocked or unblocked
+  ChatIsBlocked(UpdateChatIsBlocked),
   /// A chat was marked as unread or was read
   ChatIsMarkedAsUnread(UpdateChatIsMarkedAsUnread),
   /// The last message of a chat was changed. If last_message is null, then the last message in the chat became unknown. Some new unknown messages might be added to the chat in this case
@@ -54,8 +56,6 @@ pub enum Update {
   ChatPermissions(UpdateChatPermissions),
   /// A chat photo was changed
   ChatPhoto(UpdateChatPhoto),
-  /// The chat pinned message was changed
-  ChatPinnedMessage(UpdateChatPinnedMessage),
   /// The position of a chat in a chat list has changed. Instead of this update updateChatLastMessage or updateChatDraftMessage might be sent
   ChatPosition(UpdateChatPosition),
   /// Incoming messages were read or number of unread messages has been changed
@@ -68,7 +68,7 @@ pub enum Update {
   ChatTitle(UpdateChatTitle),
   /// The chat unread_mention_count has changed
   ChatUnreadMentionCount(UpdateChatUnreadMentionCount),
-  /// The connection state has changed. This update must be used only to show the user a human-readable description of the connection state
+  /// The connection state has changed. This update must be used only to show a human-readable description of the connection state
   ConnectionState(UpdateConnectionState),
   /// Some messages were deleted
   DeleteMessages(UpdateDeleteMessages),
@@ -94,6 +94,10 @@ pub enum Update {
   MessageContentOpened(UpdateMessageContentOpened),
   /// A message was edited. Changes in the message content will come in a separate updateMessageContent
   MessageEdited(UpdateMessageEdited),
+  /// The information about interactions with a message has changed
+  MessageInteractionInfo(UpdateMessageInteractionInfo),
+  /// The message pinned state was changed
+  MessageIsPinned(UpdateMessageIsPinned),
   /// A message with a live location was viewed. When the update is received, the application is supposed to update the live location
   MessageLiveLocationViewed(UpdateMessageLiveLocationViewed),
   /// A message with an unread mention was read
@@ -104,8 +108,6 @@ pub enum Update {
   MessageSendFailed(UpdateMessageSendFailed),
   /// A message has been successfully sent
   MessageSendSucceeded(UpdateMessageSendSucceeded),
-  /// The view count of the message has changed
-  MessageViews(UpdateMessageViews),
   /// New call signaling data arrived
   NewCallSignalingData(UpdateNewCallSignalingData),
   /// A new incoming callback query; for bots only
@@ -202,13 +204,13 @@ impl<'de> Deserialize<'de> for Update {
       (updateChatDraftMessage, ChatDraftMessage);
       (updateChatFilters, ChatFilters);
       (updateChatHasScheduledMessages, ChatHasScheduledMessages);
+      (updateChatIsBlocked, ChatIsBlocked);
       (updateChatIsMarkedAsUnread, ChatIsMarkedAsUnread);
       (updateChatLastMessage, ChatLastMessage);
       (updateChatNotificationSettings, ChatNotificationSettings);
       (updateChatOnlineMemberCount, ChatOnlineMemberCount);
       (updateChatPermissions, ChatPermissions);
       (updateChatPhoto, ChatPhoto);
-      (updateChatPinnedMessage, ChatPinnedMessage);
       (updateChatPosition, ChatPosition);
       (updateChatReadInbox, ChatReadInbox);
       (updateChatReadOutbox, ChatReadOutbox);
@@ -228,12 +230,13 @@ impl<'de> Deserialize<'de> for Update {
       (updateMessageContent, MessageContent);
       (updateMessageContentOpened, MessageContentOpened);
       (updateMessageEdited, MessageEdited);
+      (updateMessageInteractionInfo, MessageInteractionInfo);
+      (updateMessageIsPinned, MessageIsPinned);
       (updateMessageLiveLocationViewed, MessageLiveLocationViewed);
       (updateMessageMentionRead, MessageMentionRead);
       (updateMessageSendAcknowledged, MessageSendAcknowledged);
       (updateMessageSendFailed, MessageSendFailed);
       (updateMessageSendSucceeded, MessageSendSucceeded);
-      (updateMessageViews, MessageViews);
       (updateNewCallSignalingData, NewCallSignalingData);
       (updateNewCallbackQuery, NewCallbackQuery);
       (updateNewChat, NewChat);
@@ -290,13 +293,13 @@ impl RObject for Update {
       Update::ChatDraftMessage(t) => t.td_name(),
       Update::ChatFilters(t) => t.td_name(),
       Update::ChatHasScheduledMessages(t) => t.td_name(),
+      Update::ChatIsBlocked(t) => t.td_name(),
       Update::ChatIsMarkedAsUnread(t) => t.td_name(),
       Update::ChatLastMessage(t) => t.td_name(),
       Update::ChatNotificationSettings(t) => t.td_name(),
       Update::ChatOnlineMemberCount(t) => t.td_name(),
       Update::ChatPermissions(t) => t.td_name(),
       Update::ChatPhoto(t) => t.td_name(),
-      Update::ChatPinnedMessage(t) => t.td_name(),
       Update::ChatPosition(t) => t.td_name(),
       Update::ChatReadInbox(t) => t.td_name(),
       Update::ChatReadOutbox(t) => t.td_name(),
@@ -316,12 +319,13 @@ impl RObject for Update {
       Update::MessageContent(t) => t.td_name(),
       Update::MessageContentOpened(t) => t.td_name(),
       Update::MessageEdited(t) => t.td_name(),
+      Update::MessageInteractionInfo(t) => t.td_name(),
+      Update::MessageIsPinned(t) => t.td_name(),
       Update::MessageLiveLocationViewed(t) => t.td_name(),
       Update::MessageMentionRead(t) => t.td_name(),
       Update::MessageSendAcknowledged(t) => t.td_name(),
       Update::MessageSendFailed(t) => t.td_name(),
       Update::MessageSendSucceeded(t) => t.td_name(),
-      Update::MessageViews(t) => t.td_name(),
       Update::NewCallSignalingData(t) => t.td_name(),
       Update::NewCallbackQuery(t) => t.td_name(),
       Update::NewChat(t) => t.td_name(),
@@ -381,13 +385,13 @@ impl Update {
   pub fn is_chat_draft_message(&self) -> bool { if let Update::ChatDraftMessage(_) = self { true } else { false } }
   pub fn is_chat_filters(&self) -> bool { if let Update::ChatFilters(_) = self { true } else { false } }
   pub fn is_chat_has_scheduled_messages(&self) -> bool { if let Update::ChatHasScheduledMessages(_) = self { true } else { false } }
+  pub fn is_chat_is_blocked(&self) -> bool { if let Update::ChatIsBlocked(_) = self { true } else { false } }
   pub fn is_chat_is_marked_as_unread(&self) -> bool { if let Update::ChatIsMarkedAsUnread(_) = self { true } else { false } }
   pub fn is_chat_last_message(&self) -> bool { if let Update::ChatLastMessage(_) = self { true } else { false } }
   pub fn is_chat_notification_settings(&self) -> bool { if let Update::ChatNotificationSettings(_) = self { true } else { false } }
   pub fn is_chat_online_member_count(&self) -> bool { if let Update::ChatOnlineMemberCount(_) = self { true } else { false } }
   pub fn is_chat_permissions(&self) -> bool { if let Update::ChatPermissions(_) = self { true } else { false } }
   pub fn is_chat_photo(&self) -> bool { if let Update::ChatPhoto(_) = self { true } else { false } }
-  pub fn is_chat_pinned_message(&self) -> bool { if let Update::ChatPinnedMessage(_) = self { true } else { false } }
   pub fn is_chat_position(&self) -> bool { if let Update::ChatPosition(_) = self { true } else { false } }
   pub fn is_chat_read_inbox(&self) -> bool { if let Update::ChatReadInbox(_) = self { true } else { false } }
   pub fn is_chat_read_outbox(&self) -> bool { if let Update::ChatReadOutbox(_) = self { true } else { false } }
@@ -407,12 +411,13 @@ impl Update {
   pub fn is_message_content(&self) -> bool { if let Update::MessageContent(_) = self { true } else { false } }
   pub fn is_message_content_opened(&self) -> bool { if let Update::MessageContentOpened(_) = self { true } else { false } }
   pub fn is_message_edited(&self) -> bool { if let Update::MessageEdited(_) = self { true } else { false } }
+  pub fn is_message_interaction_info(&self) -> bool { if let Update::MessageInteractionInfo(_) = self { true } else { false } }
+  pub fn is_message_is_pinned(&self) -> bool { if let Update::MessageIsPinned(_) = self { true } else { false } }
   pub fn is_message_live_location_viewed(&self) -> bool { if let Update::MessageLiveLocationViewed(_) = self { true } else { false } }
   pub fn is_message_mention_read(&self) -> bool { if let Update::MessageMentionRead(_) = self { true } else { false } }
   pub fn is_message_send_acknowledged(&self) -> bool { if let Update::MessageSendAcknowledged(_) = self { true } else { false } }
   pub fn is_message_send_failed(&self) -> bool { if let Update::MessageSendFailed(_) = self { true } else { false } }
   pub fn is_message_send_succeeded(&self) -> bool { if let Update::MessageSendSucceeded(_) = self { true } else { false } }
-  pub fn is_message_views(&self) -> bool { if let Update::MessageViews(_) = self { true } else { false } }
   pub fn is_new_call_signaling_data(&self) -> bool { if let Update::NewCallSignalingData(_) = self { true } else { false } }
   pub fn is_new_callback_query(&self) -> bool { if let Update::NewCallbackQuery(_) = self { true } else { false } }
   pub fn is_new_chat(&self) -> bool { if let Update::NewChat(_) = self { true } else { false } }
@@ -462,13 +467,13 @@ impl Update {
   pub fn on_chat_draft_message<F: FnOnce(&UpdateChatDraftMessage)>(&self, fnc: F) -> &Self { if let Update::ChatDraftMessage(t) = self { fnc(t) }; self }
   pub fn on_chat_filters<F: FnOnce(&UpdateChatFilters)>(&self, fnc: F) -> &Self { if let Update::ChatFilters(t) = self { fnc(t) }; self }
   pub fn on_chat_has_scheduled_messages<F: FnOnce(&UpdateChatHasScheduledMessages)>(&self, fnc: F) -> &Self { if let Update::ChatHasScheduledMessages(t) = self { fnc(t) }; self }
+  pub fn on_chat_is_blocked<F: FnOnce(&UpdateChatIsBlocked)>(&self, fnc: F) -> &Self { if let Update::ChatIsBlocked(t) = self { fnc(t) }; self }
   pub fn on_chat_is_marked_as_unread<F: FnOnce(&UpdateChatIsMarkedAsUnread)>(&self, fnc: F) -> &Self { if let Update::ChatIsMarkedAsUnread(t) = self { fnc(t) }; self }
   pub fn on_chat_last_message<F: FnOnce(&UpdateChatLastMessage)>(&self, fnc: F) -> &Self { if let Update::ChatLastMessage(t) = self { fnc(t) }; self }
   pub fn on_chat_notification_settings<F: FnOnce(&UpdateChatNotificationSettings)>(&self, fnc: F) -> &Self { if let Update::ChatNotificationSettings(t) = self { fnc(t) }; self }
   pub fn on_chat_online_member_count<F: FnOnce(&UpdateChatOnlineMemberCount)>(&self, fnc: F) -> &Self { if let Update::ChatOnlineMemberCount(t) = self { fnc(t) }; self }
   pub fn on_chat_permissions<F: FnOnce(&UpdateChatPermissions)>(&self, fnc: F) -> &Self { if let Update::ChatPermissions(t) = self { fnc(t) }; self }
   pub fn on_chat_photo<F: FnOnce(&UpdateChatPhoto)>(&self, fnc: F) -> &Self { if let Update::ChatPhoto(t) = self { fnc(t) }; self }
-  pub fn on_chat_pinned_message<F: FnOnce(&UpdateChatPinnedMessage)>(&self, fnc: F) -> &Self { if let Update::ChatPinnedMessage(t) = self { fnc(t) }; self }
   pub fn on_chat_position<F: FnOnce(&UpdateChatPosition)>(&self, fnc: F) -> &Self { if let Update::ChatPosition(t) = self { fnc(t) }; self }
   pub fn on_chat_read_inbox<F: FnOnce(&UpdateChatReadInbox)>(&self, fnc: F) -> &Self { if let Update::ChatReadInbox(t) = self { fnc(t) }; self }
   pub fn on_chat_read_outbox<F: FnOnce(&UpdateChatReadOutbox)>(&self, fnc: F) -> &Self { if let Update::ChatReadOutbox(t) = self { fnc(t) }; self }
@@ -488,12 +493,13 @@ impl Update {
   pub fn on_message_content<F: FnOnce(&UpdateMessageContent)>(&self, fnc: F) -> &Self { if let Update::MessageContent(t) = self { fnc(t) }; self }
   pub fn on_message_content_opened<F: FnOnce(&UpdateMessageContentOpened)>(&self, fnc: F) -> &Self { if let Update::MessageContentOpened(t) = self { fnc(t) }; self }
   pub fn on_message_edited<F: FnOnce(&UpdateMessageEdited)>(&self, fnc: F) -> &Self { if let Update::MessageEdited(t) = self { fnc(t) }; self }
+  pub fn on_message_interaction_info<F: FnOnce(&UpdateMessageInteractionInfo)>(&self, fnc: F) -> &Self { if let Update::MessageInteractionInfo(t) = self { fnc(t) }; self }
+  pub fn on_message_is_pinned<F: FnOnce(&UpdateMessageIsPinned)>(&self, fnc: F) -> &Self { if let Update::MessageIsPinned(t) = self { fnc(t) }; self }
   pub fn on_message_live_location_viewed<F: FnOnce(&UpdateMessageLiveLocationViewed)>(&self, fnc: F) -> &Self { if let Update::MessageLiveLocationViewed(t) = self { fnc(t) }; self }
   pub fn on_message_mention_read<F: FnOnce(&UpdateMessageMentionRead)>(&self, fnc: F) -> &Self { if let Update::MessageMentionRead(t) = self { fnc(t) }; self }
   pub fn on_message_send_acknowledged<F: FnOnce(&UpdateMessageSendAcknowledged)>(&self, fnc: F) -> &Self { if let Update::MessageSendAcknowledged(t) = self { fnc(t) }; self }
   pub fn on_message_send_failed<F: FnOnce(&UpdateMessageSendFailed)>(&self, fnc: F) -> &Self { if let Update::MessageSendFailed(t) = self { fnc(t) }; self }
   pub fn on_message_send_succeeded<F: FnOnce(&UpdateMessageSendSucceeded)>(&self, fnc: F) -> &Self { if let Update::MessageSendSucceeded(t) = self { fnc(t) }; self }
-  pub fn on_message_views<F: FnOnce(&UpdateMessageViews)>(&self, fnc: F) -> &Self { if let Update::MessageViews(t) = self { fnc(t) }; self }
   pub fn on_new_call_signaling_data<F: FnOnce(&UpdateNewCallSignalingData)>(&self, fnc: F) -> &Self { if let Update::NewCallSignalingData(t) = self { fnc(t) }; self }
   pub fn on_new_callback_query<F: FnOnce(&UpdateNewCallbackQuery)>(&self, fnc: F) -> &Self { if let Update::NewCallbackQuery(t) = self { fnc(t) }; self }
   pub fn on_new_chat<F: FnOnce(&UpdateNewChat)>(&self, fnc: F) -> &Self { if let Update::NewChat(t) = self { fnc(t) }; self }
@@ -543,13 +549,13 @@ impl Update {
   pub fn as_chat_draft_message(&self) -> Option<&UpdateChatDraftMessage> { if let Update::ChatDraftMessage(t) = self { return Some(t) } None }
   pub fn as_chat_filters(&self) -> Option<&UpdateChatFilters> { if let Update::ChatFilters(t) = self { return Some(t) } None }
   pub fn as_chat_has_scheduled_messages(&self) -> Option<&UpdateChatHasScheduledMessages> { if let Update::ChatHasScheduledMessages(t) = self { return Some(t) } None }
+  pub fn as_chat_is_blocked(&self) -> Option<&UpdateChatIsBlocked> { if let Update::ChatIsBlocked(t) = self { return Some(t) } None }
   pub fn as_chat_is_marked_as_unread(&self) -> Option<&UpdateChatIsMarkedAsUnread> { if let Update::ChatIsMarkedAsUnread(t) = self { return Some(t) } None }
   pub fn as_chat_last_message(&self) -> Option<&UpdateChatLastMessage> { if let Update::ChatLastMessage(t) = self { return Some(t) } None }
   pub fn as_chat_notification_settings(&self) -> Option<&UpdateChatNotificationSettings> { if let Update::ChatNotificationSettings(t) = self { return Some(t) } None }
   pub fn as_chat_online_member_count(&self) -> Option<&UpdateChatOnlineMemberCount> { if let Update::ChatOnlineMemberCount(t) = self { return Some(t) } None }
   pub fn as_chat_permissions(&self) -> Option<&UpdateChatPermissions> { if let Update::ChatPermissions(t) = self { return Some(t) } None }
   pub fn as_chat_photo(&self) -> Option<&UpdateChatPhoto> { if let Update::ChatPhoto(t) = self { return Some(t) } None }
-  pub fn as_chat_pinned_message(&self) -> Option<&UpdateChatPinnedMessage> { if let Update::ChatPinnedMessage(t) = self { return Some(t) } None }
   pub fn as_chat_position(&self) -> Option<&UpdateChatPosition> { if let Update::ChatPosition(t) = self { return Some(t) } None }
   pub fn as_chat_read_inbox(&self) -> Option<&UpdateChatReadInbox> { if let Update::ChatReadInbox(t) = self { return Some(t) } None }
   pub fn as_chat_read_outbox(&self) -> Option<&UpdateChatReadOutbox> { if let Update::ChatReadOutbox(t) = self { return Some(t) } None }
@@ -569,12 +575,13 @@ impl Update {
   pub fn as_message_content(&self) -> Option<&UpdateMessageContent> { if let Update::MessageContent(t) = self { return Some(t) } None }
   pub fn as_message_content_opened(&self) -> Option<&UpdateMessageContentOpened> { if let Update::MessageContentOpened(t) = self { return Some(t) } None }
   pub fn as_message_edited(&self) -> Option<&UpdateMessageEdited> { if let Update::MessageEdited(t) = self { return Some(t) } None }
+  pub fn as_message_interaction_info(&self) -> Option<&UpdateMessageInteractionInfo> { if let Update::MessageInteractionInfo(t) = self { return Some(t) } None }
+  pub fn as_message_is_pinned(&self) -> Option<&UpdateMessageIsPinned> { if let Update::MessageIsPinned(t) = self { return Some(t) } None }
   pub fn as_message_live_location_viewed(&self) -> Option<&UpdateMessageLiveLocationViewed> { if let Update::MessageLiveLocationViewed(t) = self { return Some(t) } None }
   pub fn as_message_mention_read(&self) -> Option<&UpdateMessageMentionRead> { if let Update::MessageMentionRead(t) = self { return Some(t) } None }
   pub fn as_message_send_acknowledged(&self) -> Option<&UpdateMessageSendAcknowledged> { if let Update::MessageSendAcknowledged(t) = self { return Some(t) } None }
   pub fn as_message_send_failed(&self) -> Option<&UpdateMessageSendFailed> { if let Update::MessageSendFailed(t) = self { return Some(t) } None }
   pub fn as_message_send_succeeded(&self) -> Option<&UpdateMessageSendSucceeded> { if let Update::MessageSendSucceeded(t) = self { return Some(t) } None }
-  pub fn as_message_views(&self) -> Option<&UpdateMessageViews> { if let Update::MessageViews(t) = self { return Some(t) } None }
   pub fn as_new_call_signaling_data(&self) -> Option<&UpdateNewCallSignalingData> { if let Update::NewCallSignalingData(t) = self { return Some(t) } None }
   pub fn as_new_callback_query(&self) -> Option<&UpdateNewCallbackQuery> { if let Update::NewCallbackQuery(t) = self { return Some(t) } None }
   pub fn as_new_chat(&self) -> Option<&UpdateNewChat> { if let Update::NewChat(t) = self { return Some(t) } None }
@@ -638,6 +645,8 @@ impl Update {
 
   pub fn chat_has_scheduled_messages<T: AsRef<UpdateChatHasScheduledMessages>>(t: T) -> Self { Update::ChatHasScheduledMessages(t.as_ref().clone()) }
 
+  pub fn chat_is_blocked<T: AsRef<UpdateChatIsBlocked>>(t: T) -> Self { Update::ChatIsBlocked(t.as_ref().clone()) }
+
   pub fn chat_is_marked_as_unread<T: AsRef<UpdateChatIsMarkedAsUnread>>(t: T) -> Self { Update::ChatIsMarkedAsUnread(t.as_ref().clone()) }
 
   pub fn chat_last_message<T: AsRef<UpdateChatLastMessage>>(t: T) -> Self { Update::ChatLastMessage(t.as_ref().clone()) }
@@ -649,8 +658,6 @@ impl Update {
   pub fn chat_permissions<T: AsRef<UpdateChatPermissions>>(t: T) -> Self { Update::ChatPermissions(t.as_ref().clone()) }
 
   pub fn chat_photo<T: AsRef<UpdateChatPhoto>>(t: T) -> Self { Update::ChatPhoto(t.as_ref().clone()) }
-
-  pub fn chat_pinned_message<T: AsRef<UpdateChatPinnedMessage>>(t: T) -> Self { Update::ChatPinnedMessage(t.as_ref().clone()) }
 
   pub fn chat_position<T: AsRef<UpdateChatPosition>>(t: T) -> Self { Update::ChatPosition(t.as_ref().clone()) }
 
@@ -690,6 +697,10 @@ impl Update {
 
   pub fn message_edited<T: AsRef<UpdateMessageEdited>>(t: T) -> Self { Update::MessageEdited(t.as_ref().clone()) }
 
+  pub fn message_interaction_info<T: AsRef<UpdateMessageInteractionInfo>>(t: T) -> Self { Update::MessageInteractionInfo(t.as_ref().clone()) }
+
+  pub fn message_is_pinned<T: AsRef<UpdateMessageIsPinned>>(t: T) -> Self { Update::MessageIsPinned(t.as_ref().clone()) }
+
   pub fn message_live_location_viewed<T: AsRef<UpdateMessageLiveLocationViewed>>(t: T) -> Self { Update::MessageLiveLocationViewed(t.as_ref().clone()) }
 
   pub fn message_mention_read<T: AsRef<UpdateMessageMentionRead>>(t: T) -> Self { Update::MessageMentionRead(t.as_ref().clone()) }
@@ -699,8 +710,6 @@ impl Update {
   pub fn message_send_failed<T: AsRef<UpdateMessageSendFailed>>(t: T) -> Self { Update::MessageSendFailed(t.as_ref().clone()) }
 
   pub fn message_send_succeeded<T: AsRef<UpdateMessageSendSucceeded>>(t: T) -> Self { Update::MessageSendSucceeded(t.as_ref().clone()) }
-
-  pub fn message_views<T: AsRef<UpdateMessageViews>>(t: T) -> Self { Update::MessageViews(t.as_ref().clone()) }
 
   pub fn new_call_signaling_data<T: AsRef<UpdateNewCallSignalingData>>(t: T) -> Self { Update::NewCallSignalingData(t.as_ref().clone()) }
 
@@ -1549,6 +1558,79 @@ impl AsRef<UpdateChatHasScheduledMessages> for RTDUpdateChatHasScheduledMessages
 
 
 
+/// A chat was blocked or unblocked
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UpdateChatIsBlocked {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Chat identifier
+  chat_id: i64,
+  /// New value of is_blocked
+  is_blocked: bool,
+  
+}
+
+impl RObject for UpdateChatIsBlocked {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatIsBlocked" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUpdate for UpdateChatIsBlocked {}
+
+
+
+impl UpdateChatIsBlocked {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUpdateChatIsBlockedBuilder {
+    let mut inner = UpdateChatIsBlocked::default();
+    inner.td_name = "updateChatIsBlocked".to_string();
+    RTDUpdateChatIsBlockedBuilder { inner }
+  }
+
+  pub fn chat_id(&self) -> i64 { self.chat_id }
+
+  pub fn is_blocked(&self) -> bool { self.is_blocked }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUpdateChatIsBlockedBuilder {
+  inner: UpdateChatIsBlocked
+}
+
+impl RTDUpdateChatIsBlockedBuilder {
+  pub fn build(&self) -> UpdateChatIsBlocked { self.inner.clone() }
+
+   
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
+    self.inner.chat_id = chat_id;
+    self
+  }
+
+   
+  pub fn is_blocked(&mut self, is_blocked: bool) -> &mut Self {
+    self.inner.is_blocked = is_blocked;
+    self
+  }
+
+}
+
+impl AsRef<UpdateChatIsBlocked> for UpdateChatIsBlocked {
+  fn as_ref(&self) -> &UpdateChatIsBlocked { self }
+}
+
+impl AsRef<UpdateChatIsBlocked> for RTDUpdateChatIsBlockedBuilder {
+  fn as_ref(&self) -> &UpdateChatIsBlocked { &self.inner }
+}
+
+
+
+
+
+
+
 /// A chat was marked as unread or was read
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateChatIsMarkedAsUnread {
@@ -1989,79 +2071,6 @@ impl AsRef<UpdateChatPhoto> for UpdateChatPhoto {
 
 impl AsRef<UpdateChatPhoto> for RTDUpdateChatPhotoBuilder {
   fn as_ref(&self) -> &UpdateChatPhoto { &self.inner }
-}
-
-
-
-
-
-
-
-/// The chat pinned message was changed
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UpdateChatPinnedMessage {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Chat identifier
-  chat_id: i64,
-  /// The new identifier of the pinned message; 0 if there is no pinned message in the chat
-  pinned_message_id: i64,
-  
-}
-
-impl RObject for UpdateChatPinnedMessage {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatPinnedMessage" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUpdate for UpdateChatPinnedMessage {}
-
-
-
-impl UpdateChatPinnedMessage {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUpdateChatPinnedMessageBuilder {
-    let mut inner = UpdateChatPinnedMessage::default();
-    inner.td_name = "updateChatPinnedMessage".to_string();
-    RTDUpdateChatPinnedMessageBuilder { inner }
-  }
-
-  pub fn chat_id(&self) -> i64 { self.chat_id }
-
-  pub fn pinned_message_id(&self) -> i64 { self.pinned_message_id }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUpdateChatPinnedMessageBuilder {
-  inner: UpdateChatPinnedMessage
-}
-
-impl RTDUpdateChatPinnedMessageBuilder {
-  pub fn build(&self) -> UpdateChatPinnedMessage { self.inner.clone() }
-
-   
-  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
-    self.inner.chat_id = chat_id;
-    self
-  }
-
-   
-  pub fn pinned_message_id(&mut self, pinned_message_id: i64) -> &mut Self {
-    self.inner.pinned_message_id = pinned_message_id;
-    self
-  }
-
-}
-
-impl AsRef<UpdateChatPinnedMessage> for UpdateChatPinnedMessage {
-  fn as_ref(&self) -> &UpdateChatPinnedMessage { self }
-}
-
-impl AsRef<UpdateChatPinnedMessage> for RTDUpdateChatPinnedMessageBuilder {
-  fn as_ref(&self) -> &UpdateChatPinnedMessage { &self.inner }
 }
 
 
@@ -2518,7 +2527,7 @@ impl AsRef<UpdateChatUnreadMentionCount> for RTDUpdateChatUnreadMentionCountBuil
 
 
 
-/// The connection state has changed. This update must be used only to show the user a human-readable description of the connection state
+/// The connection state has changed. This update must be used only to show a human-readable description of the connection state
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateConnectionState {
   #[doc(hidden)]
@@ -3497,6 +3506,172 @@ impl AsRef<UpdateMessageEdited> for RTDUpdateMessageEditedBuilder {
 
 
 
+/// The information about interactions with a message has changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UpdateMessageInteractionInfo {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Chat identifier
+  chat_id: i64,
+  /// Message identifier
+  message_id: i64,
+  /// New information about interactions with the message; may be null
+  interaction_info: Option<MessageInteractionInfo>,
+  
+}
+
+impl RObject for UpdateMessageInteractionInfo {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateMessageInteractionInfo" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUpdate for UpdateMessageInteractionInfo {}
+
+
+
+impl UpdateMessageInteractionInfo {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUpdateMessageInteractionInfoBuilder {
+    let mut inner = UpdateMessageInteractionInfo::default();
+    inner.td_name = "updateMessageInteractionInfo".to_string();
+    RTDUpdateMessageInteractionInfoBuilder { inner }
+  }
+
+  pub fn chat_id(&self) -> i64 { self.chat_id }
+
+  pub fn message_id(&self) -> i64 { self.message_id }
+
+  pub fn interaction_info(&self) -> &Option<MessageInteractionInfo> { &self.interaction_info }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUpdateMessageInteractionInfoBuilder {
+  inner: UpdateMessageInteractionInfo
+}
+
+impl RTDUpdateMessageInteractionInfoBuilder {
+  pub fn build(&self) -> UpdateMessageInteractionInfo { self.inner.clone() }
+
+   
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
+    self.inner.chat_id = chat_id;
+    self
+  }
+
+   
+  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
+    self.inner.message_id = message_id;
+    self
+  }
+
+   
+  pub fn interaction_info<T: AsRef<MessageInteractionInfo>>(&mut self, interaction_info: T) -> &mut Self {
+    self.inner.interaction_info = Some(interaction_info.as_ref().clone());
+    self
+  }
+
+}
+
+impl AsRef<UpdateMessageInteractionInfo> for UpdateMessageInteractionInfo {
+  fn as_ref(&self) -> &UpdateMessageInteractionInfo { self }
+}
+
+impl AsRef<UpdateMessageInteractionInfo> for RTDUpdateMessageInteractionInfoBuilder {
+  fn as_ref(&self) -> &UpdateMessageInteractionInfo { &self.inner }
+}
+
+
+
+
+
+
+
+/// The message pinned state was changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UpdateMessageIsPinned {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Chat identifier
+  chat_id: i64,
+  /// The message identifier
+  message_id: i64,
+  /// True, if the message is pinned
+  is_pinned: bool,
+  
+}
+
+impl RObject for UpdateMessageIsPinned {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateMessageIsPinned" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUpdate for UpdateMessageIsPinned {}
+
+
+
+impl UpdateMessageIsPinned {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUpdateMessageIsPinnedBuilder {
+    let mut inner = UpdateMessageIsPinned::default();
+    inner.td_name = "updateMessageIsPinned".to_string();
+    RTDUpdateMessageIsPinnedBuilder { inner }
+  }
+
+  pub fn chat_id(&self) -> i64 { self.chat_id }
+
+  pub fn message_id(&self) -> i64 { self.message_id }
+
+  pub fn is_pinned(&self) -> bool { self.is_pinned }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUpdateMessageIsPinnedBuilder {
+  inner: UpdateMessageIsPinned
+}
+
+impl RTDUpdateMessageIsPinnedBuilder {
+  pub fn build(&self) -> UpdateMessageIsPinned { self.inner.clone() }
+
+   
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
+    self.inner.chat_id = chat_id;
+    self
+  }
+
+   
+  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
+    self.inner.message_id = message_id;
+    self
+  }
+
+   
+  pub fn is_pinned(&mut self, is_pinned: bool) -> &mut Self {
+    self.inner.is_pinned = is_pinned;
+    self
+  }
+
+}
+
+impl AsRef<UpdateMessageIsPinned> for UpdateMessageIsPinned {
+  fn as_ref(&self) -> &UpdateMessageIsPinned { self }
+}
+
+impl AsRef<UpdateMessageIsPinned> for RTDUpdateMessageIsPinnedBuilder {
+  fn as_ref(&self) -> &UpdateMessageIsPinned { &self.inner }
+}
+
+
+
+
+
+
+
 /// A message with a live location was viewed. When the update is received, the application is supposed to update the live location
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateMessageLiveLocationViewed {
@@ -3884,89 +4059,6 @@ impl AsRef<UpdateMessageSendSucceeded> for UpdateMessageSendSucceeded {
 
 impl AsRef<UpdateMessageSendSucceeded> for RTDUpdateMessageSendSucceededBuilder {
   fn as_ref(&self) -> &UpdateMessageSendSucceeded { &self.inner }
-}
-
-
-
-
-
-
-
-/// The view count of the message has changed
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UpdateMessageViews {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  /// Chat identifier
-  chat_id: i64,
-  /// Message identifier
-  message_id: i64,
-  /// New value of the view count
-  views: i64,
-  
-}
-
-impl RObject for UpdateMessageViews {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateMessageViews" }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUpdate for UpdateMessageViews {}
-
-
-
-impl UpdateMessageViews {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUpdateMessageViewsBuilder {
-    let mut inner = UpdateMessageViews::default();
-    inner.td_name = "updateMessageViews".to_string();
-    RTDUpdateMessageViewsBuilder { inner }
-  }
-
-  pub fn chat_id(&self) -> i64 { self.chat_id }
-
-  pub fn message_id(&self) -> i64 { self.message_id }
-
-  pub fn views(&self) -> i64 { self.views }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUpdateMessageViewsBuilder {
-  inner: UpdateMessageViews
-}
-
-impl RTDUpdateMessageViewsBuilder {
-  pub fn build(&self) -> UpdateMessageViews { self.inner.clone() }
-
-   
-  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
-    self.inner.chat_id = chat_id;
-    self
-  }
-
-   
-  pub fn message_id(&mut self, message_id: i64) -> &mut Self {
-    self.inner.message_id = message_id;
-    self
-  }
-
-   
-  pub fn views(&mut self, views: i64) -> &mut Self {
-    self.inner.views = views;
-    self
-  }
-
-}
-
-impl AsRef<UpdateMessageViews> for UpdateMessageViews {
-  fn as_ref(&self) -> &UpdateMessageViews { self }
-}
-
-impl AsRef<UpdateMessageViews> for RTDUpdateMessageViewsBuilder {
-  fn as_ref(&self) -> &UpdateMessageViews { &self.inner }
 }
 
 
@@ -6476,6 +6568,8 @@ pub struct UpdateUserChatAction {
   td_name: String,
   /// Chat identifier
   chat_id: i64,
+  /// If not 0, a message thread identifier in which the action was performed
+  message_thread_id: i64,
   /// Identifier of a user performing an action
   user_id: i64,
   /// The action description
@@ -6503,6 +6597,8 @@ impl UpdateUserChatAction {
 
   pub fn chat_id(&self) -> i64 { self.chat_id }
 
+  pub fn message_thread_id(&self) -> i64 { self.message_thread_id }
+
   pub fn user_id(&self) -> i64 { self.user_id }
 
   pub fn action(&self) -> &ChatAction { &self.action }
@@ -6520,6 +6616,12 @@ impl RTDUpdateUserChatActionBuilder {
    
   pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
     self.inner.chat_id = chat_id;
+    self
+  }
+
+   
+  pub fn message_thread_id(&mut self, message_thread_id: i64) -> &mut Self {
+    self.inner.message_thread_id = message_thread_id;
     self
   }
 

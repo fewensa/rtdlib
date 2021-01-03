@@ -38,7 +38,7 @@ pub enum RichText {
   PhoneNumber(RichTextPhoneNumber),
   /// A plain text
   Plain(RichTextPlain),
-  /// A rich text reference of a text on the same web page
+  /// A reference to a richTexts object on the same web page
   Reference(RichTextReference),
   /// A strikethrough rich text
   Strikethrough(RichTextStrikethrough),
@@ -291,7 +291,7 @@ pub struct RichTextAnchorLink {
   /// The link text
   text: Box<RichText>,
   /// The anchor name. If the name is empty, the link should bring back to top
-  name: String,
+  anchor_name: String,
   /// An HTTP URL, opening the anchor
   url: String,
   
@@ -317,7 +317,7 @@ impl RichTextAnchorLink {
 
   pub fn text(&self) -> &Box<RichText> { &self.text }
 
-  pub fn name(&self) -> &String { &self.name }
+  pub fn anchor_name(&self) -> &String { &self.anchor_name }
 
   pub fn url(&self) -> &String { &self.url }
 
@@ -338,8 +338,8 @@ impl RTDRichTextAnchorLinkBuilder {
   }
 
    
-  pub fn name<T: AsRef<str>>(&mut self, name: T) -> &mut Self {
-    self.inner.name = name.as_ref().to_string();
+  pub fn anchor_name<T: AsRef<str>>(&mut self, anchor_name: T) -> &mut Self {
+    self.inner.anchor_name = anchor_name.as_ref().to_string();
     self
   }
 
@@ -909,7 +909,7 @@ impl AsRef<RichTextPlain> for RTDRichTextPlainBuilder {
 
 
 
-/// A rich text reference of a text on the same web page
+/// A reference to a richTexts object on the same web page
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct RichTextReference {
   #[doc(hidden)]
@@ -917,8 +917,8 @@ pub struct RichTextReference {
   td_name: String,
   /// The text
   text: Box<RichText>,
-  /// The text to show on click
-  reference_text: Box<RichText>,
+  /// The name of a richTextAnchor object, which is the first element of the target richTexts object
+  anchor_name: String,
   /// An HTTP URL, opening the reference
   url: String,
   
@@ -944,7 +944,7 @@ impl RichTextReference {
 
   pub fn text(&self) -> &Box<RichText> { &self.text }
 
-  pub fn reference_text(&self) -> &Box<RichText> { &self.reference_text }
+  pub fn anchor_name(&self) -> &String { &self.anchor_name }
 
   pub fn url(&self) -> &String { &self.url }
 
@@ -965,8 +965,8 @@ impl RTDRichTextReferenceBuilder {
   }
 
    
-  pub fn reference_text<T: AsRef<Box<RichText>>>(&mut self, reference_text: T) -> &mut Self {
-    self.inner.reference_text = reference_text.as_ref().clone();
+  pub fn anchor_name<T: AsRef<str>>(&mut self, anchor_name: T) -> &mut Self {
+    self.inner.anchor_name = anchor_name.as_ref().to_string();
     self
   }
 

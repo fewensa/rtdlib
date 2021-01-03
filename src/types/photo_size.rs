@@ -5,20 +5,22 @@ use crate::errors::*;
 
 
 
-/// Photo description
+/// Describes an image in JPEG format
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PhotoSize {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Thumbnail type (see https://core.telegram.org/constructor/photoSize)
+  /// Image type (see https://core.telegram.org/constructor/photoSize)
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: String,
-  /// Information about the photo file
+  /// Information about the image file
   photo: File,
-  /// Photo width
+  /// Image width
   width: i64,
-  /// Photo height
+  /// Image height
   height: i64,
+  /// Sizes of progressive JPEG file prefixes, which can be used to preliminarily show the image
+  progressive_sizes: Vec<i64>,
   
 }
 
@@ -44,6 +46,8 @@ impl PhotoSize {
   pub fn width(&self) -> i64 { self.width }
 
   pub fn height(&self) -> i64 { self.height }
+
+  pub fn progressive_sizes(&self) -> &Vec<i64> { &self.progressive_sizes }
 
 }
 
@@ -76,6 +80,12 @@ impl RTDPhotoSizeBuilder {
    
   pub fn height(&mut self, height: i64) -> &mut Self {
     self.inner.height = height;
+    self
+  }
+
+   
+  pub fn progressive_sizes(&mut self, progressive_sizes: Vec<i64>) -> &mut Self {
+    self.inner.progressive_sizes = progressive_sizes;
     self
   }
 

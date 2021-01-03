@@ -10,10 +10,10 @@ use serde::de::{Deserialize, Deserializer};
 
 
 
-/// TRAIT | Represents a data needed to subscribe for push notifications through registerDevice method. To use specific push notification service, you must specify the correct application platform and upload valid server authentication data at https://my.telegram.org
+/// TRAIT | Represents a data needed to subscribe for push notifications through registerDevice method. To use specific push notification service, the correct application platform must be specified and a valid server authentication data must be uploaded at https://my.telegram.org
 pub trait TDDeviceToken: Debug + RObject {}
 
-/// Represents a data needed to subscribe for push notifications through registerDevice method. To use specific push notification service, you must specify the correct application platform and upload valid server authentication data at https://my.telegram.org
+/// Represents a data needed to subscribe for push notifications through registerDevice method. To use specific push notification service, the correct application platform must be specified and a valid server authentication data must be uploaded at https://my.telegram.org
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum DeviceToken {

@@ -20,6 +20,8 @@ pub enum CallProblem {
   #[doc(hidden)] _Default(()),
   /// The speech was distorted
   DistortedSpeech(CallProblemDistortedSpeech),
+  /// The video was distorted
+  DistortedVideo(CallProblemDistortedVideo),
   /// The call ended unexpectedly
   Dropped(CallProblemDropped),
   /// The user heard their own voice
@@ -28,6 +30,8 @@ pub enum CallProblem {
   Interruptions(CallProblemInterruptions),
   /// The user heard background noise
   Noise(CallProblemNoise),
+  /// The video was pixelated
+  PixelatedVideo(CallProblemPixelatedVideo),
   /// The user couldn't hear the other side
   SilentLocal(CallProblemSilentLocal),
   /// The other side couldn't hear the user
@@ -45,10 +49,12 @@ impl<'de> Deserialize<'de> for CallProblem {
     rtd_enum_deserialize!(
       CallProblem,
       (callProblemDistortedSpeech, DistortedSpeech);
+      (callProblemDistortedVideo, DistortedVideo);
       (callProblemDropped, Dropped);
       (callProblemEcho, Echo);
       (callProblemInterruptions, Interruptions);
       (callProblemNoise, Noise);
+      (callProblemPixelatedVideo, PixelatedVideo);
       (callProblemSilentLocal, SilentLocal);
       (callProblemSilentRemote, SilentRemote);
 
@@ -60,10 +66,12 @@ impl RObject for CallProblem {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
       CallProblem::DistortedSpeech(t) => t.td_name(),
+      CallProblem::DistortedVideo(t) => t.td_name(),
       CallProblem::Dropped(t) => t.td_name(),
       CallProblem::Echo(t) => t.td_name(),
       CallProblem::Interruptions(t) => t.td_name(),
       CallProblem::Noise(t) => t.td_name(),
+      CallProblem::PixelatedVideo(t) => t.td_name(),
       CallProblem::SilentLocal(t) => t.td_name(),
       CallProblem::SilentRemote(t) => t.td_name(),
 
@@ -78,32 +86,40 @@ impl CallProblem {
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let CallProblem::_Default(_) = self { true } else { false } }
 
   pub fn is_distorted_speech(&self) -> bool { if let CallProblem::DistortedSpeech(_) = self { true } else { false } }
+  pub fn is_distorted_video(&self) -> bool { if let CallProblem::DistortedVideo(_) = self { true } else { false } }
   pub fn is_dropped(&self) -> bool { if let CallProblem::Dropped(_) = self { true } else { false } }
   pub fn is_echo(&self) -> bool { if let CallProblem::Echo(_) = self { true } else { false } }
   pub fn is_interruptions(&self) -> bool { if let CallProblem::Interruptions(_) = self { true } else { false } }
   pub fn is_noise(&self) -> bool { if let CallProblem::Noise(_) = self { true } else { false } }
+  pub fn is_pixelated_video(&self) -> bool { if let CallProblem::PixelatedVideo(_) = self { true } else { false } }
   pub fn is_silent_local(&self) -> bool { if let CallProblem::SilentLocal(_) = self { true } else { false } }
   pub fn is_silent_remote(&self) -> bool { if let CallProblem::SilentRemote(_) = self { true } else { false } }
 
   pub fn on_distorted_speech<F: FnOnce(&CallProblemDistortedSpeech)>(&self, fnc: F) -> &Self { if let CallProblem::DistortedSpeech(t) = self { fnc(t) }; self }
+  pub fn on_distorted_video<F: FnOnce(&CallProblemDistortedVideo)>(&self, fnc: F) -> &Self { if let CallProblem::DistortedVideo(t) = self { fnc(t) }; self }
   pub fn on_dropped<F: FnOnce(&CallProblemDropped)>(&self, fnc: F) -> &Self { if let CallProblem::Dropped(t) = self { fnc(t) }; self }
   pub fn on_echo<F: FnOnce(&CallProblemEcho)>(&self, fnc: F) -> &Self { if let CallProblem::Echo(t) = self { fnc(t) }; self }
   pub fn on_interruptions<F: FnOnce(&CallProblemInterruptions)>(&self, fnc: F) -> &Self { if let CallProblem::Interruptions(t) = self { fnc(t) }; self }
   pub fn on_noise<F: FnOnce(&CallProblemNoise)>(&self, fnc: F) -> &Self { if let CallProblem::Noise(t) = self { fnc(t) }; self }
+  pub fn on_pixelated_video<F: FnOnce(&CallProblemPixelatedVideo)>(&self, fnc: F) -> &Self { if let CallProblem::PixelatedVideo(t) = self { fnc(t) }; self }
   pub fn on_silent_local<F: FnOnce(&CallProblemSilentLocal)>(&self, fnc: F) -> &Self { if let CallProblem::SilentLocal(t) = self { fnc(t) }; self }
   pub fn on_silent_remote<F: FnOnce(&CallProblemSilentRemote)>(&self, fnc: F) -> &Self { if let CallProblem::SilentRemote(t) = self { fnc(t) }; self }
 
   pub fn as_distorted_speech(&self) -> Option<&CallProblemDistortedSpeech> { if let CallProblem::DistortedSpeech(t) = self { return Some(t) } None }
+  pub fn as_distorted_video(&self) -> Option<&CallProblemDistortedVideo> { if let CallProblem::DistortedVideo(t) = self { return Some(t) } None }
   pub fn as_dropped(&self) -> Option<&CallProblemDropped> { if let CallProblem::Dropped(t) = self { return Some(t) } None }
   pub fn as_echo(&self) -> Option<&CallProblemEcho> { if let CallProblem::Echo(t) = self { return Some(t) } None }
   pub fn as_interruptions(&self) -> Option<&CallProblemInterruptions> { if let CallProblem::Interruptions(t) = self { return Some(t) } None }
   pub fn as_noise(&self) -> Option<&CallProblemNoise> { if let CallProblem::Noise(t) = self { return Some(t) } None }
+  pub fn as_pixelated_video(&self) -> Option<&CallProblemPixelatedVideo> { if let CallProblem::PixelatedVideo(t) = self { return Some(t) } None }
   pub fn as_silent_local(&self) -> Option<&CallProblemSilentLocal> { if let CallProblem::SilentLocal(t) = self { return Some(t) } None }
   pub fn as_silent_remote(&self) -> Option<&CallProblemSilentRemote> { if let CallProblem::SilentRemote(t) = self { return Some(t) } None }
 
 
 
   pub fn distorted_speech<T: AsRef<CallProblemDistortedSpeech>>(t: T) -> Self { CallProblem::DistortedSpeech(t.as_ref().clone()) }
+
+  pub fn distorted_video<T: AsRef<CallProblemDistortedVideo>>(t: T) -> Self { CallProblem::DistortedVideo(t.as_ref().clone()) }
 
   pub fn dropped<T: AsRef<CallProblemDropped>>(t: T) -> Self { CallProblem::Dropped(t.as_ref().clone()) }
 
@@ -112,6 +128,8 @@ impl CallProblem {
   pub fn interruptions<T: AsRef<CallProblemInterruptions>>(t: T) -> Self { CallProblem::Interruptions(t.as_ref().clone()) }
 
   pub fn noise<T: AsRef<CallProblemNoise>>(t: T) -> Self { CallProblem::Noise(t.as_ref().clone()) }
+
+  pub fn pixelated_video<T: AsRef<CallProblemPixelatedVideo>>(t: T) -> Self { CallProblem::PixelatedVideo(t.as_ref().clone()) }
 
   pub fn silent_local<T: AsRef<CallProblemSilentLocal>>(t: T) -> Self { CallProblem::SilentLocal(t.as_ref().clone()) }
 
@@ -174,6 +192,59 @@ impl AsRef<CallProblemDistortedSpeech> for CallProblemDistortedSpeech {
 
 impl AsRef<CallProblemDistortedSpeech> for RTDCallProblemDistortedSpeechBuilder {
   fn as_ref(&self) -> &CallProblemDistortedSpeech { &self.inner }
+}
+
+
+
+
+
+
+
+/// The video was distorted
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct CallProblemDistortedVideo {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for CallProblemDistortedVideo {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "callProblemDistortedVideo" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDCallProblem for CallProblemDistortedVideo {}
+
+
+
+impl CallProblemDistortedVideo {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDCallProblemDistortedVideoBuilder {
+    let mut inner = CallProblemDistortedVideo::default();
+    inner.td_name = "callProblemDistortedVideo".to_string();
+    RTDCallProblemDistortedVideoBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDCallProblemDistortedVideoBuilder {
+  inner: CallProblemDistortedVideo
+}
+
+impl RTDCallProblemDistortedVideoBuilder {
+  pub fn build(&self) -> CallProblemDistortedVideo { self.inner.clone() }
+
+}
+
+impl AsRef<CallProblemDistortedVideo> for CallProblemDistortedVideo {
+  fn as_ref(&self) -> &CallProblemDistortedVideo { self }
+}
+
+impl AsRef<CallProblemDistortedVideo> for RTDCallProblemDistortedVideoBuilder {
+  fn as_ref(&self) -> &CallProblemDistortedVideo { &self.inner }
 }
 
 
@@ -386,6 +457,59 @@ impl AsRef<CallProblemNoise> for CallProblemNoise {
 
 impl AsRef<CallProblemNoise> for RTDCallProblemNoiseBuilder {
   fn as_ref(&self) -> &CallProblemNoise { &self.inner }
+}
+
+
+
+
+
+
+
+/// The video was pixelated
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct CallProblemPixelatedVideo {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for CallProblemPixelatedVideo {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "callProblemPixelatedVideo" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDCallProblem for CallProblemPixelatedVideo {}
+
+
+
+impl CallProblemPixelatedVideo {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDCallProblemPixelatedVideoBuilder {
+    let mut inner = CallProblemPixelatedVideo::default();
+    inner.td_name = "callProblemPixelatedVideo".to_string();
+    RTDCallProblemPixelatedVideoBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDCallProblemPixelatedVideoBuilder {
+  inner: CallProblemPixelatedVideo
+}
+
+impl RTDCallProblemPixelatedVideoBuilder {
+  pub fn build(&self) -> CallProblemPixelatedVideo { self.inner.clone() }
+
+}
+
+impl AsRef<CallProblemPixelatedVideo> for CallProblemPixelatedVideo {
+  fn as_ref(&self) -> &CallProblemPixelatedVideo { self }
+}
+
+impl AsRef<CallProblemPixelatedVideo> for RTDCallProblemPixelatedVideoBuilder {
+  fn as_ref(&self) -> &CallProblemPixelatedVideo { &self.inner }
 }
 
 

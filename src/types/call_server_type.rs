@@ -153,7 +153,7 @@ pub struct CallServerTypeWebrtc {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Username to be used for authentification
+  /// Username to be used for authentication
   username: String,
   /// Authentication password
   password: String,

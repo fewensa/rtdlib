@@ -146,6 +146,8 @@ pub struct ChatMemberStatusAdministrator {
   can_pin_messages: bool,
   /// True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that were directly or indirectly promoted by them
   can_promote_members: bool,
+  /// True, if the administrator isn't shown in the chat member list and sends messages anonymously; applicable to supergroups only
+  is_anonymous: bool,
   
 }
 
@@ -186,6 +188,8 @@ impl ChatMemberStatusAdministrator {
   pub fn can_pin_messages(&self) -> bool { self.can_pin_messages }
 
   pub fn can_promote_members(&self) -> bool { self.can_promote_members }
+
+  pub fn is_anonymous(&self) -> bool { self.is_anonymous }
 
 }
 
@@ -254,6 +258,12 @@ impl RTDChatMemberStatusAdministratorBuilder {
    
   pub fn can_promote_members(&mut self, can_promote_members: bool) -> &mut Self {
     self.inner.can_promote_members = can_promote_members;
+    self
+  }
+
+   
+  pub fn is_anonymous(&mut self, is_anonymous: bool) -> &mut Self {
+    self.inner.is_anonymous = is_anonymous;
     self
   }
 
@@ -344,6 +354,8 @@ pub struct ChatMemberStatusCreator {
   td_name: String,
   /// A custom title of the owner; 0-16 characters without emojis; applicable to supergroups only
   custom_title: String,
+  /// True, if the creator isn't shown in the chat member list and sends messages anonymously; applicable to supergroups only
+  is_anonymous: bool,
   /// True, if the user is a member of the chat
   is_member: bool,
   
@@ -369,6 +381,8 @@ impl ChatMemberStatusCreator {
 
   pub fn custom_title(&self) -> &String { &self.custom_title }
 
+  pub fn is_anonymous(&self) -> bool { self.is_anonymous }
+
   pub fn is_member(&self) -> bool { self.is_member }
 
 }
@@ -384,6 +398,12 @@ impl RTDChatMemberStatusCreatorBuilder {
    
   pub fn custom_title<T: AsRef<str>>(&mut self, custom_title: T) -> &mut Self {
     self.inner.custom_title = custom_title.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn is_anonymous(&mut self, is_anonymous: bool) -> &mut Self {
+    self.inner.is_anonymous = is_anonymous;
     self
   }
 

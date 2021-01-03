@@ -18,9 +18,11 @@ pub trait TDCallbackQueryPayload: Debug + RObject {}
 #[serde(untagged)]
 pub enum CallbackQueryPayload {
   #[doc(hidden)] _Default(()),
-  /// The payload from a general callback button
+  /// The payload for a general callback button
   Data(CallbackQueryPayloadData),
-  /// The payload from a game callback button
+  /// The payload for a callback button requiring password
+  DataWithPassword(CallbackQueryPayloadDataWithPassword),
+  /// The payload for a game callback button
   Game(CallbackQueryPayloadGame),
 
 }
@@ -35,6 +37,7 @@ impl<'de> Deserialize<'de> for CallbackQueryPayload {
     rtd_enum_deserialize!(
       CallbackQueryPayload,
       (callbackQueryPayloadData, Data);
+      (callbackQueryPayloadDataWithPassword, DataWithPassword);
       (callbackQueryPayloadGame, Game);
 
     )(deserializer)
@@ -45,6 +48,7 @@ impl RObject for CallbackQueryPayload {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
       CallbackQueryPayload::Data(t) => t.td_name(),
+      CallbackQueryPayload::DataWithPassword(t) => t.td_name(),
       CallbackQueryPayload::Game(t) => t.td_name(),
 
       _ => "-1",
@@ -58,17 +62,22 @@ impl CallbackQueryPayload {
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let CallbackQueryPayload::_Default(_) = self { true } else { false } }
 
   pub fn is_data(&self) -> bool { if let CallbackQueryPayload::Data(_) = self { true } else { false } }
+  pub fn is_data_with_password(&self) -> bool { if let CallbackQueryPayload::DataWithPassword(_) = self { true } else { false } }
   pub fn is_game(&self) -> bool { if let CallbackQueryPayload::Game(_) = self { true } else { false } }
 
   pub fn on_data<F: FnOnce(&CallbackQueryPayloadData)>(&self, fnc: F) -> &Self { if let CallbackQueryPayload::Data(t) = self { fnc(t) }; self }
+  pub fn on_data_with_password<F: FnOnce(&CallbackQueryPayloadDataWithPassword)>(&self, fnc: F) -> &Self { if let CallbackQueryPayload::DataWithPassword(t) = self { fnc(t) }; self }
   pub fn on_game<F: FnOnce(&CallbackQueryPayloadGame)>(&self, fnc: F) -> &Self { if let CallbackQueryPayload::Game(t) = self { fnc(t) }; self }
 
   pub fn as_data(&self) -> Option<&CallbackQueryPayloadData> { if let CallbackQueryPayload::Data(t) = self { return Some(t) } None }
+  pub fn as_data_with_password(&self) -> Option<&CallbackQueryPayloadDataWithPassword> { if let CallbackQueryPayload::DataWithPassword(t) = self { return Some(t) } None }
   pub fn as_game(&self) -> Option<&CallbackQueryPayloadGame> { if let CallbackQueryPayload::Game(t) = self { return Some(t) } None }
 
 
 
   pub fn data<T: AsRef<CallbackQueryPayloadData>>(t: T) -> Self { CallbackQueryPayload::Data(t.as_ref().clone()) }
+
+  pub fn data_with_password<T: AsRef<CallbackQueryPayloadDataWithPassword>>(t: T) -> Self { CallbackQueryPayload::DataWithPassword(t.as_ref().clone()) }
 
   pub fn game<T: AsRef<CallbackQueryPayloadGame>>(t: T) -> Self { CallbackQueryPayload::Game(t.as_ref().clone()) }
 
@@ -84,7 +93,7 @@ impl AsRef<CallbackQueryPayload> for CallbackQueryPayload {
 
 
 
-/// The payload from a general callback button
+/// The payload for a general callback button
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct CallbackQueryPayloadData {
   #[doc(hidden)]
@@ -147,7 +156,80 @@ impl AsRef<CallbackQueryPayloadData> for RTDCallbackQueryPayloadDataBuilder {
 
 
 
-/// The payload from a game callback button
+/// The payload for a callback button requiring password
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct CallbackQueryPayloadDataWithPassword {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The password for the current user
+  password: String,
+  /// Data that was attached to the callback button
+  data: String,
+  
+}
+
+impl RObject for CallbackQueryPayloadDataWithPassword {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "callbackQueryPayloadDataWithPassword" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDCallbackQueryPayload for CallbackQueryPayloadDataWithPassword {}
+
+
+
+impl CallbackQueryPayloadDataWithPassword {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDCallbackQueryPayloadDataWithPasswordBuilder {
+    let mut inner = CallbackQueryPayloadDataWithPassword::default();
+    inner.td_name = "callbackQueryPayloadDataWithPassword".to_string();
+    RTDCallbackQueryPayloadDataWithPasswordBuilder { inner }
+  }
+
+  pub fn password(&self) -> &String { &self.password }
+
+  pub fn data(&self) -> &String { &self.data }
+
+}
+
+#[doc(hidden)]
+pub struct RTDCallbackQueryPayloadDataWithPasswordBuilder {
+  inner: CallbackQueryPayloadDataWithPassword
+}
+
+impl RTDCallbackQueryPayloadDataWithPasswordBuilder {
+  pub fn build(&self) -> CallbackQueryPayloadDataWithPassword { self.inner.clone() }
+
+   
+  pub fn password<T: AsRef<str>>(&mut self, password: T) -> &mut Self {
+    self.inner.password = password.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn data<T: AsRef<str>>(&mut self, data: T) -> &mut Self {
+    self.inner.data = data.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<CallbackQueryPayloadDataWithPassword> for CallbackQueryPayloadDataWithPassword {
+  fn as_ref(&self) -> &CallbackQueryPayloadDataWithPassword { self }
+}
+
+impl AsRef<CallbackQueryPayloadDataWithPassword> for RTDCallbackQueryPayloadDataWithPasswordBuilder {
+  fn as_ref(&self) -> &CallbackQueryPayloadDataWithPassword { &self.inner }
+}
+
+
+
+
+
+
+
+/// The payload for a game callback button
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct CallbackQueryPayloadGame {
   #[doc(hidden)]

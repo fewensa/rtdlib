@@ -11,7 +11,7 @@ pub struct NetworkStatistics {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Point in time (Unix timestamp) when the app began collecting statistics
+  /// Point in time (Unix timestamp) from which the statistics are collected
   since_date: i64,
   /// Network statistics entries
   entries: Vec<NetworkStatisticsEntry>,

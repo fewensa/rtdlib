@@ -20,10 +20,12 @@ pub enum InlineKeyboardButtonType {
   #[doc(hidden)] _Default(()),
   /// A button to buy something. This button must be in the first column and row of the keyboard and can be attached only to a message with content of the type messageInvoice
   Buy(InlineKeyboardButtonTypeBuy),
-  /// A button that sends a special callback query to a bot
+  /// A button that sends a callback query to a bot
   Callback(InlineKeyboardButtonTypeCallback),
-  /// A button with a game that sends a special callback query to a bot. This button must be in the first column and row of the keyboard and can be attached only to a message with content of the type messageGame
+  /// A button with a game that sends a callback query to a bot. This button must be in the first column and row of the keyboard and can be attached only to a message with content of the type messageGame
   CallbackGame(InlineKeyboardButtonTypeCallbackGame),
+  /// A button that asks for password of the current user and then sends a callback query to a bot
+  CallbackWithPassword(InlineKeyboardButtonTypeCallbackWithPassword),
   /// A button that opens a specified URL and automatically logs in in current user if they allowed to do that
   LoginUrl(InlineKeyboardButtonTypeLoginUrl),
   /// A button that forces an inline query to the bot to be inserted in the input field
@@ -45,6 +47,7 @@ impl<'de> Deserialize<'de> for InlineKeyboardButtonType {
       (inlineKeyboardButtonTypeBuy, Buy);
       (inlineKeyboardButtonTypeCallback, Callback);
       (inlineKeyboardButtonTypeCallbackGame, CallbackGame);
+      (inlineKeyboardButtonTypeCallbackWithPassword, CallbackWithPassword);
       (inlineKeyboardButtonTypeLoginUrl, LoginUrl);
       (inlineKeyboardButtonTypeSwitchInline, SwitchInline);
       (inlineKeyboardButtonTypeUrl, Url);
@@ -59,6 +62,7 @@ impl RObject for InlineKeyboardButtonType {
       InlineKeyboardButtonType::Buy(t) => t.td_name(),
       InlineKeyboardButtonType::Callback(t) => t.td_name(),
       InlineKeyboardButtonType::CallbackGame(t) => t.td_name(),
+      InlineKeyboardButtonType::CallbackWithPassword(t) => t.td_name(),
       InlineKeyboardButtonType::LoginUrl(t) => t.td_name(),
       InlineKeyboardButtonType::SwitchInline(t) => t.td_name(),
       InlineKeyboardButtonType::Url(t) => t.td_name(),
@@ -76,6 +80,7 @@ impl InlineKeyboardButtonType {
   pub fn is_buy(&self) -> bool { if let InlineKeyboardButtonType::Buy(_) = self { true } else { false } }
   pub fn is_callback(&self) -> bool { if let InlineKeyboardButtonType::Callback(_) = self { true } else { false } }
   pub fn is_callback_game(&self) -> bool { if let InlineKeyboardButtonType::CallbackGame(_) = self { true } else { false } }
+  pub fn is_callback_with_password(&self) -> bool { if let InlineKeyboardButtonType::CallbackWithPassword(_) = self { true } else { false } }
   pub fn is_login_url(&self) -> bool { if let InlineKeyboardButtonType::LoginUrl(_) = self { true } else { false } }
   pub fn is_switch_inline(&self) -> bool { if let InlineKeyboardButtonType::SwitchInline(_) = self { true } else { false } }
   pub fn is_url(&self) -> bool { if let InlineKeyboardButtonType::Url(_) = self { true } else { false } }
@@ -83,6 +88,7 @@ impl InlineKeyboardButtonType {
   pub fn on_buy<F: FnOnce(&InlineKeyboardButtonTypeBuy)>(&self, fnc: F) -> &Self { if let InlineKeyboardButtonType::Buy(t) = self { fnc(t) }; self }
   pub fn on_callback<F: FnOnce(&InlineKeyboardButtonTypeCallback)>(&self, fnc: F) -> &Self { if let InlineKeyboardButtonType::Callback(t) = self { fnc(t) }; self }
   pub fn on_callback_game<F: FnOnce(&InlineKeyboardButtonTypeCallbackGame)>(&self, fnc: F) -> &Self { if let InlineKeyboardButtonType::CallbackGame(t) = self { fnc(t) }; self }
+  pub fn on_callback_with_password<F: FnOnce(&InlineKeyboardButtonTypeCallbackWithPassword)>(&self, fnc: F) -> &Self { if let InlineKeyboardButtonType::CallbackWithPassword(t) = self { fnc(t) }; self }
   pub fn on_login_url<F: FnOnce(&InlineKeyboardButtonTypeLoginUrl)>(&self, fnc: F) -> &Self { if let InlineKeyboardButtonType::LoginUrl(t) = self { fnc(t) }; self }
   pub fn on_switch_inline<F: FnOnce(&InlineKeyboardButtonTypeSwitchInline)>(&self, fnc: F) -> &Self { if let InlineKeyboardButtonType::SwitchInline(t) = self { fnc(t) }; self }
   pub fn on_url<F: FnOnce(&InlineKeyboardButtonTypeUrl)>(&self, fnc: F) -> &Self { if let InlineKeyboardButtonType::Url(t) = self { fnc(t) }; self }
@@ -90,6 +96,7 @@ impl InlineKeyboardButtonType {
   pub fn as_buy(&self) -> Option<&InlineKeyboardButtonTypeBuy> { if let InlineKeyboardButtonType::Buy(t) = self { return Some(t) } None }
   pub fn as_callback(&self) -> Option<&InlineKeyboardButtonTypeCallback> { if let InlineKeyboardButtonType::Callback(t) = self { return Some(t) } None }
   pub fn as_callback_game(&self) -> Option<&InlineKeyboardButtonTypeCallbackGame> { if let InlineKeyboardButtonType::CallbackGame(t) = self { return Some(t) } None }
+  pub fn as_callback_with_password(&self) -> Option<&InlineKeyboardButtonTypeCallbackWithPassword> { if let InlineKeyboardButtonType::CallbackWithPassword(t) = self { return Some(t) } None }
   pub fn as_login_url(&self) -> Option<&InlineKeyboardButtonTypeLoginUrl> { if let InlineKeyboardButtonType::LoginUrl(t) = self { return Some(t) } None }
   pub fn as_switch_inline(&self) -> Option<&InlineKeyboardButtonTypeSwitchInline> { if let InlineKeyboardButtonType::SwitchInline(t) = self { return Some(t) } None }
   pub fn as_url(&self) -> Option<&InlineKeyboardButtonTypeUrl> { if let InlineKeyboardButtonType::Url(t) = self { return Some(t) } None }
@@ -101,6 +108,8 @@ impl InlineKeyboardButtonType {
   pub fn callback<T: AsRef<InlineKeyboardButtonTypeCallback>>(t: T) -> Self { InlineKeyboardButtonType::Callback(t.as_ref().clone()) }
 
   pub fn callback_game<T: AsRef<InlineKeyboardButtonTypeCallbackGame>>(t: T) -> Self { InlineKeyboardButtonType::CallbackGame(t.as_ref().clone()) }
+
+  pub fn callback_with_password<T: AsRef<InlineKeyboardButtonTypeCallbackWithPassword>>(t: T) -> Self { InlineKeyboardButtonType::CallbackWithPassword(t.as_ref().clone()) }
 
   pub fn login_url<T: AsRef<InlineKeyboardButtonTypeLoginUrl>>(t: T) -> Self { InlineKeyboardButtonType::LoginUrl(t.as_ref().clone()) }
 
@@ -173,7 +182,7 @@ impl AsRef<InlineKeyboardButtonTypeBuy> for RTDInlineKeyboardButtonTypeBuyBuilde
 
 
 
-/// A button that sends a special callback query to a bot
+/// A button that sends a callback query to a bot
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InlineKeyboardButtonTypeCallback {
   #[doc(hidden)]
@@ -236,7 +245,7 @@ impl AsRef<InlineKeyboardButtonTypeCallback> for RTDInlineKeyboardButtonTypeCall
 
 
 
-/// A button with a game that sends a special callback query to a bot. This button must be in the first column and row of the keyboard and can be attached only to a message with content of the type messageGame
+/// A button with a game that sends a callback query to a bot. This button must be in the first column and row of the keyboard and can be attached only to a message with content of the type messageGame
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InlineKeyboardButtonTypeCallbackGame {
   #[doc(hidden)]
@@ -281,6 +290,69 @@ impl AsRef<InlineKeyboardButtonTypeCallbackGame> for InlineKeyboardButtonTypeCal
 
 impl AsRef<InlineKeyboardButtonTypeCallbackGame> for RTDInlineKeyboardButtonTypeCallbackGameBuilder {
   fn as_ref(&self) -> &InlineKeyboardButtonTypeCallbackGame { &self.inner }
+}
+
+
+
+
+
+
+
+/// A button that asks for password of the current user and then sends a callback query to a bot
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InlineKeyboardButtonTypeCallbackWithPassword {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// Data to be sent to the bot via a callback query
+  data: String,
+  
+}
+
+impl RObject for InlineKeyboardButtonTypeCallbackWithPassword {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineKeyboardButtonTypeCallbackWithPassword" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInlineKeyboardButtonType for InlineKeyboardButtonTypeCallbackWithPassword {}
+
+
+
+impl InlineKeyboardButtonTypeCallbackWithPassword {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInlineKeyboardButtonTypeCallbackWithPasswordBuilder {
+    let mut inner = InlineKeyboardButtonTypeCallbackWithPassword::default();
+    inner.td_name = "inlineKeyboardButtonTypeCallbackWithPassword".to_string();
+    RTDInlineKeyboardButtonTypeCallbackWithPasswordBuilder { inner }
+  }
+
+  pub fn data(&self) -> &String { &self.data }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInlineKeyboardButtonTypeCallbackWithPasswordBuilder {
+  inner: InlineKeyboardButtonTypeCallbackWithPassword
+}
+
+impl RTDInlineKeyboardButtonTypeCallbackWithPasswordBuilder {
+  pub fn build(&self) -> InlineKeyboardButtonTypeCallbackWithPassword { self.inner.clone() }
+
+   
+  pub fn data<T: AsRef<str>>(&mut self, data: T) -> &mut Self {
+    self.inner.data = data.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<InlineKeyboardButtonTypeCallbackWithPassword> for InlineKeyboardButtonTypeCallbackWithPassword {
+  fn as_ref(&self) -> &InlineKeyboardButtonTypeCallbackWithPassword { self }
+}
+
+impl AsRef<InlineKeyboardButtonTypeCallbackWithPassword> for RTDInlineKeyboardButtonTypeCallbackWithPasswordBuilder {
+  fn as_ref(&self) -> &InlineKeyboardButtonTypeCallbackWithPassword { &self.inner }
 }
 
 

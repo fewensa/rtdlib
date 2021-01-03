@@ -234,11 +234,11 @@ pub struct NotificationTypeNewPushMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// The message identifier. The message will not be available in the chat history, but the ID can be used in viewMessages and as reply_to_message_id
+  /// The message identifier. The message will not be available in the chat history, but the ID can be used in viewMessages, or as reply_to_message_id
   message_id: i64,
-  /// Sender of the message; 0 if unknown. Corresponding user may be inaccessible
-  sender_user_id: i64,
-  /// Name of the sender; can be different from the name of the sender user
+  /// The sender of the message. Corresponding user or chat may be inaccessible
+  sender: MessageSender,
+  /// Name of the sender
   sender_name: String,
   /// True, if the message is outgoing
   is_outgoing: bool,
@@ -267,7 +267,7 @@ impl NotificationTypeNewPushMessage {
 
   pub fn message_id(&self) -> i64 { self.message_id }
 
-  pub fn sender_user_id(&self) -> i64 { self.sender_user_id }
+  pub fn sender(&self) -> &MessageSender { &self.sender }
 
   pub fn sender_name(&self) -> &String { &self.sender_name }
 
@@ -292,8 +292,8 @@ impl RTDNotificationTypeNewPushMessageBuilder {
   }
 
    
-  pub fn sender_user_id(&mut self, sender_user_id: i64) -> &mut Self {
-    self.inner.sender_user_id = sender_user_id;
+  pub fn sender<T: AsRef<MessageSender>>(&mut self, sender: T) -> &mut Self {
+    self.inner.sender = sender.as_ref().clone();
     self
   }
 

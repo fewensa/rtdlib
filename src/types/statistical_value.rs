@@ -5,13 +5,13 @@ use crate::errors::*;
 
 
 
-/// A statistics value
+/// A value with information about its recent changes
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct StatisticsValue {
+pub struct StatisticalValue {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// The value
+  /// The current value
   value: f32,
   /// The value for the previous day
   previous_value: f32,
@@ -20,19 +20,19 @@ pub struct StatisticsValue {
   
 }
 
-impl RObject for StatisticsValue {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "statisticsValue" }
+impl RObject for StatisticalValue {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "statisticalValue" }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
-impl StatisticsValue {
+impl StatisticalValue {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDStatisticsValueBuilder {
-    let mut inner = StatisticsValue::default();
-    inner.td_name = "statisticsValue".to_string();
-    RTDStatisticsValueBuilder { inner }
+  pub fn builder() -> RTDStatisticalValueBuilder {
+    let mut inner = StatisticalValue::default();
+    inner.td_name = "statisticalValue".to_string();
+    RTDStatisticalValueBuilder { inner }
   }
 
   pub fn value(&self) -> f32 { self.value }
@@ -44,12 +44,12 @@ impl StatisticsValue {
 }
 
 #[doc(hidden)]
-pub struct RTDStatisticsValueBuilder {
-  inner: StatisticsValue
+pub struct RTDStatisticalValueBuilder {
+  inner: StatisticalValue
 }
 
-impl RTDStatisticsValueBuilder {
-  pub fn build(&self) -> StatisticsValue { self.inner.clone() }
+impl RTDStatisticalValueBuilder {
+  pub fn build(&self) -> StatisticalValue { self.inner.clone() }
 
    
   pub fn value(&mut self, value: f32) -> &mut Self {
@@ -71,12 +71,12 @@ impl RTDStatisticsValueBuilder {
 
 }
 
-impl AsRef<StatisticsValue> for StatisticsValue {
-  fn as_ref(&self) -> &StatisticsValue { self }
+impl AsRef<StatisticalValue> for StatisticalValue {
+  fn as_ref(&self) -> &StatisticalValue { self }
 }
 
-impl AsRef<StatisticsValue> for RTDStatisticsValueBuilder {
-  fn as_ref(&self) -> &StatisticsValue { &self.inner }
+impl AsRef<StatisticalValue> for RTDStatisticalValueBuilder {
+  fn as_ref(&self) -> &StatisticalValue { &self.inner }
 }
 
 

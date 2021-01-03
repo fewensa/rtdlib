@@ -15,7 +15,7 @@ pub struct AnimatedChatPhoto {
   length: i64,
   /// Information about the animation file
   file: File,
-  /// Timestamp of the frame, used as static chat photo
+  /// Timestamp of the frame, used as a static chat photo
   main_frame_timestamp: f32,
   
 }

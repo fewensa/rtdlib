@@ -37,8 +37,8 @@ pub struct SupergroupFullInfo {
   can_set_sticker_set: bool,
   /// True, if the supergroup location can be changed
   can_set_location: bool,
-  /// True, if the channel statistics is available
-  can_view_statistics: bool,
+  /// True, if the supergroup or channel statistics are available
+  can_get_statistics: bool,
   /// True, if new chat members will have access to old messages. In public or discussion groups and both public and private channels, old messages are always available, so this option affects only private supergroups without a linked chat. The value of this field is only available for chat administrators
   is_all_history_available: bool,
   /// Identifier of the supergroup sticker set; 0 if none
@@ -95,7 +95,7 @@ impl SupergroupFullInfo {
 
   pub fn can_set_location(&self) -> bool { self.can_set_location }
 
-  pub fn can_view_statistics(&self) -> bool { self.can_view_statistics }
+  pub fn can_get_statistics(&self) -> bool { self.can_get_statistics }
 
   pub fn is_all_history_available(&self) -> bool { self.is_all_history_available }
 
@@ -198,8 +198,8 @@ impl RTDSupergroupFullInfoBuilder {
   }
 
    
-  pub fn can_view_statistics(&mut self, can_view_statistics: bool) -> &mut Self {
-    self.inner.can_view_statistics = can_view_statistics;
+  pub fn can_get_statistics(&mut self, can_get_statistics: bool) -> &mut Self {
+    self.inner.can_get_statistics = can_get_statistics;
     self
   }
 

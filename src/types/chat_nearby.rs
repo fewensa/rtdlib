@@ -13,7 +13,7 @@ pub struct ChatNearby {
   td_name: String,
   /// Chat identifier
   chat_id: i64,
-  /// Distance to the chat location in meters
+  /// Distance to the chat location, in meters
   distance: i64,
   
 }

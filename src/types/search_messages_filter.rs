@@ -40,7 +40,9 @@ pub enum SearchMessagesFilter {
   Photo(SearchMessagesFilterPhoto),
   /// Returns only photo and video messages
   PhotoAndVideo(SearchMessagesFilterPhotoAndVideo),
-  /// Returns only messages with unread mentions of the current user, or messages that are replies to their messages. When using this filter the results can't be additionally filtered by a query or by the sending user
+  /// Returns only pinned messages
+  Pinned(SearchMessagesFilterPinned),
+  /// Returns only messages with unread mentions of the current user, or messages that are replies to their messages. When using this filter the results can't be additionally filtered by a query, a message thread or by the sending user
   UnreadMention(SearchMessagesFilterUnreadMention),
   /// Returns only messages containing URLs
   Url(SearchMessagesFilterUrl),
@@ -75,6 +77,7 @@ impl<'de> Deserialize<'de> for SearchMessagesFilter {
       (searchMessagesFilterMissedCall, MissedCall);
       (searchMessagesFilterPhoto, Photo);
       (searchMessagesFilterPhotoAndVideo, PhotoAndVideo);
+      (searchMessagesFilterPinned, Pinned);
       (searchMessagesFilterUnreadMention, UnreadMention);
       (searchMessagesFilterUrl, Url);
       (searchMessagesFilterVideo, Video);
@@ -100,6 +103,7 @@ impl RObject for SearchMessagesFilter {
       SearchMessagesFilter::MissedCall(t) => t.td_name(),
       SearchMessagesFilter::Photo(t) => t.td_name(),
       SearchMessagesFilter::PhotoAndVideo(t) => t.td_name(),
+      SearchMessagesFilter::Pinned(t) => t.td_name(),
       SearchMessagesFilter::UnreadMention(t) => t.td_name(),
       SearchMessagesFilter::Url(t) => t.td_name(),
       SearchMessagesFilter::Video(t) => t.td_name(),
@@ -128,6 +132,7 @@ impl SearchMessagesFilter {
   pub fn is_missed_call(&self) -> bool { if let SearchMessagesFilter::MissedCall(_) = self { true } else { false } }
   pub fn is_photo(&self) -> bool { if let SearchMessagesFilter::Photo(_) = self { true } else { false } }
   pub fn is_photo_and_video(&self) -> bool { if let SearchMessagesFilter::PhotoAndVideo(_) = self { true } else { false } }
+  pub fn is_pinned(&self) -> bool { if let SearchMessagesFilter::Pinned(_) = self { true } else { false } }
   pub fn is_unread_mention(&self) -> bool { if let SearchMessagesFilter::UnreadMention(_) = self { true } else { false } }
   pub fn is_url(&self) -> bool { if let SearchMessagesFilter::Url(_) = self { true } else { false } }
   pub fn is_video(&self) -> bool { if let SearchMessagesFilter::Video(_) = self { true } else { false } }
@@ -146,6 +151,7 @@ impl SearchMessagesFilter {
   pub fn on_missed_call<F: FnOnce(&SearchMessagesFilterMissedCall)>(&self, fnc: F) -> &Self { if let SearchMessagesFilter::MissedCall(t) = self { fnc(t) }; self }
   pub fn on_photo<F: FnOnce(&SearchMessagesFilterPhoto)>(&self, fnc: F) -> &Self { if let SearchMessagesFilter::Photo(t) = self { fnc(t) }; self }
   pub fn on_photo_and_video<F: FnOnce(&SearchMessagesFilterPhotoAndVideo)>(&self, fnc: F) -> &Self { if let SearchMessagesFilter::PhotoAndVideo(t) = self { fnc(t) }; self }
+  pub fn on_pinned<F: FnOnce(&SearchMessagesFilterPinned)>(&self, fnc: F) -> &Self { if let SearchMessagesFilter::Pinned(t) = self { fnc(t) }; self }
   pub fn on_unread_mention<F: FnOnce(&SearchMessagesFilterUnreadMention)>(&self, fnc: F) -> &Self { if let SearchMessagesFilter::UnreadMention(t) = self { fnc(t) }; self }
   pub fn on_url<F: FnOnce(&SearchMessagesFilterUrl)>(&self, fnc: F) -> &Self { if let SearchMessagesFilter::Url(t) = self { fnc(t) }; self }
   pub fn on_video<F: FnOnce(&SearchMessagesFilterVideo)>(&self, fnc: F) -> &Self { if let SearchMessagesFilter::Video(t) = self { fnc(t) }; self }
@@ -164,6 +170,7 @@ impl SearchMessagesFilter {
   pub fn as_missed_call(&self) -> Option<&SearchMessagesFilterMissedCall> { if let SearchMessagesFilter::MissedCall(t) = self { return Some(t) } None }
   pub fn as_photo(&self) -> Option<&SearchMessagesFilterPhoto> { if let SearchMessagesFilter::Photo(t) = self { return Some(t) } None }
   pub fn as_photo_and_video(&self) -> Option<&SearchMessagesFilterPhotoAndVideo> { if let SearchMessagesFilter::PhotoAndVideo(t) = self { return Some(t) } None }
+  pub fn as_pinned(&self) -> Option<&SearchMessagesFilterPinned> { if let SearchMessagesFilter::Pinned(t) = self { return Some(t) } None }
   pub fn as_unread_mention(&self) -> Option<&SearchMessagesFilterUnreadMention> { if let SearchMessagesFilter::UnreadMention(t) = self { return Some(t) } None }
   pub fn as_url(&self) -> Option<&SearchMessagesFilterUrl> { if let SearchMessagesFilter::Url(t) = self { return Some(t) } None }
   pub fn as_video(&self) -> Option<&SearchMessagesFilterVideo> { if let SearchMessagesFilter::Video(t) = self { return Some(t) } None }
@@ -194,6 +201,8 @@ impl SearchMessagesFilter {
   pub fn photo<T: AsRef<SearchMessagesFilterPhoto>>(t: T) -> Self { SearchMessagesFilter::Photo(t.as_ref().clone()) }
 
   pub fn photo_and_video<T: AsRef<SearchMessagesFilterPhotoAndVideo>>(t: T) -> Self { SearchMessagesFilter::PhotoAndVideo(t.as_ref().clone()) }
+
+  pub fn pinned<T: AsRef<SearchMessagesFilterPinned>>(t: T) -> Self { SearchMessagesFilter::Pinned(t.as_ref().clone()) }
 
   pub fn unread_mention<T: AsRef<SearchMessagesFilterUnreadMention>>(t: T) -> Self { SearchMessagesFilter::UnreadMention(t.as_ref().clone()) }
 
@@ -802,7 +811,60 @@ impl AsRef<SearchMessagesFilterPhotoAndVideo> for RTDSearchMessagesFilterPhotoAn
 
 
 
-/// Returns only messages with unread mentions of the current user, or messages that are replies to their messages. When using this filter the results can't be additionally filtered by a query or by the sending user
+/// Returns only pinned messages
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SearchMessagesFilterPinned {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  
+}
+
+impl RObject for SearchMessagesFilterPinned {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterPinned" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDSearchMessagesFilter for SearchMessagesFilterPinned {}
+
+
+
+impl SearchMessagesFilterPinned {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSearchMessagesFilterPinnedBuilder {
+    let mut inner = SearchMessagesFilterPinned::default();
+    inner.td_name = "searchMessagesFilterPinned".to_string();
+    RTDSearchMessagesFilterPinnedBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSearchMessagesFilterPinnedBuilder {
+  inner: SearchMessagesFilterPinned
+}
+
+impl RTDSearchMessagesFilterPinnedBuilder {
+  pub fn build(&self) -> SearchMessagesFilterPinned { self.inner.clone() }
+
+}
+
+impl AsRef<SearchMessagesFilterPinned> for SearchMessagesFilterPinned {
+  fn as_ref(&self) -> &SearchMessagesFilterPinned { self }
+}
+
+impl AsRef<SearchMessagesFilterPinned> for RTDSearchMessagesFilterPinnedBuilder {
+  fn as_ref(&self) -> &SearchMessagesFilterPinned { &self.inner }
+}
+
+
+
+
+
+
+
+/// Returns only messages with unread mentions of the current user, or messages that are replies to their messages. When using this filter the results can't be additionally filtered by a query, a message thread or by the sending user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SearchMessagesFilterUnreadMention {
   #[doc(hidden)]

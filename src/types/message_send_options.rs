@@ -11,7 +11,7 @@ pub struct MessageSendOptions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Pass true to disable notification for the message. Must be false if the message is sent to a secret chat
+  /// Pass true to disable notification for the message
   disable_notification: bool,
   /// Pass true if the message is sent from the background
   from_background: bool,

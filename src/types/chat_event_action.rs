@@ -1159,6 +1159,8 @@ pub struct ChatEventMessageUnpinned {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  /// Unpinned message
+  message: Message,
   
 }
 
@@ -1180,6 +1182,8 @@ impl ChatEventMessageUnpinned {
     RTDChatEventMessageUnpinnedBuilder { inner }
   }
 
+  pub fn message(&self) -> &Message { &self.message }
+
 }
 
 #[doc(hidden)]
@@ -1189,6 +1193,12 @@ pub struct RTDChatEventMessageUnpinnedBuilder {
 
 impl RTDChatEventMessageUnpinnedBuilder {
   pub fn build(&self) -> ChatEventMessageUnpinned { self.inner.clone() }
+
+   
+  pub fn message<T: AsRef<Message>>(&mut self, message: T) -> &mut Self {
+    self.inner.message = message.as_ref().clone();
+    self
+  }
 
 }
 

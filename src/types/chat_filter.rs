@@ -21,7 +21,7 @@ pub struct ChatFilter {
   included_chat_ids: Vec<i64>,
   /// The chat identifiers of always excluded chats in the filtered chat list
   excluded_chat_ids: Vec<i64>,
-  /// True, if the muted chats need to be excluded
+  /// True, if muted chats need to be excluded
   exclude_muted: bool,
   /// True, if read chats need to be excluded
   exclude_read: bool,

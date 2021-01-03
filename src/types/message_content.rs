@@ -80,6 +80,8 @@ pub enum MessageContent {
   MessagePinMessage(MessagePinMessage),
   /// A message with a poll
   MessagePoll(MessagePoll),
+  /// A user in the chat came within proximity alert range
+  MessageProximityAlertTriggered(MessageProximityAlertTriggered),
   /// A screenshot of a message in the chat has been taken
   MessageScreenshotTaken(MessageScreenshotTaken),
   /// A sticker message
@@ -143,6 +145,7 @@ impl<'de> Deserialize<'de> for MessageContent {
       (messagePhoto, MessagePhoto);
       (messagePinMessage, MessagePinMessage);
       (messagePoll, MessagePoll);
+      (messageProximityAlertTriggered, MessageProximityAlertTriggered);
       (messageScreenshotTaken, MessageScreenshotTaken);
       (messageSticker, MessageSticker);
       (messageSupergroupChatCreate, MessageSupergroupChatCreate);
@@ -192,6 +195,7 @@ impl RObject for MessageContent {
       MessageContent::MessagePhoto(t) => t.td_name(),
       MessageContent::MessagePinMessage(t) => t.td_name(),
       MessageContent::MessagePoll(t) => t.td_name(),
+      MessageContent::MessageProximityAlertTriggered(t) => t.td_name(),
       MessageContent::MessageScreenshotTaken(t) => t.td_name(),
       MessageContent::MessageSticker(t) => t.td_name(),
       MessageContent::MessageSupergroupChatCreate(t) => t.td_name(),
@@ -244,6 +248,7 @@ impl MessageContent {
   pub fn is_message_photo(&self) -> bool { if let MessageContent::MessagePhoto(_) = self { true } else { false } }
   pub fn is_message_pin_message(&self) -> bool { if let MessageContent::MessagePinMessage(_) = self { true } else { false } }
   pub fn is_message_poll(&self) -> bool { if let MessageContent::MessagePoll(_) = self { true } else { false } }
+  pub fn is_message_proximity_alert_triggered(&self) -> bool { if let MessageContent::MessageProximityAlertTriggered(_) = self { true } else { false } }
   pub fn is_message_screenshot_taken(&self) -> bool { if let MessageContent::MessageScreenshotTaken(_) = self { true } else { false } }
   pub fn is_message_sticker(&self) -> bool { if let MessageContent::MessageSticker(_) = self { true } else { false } }
   pub fn is_message_supergroup_chat_create(&self) -> bool { if let MessageContent::MessageSupergroupChatCreate(_) = self { true } else { false } }
@@ -286,6 +291,7 @@ impl MessageContent {
   pub fn on_message_photo<F: FnOnce(&MessagePhoto)>(&self, fnc: F) -> &Self { if let MessageContent::MessagePhoto(t) = self { fnc(t) }; self }
   pub fn on_message_pin_message<F: FnOnce(&MessagePinMessage)>(&self, fnc: F) -> &Self { if let MessageContent::MessagePinMessage(t) = self { fnc(t) }; self }
   pub fn on_message_poll<F: FnOnce(&MessagePoll)>(&self, fnc: F) -> &Self { if let MessageContent::MessagePoll(t) = self { fnc(t) }; self }
+  pub fn on_message_proximity_alert_triggered<F: FnOnce(&MessageProximityAlertTriggered)>(&self, fnc: F) -> &Self { if let MessageContent::MessageProximityAlertTriggered(t) = self { fnc(t) }; self }
   pub fn on_message_screenshot_taken<F: FnOnce(&MessageScreenshotTaken)>(&self, fnc: F) -> &Self { if let MessageContent::MessageScreenshotTaken(t) = self { fnc(t) }; self }
   pub fn on_message_sticker<F: FnOnce(&MessageSticker)>(&self, fnc: F) -> &Self { if let MessageContent::MessageSticker(t) = self { fnc(t) }; self }
   pub fn on_message_supergroup_chat_create<F: FnOnce(&MessageSupergroupChatCreate)>(&self, fnc: F) -> &Self { if let MessageContent::MessageSupergroupChatCreate(t) = self { fnc(t) }; self }
@@ -328,6 +334,7 @@ impl MessageContent {
   pub fn as_message_photo(&self) -> Option<&MessagePhoto> { if let MessageContent::MessagePhoto(t) = self { return Some(t) } None }
   pub fn as_message_pin_message(&self) -> Option<&MessagePinMessage> { if let MessageContent::MessagePinMessage(t) = self { return Some(t) } None }
   pub fn as_message_poll(&self) -> Option<&MessagePoll> { if let MessageContent::MessagePoll(t) = self { return Some(t) } None }
+  pub fn as_message_proximity_alert_triggered(&self) -> Option<&MessageProximityAlertTriggered> { if let MessageContent::MessageProximityAlertTriggered(t) = self { return Some(t) } None }
   pub fn as_message_screenshot_taken(&self) -> Option<&MessageScreenshotTaken> { if let MessageContent::MessageScreenshotTaken(t) = self { return Some(t) } None }
   pub fn as_message_sticker(&self) -> Option<&MessageSticker> { if let MessageContent::MessageSticker(t) = self { return Some(t) } None }
   pub fn as_message_supergroup_chat_create(&self) -> Option<&MessageSupergroupChatCreate> { if let MessageContent::MessageSupergroupChatCreate(t) = self { return Some(t) } None }
@@ -402,6 +409,8 @@ impl MessageContent {
   pub fn message_pin_message<T: AsRef<MessagePinMessage>>(t: T) -> Self { MessageContent::MessagePinMessage(t.as_ref().clone()) }
 
   pub fn message_poll<T: AsRef<MessagePoll>>(t: T) -> Self { MessageContent::MessagePoll(t.as_ref().clone()) }
+
+  pub fn message_proximity_alert_triggered<T: AsRef<MessageProximityAlertTriggered>>(t: T) -> Self { MessageContent::MessageProximityAlertTriggered(t.as_ref().clone()) }
 
   pub fn message_screenshot_taken<T: AsRef<MessageScreenshotTaken>>(t: T) -> Self { MessageContent::MessageScreenshotTaken(t.as_ref().clone()) }
 
@@ -1489,10 +1498,10 @@ pub struct MessageDice {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// The animated sticker with the initial dice animation; may be null if unknown. updateMessageContent will be sent when the sticker became known
-  initial_state_sticker: Option<Sticker>,
-  /// The animated sticker with the final dice animation; may be null if unknown. updateMessageContent will be sent when the sticker became known
-  final_state_sticker: Option<Sticker>,
+  /// The animated stickers with the initial dice animation; may be null if unknown. updateMessageContent will be sent when the sticker became known
+  initial_state: Option<DiceStickers>,
+  /// The animated stickers with the final dice animation; may be null if unknown. updateMessageContent will be sent when the sticker became known
+  final_state: Option<DiceStickers>,
   /// Emoji on which the dice throw animation is based
   emoji: String,
   /// The dice value. If the value is 0, the dice don't have final state yet
@@ -1520,9 +1529,9 @@ impl MessageDice {
     RTDMessageDiceBuilder { inner }
   }
 
-  pub fn initial_state_sticker(&self) -> &Option<Sticker> { &self.initial_state_sticker }
+  pub fn initial_state(&self) -> &Option<DiceStickers> { &self.initial_state }
 
-  pub fn final_state_sticker(&self) -> &Option<Sticker> { &self.final_state_sticker }
+  pub fn final_state(&self) -> &Option<DiceStickers> { &self.final_state }
 
   pub fn emoji(&self) -> &String { &self.emoji }
 
@@ -1541,14 +1550,14 @@ impl RTDMessageDiceBuilder {
   pub fn build(&self) -> MessageDice { self.inner.clone() }
 
    
-  pub fn initial_state_sticker<T: AsRef<Sticker>>(&mut self, initial_state_sticker: T) -> &mut Self {
-    self.inner.initial_state_sticker = Some(initial_state_sticker.as_ref().clone());
+  pub fn initial_state<T: AsRef<DiceStickers>>(&mut self, initial_state: T) -> &mut Self {
+    self.inner.initial_state = Some(initial_state.as_ref().clone());
     self
   }
 
    
-  pub fn final_state_sticker<T: AsRef<Sticker>>(&mut self, final_state_sticker: T) -> &mut Self {
-    self.inner.final_state_sticker = Some(final_state_sticker.as_ref().clone());
+  pub fn final_state<T: AsRef<DiceStickers>>(&mut self, final_state: T) -> &mut Self {
+    self.inner.final_state = Some(final_state.as_ref().clone());
     self
   }
 
@@ -2062,10 +2071,14 @@ pub struct MessageLocation {
   td_name: String,
   /// The location description
   location: Location,
-  /// Time relative to the message sent date until which the location can be updated, in seconds
+  /// Time relative to the message send date, for which the location can be updated, in seconds
   live_period: i64,
   /// Left time for which the location can be updated, in seconds. updateMessageContent is not sent when this field changes
   expires_in: i64,
+  /// For live locations, a direction in which the location moves, in degrees; 1-360. If 0 the direction is unknown
+  heading: i64,
+  /// For live locations, a maximum distance to another chat member for proximity alerts, in meters (0-100000). 0 if the notification is disabled. Available only for the message sender
+  proximity_alert_radius: i64,
   
 }
 
@@ -2093,6 +2106,10 @@ impl MessageLocation {
 
   pub fn expires_in(&self) -> i64 { self.expires_in }
 
+  pub fn heading(&self) -> i64 { self.heading }
+
+  pub fn proximity_alert_radius(&self) -> i64 { self.proximity_alert_radius }
+
 }
 
 #[doc(hidden)]
@@ -2118,6 +2135,18 @@ impl RTDMessageLocationBuilder {
    
   pub fn expires_in(&mut self, expires_in: i64) -> &mut Self {
     self.inner.expires_in = expires_in;
+    self
+  }
+
+   
+  pub fn heading(&mut self, heading: i64) -> &mut Self {
+    self.inner.heading = heading;
+    self
+  }
+
+   
+  pub fn proximity_alert_radius(&mut self, proximity_alert_radius: i64) -> &mut Self {
+    self.inner.proximity_alert_radius = proximity_alert_radius;
     self
   }
 
@@ -2690,6 +2719,89 @@ impl AsRef<MessagePoll> for MessagePoll {
 
 impl AsRef<MessagePoll> for RTDMessagePollBuilder {
   fn as_ref(&self) -> &MessagePoll { &self.inner }
+}
+
+
+
+
+
+
+
+/// A user in the chat came within proximity alert range
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct MessageProximityAlertTriggered {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  /// The user or chat, which triggered the proximity alert
+  traveler: MessageSender,
+  /// The user or chat, which subscribed for the proximity alert
+  watcher: MessageSender,
+  /// The distance between the users
+  distance: i64,
+  
+}
+
+impl RObject for MessageProximityAlertTriggered {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageProximityAlertTriggered" }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDMessageContent for MessageProximityAlertTriggered {}
+
+
+
+impl MessageProximityAlertTriggered {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDMessageProximityAlertTriggeredBuilder {
+    let mut inner = MessageProximityAlertTriggered::default();
+    inner.td_name = "messageProximityAlertTriggered".to_string();
+    RTDMessageProximityAlertTriggeredBuilder { inner }
+  }
+
+  pub fn traveler(&self) -> &MessageSender { &self.traveler }
+
+  pub fn watcher(&self) -> &MessageSender { &self.watcher }
+
+  pub fn distance(&self) -> i64 { self.distance }
+
+}
+
+#[doc(hidden)]
+pub struct RTDMessageProximityAlertTriggeredBuilder {
+  inner: MessageProximityAlertTriggered
+}
+
+impl RTDMessageProximityAlertTriggeredBuilder {
+  pub fn build(&self) -> MessageProximityAlertTriggered { self.inner.clone() }
+
+   
+  pub fn traveler<T: AsRef<MessageSender>>(&mut self, traveler: T) -> &mut Self {
+    self.inner.traveler = traveler.as_ref().clone();
+    self
+  }
+
+   
+  pub fn watcher<T: AsRef<MessageSender>>(&mut self, watcher: T) -> &mut Self {
+    self.inner.watcher = watcher.as_ref().clone();
+    self
+  }
+
+   
+  pub fn distance(&mut self, distance: i64) -> &mut Self {
+    self.inner.distance = distance;
+    self
+  }
+
+}
+
+impl AsRef<MessageProximityAlertTriggered> for MessageProximityAlertTriggered {
+  fn as_ref(&self) -> &MessageProximityAlertTriggered { self }
+}
+
+impl AsRef<MessageProximityAlertTriggered> for RTDMessageProximityAlertTriggeredBuilder {
+  fn as_ref(&self) -> &MessageProximityAlertTriggered { &self.inner }
 }
 
 

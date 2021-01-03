@@ -27,6 +27,8 @@ pub struct Chat {
   positions: Vec<ChatPosition>,
   /// True, if the chat is marked as unread
   is_marked_as_unread: bool,
+  /// True, if the chat is blocked by the current user and private messages from the chat can't be received
+  is_blocked: bool,
   /// True, if the chat has scheduled messages
   has_scheduled_messages: bool,
   /// True, if the chat messages can be deleted only for the current user while other users will continue to see the messages
@@ -49,8 +51,6 @@ pub struct Chat {
   notification_settings: ChatNotificationSettings,
   /// Describes actions which should be possible to do through a chat action bar; may be null
   action_bar: Option<ChatActionBar>,
-  /// Identifier of the pinned message in the chat; 0 if none
-  pinned_message_id: i64,
   /// Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
   reply_markup_message_id: i64,
   /// A draft of a message in the chat; may be null
@@ -91,6 +91,8 @@ impl Chat {
 
   pub fn is_marked_as_unread(&self) -> bool { self.is_marked_as_unread }
 
+  pub fn is_blocked(&self) -> bool { self.is_blocked }
+
   pub fn has_scheduled_messages(&self) -> bool { self.has_scheduled_messages }
 
   pub fn can_be_deleted_only_for_self(&self) -> bool { self.can_be_deleted_only_for_self }
@@ -112,8 +114,6 @@ impl Chat {
   pub fn notification_settings(&self) -> &ChatNotificationSettings { &self.notification_settings }
 
   pub fn action_bar(&self) -> &Option<ChatActionBar> { &self.action_bar }
-
-  pub fn pinned_message_id(&self) -> i64 { self.pinned_message_id }
 
   pub fn reply_markup_message_id(&self) -> i64 { self.reply_markup_message_id }
 
@@ -180,6 +180,12 @@ impl RTDChatBuilder {
   }
 
    
+  pub fn is_blocked(&mut self, is_blocked: bool) -> &mut Self {
+    self.inner.is_blocked = is_blocked;
+    self
+  }
+
+   
   pub fn has_scheduled_messages(&mut self, has_scheduled_messages: bool) -> &mut Self {
     self.inner.has_scheduled_messages = has_scheduled_messages;
     self
@@ -242,12 +248,6 @@ impl RTDChatBuilder {
    
   pub fn action_bar<T: AsRef<ChatActionBar>>(&mut self, action_bar: T) -> &mut Self {
     self.inner.action_bar = Some(action_bar.as_ref().clone());
-    self
-  }
-
-   
-  pub fn pinned_message_id(&mut self, pinned_message_id: i64) -> &mut Self {
-    self.inner.pinned_message_id = pinned_message_id;
     self
   }
 
