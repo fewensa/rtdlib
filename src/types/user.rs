@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct User {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// User identifier
   id: i64,
   /// First name of the user
@@ -37,6 +41,8 @@ pub struct User {
   restriction_reason: String,
   /// True, if many users reported this user as a scam
   is_scam: bool,
+  /// True, if many users reported this user as a fake account
+  is_fake: bool,
   /// If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
   have_access: bool,
   /// Type of the user
@@ -48,6 +54,7 @@ pub struct User {
 
 impl RObject for User {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "user" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -58,6 +65,7 @@ impl User {
   pub fn builder() -> RTDUserBuilder {
     let mut inner = User::default();
     inner.td_name = "user".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDUserBuilder { inner }
   }
 
@@ -86,6 +94,8 @@ impl User {
   pub fn restriction_reason(&self) -> &String { &self.restriction_reason }
 
   pub fn is_scam(&self) -> bool { self.is_scam }
+
+  pub fn is_fake(&self) -> bool { self.is_fake }
 
   pub fn have_access(&self) -> bool { self.have_access }
 
@@ -178,6 +188,12 @@ impl RTDUserBuilder {
    
   pub fn is_scam(&mut self, is_scam: bool) -> &mut Self {
     self.inner.is_scam = is_scam;
+    self
+  }
+
+   
+  pub fn is_fake(&mut self, is_fake: bool) -> &mut Self {
+    self.inner.is_fake = is_fake;
     self
   }
 

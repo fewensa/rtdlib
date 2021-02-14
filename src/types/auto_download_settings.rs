@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct AutoDownloadSettings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if the auto-download is enabled
   is_auto_download_enabled: bool,
   /// The maximum size of a photo file to be auto-downloaded
@@ -21,7 +25,7 @@ pub struct AutoDownloadSettings {
   max_other_file_size: i64,
   /// The maximum suggested bitrate for uploaded videos
   video_upload_bitrate: i64,
-  /// True, if the beginning of videos needs to be preloaded for instant playback
+  /// True, if the beginning of video files needs to be preloaded for instant playback
   preload_large_videos: bool,
   /// True, if the next audio track needs to be preloaded while the user is listening to an audio file
   preload_next_audio: bool,
@@ -32,6 +36,7 @@ pub struct AutoDownloadSettings {
 
 impl RObject for AutoDownloadSettings {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "autoDownloadSettings" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -42,6 +47,7 @@ impl AutoDownloadSettings {
   pub fn builder() -> RTDAutoDownloadSettingsBuilder {
     let mut inner = AutoDownloadSettings::default();
     inner.td_name = "autoDownloadSettings".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDAutoDownloadSettingsBuilder { inner }
   }
 

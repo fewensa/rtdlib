@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -50,6 +51,14 @@ impl RObject for InputSticker {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      InputSticker::Animated(t) => t.extra(),
+      InputSticker::Static(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -90,6 +99,9 @@ pub struct InputStickerAnimated {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// File with the animated sticker. Only local or uploaded within a week files are supported. See https://core.telegram.org/animated_stickers#technical-requirements for technical requirements
   sticker: InputFile,
   /// Emojis corresponding to the sticker
@@ -99,6 +111,7 @@ pub struct InputStickerAnimated {
 
 impl RObject for InputStickerAnimated {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputStickerAnimated" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -112,6 +125,7 @@ impl InputStickerAnimated {
   pub fn builder() -> RTDInputStickerAnimatedBuilder {
     let mut inner = InputStickerAnimated::default();
     inner.td_name = "inputStickerAnimated".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputStickerAnimatedBuilder { inner }
   }
 
@@ -163,6 +177,9 @@ pub struct InputStickerStatic {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// PNG image with the sticker; must be up to 512 KB in size and fit in a 512x512 square
   sticker: InputFile,
   /// Emojis corresponding to the sticker
@@ -174,6 +191,7 @@ pub struct InputStickerStatic {
 
 impl RObject for InputStickerStatic {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputStickerStatic" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -187,6 +205,7 @@ impl InputStickerStatic {
   pub fn builder() -> RTDInputStickerStaticBuilder {
     let mut inner = InputStickerStatic::default();
     inner.td_name = "inputStickerStatic".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputStickerStaticBuilder { inner }
   }
 

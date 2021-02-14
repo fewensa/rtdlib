@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Error {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Error code; subject to future changes. If the error code is 406, the error message must not be processed in any way and must not be displayed to the user
   code: i64,
   /// Error message; subject to future changes
@@ -20,6 +24,7 @@ pub struct Error {
 
 impl RObject for Error {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "error" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl Error {
   pub fn builder() -> RTDErrorBuilder {
     let mut inner = Error::default();
     inner.td_name = "error".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDErrorBuilder { inner }
   }
 

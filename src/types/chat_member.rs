@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,21 +12,25 @@ pub struct ChatMember {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// User identifier of the chat member
   user_id: i64,
   /// Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
   inviter_user_id: i64,
-  /// Point in time (Unix timestamp) when the user joined a chat
+  /// Point in time (Unix timestamp) when the user joined the chat
   joined_chat_date: i64,
   /// Status of the member in the chat
   status: ChatMemberStatus,
-  /// If the user is a bot, information about the bot; may be null. Can be null even for a bot if the bot is not a chat member
+  /// If the user is a bot, information about the bot; may be null. Can be null even for a bot if the bot is not the chat member
   bot_info: Option<BotInfo>,
   
 }
 
 impl RObject for ChatMember {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMember" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -36,6 +41,7 @@ impl ChatMember {
   pub fn builder() -> RTDChatMemberBuilder {
     let mut inner = ChatMember::default();
     inner.td_name = "chatMember".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatMemberBuilder { inner }
   }
 

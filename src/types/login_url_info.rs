@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -54,6 +55,15 @@ impl RObject for LoginUrlInfo {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      LoginUrlInfo::GetLoginUrlInfo(t) => t.extra(),
+      LoginUrlInfo::Open(t) => t.extra(),
+      LoginUrlInfo::RequestConfirmation(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -99,6 +109,9 @@ pub struct LoginUrlInfoOpen {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The URL to open
   url: String,
   /// True, if there is no need to show an ordinary open URL confirm
@@ -108,6 +121,7 @@ pub struct LoginUrlInfoOpen {
 
 impl RObject for LoginUrlInfoOpen {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "loginUrlInfoOpen" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -121,6 +135,7 @@ impl LoginUrlInfoOpen {
   pub fn builder() -> RTDLoginUrlInfoOpenBuilder {
     let mut inner = LoginUrlInfoOpen::default();
     inner.td_name = "loginUrlInfoOpen".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDLoginUrlInfoOpenBuilder { inner }
   }
 
@@ -172,6 +187,9 @@ pub struct LoginUrlInfoRequestConfirmation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// An HTTP URL to be opened
   url: String,
   /// A domain of the URL
@@ -185,6 +203,7 @@ pub struct LoginUrlInfoRequestConfirmation {
 
 impl RObject for LoginUrlInfoRequestConfirmation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "loginUrlInfoRequestConfirmation" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -198,6 +217,7 @@ impl LoginUrlInfoRequestConfirmation {
   pub fn builder() -> RTDLoginUrlInfoRequestConfirmationBuilder {
     let mut inner = LoginUrlInfoRequestConfirmation::default();
     inner.td_name = "loginUrlInfoRequestConfirmation".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDLoginUrlInfoRequestConfirmationBuilder { inner }
   }
 

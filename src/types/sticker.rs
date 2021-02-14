@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Sticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The identifier of the sticker set to which the sticker belongs; 0 if none
   #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] set_id: isize,
   /// Sticker width; as defined by the sender
@@ -25,6 +29,8 @@ pub struct Sticker {
   is_mask: bool,
   /// Position where the mask should be placed; may be null
   mask_position: Option<MaskPosition>,
+  /// Sticker's outline represented as a list of closed vector paths; may be empty. The coordinate system origin is in the upper-left corner
+  outline: Vec<ClosedVectorPath>,
   /// Sticker thumbnail in WEBP or JPEG format; may be null
   thumbnail: Option<Thumbnail>,
   /// File containing the sticker
@@ -34,6 +40,7 @@ pub struct Sticker {
 
 impl RObject for Sticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "sticker" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -44,6 +51,7 @@ impl Sticker {
   pub fn builder() -> RTDStickerBuilder {
     let mut inner = Sticker::default();
     inner.td_name = "sticker".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDStickerBuilder { inner }
   }
 
@@ -60,6 +68,8 @@ impl Sticker {
   pub fn is_mask(&self) -> bool { self.is_mask }
 
   pub fn mask_position(&self) -> &Option<MaskPosition> { &self.mask_position }
+
+  pub fn outline(&self) -> &Vec<ClosedVectorPath> { &self.outline }
 
   pub fn thumbnail(&self) -> &Option<Thumbnail> { &self.thumbnail }
 
@@ -114,6 +124,12 @@ impl RTDStickerBuilder {
    
   pub fn mask_position<T: AsRef<MaskPosition>>(&mut self, mask_position: T) -> &mut Self {
     self.inner.mask_position = Some(mask_position.as_ref().clone());
+    self
+  }
+
+   
+  pub fn outline(&mut self, outline: Vec<ClosedVectorPath>) -> &mut Self {
+    self.inner.outline = outline;
     self
   }
 

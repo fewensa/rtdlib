@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ChatFilter {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The title of the filter; 1-12 characters without line feeds
   title: String,
   /// The icon name for short filter representation. If non-empty, must be one of "All", "Unread", "Unmuted", "Bots", "Channels", "Groups", "Private", "Custom", "Setup", "Cat", "Crown", "Favorite", "Flower", "Game", "Home", "Love", "Mask", "Party", "Sport", "Study", "Trade", "Travel", "Work". If empty, use getChatFilterDefaultIconName to get default icon name for the filter
@@ -21,7 +25,7 @@ pub struct ChatFilter {
   included_chat_ids: Vec<i64>,
   /// The chat identifiers of always excluded chats in the filtered chat list
   excluded_chat_ids: Vec<i64>,
-  /// True, if the muted chats need to be excluded
+  /// True, if muted chats need to be excluded
   exclude_muted: bool,
   /// True, if read chats need to be excluded
   exclude_read: bool,
@@ -42,6 +46,7 @@ pub struct ChatFilter {
 
 impl RObject for ChatFilter {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatFilter" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -52,6 +57,7 @@ impl ChatFilter {
   pub fn builder() -> RTDChatFilterBuilder {
     let mut inner = ChatFilter::default();
     inner.td_name = "chatFilter".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatFilterBuilder { inner }
   }
 

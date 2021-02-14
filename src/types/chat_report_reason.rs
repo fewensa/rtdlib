@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -24,6 +25,8 @@ pub enum ChatReportReason {
   Copyright(ChatReportReasonCopyright),
   /// A custom reason provided by the user
   Custom(ChatReportReasonCustom),
+  /// The chat represents a fake account
+  Fake(ChatReportReasonFake),
   /// The chat contains pornographic messages
   Pornography(ChatReportReasonPornography),
   /// The chat contains spam messages
@@ -47,6 +50,7 @@ impl<'de> Deserialize<'de> for ChatReportReason {
       (chatReportReasonChildAbuse, ChildAbuse);
       (chatReportReasonCopyright, Copyright);
       (chatReportReasonCustom, Custom);
+      (chatReportReasonFake, Fake);
       (chatReportReasonPornography, Pornography);
       (chatReportReasonSpam, Spam);
       (chatReportReasonUnrelatedLocation, UnrelatedLocation);
@@ -62,12 +66,27 @@ impl RObject for ChatReportReason {
       ChatReportReason::ChildAbuse(t) => t.td_name(),
       ChatReportReason::Copyright(t) => t.td_name(),
       ChatReportReason::Custom(t) => t.td_name(),
+      ChatReportReason::Fake(t) => t.td_name(),
       ChatReportReason::Pornography(t) => t.td_name(),
       ChatReportReason::Spam(t) => t.td_name(),
       ChatReportReason::UnrelatedLocation(t) => t.td_name(),
       ChatReportReason::Violence(t) => t.td_name(),
 
       _ => "-1",
+    }
+  }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      ChatReportReason::ChildAbuse(t) => t.extra(),
+      ChatReportReason::Copyright(t) => t.extra(),
+      ChatReportReason::Custom(t) => t.extra(),
+      ChatReportReason::Fake(t) => t.extra(),
+      ChatReportReason::Pornography(t) => t.extra(),
+      ChatReportReason::Spam(t) => t.extra(),
+      ChatReportReason::UnrelatedLocation(t) => t.extra(),
+      ChatReportReason::Violence(t) => t.extra(),
+
+      _ => None,
     }
   }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
@@ -80,6 +99,7 @@ impl ChatReportReason {
   pub fn is_child_abuse(&self) -> bool { if let ChatReportReason::ChildAbuse(_) = self { true } else { false } }
   pub fn is_copyright(&self) -> bool { if let ChatReportReason::Copyright(_) = self { true } else { false } }
   pub fn is_custom(&self) -> bool { if let ChatReportReason::Custom(_) = self { true } else { false } }
+  pub fn is_fake(&self) -> bool { if let ChatReportReason::Fake(_) = self { true } else { false } }
   pub fn is_pornography(&self) -> bool { if let ChatReportReason::Pornography(_) = self { true } else { false } }
   pub fn is_spam(&self) -> bool { if let ChatReportReason::Spam(_) = self { true } else { false } }
   pub fn is_unrelated_location(&self) -> bool { if let ChatReportReason::UnrelatedLocation(_) = self { true } else { false } }
@@ -88,6 +108,7 @@ impl ChatReportReason {
   pub fn on_child_abuse<F: FnOnce(&ChatReportReasonChildAbuse)>(&self, fnc: F) -> &Self { if let ChatReportReason::ChildAbuse(t) = self { fnc(t) }; self }
   pub fn on_copyright<F: FnOnce(&ChatReportReasonCopyright)>(&self, fnc: F) -> &Self { if let ChatReportReason::Copyright(t) = self { fnc(t) }; self }
   pub fn on_custom<F: FnOnce(&ChatReportReasonCustom)>(&self, fnc: F) -> &Self { if let ChatReportReason::Custom(t) = self { fnc(t) }; self }
+  pub fn on_fake<F: FnOnce(&ChatReportReasonFake)>(&self, fnc: F) -> &Self { if let ChatReportReason::Fake(t) = self { fnc(t) }; self }
   pub fn on_pornography<F: FnOnce(&ChatReportReasonPornography)>(&self, fnc: F) -> &Self { if let ChatReportReason::Pornography(t) = self { fnc(t) }; self }
   pub fn on_spam<F: FnOnce(&ChatReportReasonSpam)>(&self, fnc: F) -> &Self { if let ChatReportReason::Spam(t) = self { fnc(t) }; self }
   pub fn on_unrelated_location<F: FnOnce(&ChatReportReasonUnrelatedLocation)>(&self, fnc: F) -> &Self { if let ChatReportReason::UnrelatedLocation(t) = self { fnc(t) }; self }
@@ -96,6 +117,7 @@ impl ChatReportReason {
   pub fn as_child_abuse(&self) -> Option<&ChatReportReasonChildAbuse> { if let ChatReportReason::ChildAbuse(t) = self { return Some(t) } None }
   pub fn as_copyright(&self) -> Option<&ChatReportReasonCopyright> { if let ChatReportReason::Copyright(t) = self { return Some(t) } None }
   pub fn as_custom(&self) -> Option<&ChatReportReasonCustom> { if let ChatReportReason::Custom(t) = self { return Some(t) } None }
+  pub fn as_fake(&self) -> Option<&ChatReportReasonFake> { if let ChatReportReason::Fake(t) = self { return Some(t) } None }
   pub fn as_pornography(&self) -> Option<&ChatReportReasonPornography> { if let ChatReportReason::Pornography(t) = self { return Some(t) } None }
   pub fn as_spam(&self) -> Option<&ChatReportReasonSpam> { if let ChatReportReason::Spam(t) = self { return Some(t) } None }
   pub fn as_unrelated_location(&self) -> Option<&ChatReportReasonUnrelatedLocation> { if let ChatReportReason::UnrelatedLocation(t) = self { return Some(t) } None }
@@ -108,6 +130,8 @@ impl ChatReportReason {
   pub fn copyright<T: AsRef<ChatReportReasonCopyright>>(t: T) -> Self { ChatReportReason::Copyright(t.as_ref().clone()) }
 
   pub fn custom<T: AsRef<ChatReportReasonCustom>>(t: T) -> Self { ChatReportReason::Custom(t.as_ref().clone()) }
+
+  pub fn fake<T: AsRef<ChatReportReasonFake>>(t: T) -> Self { ChatReportReason::Fake(t.as_ref().clone()) }
 
   pub fn pornography<T: AsRef<ChatReportReasonPornography>>(t: T) -> Self { ChatReportReason::Pornography(t.as_ref().clone()) }
 
@@ -135,11 +159,15 @@ pub struct ChatReportReasonChildAbuse {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatReportReasonChildAbuse {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonChildAbuse" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -153,6 +181,7 @@ impl ChatReportReasonChildAbuse {
   pub fn builder() -> RTDChatReportReasonChildAbuseBuilder {
     let mut inner = ChatReportReasonChildAbuse::default();
     inner.td_name = "chatReportReasonChildAbuse".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatReportReasonChildAbuseBuilder { inner }
   }
 
@@ -188,11 +217,15 @@ pub struct ChatReportReasonCopyright {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatReportReasonCopyright {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonCopyright" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -206,6 +239,7 @@ impl ChatReportReasonCopyright {
   pub fn builder() -> RTDChatReportReasonCopyrightBuilder {
     let mut inner = ChatReportReasonCopyright::default();
     inner.td_name = "chatReportReasonCopyright".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatReportReasonCopyrightBuilder { inner }
   }
 
@@ -241,6 +275,9 @@ pub struct ChatReportReasonCustom {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Report text
   text: String,
   
@@ -248,6 +285,7 @@ pub struct ChatReportReasonCustom {
 
 impl RObject for ChatReportReasonCustom {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonCustom" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -261,6 +299,7 @@ impl ChatReportReasonCustom {
   pub fn builder() -> RTDChatReportReasonCustomBuilder {
     let mut inner = ChatReportReasonCustom::default();
     inner.td_name = "chatReportReasonCustom".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatReportReasonCustomBuilder { inner }
   }
 
@@ -298,17 +337,79 @@ impl AsRef<ChatReportReasonCustom> for RTDChatReportReasonCustomBuilder {
 
 
 
+/// The chat represents a fake account
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatReportReasonFake {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  
+}
+
+impl RObject for ChatReportReasonFake {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonFake" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatReportReason for ChatReportReasonFake {}
+
+
+
+impl ChatReportReasonFake {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatReportReasonFakeBuilder {
+    let mut inner = ChatReportReasonFake::default();
+    inner.td_name = "chatReportReasonFake".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDChatReportReasonFakeBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatReportReasonFakeBuilder {
+  inner: ChatReportReasonFake
+}
+
+impl RTDChatReportReasonFakeBuilder {
+  pub fn build(&self) -> ChatReportReasonFake { self.inner.clone() }
+
+}
+
+impl AsRef<ChatReportReasonFake> for ChatReportReasonFake {
+  fn as_ref(&self) -> &ChatReportReasonFake { self }
+}
+
+impl AsRef<ChatReportReasonFake> for RTDChatReportReasonFakeBuilder {
+  fn as_ref(&self) -> &ChatReportReasonFake { &self.inner }
+}
+
+
+
+
+
+
+
 /// The chat contains pornographic messages
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatReportReasonPornography {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatReportReasonPornography {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonPornography" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -322,6 +423,7 @@ impl ChatReportReasonPornography {
   pub fn builder() -> RTDChatReportReasonPornographyBuilder {
     let mut inner = ChatReportReasonPornography::default();
     inner.td_name = "chatReportReasonPornography".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatReportReasonPornographyBuilder { inner }
   }
 
@@ -357,11 +459,15 @@ pub struct ChatReportReasonSpam {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatReportReasonSpam {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonSpam" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -375,6 +481,7 @@ impl ChatReportReasonSpam {
   pub fn builder() -> RTDChatReportReasonSpamBuilder {
     let mut inner = ChatReportReasonSpam::default();
     inner.td_name = "chatReportReasonSpam".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatReportReasonSpamBuilder { inner }
   }
 
@@ -410,11 +517,15 @@ pub struct ChatReportReasonUnrelatedLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatReportReasonUnrelatedLocation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonUnrelatedLocation" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -428,6 +539,7 @@ impl ChatReportReasonUnrelatedLocation {
   pub fn builder() -> RTDChatReportReasonUnrelatedLocationBuilder {
     let mut inner = ChatReportReasonUnrelatedLocation::default();
     inner.td_name = "chatReportReasonUnrelatedLocation".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatReportReasonUnrelatedLocationBuilder { inner }
   }
 
@@ -463,11 +575,15 @@ pub struct ChatReportReasonViolence {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatReportReasonViolence {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonViolence" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -481,6 +597,7 @@ impl ChatReportReasonViolence {
   pub fn builder() -> RTDChatReportReasonViolenceBuilder {
     let mut inner = ChatReportReasonViolence::default();
     inner.td_name = "chatReportReasonViolence".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatReportReasonViolenceBuilder { inner }
   }
 

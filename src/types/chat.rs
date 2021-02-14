@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Chat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Chat unique identifier
   id: i64,
   /// Type of the chat
@@ -24,9 +28,11 @@ pub struct Chat {
   /// Last message in the chat; may be null
   last_message: Option<Message>,
   /// Positions of the chat in chat lists
-  positions: Vec<ChatPosition>,
+  positions: Option<Vec<ChatPosition>>,
   /// True, if the chat is marked as unread
   is_marked_as_unread: bool,
+  /// True, if the chat is blocked by the current user and private messages from the chat can't be received
+  is_blocked: bool,
   /// True, if the chat has scheduled messages
   has_scheduled_messages: bool,
   /// True, if the chat messages can be deleted only for the current user while other users will continue to see the messages
@@ -49,8 +55,10 @@ pub struct Chat {
   notification_settings: ChatNotificationSettings,
   /// Describes actions which should be possible to do through a chat action bar; may be null
   action_bar: Option<ChatActionBar>,
-  /// Identifier of the pinned message in the chat; 0 if none
-  pinned_message_id: i64,
+  /// Group call identifier of an active voice chat; 0 if none or unknown. The voice chat can be received through the method getGroupCall
+  voice_chat_group_call_id: i64,
+  /// True, if an active voice chat is empty
+  is_voice_chat_empty: bool,
   /// Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
   reply_markup_message_id: i64,
   /// A draft of a message in the chat; may be null
@@ -62,6 +70,7 @@ pub struct Chat {
 
 impl RObject for Chat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chat" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -72,6 +81,7 @@ impl Chat {
   pub fn builder() -> RTDChatBuilder {
     let mut inner = Chat::default();
     inner.td_name = "chat".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatBuilder { inner }
   }
 
@@ -87,9 +97,11 @@ impl Chat {
 
   pub fn last_message(&self) -> &Option<Message> { &self.last_message }
 
-  pub fn positions(&self) -> &Vec<ChatPosition> { &self.positions }
+  pub fn positions(&self) -> &Option<Vec<ChatPosition>> { &self.positions }
 
   pub fn is_marked_as_unread(&self) -> bool { self.is_marked_as_unread }
+
+  pub fn is_blocked(&self) -> bool { self.is_blocked }
 
   pub fn has_scheduled_messages(&self) -> bool { self.has_scheduled_messages }
 
@@ -113,7 +125,9 @@ impl Chat {
 
   pub fn action_bar(&self) -> &Option<ChatActionBar> { &self.action_bar }
 
-  pub fn pinned_message_id(&self) -> i64 { self.pinned_message_id }
+  pub fn voice_chat_group_call_id(&self) -> i64 { self.voice_chat_group_call_id }
+
+  pub fn is_voice_chat_empty(&self) -> bool { self.is_voice_chat_empty }
 
   pub fn reply_markup_message_id(&self) -> i64 { self.reply_markup_message_id }
 
@@ -169,13 +183,19 @@ impl RTDChatBuilder {
 
    
   pub fn positions(&mut self, positions: Vec<ChatPosition>) -> &mut Self {
-    self.inner.positions = positions;
+    self.inner.positions = Some(positions);
     self
   }
 
    
   pub fn is_marked_as_unread(&mut self, is_marked_as_unread: bool) -> &mut Self {
     self.inner.is_marked_as_unread = is_marked_as_unread;
+    self
+  }
+
+   
+  pub fn is_blocked(&mut self, is_blocked: bool) -> &mut Self {
+    self.inner.is_blocked = is_blocked;
     self
   }
 
@@ -246,8 +266,14 @@ impl RTDChatBuilder {
   }
 
    
-  pub fn pinned_message_id(&mut self, pinned_message_id: i64) -> &mut Self {
-    self.inner.pinned_message_id = pinned_message_id;
+  pub fn voice_chat_group_call_id(&mut self, voice_chat_group_call_id: i64) -> &mut Self {
+    self.inner.voice_chat_group_call_id = voice_chat_group_call_id;
+    self
+  }
+
+   
+  pub fn is_voice_chat_empty(&mut self, is_voice_chat_empty: bool) -> &mut Self {
+    self.inner.is_voice_chat_empty = is_voice_chat_empty;
     self
   }
 

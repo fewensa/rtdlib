@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Audio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Duration of the audio, in seconds; as defined by the sender
   duration: i64,
   /// Title of the audio; as defined by the sender
@@ -32,6 +36,7 @@ pub struct Audio {
 
 impl RObject for Audio {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "audio" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -42,6 +47,7 @@ impl Audio {
   pub fn builder() -> RTDAudioBuilder {
     let mut inner = Audio::default();
     inner.td_name = "audio".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDAudioBuilder { inner }
   }
 

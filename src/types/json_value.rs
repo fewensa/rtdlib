@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -74,6 +75,20 @@ impl RObject for JsonValue {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      JsonValue::GetApplicationConfig(t) => t.extra(),
+      JsonValue::GetJsonValue(t) => t.extra(),
+      JsonValue::Array(t) => t.extra(),
+      JsonValue::Boolean(t) => t.extra(),
+      JsonValue::Null(t) => t.extra(),
+      JsonValue::Number(t) => t.extra(),
+      JsonValue::Object(t) => t.extra(),
+      JsonValue::String(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -144,6 +159,9 @@ pub struct JsonValueArray {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The list of array elements
   values: Vec<JsonValue>,
   
@@ -151,6 +169,7 @@ pub struct JsonValueArray {
 
 impl RObject for JsonValueArray {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "jsonValueArray" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -164,6 +183,7 @@ impl JsonValueArray {
   pub fn builder() -> RTDJsonValueArrayBuilder {
     let mut inner = JsonValueArray::default();
     inner.td_name = "jsonValueArray".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDJsonValueArrayBuilder { inner }
   }
 
@@ -207,6 +227,9 @@ pub struct JsonValueBoolean {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The value
   value: bool,
   
@@ -214,6 +237,7 @@ pub struct JsonValueBoolean {
 
 impl RObject for JsonValueBoolean {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "jsonValueBoolean" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -227,6 +251,7 @@ impl JsonValueBoolean {
   pub fn builder() -> RTDJsonValueBooleanBuilder {
     let mut inner = JsonValueBoolean::default();
     inner.td_name = "jsonValueBoolean".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDJsonValueBooleanBuilder { inner }
   }
 
@@ -270,11 +295,15 @@ pub struct JsonValueNull {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for JsonValueNull {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "jsonValueNull" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -288,6 +317,7 @@ impl JsonValueNull {
   pub fn builder() -> RTDJsonValueNullBuilder {
     let mut inner = JsonValueNull::default();
     inner.td_name = "jsonValueNull".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDJsonValueNullBuilder { inner }
   }
 
@@ -323,6 +353,9 @@ pub struct JsonValueNumber {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The value
   value: f32,
   
@@ -330,6 +363,7 @@ pub struct JsonValueNumber {
 
 impl RObject for JsonValueNumber {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "jsonValueNumber" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -343,6 +377,7 @@ impl JsonValueNumber {
   pub fn builder() -> RTDJsonValueNumberBuilder {
     let mut inner = JsonValueNumber::default();
     inner.td_name = "jsonValueNumber".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDJsonValueNumberBuilder { inner }
   }
 
@@ -386,6 +421,9 @@ pub struct JsonValueObject {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The list of object members
   members: Vec<JsonObjectMember>,
   
@@ -393,6 +431,7 @@ pub struct JsonValueObject {
 
 impl RObject for JsonValueObject {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "jsonValueObject" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -406,6 +445,7 @@ impl JsonValueObject {
   pub fn builder() -> RTDJsonValueObjectBuilder {
     let mut inner = JsonValueObject::default();
     inner.td_name = "jsonValueObject".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDJsonValueObjectBuilder { inner }
   }
 
@@ -449,6 +489,9 @@ pub struct JsonValueString {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The value
   value: String,
   
@@ -456,6 +499,7 @@ pub struct JsonValueString {
 
 impl RObject for JsonValueString {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "jsonValueString" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -469,6 +513,7 @@ impl JsonValueString {
   pub fn builder() -> RTDJsonValueStringBuilder {
     let mut inner = JsonValueString::default();
     inner.td_name = "jsonValueString".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDJsonValueStringBuilder { inner }
   }
 

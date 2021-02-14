@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,17 +12,21 @@ pub struct ChatPhotoInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// A small (160x160) chat photo variant in JPEG format. The file can be downloaded only before the photo is changed
   small: File,
   /// A big (640x640) chat photo variant in JPEG format. The file can be downloaded only before the photo is changed
   big: File,
   /// True, if the photo has animated variant
-  has_animation: bool,
+  has_animation: Option<bool>,
   
 }
 
 impl RObject for ChatPhotoInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatPhotoInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl ChatPhotoInfo {
   pub fn builder() -> RTDChatPhotoInfoBuilder {
     let mut inner = ChatPhotoInfo::default();
     inner.td_name = "chatPhotoInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatPhotoInfoBuilder { inner }
   }
 
@@ -39,7 +45,7 @@ impl ChatPhotoInfo {
 
   pub fn big(&self) -> &File { &self.big }
 
-  pub fn has_animation(&self) -> bool { self.has_animation }
+  pub fn has_animation(&self) -> &Option<bool> { &self.has_animation }
 
 }
 
@@ -65,7 +71,7 @@ impl RTDChatPhotoInfoBuilder {
 
    
   pub fn has_animation(&mut self, has_animation: bool) -> &mut Self {
-    self.inner.has_animation = has_animation;
+    self.inner.has_animation = Some(has_animation);
     self
   }
 

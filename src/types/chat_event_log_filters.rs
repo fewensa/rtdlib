@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ChatEventLogFilters {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if message edits should be returned
   message_edits: bool,
   /// True, if message deletions should be returned
@@ -31,11 +35,14 @@ pub struct ChatEventLogFilters {
   info_changes: bool,
   /// True, if changes in chat settings should be returned
   setting_changes: bool,
+  /// True, if voice chat actions should be returned
+  voice_chat_changes: bool,
   
 }
 
 impl RObject for ChatEventLogFilters {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventLogFilters" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -46,6 +53,7 @@ impl ChatEventLogFilters {
   pub fn builder() -> RTDChatEventLogFiltersBuilder {
     let mut inner = ChatEventLogFilters::default();
     inner.td_name = "chatEventLogFilters".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventLogFiltersBuilder { inner }
   }
 
@@ -68,6 +76,8 @@ impl ChatEventLogFilters {
   pub fn info_changes(&self) -> bool { self.info_changes }
 
   pub fn setting_changes(&self) -> bool { self.setting_changes }
+
+  pub fn voice_chat_changes(&self) -> bool { self.voice_chat_changes }
 
 }
 
@@ -136,6 +146,12 @@ impl RTDChatEventLogFiltersBuilder {
    
   pub fn setting_changes(&mut self, setting_changes: bool) -> &mut Self {
     self.inner.setting_changes = setting_changes;
+    self
+  }
+
+   
+  pub fn voice_chat_changes(&mut self, voice_chat_changes: bool) -> &mut Self {
+    self.inner.voice_chat_changes = voice_chat_changes;
     self
   }
 

@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ChatsNearby {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// List of users nearby
   users_nearby: Vec<ChatNearby>,
   /// List of location-based supergroups nearby
@@ -20,6 +24,7 @@ pub struct ChatsNearby {
 
 impl RObject for ChatsNearby {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatsNearby" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl ChatsNearby {
   pub fn builder() -> RTDChatsNearbyBuilder {
     let mut inner = ChatsNearby::default();
     inner.td_name = "chatsNearby".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatsNearbyBuilder { inner }
   }
 

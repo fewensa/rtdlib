@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,9 +12,12 @@ pub struct ChatInviteLinkInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
-  /// Chat identifier of the invite link; 0 if the user have no access to the chat before joining
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Chat identifier of the invite link; 0 if the user has no access to the chat before joining
   chat_id: i64,
-  /// If non-zero, the remaining time for which read access is granted to the chat, in seconds
+  /// If non-zero, the amount of time for which read access to the chat will remain available, in seconds
   accessible_for: i64,
   /// Contains information about the type of the chat
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: ChatType,
@@ -32,6 +36,7 @@ pub struct ChatInviteLinkInfo {
 
 impl RObject for ChatInviteLinkInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatInviteLinkInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -42,6 +47,7 @@ impl ChatInviteLinkInfo {
   pub fn builder() -> RTDChatInviteLinkInfoBuilder {
     let mut inner = ChatInviteLinkInfo::default();
     inner.td_name = "chatInviteLinkInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatInviteLinkInfoBuilder { inner }
   }
 

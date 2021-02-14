@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -58,6 +59,16 @@ impl RObject for AuthenticationCodeType {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      AuthenticationCodeType::Call(t) => t.extra(),
+      AuthenticationCodeType::FlashCall(t) => t.extra(),
+      AuthenticationCodeType::Sms(t) => t.extra(),
+      AuthenticationCodeType::TelegramMessage(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -108,6 +119,9 @@ pub struct AuthenticationCodeTypeCall {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Length of the code
   length: i64,
   
@@ -115,6 +129,7 @@ pub struct AuthenticationCodeTypeCall {
 
 impl RObject for AuthenticationCodeTypeCall {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authenticationCodeTypeCall" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -128,6 +143,7 @@ impl AuthenticationCodeTypeCall {
   pub fn builder() -> RTDAuthenticationCodeTypeCallBuilder {
     let mut inner = AuthenticationCodeTypeCall::default();
     inner.td_name = "authenticationCodeTypeCall".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDAuthenticationCodeTypeCallBuilder { inner }
   }
 
@@ -171,6 +187,9 @@ pub struct AuthenticationCodeTypeFlashCall {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Pattern of the phone number from which the call will be made
   pattern: String,
   
@@ -178,6 +197,7 @@ pub struct AuthenticationCodeTypeFlashCall {
 
 impl RObject for AuthenticationCodeTypeFlashCall {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authenticationCodeTypeFlashCall" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -191,6 +211,7 @@ impl AuthenticationCodeTypeFlashCall {
   pub fn builder() -> RTDAuthenticationCodeTypeFlashCallBuilder {
     let mut inner = AuthenticationCodeTypeFlashCall::default();
     inner.td_name = "authenticationCodeTypeFlashCall".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDAuthenticationCodeTypeFlashCallBuilder { inner }
   }
 
@@ -234,6 +255,9 @@ pub struct AuthenticationCodeTypeSms {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Length of the code
   length: i64,
   
@@ -241,6 +265,7 @@ pub struct AuthenticationCodeTypeSms {
 
 impl RObject for AuthenticationCodeTypeSms {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authenticationCodeTypeSms" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -254,6 +279,7 @@ impl AuthenticationCodeTypeSms {
   pub fn builder() -> RTDAuthenticationCodeTypeSmsBuilder {
     let mut inner = AuthenticationCodeTypeSms::default();
     inner.td_name = "authenticationCodeTypeSms".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDAuthenticationCodeTypeSmsBuilder { inner }
   }
 
@@ -297,6 +323,9 @@ pub struct AuthenticationCodeTypeTelegramMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Length of the code
   length: i64,
   
@@ -304,6 +333,7 @@ pub struct AuthenticationCodeTypeTelegramMessage {
 
 impl RObject for AuthenticationCodeTypeTelegramMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authenticationCodeTypeTelegramMessage" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -317,6 +347,7 @@ impl AuthenticationCodeTypeTelegramMessage {
   pub fn builder() -> RTDAuthenticationCodeTypeTelegramMessageBuilder {
     let mut inner = AuthenticationCodeTypeTelegramMessage::default();
     inner.td_name = "authenticationCodeTypeTelegramMessage".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDAuthenticationCodeTypeTelegramMessageBuilder { inner }
   }
 

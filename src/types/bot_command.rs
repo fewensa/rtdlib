@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct BotCommand {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text of the bot command
   command: String,
   /// Represents a command supported by a bot
@@ -20,6 +24,7 @@ pub struct BotCommand {
 
 impl RObject for BotCommand {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "botCommand" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl BotCommand {
   pub fn builder() -> RTDBotCommandBuilder {
     let mut inner = BotCommand::default();
     inner.td_name = "botCommand".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDBotCommandBuilder { inner }
   }
 

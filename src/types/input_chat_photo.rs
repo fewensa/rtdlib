@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -18,7 +19,7 @@ pub trait TDInputChatPhoto: Debug + RObject {}
 #[serde(untagged)]
 pub enum InputChatPhoto {
   #[doc(hidden)] _Default(()),
-  /// An animation in MPEG4 format; must be square, shorter than 10 seconds, have width between 160 and 800 and be at most 2MB in size
+  /// An animation in MPEG4 format; must be square, at most 10 seconds long, have width between 160 and 800 and be at most 2MB in size
   Animation(InputChatPhotoAnimation),
   /// A previously used profile photo of the current user
   Previous(InputChatPhotoPrevious),
@@ -52,6 +53,15 @@ impl RObject for InputChatPhoto {
       InputChatPhoto::Static(t) => t.td_name(),
 
       _ => "-1",
+    }
+  }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      InputChatPhoto::Animation(t) => t.extra(),
+      InputChatPhoto::Previous(t) => t.extra(),
+      InputChatPhoto::Static(t) => t.extra(),
+
+      _ => None,
     }
   }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
@@ -93,12 +103,15 @@ impl AsRef<InputChatPhoto> for InputChatPhoto {
 
 
 
-/// An animation in MPEG4 format; must be square, shorter than 10 seconds, have width between 160 and 800 and be at most 2MB in size
+/// An animation in MPEG4 format; must be square, at most 10 seconds long, have width between 160 and 800 and be at most 2MB in size
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InputChatPhotoAnimation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Animation to be set as profile photo. Only inputFileLocal and inputFileGenerated are allowed
   animation: InputFile,
   /// Timestamp of the frame, which will be used as static chat photo
@@ -108,6 +121,7 @@ pub struct InputChatPhotoAnimation {
 
 impl RObject for InputChatPhotoAnimation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputChatPhotoAnimation" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -121,6 +135,7 @@ impl InputChatPhotoAnimation {
   pub fn builder() -> RTDInputChatPhotoAnimationBuilder {
     let mut inner = InputChatPhotoAnimation::default();
     inner.td_name = "inputChatPhotoAnimation".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputChatPhotoAnimationBuilder { inner }
   }
 
@@ -172,6 +187,9 @@ pub struct InputChatPhotoPrevious {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Identifier of the profile photo to reuse
   chat_photo_id: isize,
   
@@ -179,6 +197,7 @@ pub struct InputChatPhotoPrevious {
 
 impl RObject for InputChatPhotoPrevious {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputChatPhotoPrevious" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -192,6 +211,7 @@ impl InputChatPhotoPrevious {
   pub fn builder() -> RTDInputChatPhotoPreviousBuilder {
     let mut inner = InputChatPhotoPrevious::default();
     inner.td_name = "inputChatPhotoPrevious".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputChatPhotoPreviousBuilder { inner }
   }
 
@@ -235,6 +255,9 @@ pub struct InputChatPhotoStatic {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Photo to be set as profile photo. Only inputFileLocal and inputFileGenerated are allowed
   photo: InputFile,
   
@@ -242,6 +265,7 @@ pub struct InputChatPhotoStatic {
 
 impl RObject for InputChatPhotoStatic {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputChatPhotoStatic" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -255,6 +279,7 @@ impl InputChatPhotoStatic {
   pub fn builder() -> RTDInputChatPhotoStaticBuilder {
     let mut inner = InputChatPhotoStatic::default();
     inner.td_name = "inputChatPhotoStatic".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputChatPhotoStaticBuilder { inner }
   }
 

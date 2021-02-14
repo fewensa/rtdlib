@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct StickerSet {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Identifier of the sticker set
   id: isize,
   /// Title of the sticker set
@@ -19,6 +23,8 @@ pub struct StickerSet {
   name: String,
   /// Sticker set thumbnail in WEBP or TGS format with width and height 100; may be null. The file can be downloaded only before the thumbnail is changed
   thumbnail: Option<Thumbnail>,
+  /// Sticker set thumbnail's outline represented as a list of closed vector paths; may be empty. The coordinate system origin is in the upper-left corner
+  thumbnail_outline: Vec<ClosedVectorPath>,
   /// True, if the sticker set has been installed by the current user
   is_installed: bool,
   /// True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
@@ -40,6 +46,7 @@ pub struct StickerSet {
 
 impl RObject for StickerSet {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "stickerSet" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -50,6 +57,7 @@ impl StickerSet {
   pub fn builder() -> RTDStickerSetBuilder {
     let mut inner = StickerSet::default();
     inner.td_name = "stickerSet".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDStickerSetBuilder { inner }
   }
 
@@ -60,6 +68,8 @@ impl StickerSet {
   pub fn name(&self) -> &String { &self.name }
 
   pub fn thumbnail(&self) -> &Option<Thumbnail> { &self.thumbnail }
+
+  pub fn thumbnail_outline(&self) -> &Vec<ClosedVectorPath> { &self.thumbnail_outline }
 
   pub fn is_installed(&self) -> bool { self.is_installed }
 
@@ -108,6 +118,12 @@ impl RTDStickerSetBuilder {
    
   pub fn thumbnail<T: AsRef<Thumbnail>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = Some(thumbnail.as_ref().clone());
+    self
+  }
+
+   
+  pub fn thumbnail_outline(&mut self, thumbnail_outline: Vec<ClosedVectorPath>) -> &mut Self {
+    self.inner.thumbnail_outline = thumbnail_outline;
     self
   }
 

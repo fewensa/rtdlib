@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -50,6 +51,14 @@ impl RObject for MessageSchedulingState {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      MessageSchedulingState::SendAtDate(t) => t.extra(),
+      MessageSchedulingState::SendWhenOnline(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -90,6 +99,9 @@ pub struct MessageSchedulingStateSendAtDate {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Date the message will be sent. The date must be within 367 days in the future
   send_date: i64,
   
@@ -97,6 +109,7 @@ pub struct MessageSchedulingStateSendAtDate {
 
 impl RObject for MessageSchedulingStateSendAtDate {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageSchedulingStateSendAtDate" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -110,6 +123,7 @@ impl MessageSchedulingStateSendAtDate {
   pub fn builder() -> RTDMessageSchedulingStateSendAtDateBuilder {
     let mut inner = MessageSchedulingStateSendAtDate::default();
     inner.td_name = "messageSchedulingStateSendAtDate".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMessageSchedulingStateSendAtDateBuilder { inner }
   }
 
@@ -153,11 +167,15 @@ pub struct MessageSchedulingStateSendWhenOnline {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for MessageSchedulingStateSendWhenOnline {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageSchedulingStateSendWhenOnline" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -171,6 +189,7 @@ impl MessageSchedulingStateSendWhenOnline {
   pub fn builder() -> RTDMessageSchedulingStateSendWhenOnlineBuilder {
     let mut inner = MessageSchedulingStateSendWhenOnline::default();
     inner.td_name = "messageSchedulingStateSendWhenOnline".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMessageSchedulingStateSendWhenOnlineBuilder { inner }
   }
 

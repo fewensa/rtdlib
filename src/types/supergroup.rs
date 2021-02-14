@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Supergroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Supergroup or channel identifier
   id: i64,
   /// Username of the supergroup or channel; empty for private supergroups or channels
@@ -35,13 +39,16 @@ pub struct Supergroup {
   is_verified: bool,
   /// If non-empty, contains a human-readable description of the reason why access to this supergroup or channel must be restricted
   restriction_reason: String,
-  /// True, if many users reported this supergroup as a scam
+  /// True, if many users reported this supergroup or channel as a scam
   is_scam: bool,
+  /// True, if many users reported this supergroup or channel as a fake account
+  is_fake: bool,
   
 }
 
 impl RObject for Supergroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "supergroup" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -52,6 +59,7 @@ impl Supergroup {
   pub fn builder() -> RTDSupergroupBuilder {
     let mut inner = Supergroup::default();
     inner.td_name = "supergroup".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDSupergroupBuilder { inner }
   }
 
@@ -80,6 +88,8 @@ impl Supergroup {
   pub fn restriction_reason(&self) -> &String { &self.restriction_reason }
 
   pub fn is_scam(&self) -> bool { self.is_scam }
+
+  pub fn is_fake(&self) -> bool { self.is_fake }
 
 }
 
@@ -166,6 +176,12 @@ impl RTDSupergroupBuilder {
    
   pub fn is_scam(&mut self, is_scam: bool) -> &mut Self {
     self.inner.is_scam = is_scam;
+    self
+  }
+
+   
+  pub fn is_fake(&mut self, is_fake: bool) -> &mut Self {
+    self.inner.is_fake = is_fake;
     self
   }
 

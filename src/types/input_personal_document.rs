@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct InputPersonalDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// List of files containing the pages of the document
   files: Vec<InputFile>,
   /// List of files containing a certified English translation of the document
@@ -20,6 +24,7 @@ pub struct InputPersonalDocument {
 
 impl RObject for InputPersonalDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputPersonalDocument" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl InputPersonalDocument {
   pub fn builder() -> RTDInputPersonalDocumentBuilder {
     let mut inner = InputPersonalDocument::default();
     inner.td_name = "inputPersonalDocument".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputPersonalDocumentBuilder { inner }
   }
 

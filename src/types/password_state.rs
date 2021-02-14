@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct PasswordState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if a 2-step verification password is set
   has_password: bool,
   /// Hint for the password; may be empty
@@ -26,6 +30,7 @@ pub struct PasswordState {
 
 impl RObject for PasswordState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passwordState" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -36,6 +41,7 @@ impl PasswordState {
   pub fn builder() -> RTDPasswordStateBuilder {
     let mut inner = PasswordState::default();
     inner.td_name = "passwordState".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPasswordStateBuilder { inner }
   }
 

@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,9 +12,12 @@ pub struct Poll {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique poll identifier
   #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] id: isize,
-  /// Poll question, 1-300 characters
+  /// Poll question; 1-300 characters
   question: String,
   /// List of poll answer options
   options: Vec<PollOption>,
@@ -36,6 +40,7 @@ pub struct Poll {
 
 impl RObject for Poll {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "poll" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -46,6 +51,7 @@ impl Poll {
   pub fn builder() -> RTDPollBuilder {
     let mut inner = Poll::default();
     inner.td_name = "poll".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPollBuilder { inner }
   }
 

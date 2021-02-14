@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct BankCardActionOpenUrl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Action text
   text: String,
   /// The URL to be opened
@@ -20,6 +24,7 @@ pub struct BankCardActionOpenUrl {
 
 impl RObject for BankCardActionOpenUrl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "bankCardActionOpenUrl" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl BankCardActionOpenUrl {
   pub fn builder() -> RTDBankCardActionOpenUrlBuilder {
     let mut inner = BankCardActionOpenUrl::default();
     inner.td_name = "bankCardActionOpenUrl".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDBankCardActionOpenUrlBuilder { inner }
   }
 

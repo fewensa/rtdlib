@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct TermsOfService {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text of the terms of service
   text: FormattedText,
   /// The minimum age of a user to be able to accept the terms; 0 if any
@@ -22,6 +26,7 @@ pub struct TermsOfService {
 
 impl RObject for TermsOfService {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "termsOfService" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl TermsOfService {
   pub fn builder() -> RTDTermsOfServiceBuilder {
     let mut inner = TermsOfService::default();
     inner.td_name = "termsOfService".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDTermsOfServiceBuilder { inner }
   }
 

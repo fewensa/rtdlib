@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct MessageLinkInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if the link is a public link for a message in a chat
   is_public: bool,
   /// If found, identifier of the chat to which the message belongs, 0 otherwise
@@ -19,11 +23,14 @@ pub struct MessageLinkInfo {
   message: Option<Message>,
   /// True, if the whole media album to which the message belongs is linked
   for_album: bool,
+  /// True, if the message is linked as a channel post comment or from a message thread
+  for_comment: bool,
   
 }
 
 impl RObject for MessageLinkInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageLinkInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -34,6 +41,7 @@ impl MessageLinkInfo {
   pub fn builder() -> RTDMessageLinkInfoBuilder {
     let mut inner = MessageLinkInfo::default();
     inner.td_name = "messageLinkInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMessageLinkInfoBuilder { inner }
   }
 
@@ -44,6 +52,8 @@ impl MessageLinkInfo {
   pub fn message(&self) -> &Option<Message> { &self.message }
 
   pub fn for_album(&self) -> bool { self.for_album }
+
+  pub fn for_comment(&self) -> bool { self.for_comment }
 
 }
 
@@ -76,6 +86,12 @@ impl RTDMessageLinkInfoBuilder {
    
   pub fn for_album(&mut self, for_album: bool) -> &mut Self {
     self.inner.for_album = for_album;
+    self
+  }
+
+   
+  pub fn for_comment(&mut self, for_comment: bool) -> &mut Self {
+    self.inner.for_comment = for_comment;
     self
   }
 

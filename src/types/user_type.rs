@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -58,6 +59,16 @@ impl RObject for UserType {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      UserType::Bot(t) => t.extra(),
+      UserType::Deleted(t) => t.extra(),
+      UserType::Regular(t) => t.extra(),
+      UserType::Unknown(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -108,6 +119,9 @@ pub struct UserTypeBot {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if the bot can be invited to basic group and supergroup chats
   can_join_groups: bool,
   /// True, if the bot can read all messages in basic group or supergroup chats and not just those addressed to the bot. In private and channel chats a bot can always read all messages
@@ -123,6 +137,7 @@ pub struct UserTypeBot {
 
 impl RObject for UserTypeBot {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userTypeBot" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -136,6 +151,7 @@ impl UserTypeBot {
   pub fn builder() -> RTDUserTypeBotBuilder {
     let mut inner = UserTypeBot::default();
     inner.td_name = "userTypeBot".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDUserTypeBotBuilder { inner }
   }
 
@@ -211,11 +227,15 @@ pub struct UserTypeDeleted {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for UserTypeDeleted {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userTypeDeleted" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -229,6 +249,7 @@ impl UserTypeDeleted {
   pub fn builder() -> RTDUserTypeDeletedBuilder {
     let mut inner = UserTypeDeleted::default();
     inner.td_name = "userTypeDeleted".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDUserTypeDeletedBuilder { inner }
   }
 
@@ -264,11 +285,15 @@ pub struct UserTypeRegular {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for UserTypeRegular {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userTypeRegular" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -282,6 +307,7 @@ impl UserTypeRegular {
   pub fn builder() -> RTDUserTypeRegularBuilder {
     let mut inner = UserTypeRegular::default();
     inner.td_name = "userTypeRegular".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDUserTypeRegularBuilder { inner }
   }
 
@@ -317,11 +343,15 @@ pub struct UserTypeUnknown {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for UserTypeUnknown {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userTypeUnknown" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -335,6 +365,7 @@ impl UserTypeUnknown {
   pub fn builder() -> RTDUserTypeUnknownBuilder {
     let mut inner = UserTypeUnknown::default();
     inner.td_name = "userTypeUnknown".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDUserTypeUnknownBuilder { inner }
   }
 

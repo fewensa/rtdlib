@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct PassportElementsWithErrors {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Telegram Passport elements
   elements: Vec<PassportElement>,
   /// Errors in the elements that are already available
@@ -20,6 +24,7 @@ pub struct PassportElementsWithErrors {
 
 impl RObject for PassportElementsWithErrors {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementsWithErrors" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl PassportElementsWithErrors {
   pub fn builder() -> RTDPassportElementsWithErrorsBuilder {
     let mut inner = PassportElementsWithErrors::default();
     inner.td_name = "passportElementsWithErrors".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPassportElementsWithErrorsBuilder { inner }
   }
 

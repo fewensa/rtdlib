@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ChatPosition {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The chat list
   list: ChatList,
   /// A parameter used to determine order of the chat in the chat list. Chats must be sorted by the pair (order, chat.id) in descending order
@@ -24,6 +28,7 @@ pub struct ChatPosition {
 
 impl RObject for ChatPosition {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatPosition" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -34,6 +39,7 @@ impl ChatPosition {
   pub fn builder() -> RTDChatPositionBuilder {
     let mut inner = ChatPosition::default();
     inner.td_name = "chatPosition".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatPositionBuilder { inner }
   }
 

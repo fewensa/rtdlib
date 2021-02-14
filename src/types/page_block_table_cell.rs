@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct PageBlockTableCell {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Cell text; may be null. If the text is null, then the cell should be invisible
   text: Option<RichText>,
   /// True, if it is a header cell
@@ -28,6 +32,7 @@ pub struct PageBlockTableCell {
 
 impl RObject for PageBlockTableCell {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockTableCell" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -38,6 +43,7 @@ impl PageBlockTableCell {
   pub fn builder() -> RTDPageBlockTableCellBuilder {
     let mut inner = PageBlockTableCell::default();
     inner.td_name = "pageBlockTableCell".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPageBlockTableCellBuilder { inner }
   }
 

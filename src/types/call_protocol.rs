@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct CallProtocol {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if UDP peer-to-peer connections are supported
   udp_p2p: bool,
   /// True, if connection through UDP reflectors is supported
@@ -19,13 +23,14 @@ pub struct CallProtocol {
   min_layer: i64,
   /// The maximum supported API layer; use 65
   max_layer: i64,
-  /// List of supported libtgvoip versions
+  /// List of supported tgcalls versions
   library_versions: Vec<String>,
   
 }
 
 impl RObject for CallProtocol {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callProtocol" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -36,6 +41,7 @@ impl CallProtocol {
   pub fn builder() -> RTDCallProtocolBuilder {
     let mut inner = CallProtocol::default();
     inner.td_name = "callProtocol".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallProtocolBuilder { inner }
   }
 
