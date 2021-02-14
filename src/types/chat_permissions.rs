@@ -21,7 +21,7 @@ pub struct ChatPermissions {
   can_send_media_messages: bool,
   /// True, if the user can send polls. Implies can_send_messages permissions
   can_send_polls: bool,
-  /// True, if the user can send animations, games, stickers and dice and use inline bots. Implies can_send_messages permissions
+  /// True, if the user can send animations, games, and stickers and use inline bots. Implies can_send_messages permissions
   can_send_other_messages: bool,
   /// True, if the user may add a web page preview to their messages. Implies can_send_messages permissions
   can_add_web_page_previews: bool,

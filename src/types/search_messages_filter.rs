@@ -31,8 +31,6 @@ pub enum SearchMessagesFilter {
   Document(SearchMessagesFilterDocument),
   /// Returns all found messages, no filter is applied
   Empty(SearchMessagesFilterEmpty),
-  /// Returns only failed to send messages. This filter can be used only if the message database is used
-  FailedToSend(SearchMessagesFilterFailedToSend),
   /// Returns only messages with mentions of the current user, or messages that are replies to their messages
   Mention(SearchMessagesFilterMention),
   /// Returns only incoming call messages with missed/declined discard reasons
@@ -71,7 +69,6 @@ impl<'de> Deserialize<'de> for SearchMessagesFilter {
       (searchMessagesFilterChatPhoto, ChatPhoto);
       (searchMessagesFilterDocument, Document);
       (searchMessagesFilterEmpty, Empty);
-      (searchMessagesFilterFailedToSend, FailedToSend);
       (searchMessagesFilterMention, Mention);
       (searchMessagesFilterMissedCall, MissedCall);
       (searchMessagesFilterPhoto, Photo);
@@ -96,7 +93,6 @@ impl RObject for SearchMessagesFilter {
       SearchMessagesFilter::ChatPhoto(t) => t.td_name(),
       SearchMessagesFilter::Document(t) => t.td_name(),
       SearchMessagesFilter::Empty(t) => t.td_name(),
-      SearchMessagesFilter::FailedToSend(t) => t.td_name(),
       SearchMessagesFilter::Mention(t) => t.td_name(),
       SearchMessagesFilter::MissedCall(t) => t.td_name(),
       SearchMessagesFilter::Photo(t) => t.td_name(),
@@ -119,7 +115,6 @@ impl RObject for SearchMessagesFilter {
       SearchMessagesFilter::ChatPhoto(t) => t.extra(),
       SearchMessagesFilter::Document(t) => t.extra(),
       SearchMessagesFilter::Empty(t) => t.extra(),
-      SearchMessagesFilter::FailedToSend(t) => t.extra(),
       SearchMessagesFilter::Mention(t) => t.extra(),
       SearchMessagesFilter::MissedCall(t) => t.extra(),
       SearchMessagesFilter::Photo(t) => t.extra(),
@@ -147,7 +142,6 @@ impl SearchMessagesFilter {
   pub fn is_chat_photo(&self) -> bool { if let SearchMessagesFilter::ChatPhoto(_) = self { true } else { false } }
   pub fn is_document(&self) -> bool { if let SearchMessagesFilter::Document(_) = self { true } else { false } }
   pub fn is_empty(&self) -> bool { if let SearchMessagesFilter::Empty(_) = self { true } else { false } }
-  pub fn is_failed_to_send(&self) -> bool { if let SearchMessagesFilter::FailedToSend(_) = self { true } else { false } }
   pub fn is_mention(&self) -> bool { if let SearchMessagesFilter::Mention(_) = self { true } else { false } }
   pub fn is_missed_call(&self) -> bool { if let SearchMessagesFilter::MissedCall(_) = self { true } else { false } }
   pub fn is_photo(&self) -> bool { if let SearchMessagesFilter::Photo(_) = self { true } else { false } }
@@ -165,7 +159,6 @@ impl SearchMessagesFilter {
   pub fn on_chat_photo<F: FnOnce(&SearchMessagesFilterChatPhoto)>(&self, fnc: F) -> &Self { if let SearchMessagesFilter::ChatPhoto(t) = self { fnc(t) }; self }
   pub fn on_document<F: FnOnce(&SearchMessagesFilterDocument)>(&self, fnc: F) -> &Self { if let SearchMessagesFilter::Document(t) = self { fnc(t) }; self }
   pub fn on_empty<F: FnOnce(&SearchMessagesFilterEmpty)>(&self, fnc: F) -> &Self { if let SearchMessagesFilter::Empty(t) = self { fnc(t) }; self }
-  pub fn on_failed_to_send<F: FnOnce(&SearchMessagesFilterFailedToSend)>(&self, fnc: F) -> &Self { if let SearchMessagesFilter::FailedToSend(t) = self { fnc(t) }; self }
   pub fn on_mention<F: FnOnce(&SearchMessagesFilterMention)>(&self, fnc: F) -> &Self { if let SearchMessagesFilter::Mention(t) = self { fnc(t) }; self }
   pub fn on_missed_call<F: FnOnce(&SearchMessagesFilterMissedCall)>(&self, fnc: F) -> &Self { if let SearchMessagesFilter::MissedCall(t) = self { fnc(t) }; self }
   pub fn on_photo<F: FnOnce(&SearchMessagesFilterPhoto)>(&self, fnc: F) -> &Self { if let SearchMessagesFilter::Photo(t) = self { fnc(t) }; self }
@@ -183,7 +176,6 @@ impl SearchMessagesFilter {
   pub fn as_chat_photo(&self) -> Option<&SearchMessagesFilterChatPhoto> { if let SearchMessagesFilter::ChatPhoto(t) = self { return Some(t) } None }
   pub fn as_document(&self) -> Option<&SearchMessagesFilterDocument> { if let SearchMessagesFilter::Document(t) = self { return Some(t) } None }
   pub fn as_empty(&self) -> Option<&SearchMessagesFilterEmpty> { if let SearchMessagesFilter::Empty(t) = self { return Some(t) } None }
-  pub fn as_failed_to_send(&self) -> Option<&SearchMessagesFilterFailedToSend> { if let SearchMessagesFilter::FailedToSend(t) = self { return Some(t) } None }
   pub fn as_mention(&self) -> Option<&SearchMessagesFilterMention> { if let SearchMessagesFilter::Mention(t) = self { return Some(t) } None }
   pub fn as_missed_call(&self) -> Option<&SearchMessagesFilterMissedCall> { if let SearchMessagesFilter::MissedCall(t) = self { return Some(t) } None }
   pub fn as_photo(&self) -> Option<&SearchMessagesFilterPhoto> { if let SearchMessagesFilter::Photo(t) = self { return Some(t) } None }
@@ -208,8 +200,6 @@ impl SearchMessagesFilter {
   pub fn document<T: AsRef<SearchMessagesFilterDocument>>(t: T) -> Self { SearchMessagesFilter::Document(t.as_ref().clone()) }
 
   pub fn empty<T: AsRef<SearchMessagesFilterEmpty>>(t: T) -> Self { SearchMessagesFilter::Empty(t.as_ref().clone()) }
-
-  pub fn failed_to_send<T: AsRef<SearchMessagesFilterFailedToSend>>(t: T) -> Self { SearchMessagesFilter::FailedToSend(t.as_ref().clone()) }
 
   pub fn mention<T: AsRef<SearchMessagesFilterMention>>(t: T) -> Self { SearchMessagesFilter::Mention(t.as_ref().clone()) }
 
@@ -583,64 +573,6 @@ impl AsRef<SearchMessagesFilterEmpty> for SearchMessagesFilterEmpty {
 
 impl AsRef<SearchMessagesFilterEmpty> for RTDSearchMessagesFilterEmptyBuilder {
   fn as_ref(&self) -> &SearchMessagesFilterEmpty { &self.inner }
-}
-
-
-
-
-
-
-
-/// Returns only failed to send messages. This filter can be used only if the message database is used
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct SearchMessagesFilterFailedToSend {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
-  extra: Option<String>,
-  
-}
-
-impl RObject for SearchMessagesFilterFailedToSend {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "searchMessagesFilterFailedToSend" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDSearchMessagesFilter for SearchMessagesFilterFailedToSend {}
-
-
-
-impl SearchMessagesFilterFailedToSend {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDSearchMessagesFilterFailedToSendBuilder {
-    let mut inner = SearchMessagesFilterFailedToSend::default();
-    inner.td_name = "searchMessagesFilterFailedToSend".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
-    RTDSearchMessagesFilterFailedToSendBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDSearchMessagesFilterFailedToSendBuilder {
-  inner: SearchMessagesFilterFailedToSend
-}
-
-impl RTDSearchMessagesFilterFailedToSendBuilder {
-  pub fn build(&self) -> SearchMessagesFilterFailedToSend { self.inner.clone() }
-
-}
-
-impl AsRef<SearchMessagesFilterFailedToSend> for SearchMessagesFilterFailedToSend {
-  fn as_ref(&self) -> &SearchMessagesFilterFailedToSend { self }
-}
-
-impl AsRef<SearchMessagesFilterFailedToSend> for RTDSearchMessagesFilterFailedToSendBuilder {
-  fn as_ref(&self) -> &SearchMessagesFilterFailedToSend { &self.inner }
 }
 
 

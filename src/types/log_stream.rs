@@ -19,7 +19,7 @@ pub trait TDLogStream: Debug + RObject {}
 #[serde(untagged)]
 pub enum LogStream {
   #[doc(hidden)] _Default(()),
-  /// Returns information about currently used log stream for internal logging of TDLib. Can be called synchronously
+  /// Returns information about currently used log stream for internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously
   GetLogStream(GetLogStream),
   /// The log is written to stderr or an OS specific log
   Default(LogStreamDefault),

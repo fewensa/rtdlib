@@ -21,8 +21,8 @@ pub struct StickerSet {
   title: String,
   /// Name of the sticker set
   name: String,
-  /// Sticker set thumbnail in WEBP or TGS format with width and height 100; may be null. The file can be downloaded only before the thumbnail is changed
-  thumbnail: Option<Thumbnail>,
+  /// Sticker set thumbnail in WEBP format with width and height 100; may be null. The file can be downloaded only before the thumbnail is changed
+  thumbnail: Option<PhotoSize>,
   /// True, if the sticker set has been installed by the current user
   is_installed: bool,
   /// True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
@@ -65,7 +65,7 @@ impl StickerSet {
 
   pub fn name(&self) -> &String { &self.name }
 
-  pub fn thumbnail(&self) -> &Option<Thumbnail> { &self.thumbnail }
+  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
 
   pub fn is_installed(&self) -> bool { self.is_installed }
 
@@ -112,7 +112,7 @@ impl RTDStickerSetBuilder {
   }
 
    
-  pub fn thumbnail<T: AsRef<Thumbnail>>(&mut self, thumbnail: T) -> &mut Self {
+  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = Some(thumbnail.as_ref().clone());
     self
   }

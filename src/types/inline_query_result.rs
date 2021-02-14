@@ -300,8 +300,8 @@ pub struct InlineQueryResultArticle {
   title: String,
   /// Represents a link to an article or web page
   description: String,
-  /// Result thumbnail in JPEG format; may be null
-  thumbnail: Option<Thumbnail>,
+  /// Result thumbnail; may be null
+  thumbnail: Option<PhotoSize>,
   
 }
 
@@ -335,7 +335,7 @@ impl InlineQueryResultArticle {
 
   pub fn description(&self) -> &String { &self.description }
 
-  pub fn thumbnail(&self) -> &Option<Thumbnail> { &self.thumbnail }
+  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
 
 }
 
@@ -378,7 +378,7 @@ impl RTDInlineQueryResultArticleBuilder {
   }
 
    
-  pub fn thumbnail<T: AsRef<Thumbnail>>(&mut self, thumbnail: T) -> &mut Self {
+  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = Some(thumbnail.as_ref().clone());
     self
   }
@@ -490,8 +490,8 @@ pub struct InlineQueryResultContact {
   id: String,
   /// A user contact
   contact: Contact,
-  /// Result thumbnail in JPEG format; may be null
-  thumbnail: Option<Thumbnail>,
+  /// Result thumbnail; may be null
+  thumbnail: Option<PhotoSize>,
   
 }
 
@@ -519,7 +519,7 @@ impl InlineQueryResultContact {
 
   pub fn contact(&self) -> &Contact { &self.contact }
 
-  pub fn thumbnail(&self) -> &Option<Thumbnail> { &self.thumbnail }
+  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
 
 }
 
@@ -544,7 +544,7 @@ impl RTDInlineQueryResultContactBuilder {
   }
 
    
-  pub fn thumbnail<T: AsRef<Thumbnail>>(&mut self, thumbnail: T) -> &mut Self {
+  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = Some(thumbnail.as_ref().clone());
     self
   }
@@ -756,8 +756,8 @@ pub struct InlineQueryResultLocation {
   location: Location,
   /// Title of the result
   title: String,
-  /// Result thumbnail in JPEG format; may be null
-  thumbnail: Option<Thumbnail>,
+  /// Result thumbnail; may be null
+  thumbnail: Option<PhotoSize>,
   
 }
 
@@ -787,7 +787,7 @@ impl InlineQueryResultLocation {
 
   pub fn title(&self) -> &String { &self.title }
 
-  pub fn thumbnail(&self) -> &Option<Thumbnail> { &self.thumbnail }
+  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
 
 }
 
@@ -818,7 +818,7 @@ impl RTDInlineQueryResultLocationBuilder {
   }
 
    
-  pub fn thumbnail<T: AsRef<Thumbnail>>(&mut self, thumbnail: T) -> &mut Self {
+  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = Some(thumbnail.as_ref().clone());
     self
   }
@@ -1028,8 +1028,8 @@ pub struct InlineQueryResultVenue {
   id: String,
   /// Venue result
   venue: Venue,
-  /// Result thumbnail in JPEG format; may be null
-  thumbnail: Option<Thumbnail>,
+  /// Result thumbnail; may be null
+  thumbnail: Option<PhotoSize>,
   
 }
 
@@ -1057,7 +1057,7 @@ impl InlineQueryResultVenue {
 
   pub fn venue(&self) -> &Venue { &self.venue }
 
-  pub fn thumbnail(&self) -> &Option<Thumbnail> { &self.thumbnail }
+  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
 
 }
 
@@ -1082,7 +1082,7 @@ impl RTDInlineQueryResultVenueBuilder {
   }
 
    
-  pub fn thumbnail<T: AsRef<Thumbnail>>(&mut self, thumbnail: T) -> &mut Self {
+  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = Some(thumbnail.as_ref().clone());
     self
   }

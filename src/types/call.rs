@@ -21,8 +21,6 @@ pub struct Call {
   user_id: i64,
   /// True, if the call is outgoing
   is_outgoing: bool,
-  /// True, if the call is a video call
-  is_video: bool,
   /// Call state
   state: CallState,
   
@@ -51,8 +49,6 @@ impl Call {
 
   pub fn is_outgoing(&self) -> bool { self.is_outgoing }
 
-  pub fn is_video(&self) -> bool { self.is_video }
-
   pub fn state(&self) -> &CallState { &self.state }
 
 }
@@ -80,12 +76,6 @@ impl RTDCallBuilder {
    
   pub fn is_outgoing(&mut self, is_outgoing: bool) -> &mut Self {
     self.inner.is_outgoing = is_outgoing;
-    self
-  }
-
-   
-  pub fn is_video(&mut self, is_video: bool) -> &mut Self {
-    self.inner.is_video = is_video;
     self
   }
 

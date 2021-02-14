@@ -116,7 +116,7 @@ pub struct ProxyTypeHttp {
   username: String,
   /// Password for logging in; may be empty
   password: String,
-  /// Pass true if the proxy supports only HTTP requests and doesn't support transparent TCP connections via HTTP CONNECT method
+  /// Pass true, if the proxy supports only HTTP requests and doesn't support transparent TCP connections via HTTP CONNECT method
   http_only: bool,
   
 }

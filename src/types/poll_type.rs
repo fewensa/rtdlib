@@ -104,8 +104,6 @@ pub struct PollTypeQuiz {
   extra: Option<String>,
   /// 0-based identifier of the correct answer option; 1 for a yet unanswered poll
   correct_option_id: i64,
-  /// Text that is shown when the user chooses an incorrect answer or taps on the lamp icon, 0-200 characters with at most 2 line feeds; empty for a yet unanswered poll
-  explanation: FormattedText,
   
 }
 
@@ -131,8 +129,6 @@ impl PollTypeQuiz {
 
   pub fn correct_option_id(&self) -> i64 { self.correct_option_id }
 
-  pub fn explanation(&self) -> &FormattedText { &self.explanation }
-
 }
 
 #[doc(hidden)]
@@ -146,12 +142,6 @@ impl RTDPollTypeQuizBuilder {
    
   pub fn correct_option_id(&mut self, correct_option_id: i64) -> &mut Self {
     self.inner.correct_option_id = correct_option_id;
-    self
-  }
-
-   
-  pub fn explanation<T: AsRef<FormattedText>>(&mut self, explanation: T) -> &mut Self {
-    self.inner.explanation = explanation.as_ref().clone();
     self
   }
 

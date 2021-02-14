@@ -25,12 +25,10 @@ pub struct Animation {
   file_name: String,
   /// MIME type of the file, usually "image/gif" or "video/mp4"
   mime_type: String,
-  /// True, if stickers were added to the animation. The list of corresponding sticker set can be received using getAttachedStickerSets
-  has_stickers: bool,
   /// Animation minithumbnail; may be null
   minithumbnail: Option<Minithumbnail>,
-  /// Animation thumbnail in JPEG or MPEG4 format; may be null
-  thumbnail: Option<Thumbnail>,
+  /// Animation thumbnail; may be null
+  thumbnail: Option<PhotoSize>,
   /// File containing the animation
   animation: File,
   
@@ -63,11 +61,9 @@ impl Animation {
 
   pub fn mime_type(&self) -> &String { &self.mime_type }
 
-  pub fn has_stickers(&self) -> bool { self.has_stickers }
-
   pub fn minithumbnail(&self) -> &Option<Minithumbnail> { &self.minithumbnail }
 
-  pub fn thumbnail(&self) -> &Option<Thumbnail> { &self.thumbnail }
+  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
 
   pub fn animation(&self) -> &File { &self.animation }
 
@@ -112,19 +108,13 @@ impl RTDAnimationBuilder {
   }
 
    
-  pub fn has_stickers(&mut self, has_stickers: bool) -> &mut Self {
-    self.inner.has_stickers = has_stickers;
-    self
-  }
-
-   
   pub fn minithumbnail<T: AsRef<Minithumbnail>>(&mut self, minithumbnail: T) -> &mut Self {
     self.inner.minithumbnail = Some(minithumbnail.as_ref().clone());
     self
   }
 
    
-  pub fn thumbnail<T: AsRef<Thumbnail>>(&mut self, thumbnail: T) -> &mut Self {
+  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = Some(thumbnail.as_ref().clone());
     self
   }

@@ -260,12 +260,8 @@ pub struct NotificationTypeNewPushMessage {
   extra: Option<String>,
   /// The message identifier. The message will not be available in the chat history, but the ID can be used in viewMessages and as reply_to_message_id
   message_id: i64,
-  /// Sender of the message; 0 if unknown. Corresponding user may be inaccessible
+  /// Sender of the message. Corresponding user may be inaccessible
   sender_user_id: i64,
-  /// Name of the sender; can be different from the name of the sender user
-  sender_name: String,
-  /// True, if the message is outgoing
-  is_outgoing: bool,
   /// Push message content
   content: PushMessageContent,
   
@@ -295,10 +291,6 @@ impl NotificationTypeNewPushMessage {
 
   pub fn sender_user_id(&self) -> i64 { self.sender_user_id }
 
-  pub fn sender_name(&self) -> &String { &self.sender_name }
-
-  pub fn is_outgoing(&self) -> bool { self.is_outgoing }
-
   pub fn content(&self) -> &PushMessageContent { &self.content }
 
 }
@@ -320,18 +312,6 @@ impl RTDNotificationTypeNewPushMessageBuilder {
    
   pub fn sender_user_id(&mut self, sender_user_id: i64) -> &mut Self {
     self.inner.sender_user_id = sender_user_id;
-    self
-  }
-
-   
-  pub fn sender_name<T: AsRef<str>>(&mut self, sender_name: T) -> &mut Self {
-    self.inner.sender_name = sender_name.as_ref().to_string();
-    self
-  }
-
-   
-  pub fn is_outgoing(&mut self, is_outgoing: bool) -> &mut Self {
-    self.inner.is_outgoing = is_outgoing;
     self
   }
 

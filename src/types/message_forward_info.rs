@@ -19,8 +19,6 @@ pub struct MessageForwardInfo {
   origin: MessageForwardOrigin,
   /// Point in time (Unix timestamp) when the message was originally sent
   date: i64,
-  /// The type of a public service announcement for the forwarded message
-  public_service_announcement_type: String,
   /// For messages forwarded to the chat with the current user (Saved Messages) or to the channel's discussion group, the identifier of the chat from which the message was forwarded last time; 0 if unknown
   from_chat_id: i64,
   /// For messages forwarded to the chat with the current user (Saved Messages) or to the channel's discussion group, the identifier of the original message from which the new message was forwarded last time; 0 if unknown
@@ -49,8 +47,6 @@ impl MessageForwardInfo {
 
   pub fn date(&self) -> i64 { self.date }
 
-  pub fn public_service_announcement_type(&self) -> &String { &self.public_service_announcement_type }
-
   pub fn from_chat_id(&self) -> i64 { self.from_chat_id }
 
   pub fn from_message_id(&self) -> i64 { self.from_message_id }
@@ -74,12 +70,6 @@ impl RTDMessageForwardInfoBuilder {
    
   pub fn date(&mut self, date: i64) -> &mut Self {
     self.inner.date = date;
-    self
-  }
-
-   
-  pub fn public_service_announcement_type<T: AsRef<str>>(&mut self, public_service_announcement_type: T) -> &mut Self {
-    self.inner.public_service_announcement_type = public_service_announcement_type.as_ref().to_string();
     self
   }
 

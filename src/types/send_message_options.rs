@@ -6,9 +6,9 @@ use uuid::Uuid;
 
 
 
-/// Options to be used when a message is sent
+/// Options to be used when a message is send
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct MessageSendOptions {
+pub struct SendMessageOptions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
@@ -24,21 +24,21 @@ pub struct MessageSendOptions {
   
 }
 
-impl RObject for MessageSendOptions {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageSendOptions" }
+impl RObject for SendMessageOptions {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "sendMessageOptions" }
   #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
-impl MessageSendOptions {
+impl SendMessageOptions {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDMessageSendOptionsBuilder {
-    let mut inner = MessageSendOptions::default();
-    inner.td_name = "messageSendOptions".to_string();
+  pub fn builder() -> RTDSendMessageOptionsBuilder {
+    let mut inner = SendMessageOptions::default();
+    inner.td_name = "sendMessageOptions".to_string();
     inner.extra = Some(Uuid::new_v4().to_string());
-    RTDMessageSendOptionsBuilder { inner }
+    RTDSendMessageOptionsBuilder { inner }
   }
 
   pub fn disable_notification(&self) -> bool { self.disable_notification }
@@ -50,12 +50,12 @@ impl MessageSendOptions {
 }
 
 #[doc(hidden)]
-pub struct RTDMessageSendOptionsBuilder {
-  inner: MessageSendOptions
+pub struct RTDSendMessageOptionsBuilder {
+  inner: SendMessageOptions
 }
 
-impl RTDMessageSendOptionsBuilder {
-  pub fn build(&self) -> MessageSendOptions { self.inner.clone() }
+impl RTDSendMessageOptionsBuilder {
+  pub fn build(&self) -> SendMessageOptions { self.inner.clone() }
 
    
   pub fn disable_notification(&mut self, disable_notification: bool) -> &mut Self {
@@ -77,12 +77,12 @@ impl RTDMessageSendOptionsBuilder {
 
 }
 
-impl AsRef<MessageSendOptions> for MessageSendOptions {
-  fn as_ref(&self) -> &MessageSendOptions { self }
+impl AsRef<SendMessageOptions> for SendMessageOptions {
+  fn as_ref(&self) -> &SendMessageOptions { self }
 }
 
-impl AsRef<MessageSendOptions> for RTDMessageSendOptionsBuilder {
-  fn as_ref(&self) -> &MessageSendOptions { &self.inner }
+impl AsRef<SendMessageOptions> for RTDSendMessageOptionsBuilder {
+  fn as_ref(&self) -> &SendMessageOptions { &self.inner }
 }
 
 

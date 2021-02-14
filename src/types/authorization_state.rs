@@ -11,10 +11,10 @@ use serde::de::{Deserialize, Deserializer};
 
 
 
-/// TRAIT | Represents the current authorization state of the TDLib client
+/// TRAIT | Represents the current authorization state of the client
 pub trait TDAuthorizationState: Debug + RObject {}
 
-/// Represents the current authorization state of the TDLib client
+/// Represents the current authorization state of the client
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum AuthorizationState {
@@ -41,7 +41,7 @@ pub enum AuthorizationState {
   WaitRegistration(AuthorizationStateWaitRegistration),
   /// TDLib needs TdlibParameters for initialization
   WaitTdlibParameters(AuthorizationStateWaitTdlibParameters),
-  /// Returns the current authorization state; this is an offline request. For informational purposes only. Use updateAuthorizationState instead to maintain the current authorization state. Can be called before initialization
+  /// Returns the current authorization state; this is an offline request. For informational purposes only. Use updateAuthorizationState instead to maintain the current authorization state
   GetAuthorizationState(GetAuthorizationState),
 
 }

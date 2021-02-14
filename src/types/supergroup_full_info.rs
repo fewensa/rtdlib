@@ -15,8 +15,6 @@ pub struct SupergroupFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Chat photo; may be null
-  photo: Option<ChatPhoto>,
   /// Contains full information about a supergroup or channel
   description: String,
   /// Number of members in the supergroup or channel; 0 if unknown
@@ -41,7 +39,7 @@ pub struct SupergroupFullInfo {
   can_set_sticker_set: bool,
   /// True, if the supergroup location can be changed
   can_set_location: bool,
-  /// True, if the channel statistics is available
+  /// True, if the channel statistics is available through getChatStatisticsUrl
   can_view_statistics: bool,
   /// True, if new chat members will have access to old messages. In public or discussion groups and both public and private channels, old messages are always available, so this option affects only private supergroups without a linked chat. The value of this field is only available for chat administrators
   is_all_history_available: bool,
@@ -74,8 +72,6 @@ impl SupergroupFullInfo {
     inner.extra = Some(Uuid::new_v4().to_string());
     RTDSupergroupFullInfoBuilder { inner }
   }
-
-  pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
 
   pub fn description(&self) -> &String { &self.description }
 
@@ -124,12 +120,6 @@ pub struct RTDSupergroupFullInfoBuilder {
 
 impl RTDSupergroupFullInfoBuilder {
   pub fn build(&self) -> SupergroupFullInfo { self.inner.clone() }
-
-   
-  pub fn photo<T: AsRef<ChatPhoto>>(&mut self, photo: T) -> &mut Self {
-    self.inner.photo = Some(photo.as_ref().clone());
-    self
-  }
 
    
   pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {

@@ -19,18 +19,24 @@ pub struct Chat {
   id: i64,
   /// Type of the chat
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: ChatType,
+  /// A chat list to which the chat belongs; may be null
+  chat_list: Option<ChatList>,
   /// Chat title
   title: String,
   /// Chat photo; may be null
-  photo: Option<ChatPhotoInfo>,
+  photo: Option<ChatPhoto>,
   /// Actions that non-administrator chat members are allowed to take in the chat
   permissions: ChatPermissions,
   /// Last message in the chat; may be null
   last_message: Option<Message>,
-  /// Positions of the chat in chat lists
-  positions: Option<Vec<ChatPosition>>,
+  /// Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] order: isize,
+  /// True, if the chat is pinned
+  is_pinned: bool,
   /// True, if the chat is marked as unread
   is_marked_as_unread: bool,
+  /// True, if the chat is sponsored by the user's MTProxy server
+  is_sponsored: bool,
   /// True, if the chat has scheduled messages
   has_scheduled_messages: bool,
   /// True, if the chat messages can be deleted only for the current user while other users will continue to see the messages
@@ -59,7 +65,7 @@ pub struct Chat {
   reply_markup_message_id: i64,
   /// A draft of a message in the chat; may be null
   draft_message: Option<DraftMessage>,
-  /// Contains application-specific data associated with the chat. (For example, the chat scroll position or local chat notification settings can be stored here.) Persistent if the message database is used
+  /// Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if the message database is used
   client_data: String,
   
 }
@@ -85,17 +91,23 @@ impl Chat {
 
   pub fn type_(&self) -> &ChatType { &self.type_ }
 
+  pub fn chat_list(&self) -> &Option<ChatList> { &self.chat_list }
+
   pub fn title(&self) -> &String { &self.title }
 
-  pub fn photo(&self) -> &Option<ChatPhotoInfo> { &self.photo }
+  pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
 
   pub fn permissions(&self) -> &ChatPermissions { &self.permissions }
 
   pub fn last_message(&self) -> &Option<Message> { &self.last_message }
 
-  pub fn positions(&self) -> &Option<Vec<ChatPosition>> { &self.positions }
+  pub fn order(&self) -> isize { self.order }
+
+  pub fn is_pinned(&self) -> bool { self.is_pinned }
 
   pub fn is_marked_as_unread(&self) -> bool { self.is_marked_as_unread }
+
+  pub fn is_sponsored(&self) -> bool { self.is_sponsored }
 
   pub fn has_scheduled_messages(&self) -> bool { self.has_scheduled_messages }
 
@@ -150,13 +162,19 @@ impl RTDChatBuilder {
   }
 
    
+  pub fn chat_list<T: AsRef<ChatList>>(&mut self, chat_list: T) -> &mut Self {
+    self.inner.chat_list = Some(chat_list.as_ref().clone());
+    self
+  }
+
+   
   pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
     self.inner.title = title.as_ref().to_string();
     self
   }
 
    
-  pub fn photo<T: AsRef<ChatPhotoInfo>>(&mut self, photo: T) -> &mut Self {
+  pub fn photo<T: AsRef<ChatPhoto>>(&mut self, photo: T) -> &mut Self {
     self.inner.photo = Some(photo.as_ref().clone());
     self
   }
@@ -174,14 +192,26 @@ impl RTDChatBuilder {
   }
 
    
-  pub fn positions(&mut self, positions: Vec<ChatPosition>) -> &mut Self {
-    self.inner.positions = Some(positions);
+  pub fn order(&mut self, order: isize) -> &mut Self {
+    self.inner.order = order;
+    self
+  }
+
+   
+  pub fn is_pinned(&mut self, is_pinned: bool) -> &mut Self {
+    self.inner.is_pinned = is_pinned;
     self
   }
 
    
   pub fn is_marked_as_unread(&mut self, is_marked_as_unread: bool) -> &mut Self {
     self.inner.is_marked_as_unread = is_marked_as_unread;
+    self
+  }
+
+   
+  pub fn is_sponsored(&mut self, is_sponsored: bool) -> &mut Self {
+    self.inner.is_sponsored = is_sponsored;
     self
   }
 

@@ -22,7 +22,7 @@ pub struct Document {
   /// Document minithumbnail; may be null
   minithumbnail: Option<Minithumbnail>,
   /// Document thumbnail in JPEG or PNG format (PNG will be used only for background patterns); as defined by the sender; may be null
-  thumbnail: Option<Thumbnail>,
+  thumbnail: Option<PhotoSize>,
   /// File containing the document
   document: File,
   
@@ -51,7 +51,7 @@ impl Document {
 
   pub fn minithumbnail(&self) -> &Option<Minithumbnail> { &self.minithumbnail }
 
-  pub fn thumbnail(&self) -> &Option<Thumbnail> { &self.thumbnail }
+  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
 
   pub fn document(&self) -> &File { &self.document }
 
@@ -84,7 +84,7 @@ impl RTDDocumentBuilder {
   }
 
    
-  pub fn thumbnail<T: AsRef<Thumbnail>>(&mut self, thumbnail: T) -> &mut Self {
+  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = Some(thumbnail.as_ref().clone());
     self
   }
