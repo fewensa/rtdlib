@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Wallpaper {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique persistent wallpaper identifier
   id: i64,
   /// Available variants of the wallpaper in different sizes. These photos can only be downloaded; they can't be sent in a message
@@ -22,6 +26,7 @@ pub struct Wallpaper {
 
 impl RObject for Wallpaper {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "wallpaper" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl Wallpaper {
   pub fn builder() -> RTDWallpaperBuilder {
     let mut inner = Wallpaper::default();
     inner.td_name = "wallpaper".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDWallpaperBuilder { inner }
   }
 

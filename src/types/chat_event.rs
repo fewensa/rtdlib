@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ChatEvent {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Chat event identifier
   id: isize,
   /// Point in time (Unix timestamp) when the event happened
@@ -24,6 +28,7 @@ pub struct ChatEvent {
 
 impl RObject for ChatEvent {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEvent" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -34,6 +39,7 @@ impl ChatEvent {
   pub fn builder() -> RTDChatEventBuilder {
     let mut inner = ChatEvent::default();
     inner.td_name = "chatEvent".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatEventBuilder { inner }
   }
 

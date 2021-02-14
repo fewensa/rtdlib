@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Date {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Day of the month, 1-31
   day: i64,
   /// Month, 1-12
@@ -22,6 +26,7 @@ pub struct Date {
 
 impl RObject for Date {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "date" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl Date {
   pub fn builder() -> RTDDateBuilder {
     let mut inner = Date::default();
     inner.td_name = "date".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDDateBuilder { inner }
   }
 

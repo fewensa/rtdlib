@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct TestVectorStringObject {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Vector of objects
   value: Vec<TestString>,
   
@@ -18,6 +22,7 @@ pub struct TestVectorStringObject {
 
 impl RObject for TestVectorStringObject {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "testVectorStringObject" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -28,6 +33,7 @@ impl TestVectorStringObject {
   pub fn builder() -> RTDTestVectorStringObjectBuilder {
     let mut inner = TestVectorStringObject::default();
     inner.td_name = "testVectorStringObject".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDTestVectorStringObjectBuilder { inner }
   }
 

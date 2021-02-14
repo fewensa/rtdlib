@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct WebPageInstantView {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Content of the web page
   page_blocks: Vec<PageBlock>,
   /// True, if the instant view contains the full page. A network request might be needed to get the full web page instant view
@@ -20,6 +24,7 @@ pub struct WebPageInstantView {
 
 impl RObject for WebPageInstantView {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "webPageInstantView" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl WebPageInstantView {
   pub fn builder() -> RTDWebPageInstantViewBuilder {
     let mut inner = WebPageInstantView::default();
     inner.td_name = "webPageInstantView".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDWebPageInstantViewBuilder { inner }
   }
 

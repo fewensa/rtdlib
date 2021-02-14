@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct StorageStatisticsByFileType {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// File type
   file_type: FileType,
   /// Total size of the files
@@ -22,6 +26,7 @@ pub struct StorageStatisticsByFileType {
 
 impl RObject for StorageStatisticsByFileType {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "storageStatisticsByFileType" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl StorageStatisticsByFileType {
   pub fn builder() -> RTDStorageStatisticsByFileTypeBuilder {
     let mut inner = StorageStatisticsByFileType::default();
     inner.td_name = "storageStatisticsByFileType".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDStorageStatisticsByFileTypeBuilder { inner }
   }
 

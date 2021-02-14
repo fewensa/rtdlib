@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ShippingOption {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Shipping option identifier
   id: String,
   /// Option title
@@ -22,6 +26,7 @@ pub struct ShippingOption {
 
 impl RObject for ShippingOption {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "shippingOption" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl ShippingOption {
   pub fn builder() -> RTDShippingOptionBuilder {
     let mut inner = ShippingOption::default();
     inner.td_name = "shippingOption".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDShippingOptionBuilder { inner }
   }
 

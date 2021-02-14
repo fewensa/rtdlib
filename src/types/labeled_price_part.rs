@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct LabeledPricePart {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Label for this portion of the product price
   label: String,
   /// Currency amount in minimal quantity of the currency
@@ -20,6 +24,7 @@ pub struct LabeledPricePart {
 
 impl RObject for LabeledPricePart {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "labeledPricePart" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl LabeledPricePart {
   pub fn builder() -> RTDLabeledPricePartBuilder {
     let mut inner = LabeledPricePart::default();
     inner.td_name = "labeledPricePart".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDLabeledPricePartBuilder { inner }
   }
 

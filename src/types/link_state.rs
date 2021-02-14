@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -54,6 +55,15 @@ impl RObject for LinkState {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      LinkState::IsContact(t) => t.extra(),
+      LinkState::KnowsPhoneNumber(t) => t.extra(),
+      LinkState::None(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -99,11 +109,15 @@ pub struct LinkStateIsContact {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for LinkStateIsContact {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "linkStateIsContact" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -117,6 +131,7 @@ impl LinkStateIsContact {
   pub fn builder() -> RTDLinkStateIsContactBuilder {
     let mut inner = LinkStateIsContact::default();
     inner.td_name = "linkStateIsContact".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDLinkStateIsContactBuilder { inner }
   }
 
@@ -152,11 +167,15 @@ pub struct LinkStateKnowsPhoneNumber {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for LinkStateKnowsPhoneNumber {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "linkStateKnowsPhoneNumber" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -170,6 +189,7 @@ impl LinkStateKnowsPhoneNumber {
   pub fn builder() -> RTDLinkStateKnowsPhoneNumberBuilder {
     let mut inner = LinkStateKnowsPhoneNumber::default();
     inner.td_name = "linkStateKnowsPhoneNumber".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDLinkStateKnowsPhoneNumberBuilder { inner }
   }
 
@@ -205,11 +225,15 @@ pub struct LinkStateNone {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for LinkStateNone {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "linkStateNone" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -223,6 +247,7 @@ impl LinkStateNone {
   pub fn builder() -> RTDLinkStateNoneBuilder {
     let mut inner = LinkStateNone::default();
     inner.td_name = "linkStateNone".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDLinkStateNoneBuilder { inner }
   }
 

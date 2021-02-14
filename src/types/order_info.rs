@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct OrderInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Name of the user
   name: String,
   /// Phone number of the user
@@ -24,6 +28,7 @@ pub struct OrderInfo {
 
 impl RObject for OrderInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "orderInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -34,6 +39,7 @@ impl OrderInfo {
   pub fn builder() -> RTDOrderInfoBuilder {
     let mut inner = OrderInfo::default();
     inner.td_name = "orderInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDOrderInfoBuilder { inner }
   }
 

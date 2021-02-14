@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct DeepLinkInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text to be shown to the user
   text: FormattedText,
   /// True, if user should be asked to update the application
@@ -20,6 +24,7 @@ pub struct DeepLinkInfo {
 
 impl RObject for DeepLinkInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "deepLinkInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl DeepLinkInfo {
   pub fn builder() -> RTDDeepLinkInfoBuilder {
     let mut inner = DeepLinkInfo::default();
     inner.td_name = "deepLinkInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDDeepLinkInfoBuilder { inner }
   }
 

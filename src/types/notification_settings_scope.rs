@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -50,6 +51,14 @@ impl RObject for NotificationSettingsScope {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      NotificationSettingsScope::GroupChats(t) => t.extra(),
+      NotificationSettingsScope::PrivateChats(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -90,11 +99,15 @@ pub struct NotificationSettingsScopeGroupChats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for NotificationSettingsScopeGroupChats {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationSettingsScopeGroupChats" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -108,6 +121,7 @@ impl NotificationSettingsScopeGroupChats {
   pub fn builder() -> RTDNotificationSettingsScopeGroupChatsBuilder {
     let mut inner = NotificationSettingsScopeGroupChats::default();
     inner.td_name = "notificationSettingsScopeGroupChats".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDNotificationSettingsScopeGroupChatsBuilder { inner }
   }
 
@@ -143,11 +157,15 @@ pub struct NotificationSettingsScopePrivateChats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for NotificationSettingsScopePrivateChats {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationSettingsScopePrivateChats" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -161,6 +179,7 @@ impl NotificationSettingsScopePrivateChats {
   pub fn builder() -> RTDNotificationSettingsScopePrivateChatsBuilder {
     let mut inner = NotificationSettingsScopePrivateChats::default();
     inner.td_name = "notificationSettingsScopePrivateChats".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDNotificationSettingsScopePrivateChatsBuilder { inner }
   }
 

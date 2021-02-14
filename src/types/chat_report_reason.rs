@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -62,6 +63,17 @@ impl RObject for ChatReportReason {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      ChatReportReason::Copyright(t) => t.extra(),
+      ChatReportReason::Custom(t) => t.extra(),
+      ChatReportReason::Pornography(t) => t.extra(),
+      ChatReportReason::Spam(t) => t.extra(),
+      ChatReportReason::Violence(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -117,11 +129,15 @@ pub struct ChatReportReasonCopyright {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatReportReasonCopyright {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonCopyright" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -135,6 +151,7 @@ impl ChatReportReasonCopyright {
   pub fn builder() -> RTDChatReportReasonCopyrightBuilder {
     let mut inner = ChatReportReasonCopyright::default();
     inner.td_name = "chatReportReasonCopyright".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatReportReasonCopyrightBuilder { inner }
   }
 
@@ -170,6 +187,9 @@ pub struct ChatReportReasonCustom {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Report text
   text: String,
   
@@ -177,6 +197,7 @@ pub struct ChatReportReasonCustom {
 
 impl RObject for ChatReportReasonCustom {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonCustom" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -190,6 +211,7 @@ impl ChatReportReasonCustom {
   pub fn builder() -> RTDChatReportReasonCustomBuilder {
     let mut inner = ChatReportReasonCustom::default();
     inner.td_name = "chatReportReasonCustom".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatReportReasonCustomBuilder { inner }
   }
 
@@ -233,11 +255,15 @@ pub struct ChatReportReasonPornography {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatReportReasonPornography {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonPornography" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -251,6 +277,7 @@ impl ChatReportReasonPornography {
   pub fn builder() -> RTDChatReportReasonPornographyBuilder {
     let mut inner = ChatReportReasonPornography::default();
     inner.td_name = "chatReportReasonPornography".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatReportReasonPornographyBuilder { inner }
   }
 
@@ -286,11 +313,15 @@ pub struct ChatReportReasonSpam {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatReportReasonSpam {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonSpam" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -304,6 +335,7 @@ impl ChatReportReasonSpam {
   pub fn builder() -> RTDChatReportReasonSpamBuilder {
     let mut inner = ChatReportReasonSpam::default();
     inner.td_name = "chatReportReasonSpam".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatReportReasonSpamBuilder { inner }
   }
 
@@ -339,11 +371,15 @@ pub struct ChatReportReasonViolence {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatReportReasonViolence {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportReasonViolence" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -357,6 +393,7 @@ impl ChatReportReasonViolence {
   pub fn builder() -> RTDChatReportReasonViolenceBuilder {
     let mut inner = ChatReportReasonViolence::default();
     inner.td_name = "chatReportReasonViolence".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatReportReasonViolenceBuilder { inner }
   }
 

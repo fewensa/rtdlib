@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Chat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Chat unique identifier
   id: i64,
   /// Type of the chat
@@ -54,6 +58,7 @@ pub struct Chat {
 
 impl RObject for Chat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chat" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -64,6 +69,7 @@ impl Chat {
   pub fn builder() -> RTDChatBuilder {
     let mut inner = Chat::default();
     inner.td_name = "chat".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatBuilder { inner }
   }
 

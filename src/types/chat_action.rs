@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -92,6 +93,25 @@ impl RObject for ChatAction {
       ChatAction::UploadingVoiceNote(t) => t.td_name(),
 
       _ => "-1",
+    }
+  }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      ChatAction::Cancel(t) => t.extra(),
+      ChatAction::ChoosingContact(t) => t.extra(),
+      ChatAction::ChoosingLocation(t) => t.extra(),
+      ChatAction::RecordingVideo(t) => t.extra(),
+      ChatAction::RecordingVideoNote(t) => t.extra(),
+      ChatAction::RecordingVoiceNote(t) => t.extra(),
+      ChatAction::StartPlayingGame(t) => t.extra(),
+      ChatAction::Typing(t) => t.extra(),
+      ChatAction::UploadingDocument(t) => t.extra(),
+      ChatAction::UploadingPhoto(t) => t.extra(),
+      ChatAction::UploadingVideo(t) => t.extra(),
+      ChatAction::UploadingVideoNote(t) => t.extra(),
+      ChatAction::UploadingVoiceNote(t) => t.extra(),
+
+      _ => None,
     }
   }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
@@ -189,11 +209,15 @@ pub struct ChatActionCancel {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatActionCancel {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionCancel" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -207,6 +231,7 @@ impl ChatActionCancel {
   pub fn builder() -> RTDChatActionCancelBuilder {
     let mut inner = ChatActionCancel::default();
     inner.td_name = "chatActionCancel".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatActionCancelBuilder { inner }
   }
 
@@ -242,11 +267,15 @@ pub struct ChatActionChoosingContact {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatActionChoosingContact {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionChoosingContact" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -260,6 +289,7 @@ impl ChatActionChoosingContact {
   pub fn builder() -> RTDChatActionChoosingContactBuilder {
     let mut inner = ChatActionChoosingContact::default();
     inner.td_name = "chatActionChoosingContact".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatActionChoosingContactBuilder { inner }
   }
 
@@ -295,11 +325,15 @@ pub struct ChatActionChoosingLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatActionChoosingLocation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionChoosingLocation" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -313,6 +347,7 @@ impl ChatActionChoosingLocation {
   pub fn builder() -> RTDChatActionChoosingLocationBuilder {
     let mut inner = ChatActionChoosingLocation::default();
     inner.td_name = "chatActionChoosingLocation".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatActionChoosingLocationBuilder { inner }
   }
 
@@ -348,11 +383,15 @@ pub struct ChatActionRecordingVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatActionRecordingVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionRecordingVideo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -366,6 +405,7 @@ impl ChatActionRecordingVideo {
   pub fn builder() -> RTDChatActionRecordingVideoBuilder {
     let mut inner = ChatActionRecordingVideo::default();
     inner.td_name = "chatActionRecordingVideo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatActionRecordingVideoBuilder { inner }
   }
 
@@ -401,11 +441,15 @@ pub struct ChatActionRecordingVideoNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatActionRecordingVideoNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionRecordingVideoNote" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -419,6 +463,7 @@ impl ChatActionRecordingVideoNote {
   pub fn builder() -> RTDChatActionRecordingVideoNoteBuilder {
     let mut inner = ChatActionRecordingVideoNote::default();
     inner.td_name = "chatActionRecordingVideoNote".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatActionRecordingVideoNoteBuilder { inner }
   }
 
@@ -454,11 +499,15 @@ pub struct ChatActionRecordingVoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatActionRecordingVoiceNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionRecordingVoiceNote" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -472,6 +521,7 @@ impl ChatActionRecordingVoiceNote {
   pub fn builder() -> RTDChatActionRecordingVoiceNoteBuilder {
     let mut inner = ChatActionRecordingVoiceNote::default();
     inner.td_name = "chatActionRecordingVoiceNote".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatActionRecordingVoiceNoteBuilder { inner }
   }
 
@@ -507,11 +557,15 @@ pub struct ChatActionStartPlayingGame {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatActionStartPlayingGame {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionStartPlayingGame" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -525,6 +579,7 @@ impl ChatActionStartPlayingGame {
   pub fn builder() -> RTDChatActionStartPlayingGameBuilder {
     let mut inner = ChatActionStartPlayingGame::default();
     inner.td_name = "chatActionStartPlayingGame".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatActionStartPlayingGameBuilder { inner }
   }
 
@@ -560,11 +615,15 @@ pub struct ChatActionTyping {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for ChatActionTyping {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionTyping" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -578,6 +637,7 @@ impl ChatActionTyping {
   pub fn builder() -> RTDChatActionTypingBuilder {
     let mut inner = ChatActionTyping::default();
     inner.td_name = "chatActionTyping".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatActionTypingBuilder { inner }
   }
 
@@ -613,6 +673,9 @@ pub struct ChatActionUploadingDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Upload progress, as a percentage
   progress: i64,
   
@@ -620,6 +683,7 @@ pub struct ChatActionUploadingDocument {
 
 impl RObject for ChatActionUploadingDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionUploadingDocument" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -633,6 +697,7 @@ impl ChatActionUploadingDocument {
   pub fn builder() -> RTDChatActionUploadingDocumentBuilder {
     let mut inner = ChatActionUploadingDocument::default();
     inner.td_name = "chatActionUploadingDocument".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatActionUploadingDocumentBuilder { inner }
   }
 
@@ -676,6 +741,9 @@ pub struct ChatActionUploadingPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Upload progress, as a percentage
   progress: i64,
   
@@ -683,6 +751,7 @@ pub struct ChatActionUploadingPhoto {
 
 impl RObject for ChatActionUploadingPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionUploadingPhoto" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -696,6 +765,7 @@ impl ChatActionUploadingPhoto {
   pub fn builder() -> RTDChatActionUploadingPhotoBuilder {
     let mut inner = ChatActionUploadingPhoto::default();
     inner.td_name = "chatActionUploadingPhoto".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatActionUploadingPhotoBuilder { inner }
   }
 
@@ -739,6 +809,9 @@ pub struct ChatActionUploadingVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Upload progress, as a percentage
   progress: i64,
   
@@ -746,6 +819,7 @@ pub struct ChatActionUploadingVideo {
 
 impl RObject for ChatActionUploadingVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionUploadingVideo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -759,6 +833,7 @@ impl ChatActionUploadingVideo {
   pub fn builder() -> RTDChatActionUploadingVideoBuilder {
     let mut inner = ChatActionUploadingVideo::default();
     inner.td_name = "chatActionUploadingVideo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatActionUploadingVideoBuilder { inner }
   }
 
@@ -802,6 +877,9 @@ pub struct ChatActionUploadingVideoNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Upload progress, as a percentage
   progress: i64,
   
@@ -809,6 +887,7 @@ pub struct ChatActionUploadingVideoNote {
 
 impl RObject for ChatActionUploadingVideoNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionUploadingVideoNote" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -822,6 +901,7 @@ impl ChatActionUploadingVideoNote {
   pub fn builder() -> RTDChatActionUploadingVideoNoteBuilder {
     let mut inner = ChatActionUploadingVideoNote::default();
     inner.td_name = "chatActionUploadingVideoNote".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatActionUploadingVideoNoteBuilder { inner }
   }
 
@@ -865,6 +945,9 @@ pub struct ChatActionUploadingVoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Upload progress, as a percentage
   progress: i64,
   
@@ -872,6 +955,7 @@ pub struct ChatActionUploadingVoiceNote {
 
 impl RObject for ChatActionUploadingVoiceNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionUploadingVoiceNote" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -885,6 +969,7 @@ impl ChatActionUploadingVoiceNote {
   pub fn builder() -> RTDChatActionUploadingVoiceNoteBuilder {
     let mut inner = ChatActionUploadingVoiceNote::default();
     inner.td_name = "chatActionUploadingVoiceNote".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatActionUploadingVoiceNoteBuilder { inner }
   }
 

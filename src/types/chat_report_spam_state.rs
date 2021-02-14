@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ChatReportSpamState {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if a prompt with the "Report spam" action should be shown to the user
   can_report_spam: bool,
   
@@ -18,6 +22,7 @@ pub struct ChatReportSpamState {
 
 impl RObject for ChatReportSpamState {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatReportSpamState" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -28,6 +33,7 @@ impl ChatReportSpamState {
   pub fn builder() -> RTDChatReportSpamStateBuilder {
     let mut inner = ChatReportSpamState::default();
     inner.td_name = "chatReportSpamState".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatReportSpamStateBuilder { inner }
   }
 

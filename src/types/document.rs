@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Document {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Original name of the file; as defined by the sender
   file_name: String,
   /// MIME type of the file; as defined by the sender
@@ -24,6 +28,7 @@ pub struct Document {
 
 impl RObject for Document {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "document" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -34,6 +39,7 @@ impl Document {
   pub fn builder() -> RTDDocumentBuilder {
     let mut inner = Document::default();
     inner.td_name = "document".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDDocumentBuilder { inner }
   }
 

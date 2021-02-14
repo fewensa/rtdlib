@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -58,6 +59,16 @@ impl RObject for InputFile {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      InputFile::Generated(t) => t.extra(),
+      InputFile::Id(t) => t.extra(),
+      InputFile::Local(t) => t.extra(),
+      InputFile::Remote(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -108,6 +119,9 @@ pub struct InputFileGenerated {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Local path to a file from which the file is generated; may be empty if there is no such file
   original_path: String,
   /// String specifying the conversion applied to the original file; should be persistent across application restarts
@@ -119,6 +133,7 @@ pub struct InputFileGenerated {
 
 impl RObject for InputFileGenerated {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputFileGenerated" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -132,6 +147,7 @@ impl InputFileGenerated {
   pub fn builder() -> RTDInputFileGeneratedBuilder {
     let mut inner = InputFileGenerated::default();
     inner.td_name = "inputFileGenerated".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputFileGeneratedBuilder { inner }
   }
 
@@ -191,6 +207,9 @@ pub struct InputFileId {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique file identifier
   id: i64,
   
@@ -198,6 +217,7 @@ pub struct InputFileId {
 
 impl RObject for InputFileId {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputFileId" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -211,6 +231,7 @@ impl InputFileId {
   pub fn builder() -> RTDInputFileIdBuilder {
     let mut inner = InputFileId::default();
     inner.td_name = "inputFileId".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputFileIdBuilder { inner }
   }
 
@@ -254,6 +275,9 @@ pub struct InputFileLocal {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Local path to the file
   path: String,
   
@@ -261,6 +285,7 @@ pub struct InputFileLocal {
 
 impl RObject for InputFileLocal {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputFileLocal" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -274,6 +299,7 @@ impl InputFileLocal {
   pub fn builder() -> RTDInputFileLocalBuilder {
     let mut inner = InputFileLocal::default();
     inner.td_name = "inputFileLocal".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputFileLocalBuilder { inner }
   }
 
@@ -317,6 +343,9 @@ pub struct InputFileRemote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Remote file identifier
   id: String,
   
@@ -324,6 +353,7 @@ pub struct InputFileRemote {
 
 impl RObject for InputFileRemote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputFileRemote" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -337,6 +367,7 @@ impl InputFileRemote {
   pub fn builder() -> RTDInputFileRemoteBuilder {
     let mut inner = InputFileRemote::default();
     inner.td_name = "inputFileRemote".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputFileRemoteBuilder { inner }
   }
 

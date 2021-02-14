@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -50,6 +51,14 @@ impl RObject for MessageForwardInfo {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      MessageForwardInfo::MessageForwardedFromUser(t) => t.extra(),
+      MessageForwardInfo::MessageForwardedPost(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -90,6 +99,9 @@ pub struct MessageForwardedFromUser {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Identifier of the user that originally sent this message
   sender_user_id: i64,
   /// Point in time (Unix timestamp) when the message was originally sent
@@ -103,6 +115,7 @@ pub struct MessageForwardedFromUser {
 
 impl RObject for MessageForwardedFromUser {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageForwardedFromUser" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -116,6 +129,7 @@ impl MessageForwardedFromUser {
   pub fn builder() -> RTDMessageForwardedFromUserBuilder {
     let mut inner = MessageForwardedFromUser::default();
     inner.td_name = "messageForwardedFromUser".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMessageForwardedFromUserBuilder { inner }
   }
 
@@ -183,6 +197,9 @@ pub struct MessageForwardedPost {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Identifier of the chat from which the message was forwarded
   chat_id: i64,
   /// Post author signature
@@ -200,6 +217,7 @@ pub struct MessageForwardedPost {
 
 impl RObject for MessageForwardedPost {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageForwardedPost" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -213,6 +231,7 @@ impl MessageForwardedPost {
   pub fn builder() -> RTDMessageForwardedPostBuilder {
     let mut inner = MessageForwardedPost::default();
     inner.td_name = "messageForwardedPost".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMessageForwardedPostBuilder { inner }
   }
 

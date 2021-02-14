@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct LanguagePackInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique language pack identifier
   id: String,
   /// Language name
@@ -24,6 +28,7 @@ pub struct LanguagePackInfo {
 
 impl RObject for LanguagePackInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "languagePackInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -34,6 +39,7 @@ impl LanguagePackInfo {
   pub fn builder() -> RTDLanguagePackInfoBuilder {
     let mut inner = LanguagePackInfo::default();
     inner.td_name = "languagePackInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDLanguagePackInfoBuilder { inner }
   }
 

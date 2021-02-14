@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -54,6 +55,15 @@ impl RObject for KeyboardButtonType {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      KeyboardButtonType::RequestLocation(t) => t.extra(),
+      KeyboardButtonType::RequestPhoneNumber(t) => t.extra(),
+      KeyboardButtonType::Text(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -99,11 +109,15 @@ pub struct KeyboardButtonTypeRequestLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for KeyboardButtonTypeRequestLocation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "keyboardButtonTypeRequestLocation" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -117,6 +131,7 @@ impl KeyboardButtonTypeRequestLocation {
   pub fn builder() -> RTDKeyboardButtonTypeRequestLocationBuilder {
     let mut inner = KeyboardButtonTypeRequestLocation::default();
     inner.td_name = "keyboardButtonTypeRequestLocation".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDKeyboardButtonTypeRequestLocationBuilder { inner }
   }
 
@@ -152,11 +167,15 @@ pub struct KeyboardButtonTypeRequestPhoneNumber {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for KeyboardButtonTypeRequestPhoneNumber {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "keyboardButtonTypeRequestPhoneNumber" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -170,6 +189,7 @@ impl KeyboardButtonTypeRequestPhoneNumber {
   pub fn builder() -> RTDKeyboardButtonTypeRequestPhoneNumberBuilder {
     let mut inner = KeyboardButtonTypeRequestPhoneNumber::default();
     inner.td_name = "keyboardButtonTypeRequestPhoneNumber".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDKeyboardButtonTypeRequestPhoneNumberBuilder { inner }
   }
 
@@ -205,11 +225,15 @@ pub struct KeyboardButtonTypeText {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for KeyboardButtonTypeText {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "keyboardButtonTypeText" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -223,6 +247,7 @@ impl KeyboardButtonTypeText {
   pub fn builder() -> RTDKeyboardButtonTypeTextBuilder {
     let mut inner = KeyboardButtonTypeText::default();
     inner.td_name = "keyboardButtonTypeText".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDKeyboardButtonTypeTextBuilder { inner }
   }
 

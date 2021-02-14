@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -58,6 +59,16 @@ impl RObject for LanguagePackStringValue {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      LanguagePackStringValue::GetLanguagePackString(t) => t.extra(),
+      LanguagePackStringValue::Deleted(t) => t.extra(),
+      LanguagePackStringValue::Ordinary(t) => t.extra(),
+      LanguagePackStringValue::Pluralized(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -108,11 +119,15 @@ pub struct LanguagePackStringValueDeleted {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for LanguagePackStringValueDeleted {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "languagePackStringValueDeleted" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -126,6 +141,7 @@ impl LanguagePackStringValueDeleted {
   pub fn builder() -> RTDLanguagePackStringValueDeletedBuilder {
     let mut inner = LanguagePackStringValueDeleted::default();
     inner.td_name = "languagePackStringValueDeleted".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDLanguagePackStringValueDeletedBuilder { inner }
   }
 
@@ -161,6 +177,9 @@ pub struct LanguagePackStringValueOrdinary {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// String value
   value: String,
   
@@ -168,6 +187,7 @@ pub struct LanguagePackStringValueOrdinary {
 
 impl RObject for LanguagePackStringValueOrdinary {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "languagePackStringValueOrdinary" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -181,6 +201,7 @@ impl LanguagePackStringValueOrdinary {
   pub fn builder() -> RTDLanguagePackStringValueOrdinaryBuilder {
     let mut inner = LanguagePackStringValueOrdinary::default();
     inner.td_name = "languagePackStringValueOrdinary".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDLanguagePackStringValueOrdinaryBuilder { inner }
   }
 
@@ -224,6 +245,9 @@ pub struct LanguagePackStringValuePluralized {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Value for zero objects
   zero_value: String,
   /// Value for one object
@@ -241,6 +265,7 @@ pub struct LanguagePackStringValuePluralized {
 
 impl RObject for LanguagePackStringValuePluralized {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "languagePackStringValuePluralized" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -254,6 +279,7 @@ impl LanguagePackStringValuePluralized {
   pub fn builder() -> RTDLanguagePackStringValuePluralizedBuilder {
     let mut inner = LanguagePackStringValuePluralized::default();
     inner.td_name = "languagePackStringValuePluralized".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDLanguagePackStringValuePluralizedBuilder { inner }
   }
 
