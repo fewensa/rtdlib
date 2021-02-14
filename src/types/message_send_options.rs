@@ -6,16 +6,16 @@ use uuid::Uuid;
 
 
 
-/// Options to be used when a message is send
+/// Options to be used when a message is sent
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct SendMessageOptions {
+pub struct MessageSendOptions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Pass true to disable notification for the message. Must be false if the message is sent to a secret chat
+  /// Pass true to disable notification for the message
   disable_notification: bool,
   /// Pass true if the message is sent from the background
   from_background: bool,
@@ -24,21 +24,21 @@ pub struct SendMessageOptions {
   
 }
 
-impl RObject for SendMessageOptions {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "sendMessageOptions" }
+impl RObject for MessageSendOptions {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageSendOptions" }
   #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
 
-impl SendMessageOptions {
+impl MessageSendOptions {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDSendMessageOptionsBuilder {
-    let mut inner = SendMessageOptions::default();
-    inner.td_name = "sendMessageOptions".to_string();
+  pub fn builder() -> RTDMessageSendOptionsBuilder {
+    let mut inner = MessageSendOptions::default();
+    inner.td_name = "messageSendOptions".to_string();
     inner.extra = Some(Uuid::new_v4().to_string());
-    RTDSendMessageOptionsBuilder { inner }
+    RTDMessageSendOptionsBuilder { inner }
   }
 
   pub fn disable_notification(&self) -> bool { self.disable_notification }
@@ -50,12 +50,12 @@ impl SendMessageOptions {
 }
 
 #[doc(hidden)]
-pub struct RTDSendMessageOptionsBuilder {
-  inner: SendMessageOptions
+pub struct RTDMessageSendOptionsBuilder {
+  inner: MessageSendOptions
 }
 
-impl RTDSendMessageOptionsBuilder {
-  pub fn build(&self) -> SendMessageOptions { self.inner.clone() }
+impl RTDMessageSendOptionsBuilder {
+  pub fn build(&self) -> MessageSendOptions { self.inner.clone() }
 
    
   pub fn disable_notification(&mut self, disable_notification: bool) -> &mut Self {
@@ -77,12 +77,12 @@ impl RTDSendMessageOptionsBuilder {
 
 }
 
-impl AsRef<SendMessageOptions> for SendMessageOptions {
-  fn as_ref(&self) -> &SendMessageOptions { self }
+impl AsRef<MessageSendOptions> for MessageSendOptions {
+  fn as_ref(&self) -> &MessageSendOptions { self }
 }
 
-impl AsRef<SendMessageOptions> for RTDSendMessageOptionsBuilder {
-  fn as_ref(&self) -> &SendMessageOptions { &self.inner }
+impl AsRef<MessageSendOptions> for RTDMessageSendOptionsBuilder {
+  fn as_ref(&self) -> &MessageSendOptions { &self.inner }
 }
 
 

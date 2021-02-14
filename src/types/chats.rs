@@ -15,6 +15,8 @@ pub struct Chats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// Approximate total count of chats found
+  total_count: i64,
   /// List of chat identifiers
   chat_ids: Vec<i64>,
   
@@ -37,6 +39,8 @@ impl Chats {
     RTDChatsBuilder { inner }
   }
 
+  pub fn total_count(&self) -> i64 { self.total_count }
+
   pub fn chat_ids(&self) -> &Vec<i64> { &self.chat_ids }
 
 }
@@ -48,6 +52,12 @@ pub struct RTDChatsBuilder {
 
 impl RTDChatsBuilder {
   pub fn build(&self) -> Chats { self.inner.clone() }
+
+   
+  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
+    self.inner.total_count = total_count;
+    self
+  }
 
    
   pub fn chat_ids(&mut self, chat_ids: Vec<i64>) -> &mut Self {

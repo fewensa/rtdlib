@@ -258,10 +258,14 @@ pub struct NotificationTypeNewPushMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// The message identifier. The message will not be available in the chat history, but the ID can be used in viewMessages and as reply_to_message_id
+  /// The message identifier. The message will not be available in the chat history, but the ID can be used in viewMessages, or as reply_to_message_id
   message_id: i64,
-  /// Sender of the message. Corresponding user may be inaccessible
-  sender_user_id: i64,
+  /// The sender of the message. Corresponding user or chat may be inaccessible
+  sender: MessageSender,
+  /// Name of the sender
+  sender_name: String,
+  /// True, if the message is outgoing
+  is_outgoing: bool,
   /// Push message content
   content: PushMessageContent,
   
@@ -289,7 +293,11 @@ impl NotificationTypeNewPushMessage {
 
   pub fn message_id(&self) -> i64 { self.message_id }
 
-  pub fn sender_user_id(&self) -> i64 { self.sender_user_id }
+  pub fn sender(&self) -> &MessageSender { &self.sender }
+
+  pub fn sender_name(&self) -> &String { &self.sender_name }
+
+  pub fn is_outgoing(&self) -> bool { self.is_outgoing }
 
   pub fn content(&self) -> &PushMessageContent { &self.content }
 
@@ -310,8 +318,20 @@ impl RTDNotificationTypeNewPushMessageBuilder {
   }
 
    
-  pub fn sender_user_id(&mut self, sender_user_id: i64) -> &mut Self {
-    self.inner.sender_user_id = sender_user_id;
+  pub fn sender<T: AsRef<MessageSender>>(&mut self, sender: T) -> &mut Self {
+    self.inner.sender = sender.as_ref().clone();
+    self
+  }
+
+   
+  pub fn sender_name<T: AsRef<str>>(&mut self, sender_name: T) -> &mut Self {
+    self.inner.sender_name = sender_name.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn is_outgoing(&mut self, is_outgoing: bool) -> &mut Self {
+    self.inner.is_outgoing = is_outgoing;
     self
   }
 

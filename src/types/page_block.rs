@@ -765,7 +765,7 @@ pub struct PageBlockChatLink {
   /// Chat title
   title: String,
   /// Chat photo; may be null
-  photo: Option<ChatPhoto>,
+  photo: Option<ChatPhotoInfo>,
   /// Chat username, by which all other information about the chat should be resolved
   username: String,
   
@@ -793,7 +793,7 @@ impl PageBlockChatLink {
 
   pub fn title(&self) -> &String { &self.title }
 
-  pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
+  pub fn photo(&self) -> &Option<ChatPhotoInfo> { &self.photo }
 
   pub fn username(&self) -> &String { &self.username }
 
@@ -814,7 +814,7 @@ impl RTDPageBlockChatLinkBuilder {
   }
 
    
-  pub fn photo<T: AsRef<ChatPhoto>>(&mut self, photo: T) -> &mut Self {
+  pub fn photo<T: AsRef<ChatPhotoInfo>>(&mut self, photo: T) -> &mut Self {
     self.inner.photo = Some(photo.as_ref().clone());
     self
   }

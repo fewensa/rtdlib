@@ -25,7 +25,7 @@ pub enum AuthenticationCodeType {
   FlashCall(AuthenticationCodeTypeFlashCall),
   /// An authentication code is delivered via an SMS message to the specified phone number
   Sms(AuthenticationCodeTypeSms),
-  /// An authentication code is delivered via a private Telegram message, which can be viewed in another client
+  /// An authentication code is delivered via a private Telegram message, which can be viewed from another active session
   TelegramMessage(AuthenticationCodeTypeTelegramMessage),
 
 }
@@ -317,7 +317,7 @@ impl AsRef<AuthenticationCodeTypeSms> for RTDAuthenticationCodeTypeSmsBuilder {
 
 
 
-/// An authentication code is delivered via a private Telegram message, which can be viewed in another client
+/// An authentication code is delivered via a private Telegram message, which can be viewed from another active session
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct AuthenticationCodeTypeTelegramMessage {
   #[doc(hidden)]

@@ -19,6 +19,8 @@ pub struct Location {
   latitude: f32,
   /// Longitude of the location, in degrees; as defined by the sender
   longitude: f32,
+  /// The estimated horizontal accuracy of the location, in meters; as defined by the sender. 0 if unknown
+  horizontal_accuracy: f32,
   
 }
 
@@ -43,6 +45,8 @@ impl Location {
 
   pub fn longitude(&self) -> f32 { self.longitude }
 
+  pub fn horizontal_accuracy(&self) -> f32 { self.horizontal_accuracy }
+
 }
 
 #[doc(hidden)]
@@ -62,6 +66,12 @@ impl RTDLocationBuilder {
    
   pub fn longitude(&mut self, longitude: f32) -> &mut Self {
     self.inner.longitude = longitude;
+    self
+  }
+
+   
+  pub fn horizontal_accuracy(&mut self, horizontal_accuracy: f32) -> &mut Self {
+    self.inner.horizontal_accuracy = horizontal_accuracy;
     self
   }
 

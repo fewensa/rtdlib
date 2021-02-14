@@ -15,12 +15,14 @@ pub struct ProfilePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Photo identifier; 0 for an empty photo. Can be used to find a photo in a list of userProfilePhotos
+  /// Photo identifier; 0 for an empty photo. Can be used to find a photo in a list of user profile photos
   #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] id: isize,
   /// A small (160x160) user profile photo. The file can be downloaded only before the photo is changed
   small: File,
   /// A big (640x640) user profile photo. The file can be downloaded only before the photo is changed
   big: File,
+  /// True, if the photo has animated variant
+  has_animation: Option<bool>,
   
 }
 
@@ -47,6 +49,8 @@ impl ProfilePhoto {
 
   pub fn big(&self) -> &File { &self.big }
 
+  pub fn has_animation(&self) -> &Option<bool> { &self.has_animation }
+
 }
 
 #[doc(hidden)]
@@ -72,6 +76,12 @@ impl RTDProfilePhotoBuilder {
    
   pub fn big<T: AsRef<File>>(&mut self, big: T) -> &mut Self {
     self.inner.big = big.as_ref().clone();
+    self
+  }
+
+   
+  pub fn has_animation(&mut self, has_animation: bool) -> &mut Self {
+    self.inner.has_animation = Some(has_animation);
     self
   }
 

@@ -23,6 +23,8 @@ pub struct MessageLinkInfo {
   message: Option<Message>,
   /// True, if the whole media album to which the message belongs is linked
   for_album: bool,
+  /// True, if the message is linked as a channel post comment or from a message thread
+  for_comment: bool,
   
 }
 
@@ -50,6 +52,8 @@ impl MessageLinkInfo {
   pub fn message(&self) -> &Option<Message> { &self.message }
 
   pub fn for_album(&self) -> bool { self.for_album }
+
+  pub fn for_comment(&self) -> bool { self.for_comment }
 
 }
 
@@ -82,6 +86,12 @@ impl RTDMessageLinkInfoBuilder {
    
   pub fn for_album(&mut self, for_album: bool) -> &mut Self {
     self.inner.for_album = for_album;
+    self
+  }
+
+   
+  pub fn for_comment(&mut self, for_comment: bool) -> &mut Self {
+    self.inner.for_comment = for_comment;
     self
   }
 

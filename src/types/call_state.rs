@@ -494,8 +494,8 @@ pub struct CallStateReady {
   extra: Option<String>,
   /// Call protocols supported by the peer
   protocol: CallProtocol,
-  /// Available UDP reflectors
-  connections: Vec<CallConnection>,
+  /// List of available call servers
+  servers: Vec<CallServer>,
   /// A JSON-encoded call config
   config: String,
   /// Call encryption key
@@ -529,7 +529,7 @@ impl CallStateReady {
 
   pub fn protocol(&self) -> &CallProtocol { &self.protocol }
 
-  pub fn connections(&self) -> &Vec<CallConnection> { &self.connections }
+  pub fn servers(&self) -> &Vec<CallServer> { &self.servers }
 
   pub fn config(&self) -> &String { &self.config }
 
@@ -556,8 +556,8 @@ impl RTDCallStateReadyBuilder {
   }
 
    
-  pub fn connections(&mut self, connections: Vec<CallConnection>) -> &mut Self {
-    self.inner.connections = connections;
+  pub fn servers(&mut self, servers: Vec<CallServer>) -> &mut Self {
+    self.inner.servers = servers;
     self
   }
 

@@ -15,7 +15,7 @@ pub struct Photo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// True, if stickers were added to the photo
+  /// True, if stickers were added to the photo. The list of corresponding sticker sets can be received using getAttachedStickerSets
   has_stickers: bool,
   /// Photo minithumbnail; may be null
   minithumbnail: Option<Minithumbnail>,

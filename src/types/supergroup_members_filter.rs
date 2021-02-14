@@ -27,6 +27,8 @@ pub enum SupergroupMembersFilter {
   Bots(SupergroupMembersFilterBots),
   /// Returns contacts of the user, which are members of the supergroup or channel
   Contacts(SupergroupMembersFilterContacts),
+  /// Returns users which can be mentioned in the supergroup
+  Mention(SupergroupMembersFilterMention),
   /// Returns recently active users in reverse chronological order
   Recent(SupergroupMembersFilterRecent),
   /// Returns restricted supergroup members; can be used only by administrators
@@ -49,6 +51,7 @@ impl<'de> Deserialize<'de> for SupergroupMembersFilter {
       (supergroupMembersFilterBanned, Banned);
       (supergroupMembersFilterBots, Bots);
       (supergroupMembersFilterContacts, Contacts);
+      (supergroupMembersFilterMention, Mention);
       (supergroupMembersFilterRecent, Recent);
       (supergroupMembersFilterRestricted, Restricted);
       (supergroupMembersFilterSearch, Search);
@@ -64,6 +67,7 @@ impl RObject for SupergroupMembersFilter {
       SupergroupMembersFilter::Banned(t) => t.td_name(),
       SupergroupMembersFilter::Bots(t) => t.td_name(),
       SupergroupMembersFilter::Contacts(t) => t.td_name(),
+      SupergroupMembersFilter::Mention(t) => t.td_name(),
       SupergroupMembersFilter::Recent(t) => t.td_name(),
       SupergroupMembersFilter::Restricted(t) => t.td_name(),
       SupergroupMembersFilter::Search(t) => t.td_name(),
@@ -77,6 +81,7 @@ impl RObject for SupergroupMembersFilter {
       SupergroupMembersFilter::Banned(t) => t.extra(),
       SupergroupMembersFilter::Bots(t) => t.extra(),
       SupergroupMembersFilter::Contacts(t) => t.extra(),
+      SupergroupMembersFilter::Mention(t) => t.extra(),
       SupergroupMembersFilter::Recent(t) => t.extra(),
       SupergroupMembersFilter::Restricted(t) => t.extra(),
       SupergroupMembersFilter::Search(t) => t.extra(),
@@ -95,6 +100,7 @@ impl SupergroupMembersFilter {
   pub fn is_banned(&self) -> bool { if let SupergroupMembersFilter::Banned(_) = self { true } else { false } }
   pub fn is_bots(&self) -> bool { if let SupergroupMembersFilter::Bots(_) = self { true } else { false } }
   pub fn is_contacts(&self) -> bool { if let SupergroupMembersFilter::Contacts(_) = self { true } else { false } }
+  pub fn is_mention(&self) -> bool { if let SupergroupMembersFilter::Mention(_) = self { true } else { false } }
   pub fn is_recent(&self) -> bool { if let SupergroupMembersFilter::Recent(_) = self { true } else { false } }
   pub fn is_restricted(&self) -> bool { if let SupergroupMembersFilter::Restricted(_) = self { true } else { false } }
   pub fn is_search(&self) -> bool { if let SupergroupMembersFilter::Search(_) = self { true } else { false } }
@@ -103,6 +109,7 @@ impl SupergroupMembersFilter {
   pub fn on_banned<F: FnOnce(&SupergroupMembersFilterBanned)>(&self, fnc: F) -> &Self { if let SupergroupMembersFilter::Banned(t) = self { fnc(t) }; self }
   pub fn on_bots<F: FnOnce(&SupergroupMembersFilterBots)>(&self, fnc: F) -> &Self { if let SupergroupMembersFilter::Bots(t) = self { fnc(t) }; self }
   pub fn on_contacts<F: FnOnce(&SupergroupMembersFilterContacts)>(&self, fnc: F) -> &Self { if let SupergroupMembersFilter::Contacts(t) = self { fnc(t) }; self }
+  pub fn on_mention<F: FnOnce(&SupergroupMembersFilterMention)>(&self, fnc: F) -> &Self { if let SupergroupMembersFilter::Mention(t) = self { fnc(t) }; self }
   pub fn on_recent<F: FnOnce(&SupergroupMembersFilterRecent)>(&self, fnc: F) -> &Self { if let SupergroupMembersFilter::Recent(t) = self { fnc(t) }; self }
   pub fn on_restricted<F: FnOnce(&SupergroupMembersFilterRestricted)>(&self, fnc: F) -> &Self { if let SupergroupMembersFilter::Restricted(t) = self { fnc(t) }; self }
   pub fn on_search<F: FnOnce(&SupergroupMembersFilterSearch)>(&self, fnc: F) -> &Self { if let SupergroupMembersFilter::Search(t) = self { fnc(t) }; self }
@@ -111,6 +118,7 @@ impl SupergroupMembersFilter {
   pub fn as_banned(&self) -> Option<&SupergroupMembersFilterBanned> { if let SupergroupMembersFilter::Banned(t) = self { return Some(t) } None }
   pub fn as_bots(&self) -> Option<&SupergroupMembersFilterBots> { if let SupergroupMembersFilter::Bots(t) = self { return Some(t) } None }
   pub fn as_contacts(&self) -> Option<&SupergroupMembersFilterContacts> { if let SupergroupMembersFilter::Contacts(t) = self { return Some(t) } None }
+  pub fn as_mention(&self) -> Option<&SupergroupMembersFilterMention> { if let SupergroupMembersFilter::Mention(t) = self { return Some(t) } None }
   pub fn as_recent(&self) -> Option<&SupergroupMembersFilterRecent> { if let SupergroupMembersFilter::Recent(t) = self { return Some(t) } None }
   pub fn as_restricted(&self) -> Option<&SupergroupMembersFilterRestricted> { if let SupergroupMembersFilter::Restricted(t) = self { return Some(t) } None }
   pub fn as_search(&self) -> Option<&SupergroupMembersFilterSearch> { if let SupergroupMembersFilter::Search(t) = self { return Some(t) } None }
@@ -124,6 +132,8 @@ impl SupergroupMembersFilter {
   pub fn bots<T: AsRef<SupergroupMembersFilterBots>>(t: T) -> Self { SupergroupMembersFilter::Bots(t.as_ref().clone()) }
 
   pub fn contacts<T: AsRef<SupergroupMembersFilterContacts>>(t: T) -> Self { SupergroupMembersFilter::Contacts(t.as_ref().clone()) }
+
+  pub fn mention<T: AsRef<SupergroupMembersFilterMention>>(t: T) -> Self { SupergroupMembersFilter::Mention(t.as_ref().clone()) }
 
   pub fn recent<T: AsRef<SupergroupMembersFilterRecent>>(t: T) -> Self { SupergroupMembersFilter::Recent(t.as_ref().clone()) }
 
@@ -387,6 +397,84 @@ impl AsRef<SupergroupMembersFilterContacts> for SupergroupMembersFilterContacts 
 
 impl AsRef<SupergroupMembersFilterContacts> for RTDSupergroupMembersFilterContactsBuilder {
   fn as_ref(&self) -> &SupergroupMembersFilterContacts { &self.inner }
+}
+
+
+
+
+
+
+
+/// Returns users which can be mentioned in the supergroup
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SupergroupMembersFilterMention {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Query to search for
+  query: String,
+  /// If non-zero, the identifier of the current message thread
+  message_thread_id: i64,
+  
+}
+
+impl RObject for SupergroupMembersFilterMention {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "supergroupMembersFilterMention" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDSupergroupMembersFilter for SupergroupMembersFilterMention {}
+
+
+
+impl SupergroupMembersFilterMention {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSupergroupMembersFilterMentionBuilder {
+    let mut inner = SupergroupMembersFilterMention::default();
+    inner.td_name = "supergroupMembersFilterMention".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDSupergroupMembersFilterMentionBuilder { inner }
+  }
+
+  pub fn query(&self) -> &String { &self.query }
+
+  pub fn message_thread_id(&self) -> i64 { self.message_thread_id }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSupergroupMembersFilterMentionBuilder {
+  inner: SupergroupMembersFilterMention
+}
+
+impl RTDSupergroupMembersFilterMentionBuilder {
+  pub fn build(&self) -> SupergroupMembersFilterMention { self.inner.clone() }
+
+   
+  pub fn query<T: AsRef<str>>(&mut self, query: T) -> &mut Self {
+    self.inner.query = query.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn message_thread_id(&mut self, message_thread_id: i64) -> &mut Self {
+    self.inner.message_thread_id = message_thread_id;
+    self
+  }
+
+}
+
+impl AsRef<SupergroupMembersFilterMention> for SupergroupMembersFilterMention {
+  fn as_ref(&self) -> &SupergroupMembersFilterMention { self }
+}
+
+impl AsRef<SupergroupMembersFilterMention> for RTDSupergroupMembersFilterMentionBuilder {
+  fn as_ref(&self) -> &SupergroupMembersFilterMention { &self.inner }
 }
 
 

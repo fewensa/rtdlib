@@ -25,7 +25,7 @@ pub struct AutoDownloadSettings {
   max_other_file_size: i64,
   /// The maximum suggested bitrate for uploaded videos
   video_upload_bitrate: i64,
-  /// True, if the beginning of videos needs to be preloaded for instant playback
+  /// True, if the beginning of video files needs to be preloaded for instant playback
   preload_large_videos: bool,
   /// True, if the next audio track needs to be preloaded while the user is listening to an audio file
   preload_next_audio: bool,

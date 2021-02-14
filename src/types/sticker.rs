@@ -29,8 +29,10 @@ pub struct Sticker {
   is_mask: bool,
   /// Position where the mask should be placed; may be null
   mask_position: Option<MaskPosition>,
+  /// Sticker's outline represented as a list of closed vector paths; may be empty. The coordinate system origin is in the upper-left corner
+  outline: Vec<ClosedVectorPath>,
   /// Sticker thumbnail in WEBP or JPEG format; may be null
-  thumbnail: Option<PhotoSize>,
+  thumbnail: Option<Thumbnail>,
   /// File containing the sticker
   sticker: File,
   
@@ -67,7 +69,9 @@ impl Sticker {
 
   pub fn mask_position(&self) -> &Option<MaskPosition> { &self.mask_position }
 
-  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
+  pub fn outline(&self) -> &Vec<ClosedVectorPath> { &self.outline }
+
+  pub fn thumbnail(&self) -> &Option<Thumbnail> { &self.thumbnail }
 
   pub fn sticker(&self) -> &File { &self.sticker }
 
@@ -124,7 +128,13 @@ impl RTDStickerBuilder {
   }
 
    
-  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
+  pub fn outline(&mut self, outline: Vec<ClosedVectorPath>) -> &mut Self {
+    self.inner.outline = outline;
+    self
+  }
+
+   
+  pub fn thumbnail<T: AsRef<Thumbnail>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = Some(thumbnail.as_ref().clone());
     self
   }

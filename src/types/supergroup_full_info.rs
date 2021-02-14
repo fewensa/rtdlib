@@ -15,6 +15,8 @@ pub struct SupergroupFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// Chat photo; may be null
+  photo: Option<ChatPhoto>,
   /// Contains full information about a supergroup or channel
   description: String,
   /// Number of members in the supergroup or channel; 0 if unknown
@@ -39,16 +41,16 @@ pub struct SupergroupFullInfo {
   can_set_sticker_set: bool,
   /// True, if the supergroup location can be changed
   can_set_location: bool,
-  /// True, if the channel statistics is available through getChatStatisticsUrl
-  can_view_statistics: bool,
+  /// True, if the supergroup or channel statistics are available
+  can_get_statistics: bool,
   /// True, if new chat members will have access to old messages. In public or discussion groups and both public and private channels, old messages are always available, so this option affects only private supergroups without a linked chat. The value of this field is only available for chat administrators
   is_all_history_available: bool,
   /// Identifier of the supergroup sticker set; 0 if none
   #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] sticker_set_id: isize,
   /// Location to which the supergroup is connected; may be null
   location: Option<ChatLocation>,
-  /// Invite link for this chat
-  invite_link: String,
+  /// Permanent invite link for this chat; may be null. For chat administrators with can_invite_users right only
+  invite_link: Option<ChatInviteLink>,
   /// Identifier of the basic group from which supergroup was upgraded; 0 if none
   upgraded_from_basic_group_id: i64,
   /// Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
@@ -72,6 +74,8 @@ impl SupergroupFullInfo {
     inner.extra = Some(Uuid::new_v4().to_string());
     RTDSupergroupFullInfoBuilder { inner }
   }
+
+  pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
 
   pub fn description(&self) -> &String { &self.description }
 
@@ -97,7 +101,7 @@ impl SupergroupFullInfo {
 
   pub fn can_set_location(&self) -> bool { self.can_set_location }
 
-  pub fn can_view_statistics(&self) -> bool { self.can_view_statistics }
+  pub fn can_get_statistics(&self) -> bool { self.can_get_statistics }
 
   pub fn is_all_history_available(&self) -> bool { self.is_all_history_available }
 
@@ -105,7 +109,7 @@ impl SupergroupFullInfo {
 
   pub fn location(&self) -> &Option<ChatLocation> { &self.location }
 
-  pub fn invite_link(&self) -> &String { &self.invite_link }
+  pub fn invite_link(&self) -> &Option<ChatInviteLink> { &self.invite_link }
 
   pub fn upgraded_from_basic_group_id(&self) -> i64 { self.upgraded_from_basic_group_id }
 
@@ -120,6 +124,12 @@ pub struct RTDSupergroupFullInfoBuilder {
 
 impl RTDSupergroupFullInfoBuilder {
   pub fn build(&self) -> SupergroupFullInfo { self.inner.clone() }
+
+   
+  pub fn photo<T: AsRef<ChatPhoto>>(&mut self, photo: T) -> &mut Self {
+    self.inner.photo = Some(photo.as_ref().clone());
+    self
+  }
 
    
   pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {
@@ -194,8 +204,8 @@ impl RTDSupergroupFullInfoBuilder {
   }
 
    
-  pub fn can_view_statistics(&mut self, can_view_statistics: bool) -> &mut Self {
-    self.inner.can_view_statistics = can_view_statistics;
+  pub fn can_get_statistics(&mut self, can_get_statistics: bool) -> &mut Self {
+    self.inner.can_get_statistics = can_get_statistics;
     self
   }
 
@@ -218,8 +228,8 @@ impl RTDSupergroupFullInfoBuilder {
   }
 
    
-  pub fn invite_link<T: AsRef<str>>(&mut self, invite_link: T) -> &mut Self {
-    self.inner.invite_link = invite_link.as_ref().to_string();
+  pub fn invite_link<T: AsRef<ChatInviteLink>>(&mut self, invite_link: T) -> &mut Self {
+    self.inner.invite_link = Some(invite_link.as_ref().clone());
     self
   }
 

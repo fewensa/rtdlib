@@ -17,6 +17,8 @@ pub struct DraftMessage {
   extra: Option<String>,
   /// Identifier of the message to reply to; 0 if none
   reply_to_message_id: i64,
+  /// Point in time (Unix timestamp) when the draft was created
+  date: i64,
   /// Content of the message draft; this should always be of type inputMessageText
   input_message_text: InputMessageContent,
   
@@ -41,6 +43,8 @@ impl DraftMessage {
 
   pub fn reply_to_message_id(&self) -> i64 { self.reply_to_message_id }
 
+  pub fn date(&self) -> i64 { self.date }
+
   pub fn input_message_text(&self) -> &InputMessageContent { &self.input_message_text }
 
 }
@@ -56,6 +60,12 @@ impl RTDDraftMessageBuilder {
    
   pub fn reply_to_message_id(&mut self, reply_to_message_id: i64) -> &mut Self {
     self.inner.reply_to_message_id = reply_to_message_id;
+    self
+  }
+
+   
+  pub fn date(&mut self, date: i64) -> &mut Self {
+    self.inner.date = date;
     self
   }
 

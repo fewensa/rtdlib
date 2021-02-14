@@ -37,7 +37,7 @@ pub struct TdlibParameters {
   system_language_code: String,
   /// Model of the device the application is being run on; must be non-empty
   device_model: String,
-  /// Version of the operating system the application is being run on; must be non-empty
+  /// Version of the operating system the application is being run on. If empty, the version is automatically detected by TDLib
   system_version: String,
   /// Application version; must be non-empty
   application_version: String,

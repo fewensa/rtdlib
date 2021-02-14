@@ -1536,6 +1536,10 @@ pub struct PushMessageContentMediaAlbum {
   has_photos: bool,
   /// True, if the album has at least one video
   has_videos: bool,
+  /// True, if the album has at least one audio file
+  has_audios: bool,
+  /// True, if the album has at least one document
+  has_documents: bool,
   
 }
 
@@ -1565,6 +1569,10 @@ impl PushMessageContentMediaAlbum {
 
   pub fn has_videos(&self) -> bool { self.has_videos }
 
+  pub fn has_audios(&self) -> bool { self.has_audios }
+
+  pub fn has_documents(&self) -> bool { self.has_documents }
+
 }
 
 #[doc(hidden)]
@@ -1590,6 +1598,18 @@ impl RTDPushMessageContentMediaAlbumBuilder {
    
   pub fn has_videos(&mut self, has_videos: bool) -> &mut Self {
     self.inner.has_videos = has_videos;
+    self
+  }
+
+   
+  pub fn has_audios(&mut self, has_audios: bool) -> &mut Self {
+    self.inner.has_audios = has_audios;
+    self
+  }
+
+   
+  pub fn has_documents(&mut self, has_documents: bool) -> &mut Self {
+    self.inner.has_documents = has_documents;
     self
   }
 

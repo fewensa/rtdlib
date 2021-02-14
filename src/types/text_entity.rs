@@ -15,7 +15,7 @@ pub struct TextEntity {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Offset of the entity in UTF-16 code units
+  /// Offset of the entity, in UTF-16 code units
   offset: i64,
   /// Length of the entity, in UTF-16 code units
   length: i64,

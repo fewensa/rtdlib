@@ -142,6 +142,9 @@ impl<'a, CALLDISCARDREASON: TDCallDiscardReason> TDCallDiscardReason for &'a mut
 impl<'a, CALLPROBLEM: TDCallProblem> TDCallProblem for &'a CALLPROBLEM {}
 impl<'a, CALLPROBLEM: TDCallProblem> TDCallProblem for &'a mut CALLPROBLEM {}
 
+impl<'a, CALLSERVERTYPE: TDCallServerType> TDCallServerType for &'a CALLSERVERTYPE {}
+impl<'a, CALLSERVERTYPE: TDCallServerType> TDCallServerType for &'a mut CALLSERVERTYPE {}
+
 impl<'a, CALLSTATE: TDCallState> TDCallState for &'a CALLSTATE {}
 impl<'a, CALLSTATE: TDCallState> TDCallState for &'a mut CALLSTATE {}
 
@@ -172,6 +175,12 @@ impl<'a, CHATMEMBERSFILTER: TDChatMembersFilter> TDChatMembersFilter for &'a mut
 impl<'a, CHATREPORTREASON: TDChatReportReason> TDChatReportReason for &'a CHATREPORTREASON {}
 impl<'a, CHATREPORTREASON: TDChatReportReason> TDChatReportReason for &'a mut CHATREPORTREASON {}
 
+impl<'a, CHATSOURCE: TDChatSource> TDChatSource for &'a CHATSOURCE {}
+impl<'a, CHATSOURCE: TDChatSource> TDChatSource for &'a mut CHATSOURCE {}
+
+impl<'a, CHATSTATISTICS: TDChatStatistics> TDChatStatistics for &'a CHATSTATISTICS {}
+impl<'a, CHATSTATISTICS: TDChatStatistics> TDChatStatistics for &'a mut CHATSTATISTICS {}
+
 impl<'a, CHATTYPE: TDChatType> TDChatType for &'a CHATTYPE {}
 impl<'a, CHATTYPE: TDChatType> TDChatType for &'a mut CHATTYPE {}
 
@@ -184,6 +193,9 @@ impl<'a, CONNECTIONSTATE: TDConnectionState> TDConnectionState for &'a mut CONNE
 impl<'a, DEVICETOKEN: TDDeviceToken> TDDeviceToken for &'a DEVICETOKEN {}
 impl<'a, DEVICETOKEN: TDDeviceToken> TDDeviceToken for &'a mut DEVICETOKEN {}
 
+impl<'a, DICESTICKERS: TDDiceStickers> TDDiceStickers for &'a DICESTICKERS {}
+impl<'a, DICESTICKERS: TDDiceStickers> TDDiceStickers for &'a mut DICESTICKERS {}
+
 impl<'a, FILETYPE: TDFileType> TDFileType for &'a FILETYPE {}
 impl<'a, FILETYPE: TDFileType> TDFileType for &'a mut FILETYPE {}
 
@@ -195,6 +207,9 @@ impl<'a, INLINEQUERYRESULT: TDInlineQueryResult> TDInlineQueryResult for &'a mut
 
 impl<'a, INPUTBACKGROUND: TDInputBackground> TDInputBackground for &'a INPUTBACKGROUND {}
 impl<'a, INPUTBACKGROUND: TDInputBackground> TDInputBackground for &'a mut INPUTBACKGROUND {}
+
+impl<'a, INPUTCHATPHOTO: TDInputChatPhoto> TDInputChatPhoto for &'a INPUTCHATPHOTO {}
+impl<'a, INPUTCHATPHOTO: TDInputChatPhoto> TDInputChatPhoto for &'a mut INPUTCHATPHOTO {}
 
 impl<'a, INPUTCREDENTIALS: TDInputCredentials> TDInputCredentials for &'a INPUTCREDENTIALS {}
 impl<'a, INPUTCREDENTIALS: TDInputCredentials> TDInputCredentials for &'a mut INPUTCREDENTIALS {}
@@ -213,6 +228,9 @@ impl<'a, INPUTPASSPORTELEMENT: TDInputPassportElement> TDInputPassportElement fo
 
 impl<'a, INPUTPASSPORTELEMENTERRORSOURCE: TDInputPassportElementErrorSource> TDInputPassportElementErrorSource for &'a INPUTPASSPORTELEMENTERRORSOURCE {}
 impl<'a, INPUTPASSPORTELEMENTERRORSOURCE: TDInputPassportElementErrorSource> TDInputPassportElementErrorSource for &'a mut INPUTPASSPORTELEMENTERRORSOURCE {}
+
+impl<'a, INPUTSTICKER: TDInputSticker> TDInputSticker for &'a INPUTSTICKER {}
+impl<'a, INPUTSTICKER: TDInputSticker> TDInputSticker for &'a mut INPUTSTICKER {}
 
 impl<'a, JSONVALUE: TDJsonValue> TDJsonValue for &'a JSONVALUE {}
 impl<'a, JSONVALUE: TDJsonValue> TDJsonValue for &'a mut JSONVALUE {}
@@ -235,11 +253,17 @@ impl<'a, MASKPOINT: TDMaskPoint> TDMaskPoint for &'a mut MASKPOINT {}
 impl<'a, MESSAGECONTENT: TDMessageContent> TDMessageContent for &'a MESSAGECONTENT {}
 impl<'a, MESSAGECONTENT: TDMessageContent> TDMessageContent for &'a mut MESSAGECONTENT {}
 
+impl<'a, MESSAGEFILETYPE: TDMessageFileType> TDMessageFileType for &'a MESSAGEFILETYPE {}
+impl<'a, MESSAGEFILETYPE: TDMessageFileType> TDMessageFileType for &'a mut MESSAGEFILETYPE {}
+
 impl<'a, MESSAGEFORWARDORIGIN: TDMessageForwardOrigin> TDMessageForwardOrigin for &'a MESSAGEFORWARDORIGIN {}
 impl<'a, MESSAGEFORWARDORIGIN: TDMessageForwardOrigin> TDMessageForwardOrigin for &'a mut MESSAGEFORWARDORIGIN {}
 
 impl<'a, MESSAGESCHEDULINGSTATE: TDMessageSchedulingState> TDMessageSchedulingState for &'a MESSAGESCHEDULINGSTATE {}
 impl<'a, MESSAGESCHEDULINGSTATE: TDMessageSchedulingState> TDMessageSchedulingState for &'a mut MESSAGESCHEDULINGSTATE {}
+
+impl<'a, MESSAGESENDER: TDMessageSender> TDMessageSender for &'a MESSAGESENDER {}
+impl<'a, MESSAGESENDER: TDMessageSender> TDMessageSender for &'a mut MESSAGESENDER {}
 
 impl<'a, MESSAGESENDINGSTATE: TDMessageSendingState> TDMessageSendingState for &'a MESSAGESENDINGSTATE {}
 impl<'a, MESSAGESENDINGSTATE: TDMessageSendingState> TDMessageSendingState for &'a mut MESSAGESENDINGSTATE {}
@@ -304,6 +328,12 @@ impl<'a, SEARCHMESSAGESFILTER: TDSearchMessagesFilter> TDSearchMessagesFilter fo
 impl<'a, SECRETCHATSTATE: TDSecretChatState> TDSecretChatState for &'a SECRETCHATSTATE {}
 impl<'a, SECRETCHATSTATE: TDSecretChatState> TDSecretChatState for &'a mut SECRETCHATSTATE {}
 
+impl<'a, STATISTICALGRAPH: TDStatisticalGraph> TDStatisticalGraph for &'a STATISTICALGRAPH {}
+impl<'a, STATISTICALGRAPH: TDStatisticalGraph> TDStatisticalGraph for &'a mut STATISTICALGRAPH {}
+
+impl<'a, SUGGESTEDACTION: TDSuggestedAction> TDSuggestedAction for &'a SUGGESTEDACTION {}
+impl<'a, SUGGESTEDACTION: TDSuggestedAction> TDSuggestedAction for &'a mut SUGGESTEDACTION {}
+
 impl<'a, SUPERGROUPMEMBERSFILTER: TDSupergroupMembersFilter> TDSupergroupMembersFilter for &'a SUPERGROUPMEMBERSFILTER {}
 impl<'a, SUPERGROUPMEMBERSFILTER: TDSupergroupMembersFilter> TDSupergroupMembersFilter for &'a mut SUPERGROUPMEMBERSFILTER {}
 
@@ -315,6 +345,9 @@ impl<'a, TEXTENTITYTYPE: TDTextEntityType> TDTextEntityType for &'a mut TEXTENTI
 
 impl<'a, TEXTPARSEMODE: TDTextParseMode> TDTextParseMode for &'a TEXTPARSEMODE {}
 impl<'a, TEXTPARSEMODE: TDTextParseMode> TDTextParseMode for &'a mut TEXTPARSEMODE {}
+
+impl<'a, THUMBNAILFORMAT: TDThumbnailFormat> TDThumbnailFormat for &'a THUMBNAILFORMAT {}
+impl<'a, THUMBNAILFORMAT: TDThumbnailFormat> TDThumbnailFormat for &'a mut THUMBNAILFORMAT {}
 
 impl<'a, TOPCHATCATEGORY: TDTopChatCategory> TDTopChatCategory for &'a TOPCHATCATEGORY {}
 impl<'a, TOPCHATCATEGORY: TDTopChatCategory> TDTopChatCategory for &'a mut TOPCHATCATEGORY {}
@@ -334,53 +367,61 @@ impl<'a, USERSTATUS: TDUserStatus> TDUserStatus for &'a mut USERSTATUS {}
 impl<'a, USERTYPE: TDUserType> TDUserType for &'a USERTYPE {}
 impl<'a, USERTYPE: TDUserType> TDUserType for &'a mut USERTYPE {}
 
+impl<'a, VECTORPATHCOMMAND: TDVectorPathCommand> TDVectorPathCommand for &'a VECTORPATHCOMMAND {}
+impl<'a, VECTORPATHCOMMAND: TDVectorPathCommand> TDVectorPathCommand for &'a mut VECTORPATHCOMMAND {}
+
 
 #[derive(Debug, Clone)]
 pub enum TdType {
   TestUseUpdate(TestUseUpdate),
   UpdateActiveNotifications(UpdateActiveNotifications),
+  UpdateAnimationSearchParameters(UpdateAnimationSearchParameters),
   UpdateAuthorizationState(UpdateAuthorizationState),
   UpdateBasicGroup(UpdateBasicGroup),
   UpdateBasicGroupFullInfo(UpdateBasicGroupFullInfo),
   UpdateCall(UpdateCall),
   UpdateChatActionBar(UpdateChatActionBar),
-  UpdateChatChatList(UpdateChatChatList),
   UpdateChatDefaultDisableNotification(UpdateChatDefaultDisableNotification),
   UpdateChatDraftMessage(UpdateChatDraftMessage),
+  UpdateChatFilters(UpdateChatFilters),
   UpdateChatHasScheduledMessages(UpdateChatHasScheduledMessages),
+  UpdateChatIsBlocked(UpdateChatIsBlocked),
   UpdateChatIsMarkedAsUnread(UpdateChatIsMarkedAsUnread),
-  UpdateChatIsPinned(UpdateChatIsPinned),
-  UpdateChatIsSponsored(UpdateChatIsSponsored),
   UpdateChatLastMessage(UpdateChatLastMessage),
   UpdateChatNotificationSettings(UpdateChatNotificationSettings),
   UpdateChatOnlineMemberCount(UpdateChatOnlineMemberCount),
-  UpdateChatOrder(UpdateChatOrder),
   UpdateChatPermissions(UpdateChatPermissions),
   UpdateChatPhoto(UpdateChatPhoto),
-  UpdateChatPinnedMessage(UpdateChatPinnedMessage),
+  UpdateChatPosition(UpdateChatPosition),
   UpdateChatReadInbox(UpdateChatReadInbox),
   UpdateChatReadOutbox(UpdateChatReadOutbox),
   UpdateChatReplyMarkup(UpdateChatReplyMarkup),
   UpdateChatTitle(UpdateChatTitle),
   UpdateChatUnreadMentionCount(UpdateChatUnreadMentionCount),
+  UpdateChatVoiceChat(UpdateChatVoiceChat),
   UpdateConnectionState(UpdateConnectionState),
   UpdateDeleteMessages(UpdateDeleteMessages),
+  UpdateDiceEmojis(UpdateDiceEmojis),
   UpdateFavoriteStickers(UpdateFavoriteStickers),
   UpdateFile(UpdateFile),
   UpdateFileGenerationStart(UpdateFileGenerationStart),
   UpdateFileGenerationStop(UpdateFileGenerationStop),
+  UpdateGroupCall(UpdateGroupCall),
+  UpdateGroupCallParticipant(UpdateGroupCallParticipant),
   UpdateHavePendingNotifications(UpdateHavePendingNotifications),
   UpdateInstalledStickerSets(UpdateInstalledStickerSets),
   UpdateLanguagePackStrings(UpdateLanguagePackStrings),
   UpdateMessageContent(UpdateMessageContent),
   UpdateMessageContentOpened(UpdateMessageContentOpened),
   UpdateMessageEdited(UpdateMessageEdited),
+  UpdateMessageInteractionInfo(UpdateMessageInteractionInfo),
+  UpdateMessageIsPinned(UpdateMessageIsPinned),
   UpdateMessageLiveLocationViewed(UpdateMessageLiveLocationViewed),
   UpdateMessageMentionRead(UpdateMessageMentionRead),
   UpdateMessageSendAcknowledged(UpdateMessageSendAcknowledged),
   UpdateMessageSendFailed(UpdateMessageSendFailed),
   UpdateMessageSendSucceeded(UpdateMessageSendSucceeded),
-  UpdateMessageViews(UpdateMessageViews),
+  UpdateNewCallSignalingData(UpdateNewCallSignalingData),
   UpdateNewCallbackQuery(UpdateNewCallbackQuery),
   UpdateNewChat(UpdateNewChat),
   UpdateNewChosenInlineResult(UpdateNewChosenInlineResult),
@@ -402,6 +443,8 @@ pub enum TdType {
   UpdateSecretChat(UpdateSecretChat),
   UpdateSelectedBackground(UpdateSelectedBackground),
   UpdateServiceNotification(UpdateServiceNotification),
+  UpdateStickerSet(UpdateStickerSet),
+  UpdateSuggestedActions(UpdateSuggestedActions),
   UpdateSupergroup(UpdateSupergroup),
   UpdateSupergroupFullInfo(UpdateSupergroupFullInfo),
   UpdateTermsOfService(UpdateTermsOfService),
@@ -417,13 +460,16 @@ pub enum TdType {
 
   AuthorizationState(AuthorizationState),
   CanTransferOwnershipResult(CanTransferOwnershipResult),
+  ChatStatistics(ChatStatistics),
   CheckChatUsernameResult(CheckChatUsernameResult),
   JsonValue(JsonValue),
   LanguagePackStringValue(LanguagePackStringValue),
   LogStream(LogStream),
   LoginUrlInfo(LoginUrlInfo),
+  MessageFileType(MessageFileType),
   OptionValue(OptionValue),
   PassportElement(PassportElement),
+  StatisticalGraph(StatisticalGraph),
   Update(Update),
   AccountTtl(AccountTtl),
   Animations(Animations),
@@ -431,6 +477,7 @@ pub enum TdType {
   AutoDownloadSettingsPresets(AutoDownloadSettingsPresets),
   Background(Background),
   Backgrounds(Backgrounds),
+  BankCardInfo(BankCardInfo),
   BasicGroup(BasicGroup),
   BasicGroupFullInfo(BasicGroupFullInfo),
   CallId(CallId),
@@ -438,14 +485,19 @@ pub enum TdType {
   Chat(Chat),
   ChatAdministrators(ChatAdministrators),
   ChatEvents(ChatEvents),
+  ChatFilter(ChatFilter),
+  ChatFilterInfo(ChatFilterInfo),
   ChatInviteLink(ChatInviteLink),
   ChatInviteLinkInfo(ChatInviteLinkInfo),
+  ChatLists(ChatLists),
   ChatMember(ChatMember),
   ChatMembers(ChatMembers),
+  ChatPhotos(ChatPhotos),
   Chats(Chats),
   ChatsNearby(ChatsNearby),
   ConnectedWebsites(ConnectedWebsites),
   Count(Count),
+  Countries(Countries),
   CustomRequestResult(CustomRequestResult),
   DatabaseStatistics(DatabaseStatistics),
   DeepLinkInfo(DeepLinkInfo),
@@ -457,6 +509,9 @@ pub enum TdType {
   FormattedText(FormattedText),
   FoundMessages(FoundMessages),
   GameHighScores(GameHighScores),
+  GroupCall(GroupCall),
+  GroupCallId(GroupCallId),
+  GroupCallJoinResponse(GroupCallJoinResponse),
   Hashtags(Hashtags),
   HttpUrl(HttpUrl),
   ImportedContacts(ImportedContacts),
@@ -467,7 +522,11 @@ pub enum TdType {
   LogTags(LogTags),
   LogVerbosityLevel(LogVerbosityLevel),
   Message(Message),
+  MessageLink(MessageLink),
   MessageLinkInfo(MessageLinkInfo),
+  MessageSenders(MessageSenders),
+  MessageStatistics(MessageStatistics),
+  MessageThreadInfo(MessageThreadInfo),
   Messages(Messages),
   NetworkStatistics(NetworkStatistics),
   Ok(Ok),
@@ -479,10 +538,11 @@ pub enum TdType {
   PaymentForm(PaymentForm),
   PaymentReceipt(PaymentReceipt),
   PaymentResult(PaymentResult),
+  PhoneNumberInfo(PhoneNumberInfo),
   Proxies(Proxies),
   Proxy(Proxy),
-  PublicMessageLink(PublicMessageLink),
   PushReceiverId(PushReceiverId),
+  RecommendedChatFilters(RecommendedChatFilters),
   RecoveryEmailAddress(RecoveryEmailAddress),
   ScopeNotificationSettings(ScopeNotificationSettings),
   Seconds(Seconds),
@@ -511,7 +571,6 @@ pub enum TdType {
   User(User),
   UserFullInfo(UserFullInfo),
   UserPrivacySettingRules(UserPrivacySettingRules),
-  UserProfilePhotos(UserProfilePhotos),
   Users(Users),
   ValidatedOrderInfo(ValidatedOrderInfo),
   WebPage(WebPage),
@@ -525,48 +584,53 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
       TdType,
   (testUseUpdate, TestUseUpdate);
   (updateActiveNotifications, UpdateActiveNotifications);
+  (updateAnimationSearchParameters, UpdateAnimationSearchParameters);
   (updateAuthorizationState, UpdateAuthorizationState);
   (updateBasicGroup, UpdateBasicGroup);
   (updateBasicGroupFullInfo, UpdateBasicGroupFullInfo);
   (updateCall, UpdateCall);
   (updateChatActionBar, UpdateChatActionBar);
-  (updateChatChatList, UpdateChatChatList);
   (updateChatDefaultDisableNotification, UpdateChatDefaultDisableNotification);
   (updateChatDraftMessage, UpdateChatDraftMessage);
+  (updateChatFilters, UpdateChatFilters);
   (updateChatHasScheduledMessages, UpdateChatHasScheduledMessages);
+  (updateChatIsBlocked, UpdateChatIsBlocked);
   (updateChatIsMarkedAsUnread, UpdateChatIsMarkedAsUnread);
-  (updateChatIsPinned, UpdateChatIsPinned);
-  (updateChatIsSponsored, UpdateChatIsSponsored);
   (updateChatLastMessage, UpdateChatLastMessage);
   (updateChatNotificationSettings, UpdateChatNotificationSettings);
   (updateChatOnlineMemberCount, UpdateChatOnlineMemberCount);
-  (updateChatOrder, UpdateChatOrder);
   (updateChatPermissions, UpdateChatPermissions);
   (updateChatPhoto, UpdateChatPhoto);
-  (updateChatPinnedMessage, UpdateChatPinnedMessage);
+  (updateChatPosition, UpdateChatPosition);
   (updateChatReadInbox, UpdateChatReadInbox);
   (updateChatReadOutbox, UpdateChatReadOutbox);
   (updateChatReplyMarkup, UpdateChatReplyMarkup);
   (updateChatTitle, UpdateChatTitle);
   (updateChatUnreadMentionCount, UpdateChatUnreadMentionCount);
+  (updateChatVoiceChat, UpdateChatVoiceChat);
   (updateConnectionState, UpdateConnectionState);
   (updateDeleteMessages, UpdateDeleteMessages);
+  (updateDiceEmojis, UpdateDiceEmojis);
   (updateFavoriteStickers, UpdateFavoriteStickers);
   (updateFile, UpdateFile);
   (updateFileGenerationStart, UpdateFileGenerationStart);
   (updateFileGenerationStop, UpdateFileGenerationStop);
+  (updateGroupCall, UpdateGroupCall);
+  (updateGroupCallParticipant, UpdateGroupCallParticipant);
   (updateHavePendingNotifications, UpdateHavePendingNotifications);
   (updateInstalledStickerSets, UpdateInstalledStickerSets);
   (updateLanguagePackStrings, UpdateLanguagePackStrings);
   (updateMessageContent, UpdateMessageContent);
   (updateMessageContentOpened, UpdateMessageContentOpened);
   (updateMessageEdited, UpdateMessageEdited);
+  (updateMessageInteractionInfo, UpdateMessageInteractionInfo);
+  (updateMessageIsPinned, UpdateMessageIsPinned);
   (updateMessageLiveLocationViewed, UpdateMessageLiveLocationViewed);
   (updateMessageMentionRead, UpdateMessageMentionRead);
   (updateMessageSendAcknowledged, UpdateMessageSendAcknowledged);
   (updateMessageSendFailed, UpdateMessageSendFailed);
   (updateMessageSendSucceeded, UpdateMessageSendSucceeded);
-  (updateMessageViews, UpdateMessageViews);
+  (updateNewCallSignalingData, UpdateNewCallSignalingData);
   (updateNewCallbackQuery, UpdateNewCallbackQuery);
   (updateNewChat, UpdateNewChat);
   (updateNewChosenInlineResult, UpdateNewChosenInlineResult);
@@ -588,6 +652,8 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (updateSecretChat, UpdateSecretChat);
   (updateSelectedBackground, UpdateSelectedBackground);
   (updateServiceNotification, UpdateServiceNotification);
+  (updateStickerSet, UpdateStickerSet);
+  (updateSuggestedActions, UpdateSuggestedActions);
   (updateSupergroup, UpdateSupergroup);
   (updateSupergroupFullInfo, UpdateSupergroupFullInfo);
   (updateTermsOfService, UpdateTermsOfService);
@@ -603,13 +669,16 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
 
   (AuthorizationState, AuthorizationState);
   (CanTransferOwnershipResult, CanTransferOwnershipResult);
+  (ChatStatistics, ChatStatistics);
   (CheckChatUsernameResult, CheckChatUsernameResult);
   (JsonValue, JsonValue);
   (LanguagePackStringValue, LanguagePackStringValue);
   (LogStream, LogStream);
   (LoginUrlInfo, LoginUrlInfo);
+  (MessageFileType, MessageFileType);
   (OptionValue, OptionValue);
   (PassportElement, PassportElement);
+  (StatisticalGraph, StatisticalGraph);
   (Update, Update);
   (accountTtl, AccountTtl);
   (animations, Animations);
@@ -617,6 +686,7 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (autoDownloadSettingsPresets, AutoDownloadSettingsPresets);
   (background, Background);
   (backgrounds, Backgrounds);
+  (bankCardInfo, BankCardInfo);
   (basicGroup, BasicGroup);
   (basicGroupFullInfo, BasicGroupFullInfo);
   (callId, CallId);
@@ -624,14 +694,19 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (chat, Chat);
   (chatAdministrators, ChatAdministrators);
   (chatEvents, ChatEvents);
+  (chatFilter, ChatFilter);
+  (chatFilterInfo, ChatFilterInfo);
   (chatInviteLink, ChatInviteLink);
   (chatInviteLinkInfo, ChatInviteLinkInfo);
+  (chatLists, ChatLists);
   (chatMember, ChatMember);
   (chatMembers, ChatMembers);
+  (chatPhotos, ChatPhotos);
   (chats, Chats);
   (chatsNearby, ChatsNearby);
   (connectedWebsites, ConnectedWebsites);
   (count, Count);
+  (countries, Countries);
   (customRequestResult, CustomRequestResult);
   (databaseStatistics, DatabaseStatistics);
   (deepLinkInfo, DeepLinkInfo);
@@ -643,6 +718,9 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (formattedText, FormattedText);
   (foundMessages, FoundMessages);
   (gameHighScores, GameHighScores);
+  (groupCall, GroupCall);
+  (groupCallId, GroupCallId);
+  (groupCallJoinResponse, GroupCallJoinResponse);
   (hashtags, Hashtags);
   (httpUrl, HttpUrl);
   (importedContacts, ImportedContacts);
@@ -653,7 +731,11 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (logTags, LogTags);
   (logVerbosityLevel, LogVerbosityLevel);
   (message, Message);
+  (messageLink, MessageLink);
   (messageLinkInfo, MessageLinkInfo);
+  (messageSenders, MessageSenders);
+  (messageStatistics, MessageStatistics);
+  (messageThreadInfo, MessageThreadInfo);
   (messages, Messages);
   (networkStatistics, NetworkStatistics);
   (ok, Ok);
@@ -665,10 +747,11 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (paymentForm, PaymentForm);
   (paymentReceipt, PaymentReceipt);
   (paymentResult, PaymentResult);
+  (phoneNumberInfo, PhoneNumberInfo);
   (proxies, Proxies);
   (proxy, Proxy);
-  (publicMessageLink, PublicMessageLink);
   (pushReceiverId, PushReceiverId);
+  (recommendedChatFilters, RecommendedChatFilters);
   (recoveryEmailAddress, RecoveryEmailAddress);
   (scopeNotificationSettings, ScopeNotificationSettings);
   (seconds, Seconds);
@@ -697,7 +780,6 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (user, User);
   (userFullInfo, UserFullInfo);
   (userPrivacySettingRules, UserPrivacySettingRules);
-  (userProfilePhotos, UserProfilePhotos);
   (users, Users);
   (validatedOrderInfo, ValidatedOrderInfo);
   (webPage, WebPage);

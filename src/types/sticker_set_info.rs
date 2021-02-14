@@ -21,9 +21,11 @@ pub struct StickerSetInfo {
   title: String,
   /// Name of the sticker set
   name: String,
-  /// Sticker set thumbnail in WEBP format with width and height 100; may be null
-  thumbnail: Option<PhotoSize>,
-  /// True, if the sticker set has been installed by current user
+  /// Sticker set thumbnail in WEBP or TGS format with width and height 100; may be null
+  thumbnail: Option<Thumbnail>,
+  /// Sticker set thumbnail's outline represented as a list of closed vector paths; may be empty. The coordinate system origin is in the upper-left corner
+  thumbnail_outline: Vec<ClosedVectorPath>,
+  /// True, if the sticker set has been installed by the current user
   is_installed: bool,
   /// True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
   is_archived: bool,
@@ -37,7 +39,7 @@ pub struct StickerSetInfo {
   is_viewed: bool,
   /// Total number of stickers in the set
   size: i64,
-  /// Contains up to the first 5 stickers from the set, depending on the context. If the client needs more stickers the full set should be requested
+  /// Contains up to the first 5 stickers from the set, depending on the context. If the application needs more stickers the full set should be requested
   covers: Vec<Sticker>,
   
 }
@@ -65,7 +67,9 @@ impl StickerSetInfo {
 
   pub fn name(&self) -> &String { &self.name }
 
-  pub fn thumbnail(&self) -> &Option<PhotoSize> { &self.thumbnail }
+  pub fn thumbnail(&self) -> &Option<Thumbnail> { &self.thumbnail }
+
+  pub fn thumbnail_outline(&self) -> &Vec<ClosedVectorPath> { &self.thumbnail_outline }
 
   pub fn is_installed(&self) -> bool { self.is_installed }
 
@@ -112,8 +116,14 @@ impl RTDStickerSetInfoBuilder {
   }
 
    
-  pub fn thumbnail<T: AsRef<PhotoSize>>(&mut self, thumbnail: T) -> &mut Self {
+  pub fn thumbnail<T: AsRef<Thumbnail>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = Some(thumbnail.as_ref().clone());
+    self
+  }
+
+   
+  pub fn thumbnail_outline(&mut self, thumbnail_outline: Vec<ClosedVectorPath>) -> &mut Self {
+    self.inner.thumbnail_outline = thumbnail_outline;
     self
   }
 

@@ -182,7 +182,7 @@ pub struct BackgroundTypePattern {
   extra: Option<String>,
   /// Description of the background fill
   fill: BackgroundFill,
-  /// Intensity of the pattern when it is shown above the filled background, 0-100
+  /// Intensity of the pattern when it is shown above the filled background; 0-100
   intensity: i64,
   /// True, if the background needs to be slightly moved when device is tilted
   is_moving: bool,

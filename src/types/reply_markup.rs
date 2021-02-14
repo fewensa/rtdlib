@@ -19,11 +19,11 @@ pub trait TDReplyMarkup: Debug + RObject {}
 #[serde(untagged)]
 pub enum ReplyMarkup {
   #[doc(hidden)] _Default(()),
-  /// Instructs clients to force a reply to this message
+  /// Instructs application to force a reply to this message
   ForceReply(ReplyMarkupForceReply),
   /// Contains an inline keyboard layout
   InlineKeyboard(ReplyMarkupInlineKeyboard),
-  /// Instructs clients to remove the keyboard once this message has been received. This kind of keyboard can't be received in an incoming message; instead, UpdateChatReplyMarkup with message_id == 0 will be sent
+  /// Instructs application to remove the keyboard once this message has been received. This kind of keyboard can't be received in an incoming message; instead, UpdateChatReplyMarkup with message_id == 0 will be sent
   RemoveKeyboard(ReplyMarkupRemoveKeyboard),
   /// Contains a custom keyboard layout to quickly reply to bots
   ShowKeyboard(ReplyMarkupShowKeyboard),
@@ -113,7 +113,7 @@ impl AsRef<ReplyMarkup> for ReplyMarkup {
 
 
 
-/// Instructs clients to force a reply to this message
+/// Instructs application to force a reply to this message
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ReplyMarkupForceReply {
   #[doc(hidden)]
@@ -249,7 +249,7 @@ impl AsRef<ReplyMarkupInlineKeyboard> for RTDReplyMarkupInlineKeyboardBuilder {
 
 
 
-/// Instructs clients to remove the keyboard once this message has been received. This kind of keyboard can't be received in an incoming message; instead, UpdateChatReplyMarkup with message_id == 0 will be sent
+/// Instructs application to remove the keyboard once this message has been received. This kind of keyboard can't be received in an incoming message; instead, UpdateChatReplyMarkup with message_id == 0 will be sent
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ReplyMarkupRemoveKeyboard {
   #[doc(hidden)]
@@ -328,9 +328,9 @@ pub struct ReplyMarkupShowKeyboard {
   extra: Option<String>,
   /// A list of rows of bot keyboard buttons
   rows: Vec<Vec<KeyboardButton>>,
-  /// True, if the client needs to resize the keyboard vertically
+  /// True, if the application needs to resize the keyboard vertically
   resize_keyboard: bool,
-  /// True, if the client needs to hide the keyboard after use
+  /// True, if the application needs to hide the keyboard after use
   one_time: bool,
   /// True, if the keyboard must automatically be shown to the current user. For outgoing messages, specify true to show the keyboard only for the mentioned users and for the target user of a reply
   is_personal: bool,

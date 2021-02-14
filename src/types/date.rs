@@ -15,11 +15,11 @@ pub struct Date {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Day of the month, 1-31
+  /// Day of the month; 1-31
   day: i64,
-  /// Month, 1-12
+  /// Month; 1-12
   month: i64,
-  /// Year, 1-9999
+  /// Year; 1-9999
   year: i64,
   
 }

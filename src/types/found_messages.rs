@@ -15,10 +15,12 @@ pub struct FoundMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// Approximate total count of messages found; 1 if unknown
+  total_count: i64,
   /// List of messages
   messages: Vec<Message>,
-  /// Value to pass as from_search_id to get more results
-  next_from_search_id: isize,
+  /// The offset for the next request. If empty, there are no more results
+  next_offset: String,
   
 }
 
@@ -39,9 +41,11 @@ impl FoundMessages {
     RTDFoundMessagesBuilder { inner }
   }
 
+  pub fn total_count(&self) -> i64 { self.total_count }
+
   pub fn messages(&self) -> &Vec<Message> { &self.messages }
 
-  pub fn next_from_search_id(&self) -> isize { self.next_from_search_id }
+  pub fn next_offset(&self) -> &String { &self.next_offset }
 
 }
 
@@ -54,14 +58,20 @@ impl RTDFoundMessagesBuilder {
   pub fn build(&self) -> FoundMessages { self.inner.clone() }
 
    
+  pub fn total_count(&mut self, total_count: i64) -> &mut Self {
+    self.inner.total_count = total_count;
+    self
+  }
+
+   
   pub fn messages(&mut self, messages: Vec<Message>) -> &mut Self {
     self.inner.messages = messages;
     self
   }
 
    
-  pub fn next_from_search_id(&mut self, next_from_search_id: isize) -> &mut Self {
-    self.inner.next_from_search_id = next_from_search_id;
+  pub fn next_offset<T: AsRef<str>>(&mut self, next_offset: T) -> &mut Self {
+    self.inner.next_offset = next_offset.as_ref().to_string();
     self
   }
 

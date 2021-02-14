@@ -128,7 +128,7 @@ pub struct UserTypeBot {
   can_read_all_group_messages: bool,
   /// True, if the bot supports inline queries
   is_inline: bool,
-  /// Placeholder for inline queries (displayed on the client input field)
+  /// Placeholder for inline queries (displayed on the application input field)
   inline_query_placeholder: String,
   /// True, if the location of the user should be sent with every inline query to this bot
   need_location: bool,

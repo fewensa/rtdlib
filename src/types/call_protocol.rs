@@ -23,6 +23,8 @@ pub struct CallProtocol {
   min_layer: i64,
   /// The maximum supported API layer; use 65
   max_layer: i64,
+  /// List of supported tgcalls versions
+  library_versions: Vec<String>,
   
 }
 
@@ -50,6 +52,8 @@ impl CallProtocol {
   pub fn min_layer(&self) -> i64 { self.min_layer }
 
   pub fn max_layer(&self) -> i64 { self.max_layer }
+
+  pub fn library_versions(&self) -> &Vec<String> { &self.library_versions }
 
 }
 
@@ -82,6 +86,12 @@ impl RTDCallProtocolBuilder {
    
   pub fn max_layer(&mut self, max_layer: i64) -> &mut Self {
     self.inner.max_layer = max_layer;
+    self
+  }
+
+   
+  pub fn library_versions(&mut self, library_versions: Vec<String>) -> &mut Self {
+    self.inner.library_versions = library_versions;
     self
   }
 

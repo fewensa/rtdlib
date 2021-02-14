@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 
 
-/// Contains full information about a user (except the full list of profile photos)
+/// Contains full information about a user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UserFullInfo {
   #[doc(hidden)]
@@ -15,10 +15,14 @@ pub struct UserFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// True, if the user is blacklisted by the current user
+  /// User profile photo; may be null
+  photo: Option<ChatPhoto>,
+  /// True, if the user is blocked by the current user
   is_blocked: bool,
   /// True, if the user can be called
   can_be_called: bool,
+  /// True, if a video call can be created with the user
+  supports_video_calls: bool,
   /// True, if the user can't be called due to their privacy settings
   has_private_calls: bool,
   /// True, if the current user needs to explicitly allow to share their phone number with the user when the method addContact is used
@@ -51,9 +55,13 @@ impl UserFullInfo {
     RTDUserFullInfoBuilder { inner }
   }
 
+  pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
+
   pub fn is_blocked(&self) -> bool { self.is_blocked }
 
   pub fn can_be_called(&self) -> bool { self.can_be_called }
+
+  pub fn supports_video_calls(&self) -> bool { self.supports_video_calls }
 
   pub fn has_private_calls(&self) -> bool { self.has_private_calls }
 
@@ -78,6 +86,12 @@ impl RTDUserFullInfoBuilder {
   pub fn build(&self) -> UserFullInfo { self.inner.clone() }
 
    
+  pub fn photo<T: AsRef<ChatPhoto>>(&mut self, photo: T) -> &mut Self {
+    self.inner.photo = Some(photo.as_ref().clone());
+    self
+  }
+
+   
   pub fn is_blocked(&mut self, is_blocked: bool) -> &mut Self {
     self.inner.is_blocked = is_blocked;
     self
@@ -86,6 +100,12 @@ impl RTDUserFullInfoBuilder {
    
   pub fn can_be_called(&mut self, can_be_called: bool) -> &mut Self {
     self.inner.can_be_called = can_be_called;
+    self
+  }
+
+   
+  pub fn supports_video_calls(&mut self, supports_video_calls: bool) -> &mut Self {
+    self.inner.supports_video_calls = supports_video_calls;
     self
   }
 

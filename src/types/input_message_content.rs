@@ -25,6 +25,8 @@ pub enum InputMessageContent {
   InputMessageAudio(InputMessageAudio),
   /// A message containing a user contact
   InputMessageContact(InputMessageContact),
+  /// A dice message
+  InputMessageDice(InputMessageDice),
   /// A document message (general file)
   InputMessageDocument(InputMessageDocument),
   /// A forwarded message
@@ -66,6 +68,7 @@ impl<'de> Deserialize<'de> for InputMessageContent {
       (inputMessageAnimation, InputMessageAnimation);
       (inputMessageAudio, InputMessageAudio);
       (inputMessageContact, InputMessageContact);
+      (inputMessageDice, InputMessageDice);
       (inputMessageDocument, InputMessageDocument);
       (inputMessageForwarded, InputMessageForwarded);
       (inputMessageGame, InputMessageGame);
@@ -90,6 +93,7 @@ impl RObject for InputMessageContent {
       InputMessageContent::InputMessageAnimation(t) => t.td_name(),
       InputMessageContent::InputMessageAudio(t) => t.td_name(),
       InputMessageContent::InputMessageContact(t) => t.td_name(),
+      InputMessageContent::InputMessageDice(t) => t.td_name(),
       InputMessageContent::InputMessageDocument(t) => t.td_name(),
       InputMessageContent::InputMessageForwarded(t) => t.td_name(),
       InputMessageContent::InputMessageGame(t) => t.td_name(),
@@ -112,6 +116,7 @@ impl RObject for InputMessageContent {
       InputMessageContent::InputMessageAnimation(t) => t.extra(),
       InputMessageContent::InputMessageAudio(t) => t.extra(),
       InputMessageContent::InputMessageContact(t) => t.extra(),
+      InputMessageContent::InputMessageDice(t) => t.extra(),
       InputMessageContent::InputMessageDocument(t) => t.extra(),
       InputMessageContent::InputMessageForwarded(t) => t.extra(),
       InputMessageContent::InputMessageGame(t) => t.extra(),
@@ -139,6 +144,7 @@ impl InputMessageContent {
   pub fn is_input_message_animation(&self) -> bool { if let InputMessageContent::InputMessageAnimation(_) = self { true } else { false } }
   pub fn is_input_message_audio(&self) -> bool { if let InputMessageContent::InputMessageAudio(_) = self { true } else { false } }
   pub fn is_input_message_contact(&self) -> bool { if let InputMessageContent::InputMessageContact(_) = self { true } else { false } }
+  pub fn is_input_message_dice(&self) -> bool { if let InputMessageContent::InputMessageDice(_) = self { true } else { false } }
   pub fn is_input_message_document(&self) -> bool { if let InputMessageContent::InputMessageDocument(_) = self { true } else { false } }
   pub fn is_input_message_forwarded(&self) -> bool { if let InputMessageContent::InputMessageForwarded(_) = self { true } else { false } }
   pub fn is_input_message_game(&self) -> bool { if let InputMessageContent::InputMessageGame(_) = self { true } else { false } }
@@ -156,6 +162,7 @@ impl InputMessageContent {
   pub fn on_input_message_animation<F: FnOnce(&InputMessageAnimation)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageAnimation(t) = self { fnc(t) }; self }
   pub fn on_input_message_audio<F: FnOnce(&InputMessageAudio)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageAudio(t) = self { fnc(t) }; self }
   pub fn on_input_message_contact<F: FnOnce(&InputMessageContact)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageContact(t) = self { fnc(t) }; self }
+  pub fn on_input_message_dice<F: FnOnce(&InputMessageDice)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageDice(t) = self { fnc(t) }; self }
   pub fn on_input_message_document<F: FnOnce(&InputMessageDocument)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageDocument(t) = self { fnc(t) }; self }
   pub fn on_input_message_forwarded<F: FnOnce(&InputMessageForwarded)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageForwarded(t) = self { fnc(t) }; self }
   pub fn on_input_message_game<F: FnOnce(&InputMessageGame)>(&self, fnc: F) -> &Self { if let InputMessageContent::InputMessageGame(t) = self { fnc(t) }; self }
@@ -173,6 +180,7 @@ impl InputMessageContent {
   pub fn as_input_message_animation(&self) -> Option<&InputMessageAnimation> { if let InputMessageContent::InputMessageAnimation(t) = self { return Some(t) } None }
   pub fn as_input_message_audio(&self) -> Option<&InputMessageAudio> { if let InputMessageContent::InputMessageAudio(t) = self { return Some(t) } None }
   pub fn as_input_message_contact(&self) -> Option<&InputMessageContact> { if let InputMessageContent::InputMessageContact(t) = self { return Some(t) } None }
+  pub fn as_input_message_dice(&self) -> Option<&InputMessageDice> { if let InputMessageContent::InputMessageDice(t) = self { return Some(t) } None }
   pub fn as_input_message_document(&self) -> Option<&InputMessageDocument> { if let InputMessageContent::InputMessageDocument(t) = self { return Some(t) } None }
   pub fn as_input_message_forwarded(&self) -> Option<&InputMessageForwarded> { if let InputMessageContent::InputMessageForwarded(t) = self { return Some(t) } None }
   pub fn as_input_message_game(&self) -> Option<&InputMessageGame> { if let InputMessageContent::InputMessageGame(t) = self { return Some(t) } None }
@@ -194,6 +202,8 @@ impl InputMessageContent {
   pub fn input_message_audio<T: AsRef<InputMessageAudio>>(t: T) -> Self { InputMessageContent::InputMessageAudio(t.as_ref().clone()) }
 
   pub fn input_message_contact<T: AsRef<InputMessageContact>>(t: T) -> Self { InputMessageContent::InputMessageContact(t.as_ref().clone()) }
+
+  pub fn input_message_dice<T: AsRef<InputMessageDice>>(t: T) -> Self { InputMessageContent::InputMessageDice(t.as_ref().clone()) }
 
   pub fn input_message_document<T: AsRef<InputMessageDocument>>(t: T) -> Self { InputMessageContent::InputMessageDocument(t.as_ref().clone()) }
 
@@ -246,6 +256,8 @@ pub struct InputMessageAnimation {
   animation: InputFile,
   /// Animation thumbnail, if available
   thumbnail: InputThumbnail,
+  /// File identifiers of the stickers added to the animation, if applicable
+  added_sticker_file_ids: Vec<i64>,
   /// Duration of the animation, in seconds
   duration: i64,
   /// Width of the animation; may be replaced by the server
@@ -281,6 +293,8 @@ impl InputMessageAnimation {
 
   pub fn thumbnail(&self) -> &InputThumbnail { &self.thumbnail }
 
+  pub fn added_sticker_file_ids(&self) -> &Vec<i64> { &self.added_sticker_file_ids }
+
   pub fn duration(&self) -> i64 { self.duration }
 
   pub fn width(&self) -> i64 { self.width }
@@ -308,6 +322,12 @@ impl RTDInputMessageAnimationBuilder {
    
   pub fn thumbnail<T: AsRef<InputThumbnail>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = thumbnail.as_ref().clone();
+    self
+  }
+
+   
+  pub fn added_sticker_file_ids(&mut self, added_sticker_file_ids: Vec<i64>) -> &mut Self {
+    self.inner.added_sticker_file_ids = added_sticker_file_ids;
     self
   }
 
@@ -537,6 +557,84 @@ impl AsRef<InputMessageContact> for RTDInputMessageContactBuilder {
 
 
 
+/// A dice message
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InputMessageDice {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Emoji on which the dice throw animation is based
+  emoji: String,
+  /// True, if a chat message draft should be deleted
+  clear_draft: bool,
+  
+}
+
+impl RObject for InputMessageDice {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inputMessageDice" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInputMessageContent for InputMessageDice {}
+
+
+
+impl InputMessageDice {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInputMessageDiceBuilder {
+    let mut inner = InputMessageDice::default();
+    inner.td_name = "inputMessageDice".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDInputMessageDiceBuilder { inner }
+  }
+
+  pub fn emoji(&self) -> &String { &self.emoji }
+
+  pub fn clear_draft(&self) -> bool { self.clear_draft }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInputMessageDiceBuilder {
+  inner: InputMessageDice
+}
+
+impl RTDInputMessageDiceBuilder {
+  pub fn build(&self) -> InputMessageDice { self.inner.clone() }
+
+   
+  pub fn emoji<T: AsRef<str>>(&mut self, emoji: T) -> &mut Self {
+    self.inner.emoji = emoji.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn clear_draft(&mut self, clear_draft: bool) -> &mut Self {
+    self.inner.clear_draft = clear_draft;
+    self
+  }
+
+}
+
+impl AsRef<InputMessageDice> for InputMessageDice {
+  fn as_ref(&self) -> &InputMessageDice { self }
+}
+
+impl AsRef<InputMessageDice> for RTDInputMessageDiceBuilder {
+  fn as_ref(&self) -> &InputMessageDice { &self.inner }
+}
+
+
+
+
+
+
+
 /// A document message (general file)
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InputMessageDocument {
@@ -550,6 +648,8 @@ pub struct InputMessageDocument {
   document: InputFile,
   /// Document thumbnail, if available
   thumbnail: InputThumbnail,
+  /// If true, automatic file type detection will be disabled and the document will be always sent as file. Always true for files sent to secret chats
+  disable_content_type_detection: bool,
   /// Document caption; 0-GetOption("message_caption_length_max") characters
   caption: FormattedText,
   
@@ -579,6 +679,8 @@ impl InputMessageDocument {
 
   pub fn thumbnail(&self) -> &InputThumbnail { &self.thumbnail }
 
+  pub fn disable_content_type_detection(&self) -> bool { self.disable_content_type_detection }
+
   pub fn caption(&self) -> &FormattedText { &self.caption }
 
 }
@@ -600,6 +702,12 @@ impl RTDInputMessageDocumentBuilder {
    
   pub fn thumbnail<T: AsRef<InputThumbnail>>(&mut self, thumbnail: T) -> &mut Self {
     self.inner.thumbnail = thumbnail.as_ref().clone();
+    self
+  }
+
+   
+  pub fn disable_content_type_detection(&mut self, disable_content_type_detection: bool) -> &mut Self {
+    self.inner.disable_content_type_detection = disable_content_type_detection;
     self
   }
 
@@ -640,10 +748,8 @@ pub struct InputMessageForwarded {
   message_id: i64,
   /// True, if a game message should be shared within a launched game; applies only to game messages
   in_game_share: bool,
-  /// True, if content of the message needs to be copied without a link to the original message. Always true if the message is forwarded to a secret chat
-  send_copy: bool,
-  /// True, if media caption of the message copy needs to be removed. Ignored if send_copy is false
-  remove_caption: bool,
+  /// Options to be used to copy content of the message without a link to the original message
+  copy_options: MessageCopyOptions,
   
 }
 
@@ -673,9 +779,7 @@ impl InputMessageForwarded {
 
   pub fn in_game_share(&self) -> bool { self.in_game_share }
 
-  pub fn send_copy(&self) -> bool { self.send_copy }
-
-  pub fn remove_caption(&self) -> bool { self.remove_caption }
+  pub fn copy_options(&self) -> &MessageCopyOptions { &self.copy_options }
 
 }
 
@@ -706,14 +810,8 @@ impl RTDInputMessageForwardedBuilder {
   }
 
    
-  pub fn send_copy(&mut self, send_copy: bool) -> &mut Self {
-    self.inner.send_copy = send_copy;
-    self
-  }
-
-   
-  pub fn remove_caption(&mut self, remove_caption: bool) -> &mut Self {
-    self.inner.remove_caption = remove_caption;
+  pub fn copy_options<T: AsRef<MessageCopyOptions>>(&mut self, copy_options: T) -> &mut Self {
+    self.inner.copy_options = copy_options.as_ref().clone();
     self
   }
 
@@ -992,6 +1090,10 @@ pub struct InputMessageLocation {
   location: Location,
   /// Period for which the location can be updated, in seconds; should be between 60 and 86400 for a live location and 0 otherwise
   live_period: i64,
+  /// For live locations, a direction in which the location moves, in degrees; 1-360. Pass 0 if unknown
+  heading: i64,
+  /// For live locations, a maximum distance to another chat member for proximity alerts, in meters (0-100000). Pass 0 if the notification is disabled. Can't be enabled in channels and Saved Messages
+  proximity_alert_radius: i64,
   
 }
 
@@ -1019,6 +1121,10 @@ impl InputMessageLocation {
 
   pub fn live_period(&self) -> i64 { self.live_period }
 
+  pub fn heading(&self) -> i64 { self.heading }
+
+  pub fn proximity_alert_radius(&self) -> i64 { self.proximity_alert_radius }
+
 }
 
 #[doc(hidden)]
@@ -1038,6 +1144,18 @@ impl RTDInputMessageLocationBuilder {
    
   pub fn live_period(&mut self, live_period: i64) -> &mut Self {
     self.inner.live_period = live_period;
+    self
+  }
+
+   
+  pub fn heading(&mut self, heading: i64) -> &mut Self {
+    self.inner.heading = heading;
+    self
+  }
+
+   
+  pub fn proximity_alert_radius(&mut self, proximity_alert_radius: i64) -> &mut Self {
+    self.inner.proximity_alert_radius = proximity_alert_radius;
     self
   }
 
@@ -1194,7 +1312,7 @@ pub struct InputMessagePoll {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Poll question, 1-255 characters
+  /// Poll question; 1-255 characters (up to 300 characters for bots)
   question: String,
   /// List of poll answer options, 2-10 strings 1-100 characters each
   options: Vec<String>,
@@ -1202,6 +1320,10 @@ pub struct InputMessagePoll {
   is_anonymous: bool,
   /// Type of the poll
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: PollType,
+  /// Amount of time the poll will be active after creation, in seconds; for bots only
+  open_period: i64,
+  /// Point in time (Unix timestamp) when the poll will be automatically closed; for bots only
+  close_date: i64,
   /// True, if the poll needs to be sent already closed; for bots only
   is_closed: bool,
   
@@ -1234,6 +1356,10 @@ impl InputMessagePoll {
   pub fn is_anonymous(&self) -> bool { self.is_anonymous }
 
   pub fn type_(&self) -> &PollType { &self.type_ }
+
+  pub fn open_period(&self) -> i64 { self.open_period }
+
+  pub fn close_date(&self) -> i64 { self.close_date }
 
   pub fn is_closed(&self) -> bool { self.is_closed }
 
@@ -1268,6 +1394,18 @@ impl RTDInputMessagePollBuilder {
    
   pub fn type_<T: AsRef<PollType>>(&mut self, type_: T) -> &mut Self {
     self.inner.type_ = type_.as_ref().clone();
+    self
+  }
+
+   
+  pub fn open_period(&mut self, open_period: i64) -> &mut Self {
+    self.inner.open_period = open_period;
+    self
+  }
+
+   
+  pub fn close_date(&mut self, close_date: i64) -> &mut Self {
+    self.inner.close_date = close_date;
     self
   }
 
@@ -1310,6 +1448,8 @@ pub struct InputMessageSticker {
   width: i64,
   /// Sticker height
   height: i64,
+  /// Emoji used to choose the sticker
+  emoji: String,
   
 }
 
@@ -1340,6 +1480,8 @@ impl InputMessageSticker {
   pub fn width(&self) -> i64 { self.width }
 
   pub fn height(&self) -> i64 { self.height }
+
+  pub fn emoji(&self) -> &String { &self.emoji }
 
 }
 
@@ -1372,6 +1514,12 @@ impl RTDInputMessageStickerBuilder {
    
   pub fn height(&mut self, height: i64) -> &mut Self {
     self.inner.height = height;
+    self
+  }
+
+   
+  pub fn emoji<T: AsRef<str>>(&mut self, emoji: T) -> &mut Self {
+    self.inner.emoji = emoji.as_ref().to_string();
     self
   }
 

@@ -15,14 +15,16 @@ pub struct BasicGroupFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// Chat photo; may be null
+  photo: Option<ChatPhoto>,
   /// Contains full information about a basic group
   description: String,
   /// User identifier of the creator of the group; 0 if unknown
   creator_user_id: i64,
   /// Group members
   members: Vec<ChatMember>,
-  /// Invite link for this group; available only after it has been generated at least once and only for the group creator
-  invite_link: String,
+  /// Permanent invite link for this group; may be null. For chat administrators with can_invite_users right only. Updated only after the basic group is opened
+  invite_link: Option<ChatInviteLink>,
   
 }
 
@@ -43,13 +45,15 @@ impl BasicGroupFullInfo {
     RTDBasicGroupFullInfoBuilder { inner }
   }
 
+  pub fn photo(&self) -> &Option<ChatPhoto> { &self.photo }
+
   pub fn description(&self) -> &String { &self.description }
 
   pub fn creator_user_id(&self) -> i64 { self.creator_user_id }
 
   pub fn members(&self) -> &Vec<ChatMember> { &self.members }
 
-  pub fn invite_link(&self) -> &String { &self.invite_link }
+  pub fn invite_link(&self) -> &Option<ChatInviteLink> { &self.invite_link }
 
 }
 
@@ -60,6 +64,12 @@ pub struct RTDBasicGroupFullInfoBuilder {
 
 impl RTDBasicGroupFullInfoBuilder {
   pub fn build(&self) -> BasicGroupFullInfo { self.inner.clone() }
+
+   
+  pub fn photo<T: AsRef<ChatPhoto>>(&mut self, photo: T) -> &mut Self {
+    self.inner.photo = Some(photo.as_ref().clone());
+    self
+  }
 
    
   pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {
@@ -80,8 +90,8 @@ impl RTDBasicGroupFullInfoBuilder {
   }
 
    
-  pub fn invite_link<T: AsRef<str>>(&mut self, invite_link: T) -> &mut Self {
-    self.inner.invite_link = invite_link.as_ref().to_string();
+  pub fn invite_link<T: AsRef<ChatInviteLink>>(&mut self, invite_link: T) -> &mut Self {
+    self.inner.invite_link = Some(invite_link.as_ref().clone());
     self
   }
 
