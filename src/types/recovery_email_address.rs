@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct RecoveryEmailAddress {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Recovery email address
   recovery_email_address: String,
   
@@ -18,6 +22,7 @@ pub struct RecoveryEmailAddress {
 
 impl RObject for RecoveryEmailAddress {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "recoveryEmailAddress" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -28,6 +33,7 @@ impl RecoveryEmailAddress {
   pub fn builder() -> RTDRecoveryEmailAddressBuilder {
     let mut inner = RecoveryEmailAddress::default();
     inner.td_name = "recoveryEmailAddress".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRecoveryEmailAddressBuilder { inner }
   }
 

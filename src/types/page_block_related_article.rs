@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct PageBlockRelatedArticle {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Related article URL
   url: String,
   /// Article title; may be empty
@@ -28,6 +32,7 @@ pub struct PageBlockRelatedArticle {
 
 impl RObject for PageBlockRelatedArticle {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pageBlockRelatedArticle" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -38,6 +43,7 @@ impl PageBlockRelatedArticle {
   pub fn builder() -> RTDPageBlockRelatedArticleBuilder {
     let mut inner = PageBlockRelatedArticle::default();
     inner.td_name = "pageBlockRelatedArticle".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPageBlockRelatedArticleBuilder { inner }
   }
 

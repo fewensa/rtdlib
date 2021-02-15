@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct SavedCredentials {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the saved credentials
   id: String,
   /// Title of the saved credentials
@@ -20,6 +24,7 @@ pub struct SavedCredentials {
 
 impl RObject for SavedCredentials {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "savedCredentials" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl SavedCredentials {
   pub fn builder() -> RTDSavedCredentialsBuilder {
     let mut inner = SavedCredentials::default();
     inner.td_name = "savedCredentials".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDSavedCredentialsBuilder { inner }
   }
 

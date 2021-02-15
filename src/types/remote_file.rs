@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct RemoteFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Remote file identifier; may be empty. Can be used across application restarts or even from other devices for the current user. Uniquely identifies a file, but a file can have a lot of different valid identifiers. If the ID starts with "http://" or "https://", it represents the HTTP URL of the file. TDLib is currently unable to download files if only their URL is known. If downloadFile is called on such a file or if it is sent to a secret chat, TDLib starts a file generation process by sending updateFileGenerationStart to the client with the HTTP URL in the original_path and "#url#" as the conversion string. Clients should generate the file by downloading it to the specified location
   id: String,
   /// Unique file identifier; may be empty if unknown. The unique file identifier which is the same for the same file even for different users and is persistent over time
@@ -26,6 +30,7 @@ pub struct RemoteFile {
 
 impl RObject for RemoteFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "remoteFile" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -36,6 +41,7 @@ impl RemoteFile {
   pub fn builder() -> RTDRemoteFileBuilder {
     let mut inner = RemoteFile::default();
     inner.td_name = "remoteFile".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDRemoteFileBuilder { inner }
   }
 

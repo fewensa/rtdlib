@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Session {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Session identifier
   id: isize,
   /// True, if this session is the current session
@@ -46,6 +50,7 @@ pub struct Session {
 
 impl RObject for Session {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "session" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -56,6 +61,7 @@ impl Session {
   pub fn builder() -> RTDSessionBuilder {
     let mut inner = Session::default();
     inner.td_name = "session".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDSessionBuilder { inner }
   }
 

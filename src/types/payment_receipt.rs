@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct PaymentReceipt {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Point in time (Unix timestamp) when the payment was made
   date: i64,
   /// User identifier of the payment provider bot
@@ -28,6 +32,7 @@ pub struct PaymentReceipt {
 
 impl RObject for PaymentReceipt {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "paymentReceipt" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -38,6 +43,7 @@ impl PaymentReceipt {
   pub fn builder() -> RTDPaymentReceiptBuilder {
     let mut inner = PaymentReceipt::default();
     inner.td_name = "paymentReceipt".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPaymentReceiptBuilder { inner }
   }
 

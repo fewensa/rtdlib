@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Background {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique background identifier
   id: isize,
   /// True, if this is one of default backgrounds
@@ -28,6 +32,7 @@ pub struct Background {
 
 impl RObject for Background {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "background" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -38,6 +43,7 @@ impl Background {
   pub fn builder() -> RTDBackgroundBuilder {
     let mut inner = Background::default();
     inner.td_name = "background".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDBackgroundBuilder { inner }
   }
 

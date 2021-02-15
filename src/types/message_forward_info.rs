@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct MessageForwardInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Origin of a forwarded message
   origin: MessageForwardOrigin,
   /// Point in time (Unix timestamp) when the message was originally sent
@@ -24,6 +28,7 @@ pub struct MessageForwardInfo {
 
 impl RObject for MessageForwardInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageForwardInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -34,6 +39,7 @@ impl MessageForwardInfo {
   pub fn builder() -> RTDMessageForwardInfoBuilder {
     let mut inner = MessageForwardInfo::default();
     inner.td_name = "messageForwardInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMessageForwardInfoBuilder { inner }
   }
 

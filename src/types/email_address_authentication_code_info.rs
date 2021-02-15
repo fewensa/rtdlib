@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct EmailAddressAuthenticationCodeInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Pattern of the email address to which an authentication code was sent
   email_address_pattern: String,
   /// Length of the code; 0 if unknown
@@ -20,6 +24,7 @@ pub struct EmailAddressAuthenticationCodeInfo {
 
 impl RObject for EmailAddressAuthenticationCodeInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "emailAddressAuthenticationCodeInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl EmailAddressAuthenticationCodeInfo {
   pub fn builder() -> RTDEmailAddressAuthenticationCodeInfoBuilder {
     let mut inner = EmailAddressAuthenticationCodeInfo::default();
     inner.td_name = "emailAddressAuthenticationCodeInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDEmailAddressAuthenticationCodeInfoBuilder { inner }
   }
 

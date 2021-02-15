@@ -1,6 +1,6 @@
 [package]
 name = "rtdlib"
-version = "1.6.4"
+version = "1.6.5"
 authors = ["fewensa <fewensa@protonmail.com>"]
 description = "TDLib for rust"
 homepage = "https://github.com/fewensa/rtdlib"
@@ -24,6 +24,8 @@ serde = "1"
 serde_derive = "1"
 serde_json = "1"
 serde-aux = "0.6"
+
+uuid = { version = "0.8", features = ["v4"] }
 
 rtdlib-sys = { version = "0.1", optional = true }
 

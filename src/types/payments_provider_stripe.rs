@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct PaymentsProviderStripe {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Stripe API publishable key
   publishable_key: String,
   /// True, if the user country must be provided
@@ -24,6 +28,7 @@ pub struct PaymentsProviderStripe {
 
 impl RObject for PaymentsProviderStripe {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "paymentsProviderStripe" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -34,6 +39,7 @@ impl PaymentsProviderStripe {
   pub fn builder() -> RTDPaymentsProviderStripeBuilder {
     let mut inner = PaymentsProviderStripe::default();
     inner.td_name = "paymentsProviderStripe".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPaymentsProviderStripeBuilder { inner }
   }
 

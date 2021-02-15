@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Messages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Approximate total count of messages found
   total_count: i64,
   /// List of messages; messages may be null
@@ -20,6 +24,7 @@ pub struct Messages {
 
 impl RObject for Messages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messages" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl Messages {
   pub fn builder() -> RTDMessagesBuilder {
     let mut inner = Messages::default();
     inner.td_name = "messages".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMessagesBuilder { inner }
   }
 

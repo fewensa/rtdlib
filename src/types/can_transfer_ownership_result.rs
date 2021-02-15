@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -62,6 +63,17 @@ impl RObject for CanTransferOwnershipResult {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      CanTransferOwnershipResult::CanTransferOwnership(t) => t.extra(),
+      CanTransferOwnershipResult::Ok(t) => t.extra(),
+      CanTransferOwnershipResult::PasswordNeeded(t) => t.extra(),
+      CanTransferOwnershipResult::PasswordTooFresh(t) => t.extra(),
+      CanTransferOwnershipResult::SessionTooFresh(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -117,11 +129,15 @@ pub struct CanTransferOwnershipResultOk {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CanTransferOwnershipResultOk {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "canTransferOwnershipResultOk" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -135,6 +151,7 @@ impl CanTransferOwnershipResultOk {
   pub fn builder() -> RTDCanTransferOwnershipResultOkBuilder {
     let mut inner = CanTransferOwnershipResultOk::default();
     inner.td_name = "canTransferOwnershipResultOk".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCanTransferOwnershipResultOkBuilder { inner }
   }
 
@@ -170,11 +187,15 @@ pub struct CanTransferOwnershipResultPasswordNeeded {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CanTransferOwnershipResultPasswordNeeded {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "canTransferOwnershipResultPasswordNeeded" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -188,6 +209,7 @@ impl CanTransferOwnershipResultPasswordNeeded {
   pub fn builder() -> RTDCanTransferOwnershipResultPasswordNeededBuilder {
     let mut inner = CanTransferOwnershipResultPasswordNeeded::default();
     inner.td_name = "canTransferOwnershipResultPasswordNeeded".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCanTransferOwnershipResultPasswordNeededBuilder { inner }
   }
 
@@ -223,6 +245,9 @@ pub struct CanTransferOwnershipResultPasswordTooFresh {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Time left before the session can be used to transfer ownership of a chat, in seconds
   retry_after: i64,
   
@@ -230,6 +255,7 @@ pub struct CanTransferOwnershipResultPasswordTooFresh {
 
 impl RObject for CanTransferOwnershipResultPasswordTooFresh {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "canTransferOwnershipResultPasswordTooFresh" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -243,6 +269,7 @@ impl CanTransferOwnershipResultPasswordTooFresh {
   pub fn builder() -> RTDCanTransferOwnershipResultPasswordTooFreshBuilder {
     let mut inner = CanTransferOwnershipResultPasswordTooFresh::default();
     inner.td_name = "canTransferOwnershipResultPasswordTooFresh".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCanTransferOwnershipResultPasswordTooFreshBuilder { inner }
   }
 
@@ -286,6 +313,9 @@ pub struct CanTransferOwnershipResultSessionTooFresh {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Time left before the session can be used to transfer ownership of a chat, in seconds
   retry_after: i64,
   
@@ -293,6 +323,7 @@ pub struct CanTransferOwnershipResultSessionTooFresh {
 
 impl RObject for CanTransferOwnershipResultSessionTooFresh {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "canTransferOwnershipResultSessionTooFresh" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -306,6 +337,7 @@ impl CanTransferOwnershipResultSessionTooFresh {
   pub fn builder() -> RTDCanTransferOwnershipResultSessionTooFreshBuilder {
     let mut inner = CanTransferOwnershipResultSessionTooFresh::default();
     inner.td_name = "canTransferOwnershipResultSessionTooFresh".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCanTransferOwnershipResultSessionTooFreshBuilder { inner }
   }
 

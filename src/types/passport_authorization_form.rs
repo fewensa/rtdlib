@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct PassportAuthorizationForm {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the authorization form
   id: i64,
   /// Information about the Telegram Passport elements that need to be provided to complete the form
@@ -22,6 +26,7 @@ pub struct PassportAuthorizationForm {
 
 impl RObject for PassportAuthorizationForm {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportAuthorizationForm" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl PassportAuthorizationForm {
   pub fn builder() -> RTDPassportAuthorizationFormBuilder {
     let mut inner = PassportAuthorizationForm::default();
     inner.td_name = "passportAuthorizationForm".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPassportAuthorizationFormBuilder { inner }
   }
 
