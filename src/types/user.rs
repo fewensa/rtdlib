@@ -41,8 +41,6 @@ pub struct User {
   restriction_reason: String,
   /// True, if many users reported this user as a scam
   is_scam: bool,
-  /// True, if many users reported this user as a fake account
-  is_fake: bool,
   /// If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
   have_access: bool,
   /// Type of the user
@@ -94,8 +92,6 @@ impl User {
   pub fn restriction_reason(&self) -> &String { &self.restriction_reason }
 
   pub fn is_scam(&self) -> bool { self.is_scam }
-
-  pub fn is_fake(&self) -> bool { self.is_fake }
 
   pub fn have_access(&self) -> bool { self.have_access }
 
@@ -188,12 +184,6 @@ impl RTDUserBuilder {
    
   pub fn is_scam(&mut self, is_scam: bool) -> &mut Self {
     self.inner.is_scam = is_scam;
-    self
-  }
-
-   
-  pub fn is_fake(&mut self, is_fake: bool) -> &mut Self {
-    self.inner.is_fake = is_fake;
     self
   }
 

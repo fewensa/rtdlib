@@ -21,8 +21,6 @@ pub enum ChatActionBar {
   #[doc(hidden)] _Default(()),
   /// The chat is a private or secret chat and the other user can be added to the contact list using the method addContact
   AddContact(ChatActionBarAddContact),
-  /// The chat is a recently created group chat, to which new members can be invited
-  InviteMembers(ChatActionBarInviteMembers),
   /// The chat is a private or secret chat, which can be reported using the method reportChat, or the other user can be blocked using the method blockUser, or the other user can be added to the contact list using the method addContact
   ReportAddBlock(ChatActionBarReportAddBlock),
   /// The chat can be reported as spam using the method reportChat with the reason chatReportReasonSpam
@@ -44,7 +42,6 @@ impl<'de> Deserialize<'de> for ChatActionBar {
     rtd_enum_deserialize!(
       ChatActionBar,
       (chatActionBarAddContact, AddContact);
-      (chatActionBarInviteMembers, InviteMembers);
       (chatActionBarReportAddBlock, ReportAddBlock);
       (chatActionBarReportSpam, ReportSpam);
       (chatActionBarReportUnrelatedLocation, ReportUnrelatedLocation);
@@ -58,7 +55,6 @@ impl RObject for ChatActionBar {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
       ChatActionBar::AddContact(t) => t.td_name(),
-      ChatActionBar::InviteMembers(t) => t.td_name(),
       ChatActionBar::ReportAddBlock(t) => t.td_name(),
       ChatActionBar::ReportSpam(t) => t.td_name(),
       ChatActionBar::ReportUnrelatedLocation(t) => t.td_name(),
@@ -70,7 +66,6 @@ impl RObject for ChatActionBar {
   #[doc(hidden)] fn extra(&self) -> Option<String> {
     match self {
       ChatActionBar::AddContact(t) => t.extra(),
-      ChatActionBar::InviteMembers(t) => t.extra(),
       ChatActionBar::ReportAddBlock(t) => t.extra(),
       ChatActionBar::ReportSpam(t) => t.extra(),
       ChatActionBar::ReportUnrelatedLocation(t) => t.extra(),
@@ -87,21 +82,18 @@ impl ChatActionBar {
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let ChatActionBar::_Default(_) = self { true } else { false } }
 
   pub fn is_add_contact(&self) -> bool { if let ChatActionBar::AddContact(_) = self { true } else { false } }
-  pub fn is_invite_members(&self) -> bool { if let ChatActionBar::InviteMembers(_) = self { true } else { false } }
   pub fn is_report_add_block(&self) -> bool { if let ChatActionBar::ReportAddBlock(_) = self { true } else { false } }
   pub fn is_report_spam(&self) -> bool { if let ChatActionBar::ReportSpam(_) = self { true } else { false } }
   pub fn is_report_unrelated_location(&self) -> bool { if let ChatActionBar::ReportUnrelatedLocation(_) = self { true } else { false } }
   pub fn is_share_phone_number(&self) -> bool { if let ChatActionBar::SharePhoneNumber(_) = self { true } else { false } }
 
   pub fn on_add_contact<F: FnOnce(&ChatActionBarAddContact)>(&self, fnc: F) -> &Self { if let ChatActionBar::AddContact(t) = self { fnc(t) }; self }
-  pub fn on_invite_members<F: FnOnce(&ChatActionBarInviteMembers)>(&self, fnc: F) -> &Self { if let ChatActionBar::InviteMembers(t) = self { fnc(t) }; self }
   pub fn on_report_add_block<F: FnOnce(&ChatActionBarReportAddBlock)>(&self, fnc: F) -> &Self { if let ChatActionBar::ReportAddBlock(t) = self { fnc(t) }; self }
   pub fn on_report_spam<F: FnOnce(&ChatActionBarReportSpam)>(&self, fnc: F) -> &Self { if let ChatActionBar::ReportSpam(t) = self { fnc(t) }; self }
   pub fn on_report_unrelated_location<F: FnOnce(&ChatActionBarReportUnrelatedLocation)>(&self, fnc: F) -> &Self { if let ChatActionBar::ReportUnrelatedLocation(t) = self { fnc(t) }; self }
   pub fn on_share_phone_number<F: FnOnce(&ChatActionBarSharePhoneNumber)>(&self, fnc: F) -> &Self { if let ChatActionBar::SharePhoneNumber(t) = self { fnc(t) }; self }
 
   pub fn as_add_contact(&self) -> Option<&ChatActionBarAddContact> { if let ChatActionBar::AddContact(t) = self { return Some(t) } None }
-  pub fn as_invite_members(&self) -> Option<&ChatActionBarInviteMembers> { if let ChatActionBar::InviteMembers(t) = self { return Some(t) } None }
   pub fn as_report_add_block(&self) -> Option<&ChatActionBarReportAddBlock> { if let ChatActionBar::ReportAddBlock(t) = self { return Some(t) } None }
   pub fn as_report_spam(&self) -> Option<&ChatActionBarReportSpam> { if let ChatActionBar::ReportSpam(t) = self { return Some(t) } None }
   pub fn as_report_unrelated_location(&self) -> Option<&ChatActionBarReportUnrelatedLocation> { if let ChatActionBar::ReportUnrelatedLocation(t) = self { return Some(t) } None }
@@ -110,8 +102,6 @@ impl ChatActionBar {
 
 
   pub fn add_contact<T: AsRef<ChatActionBarAddContact>>(t: T) -> Self { ChatActionBar::AddContact(t.as_ref().clone()) }
-
-  pub fn invite_members<T: AsRef<ChatActionBarInviteMembers>>(t: T) -> Self { ChatActionBar::InviteMembers(t.as_ref().clone()) }
 
   pub fn report_add_block<T: AsRef<ChatActionBarReportAddBlock>>(t: T) -> Self { ChatActionBar::ReportAddBlock(t.as_ref().clone()) }
 
@@ -183,64 +173,6 @@ impl AsRef<ChatActionBarAddContact> for ChatActionBarAddContact {
 
 impl AsRef<ChatActionBarAddContact> for RTDChatActionBarAddContactBuilder {
   fn as_ref(&self) -> &ChatActionBarAddContact { &self.inner }
-}
-
-
-
-
-
-
-
-/// The chat is a recently created group chat, to which new members can be invited
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ChatActionBarInviteMembers {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
-  extra: Option<String>,
-  
-}
-
-impl RObject for ChatActionBarInviteMembers {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionBarInviteMembers" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDChatActionBar for ChatActionBarInviteMembers {}
-
-
-
-impl ChatActionBarInviteMembers {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDChatActionBarInviteMembersBuilder {
-    let mut inner = ChatActionBarInviteMembers::default();
-    inner.td_name = "chatActionBarInviteMembers".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
-    RTDChatActionBarInviteMembersBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDChatActionBarInviteMembersBuilder {
-  inner: ChatActionBarInviteMembers
-}
-
-impl RTDChatActionBarInviteMembersBuilder {
-  pub fn build(&self) -> ChatActionBarInviteMembers { self.inner.clone() }
-
-}
-
-impl AsRef<ChatActionBarInviteMembers> for ChatActionBarInviteMembers {
-  fn as_ref(&self) -> &ChatActionBarInviteMembers { self }
-}
-
-impl AsRef<ChatActionBarInviteMembers> for RTDChatActionBarInviteMembersBuilder {
-  fn as_ref(&self) -> &ChatActionBarInviteMembers { &self.inner }
 }
 
 

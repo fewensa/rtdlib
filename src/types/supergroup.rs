@@ -39,10 +39,8 @@ pub struct Supergroup {
   is_verified: bool,
   /// If non-empty, contains a human-readable description of the reason why access to this supergroup or channel must be restricted
   restriction_reason: String,
-  /// True, if many users reported this supergroup or channel as a scam
+  /// True, if many users reported this supergroup as a scam
   is_scam: bool,
-  /// True, if many users reported this supergroup or channel as a fake account
-  is_fake: bool,
   
 }
 
@@ -88,8 +86,6 @@ impl Supergroup {
   pub fn restriction_reason(&self) -> &String { &self.restriction_reason }
 
   pub fn is_scam(&self) -> bool { self.is_scam }
-
-  pub fn is_fake(&self) -> bool { self.is_fake }
 
 }
 
@@ -176,12 +172,6 @@ impl RTDSupergroupBuilder {
    
   pub fn is_scam(&mut self, is_scam: bool) -> &mut Self {
     self.inner.is_scam = is_scam;
-    self
-  }
-
-   
-  pub fn is_fake(&mut self, is_fake: bool) -> &mut Self {
-    self.inner.is_fake = is_fake;
     self
   }
 

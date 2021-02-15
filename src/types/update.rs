@@ -69,8 +69,6 @@ pub enum Update {
   ChatTitle(UpdateChatTitle),
   /// The chat unread_mention_count has changed
   ChatUnreadMentionCount(UpdateChatUnreadMentionCount),
-  /// A chat voice chat state has changed
-  ChatVoiceChat(UpdateChatVoiceChat),
   /// The connection state has changed. This update must be used only to show a human-readable description of the connection state
   ConnectionState(UpdateConnectionState),
   /// Some messages were deleted
@@ -85,10 +83,6 @@ pub enum Update {
   FileGenerationStart(UpdateFileGenerationStart),
   /// File generation is no longer needed
   FileGenerationStop(UpdateFileGenerationStop),
-  /// Information about a group call was updated
-  GroupCall(UpdateGroupCall),
-  /// Information about a group call participant was changed. The updates are sent only after the group call is received through getGroupCall and only if the call is joined or being joined
-  GroupCallParticipant(UpdateGroupCallParticipant),
   /// Describes whether there are some pending notification updates. Can be used to prevent application from killing, while there are some pending notifications
   HavePendingNotifications(UpdateHavePendingNotifications),
   /// The list of installed sticker sets was updated
@@ -224,7 +218,6 @@ impl<'de> Deserialize<'de> for Update {
       (updateChatReplyMarkup, ChatReplyMarkup);
       (updateChatTitle, ChatTitle);
       (updateChatUnreadMentionCount, ChatUnreadMentionCount);
-      (updateChatVoiceChat, ChatVoiceChat);
       (updateConnectionState, ConnectionState);
       (updateDeleteMessages, DeleteMessages);
       (updateDiceEmojis, DiceEmojis);
@@ -232,8 +225,6 @@ impl<'de> Deserialize<'de> for Update {
       (updateFile, File);
       (updateFileGenerationStart, FileGenerationStart);
       (updateFileGenerationStop, FileGenerationStop);
-      (updateGroupCall, GroupCall);
-      (updateGroupCallParticipant, GroupCallParticipant);
       (updateHavePendingNotifications, HavePendingNotifications);
       (updateInstalledStickerSets, InstalledStickerSets);
       (updateLanguagePackStrings, LanguagePackStrings);
@@ -316,7 +307,6 @@ impl RObject for Update {
       Update::ChatReplyMarkup(t) => t.td_name(),
       Update::ChatTitle(t) => t.td_name(),
       Update::ChatUnreadMentionCount(t) => t.td_name(),
-      Update::ChatVoiceChat(t) => t.td_name(),
       Update::ConnectionState(t) => t.td_name(),
       Update::DeleteMessages(t) => t.td_name(),
       Update::DiceEmojis(t) => t.td_name(),
@@ -324,8 +314,6 @@ impl RObject for Update {
       Update::File(t) => t.td_name(),
       Update::FileGenerationStart(t) => t.td_name(),
       Update::FileGenerationStop(t) => t.td_name(),
-      Update::GroupCall(t) => t.td_name(),
-      Update::GroupCallParticipant(t) => t.td_name(),
       Update::HavePendingNotifications(t) => t.td_name(),
       Update::InstalledStickerSets(t) => t.td_name(),
       Update::LanguagePackStrings(t) => t.td_name(),
@@ -406,7 +394,6 @@ impl RObject for Update {
       Update::ChatReplyMarkup(t) => t.extra(),
       Update::ChatTitle(t) => t.extra(),
       Update::ChatUnreadMentionCount(t) => t.extra(),
-      Update::ChatVoiceChat(t) => t.extra(),
       Update::ConnectionState(t) => t.extra(),
       Update::DeleteMessages(t) => t.extra(),
       Update::DiceEmojis(t) => t.extra(),
@@ -414,8 +401,6 @@ impl RObject for Update {
       Update::File(t) => t.extra(),
       Update::FileGenerationStart(t) => t.extra(),
       Update::FileGenerationStop(t) => t.extra(),
-      Update::GroupCall(t) => t.extra(),
-      Update::GroupCallParticipant(t) => t.extra(),
       Update::HavePendingNotifications(t) => t.extra(),
       Update::InstalledStickerSets(t) => t.extra(),
       Update::LanguagePackStrings(t) => t.extra(),
@@ -501,7 +486,6 @@ impl Update {
   pub fn is_chat_reply_markup(&self) -> bool { if let Update::ChatReplyMarkup(_) = self { true } else { false } }
   pub fn is_chat_title(&self) -> bool { if let Update::ChatTitle(_) = self { true } else { false } }
   pub fn is_chat_unread_mention_count(&self) -> bool { if let Update::ChatUnreadMentionCount(_) = self { true } else { false } }
-  pub fn is_chat_voice_chat(&self) -> bool { if let Update::ChatVoiceChat(_) = self { true } else { false } }
   pub fn is_connection_state(&self) -> bool { if let Update::ConnectionState(_) = self { true } else { false } }
   pub fn is_delete_messages(&self) -> bool { if let Update::DeleteMessages(_) = self { true } else { false } }
   pub fn is_dice_emojis(&self) -> bool { if let Update::DiceEmojis(_) = self { true } else { false } }
@@ -509,8 +493,6 @@ impl Update {
   pub fn is_file(&self) -> bool { if let Update::File(_) = self { true } else { false } }
   pub fn is_file_generation_start(&self) -> bool { if let Update::FileGenerationStart(_) = self { true } else { false } }
   pub fn is_file_generation_stop(&self) -> bool { if let Update::FileGenerationStop(_) = self { true } else { false } }
-  pub fn is_group_call(&self) -> bool { if let Update::GroupCall(_) = self { true } else { false } }
-  pub fn is_group_call_participant(&self) -> bool { if let Update::GroupCallParticipant(_) = self { true } else { false } }
   pub fn is_have_pending_notifications(&self) -> bool { if let Update::HavePendingNotifications(_) = self { true } else { false } }
   pub fn is_installed_sticker_sets(&self) -> bool { if let Update::InstalledStickerSets(_) = self { true } else { false } }
   pub fn is_language_pack_strings(&self) -> bool { if let Update::LanguagePackStrings(_) = self { true } else { false } }
@@ -586,7 +568,6 @@ impl Update {
   pub fn on_chat_reply_markup<F: FnOnce(&UpdateChatReplyMarkup)>(&self, fnc: F) -> &Self { if let Update::ChatReplyMarkup(t) = self { fnc(t) }; self }
   pub fn on_chat_title<F: FnOnce(&UpdateChatTitle)>(&self, fnc: F) -> &Self { if let Update::ChatTitle(t) = self { fnc(t) }; self }
   pub fn on_chat_unread_mention_count<F: FnOnce(&UpdateChatUnreadMentionCount)>(&self, fnc: F) -> &Self { if let Update::ChatUnreadMentionCount(t) = self { fnc(t) }; self }
-  pub fn on_chat_voice_chat<F: FnOnce(&UpdateChatVoiceChat)>(&self, fnc: F) -> &Self { if let Update::ChatVoiceChat(t) = self { fnc(t) }; self }
   pub fn on_connection_state<F: FnOnce(&UpdateConnectionState)>(&self, fnc: F) -> &Self { if let Update::ConnectionState(t) = self { fnc(t) }; self }
   pub fn on_delete_messages<F: FnOnce(&UpdateDeleteMessages)>(&self, fnc: F) -> &Self { if let Update::DeleteMessages(t) = self { fnc(t) }; self }
   pub fn on_dice_emojis<F: FnOnce(&UpdateDiceEmojis)>(&self, fnc: F) -> &Self { if let Update::DiceEmojis(t) = self { fnc(t) }; self }
@@ -594,8 +575,6 @@ impl Update {
   pub fn on_file<F: FnOnce(&UpdateFile)>(&self, fnc: F) -> &Self { if let Update::File(t) = self { fnc(t) }; self }
   pub fn on_file_generation_start<F: FnOnce(&UpdateFileGenerationStart)>(&self, fnc: F) -> &Self { if let Update::FileGenerationStart(t) = self { fnc(t) }; self }
   pub fn on_file_generation_stop<F: FnOnce(&UpdateFileGenerationStop)>(&self, fnc: F) -> &Self { if let Update::FileGenerationStop(t) = self { fnc(t) }; self }
-  pub fn on_group_call<F: FnOnce(&UpdateGroupCall)>(&self, fnc: F) -> &Self { if let Update::GroupCall(t) = self { fnc(t) }; self }
-  pub fn on_group_call_participant<F: FnOnce(&UpdateGroupCallParticipant)>(&self, fnc: F) -> &Self { if let Update::GroupCallParticipant(t) = self { fnc(t) }; self }
   pub fn on_have_pending_notifications<F: FnOnce(&UpdateHavePendingNotifications)>(&self, fnc: F) -> &Self { if let Update::HavePendingNotifications(t) = self { fnc(t) }; self }
   pub fn on_installed_sticker_sets<F: FnOnce(&UpdateInstalledStickerSets)>(&self, fnc: F) -> &Self { if let Update::InstalledStickerSets(t) = self { fnc(t) }; self }
   pub fn on_language_pack_strings<F: FnOnce(&UpdateLanguagePackStrings)>(&self, fnc: F) -> &Self { if let Update::LanguagePackStrings(t) = self { fnc(t) }; self }
@@ -671,7 +650,6 @@ impl Update {
   pub fn as_chat_reply_markup(&self) -> Option<&UpdateChatReplyMarkup> { if let Update::ChatReplyMarkup(t) = self { return Some(t) } None }
   pub fn as_chat_title(&self) -> Option<&UpdateChatTitle> { if let Update::ChatTitle(t) = self { return Some(t) } None }
   pub fn as_chat_unread_mention_count(&self) -> Option<&UpdateChatUnreadMentionCount> { if let Update::ChatUnreadMentionCount(t) = self { return Some(t) } None }
-  pub fn as_chat_voice_chat(&self) -> Option<&UpdateChatVoiceChat> { if let Update::ChatVoiceChat(t) = self { return Some(t) } None }
   pub fn as_connection_state(&self) -> Option<&UpdateConnectionState> { if let Update::ConnectionState(t) = self { return Some(t) } None }
   pub fn as_delete_messages(&self) -> Option<&UpdateDeleteMessages> { if let Update::DeleteMessages(t) = self { return Some(t) } None }
   pub fn as_dice_emojis(&self) -> Option<&UpdateDiceEmojis> { if let Update::DiceEmojis(t) = self { return Some(t) } None }
@@ -679,8 +657,6 @@ impl Update {
   pub fn as_file(&self) -> Option<&UpdateFile> { if let Update::File(t) = self { return Some(t) } None }
   pub fn as_file_generation_start(&self) -> Option<&UpdateFileGenerationStart> { if let Update::FileGenerationStart(t) = self { return Some(t) } None }
   pub fn as_file_generation_stop(&self) -> Option<&UpdateFileGenerationStop> { if let Update::FileGenerationStop(t) = self { return Some(t) } None }
-  pub fn as_group_call(&self) -> Option<&UpdateGroupCall> { if let Update::GroupCall(t) = self { return Some(t) } None }
-  pub fn as_group_call_participant(&self) -> Option<&UpdateGroupCallParticipant> { if let Update::GroupCallParticipant(t) = self { return Some(t) } None }
   pub fn as_have_pending_notifications(&self) -> Option<&UpdateHavePendingNotifications> { if let Update::HavePendingNotifications(t) = self { return Some(t) } None }
   pub fn as_installed_sticker_sets(&self) -> Option<&UpdateInstalledStickerSets> { if let Update::InstalledStickerSets(t) = self { return Some(t) } None }
   pub fn as_language_pack_strings(&self) -> Option<&UpdateLanguagePackStrings> { if let Update::LanguagePackStrings(t) = self { return Some(t) } None }
@@ -783,8 +759,6 @@ impl Update {
 
   pub fn chat_unread_mention_count<T: AsRef<UpdateChatUnreadMentionCount>>(t: T) -> Self { Update::ChatUnreadMentionCount(t.as_ref().clone()) }
 
-  pub fn chat_voice_chat<T: AsRef<UpdateChatVoiceChat>>(t: T) -> Self { Update::ChatVoiceChat(t.as_ref().clone()) }
-
   pub fn connection_state<T: AsRef<UpdateConnectionState>>(t: T) -> Self { Update::ConnectionState(t.as_ref().clone()) }
 
   pub fn delete_messages<T: AsRef<UpdateDeleteMessages>>(t: T) -> Self { Update::DeleteMessages(t.as_ref().clone()) }
@@ -798,10 +772,6 @@ impl Update {
   pub fn file_generation_start<T: AsRef<UpdateFileGenerationStart>>(t: T) -> Self { Update::FileGenerationStart(t.as_ref().clone()) }
 
   pub fn file_generation_stop<T: AsRef<UpdateFileGenerationStop>>(t: T) -> Self { Update::FileGenerationStop(t.as_ref().clone()) }
-
-  pub fn group_call<T: AsRef<UpdateGroupCall>>(t: T) -> Self { Update::GroupCall(t.as_ref().clone()) }
-
-  pub fn group_call_participant<T: AsRef<UpdateGroupCallParticipant>>(t: T) -> Self { Update::GroupCallParticipant(t.as_ref().clone()) }
 
   pub fn have_pending_notifications<T: AsRef<UpdateHavePendingNotifications>>(t: T) -> Self { Update::HavePendingNotifications(t.as_ref().clone()) }
 
@@ -2765,94 +2735,6 @@ impl AsRef<UpdateChatUnreadMentionCount> for RTDUpdateChatUnreadMentionCountBuil
 
 
 
-/// A chat voice chat state has changed
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UpdateChatVoiceChat {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
-  extra: Option<String>,
-  /// Chat identifier
-  chat_id: i64,
-  /// New value of voice_chat_group_call_id
-  voice_chat_group_call_id: i64,
-  /// New value of is_voice_chat_empty
-  is_voice_chat_empty: bool,
-  
-}
-
-impl RObject for UpdateChatVoiceChat {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatVoiceChat" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUpdate for UpdateChatVoiceChat {}
-
-
-
-impl UpdateChatVoiceChat {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUpdateChatVoiceChatBuilder {
-    let mut inner = UpdateChatVoiceChat::default();
-    inner.td_name = "updateChatVoiceChat".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
-    RTDUpdateChatVoiceChatBuilder { inner }
-  }
-
-  pub fn chat_id(&self) -> i64 { self.chat_id }
-
-  pub fn voice_chat_group_call_id(&self) -> i64 { self.voice_chat_group_call_id }
-
-  pub fn is_voice_chat_empty(&self) -> bool { self.is_voice_chat_empty }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUpdateChatVoiceChatBuilder {
-  inner: UpdateChatVoiceChat
-}
-
-impl RTDUpdateChatVoiceChatBuilder {
-  pub fn build(&self) -> UpdateChatVoiceChat { self.inner.clone() }
-
-   
-  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
-    self.inner.chat_id = chat_id;
-    self
-  }
-
-   
-  pub fn voice_chat_group_call_id(&mut self, voice_chat_group_call_id: i64) -> &mut Self {
-    self.inner.voice_chat_group_call_id = voice_chat_group_call_id;
-    self
-  }
-
-   
-  pub fn is_voice_chat_empty(&mut self, is_voice_chat_empty: bool) -> &mut Self {
-    self.inner.is_voice_chat_empty = is_voice_chat_empty;
-    self
-  }
-
-}
-
-impl AsRef<UpdateChatVoiceChat> for UpdateChatVoiceChat {
-  fn as_ref(&self) -> &UpdateChatVoiceChat { self }
-}
-
-impl AsRef<UpdateChatVoiceChat> for RTDUpdateChatVoiceChatBuilder {
-  fn as_ref(&self) -> &UpdateChatVoiceChat { &self.inner }
-}
-
-
-
-
-
-
-
 /// The connection state has changed. This update must be used only to show a human-readable description of the connection state
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateConnectionState {
@@ -3381,152 +3263,6 @@ impl AsRef<UpdateFileGenerationStop> for UpdateFileGenerationStop {
 
 impl AsRef<UpdateFileGenerationStop> for RTDUpdateFileGenerationStopBuilder {
   fn as_ref(&self) -> &UpdateFileGenerationStop { &self.inner }
-}
-
-
-
-
-
-
-
-/// Information about a group call was updated
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UpdateGroupCall {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
-  extra: Option<String>,
-  /// New data about a group call
-  group_call: GroupCall,
-  
-}
-
-impl RObject for UpdateGroupCall {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateGroupCall" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUpdate for UpdateGroupCall {}
-
-
-
-impl UpdateGroupCall {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUpdateGroupCallBuilder {
-    let mut inner = UpdateGroupCall::default();
-    inner.td_name = "updateGroupCall".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
-    RTDUpdateGroupCallBuilder { inner }
-  }
-
-  pub fn group_call(&self) -> &GroupCall { &self.group_call }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUpdateGroupCallBuilder {
-  inner: UpdateGroupCall
-}
-
-impl RTDUpdateGroupCallBuilder {
-  pub fn build(&self) -> UpdateGroupCall { self.inner.clone() }
-
-   
-  pub fn group_call<T: AsRef<GroupCall>>(&mut self, group_call: T) -> &mut Self {
-    self.inner.group_call = group_call.as_ref().clone();
-    self
-  }
-
-}
-
-impl AsRef<UpdateGroupCall> for UpdateGroupCall {
-  fn as_ref(&self) -> &UpdateGroupCall { self }
-}
-
-impl AsRef<UpdateGroupCall> for RTDUpdateGroupCallBuilder {
-  fn as_ref(&self) -> &UpdateGroupCall { &self.inner }
-}
-
-
-
-
-
-
-
-/// Information about a group call participant was changed. The updates are sent only after the group call is received through getGroupCall and only if the call is joined or being joined
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UpdateGroupCallParticipant {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
-  extra: Option<String>,
-  /// Identifier of group call
-  group_call_id: i64,
-  /// New data about a participant
-  participant: GroupCallParticipant,
-  
-}
-
-impl RObject for UpdateGroupCallParticipant {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateGroupCallParticipant" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUpdate for UpdateGroupCallParticipant {}
-
-
-
-impl UpdateGroupCallParticipant {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUpdateGroupCallParticipantBuilder {
-    let mut inner = UpdateGroupCallParticipant::default();
-    inner.td_name = "updateGroupCallParticipant".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
-    RTDUpdateGroupCallParticipantBuilder { inner }
-  }
-
-  pub fn group_call_id(&self) -> i64 { self.group_call_id }
-
-  pub fn participant(&self) -> &GroupCallParticipant { &self.participant }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUpdateGroupCallParticipantBuilder {
-  inner: UpdateGroupCallParticipant
-}
-
-impl RTDUpdateGroupCallParticipantBuilder {
-  pub fn build(&self) -> UpdateGroupCallParticipant { self.inner.clone() }
-
-   
-  pub fn group_call_id(&mut self, group_call_id: i64) -> &mut Self {
-    self.inner.group_call_id = group_call_id;
-    self
-  }
-
-   
-  pub fn participant<T: AsRef<GroupCallParticipant>>(&mut self, participant: T) -> &mut Self {
-    self.inner.participant = participant.as_ref().clone();
-    self
-  }
-
-}
-
-impl AsRef<UpdateGroupCallParticipant> for UpdateGroupCallParticipant {
-  fn as_ref(&self) -> &UpdateGroupCallParticipant { self }
-}
-
-impl AsRef<UpdateGroupCallParticipant> for RTDUpdateGroupCallParticipantBuilder {
-  fn as_ref(&self) -> &UpdateGroupCallParticipant { &self.inner }
 }
 
 
@@ -5290,8 +5026,6 @@ pub struct UpdateNewInlineQuery {
   sender_user_id: i64,
   /// User location; may be null
   user_location: Option<Location>,
-  /// Contains information about the type of the chat, from which the query originated; may be null if unknown
-  chat_type: Option<ChatType>,
   /// Text of the query
   query: String,
   /// Offset of the first entry to return
@@ -5325,8 +5059,6 @@ impl UpdateNewInlineQuery {
 
   pub fn user_location(&self) -> &Option<Location> { &self.user_location }
 
-  pub fn chat_type(&self) -> &Option<ChatType> { &self.chat_type }
-
   pub fn query(&self) -> &String { &self.query }
 
   pub fn offset(&self) -> &String { &self.offset }
@@ -5356,12 +5088,6 @@ impl RTDUpdateNewInlineQueryBuilder {
    
   pub fn user_location<T: AsRef<Location>>(&mut self, user_location: T) -> &mut Self {
     self.inner.user_location = Some(user_location.as_ref().clone());
-    self
-  }
-
-   
-  pub fn chat_type<T: AsRef<ChatType>>(&mut self, chat_type: T) -> &mut Self {
-    self.inner.chat_type = Some(chat_type.as_ref().clone());
     self
   }
 

@@ -55,10 +55,6 @@ pub struct Chat {
   notification_settings: ChatNotificationSettings,
   /// Describes actions which should be possible to do through a chat action bar; may be null
   action_bar: Option<ChatActionBar>,
-  /// Group call identifier of an active voice chat; 0 if none or unknown. The voice chat can be received through the method getGroupCall
-  voice_chat_group_call_id: i64,
-  /// True, if an active voice chat is empty
-  is_voice_chat_empty: bool,
   /// Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
   reply_markup_message_id: i64,
   /// A draft of a message in the chat; may be null
@@ -124,10 +120,6 @@ impl Chat {
   pub fn notification_settings(&self) -> &ChatNotificationSettings { &self.notification_settings }
 
   pub fn action_bar(&self) -> &Option<ChatActionBar> { &self.action_bar }
-
-  pub fn voice_chat_group_call_id(&self) -> i64 { self.voice_chat_group_call_id }
-
-  pub fn is_voice_chat_empty(&self) -> bool { self.is_voice_chat_empty }
 
   pub fn reply_markup_message_id(&self) -> i64 { self.reply_markup_message_id }
 
@@ -262,18 +254,6 @@ impl RTDChatBuilder {
    
   pub fn action_bar<T: AsRef<ChatActionBar>>(&mut self, action_bar: T) -> &mut Self {
     self.inner.action_bar = Some(action_bar.as_ref().clone());
-    self
-  }
-
-   
-  pub fn voice_chat_group_call_id(&mut self, voice_chat_group_call_id: i64) -> &mut Self {
-    self.inner.voice_chat_group_call_id = voice_chat_group_call_id;
-    self
-  }
-
-   
-  pub fn is_voice_chat_empty(&mut self, is_voice_chat_empty: bool) -> &mut Self {
-    self.inner.is_voice_chat_empty = is_voice_chat_empty;
     self
   }
 

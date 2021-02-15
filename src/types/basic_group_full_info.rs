@@ -23,8 +23,8 @@ pub struct BasicGroupFullInfo {
   creator_user_id: i64,
   /// Group members
   members: Vec<ChatMember>,
-  /// Permanent invite link for this group; may be null. For chat administrators with can_invite_users right only. Updated only after the basic group is opened
-  invite_link: Option<ChatInviteLink>,
+  /// Invite link for this group; available only after it has been generated at least once and only for the group creator
+  invite_link: String,
   
 }
 
@@ -53,7 +53,7 @@ impl BasicGroupFullInfo {
 
   pub fn members(&self) -> &Vec<ChatMember> { &self.members }
 
-  pub fn invite_link(&self) -> &Option<ChatInviteLink> { &self.invite_link }
+  pub fn invite_link(&self) -> &String { &self.invite_link }
 
 }
 
@@ -90,8 +90,8 @@ impl RTDBasicGroupFullInfoBuilder {
   }
 
    
-  pub fn invite_link<T: AsRef<ChatInviteLink>>(&mut self, invite_link: T) -> &mut Self {
-    self.inner.invite_link = Some(invite_link.as_ref().clone());
+  pub fn invite_link<T: AsRef<str>>(&mut self, invite_link: T) -> &mut Self {
+    self.inner.invite_link = invite_link.as_ref().to_string();
     self
   }
 

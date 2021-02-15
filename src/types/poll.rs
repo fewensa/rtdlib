@@ -17,7 +17,7 @@ pub struct Poll {
   extra: Option<String>,
   /// Unique poll identifier
   #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] id: isize,
-  /// Poll question; 1-300 characters
+  /// Poll question, 1-300 characters
   question: String,
   /// List of poll answer options
   options: Vec<PollOption>,

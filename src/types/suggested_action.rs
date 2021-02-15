@@ -23,8 +23,6 @@ pub enum SuggestedAction {
   CheckPhoneNumber(SuggestedActionCheckPhoneNumber),
   /// Suggests the user to enable "archive_and_mute_new_chats_from_unknown_users" option
   EnableArchiveAndMuteNewChats(SuggestedActionEnableArchiveAndMuteNewChats),
-  /// Suggests the user to see a hint about meaning of one and two ticks on sent message
-  SeeTicksHint(SuggestedActionSeeTicksHint),
 
 }
 
@@ -39,7 +37,6 @@ impl<'de> Deserialize<'de> for SuggestedAction {
       SuggestedAction,
       (suggestedActionCheckPhoneNumber, CheckPhoneNumber);
       (suggestedActionEnableArchiveAndMuteNewChats, EnableArchiveAndMuteNewChats);
-      (suggestedActionSeeTicksHint, SeeTicksHint);
 
     )(deserializer)
   }
@@ -50,7 +47,6 @@ impl RObject for SuggestedAction {
     match self {
       SuggestedAction::CheckPhoneNumber(t) => t.td_name(),
       SuggestedAction::EnableArchiveAndMuteNewChats(t) => t.td_name(),
-      SuggestedAction::SeeTicksHint(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -59,7 +55,6 @@ impl RObject for SuggestedAction {
     match self {
       SuggestedAction::CheckPhoneNumber(t) => t.extra(),
       SuggestedAction::EnableArchiveAndMuteNewChats(t) => t.extra(),
-      SuggestedAction::SeeTicksHint(t) => t.extra(),
 
       _ => None,
     }
@@ -73,23 +68,18 @@ impl SuggestedAction {
 
   pub fn is_check_phone_number(&self) -> bool { if let SuggestedAction::CheckPhoneNumber(_) = self { true } else { false } }
   pub fn is_enable_archive_and_mute_new_chats(&self) -> bool { if let SuggestedAction::EnableArchiveAndMuteNewChats(_) = self { true } else { false } }
-  pub fn is_see_ticks_hint(&self) -> bool { if let SuggestedAction::SeeTicksHint(_) = self { true } else { false } }
 
   pub fn on_check_phone_number<F: FnOnce(&SuggestedActionCheckPhoneNumber)>(&self, fnc: F) -> &Self { if let SuggestedAction::CheckPhoneNumber(t) = self { fnc(t) }; self }
   pub fn on_enable_archive_and_mute_new_chats<F: FnOnce(&SuggestedActionEnableArchiveAndMuteNewChats)>(&self, fnc: F) -> &Self { if let SuggestedAction::EnableArchiveAndMuteNewChats(t) = self { fnc(t) }; self }
-  pub fn on_see_ticks_hint<F: FnOnce(&SuggestedActionSeeTicksHint)>(&self, fnc: F) -> &Self { if let SuggestedAction::SeeTicksHint(t) = self { fnc(t) }; self }
 
   pub fn as_check_phone_number(&self) -> Option<&SuggestedActionCheckPhoneNumber> { if let SuggestedAction::CheckPhoneNumber(t) = self { return Some(t) } None }
   pub fn as_enable_archive_and_mute_new_chats(&self) -> Option<&SuggestedActionEnableArchiveAndMuteNewChats> { if let SuggestedAction::EnableArchiveAndMuteNewChats(t) = self { return Some(t) } None }
-  pub fn as_see_ticks_hint(&self) -> Option<&SuggestedActionSeeTicksHint> { if let SuggestedAction::SeeTicksHint(t) = self { return Some(t) } None }
 
 
 
   pub fn check_phone_number<T: AsRef<SuggestedActionCheckPhoneNumber>>(t: T) -> Self { SuggestedAction::CheckPhoneNumber(t.as_ref().clone()) }
 
   pub fn enable_archive_and_mute_new_chats<T: AsRef<SuggestedActionEnableArchiveAndMuteNewChats>>(t: T) -> Self { SuggestedAction::EnableArchiveAndMuteNewChats(t.as_ref().clone()) }
-
-  pub fn see_ticks_hint<T: AsRef<SuggestedActionSeeTicksHint>>(t: T) -> Self { SuggestedAction::SeeTicksHint(t.as_ref().clone()) }
 
 }
 
@@ -211,64 +201,6 @@ impl AsRef<SuggestedActionEnableArchiveAndMuteNewChats> for SuggestedActionEnabl
 
 impl AsRef<SuggestedActionEnableArchiveAndMuteNewChats> for RTDSuggestedActionEnableArchiveAndMuteNewChatsBuilder {
   fn as_ref(&self) -> &SuggestedActionEnableArchiveAndMuteNewChats { &self.inner }
-}
-
-
-
-
-
-
-
-/// Suggests the user to see a hint about meaning of one and two ticks on sent message
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct SuggestedActionSeeTicksHint {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
-  extra: Option<String>,
-  
-}
-
-impl RObject for SuggestedActionSeeTicksHint {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "suggestedActionSeeTicksHint" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDSuggestedAction for SuggestedActionSeeTicksHint {}
-
-
-
-impl SuggestedActionSeeTicksHint {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDSuggestedActionSeeTicksHintBuilder {
-    let mut inner = SuggestedActionSeeTicksHint::default();
-    inner.td_name = "suggestedActionSeeTicksHint".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
-    RTDSuggestedActionSeeTicksHintBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDSuggestedActionSeeTicksHintBuilder {
-  inner: SuggestedActionSeeTicksHint
-}
-
-impl RTDSuggestedActionSeeTicksHintBuilder {
-  pub fn build(&self) -> SuggestedActionSeeTicksHint { self.inner.clone() }
-
-}
-
-impl AsRef<SuggestedActionSeeTicksHint> for SuggestedActionSeeTicksHint {
-  fn as_ref(&self) -> &SuggestedActionSeeTicksHint { self }
-}
-
-impl AsRef<SuggestedActionSeeTicksHint> for RTDSuggestedActionSeeTicksHintBuilder {
-  fn as_ref(&self) -> &SuggestedActionSeeTicksHint { &self.inner }
 }
 
 

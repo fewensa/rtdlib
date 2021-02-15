@@ -27,7 +27,7 @@ pub enum InlineKeyboardButtonType {
   CallbackGame(InlineKeyboardButtonTypeCallbackGame),
   /// A button that asks for password of the current user and then sends a callback query to a bot
   CallbackWithPassword(InlineKeyboardButtonTypeCallbackWithPassword),
-  /// A button that opens a specified URL and automatically authorize the current user if allowed to do so
+  /// A button that opens a specified URL and automatically logs in in current user if they allowed to do that
   LoginUrl(InlineKeyboardButtonTypeLoginUrl),
   /// A button that forces an inline query to the bot to be inserted in the input field
   SwitchInline(InlineKeyboardButtonTypeSwitchInline),
@@ -395,7 +395,7 @@ impl AsRef<InlineKeyboardButtonTypeCallbackWithPassword> for RTDInlineKeyboardBu
 
 
 
-/// A button that opens a specified URL and automatically authorize the current user if allowed to do so
+/// A button that opens a specified URL and automatically logs in in current user if they allowed to do that
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InlineKeyboardButtonTypeLoginUrl {
   #[doc(hidden)]

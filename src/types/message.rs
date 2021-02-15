@@ -67,7 +67,7 @@ pub struct Message {
   via_bot_user_id: i64,
   /// For channel posts and anonymous group messages, optional author signature
   author_signature: String,
-  /// Unique identifier of an album this message belongs to. Only audios, documents, photos and videos can be grouped together in albums
+  /// Unique identifier of an album this message belongs to. Only photos and videos can be grouped together in albums
   #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] media_album_id: isize,
   /// If non-empty, contains a human-readable description of the reason why access to this message must be restricted
   restriction_reason: String,

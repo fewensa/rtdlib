@@ -23,7 +23,7 @@ pub struct CallProtocol {
   min_layer: i64,
   /// The maximum supported API layer; use 65
   max_layer: i64,
-  /// List of supported tgcalls versions
+  /// List of supported libtgvoip versions
   library_versions: Vec<String>,
   
 }

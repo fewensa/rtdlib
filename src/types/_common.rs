@@ -253,9 +253,6 @@ impl<'a, MASKPOINT: TDMaskPoint> TDMaskPoint for &'a mut MASKPOINT {}
 impl<'a, MESSAGECONTENT: TDMessageContent> TDMessageContent for &'a MESSAGECONTENT {}
 impl<'a, MESSAGECONTENT: TDMessageContent> TDMessageContent for &'a mut MESSAGECONTENT {}
 
-impl<'a, MESSAGEFILETYPE: TDMessageFileType> TDMessageFileType for &'a MESSAGEFILETYPE {}
-impl<'a, MESSAGEFILETYPE: TDMessageFileType> TDMessageFileType for &'a mut MESSAGEFILETYPE {}
-
 impl<'a, MESSAGEFORWARDORIGIN: TDMessageForwardOrigin> TDMessageForwardOrigin for &'a MESSAGEFORWARDORIGIN {}
 impl<'a, MESSAGEFORWARDORIGIN: TDMessageForwardOrigin> TDMessageForwardOrigin for &'a mut MESSAGEFORWARDORIGIN {}
 
@@ -367,9 +364,6 @@ impl<'a, USERSTATUS: TDUserStatus> TDUserStatus for &'a mut USERSTATUS {}
 impl<'a, USERTYPE: TDUserType> TDUserType for &'a USERTYPE {}
 impl<'a, USERTYPE: TDUserType> TDUserType for &'a mut USERTYPE {}
 
-impl<'a, VECTORPATHCOMMAND: TDVectorPathCommand> TDVectorPathCommand for &'a VECTORPATHCOMMAND {}
-impl<'a, VECTORPATHCOMMAND: TDVectorPathCommand> TDVectorPathCommand for &'a mut VECTORPATHCOMMAND {}
-
 
 #[derive(Debug, Clone)]
 pub enum TdType {
@@ -398,7 +392,6 @@ pub enum TdType {
   UpdateChatReplyMarkup(UpdateChatReplyMarkup),
   UpdateChatTitle(UpdateChatTitle),
   UpdateChatUnreadMentionCount(UpdateChatUnreadMentionCount),
-  UpdateChatVoiceChat(UpdateChatVoiceChat),
   UpdateConnectionState(UpdateConnectionState),
   UpdateDeleteMessages(UpdateDeleteMessages),
   UpdateDiceEmojis(UpdateDiceEmojis),
@@ -406,8 +399,6 @@ pub enum TdType {
   UpdateFile(UpdateFile),
   UpdateFileGenerationStart(UpdateFileGenerationStart),
   UpdateFileGenerationStop(UpdateFileGenerationStop),
-  UpdateGroupCall(UpdateGroupCall),
-  UpdateGroupCallParticipant(UpdateGroupCallParticipant),
   UpdateHavePendingNotifications(UpdateHavePendingNotifications),
   UpdateInstalledStickerSets(UpdateInstalledStickerSets),
   UpdateLanguagePackStrings(UpdateLanguagePackStrings),
@@ -466,7 +457,6 @@ pub enum TdType {
   LanguagePackStringValue(LanguagePackStringValue),
   LogStream(LogStream),
   LoginUrlInfo(LoginUrlInfo),
-  MessageFileType(MessageFileType),
   OptionValue(OptionValue),
   PassportElement(PassportElement),
   StatisticalGraph(StatisticalGraph),
@@ -509,9 +499,6 @@ pub enum TdType {
   FormattedText(FormattedText),
   FoundMessages(FoundMessages),
   GameHighScores(GameHighScores),
-  GroupCall(GroupCall),
-  GroupCallId(GroupCallId),
-  GroupCallJoinResponse(GroupCallJoinResponse),
   Hashtags(Hashtags),
   HttpUrl(HttpUrl),
   ImportedContacts(ImportedContacts),
@@ -607,7 +594,6 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (updateChatReplyMarkup, UpdateChatReplyMarkup);
   (updateChatTitle, UpdateChatTitle);
   (updateChatUnreadMentionCount, UpdateChatUnreadMentionCount);
-  (updateChatVoiceChat, UpdateChatVoiceChat);
   (updateConnectionState, UpdateConnectionState);
   (updateDeleteMessages, UpdateDeleteMessages);
   (updateDiceEmojis, UpdateDiceEmojis);
@@ -615,8 +601,6 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (updateFile, UpdateFile);
   (updateFileGenerationStart, UpdateFileGenerationStart);
   (updateFileGenerationStop, UpdateFileGenerationStop);
-  (updateGroupCall, UpdateGroupCall);
-  (updateGroupCallParticipant, UpdateGroupCallParticipant);
   (updateHavePendingNotifications, UpdateHavePendingNotifications);
   (updateInstalledStickerSets, UpdateInstalledStickerSets);
   (updateLanguagePackStrings, UpdateLanguagePackStrings);
@@ -675,7 +659,6 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (LanguagePackStringValue, LanguagePackStringValue);
   (LogStream, LogStream);
   (LoginUrlInfo, LoginUrlInfo);
-  (MessageFileType, MessageFileType);
   (OptionValue, OptionValue);
   (PassportElement, PassportElement);
   (StatisticalGraph, StatisticalGraph);
@@ -718,9 +701,6 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (formattedText, FormattedText);
   (foundMessages, FoundMessages);
   (gameHighScores, GameHighScores);
-  (groupCall, GroupCall);
-  (groupCallId, GroupCallId);
-  (groupCallJoinResponse, GroupCallJoinResponse);
   (hashtags, Hashtags);
   (httpUrl, HttpUrl);
   (importedContacts, ImportedContacts);

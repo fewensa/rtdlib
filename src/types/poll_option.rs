@@ -15,11 +15,11 @@ pub struct PollOption {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Option text; 1-100 characters
+  /// Option text, 1-100 characters
   text: String,
   /// Number of voters for this option, available only for closed or voted polls
   voter_count: i64,
-  /// The percentage of votes for this option; 0-100
+  /// The percentage of votes for this option, 0-100
   vote_percentage: i64,
   /// True, if the option was chosen by the user
   is_chosen: bool,

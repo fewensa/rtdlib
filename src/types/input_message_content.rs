@@ -1312,7 +1312,7 @@ pub struct InputMessagePoll {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Poll question; 1-255 characters (up to 300 characters for bots)
+  /// Poll question, 1-255 characters (up to 300 characters for bots)
   question: String,
   /// List of poll answer options, 2-10 strings 1-100 characters each
   options: Vec<String>,
@@ -1448,8 +1448,6 @@ pub struct InputMessageSticker {
   width: i64,
   /// Sticker height
   height: i64,
-  /// Emoji used to choose the sticker
-  emoji: String,
   
 }
 
@@ -1480,8 +1478,6 @@ impl InputMessageSticker {
   pub fn width(&self) -> i64 { self.width }
 
   pub fn height(&self) -> i64 { self.height }
-
-  pub fn emoji(&self) -> &String { &self.emoji }
 
 }
 
@@ -1514,12 +1510,6 @@ impl RTDInputMessageStickerBuilder {
    
   pub fn height(&mut self, height: i64) -> &mut Self {
     self.inner.height = height;
-    self
-  }
-
-   
-  pub fn emoji<T: AsRef<str>>(&mut self, emoji: T) -> &mut Self {
-    self.inner.emoji = emoji.as_ref().to_string();
     self
   }
 

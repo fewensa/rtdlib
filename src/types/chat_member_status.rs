@@ -19,7 +19,7 @@ pub trait TDChatMemberStatus: Debug + RObject {}
 #[serde(untagged)]
 pub enum ChatMemberStatus {
   #[doc(hidden)] _Default(()),
-  /// The user is a member of a chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, ban unprivileged members, and manage voice chats. In supergroups and channels, there are more detailed options for administrator privileges
+  /// The user is a member of a chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, and ban unprivileged members. In supergroups and channels, there are more detailed options for administrator privileges
   Administrator(ChatMemberStatusAdministrator),
   /// The user was banned (and hence is not a member of the chat). Implies the user can't return to the chat or view messages
   Banned(ChatMemberStatusBanned),
@@ -133,7 +133,7 @@ impl AsRef<ChatMemberStatus> for ChatMemberStatus {
 
 
 
-/// The user is a member of a chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, ban unprivileged members, and manage voice chats. In supergroups and channels, there are more detailed options for administrator privileges
+/// The user is a member of a chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, and ban unprivileged members. In supergroups and channels, there are more detailed options for administrator privileges
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatMemberStatusAdministrator {
   #[doc(hidden)]
@@ -162,8 +162,6 @@ pub struct ChatMemberStatusAdministrator {
   can_pin_messages: bool,
   /// True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that were directly or indirectly promoted by them
   can_promote_members: bool,
-  /// True, if the administrator can manage voice chats; applicable to groups only
-  can_manage_voice_chats: bool,
   /// True, if the administrator isn't shown in the chat member list and sends messages anonymously; applicable to supergroups only
   is_anonymous: bool,
   
@@ -208,8 +206,6 @@ impl ChatMemberStatusAdministrator {
   pub fn can_pin_messages(&self) -> bool { self.can_pin_messages }
 
   pub fn can_promote_members(&self) -> bool { self.can_promote_members }
-
-  pub fn can_manage_voice_chats(&self) -> bool { self.can_manage_voice_chats }
 
   pub fn is_anonymous(&self) -> bool { self.is_anonymous }
 
@@ -284,12 +280,6 @@ impl RTDChatMemberStatusAdministratorBuilder {
   }
 
    
-  pub fn can_manage_voice_chats(&mut self, can_manage_voice_chats: bool) -> &mut Self {
-    self.inner.can_manage_voice_chats = can_manage_voice_chats;
-    self
-  }
-
-   
   pub fn is_anonymous(&mut self, is_anonymous: bool) -> &mut Self {
     self.inner.is_anonymous = is_anonymous;
     self
@@ -320,7 +310,7 @@ pub struct ChatMemberStatusBanned {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever. Always 0 in basic groups
+  /// Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever
   banned_until_date: i64,
   
 }
