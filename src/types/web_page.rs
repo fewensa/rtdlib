@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct WebPage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Original URL of the link
   url: String,
   /// URL to display
@@ -58,6 +62,7 @@ pub struct WebPage {
 
 impl RObject for WebPage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "webPage" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -68,6 +73,7 @@ impl WebPage {
   pub fn builder() -> RTDWebPageBuilder {
     let mut inner = WebPage::default();
     inner.td_name = "webPage".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDWebPageBuilder { inner }
   }
 

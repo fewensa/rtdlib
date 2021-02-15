@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct StickerSet {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Identifier of the sticker set
   id: isize,
   /// Title of the sticker set
@@ -40,6 +44,7 @@ pub struct StickerSet {
 
 impl RObject for StickerSet {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "stickerSet" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -50,6 +55,7 @@ impl StickerSet {
   pub fn builder() -> RTDStickerSetBuilder {
     let mut inner = StickerSet::default();
     inner.td_name = "stickerSet".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDStickerSetBuilder { inner }
   }
 

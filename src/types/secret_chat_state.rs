@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -54,6 +55,15 @@ impl RObject for SecretChatState {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      SecretChatState::Closed(t) => t.extra(),
+      SecretChatState::Pending(t) => t.extra(),
+      SecretChatState::Ready(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -99,11 +109,15 @@ pub struct SecretChatStateClosed {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for SecretChatStateClosed {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "secretChatStateClosed" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -117,6 +131,7 @@ impl SecretChatStateClosed {
   pub fn builder() -> RTDSecretChatStateClosedBuilder {
     let mut inner = SecretChatStateClosed::default();
     inner.td_name = "secretChatStateClosed".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDSecretChatStateClosedBuilder { inner }
   }
 
@@ -152,11 +167,15 @@ pub struct SecretChatStatePending {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for SecretChatStatePending {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "secretChatStatePending" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -170,6 +189,7 @@ impl SecretChatStatePending {
   pub fn builder() -> RTDSecretChatStatePendingBuilder {
     let mut inner = SecretChatStatePending::default();
     inner.td_name = "secretChatStatePending".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDSecretChatStatePendingBuilder { inner }
   }
 
@@ -205,11 +225,15 @@ pub struct SecretChatStateReady {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for SecretChatStateReady {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "secretChatStateReady" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -223,6 +247,7 @@ impl SecretChatStateReady {
   pub fn builder() -> RTDSecretChatStateReadyBuilder {
     let mut inner = SecretChatStateReady::default();
     inner.td_name = "secretChatStateReady".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDSecretChatStateReadyBuilder { inner }
   }
 

@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct JsonObjectMember {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Member's key
   key: String,
   /// Member's value
@@ -20,6 +24,7 @@ pub struct JsonObjectMember {
 
 impl RObject for JsonObjectMember {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "jsonObjectMember" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl JsonObjectMember {
   pub fn builder() -> RTDJsonObjectMemberBuilder {
     let mut inner = JsonObjectMember::default();
     inner.td_name = "jsonObjectMember".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDJsonObjectMemberBuilder { inner }
   }
 

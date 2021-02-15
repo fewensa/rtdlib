@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ChatMember {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// User identifier of the chat member
   user_id: i64,
   /// Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
@@ -26,6 +30,7 @@ pub struct ChatMember {
 
 impl RObject for ChatMember {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMember" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -36,6 +41,7 @@ impl ChatMember {
   pub fn builder() -> RTDChatMemberBuilder {
     let mut inner = ChatMember::default();
     inner.td_name = "chatMember".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatMemberBuilder { inner }
   }
 

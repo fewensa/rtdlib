@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct UserFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if the user is blacklisted by the current user
   is_blocked: bool,
   /// True, if the user can be called
@@ -30,6 +34,7 @@ pub struct UserFullInfo {
 
 impl RObject for UserFullInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userFullInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -40,6 +45,7 @@ impl UserFullInfo {
   pub fn builder() -> RTDUserFullInfoBuilder {
     let mut inner = UserFullInfo::default();
     inner.td_name = "userFullInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDUserFullInfoBuilder { inner }
   }
 

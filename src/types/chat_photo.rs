@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ChatPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// A small (160x160) chat photo. The file can be downloaded only before the photo is changed
   small: File,
   /// A big (640x640) chat photo. The file can be downloaded only before the photo is changed
@@ -20,6 +24,7 @@ pub struct ChatPhoto {
 
 impl RObject for ChatPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatPhoto" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl ChatPhoto {
   pub fn builder() -> RTDChatPhotoBuilder {
     let mut inner = ChatPhoto::default();
     inner.td_name = "chatPhoto".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatPhotoBuilder { inner }
   }
 

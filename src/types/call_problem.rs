@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -70,6 +71,19 @@ impl RObject for CallProblem {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      CallProblem::DistortedSpeech(t) => t.extra(),
+      CallProblem::Dropped(t) => t.extra(),
+      CallProblem::Echo(t) => t.extra(),
+      CallProblem::Interruptions(t) => t.extra(),
+      CallProblem::Noise(t) => t.extra(),
+      CallProblem::SilentLocal(t) => t.extra(),
+      CallProblem::SilentRemote(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -135,11 +149,15 @@ pub struct CallProblemDistortedSpeech {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CallProblemDistortedSpeech {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callProblemDistortedSpeech" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -153,6 +171,7 @@ impl CallProblemDistortedSpeech {
   pub fn builder() -> RTDCallProblemDistortedSpeechBuilder {
     let mut inner = CallProblemDistortedSpeech::default();
     inner.td_name = "callProblemDistortedSpeech".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallProblemDistortedSpeechBuilder { inner }
   }
 
@@ -188,11 +207,15 @@ pub struct CallProblemDropped {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CallProblemDropped {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callProblemDropped" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -206,6 +229,7 @@ impl CallProblemDropped {
   pub fn builder() -> RTDCallProblemDroppedBuilder {
     let mut inner = CallProblemDropped::default();
     inner.td_name = "callProblemDropped".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallProblemDroppedBuilder { inner }
   }
 
@@ -241,11 +265,15 @@ pub struct CallProblemEcho {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CallProblemEcho {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callProblemEcho" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -259,6 +287,7 @@ impl CallProblemEcho {
   pub fn builder() -> RTDCallProblemEchoBuilder {
     let mut inner = CallProblemEcho::default();
     inner.td_name = "callProblemEcho".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallProblemEchoBuilder { inner }
   }
 
@@ -294,11 +323,15 @@ pub struct CallProblemInterruptions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CallProblemInterruptions {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callProblemInterruptions" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -312,6 +345,7 @@ impl CallProblemInterruptions {
   pub fn builder() -> RTDCallProblemInterruptionsBuilder {
     let mut inner = CallProblemInterruptions::default();
     inner.td_name = "callProblemInterruptions".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallProblemInterruptionsBuilder { inner }
   }
 
@@ -347,11 +381,15 @@ pub struct CallProblemNoise {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CallProblemNoise {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callProblemNoise" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -365,6 +403,7 @@ impl CallProblemNoise {
   pub fn builder() -> RTDCallProblemNoiseBuilder {
     let mut inner = CallProblemNoise::default();
     inner.td_name = "callProblemNoise".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallProblemNoiseBuilder { inner }
   }
 
@@ -400,11 +439,15 @@ pub struct CallProblemSilentLocal {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CallProblemSilentLocal {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callProblemSilentLocal" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -418,6 +461,7 @@ impl CallProblemSilentLocal {
   pub fn builder() -> RTDCallProblemSilentLocalBuilder {
     let mut inner = CallProblemSilentLocal::default();
     inner.td_name = "callProblemSilentLocal".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallProblemSilentLocalBuilder { inner }
   }
 
@@ -453,11 +497,15 @@ pub struct CallProblemSilentRemote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CallProblemSilentRemote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callProblemSilentRemote" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -471,6 +519,7 @@ impl CallProblemSilentRemote {
   pub fn builder() -> RTDCallProblemSilentRemoteBuilder {
     let mut inner = CallProblemSilentRemote::default();
     inner.td_name = "callProblemSilentRemote".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallProblemSilentRemoteBuilder { inner }
   }
 

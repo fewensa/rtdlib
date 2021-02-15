@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Proxy {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the proxy
   id: i64,
   /// Proxy server IP address
@@ -28,6 +32,7 @@ pub struct Proxy {
 
 impl RObject for Proxy {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "proxy" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -38,6 +43,7 @@ impl Proxy {
   pub fn builder() -> RTDProxyBuilder {
     let mut inner = Proxy::default();
     inner.td_name = "proxy".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDProxyBuilder { inner }
   }
 

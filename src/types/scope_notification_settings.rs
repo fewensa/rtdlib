@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ScopeNotificationSettings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Time left before notifications will be unmuted, in seconds
   mute_for: i64,
   /// The name of an audio file to be used for notification sounds; only applies to iOS applications
@@ -26,6 +30,7 @@ pub struct ScopeNotificationSettings {
 
 impl RObject for ScopeNotificationSettings {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "scopeNotificationSettings" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -36,6 +41,7 @@ impl ScopeNotificationSettings {
   pub fn builder() -> RTDScopeNotificationSettingsBuilder {
     let mut inner = ScopeNotificationSettings::default();
     inner.td_name = "scopeNotificationSettings".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDScopeNotificationSettingsBuilder { inner }
   }
 

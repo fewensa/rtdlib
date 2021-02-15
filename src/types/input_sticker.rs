@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct InputSticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// PNG image with the sticker; must be up to 512 kB in size and fit in a 512x512 square
   png_sticker: InputFile,
   /// Emoji corresponding to the sticker
@@ -22,6 +26,7 @@ pub struct InputSticker {
 
 impl RObject for InputSticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputSticker" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl InputSticker {
   pub fn builder() -> RTDInputStickerBuilder {
     let mut inner = InputSticker::default();
     inner.td_name = "inputSticker".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputStickerBuilder { inner }
   }
 

@@ -1,5 +1,7 @@
 use std::fmt::Debug;
 
+use serde::de::{Deserialize, Deserializer};
+
 use crate::errors::*;
 use crate::types::*;
 
@@ -75,6 +77,19 @@ pub fn detect_td_type<S: AsRef<str>>(json: S) -> Option<String> {
   })
 }
 
+pub fn detect_td_type_and_extra<S: AsRef<str>>(json: S) -> (Option<String>, Option<String>) {
+  let result: Result<serde_json::Value, serde_json::Error> = serde_json::from_str::<serde_json::Value>(json.as_ref());
+  if let Err(_) = result { return (None, None) }
+  let value = result.unwrap();
+  let mut type_ = None;
+  let mut extra = None;
+  if let Some(map) = value.as_object() {
+    map.get("@type").map(|v| v.as_str().map(|t| type_.replace(t.to_string())));
+    map.get("@extra").map(|v| v.as_str().map(|t| extra.replace(t.to_string())));
+  }
+  (type_, extra)
+}
+
 pub fn from_json<'a, T>(json: &'a str) -> RTDResult<T> where T: serde::de::Deserialize<'a>, {
   Ok(serde_json::from_str(json.as_ref())?)
 }
@@ -83,6 +98,8 @@ pub fn from_json<'a, T>(json: &'a str) -> RTDResult<T> where T: serde::de::Deser
 pub trait RObject: Debug {
   #[doc(hidden)]
   fn td_name(&self) -> &'static str;
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String>;
   /// Return td type to json string
   fn to_json(&self) -> RTDResult<String>;
 }
@@ -93,11 +110,13 @@ pub trait RFunction: Debug + RObject {}
 impl<'a, RObj: RObject> RObject for &'a RObj {
   fn td_name(&self) -> &'static str { (*self).td_name() }
   fn to_json(&self) -> RTDResult<String> { (*self).to_json() }
+  fn extra(&self) -> Option<String> { (*self).extra() }
 }
 
 impl<'a, RObj: RObject> RObject for &'a mut RObj {
   fn td_name(&self) -> &'static str { (**self).td_name() }
   fn to_json(&self) -> RTDResult<String> { (**self).to_json() }
+  fn extra(&self) -> Option<String> { (**self).extra() }
 }
 
 
@@ -294,5 +313,383 @@ impl<'a, USERSTATUS: TDUserStatus> TDUserStatus for &'a mut USERSTATUS {}
 impl<'a, USERTYPE: TDUserType> TDUserType for &'a USERTYPE {}
 impl<'a, USERTYPE: TDUserType> TDUserType for &'a mut USERTYPE {}
 
+
+#[derive(Debug, Clone)]
+pub enum TdType {
+  TestUseUpdate(TestUseUpdate),
+  UpdateActiveNotifications(UpdateActiveNotifications),
+  UpdateAuthorizationState(UpdateAuthorizationState),
+  UpdateBasicGroup(UpdateBasicGroup),
+  UpdateBasicGroupFullInfo(UpdateBasicGroupFullInfo),
+  UpdateCall(UpdateCall),
+  UpdateChatDefaultDisableNotification(UpdateChatDefaultDisableNotification),
+  UpdateChatDraftMessage(UpdateChatDraftMessage),
+  UpdateChatIsMarkedAsUnread(UpdateChatIsMarkedAsUnread),
+  UpdateChatIsPinned(UpdateChatIsPinned),
+  UpdateChatIsSponsored(UpdateChatIsSponsored),
+  UpdateChatLastMessage(UpdateChatLastMessage),
+  UpdateChatNotificationSettings(UpdateChatNotificationSettings),
+  UpdateChatOnlineMemberCount(UpdateChatOnlineMemberCount),
+  UpdateChatOrder(UpdateChatOrder),
+  UpdateChatPermissions(UpdateChatPermissions),
+  UpdateChatPhoto(UpdateChatPhoto),
+  UpdateChatPinnedMessage(UpdateChatPinnedMessage),
+  UpdateChatReadInbox(UpdateChatReadInbox),
+  UpdateChatReadOutbox(UpdateChatReadOutbox),
+  UpdateChatReplyMarkup(UpdateChatReplyMarkup),
+  UpdateChatTitle(UpdateChatTitle),
+  UpdateChatUnreadMentionCount(UpdateChatUnreadMentionCount),
+  UpdateConnectionState(UpdateConnectionState),
+  UpdateDeleteMessages(UpdateDeleteMessages),
+  UpdateFavoriteStickers(UpdateFavoriteStickers),
+  UpdateFile(UpdateFile),
+  UpdateFileGenerationStart(UpdateFileGenerationStart),
+  UpdateFileGenerationStop(UpdateFileGenerationStop),
+  UpdateHavePendingNotifications(UpdateHavePendingNotifications),
+  UpdateInstalledStickerSets(UpdateInstalledStickerSets),
+  UpdateLanguagePackStrings(UpdateLanguagePackStrings),
+  UpdateMessageContent(UpdateMessageContent),
+  UpdateMessageContentOpened(UpdateMessageContentOpened),
+  UpdateMessageEdited(UpdateMessageEdited),
+  UpdateMessageMentionRead(UpdateMessageMentionRead),
+  UpdateMessageSendAcknowledged(UpdateMessageSendAcknowledged),
+  UpdateMessageSendFailed(UpdateMessageSendFailed),
+  UpdateMessageSendSucceeded(UpdateMessageSendSucceeded),
+  UpdateMessageViews(UpdateMessageViews),
+  UpdateNewCallbackQuery(UpdateNewCallbackQuery),
+  UpdateNewChat(UpdateNewChat),
+  UpdateNewChosenInlineResult(UpdateNewChosenInlineResult),
+  UpdateNewCustomEvent(UpdateNewCustomEvent),
+  UpdateNewCustomQuery(UpdateNewCustomQuery),
+  UpdateNewInlineCallbackQuery(UpdateNewInlineCallbackQuery),
+  UpdateNewInlineQuery(UpdateNewInlineQuery),
+  UpdateNewMessage(UpdateNewMessage),
+  UpdateNewPreCheckoutQuery(UpdateNewPreCheckoutQuery),
+  UpdateNewShippingQuery(UpdateNewShippingQuery),
+  UpdateNotification(UpdateNotification),
+  UpdateNotificationGroup(UpdateNotificationGroup),
+  UpdateOption(UpdateOption),
+  UpdatePoll(UpdatePoll),
+  UpdateRecentStickers(UpdateRecentStickers),
+  UpdateSavedAnimations(UpdateSavedAnimations),
+  UpdateScopeNotificationSettings(UpdateScopeNotificationSettings),
+  UpdateSecretChat(UpdateSecretChat),
+  UpdateSelectedBackground(UpdateSelectedBackground),
+  UpdateServiceNotification(UpdateServiceNotification),
+  UpdateSupergroup(UpdateSupergroup),
+  UpdateSupergroupFullInfo(UpdateSupergroupFullInfo),
+  UpdateTermsOfService(UpdateTermsOfService),
+  UpdateTrendingStickerSets(UpdateTrendingStickerSets),
+  UpdateUnreadChatCount(UpdateUnreadChatCount),
+  UpdateUnreadMessageCount(UpdateUnreadMessageCount),
+  UpdateUser(UpdateUser),
+  UpdateUserChatAction(UpdateUserChatAction),
+  UpdateUserFullInfo(UpdateUserFullInfo),
+  UpdateUserPrivacySettingRules(UpdateUserPrivacySettingRules),
+  UpdateUserStatus(UpdateUserStatus),
+
+  AuthorizationState(AuthorizationState),
+  CheckChatUsernameResult(CheckChatUsernameResult),
+  JsonValue(JsonValue),
+  LanguagePackStringValue(LanguagePackStringValue),
+  LogStream(LogStream),
+  OptionValue(OptionValue),
+  PassportElement(PassportElement),
+  Update(Update),
+  AccountTtl(AccountTtl),
+  Animations(Animations),
+  AuthenticationCodeInfo(AuthenticationCodeInfo),
+  AutoDownloadSettingsPresets(AutoDownloadSettingsPresets),
+  Background(Background),
+  Backgrounds(Backgrounds),
+  BasicGroup(BasicGroup),
+  BasicGroupFullInfo(BasicGroupFullInfo),
+  CallId(CallId),
+  CallbackQueryAnswer(CallbackQueryAnswer),
+  Chat(Chat),
+  ChatEvents(ChatEvents),
+  ChatInviteLink(ChatInviteLink),
+  ChatInviteLinkInfo(ChatInviteLinkInfo),
+  ChatMember(ChatMember),
+  ChatMembers(ChatMembers),
+  ChatReportSpamState(ChatReportSpamState),
+  Chats(Chats),
+  ConnectedWebsites(ConnectedWebsites),
+  Count(Count),
+  CustomRequestResult(CustomRequestResult),
+  DatabaseStatistics(DatabaseStatistics),
+  DeepLinkInfo(DeepLinkInfo),
+  EmailAddressAuthenticationCodeInfo(EmailAddressAuthenticationCodeInfo),
+  Emojis(Emojis),
+  Error(Error),
+  File(File),
+  FilePart(FilePart),
+  FormattedText(FormattedText),
+  FoundMessages(FoundMessages),
+  GameHighScores(GameHighScores),
+  Hashtags(Hashtags),
+  HttpUrl(HttpUrl),
+  ImportedContacts(ImportedContacts),
+  InlineQueryResults(InlineQueryResults),
+  LanguagePackInfo(LanguagePackInfo),
+  LanguagePackStrings(LanguagePackStrings),
+  LocalizationTargetInfo(LocalizationTargetInfo),
+  LogTags(LogTags),
+  LogVerbosityLevel(LogVerbosityLevel),
+  Message(Message),
+  MessageLinkInfo(MessageLinkInfo),
+  Messages(Messages),
+  NetworkStatistics(NetworkStatistics),
+  Ok(Ok),
+  OrderInfo(OrderInfo),
+  PassportAuthorizationForm(PassportAuthorizationForm),
+  PassportElements(PassportElements),
+  PassportElementsWithErrors(PassportElementsWithErrors),
+  PasswordState(PasswordState),
+  PaymentForm(PaymentForm),
+  PaymentReceipt(PaymentReceipt),
+  PaymentResult(PaymentResult),
+  Proxies(Proxies),
+  Proxy(Proxy),
+  PublicMessageLink(PublicMessageLink),
+  PushReceiverId(PushReceiverId),
+  RecoveryEmailAddress(RecoveryEmailAddress),
+  ScopeNotificationSettings(ScopeNotificationSettings),
+  Seconds(Seconds),
+  SecretChat(SecretChat),
+  Sessions(Sessions),
+  StickerSet(StickerSet),
+  StickerSets(StickerSets),
+  Stickers(Stickers),
+  StorageStatistics(StorageStatistics),
+  StorageStatisticsFast(StorageStatisticsFast),
+  Supergroup(Supergroup),
+  SupergroupFullInfo(SupergroupFullInfo),
+  TMeUrls(TMeUrls),
+  TemporaryPasswordState(TemporaryPasswordState),
+  TestBytes(TestBytes),
+  TestInt(TestInt),
+  TestString(TestString),
+  TestVectorInt(TestVectorInt),
+  TestVectorIntObject(TestVectorIntObject),
+  TestVectorString(TestVectorString),
+  TestVectorStringObject(TestVectorStringObject),
+  Text(Text),
+  TextEntities(TextEntities),
+  Updates(Updates),
+  User(User),
+  UserFullInfo(UserFullInfo),
+  UserPrivacySettingRules(UserPrivacySettingRules),
+  UserProfilePhotos(UserProfilePhotos),
+  Users(Users),
+  ValidatedOrderInfo(ValidatedOrderInfo),
+  WebPage(WebPage),
+  WebPageInstantView(WebPageInstantView),
+
+}
+impl<'de> Deserialize<'de> for TdType {
+fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserializer<'de> {
+    use serde::de::Error;
+    rtd_enum_deserialize!(
+      TdType,
+  (testUseUpdate, TestUseUpdate);
+  (updateActiveNotifications, UpdateActiveNotifications);
+  (updateAuthorizationState, UpdateAuthorizationState);
+  (updateBasicGroup, UpdateBasicGroup);
+  (updateBasicGroupFullInfo, UpdateBasicGroupFullInfo);
+  (updateCall, UpdateCall);
+  (updateChatDefaultDisableNotification, UpdateChatDefaultDisableNotification);
+  (updateChatDraftMessage, UpdateChatDraftMessage);
+  (updateChatIsMarkedAsUnread, UpdateChatIsMarkedAsUnread);
+  (updateChatIsPinned, UpdateChatIsPinned);
+  (updateChatIsSponsored, UpdateChatIsSponsored);
+  (updateChatLastMessage, UpdateChatLastMessage);
+  (updateChatNotificationSettings, UpdateChatNotificationSettings);
+  (updateChatOnlineMemberCount, UpdateChatOnlineMemberCount);
+  (updateChatOrder, UpdateChatOrder);
+  (updateChatPermissions, UpdateChatPermissions);
+  (updateChatPhoto, UpdateChatPhoto);
+  (updateChatPinnedMessage, UpdateChatPinnedMessage);
+  (updateChatReadInbox, UpdateChatReadInbox);
+  (updateChatReadOutbox, UpdateChatReadOutbox);
+  (updateChatReplyMarkup, UpdateChatReplyMarkup);
+  (updateChatTitle, UpdateChatTitle);
+  (updateChatUnreadMentionCount, UpdateChatUnreadMentionCount);
+  (updateConnectionState, UpdateConnectionState);
+  (updateDeleteMessages, UpdateDeleteMessages);
+  (updateFavoriteStickers, UpdateFavoriteStickers);
+  (updateFile, UpdateFile);
+  (updateFileGenerationStart, UpdateFileGenerationStart);
+  (updateFileGenerationStop, UpdateFileGenerationStop);
+  (updateHavePendingNotifications, UpdateHavePendingNotifications);
+  (updateInstalledStickerSets, UpdateInstalledStickerSets);
+  (updateLanguagePackStrings, UpdateLanguagePackStrings);
+  (updateMessageContent, UpdateMessageContent);
+  (updateMessageContentOpened, UpdateMessageContentOpened);
+  (updateMessageEdited, UpdateMessageEdited);
+  (updateMessageMentionRead, UpdateMessageMentionRead);
+  (updateMessageSendAcknowledged, UpdateMessageSendAcknowledged);
+  (updateMessageSendFailed, UpdateMessageSendFailed);
+  (updateMessageSendSucceeded, UpdateMessageSendSucceeded);
+  (updateMessageViews, UpdateMessageViews);
+  (updateNewCallbackQuery, UpdateNewCallbackQuery);
+  (updateNewChat, UpdateNewChat);
+  (updateNewChosenInlineResult, UpdateNewChosenInlineResult);
+  (updateNewCustomEvent, UpdateNewCustomEvent);
+  (updateNewCustomQuery, UpdateNewCustomQuery);
+  (updateNewInlineCallbackQuery, UpdateNewInlineCallbackQuery);
+  (updateNewInlineQuery, UpdateNewInlineQuery);
+  (updateNewMessage, UpdateNewMessage);
+  (updateNewPreCheckoutQuery, UpdateNewPreCheckoutQuery);
+  (updateNewShippingQuery, UpdateNewShippingQuery);
+  (updateNotification, UpdateNotification);
+  (updateNotificationGroup, UpdateNotificationGroup);
+  (updateOption, UpdateOption);
+  (updatePoll, UpdatePoll);
+  (updateRecentStickers, UpdateRecentStickers);
+  (updateSavedAnimations, UpdateSavedAnimations);
+  (updateScopeNotificationSettings, UpdateScopeNotificationSettings);
+  (updateSecretChat, UpdateSecretChat);
+  (updateSelectedBackground, UpdateSelectedBackground);
+  (updateServiceNotification, UpdateServiceNotification);
+  (updateSupergroup, UpdateSupergroup);
+  (updateSupergroupFullInfo, UpdateSupergroupFullInfo);
+  (updateTermsOfService, UpdateTermsOfService);
+  (updateTrendingStickerSets, UpdateTrendingStickerSets);
+  (updateUnreadChatCount, UpdateUnreadChatCount);
+  (updateUnreadMessageCount, UpdateUnreadMessageCount);
+  (updateUser, UpdateUser);
+  (updateUserChatAction, UpdateUserChatAction);
+  (updateUserFullInfo, UpdateUserFullInfo);
+  (updateUserPrivacySettingRules, UpdateUserPrivacySettingRules);
+  (updateUserStatus, UpdateUserStatus);
+
+  (AuthorizationState, AuthorizationState);
+  (CheckChatUsernameResult, CheckChatUsernameResult);
+  (JsonValue, JsonValue);
+  (LanguagePackStringValue, LanguagePackStringValue);
+  (LogStream, LogStream);
+  (OptionValue, OptionValue);
+  (PassportElement, PassportElement);
+  (Update, Update);
+  (accountTtl, AccountTtl);
+  (animations, Animations);
+  (authenticationCodeInfo, AuthenticationCodeInfo);
+  (autoDownloadSettingsPresets, AutoDownloadSettingsPresets);
+  (background, Background);
+  (backgrounds, Backgrounds);
+  (basicGroup, BasicGroup);
+  (basicGroupFullInfo, BasicGroupFullInfo);
+  (callId, CallId);
+  (callbackQueryAnswer, CallbackQueryAnswer);
+  (chat, Chat);
+  (chatEvents, ChatEvents);
+  (chatInviteLink, ChatInviteLink);
+  (chatInviteLinkInfo, ChatInviteLinkInfo);
+  (chatMember, ChatMember);
+  (chatMembers, ChatMembers);
+  (chatReportSpamState, ChatReportSpamState);
+  (chats, Chats);
+  (connectedWebsites, ConnectedWebsites);
+  (count, Count);
+  (customRequestResult, CustomRequestResult);
+  (databaseStatistics, DatabaseStatistics);
+  (deepLinkInfo, DeepLinkInfo);
+  (emailAddressAuthenticationCodeInfo, EmailAddressAuthenticationCodeInfo);
+  (emojis, Emojis);
+  (error, Error);
+  (file, File);
+  (filePart, FilePart);
+  (formattedText, FormattedText);
+  (foundMessages, FoundMessages);
+  (gameHighScores, GameHighScores);
+  (hashtags, Hashtags);
+  (httpUrl, HttpUrl);
+  (importedContacts, ImportedContacts);
+  (inlineQueryResults, InlineQueryResults);
+  (languagePackInfo, LanguagePackInfo);
+  (languagePackStrings, LanguagePackStrings);
+  (localizationTargetInfo, LocalizationTargetInfo);
+  (logTags, LogTags);
+  (logVerbosityLevel, LogVerbosityLevel);
+  (message, Message);
+  (messageLinkInfo, MessageLinkInfo);
+  (messages, Messages);
+  (networkStatistics, NetworkStatistics);
+  (ok, Ok);
+  (orderInfo, OrderInfo);
+  (passportAuthorizationForm, PassportAuthorizationForm);
+  (passportElements, PassportElements);
+  (passportElementsWithErrors, PassportElementsWithErrors);
+  (passwordState, PasswordState);
+  (paymentForm, PaymentForm);
+  (paymentReceipt, PaymentReceipt);
+  (paymentResult, PaymentResult);
+  (proxies, Proxies);
+  (proxy, Proxy);
+  (publicMessageLink, PublicMessageLink);
+  (pushReceiverId, PushReceiverId);
+  (recoveryEmailAddress, RecoveryEmailAddress);
+  (scopeNotificationSettings, ScopeNotificationSettings);
+  (seconds, Seconds);
+  (secretChat, SecretChat);
+  (sessions, Sessions);
+  (stickerSet, StickerSet);
+  (stickerSets, StickerSets);
+  (stickers, Stickers);
+  (storageStatistics, StorageStatistics);
+  (storageStatisticsFast, StorageStatisticsFast);
+  (supergroup, Supergroup);
+  (supergroupFullInfo, SupergroupFullInfo);
+  (tMeUrls, TMeUrls);
+  (temporaryPasswordState, TemporaryPasswordState);
+  (testBytes, TestBytes);
+  (testInt, TestInt);
+  (testString, TestString);
+  (testVectorInt, TestVectorInt);
+  (testVectorIntObject, TestVectorIntObject);
+  (testVectorString, TestVectorString);
+  (testVectorStringObject, TestVectorStringObject);
+  (text, Text);
+  (textEntities, TextEntities);
+  (updates, Updates);
+  (user, User);
+  (userFullInfo, UserFullInfo);
+  (userPrivacySettingRules, UserPrivacySettingRules);
+  (userProfilePhotos, UserProfilePhotos);
+  (users, Users);
+  (validatedOrderInfo, ValidatedOrderInfo);
+  (webPage, WebPage);
+  (webPageInstantView, WebPageInstantView);
+
+ )(deserializer)
+
+ }
+}
+
+
+
+#[cfg(test)]
+mod tests {
+  use crate::types::{TdType, from_json, UpdateAuthorizationState};
+
+  #[test]
+  fn test_deserialize_enum() {
+    match from_json::<UpdateAuthorizationState>(r#"{"@type":"updateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters"}}"#) {
+      Ok(t) => {},
+      Err(e) => {panic!("{}", e)}
+    };
+
+    match from_json::<TdType>(r#"{"@type":"updateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters"}}"#) {
+      Ok(t) => {
+        match t {
+          TdType::UpdateAuthorizationState(v) => {},
+          _ => panic!("from_json failed: {:?}", t)
+        }
+      },
+      Err(e) => {panic!("{}", e)}
+    };
+  }
+}
 
 

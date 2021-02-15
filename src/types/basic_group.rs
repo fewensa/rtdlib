@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct BasicGroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Group identifier
   id: i64,
   /// Number of members in the group
@@ -26,6 +30,7 @@ pub struct BasicGroup {
 
 impl RObject for BasicGroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "basicGroup" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -36,6 +41,7 @@ impl BasicGroup {
   pub fn builder() -> RTDBasicGroupBuilder {
     let mut inner = BasicGroup::default();
     inner.td_name = "basicGroup".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDBasicGroupBuilder { inner }
   }
 

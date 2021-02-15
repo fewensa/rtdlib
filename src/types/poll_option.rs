@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct PollOption {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Option text, 1-100 characters
   text: String,
   /// Number of voters for this option, available only for closed or voted polls
@@ -26,6 +30,7 @@ pub struct PollOption {
 
 impl RObject for PollOption {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "pollOption" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -36,6 +41,7 @@ impl PollOption {
   pub fn builder() -> RTDPollOptionBuilder {
     let mut inner = PollOption::default();
     inner.td_name = "pollOption".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPollOptionBuilder { inner }
   }
 

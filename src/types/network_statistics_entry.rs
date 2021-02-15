@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -50,6 +51,14 @@ impl RObject for NetworkStatisticsEntry {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      NetworkStatisticsEntry::Call(t) => t.extra(),
+      NetworkStatisticsEntry::File(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -90,6 +99,9 @@ pub struct NetworkStatisticsEntryCall {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Type of the network the data was sent through. Call setNetworkType to maintain the actual network type
   network_type: NetworkType,
   /// Total number of bytes sent
@@ -103,6 +115,7 @@ pub struct NetworkStatisticsEntryCall {
 
 impl RObject for NetworkStatisticsEntryCall {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "networkStatisticsEntryCall" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -116,6 +129,7 @@ impl NetworkStatisticsEntryCall {
   pub fn builder() -> RTDNetworkStatisticsEntryCallBuilder {
     let mut inner = NetworkStatisticsEntryCall::default();
     inner.td_name = "networkStatisticsEntryCall".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDNetworkStatisticsEntryCallBuilder { inner }
   }
 
@@ -183,6 +197,9 @@ pub struct NetworkStatisticsEntryFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Type of the file the data is part of
   file_type: FileType,
   /// Type of the network the data was sent through. Call setNetworkType to maintain the actual network type
@@ -196,6 +213,7 @@ pub struct NetworkStatisticsEntryFile {
 
 impl RObject for NetworkStatisticsEntryFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "networkStatisticsEntryFile" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -209,6 +227,7 @@ impl NetworkStatisticsEntryFile {
   pub fn builder() -> RTDNetworkStatisticsEntryFileBuilder {
     let mut inner = NetworkStatisticsEntryFile::default();
     inner.td_name = "networkStatisticsEntryFile".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDNetworkStatisticsEntryFileBuilder { inner }
   }
 

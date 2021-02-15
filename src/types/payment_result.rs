@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct PaymentResult {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if the payment request was successful; otherwise the verification_url will be not empty
   success: bool,
   /// URL for additional payment credentials verification
@@ -20,6 +24,7 @@ pub struct PaymentResult {
 
 impl RObject for PaymentResult {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "paymentResult" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl PaymentResult {
   pub fn builder() -> RTDPaymentResultBuilder {
     let mut inner = PaymentResult::default();
     inner.td_name = "paymentResult".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPaymentResultBuilder { inner }
   }
 

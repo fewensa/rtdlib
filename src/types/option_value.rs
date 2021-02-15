@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -62,6 +63,17 @@ impl RObject for OptionValue {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      OptionValue::GetOption(t) => t.extra(),
+      OptionValue::Boolean(t) => t.extra(),
+      OptionValue::Empty(t) => t.extra(),
+      OptionValue::Integer(t) => t.extra(),
+      OptionValue::String(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -117,6 +129,9 @@ pub struct OptionValueBoolean {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The value of the option
   value: bool,
   
@@ -124,6 +139,7 @@ pub struct OptionValueBoolean {
 
 impl RObject for OptionValueBoolean {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "optionValueBoolean" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -137,6 +153,7 @@ impl OptionValueBoolean {
   pub fn builder() -> RTDOptionValueBooleanBuilder {
     let mut inner = OptionValueBoolean::default();
     inner.td_name = "optionValueBoolean".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDOptionValueBooleanBuilder { inner }
   }
 
@@ -180,11 +197,15 @@ pub struct OptionValueEmpty {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for OptionValueEmpty {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "optionValueEmpty" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -198,6 +219,7 @@ impl OptionValueEmpty {
   pub fn builder() -> RTDOptionValueEmptyBuilder {
     let mut inner = OptionValueEmpty::default();
     inner.td_name = "optionValueEmpty".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDOptionValueEmptyBuilder { inner }
   }
 
@@ -233,6 +255,9 @@ pub struct OptionValueInteger {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The value of the option
   value: i64,
   
@@ -240,6 +265,7 @@ pub struct OptionValueInteger {
 
 impl RObject for OptionValueInteger {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "optionValueInteger" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -253,6 +279,7 @@ impl OptionValueInteger {
   pub fn builder() -> RTDOptionValueIntegerBuilder {
     let mut inner = OptionValueInteger::default();
     inner.td_name = "optionValueInteger".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDOptionValueIntegerBuilder { inner }
   }
 
@@ -296,6 +323,9 @@ pub struct OptionValueString {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The value of the option
   value: String,
   
@@ -303,6 +333,7 @@ pub struct OptionValueString {
 
 impl RObject for OptionValueString {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "optionValueString" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -316,6 +347,7 @@ impl OptionValueString {
   pub fn builder() -> RTDOptionValueStringBuilder {
     let mut inner = OptionValueString::default();
     inner.td_name = "optionValueString".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDOptionValueStringBuilder { inner }
   }
 

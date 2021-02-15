@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -50,6 +51,14 @@ impl RObject for MessageSendingState {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      MessageSendingState::Failed(t) => t.extra(),
+      MessageSendingState::Pending(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -90,6 +99,9 @@ pub struct MessageSendingStateFailed {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// An error code; 0 if unknown
   error_code: i64,
   /// Error message
@@ -103,6 +115,7 @@ pub struct MessageSendingStateFailed {
 
 impl RObject for MessageSendingStateFailed {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageSendingStateFailed" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -116,6 +129,7 @@ impl MessageSendingStateFailed {
   pub fn builder() -> RTDMessageSendingStateFailedBuilder {
     let mut inner = MessageSendingStateFailed::default();
     inner.td_name = "messageSendingStateFailed".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMessageSendingStateFailedBuilder { inner }
   }
 
@@ -183,11 +197,15 @@ pub struct MessageSendingStatePending {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for MessageSendingStatePending {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "messageSendingStatePending" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -201,6 +219,7 @@ impl MessageSendingStatePending {
   pub fn builder() -> RTDMessageSendingStatePendingBuilder {
     let mut inner = MessageSendingStatePending::default();
     inner.td_name = "messageSendingStatePending".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMessageSendingStatePendingBuilder { inner }
   }
 

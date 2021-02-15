@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct LocalFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Local path to the locally available file part; may be empty
   path: String,
   /// True, if it is possible to try to download or generate the file
@@ -32,6 +36,7 @@ pub struct LocalFile {
 
 impl RObject for LocalFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "localFile" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -42,6 +47,7 @@ impl LocalFile {
   pub fn builder() -> RTDLocalFileBuilder {
     let mut inner = LocalFile::default();
     inner.td_name = "localFile".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDLocalFileBuilder { inner }
   }
 

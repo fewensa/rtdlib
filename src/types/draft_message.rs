@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct DraftMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Identifier of the message to reply to; 0 if none
   reply_to_message_id: i64,
   /// Content of the message draft; this should always be of type inputMessageText
@@ -20,6 +24,7 @@ pub struct DraftMessage {
 
 impl RObject for DraftMessage {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "draftMessage" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl DraftMessage {
   pub fn builder() -> RTDDraftMessageBuilder {
     let mut inner = DraftMessage::default();
     inner.td_name = "draftMessage".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDDraftMessageBuilder { inner }
   }
 

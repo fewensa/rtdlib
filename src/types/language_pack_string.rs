@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct LanguagePackString {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// String key
   key: String,
   /// String value
@@ -20,6 +24,7 @@ pub struct LanguagePackString {
 
 impl RObject for LanguagePackString {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "languagePackString" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl LanguagePackString {
   pub fn builder() -> RTDLanguagePackStringBuilder {
     let mut inner = LanguagePackString::default();
     inner.td_name = "languagePackString".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDLanguagePackStringBuilder { inner }
   }
 

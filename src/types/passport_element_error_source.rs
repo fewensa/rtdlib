@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -78,6 +79,21 @@ impl RObject for PassportElementErrorSource {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      PassportElementErrorSource::DataField(t) => t.extra(),
+      PassportElementErrorSource::File(t) => t.extra(),
+      PassportElementErrorSource::Files(t) => t.extra(),
+      PassportElementErrorSource::FrontSide(t) => t.extra(),
+      PassportElementErrorSource::ReverseSide(t) => t.extra(),
+      PassportElementErrorSource::Selfie(t) => t.extra(),
+      PassportElementErrorSource::TranslationFile(t) => t.extra(),
+      PassportElementErrorSource::TranslationFiles(t) => t.extra(),
+      PassportElementErrorSource::Unspecified(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -153,6 +169,9 @@ pub struct PassportElementErrorSourceDataField {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Field name
   field_name: String,
   
@@ -160,6 +179,7 @@ pub struct PassportElementErrorSourceDataField {
 
 impl RObject for PassportElementErrorSourceDataField {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceDataField" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -173,6 +193,7 @@ impl PassportElementErrorSourceDataField {
   pub fn builder() -> RTDPassportElementErrorSourceDataFieldBuilder {
     let mut inner = PassportElementErrorSourceDataField::default();
     inner.td_name = "passportElementErrorSourceDataField".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPassportElementErrorSourceDataFieldBuilder { inner }
   }
 
@@ -216,6 +237,9 @@ pub struct PassportElementErrorSourceFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Index of a file with the error
   file_index: i64,
   
@@ -223,6 +247,7 @@ pub struct PassportElementErrorSourceFile {
 
 impl RObject for PassportElementErrorSourceFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceFile" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -236,6 +261,7 @@ impl PassportElementErrorSourceFile {
   pub fn builder() -> RTDPassportElementErrorSourceFileBuilder {
     let mut inner = PassportElementErrorSourceFile::default();
     inner.td_name = "passportElementErrorSourceFile".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPassportElementErrorSourceFileBuilder { inner }
   }
 
@@ -279,11 +305,15 @@ pub struct PassportElementErrorSourceFiles {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for PassportElementErrorSourceFiles {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceFiles" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -297,6 +327,7 @@ impl PassportElementErrorSourceFiles {
   pub fn builder() -> RTDPassportElementErrorSourceFilesBuilder {
     let mut inner = PassportElementErrorSourceFiles::default();
     inner.td_name = "passportElementErrorSourceFiles".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPassportElementErrorSourceFilesBuilder { inner }
   }
 
@@ -332,11 +363,15 @@ pub struct PassportElementErrorSourceFrontSide {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for PassportElementErrorSourceFrontSide {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceFrontSide" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -350,6 +385,7 @@ impl PassportElementErrorSourceFrontSide {
   pub fn builder() -> RTDPassportElementErrorSourceFrontSideBuilder {
     let mut inner = PassportElementErrorSourceFrontSide::default();
     inner.td_name = "passportElementErrorSourceFrontSide".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPassportElementErrorSourceFrontSideBuilder { inner }
   }
 
@@ -385,11 +421,15 @@ pub struct PassportElementErrorSourceReverseSide {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for PassportElementErrorSourceReverseSide {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceReverseSide" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -403,6 +443,7 @@ impl PassportElementErrorSourceReverseSide {
   pub fn builder() -> RTDPassportElementErrorSourceReverseSideBuilder {
     let mut inner = PassportElementErrorSourceReverseSide::default();
     inner.td_name = "passportElementErrorSourceReverseSide".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPassportElementErrorSourceReverseSideBuilder { inner }
   }
 
@@ -438,11 +479,15 @@ pub struct PassportElementErrorSourceSelfie {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for PassportElementErrorSourceSelfie {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceSelfie" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -456,6 +501,7 @@ impl PassportElementErrorSourceSelfie {
   pub fn builder() -> RTDPassportElementErrorSourceSelfieBuilder {
     let mut inner = PassportElementErrorSourceSelfie::default();
     inner.td_name = "passportElementErrorSourceSelfie".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPassportElementErrorSourceSelfieBuilder { inner }
   }
 
@@ -491,6 +537,9 @@ pub struct PassportElementErrorSourceTranslationFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Index of a file with the error
   file_index: i64,
   
@@ -498,6 +547,7 @@ pub struct PassportElementErrorSourceTranslationFile {
 
 impl RObject for PassportElementErrorSourceTranslationFile {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceTranslationFile" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -511,6 +561,7 @@ impl PassportElementErrorSourceTranslationFile {
   pub fn builder() -> RTDPassportElementErrorSourceTranslationFileBuilder {
     let mut inner = PassportElementErrorSourceTranslationFile::default();
     inner.td_name = "passportElementErrorSourceTranslationFile".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPassportElementErrorSourceTranslationFileBuilder { inner }
   }
 
@@ -554,11 +605,15 @@ pub struct PassportElementErrorSourceTranslationFiles {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for PassportElementErrorSourceTranslationFiles {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceTranslationFiles" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -572,6 +627,7 @@ impl PassportElementErrorSourceTranslationFiles {
   pub fn builder() -> RTDPassportElementErrorSourceTranslationFilesBuilder {
     let mut inner = PassportElementErrorSourceTranslationFiles::default();
     inner.td_name = "passportElementErrorSourceTranslationFiles".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPassportElementErrorSourceTranslationFilesBuilder { inner }
   }
 
@@ -607,11 +663,15 @@ pub struct PassportElementErrorSourceUnspecified {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for PassportElementErrorSourceUnspecified {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "passportElementErrorSourceUnspecified" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -625,6 +685,7 @@ impl PassportElementErrorSourceUnspecified {
   pub fn builder() -> RTDPassportElementErrorSourceUnspecifiedBuilder {
     let mut inner = PassportElementErrorSourceUnspecified::default();
     inner.td_name = "passportElementErrorSourceUnspecified".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPassportElementErrorSourceUnspecifiedBuilder { inner }
   }
 

@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ChatPermissions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// True, if the user can send text messages, contacts, locations, and venues
   can_send_messages: bool,
   /// True, if the user can send audio files, documents, photos, videos, video notes, and voice notes. Implies can_send_messages permissions
@@ -32,6 +36,7 @@ pub struct ChatPermissions {
 
 impl RObject for ChatPermissions {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatPermissions" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -42,6 +47,7 @@ impl ChatPermissions {
   pub fn builder() -> RTDChatPermissionsBuilder {
     let mut inner = ChatPermissions::default();
     inner.td_name = "chatPermissions".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatPermissionsBuilder { inner }
   }
 

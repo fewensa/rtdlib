@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct User {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// User identifier
   id: i64,
   /// First name of the user
@@ -48,6 +52,7 @@ pub struct User {
 
 impl RObject for User {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "user" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -58,6 +63,7 @@ impl User {
   pub fn builder() -> RTDUserBuilder {
     let mut inner = User::default();
     inner.td_name = "user".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDUserBuilder { inner }
   }
 

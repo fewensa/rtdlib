@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct CallbackQueryAnswer {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text of the answer
   text: String,
   /// True, if an alert should be shown to the user instead of a toast notification
@@ -22,6 +26,7 @@ pub struct CallbackQueryAnswer {
 
 impl RObject for CallbackQueryAnswer {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callbackQueryAnswer" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl CallbackQueryAnswer {
   pub fn builder() -> RTDCallbackQueryAnswerBuilder {
     let mut inner = CallbackQueryAnswer::default();
     inner.td_name = "callbackQueryAnswer".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallbackQueryAnswerBuilder { inner }
   }
 
