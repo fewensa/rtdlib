@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -62,6 +63,17 @@ impl RObject for CallDiscardReason {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      CallDiscardReason::Declined(t) => t.extra(),
+      CallDiscardReason::Disconnected(t) => t.extra(),
+      CallDiscardReason::Empty(t) => t.extra(),
+      CallDiscardReason::HungUp(t) => t.extra(),
+      CallDiscardReason::Missed(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -117,11 +129,15 @@ pub struct CallDiscardReasonDeclined {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CallDiscardReasonDeclined {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callDiscardReasonDeclined" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -135,6 +151,7 @@ impl CallDiscardReasonDeclined {
   pub fn builder() -> RTDCallDiscardReasonDeclinedBuilder {
     let mut inner = CallDiscardReasonDeclined::default();
     inner.td_name = "callDiscardReasonDeclined".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallDiscardReasonDeclinedBuilder { inner }
   }
 
@@ -170,11 +187,15 @@ pub struct CallDiscardReasonDisconnected {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CallDiscardReasonDisconnected {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callDiscardReasonDisconnected" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -188,6 +209,7 @@ impl CallDiscardReasonDisconnected {
   pub fn builder() -> RTDCallDiscardReasonDisconnectedBuilder {
     let mut inner = CallDiscardReasonDisconnected::default();
     inner.td_name = "callDiscardReasonDisconnected".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallDiscardReasonDisconnectedBuilder { inner }
   }
 
@@ -223,11 +245,15 @@ pub struct CallDiscardReasonEmpty {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CallDiscardReasonEmpty {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callDiscardReasonEmpty" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -241,6 +267,7 @@ impl CallDiscardReasonEmpty {
   pub fn builder() -> RTDCallDiscardReasonEmptyBuilder {
     let mut inner = CallDiscardReasonEmpty::default();
     inner.td_name = "callDiscardReasonEmpty".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallDiscardReasonEmptyBuilder { inner }
   }
 
@@ -276,11 +303,15 @@ pub struct CallDiscardReasonHungUp {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CallDiscardReasonHungUp {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callDiscardReasonHungUp" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -294,6 +325,7 @@ impl CallDiscardReasonHungUp {
   pub fn builder() -> RTDCallDiscardReasonHungUpBuilder {
     let mut inner = CallDiscardReasonHungUp::default();
     inner.td_name = "callDiscardReasonHungUp".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallDiscardReasonHungUpBuilder { inner }
   }
 
@@ -329,11 +361,15 @@ pub struct CallDiscardReasonMissed {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CallDiscardReasonMissed {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callDiscardReasonMissed" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -347,6 +383,7 @@ impl CallDiscardReasonMissed {
   pub fn builder() -> RTDCallDiscardReasonMissedBuilder {
     let mut inner = CallDiscardReasonMissed::default();
     inner.td_name = "callDiscardReasonMissed".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallDiscardReasonMissedBuilder { inner }
   }
 

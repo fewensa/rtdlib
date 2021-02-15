@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct VideoNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Duration of the video, in seconds; as defined by the sender
   duration: i64,
   /// Video width and height; as defined by the sender
@@ -24,6 +28,7 @@ pub struct VideoNote {
 
 impl RObject for VideoNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "videoNote" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -34,6 +39,7 @@ impl VideoNote {
   pub fn builder() -> RTDVideoNoteBuilder {
     let mut inner = VideoNote::default();
     inner.td_name = "videoNote".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDVideoNoteBuilder { inner }
   }
 

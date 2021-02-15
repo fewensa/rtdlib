@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct InlineKeyboardButton {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Text of the button
   text: String,
   /// Type of the button
@@ -20,6 +24,7 @@ pub struct InlineKeyboardButton {
 
 impl RObject for InlineKeyboardButton {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineKeyboardButton" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl InlineKeyboardButton {
   pub fn builder() -> RTDInlineKeyboardButtonBuilder {
     let mut inner = InlineKeyboardButton::default();
     inner.td_name = "inlineKeyboardButton".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInlineKeyboardButtonBuilder { inner }
   }
 

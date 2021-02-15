@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -58,6 +59,16 @@ impl RObject for NotificationGroupType {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      NotificationGroupType::Calls(t) => t.extra(),
+      NotificationGroupType::Mentions(t) => t.extra(),
+      NotificationGroupType::Messages(t) => t.extra(),
+      NotificationGroupType::SecretChat(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -108,11 +119,15 @@ pub struct NotificationGroupTypeCalls {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for NotificationGroupTypeCalls {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationGroupTypeCalls" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -126,6 +141,7 @@ impl NotificationGroupTypeCalls {
   pub fn builder() -> RTDNotificationGroupTypeCallsBuilder {
     let mut inner = NotificationGroupTypeCalls::default();
     inner.td_name = "notificationGroupTypeCalls".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDNotificationGroupTypeCallsBuilder { inner }
   }
 
@@ -161,11 +177,15 @@ pub struct NotificationGroupTypeMentions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for NotificationGroupTypeMentions {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationGroupTypeMentions" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -179,6 +199,7 @@ impl NotificationGroupTypeMentions {
   pub fn builder() -> RTDNotificationGroupTypeMentionsBuilder {
     let mut inner = NotificationGroupTypeMentions::default();
     inner.td_name = "notificationGroupTypeMentions".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDNotificationGroupTypeMentionsBuilder { inner }
   }
 
@@ -214,11 +235,15 @@ pub struct NotificationGroupTypeMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for NotificationGroupTypeMessages {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationGroupTypeMessages" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -232,6 +257,7 @@ impl NotificationGroupTypeMessages {
   pub fn builder() -> RTDNotificationGroupTypeMessagesBuilder {
     let mut inner = NotificationGroupTypeMessages::default();
     inner.td_name = "notificationGroupTypeMessages".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDNotificationGroupTypeMessagesBuilder { inner }
   }
 
@@ -267,11 +293,15 @@ pub struct NotificationGroupTypeSecretChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for NotificationGroupTypeSecretChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationGroupTypeSecretChat" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -285,6 +315,7 @@ impl NotificationGroupTypeSecretChat {
   pub fn builder() -> RTDNotificationGroupTypeSecretChatBuilder {
     let mut inner = NotificationGroupTypeSecretChat::default();
     inner.td_name = "notificationGroupTypeSecretChat".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDNotificationGroupTypeSecretChatBuilder { inner }
   }
 

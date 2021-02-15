@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -92,6 +93,25 @@ impl RObject for InputInlineQueryResult {
       InputInlineQueryResult::VoiceNote(t) => t.td_name(),
 
       _ => "-1",
+    }
+  }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      InputInlineQueryResult::AnimatedGif(t) => t.extra(),
+      InputInlineQueryResult::AnimatedMpeg4(t) => t.extra(),
+      InputInlineQueryResult::Article(t) => t.extra(),
+      InputInlineQueryResult::Audio(t) => t.extra(),
+      InputInlineQueryResult::Contact(t) => t.extra(),
+      InputInlineQueryResult::Document(t) => t.extra(),
+      InputInlineQueryResult::Game(t) => t.extra(),
+      InputInlineQueryResult::Location(t) => t.extra(),
+      InputInlineQueryResult::Photo(t) => t.extra(),
+      InputInlineQueryResult::Sticker(t) => t.extra(),
+      InputInlineQueryResult::Venue(t) => t.extra(),
+      InputInlineQueryResult::Video(t) => t.extra(),
+      InputInlineQueryResult::VoiceNote(t) => t.extra(),
+
+      _ => None,
     }
   }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
@@ -189,6 +209,9 @@ pub struct InputInlineQueryResultAnimatedGif {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the query result
   id: String,
   /// Title of the query result
@@ -212,6 +235,7 @@ pub struct InputInlineQueryResultAnimatedGif {
 
 impl RObject for InputInlineQueryResultAnimatedGif {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultAnimatedGif" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -225,6 +249,7 @@ impl InputInlineQueryResultAnimatedGif {
   pub fn builder() -> RTDInputInlineQueryResultAnimatedGifBuilder {
     let mut inner = InputInlineQueryResultAnimatedGif::default();
     inner.td_name = "inputInlineQueryResultAnimatedGif".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputInlineQueryResultAnimatedGifBuilder { inner }
   }
 
@@ -332,6 +357,9 @@ pub struct InputInlineQueryResultAnimatedMpeg4 {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the query result
   id: String,
   /// Title of the result
@@ -355,6 +383,7 @@ pub struct InputInlineQueryResultAnimatedMpeg4 {
 
 impl RObject for InputInlineQueryResultAnimatedMpeg4 {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultAnimatedMpeg4" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -368,6 +397,7 @@ impl InputInlineQueryResultAnimatedMpeg4 {
   pub fn builder() -> RTDInputInlineQueryResultAnimatedMpeg4Builder {
     let mut inner = InputInlineQueryResultAnimatedMpeg4::default();
     inner.td_name = "inputInlineQueryResultAnimatedMpeg4".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputInlineQueryResultAnimatedMpeg4Builder { inner }
   }
 
@@ -475,6 +505,9 @@ pub struct InputInlineQueryResultArticle {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the query result
   id: String,
   /// URL of the result, if it exists
@@ -500,6 +533,7 @@ pub struct InputInlineQueryResultArticle {
 
 impl RObject for InputInlineQueryResultArticle {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultArticle" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -513,6 +547,7 @@ impl InputInlineQueryResultArticle {
   pub fn builder() -> RTDInputInlineQueryResultArticleBuilder {
     let mut inner = InputInlineQueryResultArticle::default();
     inner.td_name = "inputInlineQueryResultArticle".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputInlineQueryResultArticleBuilder { inner }
   }
 
@@ -628,6 +663,9 @@ pub struct InputInlineQueryResultAudio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the query result
   id: String,
   /// Title of the audio file
@@ -647,6 +685,7 @@ pub struct InputInlineQueryResultAudio {
 
 impl RObject for InputInlineQueryResultAudio {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultAudio" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -660,6 +699,7 @@ impl InputInlineQueryResultAudio {
   pub fn builder() -> RTDInputInlineQueryResultAudioBuilder {
     let mut inner = InputInlineQueryResultAudio::default();
     inner.td_name = "inputInlineQueryResultAudio".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputInlineQueryResultAudioBuilder { inner }
   }
 
@@ -751,6 +791,9 @@ pub struct InputInlineQueryResultContact {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the query result
   id: String,
   /// User contact
@@ -770,6 +813,7 @@ pub struct InputInlineQueryResultContact {
 
 impl RObject for InputInlineQueryResultContact {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultContact" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -783,6 +827,7 @@ impl InputInlineQueryResultContact {
   pub fn builder() -> RTDInputInlineQueryResultContactBuilder {
     let mut inner = InputInlineQueryResultContact::default();
     inner.td_name = "inputInlineQueryResultContact".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputInlineQueryResultContactBuilder { inner }
   }
 
@@ -874,6 +919,9 @@ pub struct InputInlineQueryResultDocument {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the query result
   id: String,
   /// Title of the resulting file
@@ -899,6 +947,7 @@ pub struct InputInlineQueryResultDocument {
 
 impl RObject for InputInlineQueryResultDocument {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultDocument" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -912,6 +961,7 @@ impl InputInlineQueryResultDocument {
   pub fn builder() -> RTDInputInlineQueryResultDocumentBuilder {
     let mut inner = InputInlineQueryResultDocument::default();
     inner.td_name = "inputInlineQueryResultDocument".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputInlineQueryResultDocumentBuilder { inner }
   }
 
@@ -1027,6 +1077,9 @@ pub struct InputInlineQueryResultGame {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the query result
   id: String,
   /// Short name of the game
@@ -1038,6 +1091,7 @@ pub struct InputInlineQueryResultGame {
 
 impl RObject for InputInlineQueryResultGame {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultGame" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1051,6 +1105,7 @@ impl InputInlineQueryResultGame {
   pub fn builder() -> RTDInputInlineQueryResultGameBuilder {
     let mut inner = InputInlineQueryResultGame::default();
     inner.td_name = "inputInlineQueryResultGame".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputInlineQueryResultGameBuilder { inner }
   }
 
@@ -1110,6 +1165,9 @@ pub struct InputInlineQueryResultLocation {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the query result
   id: String,
   /// Location result
@@ -1133,6 +1191,7 @@ pub struct InputInlineQueryResultLocation {
 
 impl RObject for InputInlineQueryResultLocation {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultLocation" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1146,6 +1205,7 @@ impl InputInlineQueryResultLocation {
   pub fn builder() -> RTDInputInlineQueryResultLocationBuilder {
     let mut inner = InputInlineQueryResultLocation::default();
     inner.td_name = "inputInlineQueryResultLocation".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputInlineQueryResultLocationBuilder { inner }
   }
 
@@ -1253,6 +1313,9 @@ pub struct InputInlineQueryResultPhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the query result
   id: String,
   /// Title of the result, if known
@@ -1276,6 +1339,7 @@ pub struct InputInlineQueryResultPhoto {
 
 impl RObject for InputInlineQueryResultPhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultPhoto" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1289,6 +1353,7 @@ impl InputInlineQueryResultPhoto {
   pub fn builder() -> RTDInputInlineQueryResultPhotoBuilder {
     let mut inner = InputInlineQueryResultPhoto::default();
     inner.td_name = "inputInlineQueryResultPhoto".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputInlineQueryResultPhotoBuilder { inner }
   }
 
@@ -1396,6 +1461,9 @@ pub struct InputInlineQueryResultSticker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the query result
   id: String,
   /// URL of the sticker thumbnail, if it exists
@@ -1415,6 +1483,7 @@ pub struct InputInlineQueryResultSticker {
 
 impl RObject for InputInlineQueryResultSticker {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultSticker" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1428,6 +1497,7 @@ impl InputInlineQueryResultSticker {
   pub fn builder() -> RTDInputInlineQueryResultStickerBuilder {
     let mut inner = InputInlineQueryResultSticker::default();
     inner.td_name = "inputInlineQueryResultSticker".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputInlineQueryResultStickerBuilder { inner }
   }
 
@@ -1519,6 +1589,9 @@ pub struct InputInlineQueryResultVenue {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the query result
   id: String,
   /// Venue result
@@ -1538,6 +1611,7 @@ pub struct InputInlineQueryResultVenue {
 
 impl RObject for InputInlineQueryResultVenue {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultVenue" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1551,6 +1625,7 @@ impl InputInlineQueryResultVenue {
   pub fn builder() -> RTDInputInlineQueryResultVenueBuilder {
     let mut inner = InputInlineQueryResultVenue::default();
     inner.td_name = "inputInlineQueryResultVenue".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputInlineQueryResultVenueBuilder { inner }
   }
 
@@ -1642,6 +1717,9 @@ pub struct InputInlineQueryResultVideo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the query result
   id: String,
   /// Title of the result
@@ -1669,6 +1747,7 @@ pub struct InputInlineQueryResultVideo {
 
 impl RObject for InputInlineQueryResultVideo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultVideo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1682,6 +1761,7 @@ impl InputInlineQueryResultVideo {
   pub fn builder() -> RTDInputInlineQueryResultVideoBuilder {
     let mut inner = InputInlineQueryResultVideo::default();
     inner.td_name = "inputInlineQueryResultVideo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputInlineQueryResultVideoBuilder { inner }
   }
 
@@ -1805,6 +1885,9 @@ pub struct InputInlineQueryResultVoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique identifier of the query result
   id: String,
   /// Title of the voice note
@@ -1822,6 +1905,7 @@ pub struct InputInlineQueryResultVoiceNote {
 
 impl RObject for InputInlineQueryResultVoiceNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inputInlineQueryResultVoiceNote" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -1835,6 +1919,7 @@ impl InputInlineQueryResultVoiceNote {
   pub fn builder() -> RTDInputInlineQueryResultVoiceNoteBuilder {
     let mut inner = InputInlineQueryResultVoiceNote::default();
     inner.td_name = "inputInlineQueryResultVoiceNote".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInputInlineQueryResultVoiceNoteBuilder { inner }
   }
 

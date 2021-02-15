@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -54,6 +55,15 @@ impl RObject for ProxyType {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      ProxyType::Http(t) => t.extra(),
+      ProxyType::Mtproto(t) => t.extra(),
+      ProxyType::Socks5(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -99,6 +109,9 @@ pub struct ProxyTypeHttp {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Username for logging in; may be empty
   username: String,
   /// Password for logging in; may be empty
@@ -110,6 +123,7 @@ pub struct ProxyTypeHttp {
 
 impl RObject for ProxyTypeHttp {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "proxyTypeHttp" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -123,6 +137,7 @@ impl ProxyTypeHttp {
   pub fn builder() -> RTDProxyTypeHttpBuilder {
     let mut inner = ProxyTypeHttp::default();
     inner.td_name = "proxyTypeHttp".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDProxyTypeHttpBuilder { inner }
   }
 
@@ -182,6 +197,9 @@ pub struct ProxyTypeMtproto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The proxy's secret in hexadecimal encoding
   secret: String,
   
@@ -189,6 +207,7 @@ pub struct ProxyTypeMtproto {
 
 impl RObject for ProxyTypeMtproto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "proxyTypeMtproto" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -202,6 +221,7 @@ impl ProxyTypeMtproto {
   pub fn builder() -> RTDProxyTypeMtprotoBuilder {
     let mut inner = ProxyTypeMtproto::default();
     inner.td_name = "proxyTypeMtproto".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDProxyTypeMtprotoBuilder { inner }
   }
 
@@ -245,6 +265,9 @@ pub struct ProxyTypeSocks5 {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Username for logging in; may be empty
   username: String,
   /// Password for logging in; may be empty
@@ -254,6 +277,7 @@ pub struct ProxyTypeSocks5 {
 
 impl RObject for ProxyTypeSocks5 {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "proxyTypeSocks5" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -267,6 +291,7 @@ impl ProxyTypeSocks5 {
   pub fn builder() -> RTDProxyTypeSocks5Builder {
     let mut inner = ProxyTypeSocks5::default();
     inner.td_name = "proxyTypeSocks5".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDProxyTypeSocks5Builder { inner }
   }
 

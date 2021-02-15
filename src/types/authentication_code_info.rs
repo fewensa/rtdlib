@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct AuthenticationCodeInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// A phone number that is being authenticated
   phone_number: String,
   /// Describes the way the code was sent to the user
@@ -24,6 +28,7 @@ pub struct AuthenticationCodeInfo {
 
 impl RObject for AuthenticationCodeInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "authenticationCodeInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -34,6 +39,7 @@ impl AuthenticationCodeInfo {
   pub fn builder() -> RTDAuthenticationCodeInfoBuilder {
     let mut inner = AuthenticationCodeInfo::default();
     inner.td_name = "authenticationCodeInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDAuthenticationCodeInfoBuilder { inner }
   }
 

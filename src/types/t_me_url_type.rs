@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -58,6 +59,16 @@ impl RObject for TMeUrlType {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      TMeUrlType::ChatInvite(t) => t.extra(),
+      TMeUrlType::StickerSet(t) => t.extra(),
+      TMeUrlType::Supergroup(t) => t.extra(),
+      TMeUrlType::User(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -108,6 +119,9 @@ pub struct TMeUrlTypeChatInvite {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Chat invite link info
   info: ChatInviteLinkInfo,
   
@@ -115,6 +129,7 @@ pub struct TMeUrlTypeChatInvite {
 
 impl RObject for TMeUrlTypeChatInvite {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "tMeUrlTypeChatInvite" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -128,6 +143,7 @@ impl TMeUrlTypeChatInvite {
   pub fn builder() -> RTDTMeUrlTypeChatInviteBuilder {
     let mut inner = TMeUrlTypeChatInvite::default();
     inner.td_name = "tMeUrlTypeChatInvite".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDTMeUrlTypeChatInviteBuilder { inner }
   }
 
@@ -171,6 +187,9 @@ pub struct TMeUrlTypeStickerSet {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Identifier of the sticker set
   sticker_set_id: isize,
   
@@ -178,6 +197,7 @@ pub struct TMeUrlTypeStickerSet {
 
 impl RObject for TMeUrlTypeStickerSet {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "tMeUrlTypeStickerSet" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -191,6 +211,7 @@ impl TMeUrlTypeStickerSet {
   pub fn builder() -> RTDTMeUrlTypeStickerSetBuilder {
     let mut inner = TMeUrlTypeStickerSet::default();
     inner.td_name = "tMeUrlTypeStickerSet".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDTMeUrlTypeStickerSetBuilder { inner }
   }
 
@@ -234,6 +255,9 @@ pub struct TMeUrlTypeSupergroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Identifier of the supergroup or channel
   supergroup_id: i64,
   
@@ -241,6 +265,7 @@ pub struct TMeUrlTypeSupergroup {
 
 impl RObject for TMeUrlTypeSupergroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "tMeUrlTypeSupergroup" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -254,6 +279,7 @@ impl TMeUrlTypeSupergroup {
   pub fn builder() -> RTDTMeUrlTypeSupergroupBuilder {
     let mut inner = TMeUrlTypeSupergroup::default();
     inner.td_name = "tMeUrlTypeSupergroup".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDTMeUrlTypeSupergroupBuilder { inner }
   }
 
@@ -297,6 +323,9 @@ pub struct TMeUrlTypeUser {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Identifier of the user
   user_id: i64,
   
@@ -304,6 +333,7 @@ pub struct TMeUrlTypeUser {
 
 impl RObject for TMeUrlTypeUser {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "tMeUrlTypeUser" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -317,6 +347,7 @@ impl TMeUrlTypeUser {
   pub fn builder() -> RTDTMeUrlTypeUserBuilder {
     let mut inner = TMeUrlTypeUser::default();
     inner.td_name = "tMeUrlTypeUser".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDTMeUrlTypeUserBuilder { inner }
   }
 

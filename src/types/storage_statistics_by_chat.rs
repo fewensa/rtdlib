@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct StorageStatisticsByChat {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Chat identifier; 0 if none
   chat_id: i64,
   /// Total size of the files in the chat
@@ -24,6 +28,7 @@ pub struct StorageStatisticsByChat {
 
 impl RObject for StorageStatisticsByChat {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "storageStatisticsByChat" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -34,6 +39,7 @@ impl StorageStatisticsByChat {
   pub fn builder() -> RTDStorageStatisticsByChatBuilder {
     let mut inner = StorageStatisticsByChat::default();
     inner.td_name = "storageStatisticsByChat".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDStorageStatisticsByChatBuilder { inner }
   }
 

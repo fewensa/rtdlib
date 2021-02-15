@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct TdlibParameters {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// If set to true, the Telegram test environment will be used instead of the production environment
   use_test_dc: bool,
   /// The path to the directory for the persistent database; if empty, the current working directory will be used
@@ -46,6 +50,7 @@ pub struct TdlibParameters {
 
 impl RObject for TdlibParameters {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "tdlibParameters" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -56,6 +61,7 @@ impl TdlibParameters {
   pub fn builder() -> RTDTdlibParametersBuilder {
     let mut inner = TdlibParameters::default();
     inner.td_name = "tdlibParameters".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDTdlibParametersBuilder { inner }
   }
 

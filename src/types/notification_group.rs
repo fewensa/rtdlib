@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct NotificationGroup {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique persistent auto-incremented from 1 identifier of the notification group
   id: i64,
   /// Type of the group
@@ -26,6 +30,7 @@ pub struct NotificationGroup {
 
 impl RObject for NotificationGroup {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "notificationGroup" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -36,6 +41,7 @@ impl NotificationGroup {
   pub fn builder() -> RTDNotificationGroupBuilder {
     let mut inner = NotificationGroup::default();
     inner.td_name = "notificationGroup".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDNotificationGroupBuilder { inner }
   }
 

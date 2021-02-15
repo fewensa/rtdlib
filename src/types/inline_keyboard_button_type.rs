@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -62,6 +63,17 @@ impl RObject for InlineKeyboardButtonType {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      InlineKeyboardButtonType::Buy(t) => t.extra(),
+      InlineKeyboardButtonType::Callback(t) => t.extra(),
+      InlineKeyboardButtonType::CallbackGame(t) => t.extra(),
+      InlineKeyboardButtonType::SwitchInline(t) => t.extra(),
+      InlineKeyboardButtonType::Url(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -117,11 +129,15 @@ pub struct InlineKeyboardButtonTypeBuy {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for InlineKeyboardButtonTypeBuy {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineKeyboardButtonTypeBuy" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -135,6 +151,7 @@ impl InlineKeyboardButtonTypeBuy {
   pub fn builder() -> RTDInlineKeyboardButtonTypeBuyBuilder {
     let mut inner = InlineKeyboardButtonTypeBuy::default();
     inner.td_name = "inlineKeyboardButtonTypeBuy".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInlineKeyboardButtonTypeBuyBuilder { inner }
   }
 
@@ -170,6 +187,9 @@ pub struct InlineKeyboardButtonTypeCallback {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Data to be sent to the bot via a callback query
   data: String,
   
@@ -177,6 +197,7 @@ pub struct InlineKeyboardButtonTypeCallback {
 
 impl RObject for InlineKeyboardButtonTypeCallback {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineKeyboardButtonTypeCallback" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -190,6 +211,7 @@ impl InlineKeyboardButtonTypeCallback {
   pub fn builder() -> RTDInlineKeyboardButtonTypeCallbackBuilder {
     let mut inner = InlineKeyboardButtonTypeCallback::default();
     inner.td_name = "inlineKeyboardButtonTypeCallback".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInlineKeyboardButtonTypeCallbackBuilder { inner }
   }
 
@@ -233,11 +255,15 @@ pub struct InlineKeyboardButtonTypeCallbackGame {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for InlineKeyboardButtonTypeCallbackGame {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineKeyboardButtonTypeCallbackGame" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -251,6 +277,7 @@ impl InlineKeyboardButtonTypeCallbackGame {
   pub fn builder() -> RTDInlineKeyboardButtonTypeCallbackGameBuilder {
     let mut inner = InlineKeyboardButtonTypeCallbackGame::default();
     inner.td_name = "inlineKeyboardButtonTypeCallbackGame".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInlineKeyboardButtonTypeCallbackGameBuilder { inner }
   }
 
@@ -286,6 +313,9 @@ pub struct InlineKeyboardButtonTypeSwitchInline {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Inline query to be sent to the bot
   query: String,
   /// True, if the inline query should be sent from the current chat
@@ -295,6 +325,7 @@ pub struct InlineKeyboardButtonTypeSwitchInline {
 
 impl RObject for InlineKeyboardButtonTypeSwitchInline {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineKeyboardButtonTypeSwitchInline" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -308,6 +339,7 @@ impl InlineKeyboardButtonTypeSwitchInline {
   pub fn builder() -> RTDInlineKeyboardButtonTypeSwitchInlineBuilder {
     let mut inner = InlineKeyboardButtonTypeSwitchInline::default();
     inner.td_name = "inlineKeyboardButtonTypeSwitchInline".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInlineKeyboardButtonTypeSwitchInlineBuilder { inner }
   }
 
@@ -359,6 +391,9 @@ pub struct InlineKeyboardButtonTypeUrl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// HTTP or tg:// URL to open
   url: String,
   
@@ -366,6 +401,7 @@ pub struct InlineKeyboardButtonTypeUrl {
 
 impl RObject for InlineKeyboardButtonTypeUrl {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineKeyboardButtonTypeUrl" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -379,6 +415,7 @@ impl InlineKeyboardButtonTypeUrl {
   pub fn builder() -> RTDInlineKeyboardButtonTypeUrlBuilder {
     let mut inner = InlineKeyboardButtonTypeUrl::default();
     inner.td_name = "inlineKeyboardButtonTypeUrl".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDInlineKeyboardButtonTypeUrlBuilder { inner }
   }
 

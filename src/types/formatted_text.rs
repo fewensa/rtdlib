@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct FormattedText {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// The text
   text: String,
   /// Entities contained in the text
@@ -20,6 +24,7 @@ pub struct FormattedText {
 
 impl RObject for FormattedText {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "formattedText" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -30,6 +35,7 @@ impl FormattedText {
   pub fn builder() -> RTDFormattedTextBuilder {
     let mut inner = FormattedText::default();
     inner.td_name = "formattedText".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDFormattedTextBuilder { inner }
   }
 

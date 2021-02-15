@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -50,6 +51,14 @@ impl RObject for CallbackQueryPayload {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      CallbackQueryPayload::Data(t) => t.extra(),
+      CallbackQueryPayload::Game(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -90,6 +99,9 @@ pub struct CallbackQueryPayloadData {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Data that was attached to the callback button
   data: String,
   
@@ -97,6 +109,7 @@ pub struct CallbackQueryPayloadData {
 
 impl RObject for CallbackQueryPayloadData {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callbackQueryPayloadData" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -110,6 +123,7 @@ impl CallbackQueryPayloadData {
   pub fn builder() -> RTDCallbackQueryPayloadDataBuilder {
     let mut inner = CallbackQueryPayloadData::default();
     inner.td_name = "callbackQueryPayloadData".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallbackQueryPayloadDataBuilder { inner }
   }
 
@@ -153,6 +167,9 @@ pub struct CallbackQueryPayloadGame {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// A short name of the game that was attached to the callback button
   game_short_name: String,
   
@@ -160,6 +177,7 @@ pub struct CallbackQueryPayloadGame {
 
 impl RObject for CallbackQueryPayloadGame {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "callbackQueryPayloadGame" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -173,6 +191,7 @@ impl CallbackQueryPayloadGame {
   pub fn builder() -> RTDCallbackQueryPayloadGameBuilder {
     let mut inner = CallbackQueryPayloadGame::default();
     inner.td_name = "callbackQueryPayloadGame".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCallbackQueryPayloadGameBuilder { inner }
   }
 

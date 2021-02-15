@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct Game {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Game ID
   id: isize,
   /// Game short name. To share a game use the URL https://t.me/{bot_username}?game={game_short_name}
@@ -30,6 +34,7 @@ pub struct Game {
 
 impl RObject for Game {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "game" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -40,6 +45,7 @@ impl Game {
   pub fn builder() -> RTDGameBuilder {
     let mut inner = Game::default();
     inner.td_name = "game".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDGameBuilder { inner }
   }
 

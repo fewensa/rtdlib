@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ProfilePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Photo identifier; 0 for an empty photo. Can be used to find a photo in a list of userProfilePhotos
   #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] id: isize,
   /// A small (160x160) user profile photo
@@ -22,6 +26,7 @@ pub struct ProfilePhoto {
 
 impl RObject for ProfilePhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "profilePhoto" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl ProfilePhoto {
   pub fn builder() -> RTDProfilePhotoBuilder {
     let mut inner = ProfilePhoto::default();
     inner.td_name = "profilePhoto".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDProfilePhotoBuilder { inner }
   }
 

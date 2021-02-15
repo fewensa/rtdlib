@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -66,6 +67,18 @@ impl RObject for CheckChatUsernameResult {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      CheckChatUsernameResult::CheckChatUsername(t) => t.extra(),
+      CheckChatUsernameResult::Ok(t) => t.extra(),
+      CheckChatUsernameResult::PublicChatsTooMuch(t) => t.extra(),
+      CheckChatUsernameResult::PublicGroupsUnavailable(t) => t.extra(),
+      CheckChatUsernameResult::UsernameInvalid(t) => t.extra(),
+      CheckChatUsernameResult::UsernameOccupied(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -126,11 +139,15 @@ pub struct CheckChatUsernameResultOk {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CheckChatUsernameResultOk {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkChatUsernameResultOk" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -144,6 +161,7 @@ impl CheckChatUsernameResultOk {
   pub fn builder() -> RTDCheckChatUsernameResultOkBuilder {
     let mut inner = CheckChatUsernameResultOk::default();
     inner.td_name = "checkChatUsernameResultOk".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCheckChatUsernameResultOkBuilder { inner }
   }
 
@@ -179,11 +197,15 @@ pub struct CheckChatUsernameResultPublicChatsTooMuch {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CheckChatUsernameResultPublicChatsTooMuch {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkChatUsernameResultPublicChatsTooMuch" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -197,6 +219,7 @@ impl CheckChatUsernameResultPublicChatsTooMuch {
   pub fn builder() -> RTDCheckChatUsernameResultPublicChatsTooMuchBuilder {
     let mut inner = CheckChatUsernameResultPublicChatsTooMuch::default();
     inner.td_name = "checkChatUsernameResultPublicChatsTooMuch".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCheckChatUsernameResultPublicChatsTooMuchBuilder { inner }
   }
 
@@ -232,11 +255,15 @@ pub struct CheckChatUsernameResultPublicGroupsUnavailable {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CheckChatUsernameResultPublicGroupsUnavailable {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkChatUsernameResultPublicGroupsUnavailable" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -250,6 +277,7 @@ impl CheckChatUsernameResultPublicGroupsUnavailable {
   pub fn builder() -> RTDCheckChatUsernameResultPublicGroupsUnavailableBuilder {
     let mut inner = CheckChatUsernameResultPublicGroupsUnavailable::default();
     inner.td_name = "checkChatUsernameResultPublicGroupsUnavailable".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCheckChatUsernameResultPublicGroupsUnavailableBuilder { inner }
   }
 
@@ -285,11 +313,15 @@ pub struct CheckChatUsernameResultUsernameInvalid {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CheckChatUsernameResultUsernameInvalid {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkChatUsernameResultUsernameInvalid" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -303,6 +335,7 @@ impl CheckChatUsernameResultUsernameInvalid {
   pub fn builder() -> RTDCheckChatUsernameResultUsernameInvalidBuilder {
     let mut inner = CheckChatUsernameResultUsernameInvalid::default();
     inner.td_name = "checkChatUsernameResultUsernameInvalid".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCheckChatUsernameResultUsernameInvalidBuilder { inner }
   }
 
@@ -338,11 +371,15 @@ pub struct CheckChatUsernameResultUsernameOccupied {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for CheckChatUsernameResultUsernameOccupied {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "checkChatUsernameResultUsernameOccupied" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -356,6 +393,7 @@ impl CheckChatUsernameResultUsernameOccupied {
   pub fn builder() -> RTDCheckChatUsernameResultUsernameOccupiedBuilder {
     let mut inner = CheckChatUsernameResultUsernameOccupied::default();
     inner.td_name = "checkChatUsernameResultUsernameOccupied".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDCheckChatUsernameResultUsernameOccupiedBuilder { inner }
   }
 

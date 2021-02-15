@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct ChatInviteLinkInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Chat identifier of the invite link; 0 if the user is not a member of this chat
   chat_id: i64,
   /// Contains information about the type of the chat
@@ -30,6 +34,7 @@ pub struct ChatInviteLinkInfo {
 
 impl RObject for ChatInviteLinkInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "chatInviteLinkInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -40,6 +45,7 @@ impl ChatInviteLinkInfo {
   pub fn builder() -> RTDChatInviteLinkInfoBuilder {
     let mut inner = ChatInviteLinkInfo::default();
     inner.td_name = "chatInviteLinkInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDChatInviteLinkInfoBuilder { inner }
   }
 

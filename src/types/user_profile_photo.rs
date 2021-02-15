@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct UserProfilePhoto {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Unique user profile photo identifier
   id: isize,
   /// Point in time (Unix timestamp) when the photo has been added
@@ -22,6 +26,7 @@ pub struct UserProfilePhoto {
 
 impl RObject for UserProfilePhoto {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "userProfilePhoto" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl UserProfilePhoto {
   pub fn builder() -> RTDUserProfilePhotoBuilder {
     let mut inner = UserProfilePhoto::default();
     inner.td_name = "userProfilePhoto".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDUserProfilePhotoBuilder { inner }
   }
 

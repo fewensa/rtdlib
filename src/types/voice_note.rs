@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct VoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// Duration of the voice note, in seconds; as defined by the sender
   duration: i64,
   /// A waveform representation of the voice note in 5-bit format
@@ -24,6 +28,7 @@ pub struct VoiceNote {
 
 impl RObject for VoiceNote {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "voiceNote" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -34,6 +39,7 @@ impl VoiceNote {
   pub fn builder() -> RTDVoiceNoteBuilder {
     let mut inner = VoiceNote::default();
     inner.td_name = "voiceNote".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDVoiceNoteBuilder { inner }
   }
 

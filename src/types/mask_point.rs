@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -58,6 +59,16 @@ impl RObject for MaskPoint {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      MaskPoint::Chin(t) => t.extra(),
+      MaskPoint::Eyes(t) => t.extra(),
+      MaskPoint::Forehead(t) => t.extra(),
+      MaskPoint::Mouth(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -108,11 +119,15 @@ pub struct MaskPointChin {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for MaskPointChin {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "maskPointChin" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -126,6 +141,7 @@ impl MaskPointChin {
   pub fn builder() -> RTDMaskPointChinBuilder {
     let mut inner = MaskPointChin::default();
     inner.td_name = "maskPointChin".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMaskPointChinBuilder { inner }
   }
 
@@ -161,11 +177,15 @@ pub struct MaskPointEyes {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for MaskPointEyes {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "maskPointEyes" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -179,6 +199,7 @@ impl MaskPointEyes {
   pub fn builder() -> RTDMaskPointEyesBuilder {
     let mut inner = MaskPointEyes::default();
     inner.td_name = "maskPointEyes".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMaskPointEyesBuilder { inner }
   }
 
@@ -214,11 +235,15 @@ pub struct MaskPointForehead {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for MaskPointForehead {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "maskPointForehead" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -232,6 +257,7 @@ impl MaskPointForehead {
   pub fn builder() -> RTDMaskPointForeheadBuilder {
     let mut inner = MaskPointForehead::default();
     inner.td_name = "maskPointForehead".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMaskPointForeheadBuilder { inner }
   }
 
@@ -267,11 +293,15 @@ pub struct MaskPointMouth {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for MaskPointMouth {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "maskPointMouth" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -285,6 +315,7 @@ impl MaskPointMouth {
   pub fn builder() -> RTDMaskPointMouthBuilder {
     let mut inner = MaskPointMouth::default();
     inner.td_name = "maskPointMouth".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDMaskPointMouthBuilder { inner }
   }
 

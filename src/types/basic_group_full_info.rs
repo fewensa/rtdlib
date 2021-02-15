@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct BasicGroupFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// User identifier of the creator of the group; 0 if unknown
   creator_user_id: i64,
   /// Group members
@@ -22,6 +26,7 @@ pub struct BasicGroupFullInfo {
 
 impl RObject for BasicGroupFullInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "basicGroupFullInfo" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -32,6 +37,7 @@ impl BasicGroupFullInfo {
   pub fn builder() -> RTDBasicGroupFullInfoBuilder {
     let mut inner = BasicGroupFullInfo::default();
     inner.td_name = "basicGroupFullInfo".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDBasicGroupFullInfoBuilder { inner }
   }
 

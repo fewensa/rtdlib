@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -11,6 +12,9 @@ pub struct PersonalDetails {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   /// First name of the user written in English; 1-255 characters
   first_name: String,
   /// Middle name of the user written in English; 0-255 characters
@@ -36,6 +40,7 @@ pub struct PersonalDetails {
 
 impl RObject for PersonalDetails {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "personalDetails" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -46,6 +51,7 @@ impl PersonalDetails {
   pub fn builder() -> RTDPersonalDetailsBuilder {
     let mut inner = PersonalDetails::default();
     inner.td_name = "personalDetails".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDPersonalDetailsBuilder { inner }
   }
 

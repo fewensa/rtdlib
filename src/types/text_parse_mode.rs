@@ -1,6 +1,7 @@
 
 use crate::types::*;
 use crate::errors::*;
+use uuid::Uuid;
 
 
 
@@ -50,6 +51,14 @@ impl RObject for TextParseMode {
       _ => "-1",
     }
   }
+  #[doc(hidden)] fn extra(&self) -> Option<String> {
+    match self {
+      TextParseMode::HTML(t) => t.extra(),
+      TextParseMode::Markdown(t) => t.extra(),
+
+      _ => None,
+    }
+  }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -90,11 +99,15 @@ pub struct TextParseModeHTML {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for TextParseModeHTML {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textParseModeHTML" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -108,6 +121,7 @@ impl TextParseModeHTML {
   pub fn builder() -> RTDTextParseModeHTMLBuilder {
     let mut inner = TextParseModeHTML::default();
     inner.td_name = "textParseModeHTML".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDTextParseModeHTMLBuilder { inner }
   }
 
@@ -143,11 +157,15 @@ pub struct TextParseModeMarkdown {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
   
 }
 
 impl RObject for TextParseModeMarkdown {
   #[doc(hidden)] fn td_name(&self) -> &'static str { "textParseModeMarkdown" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
@@ -161,6 +179,7 @@ impl TextParseModeMarkdown {
   pub fn builder() -> RTDTextParseModeMarkdownBuilder {
     let mut inner = TextParseModeMarkdown::default();
     inner.td_name = "textParseModeMarkdown".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
     RTDTextParseModeMarkdownBuilder { inner }
   }
 
