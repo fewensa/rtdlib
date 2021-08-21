@@ -2,7 +2,7 @@ use rtdlib::types::*;
 
 #[test]
 fn test_authorization_state() {
-  let json = r#"{"@type":"updateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters"}}"#;
+  let json = r#"{"@type":"updateAuthorizationState","@extra":null,"authorization_state":{"@type":"authorizationStateWaitTdlibParameters","@extra":null}}"#;
   let state: UpdateAuthorizationState = serde_json::from_str(&json[..]).expect("Json fail");
   assert_eq!("updateAuthorizationState", state.td_name());
   let rjson = state.to_json();
