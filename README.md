@@ -13,30 +13,19 @@ rtdlib
 
 ```toml
 [dependencies]
-rtdlib = "1.5.*"
+rtdlib = "1.7.*"
 ```
 
 The default, `rtdlib` only have `td` types, not have call tdjson dylib, if you want , you need add `features` to your dependency.
 
 ```toml
 [dependencies]
-rtdlib = { version = "1.5.*", features = "sys" }
+rtdlib = { version = "1.6.*", features = "sys" }
 ```
 
 ## version
 
-Since the `rtdlib` version follows [td](https://github.com/tdlib/td), a version number less than 100 is reserved for td release.
-
-Version mapping
-
-| rtdlib    | td      |
-|-----------|---------|
-| 0.*       | master  |
-| 1.3.*     | 1.3.*   |
-| 1.4.*     | 1.4.*   |
-| 1.5.*     | 1.5.*   |
-| 1.6.*     | 1.6.*   |
-
+The more informations you can read [Version mapping](https://github.com/fewensa/rtdlib/wiki/Version-mapping)
 
 # Example
 
