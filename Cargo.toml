@@ -1,6 +1,6 @@
 [package]
 name = "rtdlib"
-version = "1.6.5"
+version = "1.6.6"
 authors = ["fewensa <fewensa@protonmail.com>"]
 description = "TDLib for rust"
 homepage = "https://github.com/fewensa/rtdlib"
