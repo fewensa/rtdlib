@@ -39,7 +39,7 @@ pub enum MessageContent {
   MessageChatDeletePhoto(MessageChatDeletePhoto),
   /// A new member joined the chat by invite link
   MessageChatJoinByLink(MessageChatJoinByLink),
-  /// The TTL (Time To Live) setting messages in a secret chat has been changed
+  /// The TTL (Time To Live) setting for messages in the chat has been changed
   MessageChatSetTtl(MessageChatSetTtl),
   /// A supergroup has been created from a basic group
   MessageChatUpgradeFrom(MessageChatUpgradeFrom),
@@ -103,6 +103,8 @@ pub enum MessageContent {
   MessageVideoNote(MessageVideoNote),
   /// A message with information about an ended voice chat
   MessageVoiceChatEnded(MessageVoiceChatEnded),
+  /// A new voice chat was scheduled
+  MessageVoiceChatScheduled(MessageVoiceChatScheduled),
   /// A newly created voice chat
   MessageVoiceChatStarted(MessageVoiceChatStarted),
   /// A voice note message
@@ -163,6 +165,7 @@ impl<'de> Deserialize<'de> for MessageContent {
       (messageVideo, MessageVideo);
       (messageVideoNote, MessageVideoNote);
       (messageVoiceChatEnded, MessageVoiceChatEnded);
+      (messageVoiceChatScheduled, MessageVoiceChatScheduled);
       (messageVoiceChatStarted, MessageVoiceChatStarted);
       (messageVoiceNote, MessageVoiceNote);
       (messageWebsiteConnected, MessageWebsiteConnected);
@@ -216,6 +219,7 @@ impl RObject for MessageContent {
       MessageContent::MessageVideo(t) => t.td_name(),
       MessageContent::MessageVideoNote(t) => t.td_name(),
       MessageContent::MessageVoiceChatEnded(t) => t.td_name(),
+      MessageContent::MessageVoiceChatScheduled(t) => t.td_name(),
       MessageContent::MessageVoiceChatStarted(t) => t.td_name(),
       MessageContent::MessageVoiceNote(t) => t.td_name(),
       MessageContent::MessageWebsiteConnected(t) => t.td_name(),
@@ -267,6 +271,7 @@ impl RObject for MessageContent {
       MessageContent::MessageVideo(t) => t.extra(),
       MessageContent::MessageVideoNote(t) => t.extra(),
       MessageContent::MessageVoiceChatEnded(t) => t.extra(),
+      MessageContent::MessageVoiceChatScheduled(t) => t.extra(),
       MessageContent::MessageVoiceChatStarted(t) => t.extra(),
       MessageContent::MessageVoiceNote(t) => t.extra(),
       MessageContent::MessageWebsiteConnected(t) => t.extra(),
@@ -323,6 +328,7 @@ impl MessageContent {
   pub fn is_message_video(&self) -> bool { if let MessageContent::MessageVideo(_) = self { true } else { false } }
   pub fn is_message_video_note(&self) -> bool { if let MessageContent::MessageVideoNote(_) = self { true } else { false } }
   pub fn is_message_voice_chat_ended(&self) -> bool { if let MessageContent::MessageVoiceChatEnded(_) = self { true } else { false } }
+  pub fn is_message_voice_chat_scheduled(&self) -> bool { if let MessageContent::MessageVoiceChatScheduled(_) = self { true } else { false } }
   pub fn is_message_voice_chat_started(&self) -> bool { if let MessageContent::MessageVoiceChatStarted(_) = self { true } else { false } }
   pub fn is_message_voice_note(&self) -> bool { if let MessageContent::MessageVoiceNote(_) = self { true } else { false } }
   pub fn is_message_website_connected(&self) -> bool { if let MessageContent::MessageWebsiteConnected(_) = self { true } else { false } }
@@ -369,6 +375,7 @@ impl MessageContent {
   pub fn on_message_video<F: FnOnce(&MessageVideo)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVideo(t) = self { fnc(t) }; self }
   pub fn on_message_video_note<F: FnOnce(&MessageVideoNote)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVideoNote(t) = self { fnc(t) }; self }
   pub fn on_message_voice_chat_ended<F: FnOnce(&MessageVoiceChatEnded)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVoiceChatEnded(t) = self { fnc(t) }; self }
+  pub fn on_message_voice_chat_scheduled<F: FnOnce(&MessageVoiceChatScheduled)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVoiceChatScheduled(t) = self { fnc(t) }; self }
   pub fn on_message_voice_chat_started<F: FnOnce(&MessageVoiceChatStarted)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVoiceChatStarted(t) = self { fnc(t) }; self }
   pub fn on_message_voice_note<F: FnOnce(&MessageVoiceNote)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVoiceNote(t) = self { fnc(t) }; self }
   pub fn on_message_website_connected<F: FnOnce(&MessageWebsiteConnected)>(&self, fnc: F) -> &Self { if let MessageContent::MessageWebsiteConnected(t) = self { fnc(t) }; self }
@@ -415,6 +422,7 @@ impl MessageContent {
   pub fn as_message_video(&self) -> Option<&MessageVideo> { if let MessageContent::MessageVideo(t) = self { return Some(t) } None }
   pub fn as_message_video_note(&self) -> Option<&MessageVideoNote> { if let MessageContent::MessageVideoNote(t) = self { return Some(t) } None }
   pub fn as_message_voice_chat_ended(&self) -> Option<&MessageVoiceChatEnded> { if let MessageContent::MessageVoiceChatEnded(t) = self { return Some(t) } None }
+  pub fn as_message_voice_chat_scheduled(&self) -> Option<&MessageVoiceChatScheduled> { if let MessageContent::MessageVoiceChatScheduled(t) = self { return Some(t) } None }
   pub fn as_message_voice_chat_started(&self) -> Option<&MessageVoiceChatStarted> { if let MessageContent::MessageVoiceChatStarted(t) = self { return Some(t) } None }
   pub fn as_message_voice_note(&self) -> Option<&MessageVoiceNote> { if let MessageContent::MessageVoiceNote(t) = self { return Some(t) } None }
   pub fn as_message_website_connected(&self) -> Option<&MessageWebsiteConnected> { if let MessageContent::MessageWebsiteConnected(t) = self { return Some(t) } None }
@@ -504,6 +512,8 @@ impl MessageContent {
   pub fn message_video_note<T: AsRef<MessageVideoNote>>(t: T) -> Self { MessageContent::MessageVideoNote(t.as_ref().clone()) }
 
   pub fn message_voice_chat_ended<T: AsRef<MessageVoiceChatEnded>>(t: T) -> Self { MessageContent::MessageVoiceChatEnded(t.as_ref().clone()) }
+
+  pub fn message_voice_chat_scheduled<T: AsRef<MessageVoiceChatScheduled>>(t: T) -> Self { MessageContent::MessageVoiceChatScheduled(t.as_ref().clone()) }
 
   pub fn message_voice_chat_started<T: AsRef<MessageVoiceChatStarted>>(t: T) -> Self { MessageContent::MessageVoiceChatStarted(t.as_ref().clone()) }
 
@@ -1243,7 +1253,7 @@ impl AsRef<MessageChatJoinByLink> for RTDMessageChatJoinByLinkBuilder {
 
 
 
-/// The TTL (Time To Live) setting messages in a secret chat has been changed
+/// The TTL (Time To Live) setting for messages in the chat has been changed
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageChatSetTtl {
   #[doc(hidden)]
@@ -1252,7 +1262,7 @@ pub struct MessageChatSetTtl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// New TTL
+  /// New message TTL setting
   ttl: i64,
   
 }
@@ -2204,7 +2214,7 @@ pub struct MessageInvoice {
   photo: Option<Photo>,
   /// Currency for the product price
   currency: String,
-  /// Product total price in the minimal quantity of the currency
+  /// Product total price in the smallest units of the currency
   total_amount: i64,
   /// Unique invoice bot start_parameter. To share an invoice use the URL https://t.me/{bot_username}?start={start_parameter}
   start_parameter: String,
@@ -2598,11 +2608,13 @@ pub struct MessagePaymentSuccessful {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// Identifier of the chat, containing the corresponding invoice message; 0 if unknown
+  invoice_chat_id: i64,
   /// Identifier of the message with the corresponding invoice; can be an identifier of a deleted message
   invoice_message_id: i64,
   /// Currency for the price of the product
   currency: String,
-  /// Total price for the product, in the minimal quantity of the currency
+  /// Total price for the product, in the smallest units of the currency
   total_amount: i64,
   
 }
@@ -2627,6 +2639,8 @@ impl MessagePaymentSuccessful {
     RTDMessagePaymentSuccessfulBuilder { inner }
   }
 
+  pub fn invoice_chat_id(&self) -> i64 { self.invoice_chat_id }
+
   pub fn invoice_message_id(&self) -> i64 { self.invoice_message_id }
 
   pub fn currency(&self) -> &String { &self.currency }
@@ -2642,6 +2656,12 @@ pub struct RTDMessagePaymentSuccessfulBuilder {
 
 impl RTDMessagePaymentSuccessfulBuilder {
   pub fn build(&self) -> MessagePaymentSuccessful { self.inner.clone() }
+
+   
+  pub fn invoice_chat_id(&mut self, invoice_chat_id: i64) -> &mut Self {
+    self.inner.invoice_chat_id = invoice_chat_id;
+    self
+  }
 
    
   pub fn invoice_message_id(&mut self, invoice_message_id: i64) -> &mut Self {
@@ -2686,11 +2706,9 @@ pub struct MessagePaymentSuccessfulBot {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Identifier of the message with the corresponding invoice; can be an identifier of a deleted message
-  invoice_message_id: i64,
   /// Currency for price of the product
   currency: String,
-  /// Total price for the product, in the minimal quantity of the currency
+  /// Total price for the product, in the smallest units of the currency
   total_amount: i64,
   /// Invoice payload
   invoice_payload: String,
@@ -2725,8 +2743,6 @@ impl MessagePaymentSuccessfulBot {
     RTDMessagePaymentSuccessfulBotBuilder { inner }
   }
 
-  pub fn invoice_message_id(&self) -> i64 { self.invoice_message_id }
-
   pub fn currency(&self) -> &String { &self.currency }
 
   pub fn total_amount(&self) -> i64 { self.total_amount }
@@ -2750,12 +2766,6 @@ pub struct RTDMessagePaymentSuccessfulBotBuilder {
 
 impl RTDMessagePaymentSuccessfulBotBuilder {
   pub fn build(&self) -> MessagePaymentSuccessfulBot { self.inner.clone() }
-
-   
-  pub fn invoice_message_id(&mut self, invoice_message_id: i64) -> &mut Self {
-    self.inner.invoice_message_id = invoice_message_id;
-    self
-  }
 
    
   pub fn currency<T: AsRef<str>>(&mut self, currency: T) -> &mut Self {
@@ -3710,7 +3720,7 @@ pub struct MessageVoiceChatEnded {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Call duration
+  /// Call duration, in seconds
   duration: i64,
   
 }
@@ -3761,6 +3771,84 @@ impl AsRef<MessageVoiceChatEnded> for MessageVoiceChatEnded {
 
 impl AsRef<MessageVoiceChatEnded> for RTDMessageVoiceChatEndedBuilder {
   fn as_ref(&self) -> &MessageVoiceChatEnded { &self.inner }
+}
+
+
+
+
+
+
+
+/// A new voice chat was scheduled
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct MessageVoiceChatScheduled {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+  group_call_id: i64,
+  /// Point in time (Unix timestamp) when the group call is supposed to be started by an administrator
+  start_date: i64,
+  
+}
+
+impl RObject for MessageVoiceChatScheduled {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageVoiceChatScheduled" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDMessageContent for MessageVoiceChatScheduled {}
+
+
+
+impl MessageVoiceChatScheduled {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDMessageVoiceChatScheduledBuilder {
+    let mut inner = MessageVoiceChatScheduled::default();
+    inner.td_name = "messageVoiceChatScheduled".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDMessageVoiceChatScheduledBuilder { inner }
+  }
+
+  pub fn group_call_id(&self) -> i64 { self.group_call_id }
+
+  pub fn start_date(&self) -> i64 { self.start_date }
+
+}
+
+#[doc(hidden)]
+pub struct RTDMessageVoiceChatScheduledBuilder {
+  inner: MessageVoiceChatScheduled
+}
+
+impl RTDMessageVoiceChatScheduledBuilder {
+  pub fn build(&self) -> MessageVoiceChatScheduled { self.inner.clone() }
+
+   
+  pub fn group_call_id(&mut self, group_call_id: i64) -> &mut Self {
+    self.inner.group_call_id = group_call_id;
+    self
+  }
+
+   
+  pub fn start_date(&mut self, start_date: i64) -> &mut Self {
+    self.inner.start_date = start_date;
+    self
+  }
+
+}
+
+impl AsRef<MessageVoiceChatScheduled> for MessageVoiceChatScheduled {
+  fn as_ref(&self) -> &MessageVoiceChatScheduled { self }
+}
+
+impl AsRef<MessageVoiceChatScheduled> for RTDMessageVoiceChatScheduledBuilder {
+  fn as_ref(&self) -> &MessageVoiceChatScheduled { &self.inner }
 }
 
 

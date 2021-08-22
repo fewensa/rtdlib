@@ -35,6 +35,8 @@ pub struct ChatEventLogFilters {
   info_changes: bool,
   /// True, if changes in chat settings should be returned
   setting_changes: bool,
+  /// True, if changes to invite links should be returned
+  invite_link_changes: bool,
   /// True, if voice chat actions should be returned
   voice_chat_changes: bool,
   
@@ -76,6 +78,8 @@ impl ChatEventLogFilters {
   pub fn info_changes(&self) -> bool { self.info_changes }
 
   pub fn setting_changes(&self) -> bool { self.setting_changes }
+
+  pub fn invite_link_changes(&self) -> bool { self.invite_link_changes }
 
   pub fn voice_chat_changes(&self) -> bool { self.voice_chat_changes }
 
@@ -146,6 +150,12 @@ impl RTDChatEventLogFiltersBuilder {
    
   pub fn setting_changes(&mut self, setting_changes: bool) -> &mut Self {
     self.inner.setting_changes = setting_changes;
+    self
+  }
+
+   
+  pub fn invite_link_changes(&mut self, invite_link_changes: bool) -> &mut Self {
+    self.inner.invite_link_changes = invite_link_changes;
     self
   }
 

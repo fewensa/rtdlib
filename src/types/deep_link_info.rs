@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 
 
-/// Contains information about a tg:// deep link
+/// Contains information about a tg: deep link
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct DeepLinkInfo {
   #[doc(hidden)]

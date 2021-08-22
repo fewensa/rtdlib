@@ -17,14 +17,18 @@ pub struct GroupCall {
   extra: Option<String>,
   /// Group call identifier
   id: i64,
+  /// Group call title
+  title: String,
+  /// Point in time (Unix timestamp) when the group call is supposed to be started by an administrator; 0 if it is already active or was ended
+  scheduled_start_date: i64,
+  /// True, if the group call is scheduled and the current user will receive a notification when the group call will start
+  enabled_start_notification: bool,
   /// True, if the call is active
   is_active: bool,
   /// True, if the call is joined
   is_joined: bool,
   /// True, if user was kicked from the call because of network loss and the call needs to be rejoined
   need_rejoin: bool,
-  /// True, if the current user can unmute themself
-  can_unmute_self: bool,
   /// True, if the current user can manage the group call
   can_be_managed: bool,
   /// Number of participants in the group call
@@ -33,11 +37,19 @@ pub struct GroupCall {
   loaded_all_participants: bool,
   /// Recently speaking users in the group call
   recent_speakers: Vec<GroupCallRecentSpeaker>,
+  /// True, if the current user's video is enabled
+  is_my_video_enabled: bool,
+  /// True, if the current user's video is paused
+  is_my_video_paused: bool,
+  /// True, if the current user can broadcast video or share screen
+  can_enable_video: bool,
   /// True, if only group call administrators can unmute new participants
   mute_new_participants: bool,
-  /// True, if group call administrators can enable or disable mute_new_participants setting
-  allowed_change_mute_new_participants: bool,
-  /// Call duration; for ended calls only
+  /// True, if the current user can enable or disable mute_new_participants setting
+  can_change_mute_new_participants: bool,
+  /// Duration of the ongoing group call recording, in seconds; 0 if none. An updateGroupCall update is not triggered when value of this field changes, but the same recording goes on
+  record_duration: i64,
+  /// Call duration, in seconds; for ended calls only
   duration: i64,
   
 }
@@ -61,13 +73,17 @@ impl GroupCall {
 
   pub fn id(&self) -> i64 { self.id }
 
+  pub fn title(&self) -> &String { &self.title }
+
+  pub fn scheduled_start_date(&self) -> i64 { self.scheduled_start_date }
+
+  pub fn enabled_start_notification(&self) -> bool { self.enabled_start_notification }
+
   pub fn is_active(&self) -> bool { self.is_active }
 
   pub fn is_joined(&self) -> bool { self.is_joined }
 
   pub fn need_rejoin(&self) -> bool { self.need_rejoin }
-
-  pub fn can_unmute_self(&self) -> bool { self.can_unmute_self }
 
   pub fn can_be_managed(&self) -> bool { self.can_be_managed }
 
@@ -77,9 +93,17 @@ impl GroupCall {
 
   pub fn recent_speakers(&self) -> &Vec<GroupCallRecentSpeaker> { &self.recent_speakers }
 
+  pub fn is_my_video_enabled(&self) -> bool { self.is_my_video_enabled }
+
+  pub fn is_my_video_paused(&self) -> bool { self.is_my_video_paused }
+
+  pub fn can_enable_video(&self) -> bool { self.can_enable_video }
+
   pub fn mute_new_participants(&self) -> bool { self.mute_new_participants }
 
-  pub fn allowed_change_mute_new_participants(&self) -> bool { self.allowed_change_mute_new_participants }
+  pub fn can_change_mute_new_participants(&self) -> bool { self.can_change_mute_new_participants }
+
+  pub fn record_duration(&self) -> i64 { self.record_duration }
 
   pub fn duration(&self) -> i64 { self.duration }
 
@@ -100,6 +124,24 @@ impl RTDGroupCallBuilder {
   }
 
    
+  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
+    self.inner.title = title.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn scheduled_start_date(&mut self, scheduled_start_date: i64) -> &mut Self {
+    self.inner.scheduled_start_date = scheduled_start_date;
+    self
+  }
+
+   
+  pub fn enabled_start_notification(&mut self, enabled_start_notification: bool) -> &mut Self {
+    self.inner.enabled_start_notification = enabled_start_notification;
+    self
+  }
+
+   
   pub fn is_active(&mut self, is_active: bool) -> &mut Self {
     self.inner.is_active = is_active;
     self
@@ -114,12 +156,6 @@ impl RTDGroupCallBuilder {
    
   pub fn need_rejoin(&mut self, need_rejoin: bool) -> &mut Self {
     self.inner.need_rejoin = need_rejoin;
-    self
-  }
-
-   
-  pub fn can_unmute_self(&mut self, can_unmute_self: bool) -> &mut Self {
-    self.inner.can_unmute_self = can_unmute_self;
     self
   }
 
@@ -148,14 +184,38 @@ impl RTDGroupCallBuilder {
   }
 
    
+  pub fn is_my_video_enabled(&mut self, is_my_video_enabled: bool) -> &mut Self {
+    self.inner.is_my_video_enabled = is_my_video_enabled;
+    self
+  }
+
+   
+  pub fn is_my_video_paused(&mut self, is_my_video_paused: bool) -> &mut Self {
+    self.inner.is_my_video_paused = is_my_video_paused;
+    self
+  }
+
+   
+  pub fn can_enable_video(&mut self, can_enable_video: bool) -> &mut Self {
+    self.inner.can_enable_video = can_enable_video;
+    self
+  }
+
+   
   pub fn mute_new_participants(&mut self, mute_new_participants: bool) -> &mut Self {
     self.inner.mute_new_participants = mute_new_participants;
     self
   }
 
    
-  pub fn allowed_change_mute_new_participants(&mut self, allowed_change_mute_new_participants: bool) -> &mut Self {
-    self.inner.allowed_change_mute_new_participants = allowed_change_mute_new_participants;
+  pub fn can_change_mute_new_participants(&mut self, can_change_mute_new_participants: bool) -> &mut Self {
+    self.inner.can_change_mute_new_participants = can_change_mute_new_participants;
+    self
+  }
+
+   
+  pub fn record_duration(&mut self, record_duration: i64) -> &mut Self {
+    self.inner.record_duration = record_duration;
     self
   }
 

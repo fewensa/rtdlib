@@ -29,12 +29,14 @@ pub struct UserFullInfo {
   need_phone_number_privacy_exception: bool,
   /// A short user bio
   bio: String,
-  /// For bots, the text that is included with the link when users share the bot
+  /// For bots, the text that is shown on the bot's profile page and is sent together with the link when users share the bot
   share_text: String,
+  /// Contains full information about a user
+  description: String,
   /// Number of group chats where both the other user and the current user are a member; 0 for the current user
   group_in_common_count: i64,
-  /// If the user is a bot, information about the bot; may be null
-  bot_info: Option<BotInfo>,
+  /// For bots, list of the bot commands
+  commands: Vec<BotCommand>,
   
 }
 
@@ -71,9 +73,11 @@ impl UserFullInfo {
 
   pub fn share_text(&self) -> &String { &self.share_text }
 
+  pub fn description(&self) -> &String { &self.description }
+
   pub fn group_in_common_count(&self) -> i64 { self.group_in_common_count }
 
-  pub fn bot_info(&self) -> &Option<BotInfo> { &self.bot_info }
+  pub fn commands(&self) -> &Vec<BotCommand> { &self.commands }
 
 }
 
@@ -134,14 +138,20 @@ impl RTDUserFullInfoBuilder {
   }
 
    
+  pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {
+    self.inner.description = description.as_ref().to_string();
+    self
+  }
+
+   
   pub fn group_in_common_count(&mut self, group_in_common_count: i64) -> &mut Self {
     self.inner.group_in_common_count = group_in_common_count;
     self
   }
 
    
-  pub fn bot_info<T: AsRef<BotInfo>>(&mut self, bot_info: T) -> &mut Self {
-    self.inner.bot_info = Some(bot_info.as_ref().clone());
+  pub fn commands(&mut self, commands: Vec<BotCommand>) -> &mut Self {
+    self.inner.commands = commands;
     self
   }
 

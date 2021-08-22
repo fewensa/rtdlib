@@ -39,7 +39,7 @@ pub struct Chat {
   can_be_deleted_only_for_self: bool,
   /// True, if the chat messages can be deleted for all users
   can_be_deleted_for_all_users: bool,
-  /// True, if the chat can be reported to Telegram moderators through reportChat
+  /// True, if the chat can be reported to Telegram moderators through reportChat or reportChatPhoto
   can_be_reported: bool,
   /// Default value of the disable_notification parameter, used when a message is sent to the chat
   default_disable_notification: bool,
@@ -53,12 +53,12 @@ pub struct Chat {
   unread_mention_count: i64,
   /// Notification settings for this chat
   notification_settings: ChatNotificationSettings,
+  /// Current message Time To Live setting (self-destruct timer) for the chat; 0 if not defined. TTL is counted from the time message or its content is viewed in secret chats and from the send date in other chats
+  message_ttl_setting: i64,
   /// Describes actions which should be possible to do through a chat action bar; may be null
   action_bar: Option<ChatActionBar>,
-  /// Group call identifier of an active voice chat; 0 if none or unknown. The voice chat can be received through the method getGroupCall
-  voice_chat_group_call_id: i64,
-  /// True, if an active voice chat is empty
-  is_voice_chat_empty: bool,
+  /// Contains information about voice chat of the chat
+  voice_chat: VoiceChat,
   /// Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
   reply_markup_message_id: i64,
   /// A draft of a message in the chat; may be null
@@ -123,11 +123,11 @@ impl Chat {
 
   pub fn notification_settings(&self) -> &ChatNotificationSettings { &self.notification_settings }
 
+  pub fn message_ttl_setting(&self) -> i64 { self.message_ttl_setting }
+
   pub fn action_bar(&self) -> &Option<ChatActionBar> { &self.action_bar }
 
-  pub fn voice_chat_group_call_id(&self) -> i64 { self.voice_chat_group_call_id }
-
-  pub fn is_voice_chat_empty(&self) -> bool { self.is_voice_chat_empty }
+  pub fn voice_chat(&self) -> &VoiceChat { &self.voice_chat }
 
   pub fn reply_markup_message_id(&self) -> i64 { self.reply_markup_message_id }
 
@@ -260,20 +260,20 @@ impl RTDChatBuilder {
   }
 
    
+  pub fn message_ttl_setting(&mut self, message_ttl_setting: i64) -> &mut Self {
+    self.inner.message_ttl_setting = message_ttl_setting;
+    self
+  }
+
+   
   pub fn action_bar<T: AsRef<ChatActionBar>>(&mut self, action_bar: T) -> &mut Self {
     self.inner.action_bar = Some(action_bar.as_ref().clone());
     self
   }
 
    
-  pub fn voice_chat_group_call_id(&mut self, voice_chat_group_call_id: i64) -> &mut Self {
-    self.inner.voice_chat_group_call_id = voice_chat_group_call_id;
-    self
-  }
-
-   
-  pub fn is_voice_chat_empty(&mut self, is_voice_chat_empty: bool) -> &mut Self {
-    self.inner.is_voice_chat_empty = is_voice_chat_empty;
+  pub fn voice_chat<T: AsRef<VoiceChat>>(&mut self, voice_chat: T) -> &mut Self {
+    self.inner.voice_chat = voice_chat.as_ref().clone();
     self
   }
 

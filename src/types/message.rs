@@ -41,6 +41,10 @@ pub struct Message {
   can_get_statistics: bool,
   /// True, if the message thread info is available
   can_get_message_thread: bool,
+  /// True, if media timestamp links can be generated for media timestamp entities in the message text, caption or web page description
+  can_get_media_timestamp_links: bool,
+  /// True, if media timestamp entities refers to a media in this message as opposed to a media in the replied message
+  has_timestamped_media: bool,
   /// True, if the message is a channel post. All messages to channels are channel posts, all other messages are not channel posts
   is_channel_post: bool,
   /// True, if the message contains an unread mention for the current user
@@ -61,7 +65,7 @@ pub struct Message {
   message_thread_id: i64,
   /// For self-destructing messages, the message's TTL (Time To Live), in seconds; 0 if none. TDLib will send updateDeleteMessages or updateMessageContent once the TTL expires
   ttl: i64,
-  /// Time left before the message expires, in seconds
+  /// Time left before the message expires, in seconds. If the TTL timer isn't started yet, equals to the value of the ttl field
   ttl_expires_in: f32,
   /// If non-zero, the user identifier of the bot through which this message was sent
   via_bot_user_id: i64,
@@ -120,6 +124,10 @@ impl Message {
   pub fn can_get_statistics(&self) -> bool { self.can_get_statistics }
 
   pub fn can_get_message_thread(&self) -> bool { self.can_get_message_thread }
+
+  pub fn can_get_media_timestamp_links(&self) -> bool { self.can_get_media_timestamp_links }
+
+  pub fn has_timestamped_media(&self) -> bool { self.has_timestamped_media }
 
   pub fn is_channel_post(&self) -> bool { self.is_channel_post }
 
@@ -240,6 +248,18 @@ impl RTDMessageBuilder {
    
   pub fn can_get_message_thread(&mut self, can_get_message_thread: bool) -> &mut Self {
     self.inner.can_get_message_thread = can_get_message_thread;
+    self
+  }
+
+   
+  pub fn can_get_media_timestamp_links(&mut self, can_get_media_timestamp_links: bool) -> &mut Self {
+    self.inner.can_get_media_timestamp_links = can_get_media_timestamp_links;
+    self
+  }
+
+   
+  pub fn has_timestamped_media(&mut self, has_timestamped_media: bool) -> &mut Self {
+    self.inner.has_timestamped_media = has_timestamped_media;
     self
   }
 

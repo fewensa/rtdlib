@@ -33,7 +33,7 @@ pub enum InputMessageContent {
   InputMessageForwarded(InputMessageForwarded),
   /// A message with a game; not supported for channels or secret chats
   InputMessageGame(InputMessageGame),
-  /// A message with an invoice; can be used only by bots and only in private chats
+  /// A message with an invoice; can be used only by bots
   InputMessageInvoice(InputMessageInvoice),
   /// A message with a location
   InputMessageLocation(InputMessageLocation),
@@ -909,7 +909,7 @@ impl AsRef<InputMessageGame> for RTDInputMessageGameBuilder {
 
 
 
-/// A message with an invoice; can be used only by bots and only in private chats
+/// A message with an invoice; can be used only by bots
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InputMessageInvoice {
   #[doc(hidden)]
@@ -922,7 +922,7 @@ pub struct InputMessageInvoice {
   invoice: Invoice,
   /// Product title; 1-32 characters
   title: String,
-  /// A message with an invoice; can be used only by bots and only in private chats
+  /// A message with an invoice; can be used only by bots
   description: String,
   /// Product photo URL; optional
   photo_url: String,
@@ -938,7 +938,7 @@ pub struct InputMessageInvoice {
   provider_token: String,
   /// JSON-encoded data about the invoice, which will be shared with the payment provider
   provider_data: String,
-  /// Unique invoice bot start_parameter for the generation of this invoice
+  /// Unique invoice bot deep link parameter for the generation of this invoice. If empty, it would be possible to pay directly from forwards of the invoice message
   start_parameter: String,
   
 }

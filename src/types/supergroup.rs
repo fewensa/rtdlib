@@ -35,6 +35,8 @@ pub struct Supergroup {
   is_slow_mode_enabled: bool,
   /// True, if the supergroup is a channel
   is_channel: bool,
+  /// True, if the supergroup is a broadcast group, i.e. only administrators can send messages and there is no limit on number of members
+  is_broadcast_group: bool,
   /// True, if the supergroup or channel is verified
   is_verified: bool,
   /// If non-empty, contains a human-readable description of the reason why access to this supergroup or channel must be restricted
@@ -82,6 +84,8 @@ impl Supergroup {
   pub fn is_slow_mode_enabled(&self) -> bool { self.is_slow_mode_enabled }
 
   pub fn is_channel(&self) -> bool { self.is_channel }
+
+  pub fn is_broadcast_group(&self) -> bool { self.is_broadcast_group }
 
   pub fn is_verified(&self) -> bool { self.is_verified }
 
@@ -158,6 +162,12 @@ impl RTDSupergroupBuilder {
    
   pub fn is_channel(&mut self, is_channel: bool) -> &mut Self {
     self.inner.is_channel = is_channel;
+    self
+  }
+
+   
+  pub fn is_broadcast_group(&mut self, is_broadcast_group: bool) -> &mut Self {
+    self.inner.is_broadcast_group = is_broadcast_group;
     self
   }
 

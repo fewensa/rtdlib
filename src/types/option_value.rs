@@ -259,7 +259,7 @@ pub struct OptionValueInteger {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// The value of the option
-  value: isize,
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] value: isize,
   
 }
 

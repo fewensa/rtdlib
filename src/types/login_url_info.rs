@@ -19,6 +19,8 @@ pub trait TDLoginUrlInfo: Debug + RObject {}
 #[serde(untagged)]
 pub enum LoginUrlInfo {
   #[doc(hidden)] _Default(()),
+  /// Returns information about an action to be done when the current user clicks an external link. Don't use this method for links from secret chats if web page preview is disabled in secret chats
+  GetExternalLinkInfo(GetExternalLinkInfo),
   /// Returns information about a button of type inlineKeyboardButtonTypeLoginUrl. The method needs to be called when the user presses the button
   GetLoginUrlInfo(GetLoginUrlInfo),
   /// An HTTP url needs to be open
@@ -37,6 +39,7 @@ impl<'de> Deserialize<'de> for LoginUrlInfo {
     use serde::de::Error;
     rtd_enum_deserialize!(
       LoginUrlInfo,
+      (getExternalLinkInfo, GetExternalLinkInfo);
       (getLoginUrlInfo, GetLoginUrlInfo);
       (loginUrlInfoOpen, Open);
       (loginUrlInfoRequestConfirmation, RequestConfirmation);
@@ -48,6 +51,7 @@ impl<'de> Deserialize<'de> for LoginUrlInfo {
 impl RObject for LoginUrlInfo {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
+      LoginUrlInfo::GetExternalLinkInfo(t) => t.td_name(),
       LoginUrlInfo::GetLoginUrlInfo(t) => t.td_name(),
       LoginUrlInfo::Open(t) => t.td_name(),
       LoginUrlInfo::RequestConfirmation(t) => t.td_name(),
@@ -57,6 +61,7 @@ impl RObject for LoginUrlInfo {
   }
   #[doc(hidden)] fn extra(&self) -> Option<String> {
     match self {
+      LoginUrlInfo::GetExternalLinkInfo(t) => t.extra(),
       LoginUrlInfo::GetLoginUrlInfo(t) => t.extra(),
       LoginUrlInfo::Open(t) => t.extra(),
       LoginUrlInfo::RequestConfirmation(t) => t.extra(),
@@ -71,19 +76,24 @@ impl LoginUrlInfo {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let LoginUrlInfo::_Default(_) = self { true } else { false } }
 
+  pub fn is_get_external_link_info(&self) -> bool { if let LoginUrlInfo::GetExternalLinkInfo(_) = self { true } else { false } }
   pub fn is_get_login_url_info(&self) -> bool { if let LoginUrlInfo::GetLoginUrlInfo(_) = self { true } else { false } }
   pub fn is_open(&self) -> bool { if let LoginUrlInfo::Open(_) = self { true } else { false } }
   pub fn is_request_confirmation(&self) -> bool { if let LoginUrlInfo::RequestConfirmation(_) = self { true } else { false } }
 
+  pub fn on_get_external_link_info<F: FnOnce(&GetExternalLinkInfo)>(&self, fnc: F) -> &Self { if let LoginUrlInfo::GetExternalLinkInfo(t) = self { fnc(t) }; self }
   pub fn on_get_login_url_info<F: FnOnce(&GetLoginUrlInfo)>(&self, fnc: F) -> &Self { if let LoginUrlInfo::GetLoginUrlInfo(t) = self { fnc(t) }; self }
   pub fn on_open<F: FnOnce(&LoginUrlInfoOpen)>(&self, fnc: F) -> &Self { if let LoginUrlInfo::Open(t) = self { fnc(t) }; self }
   pub fn on_request_confirmation<F: FnOnce(&LoginUrlInfoRequestConfirmation)>(&self, fnc: F) -> &Self { if let LoginUrlInfo::RequestConfirmation(t) = self { fnc(t) }; self }
 
+  pub fn as_get_external_link_info(&self) -> Option<&GetExternalLinkInfo> { if let LoginUrlInfo::GetExternalLinkInfo(t) = self { return Some(t) } None }
   pub fn as_get_login_url_info(&self) -> Option<&GetLoginUrlInfo> { if let LoginUrlInfo::GetLoginUrlInfo(t) = self { return Some(t) } None }
   pub fn as_open(&self) -> Option<&LoginUrlInfoOpen> { if let LoginUrlInfo::Open(t) = self { return Some(t) } None }
   pub fn as_request_confirmation(&self) -> Option<&LoginUrlInfoRequestConfirmation> { if let LoginUrlInfo::RequestConfirmation(t) = self { return Some(t) } None }
 
 
+
+  pub fn get_external_link_info<T: AsRef<GetExternalLinkInfo>>(t: T) -> Self { LoginUrlInfo::GetExternalLinkInfo(t.as_ref().clone()) }
 
   pub fn get_login_url_info<T: AsRef<GetLoginUrlInfo>>(t: T) -> Self { LoginUrlInfo::GetLoginUrlInfo(t.as_ref().clone()) }
 

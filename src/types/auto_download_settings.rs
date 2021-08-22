@@ -23,7 +23,7 @@ pub struct AutoDownloadSettings {
   max_video_file_size: i64,
   /// The maximum size of other file types to be auto-downloaded
   max_other_file_size: i64,
-  /// The maximum suggested bitrate for uploaded videos
+  /// The maximum suggested bitrate for uploaded videos, in kbit/s
   video_upload_bitrate: i64,
   /// True, if the beginning of video files needs to be preloaded for instant playback
   preload_large_videos: bool,

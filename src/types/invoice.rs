@@ -19,6 +19,10 @@ pub struct Invoice {
   currency: String,
   /// A list of objects used to calculate the total price of the product
   price_parts: Vec<LabeledPricePart>,
+  /// The maximum allowed amount of tip in the smallest units of the currency
+  max_tip_amount: i64,
+  /// Suggested amounts of tip in the smallest units of the currency
+  suggested_tip_amounts: Vec<i64>,
   /// True, if the payment is a test payment
   is_test: bool,
   /// True, if the user's name is needed for payment
@@ -59,6 +63,10 @@ impl Invoice {
 
   pub fn price_parts(&self) -> &Vec<LabeledPricePart> { &self.price_parts }
 
+  pub fn max_tip_amount(&self) -> i64 { self.max_tip_amount }
+
+  pub fn suggested_tip_amounts(&self) -> &Vec<i64> { &self.suggested_tip_amounts }
+
   pub fn is_test(&self) -> bool { self.is_test }
 
   pub fn need_name(&self) -> bool { self.need_name }
@@ -94,6 +102,18 @@ impl RTDInvoiceBuilder {
    
   pub fn price_parts(&mut self, price_parts: Vec<LabeledPricePart>) -> &mut Self {
     self.inner.price_parts = price_parts;
+    self
+  }
+
+   
+  pub fn max_tip_amount(&mut self, max_tip_amount: i64) -> &mut Self {
+    self.inner.max_tip_amount = max_tip_amount;
+    self
+  }
+
+   
+  pub fn suggested_tip_amounts(&mut self, suggested_tip_amounts: Vec<i64>) -> &mut Self {
+    self.inner.suggested_tip_amounts = suggested_tip_amounts;
     self
   }
 

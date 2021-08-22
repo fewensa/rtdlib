@@ -21,7 +21,7 @@ pub struct AuthenticationCodeInfo {
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: AuthenticationCodeType,
   /// Describes the way the next code will be sent to the user; may be null
   next_type: Option<AuthenticationCodeType>,
-  /// Timeout before the code should be re-sent, in seconds
+  /// Timeout before the code can be re-sent, in seconds
   timeout: i64,
   
 }

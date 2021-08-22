@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 
 
-/// Options to be used when a message content is copied without a link to the original message
+/// Options to be used when a message content is copied without a link to the original message. Service messages and messageInvoice can't be copied
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageCopyOptions {
   #[doc(hidden)]

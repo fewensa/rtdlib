@@ -190,7 +190,7 @@ pub struct InputChatPhotoPrevious {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Identifier of the profile photo to reuse
+  /// Identifier of the current user's profile photo to reuse
   chat_photo_id: isize,
   
 }

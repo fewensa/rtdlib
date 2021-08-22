@@ -19,7 +19,7 @@ pub trait TDChatAction: Debug + RObject {}
 #[serde(untagged)]
 pub enum ChatAction {
   #[doc(hidden)] _Default(()),
-  /// The user has cancelled the previous action
+  /// The user has canceled the previous action
   Cancel(ChatActionCancel),
   /// The user is picking a contact to send
   ChoosingContact(ChatActionChoosingContact),
@@ -203,7 +203,7 @@ impl AsRef<ChatAction> for ChatAction {
 
 
 
-/// The user has cancelled the previous action
+/// The user has canceled the previous action
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatActionCancel {
   #[doc(hidden)]

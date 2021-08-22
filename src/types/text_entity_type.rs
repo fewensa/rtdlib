@@ -23,7 +23,7 @@ pub enum TextEntityType {
   BankCardNumber(TextEntityTypeBankCardNumber),
   /// A bold text
   Bold(TextEntityTypeBold),
-  /// A bot command, beginning with "/". This shouldn't be highlighted if there are no bots in the chat
+  /// A bot command, beginning with "/"
   BotCommand(TextEntityTypeBotCommand),
   /// A cashtag text, beginning with "$" and consisting of capital english letters (i.e. "$USD")
   Cashtag(TextEntityTypeCashtag),
@@ -35,6 +35,8 @@ pub enum TextEntityType {
   Hashtag(TextEntityTypeHashtag),
   /// An italic text
   Italic(TextEntityTypeItalic),
+  /// A media timestamp
+  MediaTimestamp(TextEntityTypeMediaTimestamp),
   /// A mention of a user by their username
   Mention(TextEntityTypeMention),
   /// A text shows instead of a raw mention of the user (e.g., when the user has no username)
@@ -73,6 +75,7 @@ impl<'de> Deserialize<'de> for TextEntityType {
       (textEntityTypeEmailAddress, EmailAddress);
       (textEntityTypeHashtag, Hashtag);
       (textEntityTypeItalic, Italic);
+      (textEntityTypeMediaTimestamp, MediaTimestamp);
       (textEntityTypeMention, Mention);
       (textEntityTypeMentionName, MentionName);
       (textEntityTypePhoneNumber, PhoneNumber);
@@ -98,6 +101,7 @@ impl RObject for TextEntityType {
       TextEntityType::EmailAddress(t) => t.td_name(),
       TextEntityType::Hashtag(t) => t.td_name(),
       TextEntityType::Italic(t) => t.td_name(),
+      TextEntityType::MediaTimestamp(t) => t.td_name(),
       TextEntityType::Mention(t) => t.td_name(),
       TextEntityType::MentionName(t) => t.td_name(),
       TextEntityType::PhoneNumber(t) => t.td_name(),
@@ -121,6 +125,7 @@ impl RObject for TextEntityType {
       TextEntityType::EmailAddress(t) => t.extra(),
       TextEntityType::Hashtag(t) => t.extra(),
       TextEntityType::Italic(t) => t.extra(),
+      TextEntityType::MediaTimestamp(t) => t.extra(),
       TextEntityType::Mention(t) => t.extra(),
       TextEntityType::MentionName(t) => t.extra(),
       TextEntityType::PhoneNumber(t) => t.extra(),
@@ -149,6 +154,7 @@ impl TextEntityType {
   pub fn is_email_address(&self) -> bool { if let TextEntityType::EmailAddress(_) = self { true } else { false } }
   pub fn is_hashtag(&self) -> bool { if let TextEntityType::Hashtag(_) = self { true } else { false } }
   pub fn is_italic(&self) -> bool { if let TextEntityType::Italic(_) = self { true } else { false } }
+  pub fn is_media_timestamp(&self) -> bool { if let TextEntityType::MediaTimestamp(_) = self { true } else { false } }
   pub fn is_mention(&self) -> bool { if let TextEntityType::Mention(_) = self { true } else { false } }
   pub fn is_mention_name(&self) -> bool { if let TextEntityType::MentionName(_) = self { true } else { false } }
   pub fn is_phone_number(&self) -> bool { if let TextEntityType::PhoneNumber(_) = self { true } else { false } }
@@ -167,6 +173,7 @@ impl TextEntityType {
   pub fn on_email_address<F: FnOnce(&TextEntityTypeEmailAddress)>(&self, fnc: F) -> &Self { if let TextEntityType::EmailAddress(t) = self { fnc(t) }; self }
   pub fn on_hashtag<F: FnOnce(&TextEntityTypeHashtag)>(&self, fnc: F) -> &Self { if let TextEntityType::Hashtag(t) = self { fnc(t) }; self }
   pub fn on_italic<F: FnOnce(&TextEntityTypeItalic)>(&self, fnc: F) -> &Self { if let TextEntityType::Italic(t) = self { fnc(t) }; self }
+  pub fn on_media_timestamp<F: FnOnce(&TextEntityTypeMediaTimestamp)>(&self, fnc: F) -> &Self { if let TextEntityType::MediaTimestamp(t) = self { fnc(t) }; self }
   pub fn on_mention<F: FnOnce(&TextEntityTypeMention)>(&self, fnc: F) -> &Self { if let TextEntityType::Mention(t) = self { fnc(t) }; self }
   pub fn on_mention_name<F: FnOnce(&TextEntityTypeMentionName)>(&self, fnc: F) -> &Self { if let TextEntityType::MentionName(t) = self { fnc(t) }; self }
   pub fn on_phone_number<F: FnOnce(&TextEntityTypePhoneNumber)>(&self, fnc: F) -> &Self { if let TextEntityType::PhoneNumber(t) = self { fnc(t) }; self }
@@ -185,6 +192,7 @@ impl TextEntityType {
   pub fn as_email_address(&self) -> Option<&TextEntityTypeEmailAddress> { if let TextEntityType::EmailAddress(t) = self { return Some(t) } None }
   pub fn as_hashtag(&self) -> Option<&TextEntityTypeHashtag> { if let TextEntityType::Hashtag(t) = self { return Some(t) } None }
   pub fn as_italic(&self) -> Option<&TextEntityTypeItalic> { if let TextEntityType::Italic(t) = self { return Some(t) } None }
+  pub fn as_media_timestamp(&self) -> Option<&TextEntityTypeMediaTimestamp> { if let TextEntityType::MediaTimestamp(t) = self { return Some(t) } None }
   pub fn as_mention(&self) -> Option<&TextEntityTypeMention> { if let TextEntityType::Mention(t) = self { return Some(t) } None }
   pub fn as_mention_name(&self) -> Option<&TextEntityTypeMentionName> { if let TextEntityType::MentionName(t) = self { return Some(t) } None }
   pub fn as_phone_number(&self) -> Option<&TextEntityTypePhoneNumber> { if let TextEntityType::PhoneNumber(t) = self { return Some(t) } None }
@@ -212,6 +220,8 @@ impl TextEntityType {
   pub fn hashtag<T: AsRef<TextEntityTypeHashtag>>(t: T) -> Self { TextEntityType::Hashtag(t.as_ref().clone()) }
 
   pub fn italic<T: AsRef<TextEntityTypeItalic>>(t: T) -> Self { TextEntityType::Italic(t.as_ref().clone()) }
+
+  pub fn media_timestamp<T: AsRef<TextEntityTypeMediaTimestamp>>(t: T) -> Self { TextEntityType::MediaTimestamp(t.as_ref().clone()) }
 
   pub fn mention<T: AsRef<TextEntityTypeMention>>(t: T) -> Self { TextEntityType::Mention(t.as_ref().clone()) }
 
@@ -359,7 +369,7 @@ impl AsRef<TextEntityTypeBold> for RTDTextEntityTypeBoldBuilder {
 
 
 
-/// A bot command, beginning with "/". This shouldn't be highlighted if there are no bots in the chat
+/// A bot command, beginning with "/"
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TextEntityTypeBotCommand {
   #[doc(hidden)]
@@ -699,6 +709,74 @@ impl AsRef<TextEntityTypeItalic> for TextEntityTypeItalic {
 
 impl AsRef<TextEntityTypeItalic> for RTDTextEntityTypeItalicBuilder {
   fn as_ref(&self) -> &TextEntityTypeItalic { &self.inner }
+}
+
+
+
+
+
+
+
+/// A media timestamp
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct TextEntityTypeMediaTimestamp {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Timestamp from which a video/audio/video note/voice note playing should start, in seconds. The media can be in the content or the web page preview of the current message, or in the same places in the replied message
+  media_timestamp: i64,
+  
+}
+
+impl RObject for TextEntityTypeMediaTimestamp {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeMediaTimestamp" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDTextEntityType for TextEntityTypeMediaTimestamp {}
+
+
+
+impl TextEntityTypeMediaTimestamp {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDTextEntityTypeMediaTimestampBuilder {
+    let mut inner = TextEntityTypeMediaTimestamp::default();
+    inner.td_name = "textEntityTypeMediaTimestamp".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDTextEntityTypeMediaTimestampBuilder { inner }
+  }
+
+  pub fn media_timestamp(&self) -> i64 { self.media_timestamp }
+
+}
+
+#[doc(hidden)]
+pub struct RTDTextEntityTypeMediaTimestampBuilder {
+  inner: TextEntityTypeMediaTimestamp
+}
+
+impl RTDTextEntityTypeMediaTimestampBuilder {
+  pub fn build(&self) -> TextEntityTypeMediaTimestamp { self.inner.clone() }
+
+   
+  pub fn media_timestamp(&mut self, media_timestamp: i64) -> &mut Self {
+    self.inner.media_timestamp = media_timestamp;
+    self
+  }
+
+}
+
+impl AsRef<TextEntityTypeMediaTimestamp> for TextEntityTypeMediaTimestamp {
+  fn as_ref(&self) -> &TextEntityTypeMediaTimestamp { self }
+}
+
+impl AsRef<TextEntityTypeMediaTimestamp> for RTDTextEntityTypeMediaTimestampBuilder {
+  fn as_ref(&self) -> &TextEntityTypeMediaTimestamp { &self.inner }
 }
 
 

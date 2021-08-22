@@ -278,8 +278,6 @@ pub struct ChatReportReasonCustom {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Report text
-  text: String,
   
 }
 
@@ -303,8 +301,6 @@ impl ChatReportReasonCustom {
     RTDChatReportReasonCustomBuilder { inner }
   }
 
-  pub fn text(&self) -> &String { &self.text }
-
 }
 
 #[doc(hidden)]
@@ -314,12 +310,6 @@ pub struct RTDChatReportReasonCustomBuilder {
 
 impl RTDChatReportReasonCustomBuilder {
   pub fn build(&self) -> ChatReportReasonCustom { self.inner.clone() }
-
-   
-  pub fn text<T: AsRef<str>>(&mut self, text: T) -> &mut Self {
-    self.inner.text = text.as_ref().to_string();
-    self
-  }
 
 }
 

@@ -15,10 +15,16 @@ pub struct PaymentForm {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// The payment form identifier
+  id: isize,
   /// Full information of the invoice
   invoice: Invoice,
   /// Payment form URL
   url: String,
+  /// User identifier of the seller bot
+  seller_bot_user_id: i64,
+  /// User identifier of the payment provider bot
+  payments_provider_user_id: i64,
   /// Contains information about the payment provider, if available, to support it natively without the need for opening the URL; may be null
   payments_provider: Option<PaymentsProviderStripe>,
   /// Saved server-side order information; may be null
@@ -49,9 +55,15 @@ impl PaymentForm {
     RTDPaymentFormBuilder { inner }
   }
 
+  pub fn id(&self) -> isize { self.id }
+
   pub fn invoice(&self) -> &Invoice { &self.invoice }
 
   pub fn url(&self) -> &String { &self.url }
+
+  pub fn seller_bot_user_id(&self) -> i64 { self.seller_bot_user_id }
+
+  pub fn payments_provider_user_id(&self) -> i64 { self.payments_provider_user_id }
 
   pub fn payments_provider(&self) -> &Option<PaymentsProviderStripe> { &self.payments_provider }
 
@@ -74,6 +86,12 @@ impl RTDPaymentFormBuilder {
   pub fn build(&self) -> PaymentForm { self.inner.clone() }
 
    
+  pub fn id(&mut self, id: isize) -> &mut Self {
+    self.inner.id = id;
+    self
+  }
+
+   
   pub fn invoice<T: AsRef<Invoice>>(&mut self, invoice: T) -> &mut Self {
     self.inner.invoice = invoice.as_ref().clone();
     self
@@ -82,6 +100,18 @@ impl RTDPaymentFormBuilder {
    
   pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
     self.inner.url = url.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn seller_bot_user_id(&mut self, seller_bot_user_id: i64) -> &mut Self {
+    self.inner.seller_bot_user_id = seller_bot_user_id;
+    self
+  }
+
+   
+  pub fn payments_provider_user_id(&mut self, payments_provider_user_id: i64) -> &mut Self {
+    self.inner.payments_provider_user_id = payments_provider_user_id;
     self
   }
 

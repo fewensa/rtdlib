@@ -27,7 +27,7 @@ pub enum CallDiscardReason {
   Empty(CallDiscardReasonEmpty),
   /// The call was ended because one of the parties hung up
   HungUp(CallDiscardReasonHungUp),
-  /// The call was ended before the conversation started. It was cancelled by the caller or missed by the other party
+  /// The call was ended before the conversation started. It was canceled by the caller or missed by the other party
   Missed(CallDiscardReasonMissed),
 
 }
@@ -355,7 +355,7 @@ impl AsRef<CallDiscardReasonHungUp> for RTDCallDiscardReasonHungUpBuilder {
 
 
 
-/// The call was ended before the conversation started. It was cancelled by the caller or missed by the other party
+/// The call was ended before the conversation started. It was canceled by the caller or missed by the other party
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct CallDiscardReasonMissed {
   #[doc(hidden)]

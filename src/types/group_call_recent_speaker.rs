@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 
 
-/// Describes a recently speaking user in a group call
+/// Describes a recently speaking participant in a group call
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GroupCallRecentSpeaker {
   #[doc(hidden)]
@@ -15,8 +15,8 @@ pub struct GroupCallRecentSpeaker {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// User identifier
-  user_id: i64,
+  /// Group call participant identifier
+  participant_id: MessageSender,
   /// True, is the user has spoken recently
   is_speaking: bool,
   
@@ -39,7 +39,7 @@ impl GroupCallRecentSpeaker {
     RTDGroupCallRecentSpeakerBuilder { inner }
   }
 
-  pub fn user_id(&self) -> i64 { self.user_id }
+  pub fn participant_id(&self) -> &MessageSender { &self.participant_id }
 
   pub fn is_speaking(&self) -> bool { self.is_speaking }
 
@@ -54,8 +54,8 @@ impl RTDGroupCallRecentSpeakerBuilder {
   pub fn build(&self) -> GroupCallRecentSpeaker { self.inner.clone() }
 
    
-  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
-    self.inner.user_id = user_id;
+  pub fn participant_id<T: AsRef<MessageSender>>(&mut self, participant_id: T) -> &mut Self {
+    self.inner.participant_id = participant_id.as_ref().clone();
     self
   }
 

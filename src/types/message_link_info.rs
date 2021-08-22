@@ -21,6 +21,8 @@ pub struct MessageLinkInfo {
   chat_id: i64,
   /// If found, the linked message; may be null
   message: Option<Message>,
+  /// Timestamp from which the video/audio/video note/voice note playing should start, in seconds; 0 if not specified. The media can be in the message content or in its web page preview
+  media_timestamp: i64,
   /// True, if the whole media album to which the message belongs is linked
   for_album: bool,
   /// True, if the message is linked as a channel post comment or from a message thread
@@ -51,6 +53,8 @@ impl MessageLinkInfo {
 
   pub fn message(&self) -> &Option<Message> { &self.message }
 
+  pub fn media_timestamp(&self) -> i64 { self.media_timestamp }
+
   pub fn for_album(&self) -> bool { self.for_album }
 
   pub fn for_comment(&self) -> bool { self.for_comment }
@@ -80,6 +84,12 @@ impl RTDMessageLinkInfoBuilder {
    
   pub fn message<T: AsRef<Message>>(&mut self, message: T) -> &mut Self {
     self.inner.message = Some(message.as_ref().clone());
+    self
+  }
+
+   
+  pub fn media_timestamp(&mut self, media_timestamp: i64) -> &mut Self {
+    self.inner.media_timestamp = media_timestamp;
     self
   }
 

@@ -19,15 +19,15 @@ pub trait TDChatMemberStatus: Debug + RObject {}
 #[serde(untagged)]
 pub enum ChatMemberStatus {
   #[doc(hidden)] _Default(()),
-  /// The user is a member of a chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, ban unprivileged members, and manage voice chats. In supergroups and channels, there are more detailed options for administrator privileges
+  /// The user is a member of the chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, ban unprivileged members, and manage voice chats. In supergroups and channels, there are more detailed options for administrator privileges
   Administrator(ChatMemberStatusAdministrator),
-  /// The user was banned (and hence is not a member of the chat). Implies the user can't return to the chat or view messages
+  /// The user or the chat was banned (and hence is not a member of the chat). Implies the user can't return to the chat, view messages, or be used as a participant identifier to join a voice chat of the chat
   Banned(ChatMemberStatusBanned),
-  /// The user is the owner of a chat and has all the administrator privileges
+  /// The user is the owner of the chat and has all the administrator privileges
   Creator(ChatMemberStatusCreator),
-  /// The user is not a chat member
+  /// The user or the chat is not a chat member
   Left(ChatMemberStatusLeft),
-  /// The user is a member of a chat, without any additional privileges or restrictions
+  /// The user is a member of the chat, without any additional privileges or restrictions
   Member(ChatMemberStatusMember),
   /// The user is under certain restrictions in the chat. Not supported in basic groups and channels
   Restricted(ChatMemberStatusRestricted),
@@ -133,7 +133,7 @@ impl AsRef<ChatMemberStatus> for ChatMemberStatus {
 
 
 
-/// The user is a member of a chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, ban unprivileged members, and manage voice chats. In supergroups and channels, there are more detailed options for administrator privileges
+/// The user is a member of the chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, ban unprivileged members, and manage voice chats. In supergroups and channels, there are more detailed options for administrator privileges
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatMemberStatusAdministrator {
   #[doc(hidden)]
@@ -146,6 +146,8 @@ pub struct ChatMemberStatusAdministrator {
   custom_title: String,
   /// True, if the current user can edit the administrator privileges for the called user
   can_be_edited: bool,
+  /// True, if the administrator can get chat event log, get chat statistics, get message statistics in channels, get channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other privilege; applicable to supergroups and channels only
+  can_manage_chat: bool,
   /// True, if the administrator can change the chat title, photo, and other settings
   can_change_info: bool,
   /// True, if the administrator can create channel posts; applicable to channels only
@@ -156,13 +158,13 @@ pub struct ChatMemberStatusAdministrator {
   can_delete_messages: bool,
   /// True, if the administrator can invite new users to the chat
   can_invite_users: bool,
-  /// True, if the administrator can restrict, ban, or unban chat members
+  /// True, if the administrator can restrict, ban, or unban chat members; always true for channels
   can_restrict_members: bool,
-  /// True, if the administrator can pin messages; applicable to groups only
+  /// True, if the administrator can pin messages; applicable to basic groups and supergroups only
   can_pin_messages: bool,
   /// True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that were directly or indirectly promoted by them
   can_promote_members: bool,
-  /// True, if the administrator can manage voice chats; applicable to groups only
+  /// True, if the administrator can manage voice chats
   can_manage_voice_chats: bool,
   /// True, if the administrator isn't shown in the chat member list and sends messages anonymously; applicable to supergroups only
   is_anonymous: bool,
@@ -192,6 +194,8 @@ impl ChatMemberStatusAdministrator {
   pub fn custom_title(&self) -> &String { &self.custom_title }
 
   pub fn can_be_edited(&self) -> bool { self.can_be_edited }
+
+  pub fn can_manage_chat(&self) -> bool { self.can_manage_chat }
 
   pub fn can_change_info(&self) -> bool { self.can_change_info }
 
@@ -232,6 +236,12 @@ impl RTDChatMemberStatusAdministratorBuilder {
    
   pub fn can_be_edited(&mut self, can_be_edited: bool) -> &mut Self {
     self.inner.can_be_edited = can_be_edited;
+    self
+  }
+
+   
+  pub fn can_manage_chat(&mut self, can_manage_chat: bool) -> &mut Self {
+    self.inner.can_manage_chat = can_manage_chat;
     self
   }
 
@@ -311,7 +321,7 @@ impl AsRef<ChatMemberStatusAdministrator> for RTDChatMemberStatusAdministratorBu
 
 
 
-/// The user was banned (and hence is not a member of the chat). Implies the user can't return to the chat or view messages
+/// The user or the chat was banned (and hence is not a member of the chat). Implies the user can't return to the chat, view messages, or be used as a participant identifier to join a voice chat of the chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatMemberStatusBanned {
   #[doc(hidden)]
@@ -379,7 +389,7 @@ impl AsRef<ChatMemberStatusBanned> for RTDChatMemberStatusBannedBuilder {
 
 
 
-/// The user is the owner of a chat and has all the administrator privileges
+/// The user is the owner of the chat and has all the administrator privileges
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatMemberStatusCreator {
   #[doc(hidden)]
@@ -467,7 +477,7 @@ impl AsRef<ChatMemberStatusCreator> for RTDChatMemberStatusCreatorBuilder {
 
 
 
-/// The user is not a chat member
+/// The user or the chat is not a chat member
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatMemberStatusLeft {
   #[doc(hidden)]
@@ -525,7 +535,7 @@ impl AsRef<ChatMemberStatusLeft> for RTDChatMemberStatusLeftBuilder {
 
 
 
-/// The user is a member of a chat, without any additional privileges or restrictions
+/// The user is a member of the chat, without any additional privileges or restrictions
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatMemberStatusMember {
   #[doc(hidden)]

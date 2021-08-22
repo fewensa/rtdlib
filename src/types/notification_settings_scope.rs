@@ -11,10 +11,10 @@ use serde::de::{Deserialize, Deserializer};
 
 
 
-/// TRAIT | Describes the types of chats to which notification settings are applied
+/// TRAIT | Describes the types of chats to which notification settings are relevant
 pub trait TDNotificationSettingsScope: Debug + RObject {}
 
-/// Describes the types of chats to which notification settings are applied
+/// Describes the types of chats to which notification settings are relevant
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum NotificationSettingsScope {

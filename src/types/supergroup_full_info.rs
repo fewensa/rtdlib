@@ -49,8 +49,10 @@ pub struct SupergroupFullInfo {
   #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] sticker_set_id: isize,
   /// Location to which the supergroup is connected; may be null
   location: Option<ChatLocation>,
-  /// Permanent invite link for this chat; may be null. For chat administrators with can_invite_users right only
+  /// Primary invite link for this chat; may be null. For chat administrators with can_invite_users right only
   invite_link: Option<ChatInviteLink>,
+  /// List of commands of bots in the group
+  bot_commands: Vec<BotCommands>,
   /// Identifier of the basic group from which supergroup was upgraded; 0 if none
   upgraded_from_basic_group_id: i64,
   /// Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
@@ -110,6 +112,8 @@ impl SupergroupFullInfo {
   pub fn location(&self) -> &Option<ChatLocation> { &self.location }
 
   pub fn invite_link(&self) -> &Option<ChatInviteLink> { &self.invite_link }
+
+  pub fn bot_commands(&self) -> &Vec<BotCommands> { &self.bot_commands }
 
   pub fn upgraded_from_basic_group_id(&self) -> i64 { self.upgraded_from_basic_group_id }
 
@@ -230,6 +234,12 @@ impl RTDSupergroupFullInfoBuilder {
    
   pub fn invite_link<T: AsRef<ChatInviteLink>>(&mut self, invite_link: T) -> &mut Self {
     self.inner.invite_link = Some(invite_link.as_ref().clone());
+    self
+  }
+
+   
+  pub fn bot_commands(&mut self, bot_commands: Vec<BotCommands>) -> &mut Self {
+    self.inner.bot_commands = bot_commands;
     self
   }
 

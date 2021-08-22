@@ -15,18 +15,28 @@ pub struct PaymentReceipt {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// Product title
+  title: String,
+  /// Contains information about a successful payment
+  description: String,
+  /// Product photo; may be null
+  photo: Option<Photo>,
   /// Point in time (Unix timestamp) when the payment was made
   date: i64,
+  /// User identifier of the seller bot
+  seller_bot_user_id: i64,
   /// User identifier of the payment provider bot
   payments_provider_user_id: i64,
   /// Contains information about the invoice
   invoice: Invoice,
-  /// Contains order information; may be null
+  /// Order information; may be null
   order_info: Option<OrderInfo>,
   /// Chosen shipping option; may be null
   shipping_option: Option<ShippingOption>,
-  /// Title of the saved credentials
+  /// Title of the saved credentials chosen by the buyer
   credentials_title: String,
+  /// The amount of tip chosen by the buyer in the smallest units of the currency
+  tip_amount: i64,
   
 }
 
@@ -47,7 +57,15 @@ impl PaymentReceipt {
     RTDPaymentReceiptBuilder { inner }
   }
 
+  pub fn title(&self) -> &String { &self.title }
+
+  pub fn description(&self) -> &String { &self.description }
+
+  pub fn photo(&self) -> &Option<Photo> { &self.photo }
+
   pub fn date(&self) -> i64 { self.date }
+
+  pub fn seller_bot_user_id(&self) -> i64 { self.seller_bot_user_id }
 
   pub fn payments_provider_user_id(&self) -> i64 { self.payments_provider_user_id }
 
@@ -58,6 +76,8 @@ impl PaymentReceipt {
   pub fn shipping_option(&self) -> &Option<ShippingOption> { &self.shipping_option }
 
   pub fn credentials_title(&self) -> &String { &self.credentials_title }
+
+  pub fn tip_amount(&self) -> i64 { self.tip_amount }
 
 }
 
@@ -70,8 +90,32 @@ impl RTDPaymentReceiptBuilder {
   pub fn build(&self) -> PaymentReceipt { self.inner.clone() }
 
    
+  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
+    self.inner.title = title.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {
+    self.inner.description = description.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn photo<T: AsRef<Photo>>(&mut self, photo: T) -> &mut Self {
+    self.inner.photo = Some(photo.as_ref().clone());
+    self
+  }
+
+   
   pub fn date(&mut self, date: i64) -> &mut Self {
     self.inner.date = date;
+    self
+  }
+
+   
+  pub fn seller_bot_user_id(&mut self, seller_bot_user_id: i64) -> &mut Self {
+    self.inner.seller_bot_user_id = seller_bot_user_id;
     self
   }
 
@@ -102,6 +146,12 @@ impl RTDPaymentReceiptBuilder {
    
   pub fn credentials_title<T: AsRef<str>>(&mut self, credentials_title: T) -> &mut Self {
     self.inner.credentials_title = credentials_title.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn tip_amount(&mut self, tip_amount: i64) -> &mut Self {
+    self.inner.tip_amount = tip_amount;
     self
   }
 
