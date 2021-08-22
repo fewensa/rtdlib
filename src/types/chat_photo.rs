@@ -16,7 +16,7 @@ pub struct ChatPhoto {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// Unique photo identifier
-  id: isize,
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] id: isize,
   /// Point in time (Unix timestamp) when the photo has been added
   added_date: i64,
   /// Photo minithumbnail; may be null
