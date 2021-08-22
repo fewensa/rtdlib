@@ -4951,7 +4951,7 @@ pub struct UpdateSupergroupFullInfo {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// Identifier of the supergroup or channel
-  supergroup_id: i64,
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] supergroup_id: i64,
   /// New full information about the supergroup
   supergroup_full_info: SupergroupFullInfo,
   
