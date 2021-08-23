@@ -20,12 +20,22 @@ The default, `rtdlib` only have `td` types, not have call tdjson dylib, if you w
 
 ```toml
 [dependencies]
-rtdlib = { version = "1.6.*", features = "sys" }
+rtdlib = { version = "1.7.*", features = "sys" }
 ```
 
 ## version
 
-The more informations you can read [Version mapping](https://github.com/fewensa/rtdlib/wiki/Version-mapping)
+Version mapping
+
+| rtdlib    | td      |
+|-----------|---------|
+| 0.*       | master  |
+| 1.3.*     | 1.3.*   |
+| 1.4.*     | 1.4.*   |
+| 1.5.*     | 1.5.*   |
+| 1.6.*     | 1.6.*   |
+| 1.7.*     | 1.7.*   |
+
 
 # Example
 
