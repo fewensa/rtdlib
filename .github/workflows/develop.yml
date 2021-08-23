@@ -1,4 +1,4 @@
-name: Test
+name: Develop
 on: [push, pull_request]
 
 jobs:
@@ -13,6 +13,9 @@ jobs:
         with:
           toolchain: stable
           override: true
+
+      - name: Run build
+        run: cargo build
 
       - name: Run tests
         run: cargo test
