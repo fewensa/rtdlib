@@ -924,7 +924,7 @@ impl RObject for TdType {
       Self::UpdateUserPrivacySettingRules(value) => value.td_name(),
       Self::UpdateUserStatus(value) => value.td_name(),
       Self::UpdateUsersNearby(value) => value.td_name(),
-    
+
       Self::AuthorizationState(value) => value.td_name(),
       Self::CanTransferOwnershipResult(value) => value.td_name(),
       Self::ChatStatistics(value) => value.td_name(),
@@ -1048,7 +1048,7 @@ impl RObject for TdType {
       Self::ValidatedOrderInfo(value) => value.td_name(),
       Self::WebPage(value) => value.td_name(),
       Self::WebPageInstantView(value) => value.td_name(),
-    
+
     }
   }
   #[doc(hidden)]
@@ -1140,7 +1140,7 @@ impl RObject for TdType {
         Self::UpdateUserPrivacySettingRules(value) => value.extra(),
         Self::UpdateUserStatus(value) => value.extra(),
         Self::UpdateUsersNearby(value) => value.extra(),
-      
+
         Self::AuthorizationState(value) => value.extra(),
         Self::CanTransferOwnershipResult(value) => value.extra(),
         Self::ChatStatistics(value) => value.extra(),
@@ -1264,7 +1264,7 @@ impl RObject for TdType {
         Self::ValidatedOrderInfo(value) => value.extra(),
         Self::WebPage(value) => value.extra(),
         Self::WebPageInstantView(value) => value.extra(),
-      
+
     }
   }
   /// Return td type to json string
@@ -1356,7 +1356,7 @@ impl RObject for TdType {
         Self::UpdateUserPrivacySettingRules(value) => value.to_json(),
         Self::UpdateUserStatus(value) => value.to_json(),
         Self::UpdateUsersNearby(value) => value.to_json(),
-      
+
         Self::AuthorizationState(value) => value.to_json(),
         Self::CanTransferOwnershipResult(value) => value.to_json(),
         Self::ChatStatistics(value) => value.to_json(),
@@ -1480,7 +1480,7 @@ impl RObject for TdType {
         Self::ValidatedOrderInfo(value) => value.to_json(),
         Self::WebPage(value) => value.to_json(),
         Self::WebPageInstantView(value) => value.to_json(),
-      
+
     }
   }
 }
@@ -1494,14 +1494,14 @@ mod tests {
   #[test]
   fn test_deserialize_enum() {
     match from_json::<UpdateAuthorizationState>(r#"{"@type":"updateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters"}}"#) {
-      Ok(t) => {},
+      Ok(_t) => {},
       Err(e) => {panic!("{}", e)}
     };
 
     match from_json::<TdType>(r#"{"@type":"updateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters"}}"#) {
       Ok(t) => {
         match t {
-          TdType::UpdateAuthorizationState(v) => {},
+          TdType::UpdateAuthorizationState(_v) => {},
           _ => panic!("from_json failed: {:?}", t)
         }
       },

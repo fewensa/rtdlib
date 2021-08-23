@@ -6,7 +6,7 @@ fn test_authorization_state() {
   let state: UpdateAuthorizationState = serde_json::from_str(&json[..]).expect("Json fail");
   assert_eq!("updateAuthorizationState", state.td_name());
   let rjson = state.to_json();
-  assert!(rjson.is_ok(), true);
+  assert!(rjson.is_ok());
   assert_eq!(json, rjson.unwrap());
 }
 
