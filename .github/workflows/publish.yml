@@ -21,6 +21,4 @@ jobs:
         run: cargo package
 
       - name: Publish
-        run: |
-          echo $TOKEN_CRATES_IO > ~/.cargo/credentials
-          cargo publish
+        run: cargo publish
