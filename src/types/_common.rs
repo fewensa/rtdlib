@@ -221,6 +221,9 @@ impl<'a, DICESTICKERS: TDDiceStickers> TDDiceStickers for &'a mut DICESTICKERS {
 impl<'a, FILETYPE: TDFileType> TDFileType for &'a FILETYPE {}
 impl<'a, FILETYPE: TDFileType> TDFileType for &'a mut FILETYPE {}
 
+impl<'a, GROUPCALLVIDEOQUALITY: TDGroupCallVideoQuality> TDGroupCallVideoQuality for &'a GROUPCALLVIDEOQUALITY {}
+impl<'a, GROUPCALLVIDEOQUALITY: TDGroupCallVideoQuality> TDGroupCallVideoQuality for &'a mut GROUPCALLVIDEOQUALITY {}
+
 impl<'a, INLINEKEYBOARDBUTTONTYPE: TDInlineKeyboardButtonType> TDInlineKeyboardButtonType for &'a INLINEKEYBOARDBUTTONTYPE {}
 impl<'a, INLINEKEYBOARDBUTTONTYPE: TDInlineKeyboardButtonType> TDInlineKeyboardButtonType for &'a mut INLINEKEYBOARDBUTTONTYPE {}
 
@@ -403,6 +406,7 @@ impl<'a, VECTORPATHCOMMAND: TDVectorPathCommand> TDVectorPathCommand for &'a mut
 pub enum TdType {
   TestUseUpdate(TestUseUpdate),
   UpdateActiveNotifications(UpdateActiveNotifications),
+  UpdateAnimatedEmojiMessageClicked(UpdateAnimatedEmojiMessageClicked),
   UpdateAnimationSearchParameters(UpdateAnimationSearchParameters),
   UpdateAuthorizationState(UpdateAuthorizationState),
   UpdateBasicGroup(UpdateBasicGroup),
@@ -420,15 +424,18 @@ pub enum TdType {
   UpdateChatMessageTtlSetting(UpdateChatMessageTtlSetting),
   UpdateChatNotificationSettings(UpdateChatNotificationSettings),
   UpdateChatOnlineMemberCount(UpdateChatOnlineMemberCount),
+  UpdateChatPendingJoinRequests(UpdateChatPendingJoinRequests),
   UpdateChatPermissions(UpdateChatPermissions),
   UpdateChatPhoto(UpdateChatPhoto),
   UpdateChatPosition(UpdateChatPosition),
   UpdateChatReadInbox(UpdateChatReadInbox),
   UpdateChatReadOutbox(UpdateChatReadOutbox),
   UpdateChatReplyMarkup(UpdateChatReplyMarkup),
+  UpdateChatTheme(UpdateChatTheme),
+  UpdateChatThemes(UpdateChatThemes),
   UpdateChatTitle(UpdateChatTitle),
   UpdateChatUnreadMentionCount(UpdateChatUnreadMentionCount),
-  UpdateChatVoiceChat(UpdateChatVoiceChat),
+  UpdateChatVideoChat(UpdateChatVideoChat),
   UpdateConnectionState(UpdateConnectionState),
   UpdateDeleteMessages(UpdateDeleteMessages),
   UpdateDiceEmojis(UpdateDiceEmojis),
@@ -454,6 +461,7 @@ pub enum TdType {
   UpdateNewCallSignalingData(UpdateNewCallSignalingData),
   UpdateNewCallbackQuery(UpdateNewCallbackQuery),
   UpdateNewChat(UpdateNewChat),
+  UpdateNewChatJoinRequest(UpdateNewChatJoinRequest),
   UpdateNewChosenInlineResult(UpdateNewChosenInlineResult),
   UpdateNewCustomEvent(UpdateNewCustomEvent),
   UpdateNewCustomQuery(UpdateNewCustomQuery),
@@ -505,6 +513,7 @@ pub enum TdType {
   StatisticalGraph(StatisticalGraph),
   Update(Update),
   AccountTtl(AccountTtl),
+  AnimatedEmoji(AnimatedEmoji),
   Animations(Animations),
   AuthenticationCodeInfo(AuthenticationCodeInfo),
   AutoDownloadSettingsPresets(AutoDownloadSettingsPresets),
@@ -526,6 +535,7 @@ pub enum TdType {
   ChatInviteLinkInfo(ChatInviteLinkInfo),
   ChatInviteLinkMembers(ChatInviteLinkMembers),
   ChatInviteLinks(ChatInviteLinks),
+  ChatJoinRequests(ChatJoinRequests),
   ChatLists(ChatLists),
   ChatMember(ChatMember),
   ChatMembers(ChatMembers),
@@ -558,8 +568,10 @@ pub enum TdType {
   LogTags(LogTags),
   LogVerbosityLevel(LogVerbosityLevel),
   Message(Message),
+  MessageCalendar(MessageCalendar),
   MessageLink(MessageLink),
   MessageLinkInfo(MessageLinkInfo),
+  MessagePositions(MessagePositions),
   MessageSenders(MessageSenders),
   MessageStatistics(MessageStatistics),
   MessageThreadInfo(MessageThreadInfo),
@@ -585,6 +597,8 @@ pub enum TdType {
   SecretChat(SecretChat),
   Session(Session),
   Sessions(Sessions),
+  SponsoredMessages(SponsoredMessages),
+  Sticker(Sticker),
   StickerSet(StickerSet),
   StickerSets(StickerSets),
   Stickers(Stickers),
@@ -620,6 +634,7 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
       TdType,
   (testUseUpdate, TestUseUpdate);
   (updateActiveNotifications, UpdateActiveNotifications);
+  (updateAnimatedEmojiMessageClicked, UpdateAnimatedEmojiMessageClicked);
   (updateAnimationSearchParameters, UpdateAnimationSearchParameters);
   (updateAuthorizationState, UpdateAuthorizationState);
   (updateBasicGroup, UpdateBasicGroup);
@@ -637,15 +652,18 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (updateChatMessageTtlSetting, UpdateChatMessageTtlSetting);
   (updateChatNotificationSettings, UpdateChatNotificationSettings);
   (updateChatOnlineMemberCount, UpdateChatOnlineMemberCount);
+  (updateChatPendingJoinRequests, UpdateChatPendingJoinRequests);
   (updateChatPermissions, UpdateChatPermissions);
   (updateChatPhoto, UpdateChatPhoto);
   (updateChatPosition, UpdateChatPosition);
   (updateChatReadInbox, UpdateChatReadInbox);
   (updateChatReadOutbox, UpdateChatReadOutbox);
   (updateChatReplyMarkup, UpdateChatReplyMarkup);
+  (updateChatTheme, UpdateChatTheme);
+  (updateChatThemes, UpdateChatThemes);
   (updateChatTitle, UpdateChatTitle);
   (updateChatUnreadMentionCount, UpdateChatUnreadMentionCount);
-  (updateChatVoiceChat, UpdateChatVoiceChat);
+  (updateChatVideoChat, UpdateChatVideoChat);
   (updateConnectionState, UpdateConnectionState);
   (updateDeleteMessages, UpdateDeleteMessages);
   (updateDiceEmojis, UpdateDiceEmojis);
@@ -671,6 +689,7 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (updateNewCallSignalingData, UpdateNewCallSignalingData);
   (updateNewCallbackQuery, UpdateNewCallbackQuery);
   (updateNewChat, UpdateNewChat);
+  (updateNewChatJoinRequest, UpdateNewChatJoinRequest);
   (updateNewChosenInlineResult, UpdateNewChosenInlineResult);
   (updateNewCustomEvent, UpdateNewCustomEvent);
   (updateNewCustomQuery, UpdateNewCustomQuery);
@@ -722,6 +741,7 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (StatisticalGraph, StatisticalGraph);
   (Update, Update);
   (accountTtl, AccountTtl);
+  (animatedEmoji, AnimatedEmoji);
   (animations, Animations);
   (authenticationCodeInfo, AuthenticationCodeInfo);
   (autoDownloadSettingsPresets, AutoDownloadSettingsPresets);
@@ -743,6 +763,7 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (chatInviteLinkInfo, ChatInviteLinkInfo);
   (chatInviteLinkMembers, ChatInviteLinkMembers);
   (chatInviteLinks, ChatInviteLinks);
+  (chatJoinRequests, ChatJoinRequests);
   (chatLists, ChatLists);
   (chatMember, ChatMember);
   (chatMembers, ChatMembers);
@@ -775,8 +796,10 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (logTags, LogTags);
   (logVerbosityLevel, LogVerbosityLevel);
   (message, Message);
+  (messageCalendar, MessageCalendar);
   (messageLink, MessageLink);
   (messageLinkInfo, MessageLinkInfo);
+  (messagePositions, MessagePositions);
   (messageSenders, MessageSenders);
   (messageStatistics, MessageStatistics);
   (messageThreadInfo, MessageThreadInfo);
@@ -802,6 +825,8 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (secretChat, SecretChat);
   (session, Session);
   (sessions, Sessions);
+  (sponsoredMessages, SponsoredMessages);
+  (sticker, Sticker);
   (stickerSet, StickerSet);
   (stickerSets, StickerSets);
   (stickers, Stickers);
@@ -840,6 +865,7 @@ impl RObject for TdType {
     match self {
       Self::TestUseUpdate(value) => value.td_name(),
       Self::UpdateActiveNotifications(value) => value.td_name(),
+      Self::UpdateAnimatedEmojiMessageClicked(value) => value.td_name(),
       Self::UpdateAnimationSearchParameters(value) => value.td_name(),
       Self::UpdateAuthorizationState(value) => value.td_name(),
       Self::UpdateBasicGroup(value) => value.td_name(),
@@ -857,15 +883,18 @@ impl RObject for TdType {
       Self::UpdateChatMessageTtlSetting(value) => value.td_name(),
       Self::UpdateChatNotificationSettings(value) => value.td_name(),
       Self::UpdateChatOnlineMemberCount(value) => value.td_name(),
+      Self::UpdateChatPendingJoinRequests(value) => value.td_name(),
       Self::UpdateChatPermissions(value) => value.td_name(),
       Self::UpdateChatPhoto(value) => value.td_name(),
       Self::UpdateChatPosition(value) => value.td_name(),
       Self::UpdateChatReadInbox(value) => value.td_name(),
       Self::UpdateChatReadOutbox(value) => value.td_name(),
       Self::UpdateChatReplyMarkup(value) => value.td_name(),
+      Self::UpdateChatTheme(value) => value.td_name(),
+      Self::UpdateChatThemes(value) => value.td_name(),
       Self::UpdateChatTitle(value) => value.td_name(),
       Self::UpdateChatUnreadMentionCount(value) => value.td_name(),
-      Self::UpdateChatVoiceChat(value) => value.td_name(),
+      Self::UpdateChatVideoChat(value) => value.td_name(),
       Self::UpdateConnectionState(value) => value.td_name(),
       Self::UpdateDeleteMessages(value) => value.td_name(),
       Self::UpdateDiceEmojis(value) => value.td_name(),
@@ -891,6 +920,7 @@ impl RObject for TdType {
       Self::UpdateNewCallSignalingData(value) => value.td_name(),
       Self::UpdateNewCallbackQuery(value) => value.td_name(),
       Self::UpdateNewChat(value) => value.td_name(),
+      Self::UpdateNewChatJoinRequest(value) => value.td_name(),
       Self::UpdateNewChosenInlineResult(value) => value.td_name(),
       Self::UpdateNewCustomEvent(value) => value.td_name(),
       Self::UpdateNewCustomQuery(value) => value.td_name(),
@@ -924,7 +954,7 @@ impl RObject for TdType {
       Self::UpdateUserPrivacySettingRules(value) => value.td_name(),
       Self::UpdateUserStatus(value) => value.td_name(),
       Self::UpdateUsersNearby(value) => value.td_name(),
-
+    
       Self::AuthorizationState(value) => value.td_name(),
       Self::CanTransferOwnershipResult(value) => value.td_name(),
       Self::ChatStatistics(value) => value.td_name(),
@@ -942,6 +972,7 @@ impl RObject for TdType {
       Self::StatisticalGraph(value) => value.td_name(),
       Self::Update(value) => value.td_name(),
       Self::AccountTtl(value) => value.td_name(),
+      Self::AnimatedEmoji(value) => value.td_name(),
       Self::Animations(value) => value.td_name(),
       Self::AuthenticationCodeInfo(value) => value.td_name(),
       Self::AutoDownloadSettingsPresets(value) => value.td_name(),
@@ -963,6 +994,7 @@ impl RObject for TdType {
       Self::ChatInviteLinkInfo(value) => value.td_name(),
       Self::ChatInviteLinkMembers(value) => value.td_name(),
       Self::ChatInviteLinks(value) => value.td_name(),
+      Self::ChatJoinRequests(value) => value.td_name(),
       Self::ChatLists(value) => value.td_name(),
       Self::ChatMember(value) => value.td_name(),
       Self::ChatMembers(value) => value.td_name(),
@@ -995,8 +1027,10 @@ impl RObject for TdType {
       Self::LogTags(value) => value.td_name(),
       Self::LogVerbosityLevel(value) => value.td_name(),
       Self::Message(value) => value.td_name(),
+      Self::MessageCalendar(value) => value.td_name(),
       Self::MessageLink(value) => value.td_name(),
       Self::MessageLinkInfo(value) => value.td_name(),
+      Self::MessagePositions(value) => value.td_name(),
       Self::MessageSenders(value) => value.td_name(),
       Self::MessageStatistics(value) => value.td_name(),
       Self::MessageThreadInfo(value) => value.td_name(),
@@ -1022,6 +1056,8 @@ impl RObject for TdType {
       Self::SecretChat(value) => value.td_name(),
       Self::Session(value) => value.td_name(),
       Self::Sessions(value) => value.td_name(),
+      Self::SponsoredMessages(value) => value.td_name(),
+      Self::Sticker(value) => value.td_name(),
       Self::StickerSet(value) => value.td_name(),
       Self::StickerSets(value) => value.td_name(),
       Self::Stickers(value) => value.td_name(),
@@ -1048,7 +1084,7 @@ impl RObject for TdType {
       Self::ValidatedOrderInfo(value) => value.td_name(),
       Self::WebPage(value) => value.td_name(),
       Self::WebPageInstantView(value) => value.td_name(),
-
+    
     }
   }
   #[doc(hidden)]
@@ -1056,6 +1092,7 @@ impl RObject for TdType {
     match self {
         Self::TestUseUpdate(value) => value.extra(),
         Self::UpdateActiveNotifications(value) => value.extra(),
+        Self::UpdateAnimatedEmojiMessageClicked(value) => value.extra(),
         Self::UpdateAnimationSearchParameters(value) => value.extra(),
         Self::UpdateAuthorizationState(value) => value.extra(),
         Self::UpdateBasicGroup(value) => value.extra(),
@@ -1073,15 +1110,18 @@ impl RObject for TdType {
         Self::UpdateChatMessageTtlSetting(value) => value.extra(),
         Self::UpdateChatNotificationSettings(value) => value.extra(),
         Self::UpdateChatOnlineMemberCount(value) => value.extra(),
+        Self::UpdateChatPendingJoinRequests(value) => value.extra(),
         Self::UpdateChatPermissions(value) => value.extra(),
         Self::UpdateChatPhoto(value) => value.extra(),
         Self::UpdateChatPosition(value) => value.extra(),
         Self::UpdateChatReadInbox(value) => value.extra(),
         Self::UpdateChatReadOutbox(value) => value.extra(),
         Self::UpdateChatReplyMarkup(value) => value.extra(),
+        Self::UpdateChatTheme(value) => value.extra(),
+        Self::UpdateChatThemes(value) => value.extra(),
         Self::UpdateChatTitle(value) => value.extra(),
         Self::UpdateChatUnreadMentionCount(value) => value.extra(),
-        Self::UpdateChatVoiceChat(value) => value.extra(),
+        Self::UpdateChatVideoChat(value) => value.extra(),
         Self::UpdateConnectionState(value) => value.extra(),
         Self::UpdateDeleteMessages(value) => value.extra(),
         Self::UpdateDiceEmojis(value) => value.extra(),
@@ -1107,6 +1147,7 @@ impl RObject for TdType {
         Self::UpdateNewCallSignalingData(value) => value.extra(),
         Self::UpdateNewCallbackQuery(value) => value.extra(),
         Self::UpdateNewChat(value) => value.extra(),
+        Self::UpdateNewChatJoinRequest(value) => value.extra(),
         Self::UpdateNewChosenInlineResult(value) => value.extra(),
         Self::UpdateNewCustomEvent(value) => value.extra(),
         Self::UpdateNewCustomQuery(value) => value.extra(),
@@ -1140,7 +1181,7 @@ impl RObject for TdType {
         Self::UpdateUserPrivacySettingRules(value) => value.extra(),
         Self::UpdateUserStatus(value) => value.extra(),
         Self::UpdateUsersNearby(value) => value.extra(),
-
+      
         Self::AuthorizationState(value) => value.extra(),
         Self::CanTransferOwnershipResult(value) => value.extra(),
         Self::ChatStatistics(value) => value.extra(),
@@ -1158,6 +1199,7 @@ impl RObject for TdType {
         Self::StatisticalGraph(value) => value.extra(),
         Self::Update(value) => value.extra(),
         Self::AccountTtl(value) => value.extra(),
+        Self::AnimatedEmoji(value) => value.extra(),
         Self::Animations(value) => value.extra(),
         Self::AuthenticationCodeInfo(value) => value.extra(),
         Self::AutoDownloadSettingsPresets(value) => value.extra(),
@@ -1179,6 +1221,7 @@ impl RObject for TdType {
         Self::ChatInviteLinkInfo(value) => value.extra(),
         Self::ChatInviteLinkMembers(value) => value.extra(),
         Self::ChatInviteLinks(value) => value.extra(),
+        Self::ChatJoinRequests(value) => value.extra(),
         Self::ChatLists(value) => value.extra(),
         Self::ChatMember(value) => value.extra(),
         Self::ChatMembers(value) => value.extra(),
@@ -1211,8 +1254,10 @@ impl RObject for TdType {
         Self::LogTags(value) => value.extra(),
         Self::LogVerbosityLevel(value) => value.extra(),
         Self::Message(value) => value.extra(),
+        Self::MessageCalendar(value) => value.extra(),
         Self::MessageLink(value) => value.extra(),
         Self::MessageLinkInfo(value) => value.extra(),
+        Self::MessagePositions(value) => value.extra(),
         Self::MessageSenders(value) => value.extra(),
         Self::MessageStatistics(value) => value.extra(),
         Self::MessageThreadInfo(value) => value.extra(),
@@ -1238,6 +1283,8 @@ impl RObject for TdType {
         Self::SecretChat(value) => value.extra(),
         Self::Session(value) => value.extra(),
         Self::Sessions(value) => value.extra(),
+        Self::SponsoredMessages(value) => value.extra(),
+        Self::Sticker(value) => value.extra(),
         Self::StickerSet(value) => value.extra(),
         Self::StickerSets(value) => value.extra(),
         Self::Stickers(value) => value.extra(),
@@ -1264,7 +1311,7 @@ impl RObject for TdType {
         Self::ValidatedOrderInfo(value) => value.extra(),
         Self::WebPage(value) => value.extra(),
         Self::WebPageInstantView(value) => value.extra(),
-
+      
     }
   }
   /// Return td type to json string
@@ -1272,6 +1319,7 @@ impl RObject for TdType {
     match self {
         Self::TestUseUpdate(value) => value.to_json(),
         Self::UpdateActiveNotifications(value) => value.to_json(),
+        Self::UpdateAnimatedEmojiMessageClicked(value) => value.to_json(),
         Self::UpdateAnimationSearchParameters(value) => value.to_json(),
         Self::UpdateAuthorizationState(value) => value.to_json(),
         Self::UpdateBasicGroup(value) => value.to_json(),
@@ -1289,15 +1337,18 @@ impl RObject for TdType {
         Self::UpdateChatMessageTtlSetting(value) => value.to_json(),
         Self::UpdateChatNotificationSettings(value) => value.to_json(),
         Self::UpdateChatOnlineMemberCount(value) => value.to_json(),
+        Self::UpdateChatPendingJoinRequests(value) => value.to_json(),
         Self::UpdateChatPermissions(value) => value.to_json(),
         Self::UpdateChatPhoto(value) => value.to_json(),
         Self::UpdateChatPosition(value) => value.to_json(),
         Self::UpdateChatReadInbox(value) => value.to_json(),
         Self::UpdateChatReadOutbox(value) => value.to_json(),
         Self::UpdateChatReplyMarkup(value) => value.to_json(),
+        Self::UpdateChatTheme(value) => value.to_json(),
+        Self::UpdateChatThemes(value) => value.to_json(),
         Self::UpdateChatTitle(value) => value.to_json(),
         Self::UpdateChatUnreadMentionCount(value) => value.to_json(),
-        Self::UpdateChatVoiceChat(value) => value.to_json(),
+        Self::UpdateChatVideoChat(value) => value.to_json(),
         Self::UpdateConnectionState(value) => value.to_json(),
         Self::UpdateDeleteMessages(value) => value.to_json(),
         Self::UpdateDiceEmojis(value) => value.to_json(),
@@ -1323,6 +1374,7 @@ impl RObject for TdType {
         Self::UpdateNewCallSignalingData(value) => value.to_json(),
         Self::UpdateNewCallbackQuery(value) => value.to_json(),
         Self::UpdateNewChat(value) => value.to_json(),
+        Self::UpdateNewChatJoinRequest(value) => value.to_json(),
         Self::UpdateNewChosenInlineResult(value) => value.to_json(),
         Self::UpdateNewCustomEvent(value) => value.to_json(),
         Self::UpdateNewCustomQuery(value) => value.to_json(),
@@ -1356,7 +1408,7 @@ impl RObject for TdType {
         Self::UpdateUserPrivacySettingRules(value) => value.to_json(),
         Self::UpdateUserStatus(value) => value.to_json(),
         Self::UpdateUsersNearby(value) => value.to_json(),
-
+      
         Self::AuthorizationState(value) => value.to_json(),
         Self::CanTransferOwnershipResult(value) => value.to_json(),
         Self::ChatStatistics(value) => value.to_json(),
@@ -1374,6 +1426,7 @@ impl RObject for TdType {
         Self::StatisticalGraph(value) => value.to_json(),
         Self::Update(value) => value.to_json(),
         Self::AccountTtl(value) => value.to_json(),
+        Self::AnimatedEmoji(value) => value.to_json(),
         Self::Animations(value) => value.to_json(),
         Self::AuthenticationCodeInfo(value) => value.to_json(),
         Self::AutoDownloadSettingsPresets(value) => value.to_json(),
@@ -1395,6 +1448,7 @@ impl RObject for TdType {
         Self::ChatInviteLinkInfo(value) => value.to_json(),
         Self::ChatInviteLinkMembers(value) => value.to_json(),
         Self::ChatInviteLinks(value) => value.to_json(),
+        Self::ChatJoinRequests(value) => value.to_json(),
         Self::ChatLists(value) => value.to_json(),
         Self::ChatMember(value) => value.to_json(),
         Self::ChatMembers(value) => value.to_json(),
@@ -1427,8 +1481,10 @@ impl RObject for TdType {
         Self::LogTags(value) => value.to_json(),
         Self::LogVerbosityLevel(value) => value.to_json(),
         Self::Message(value) => value.to_json(),
+        Self::MessageCalendar(value) => value.to_json(),
         Self::MessageLink(value) => value.to_json(),
         Self::MessageLinkInfo(value) => value.to_json(),
+        Self::MessagePositions(value) => value.to_json(),
         Self::MessageSenders(value) => value.to_json(),
         Self::MessageStatistics(value) => value.to_json(),
         Self::MessageThreadInfo(value) => value.to_json(),
@@ -1454,6 +1510,8 @@ impl RObject for TdType {
         Self::SecretChat(value) => value.to_json(),
         Self::Session(value) => value.to_json(),
         Self::Sessions(value) => value.to_json(),
+        Self::SponsoredMessages(value) => value.to_json(),
+        Self::Sticker(value) => value.to_json(),
         Self::StickerSet(value) => value.to_json(),
         Self::StickerSets(value) => value.to_json(),
         Self::Stickers(value) => value.to_json(),
@@ -1480,7 +1538,7 @@ impl RObject for TdType {
         Self::ValidatedOrderInfo(value) => value.to_json(),
         Self::WebPage(value) => value.to_json(),
         Self::WebPageInstantView(value) => value.to_json(),
-
+      
     }
   }
 }
@@ -1494,14 +1552,14 @@ mod tests {
   #[test]
   fn test_deserialize_enum() {
     match from_json::<UpdateAuthorizationState>(r#"{"@type":"updateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters"}}"#) {
-      Ok(_t) => {},
+      Ok(t) => {},
       Err(e) => {panic!("{}", e)}
     };
 
     match from_json::<TdType>(r#"{"@type":"updateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters"}}"#) {
       Ok(t) => {
         match t {
-          TdType::UpdateAuthorizationState(_v) => {},
+          TdType::UpdateAuthorizationState(v) => {},
           _ => panic!("from_json failed: {:?}", t)
         }
       },

@@ -23,7 +23,7 @@ pub struct PhotoSize {
   width: i64,
   /// Image height
   height: i64,
-  /// Sizes of progressive JPEG file prefixes, which can be used to preliminarily show the image
+  /// Sizes of progressive JPEG file prefixes, which can be used to preliminarily show the image; in bytes
   progressive_sizes: Vec<i64>,
   
 }

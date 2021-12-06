@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 
 
-/// Contains information about one session in a Telegram application used by the current user. Sessions should be shown to the user in the returned order
+/// Contains information about one session in a Telegram application used by the current user. Sessions must be shown to the user in the returned order
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Session {
   #[doc(hidden)]

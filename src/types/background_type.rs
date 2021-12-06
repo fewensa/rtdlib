@@ -112,7 +112,7 @@ pub struct BackgroundTypeFill {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Description of the background fill
+  /// The background fill
   fill: BackgroundFill,
   
 }
@@ -180,10 +180,12 @@ pub struct BackgroundTypePattern {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Description of the background fill
+  /// Fill of the background
   fill: BackgroundFill,
-  /// Intensity of the pattern when it is shown above the filled background; 100-100. If negative, the pattern color and the filled background colors needs to be inverted
+  /// Intensity of the pattern when it is shown above the filled background; 0-100.
   intensity: i64,
+  /// True, if the background fill must be applied only to the pattern itself. All other pixels are black in this case. For dark themes only
+  is_inverted: bool,
   /// True, if the background needs to be slightly moved when device is tilted
   is_moving: bool,
   
@@ -213,6 +215,8 @@ impl BackgroundTypePattern {
 
   pub fn intensity(&self) -> i64 { self.intensity }
 
+  pub fn is_inverted(&self) -> bool { self.is_inverted }
+
   pub fn is_moving(&self) -> bool { self.is_moving }
 
 }
@@ -234,6 +238,12 @@ impl RTDBackgroundTypePatternBuilder {
    
   pub fn intensity(&mut self, intensity: i64) -> &mut Self {
     self.inner.intensity = intensity;
+    self
+  }
+
+   
+  pub fn is_inverted(&mut self, is_inverted: bool) -> &mut Self {
+    self.inner.is_inverted = is_inverted;
     self
   }
 

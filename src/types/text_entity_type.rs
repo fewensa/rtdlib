@@ -25,7 +25,7 @@ pub enum TextEntityType {
   Bold(TextEntityTypeBold),
   /// A bot command, beginning with "/"
   BotCommand(TextEntityTypeBotCommand),
-  /// A cashtag text, beginning with "$" and consisting of capital english letters (i.e. "$USD")
+  /// A cashtag text, beginning with "$" and consisting of capital English letters (e.g., "$USD")
   Cashtag(TextEntityTypeCashtag),
   /// Text that must be formatted as if inside a code HTML tag
   Code(TextEntityTypeCode),
@@ -427,7 +427,7 @@ impl AsRef<TextEntityTypeBotCommand> for RTDTextEntityTypeBotCommandBuilder {
 
 
 
-/// A cashtag text, beginning with "$" and consisting of capital english letters (i.e. "$USD")
+/// A cashtag text, beginning with "$" and consisting of capital English letters (e.g., "$USD")
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TextEntityTypeCashtag {
   #[doc(hidden)]
@@ -726,7 +726,7 @@ pub struct TextEntityTypeMediaTimestamp {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Timestamp from which a video/audio/video note/voice note playing should start, in seconds. The media can be in the content or the web page preview of the current message, or in the same places in the replied message
+  /// Timestamp from which a video/audio/video note/voice note playing must start, in seconds. The media can be in the content or the web page preview of the current message, or in the same places in the replied message
   media_timestamp: i64,
   
 }

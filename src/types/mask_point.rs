@@ -11,21 +11,21 @@ use serde::de::{Deserialize, Deserializer};
 
 
 
-/// TRAIT | Part of the face, relative to which a mask should be placed
+/// TRAIT | Part of the face, relative to which a mask is placed
 pub trait TDMaskPoint: Debug + RObject {}
 
-/// Part of the face, relative to which a mask should be placed
+/// Part of the face, relative to which a mask is placed
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum MaskPoint {
   #[doc(hidden)] _Default(()),
-  /// A mask should be placed relatively to the chin
+  /// The mask is placed relatively to the chin
   Chin(MaskPointChin),
-  /// A mask should be placed relatively to the eyes
+  /// The mask is placed relatively to the eyes
   Eyes(MaskPointEyes),
-  /// A mask should be placed relatively to the forehead
+  /// The mask is placed relatively to the forehead
   Forehead(MaskPointForehead),
-  /// A mask should be placed relatively to the mouth
+  /// The mask is placed relatively to the mouth
   Mouth(MaskPointMouth),
 
 }
@@ -113,7 +113,7 @@ impl AsRef<MaskPoint> for MaskPoint {
 
 
 
-/// A mask should be placed relatively to the chin
+/// The mask is placed relatively to the chin
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MaskPointChin {
   #[doc(hidden)]
@@ -171,7 +171,7 @@ impl AsRef<MaskPointChin> for RTDMaskPointChinBuilder {
 
 
 
-/// A mask should be placed relatively to the eyes
+/// The mask is placed relatively to the eyes
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MaskPointEyes {
   #[doc(hidden)]
@@ -229,7 +229,7 @@ impl AsRef<MaskPointEyes> for RTDMaskPointEyesBuilder {
 
 
 
-/// A mask should be placed relatively to the forehead
+/// The mask is placed relatively to the forehead
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MaskPointForehead {
   #[doc(hidden)]
@@ -287,7 +287,7 @@ impl AsRef<MaskPointForehead> for RTDMaskPointForeheadBuilder {
 
 
 
-/// A mask should be placed relatively to the mouth
+/// The mask is placed relatively to the mouth
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MaskPointMouth {
   #[doc(hidden)]

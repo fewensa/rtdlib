@@ -19,7 +19,7 @@ pub trait TDAuthorizationState: Debug + RObject {}
 #[serde(untagged)]
 pub enum AuthorizationState {
   #[doc(hidden)] _Default(()),
-  /// TDLib client is in its final state. All databases are closed and all resources are released. No other updates will be received after this. All queries will be responded to with error code 500. To continue working, one should create a new instance of the TDLib client
+  /// TDLib client is in its final state. All databases are closed and all resources are released. No other updates will be received after this. All queries will be responded to with error code 500. To continue working, one must create a new instance of the TDLib client
   Closed(AuthorizationStateClosed),
   /// TDLib is closing, all subsequent queries will be answered with the error 500. Note that closing TDLib can take a while. All resources will be freed only after authorizationStateClosed has been received
   Closing(AuthorizationStateClosing),
@@ -193,7 +193,7 @@ impl AsRef<AuthorizationState> for AuthorizationState {
 
 
 
-/// TDLib client is in its final state. All databases are closed and all resources are released. No other updates will be received after this. All queries will be responded to with error code 500. To continue working, one should create a new instance of the TDLib client
+/// TDLib client is in its final state. All databases are closed and all resources are released. No other updates will be received after this. All queries will be responded to with error code 500. To continue working, one must create a new instance of the TDLib client
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct AuthorizationStateClosed {
   #[doc(hidden)]

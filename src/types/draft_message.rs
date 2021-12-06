@@ -19,7 +19,7 @@ pub struct DraftMessage {
   reply_to_message_id: i64,
   /// Point in time (Unix timestamp) when the draft was created
   date: i64,
-  /// Content of the message draft; this should always be of type inputMessageText
+  /// Content of the message draft; must be of the type inputMessageText
   input_message_text: InputMessageContent,
   
 }

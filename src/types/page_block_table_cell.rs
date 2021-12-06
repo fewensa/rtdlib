@@ -15,13 +15,13 @@ pub struct PageBlockTableCell {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Cell text; may be null. If the text is null, then the cell should be invisible
+  /// Cell text; may be null. If the text is null, then the cell must be invisible
   text: Option<RichText>,
   /// True, if it is a header cell
   is_header: bool,
-  /// The number of columns the cell should span
+  /// The number of columns the cell spans
   colspan: i64,
-  /// The number of rows the cell should span
+  /// The number of rows the cell spans
   rowspan: i64,
   /// Horizontal cell content alignment
   align: PageBlockHorizontalAlignment,

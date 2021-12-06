@@ -27,7 +27,7 @@ pub struct PaymentReceipt {
   seller_bot_user_id: i64,
   /// User identifier of the payment provider bot
   payments_provider_user_id: i64,
-  /// Contains information about the invoice
+  /// Information about the invoice
   invoice: Invoice,
   /// Order information; may be null
   order_info: Option<OrderInfo>,

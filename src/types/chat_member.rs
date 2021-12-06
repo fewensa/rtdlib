@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 
 
-/// Information about a user or a chat as a member of another chat
+/// Describes a user or a chat as a member of another chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatMember {
   #[doc(hidden)]

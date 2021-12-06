@@ -19,7 +19,7 @@ pub struct MessageSendOptions {
   disable_notification: bool,
   /// Pass true if the message is sent from the background
   from_background: bool,
-  /// Message scheduling state. Messages sent to a secret chat, live location messages and self-destructing messages can't be scheduled
+  /// Message scheduling state; pass null to send message immediately. Messages sent to a secret chat, live location messages and self-destructing messages can't be scheduled
   scheduling_state: MessageSchedulingState,
   
 }

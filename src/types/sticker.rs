@@ -27,7 +27,7 @@ pub struct Sticker {
   is_animated: bool,
   /// True, if the sticker is a mask
   is_mask: bool,
-  /// Position where the mask should be placed; may be null
+  /// Position where the mask is placed; may be null
   mask_position: Option<MaskPosition>,
   /// Sticker's outline represented as a list of closed vector paths; may be empty. The coordinate system origin is in the upper-left corner
   outline: Vec<ClosedVectorPath>,

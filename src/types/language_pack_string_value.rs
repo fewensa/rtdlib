@@ -21,7 +21,7 @@ pub enum LanguagePackStringValue {
   #[doc(hidden)] _Default(()),
   /// Returns a string stored in the local database from the specified localization target and language pack by its key. Returns a 404 error if the string is not found. Can be called synchronously
   GetLanguagePackString(GetLanguagePackString),
-  /// A deleted language pack string, the value should be taken from the built-in english language pack
+  /// A deleted language pack string, the value must be taken from the built-in English language pack
   Deleted(LanguagePackStringValueDeleted),
   /// An ordinary language pack string
   Ordinary(LanguagePackStringValueOrdinary),
@@ -113,7 +113,7 @@ impl AsRef<LanguagePackStringValue> for LanguagePackStringValue {
 
 
 
-/// A deleted language pack string, the value should be taken from the built-in english language pack
+/// A deleted language pack string, the value must be taken from the built-in English language pack
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct LanguagePackStringValueDeleted {
   #[doc(hidden)]

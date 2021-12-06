@@ -15,7 +15,7 @@ pub struct PaymentResult {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// True, if the payment request was successful; otherwise the verification_url will be not empty
+  /// True, if the payment request was successful; otherwise the verification_url will be non-empty
   success: bool,
   /// URL for additional payment credentials verification
   verification_url: String,

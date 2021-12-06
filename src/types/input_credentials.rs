@@ -258,7 +258,7 @@ pub struct InputCredentialsNew {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Contains JSON-encoded data with a credential identifier from the payment provider
+  /// JSON-encoded data with the credential identifier from the payment provider
   data: String,
   /// True, if the credential identifier can be saved on the server side
   allow_save: bool,

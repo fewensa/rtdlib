@@ -200,7 +200,7 @@ pub struct NetworkStatisticsEntryFile {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Type of the file the data is part of
+  /// Type of the file the data is part of; pass null if the data isn't related to files
   file_type: FileType,
   /// Type of the network the data was sent through. Call setNetworkType to maintain the actual network type
   network_type: NetworkType,

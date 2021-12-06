@@ -15,7 +15,7 @@ pub struct StorageStatisticsFast {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Approximate total size of files
+  /// Approximate total size of files, in bytes
   files_size: i64,
   /// Approximate number of files
   file_count: i64,

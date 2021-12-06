@@ -19,6 +19,8 @@ pub trait TDMessageContent: Debug + RObject {}
 #[serde(untagged)]
 pub enum MessageContent {
   #[doc(hidden)] _Default(()),
+  /// A message with an animated emoji
+  MessageAnimatedEmoji(MessageAnimatedEmoji),
   /// An animation message (GIF-style).
   MessageAnimation(MessageAnimation),
   /// An audio message
@@ -39,6 +41,10 @@ pub enum MessageContent {
   MessageChatDeletePhoto(MessageChatDeletePhoto),
   /// A new member joined the chat by invite link
   MessageChatJoinByLink(MessageChatJoinByLink),
+  /// A new member was accepted to the chat by an administrator
+  MessageChatJoinByRequest(MessageChatJoinByRequest),
+  /// A theme in the chat has been changed
+  MessageChatSetTheme(MessageChatSetTheme),
   /// The TTL (Time To Live) setting for messages in the chat has been changed
   MessageChatSetTtl(MessageChatSetTtl),
   /// A supergroup has been created from a basic group
@@ -63,8 +69,8 @@ pub enum MessageContent {
   MessageGame(MessageGame),
   /// A new high score was achieved in a game
   MessageGameScore(MessageGameScore),
-  /// A message with information about an invite to a voice chat
-  MessageInviteVoiceChatParticipants(MessageInviteVoiceChatParticipants),
+  /// A message with information about an invite to a video chat
+  MessageInviteVideoChatParticipants(MessageInviteVideoChatParticipants),
   /// A message with an invoice from a bot
   MessageInvoice(MessageInvoice),
   /// A message with a location
@@ -99,14 +105,14 @@ pub enum MessageContent {
   MessageVenue(MessageVenue),
   /// A video message
   MessageVideo(MessageVideo),
+  /// A message with information about an ended video chat
+  MessageVideoChatEnded(MessageVideoChatEnded),
+  /// A new video chat was scheduled
+  MessageVideoChatScheduled(MessageVideoChatScheduled),
+  /// A newly created video chat
+  MessageVideoChatStarted(MessageVideoChatStarted),
   /// A video note message
   MessageVideoNote(MessageVideoNote),
-  /// A message with information about an ended voice chat
-  MessageVoiceChatEnded(MessageVoiceChatEnded),
-  /// A new voice chat was scheduled
-  MessageVoiceChatScheduled(MessageVoiceChatScheduled),
-  /// A newly created voice chat
-  MessageVoiceChatStarted(MessageVoiceChatStarted),
   /// A voice note message
   MessageVoiceNote(MessageVoiceNote),
   /// The current user has connected a website by logging in using Telegram Login Widget on it
@@ -123,6 +129,7 @@ impl<'de> Deserialize<'de> for MessageContent {
     use serde::de::Error;
     rtd_enum_deserialize!(
       MessageContent,
+      (messageAnimatedEmoji, MessageAnimatedEmoji);
       (messageAnimation, MessageAnimation);
       (messageAudio, MessageAudio);
       (messageBasicGroupChatCreate, MessageBasicGroupChatCreate);
@@ -133,6 +140,8 @@ impl<'de> Deserialize<'de> for MessageContent {
       (messageChatDeleteMember, MessageChatDeleteMember);
       (messageChatDeletePhoto, MessageChatDeletePhoto);
       (messageChatJoinByLink, MessageChatJoinByLink);
+      (messageChatJoinByRequest, MessageChatJoinByRequest);
+      (messageChatSetTheme, MessageChatSetTheme);
       (messageChatSetTtl, MessageChatSetTtl);
       (messageChatUpgradeFrom, MessageChatUpgradeFrom);
       (messageChatUpgradeTo, MessageChatUpgradeTo);
@@ -145,7 +154,7 @@ impl<'de> Deserialize<'de> for MessageContent {
       (messageExpiredVideo, MessageExpiredVideo);
       (messageGame, MessageGame);
       (messageGameScore, MessageGameScore);
-      (messageInviteVoiceChatParticipants, MessageInviteVoiceChatParticipants);
+      (messageInviteVideoChatParticipants, MessageInviteVideoChatParticipants);
       (messageInvoice, MessageInvoice);
       (messageLocation, MessageLocation);
       (messagePassportDataReceived, MessagePassportDataReceived);
@@ -163,10 +172,10 @@ impl<'de> Deserialize<'de> for MessageContent {
       (messageUnsupported, MessageUnsupported);
       (messageVenue, MessageVenue);
       (messageVideo, MessageVideo);
+      (messageVideoChatEnded, MessageVideoChatEnded);
+      (messageVideoChatScheduled, MessageVideoChatScheduled);
+      (messageVideoChatStarted, MessageVideoChatStarted);
       (messageVideoNote, MessageVideoNote);
-      (messageVoiceChatEnded, MessageVoiceChatEnded);
-      (messageVoiceChatScheduled, MessageVoiceChatScheduled);
-      (messageVoiceChatStarted, MessageVoiceChatStarted);
       (messageVoiceNote, MessageVoiceNote);
       (messageWebsiteConnected, MessageWebsiteConnected);
 
@@ -177,6 +186,7 @@ impl<'de> Deserialize<'de> for MessageContent {
 impl RObject for MessageContent {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
+      MessageContent::MessageAnimatedEmoji(t) => t.td_name(),
       MessageContent::MessageAnimation(t) => t.td_name(),
       MessageContent::MessageAudio(t) => t.td_name(),
       MessageContent::MessageBasicGroupChatCreate(t) => t.td_name(),
@@ -187,6 +197,8 @@ impl RObject for MessageContent {
       MessageContent::MessageChatDeleteMember(t) => t.td_name(),
       MessageContent::MessageChatDeletePhoto(t) => t.td_name(),
       MessageContent::MessageChatJoinByLink(t) => t.td_name(),
+      MessageContent::MessageChatJoinByRequest(t) => t.td_name(),
+      MessageContent::MessageChatSetTheme(t) => t.td_name(),
       MessageContent::MessageChatSetTtl(t) => t.td_name(),
       MessageContent::MessageChatUpgradeFrom(t) => t.td_name(),
       MessageContent::MessageChatUpgradeTo(t) => t.td_name(),
@@ -199,7 +211,7 @@ impl RObject for MessageContent {
       MessageContent::MessageExpiredVideo(t) => t.td_name(),
       MessageContent::MessageGame(t) => t.td_name(),
       MessageContent::MessageGameScore(t) => t.td_name(),
-      MessageContent::MessageInviteVoiceChatParticipants(t) => t.td_name(),
+      MessageContent::MessageInviteVideoChatParticipants(t) => t.td_name(),
       MessageContent::MessageInvoice(t) => t.td_name(),
       MessageContent::MessageLocation(t) => t.td_name(),
       MessageContent::MessagePassportDataReceived(t) => t.td_name(),
@@ -217,10 +229,10 @@ impl RObject for MessageContent {
       MessageContent::MessageUnsupported(t) => t.td_name(),
       MessageContent::MessageVenue(t) => t.td_name(),
       MessageContent::MessageVideo(t) => t.td_name(),
+      MessageContent::MessageVideoChatEnded(t) => t.td_name(),
+      MessageContent::MessageVideoChatScheduled(t) => t.td_name(),
+      MessageContent::MessageVideoChatStarted(t) => t.td_name(),
       MessageContent::MessageVideoNote(t) => t.td_name(),
-      MessageContent::MessageVoiceChatEnded(t) => t.td_name(),
-      MessageContent::MessageVoiceChatScheduled(t) => t.td_name(),
-      MessageContent::MessageVoiceChatStarted(t) => t.td_name(),
       MessageContent::MessageVoiceNote(t) => t.td_name(),
       MessageContent::MessageWebsiteConnected(t) => t.td_name(),
 
@@ -229,6 +241,7 @@ impl RObject for MessageContent {
   }
   #[doc(hidden)] fn extra(&self) -> Option<String> {
     match self {
+      MessageContent::MessageAnimatedEmoji(t) => t.extra(),
       MessageContent::MessageAnimation(t) => t.extra(),
       MessageContent::MessageAudio(t) => t.extra(),
       MessageContent::MessageBasicGroupChatCreate(t) => t.extra(),
@@ -239,6 +252,8 @@ impl RObject for MessageContent {
       MessageContent::MessageChatDeleteMember(t) => t.extra(),
       MessageContent::MessageChatDeletePhoto(t) => t.extra(),
       MessageContent::MessageChatJoinByLink(t) => t.extra(),
+      MessageContent::MessageChatJoinByRequest(t) => t.extra(),
+      MessageContent::MessageChatSetTheme(t) => t.extra(),
       MessageContent::MessageChatSetTtl(t) => t.extra(),
       MessageContent::MessageChatUpgradeFrom(t) => t.extra(),
       MessageContent::MessageChatUpgradeTo(t) => t.extra(),
@@ -251,7 +266,7 @@ impl RObject for MessageContent {
       MessageContent::MessageExpiredVideo(t) => t.extra(),
       MessageContent::MessageGame(t) => t.extra(),
       MessageContent::MessageGameScore(t) => t.extra(),
-      MessageContent::MessageInviteVoiceChatParticipants(t) => t.extra(),
+      MessageContent::MessageInviteVideoChatParticipants(t) => t.extra(),
       MessageContent::MessageInvoice(t) => t.extra(),
       MessageContent::MessageLocation(t) => t.extra(),
       MessageContent::MessagePassportDataReceived(t) => t.extra(),
@@ -269,10 +284,10 @@ impl RObject for MessageContent {
       MessageContent::MessageUnsupported(t) => t.extra(),
       MessageContent::MessageVenue(t) => t.extra(),
       MessageContent::MessageVideo(t) => t.extra(),
+      MessageContent::MessageVideoChatEnded(t) => t.extra(),
+      MessageContent::MessageVideoChatScheduled(t) => t.extra(),
+      MessageContent::MessageVideoChatStarted(t) => t.extra(),
       MessageContent::MessageVideoNote(t) => t.extra(),
-      MessageContent::MessageVoiceChatEnded(t) => t.extra(),
-      MessageContent::MessageVoiceChatScheduled(t) => t.extra(),
-      MessageContent::MessageVoiceChatStarted(t) => t.extra(),
       MessageContent::MessageVoiceNote(t) => t.extra(),
       MessageContent::MessageWebsiteConnected(t) => t.extra(),
 
@@ -286,6 +301,7 @@ impl MessageContent {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let MessageContent::_Default(_) = self { true } else { false } }
 
+  pub fn is_message_animated_emoji(&self) -> bool { if let MessageContent::MessageAnimatedEmoji(_) = self { true } else { false } }
   pub fn is_message_animation(&self) -> bool { if let MessageContent::MessageAnimation(_) = self { true } else { false } }
   pub fn is_message_audio(&self) -> bool { if let MessageContent::MessageAudio(_) = self { true } else { false } }
   pub fn is_message_basic_group_chat_create(&self) -> bool { if let MessageContent::MessageBasicGroupChatCreate(_) = self { true } else { false } }
@@ -296,6 +312,8 @@ impl MessageContent {
   pub fn is_message_chat_delete_member(&self) -> bool { if let MessageContent::MessageChatDeleteMember(_) = self { true } else { false } }
   pub fn is_message_chat_delete_photo(&self) -> bool { if let MessageContent::MessageChatDeletePhoto(_) = self { true } else { false } }
   pub fn is_message_chat_join_by_link(&self) -> bool { if let MessageContent::MessageChatJoinByLink(_) = self { true } else { false } }
+  pub fn is_message_chat_join_by_request(&self) -> bool { if let MessageContent::MessageChatJoinByRequest(_) = self { true } else { false } }
+  pub fn is_message_chat_set_theme(&self) -> bool { if let MessageContent::MessageChatSetTheme(_) = self { true } else { false } }
   pub fn is_message_chat_set_ttl(&self) -> bool { if let MessageContent::MessageChatSetTtl(_) = self { true } else { false } }
   pub fn is_message_chat_upgrade_from(&self) -> bool { if let MessageContent::MessageChatUpgradeFrom(_) = self { true } else { false } }
   pub fn is_message_chat_upgrade_to(&self) -> bool { if let MessageContent::MessageChatUpgradeTo(_) = self { true } else { false } }
@@ -308,7 +326,7 @@ impl MessageContent {
   pub fn is_message_expired_video(&self) -> bool { if let MessageContent::MessageExpiredVideo(_) = self { true } else { false } }
   pub fn is_message_game(&self) -> bool { if let MessageContent::MessageGame(_) = self { true } else { false } }
   pub fn is_message_game_score(&self) -> bool { if let MessageContent::MessageGameScore(_) = self { true } else { false } }
-  pub fn is_message_invite_voice_chat_participants(&self) -> bool { if let MessageContent::MessageInviteVoiceChatParticipants(_) = self { true } else { false } }
+  pub fn is_message_invite_video_chat_participants(&self) -> bool { if let MessageContent::MessageInviteVideoChatParticipants(_) = self { true } else { false } }
   pub fn is_message_invoice(&self) -> bool { if let MessageContent::MessageInvoice(_) = self { true } else { false } }
   pub fn is_message_location(&self) -> bool { if let MessageContent::MessageLocation(_) = self { true } else { false } }
   pub fn is_message_passport_data_received(&self) -> bool { if let MessageContent::MessagePassportDataReceived(_) = self { true } else { false } }
@@ -326,13 +344,14 @@ impl MessageContent {
   pub fn is_message_unsupported(&self) -> bool { if let MessageContent::MessageUnsupported(_) = self { true } else { false } }
   pub fn is_message_venue(&self) -> bool { if let MessageContent::MessageVenue(_) = self { true } else { false } }
   pub fn is_message_video(&self) -> bool { if let MessageContent::MessageVideo(_) = self { true } else { false } }
+  pub fn is_message_video_chat_ended(&self) -> bool { if let MessageContent::MessageVideoChatEnded(_) = self { true } else { false } }
+  pub fn is_message_video_chat_scheduled(&self) -> bool { if let MessageContent::MessageVideoChatScheduled(_) = self { true } else { false } }
+  pub fn is_message_video_chat_started(&self) -> bool { if let MessageContent::MessageVideoChatStarted(_) = self { true } else { false } }
   pub fn is_message_video_note(&self) -> bool { if let MessageContent::MessageVideoNote(_) = self { true } else { false } }
-  pub fn is_message_voice_chat_ended(&self) -> bool { if let MessageContent::MessageVoiceChatEnded(_) = self { true } else { false } }
-  pub fn is_message_voice_chat_scheduled(&self) -> bool { if let MessageContent::MessageVoiceChatScheduled(_) = self { true } else { false } }
-  pub fn is_message_voice_chat_started(&self) -> bool { if let MessageContent::MessageVoiceChatStarted(_) = self { true } else { false } }
   pub fn is_message_voice_note(&self) -> bool { if let MessageContent::MessageVoiceNote(_) = self { true } else { false } }
   pub fn is_message_website_connected(&self) -> bool { if let MessageContent::MessageWebsiteConnected(_) = self { true } else { false } }
 
+  pub fn on_message_animated_emoji<F: FnOnce(&MessageAnimatedEmoji)>(&self, fnc: F) -> &Self { if let MessageContent::MessageAnimatedEmoji(t) = self { fnc(t) }; self }
   pub fn on_message_animation<F: FnOnce(&MessageAnimation)>(&self, fnc: F) -> &Self { if let MessageContent::MessageAnimation(t) = self { fnc(t) }; self }
   pub fn on_message_audio<F: FnOnce(&MessageAudio)>(&self, fnc: F) -> &Self { if let MessageContent::MessageAudio(t) = self { fnc(t) }; self }
   pub fn on_message_basic_group_chat_create<F: FnOnce(&MessageBasicGroupChatCreate)>(&self, fnc: F) -> &Self { if let MessageContent::MessageBasicGroupChatCreate(t) = self { fnc(t) }; self }
@@ -343,6 +362,8 @@ impl MessageContent {
   pub fn on_message_chat_delete_member<F: FnOnce(&MessageChatDeleteMember)>(&self, fnc: F) -> &Self { if let MessageContent::MessageChatDeleteMember(t) = self { fnc(t) }; self }
   pub fn on_message_chat_delete_photo<F: FnOnce(&MessageChatDeletePhoto)>(&self, fnc: F) -> &Self { if let MessageContent::MessageChatDeletePhoto(t) = self { fnc(t) }; self }
   pub fn on_message_chat_join_by_link<F: FnOnce(&MessageChatJoinByLink)>(&self, fnc: F) -> &Self { if let MessageContent::MessageChatJoinByLink(t) = self { fnc(t) }; self }
+  pub fn on_message_chat_join_by_request<F: FnOnce(&MessageChatJoinByRequest)>(&self, fnc: F) -> &Self { if let MessageContent::MessageChatJoinByRequest(t) = self { fnc(t) }; self }
+  pub fn on_message_chat_set_theme<F: FnOnce(&MessageChatSetTheme)>(&self, fnc: F) -> &Self { if let MessageContent::MessageChatSetTheme(t) = self { fnc(t) }; self }
   pub fn on_message_chat_set_ttl<F: FnOnce(&MessageChatSetTtl)>(&self, fnc: F) -> &Self { if let MessageContent::MessageChatSetTtl(t) = self { fnc(t) }; self }
   pub fn on_message_chat_upgrade_from<F: FnOnce(&MessageChatUpgradeFrom)>(&self, fnc: F) -> &Self { if let MessageContent::MessageChatUpgradeFrom(t) = self { fnc(t) }; self }
   pub fn on_message_chat_upgrade_to<F: FnOnce(&MessageChatUpgradeTo)>(&self, fnc: F) -> &Self { if let MessageContent::MessageChatUpgradeTo(t) = self { fnc(t) }; self }
@@ -355,7 +376,7 @@ impl MessageContent {
   pub fn on_message_expired_video<F: FnOnce(&MessageExpiredVideo)>(&self, fnc: F) -> &Self { if let MessageContent::MessageExpiredVideo(t) = self { fnc(t) }; self }
   pub fn on_message_game<F: FnOnce(&MessageGame)>(&self, fnc: F) -> &Self { if let MessageContent::MessageGame(t) = self { fnc(t) }; self }
   pub fn on_message_game_score<F: FnOnce(&MessageGameScore)>(&self, fnc: F) -> &Self { if let MessageContent::MessageGameScore(t) = self { fnc(t) }; self }
-  pub fn on_message_invite_voice_chat_participants<F: FnOnce(&MessageInviteVoiceChatParticipants)>(&self, fnc: F) -> &Self { if let MessageContent::MessageInviteVoiceChatParticipants(t) = self { fnc(t) }; self }
+  pub fn on_message_invite_video_chat_participants<F: FnOnce(&MessageInviteVideoChatParticipants)>(&self, fnc: F) -> &Self { if let MessageContent::MessageInviteVideoChatParticipants(t) = self { fnc(t) }; self }
   pub fn on_message_invoice<F: FnOnce(&MessageInvoice)>(&self, fnc: F) -> &Self { if let MessageContent::MessageInvoice(t) = self { fnc(t) }; self }
   pub fn on_message_location<F: FnOnce(&MessageLocation)>(&self, fnc: F) -> &Self { if let MessageContent::MessageLocation(t) = self { fnc(t) }; self }
   pub fn on_message_passport_data_received<F: FnOnce(&MessagePassportDataReceived)>(&self, fnc: F) -> &Self { if let MessageContent::MessagePassportDataReceived(t) = self { fnc(t) }; self }
@@ -373,13 +394,14 @@ impl MessageContent {
   pub fn on_message_unsupported<F: FnOnce(&MessageUnsupported)>(&self, fnc: F) -> &Self { if let MessageContent::MessageUnsupported(t) = self { fnc(t) }; self }
   pub fn on_message_venue<F: FnOnce(&MessageVenue)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVenue(t) = self { fnc(t) }; self }
   pub fn on_message_video<F: FnOnce(&MessageVideo)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVideo(t) = self { fnc(t) }; self }
+  pub fn on_message_video_chat_ended<F: FnOnce(&MessageVideoChatEnded)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVideoChatEnded(t) = self { fnc(t) }; self }
+  pub fn on_message_video_chat_scheduled<F: FnOnce(&MessageVideoChatScheduled)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVideoChatScheduled(t) = self { fnc(t) }; self }
+  pub fn on_message_video_chat_started<F: FnOnce(&MessageVideoChatStarted)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVideoChatStarted(t) = self { fnc(t) }; self }
   pub fn on_message_video_note<F: FnOnce(&MessageVideoNote)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVideoNote(t) = self { fnc(t) }; self }
-  pub fn on_message_voice_chat_ended<F: FnOnce(&MessageVoiceChatEnded)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVoiceChatEnded(t) = self { fnc(t) }; self }
-  pub fn on_message_voice_chat_scheduled<F: FnOnce(&MessageVoiceChatScheduled)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVoiceChatScheduled(t) = self { fnc(t) }; self }
-  pub fn on_message_voice_chat_started<F: FnOnce(&MessageVoiceChatStarted)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVoiceChatStarted(t) = self { fnc(t) }; self }
   pub fn on_message_voice_note<F: FnOnce(&MessageVoiceNote)>(&self, fnc: F) -> &Self { if let MessageContent::MessageVoiceNote(t) = self { fnc(t) }; self }
   pub fn on_message_website_connected<F: FnOnce(&MessageWebsiteConnected)>(&self, fnc: F) -> &Self { if let MessageContent::MessageWebsiteConnected(t) = self { fnc(t) }; self }
 
+  pub fn as_message_animated_emoji(&self) -> Option<&MessageAnimatedEmoji> { if let MessageContent::MessageAnimatedEmoji(t) = self { return Some(t) } None }
   pub fn as_message_animation(&self) -> Option<&MessageAnimation> { if let MessageContent::MessageAnimation(t) = self { return Some(t) } None }
   pub fn as_message_audio(&self) -> Option<&MessageAudio> { if let MessageContent::MessageAudio(t) = self { return Some(t) } None }
   pub fn as_message_basic_group_chat_create(&self) -> Option<&MessageBasicGroupChatCreate> { if let MessageContent::MessageBasicGroupChatCreate(t) = self { return Some(t) } None }
@@ -390,6 +412,8 @@ impl MessageContent {
   pub fn as_message_chat_delete_member(&self) -> Option<&MessageChatDeleteMember> { if let MessageContent::MessageChatDeleteMember(t) = self { return Some(t) } None }
   pub fn as_message_chat_delete_photo(&self) -> Option<&MessageChatDeletePhoto> { if let MessageContent::MessageChatDeletePhoto(t) = self { return Some(t) } None }
   pub fn as_message_chat_join_by_link(&self) -> Option<&MessageChatJoinByLink> { if let MessageContent::MessageChatJoinByLink(t) = self { return Some(t) } None }
+  pub fn as_message_chat_join_by_request(&self) -> Option<&MessageChatJoinByRequest> { if let MessageContent::MessageChatJoinByRequest(t) = self { return Some(t) } None }
+  pub fn as_message_chat_set_theme(&self) -> Option<&MessageChatSetTheme> { if let MessageContent::MessageChatSetTheme(t) = self { return Some(t) } None }
   pub fn as_message_chat_set_ttl(&self) -> Option<&MessageChatSetTtl> { if let MessageContent::MessageChatSetTtl(t) = self { return Some(t) } None }
   pub fn as_message_chat_upgrade_from(&self) -> Option<&MessageChatUpgradeFrom> { if let MessageContent::MessageChatUpgradeFrom(t) = self { return Some(t) } None }
   pub fn as_message_chat_upgrade_to(&self) -> Option<&MessageChatUpgradeTo> { if let MessageContent::MessageChatUpgradeTo(t) = self { return Some(t) } None }
@@ -402,7 +426,7 @@ impl MessageContent {
   pub fn as_message_expired_video(&self) -> Option<&MessageExpiredVideo> { if let MessageContent::MessageExpiredVideo(t) = self { return Some(t) } None }
   pub fn as_message_game(&self) -> Option<&MessageGame> { if let MessageContent::MessageGame(t) = self { return Some(t) } None }
   pub fn as_message_game_score(&self) -> Option<&MessageGameScore> { if let MessageContent::MessageGameScore(t) = self { return Some(t) } None }
-  pub fn as_message_invite_voice_chat_participants(&self) -> Option<&MessageInviteVoiceChatParticipants> { if let MessageContent::MessageInviteVoiceChatParticipants(t) = self { return Some(t) } None }
+  pub fn as_message_invite_video_chat_participants(&self) -> Option<&MessageInviteVideoChatParticipants> { if let MessageContent::MessageInviteVideoChatParticipants(t) = self { return Some(t) } None }
   pub fn as_message_invoice(&self) -> Option<&MessageInvoice> { if let MessageContent::MessageInvoice(t) = self { return Some(t) } None }
   pub fn as_message_location(&self) -> Option<&MessageLocation> { if let MessageContent::MessageLocation(t) = self { return Some(t) } None }
   pub fn as_message_passport_data_received(&self) -> Option<&MessagePassportDataReceived> { if let MessageContent::MessagePassportDataReceived(t) = self { return Some(t) } None }
@@ -420,14 +444,16 @@ impl MessageContent {
   pub fn as_message_unsupported(&self) -> Option<&MessageUnsupported> { if let MessageContent::MessageUnsupported(t) = self { return Some(t) } None }
   pub fn as_message_venue(&self) -> Option<&MessageVenue> { if let MessageContent::MessageVenue(t) = self { return Some(t) } None }
   pub fn as_message_video(&self) -> Option<&MessageVideo> { if let MessageContent::MessageVideo(t) = self { return Some(t) } None }
+  pub fn as_message_video_chat_ended(&self) -> Option<&MessageVideoChatEnded> { if let MessageContent::MessageVideoChatEnded(t) = self { return Some(t) } None }
+  pub fn as_message_video_chat_scheduled(&self) -> Option<&MessageVideoChatScheduled> { if let MessageContent::MessageVideoChatScheduled(t) = self { return Some(t) } None }
+  pub fn as_message_video_chat_started(&self) -> Option<&MessageVideoChatStarted> { if let MessageContent::MessageVideoChatStarted(t) = self { return Some(t) } None }
   pub fn as_message_video_note(&self) -> Option<&MessageVideoNote> { if let MessageContent::MessageVideoNote(t) = self { return Some(t) } None }
-  pub fn as_message_voice_chat_ended(&self) -> Option<&MessageVoiceChatEnded> { if let MessageContent::MessageVoiceChatEnded(t) = self { return Some(t) } None }
-  pub fn as_message_voice_chat_scheduled(&self) -> Option<&MessageVoiceChatScheduled> { if let MessageContent::MessageVoiceChatScheduled(t) = self { return Some(t) } None }
-  pub fn as_message_voice_chat_started(&self) -> Option<&MessageVoiceChatStarted> { if let MessageContent::MessageVoiceChatStarted(t) = self { return Some(t) } None }
   pub fn as_message_voice_note(&self) -> Option<&MessageVoiceNote> { if let MessageContent::MessageVoiceNote(t) = self { return Some(t) } None }
   pub fn as_message_website_connected(&self) -> Option<&MessageWebsiteConnected> { if let MessageContent::MessageWebsiteConnected(t) = self { return Some(t) } None }
 
 
+
+  pub fn message_animated_emoji<T: AsRef<MessageAnimatedEmoji>>(t: T) -> Self { MessageContent::MessageAnimatedEmoji(t.as_ref().clone()) }
 
   pub fn message_animation<T: AsRef<MessageAnimation>>(t: T) -> Self { MessageContent::MessageAnimation(t.as_ref().clone()) }
 
@@ -448,6 +474,10 @@ impl MessageContent {
   pub fn message_chat_delete_photo<T: AsRef<MessageChatDeletePhoto>>(t: T) -> Self { MessageContent::MessageChatDeletePhoto(t.as_ref().clone()) }
 
   pub fn message_chat_join_by_link<T: AsRef<MessageChatJoinByLink>>(t: T) -> Self { MessageContent::MessageChatJoinByLink(t.as_ref().clone()) }
+
+  pub fn message_chat_join_by_request<T: AsRef<MessageChatJoinByRequest>>(t: T) -> Self { MessageContent::MessageChatJoinByRequest(t.as_ref().clone()) }
+
+  pub fn message_chat_set_theme<T: AsRef<MessageChatSetTheme>>(t: T) -> Self { MessageContent::MessageChatSetTheme(t.as_ref().clone()) }
 
   pub fn message_chat_set_ttl<T: AsRef<MessageChatSetTtl>>(t: T) -> Self { MessageContent::MessageChatSetTtl(t.as_ref().clone()) }
 
@@ -473,7 +503,7 @@ impl MessageContent {
 
   pub fn message_game_score<T: AsRef<MessageGameScore>>(t: T) -> Self { MessageContent::MessageGameScore(t.as_ref().clone()) }
 
-  pub fn message_invite_voice_chat_participants<T: AsRef<MessageInviteVoiceChatParticipants>>(t: T) -> Self { MessageContent::MessageInviteVoiceChatParticipants(t.as_ref().clone()) }
+  pub fn message_invite_video_chat_participants<T: AsRef<MessageInviteVideoChatParticipants>>(t: T) -> Self { MessageContent::MessageInviteVideoChatParticipants(t.as_ref().clone()) }
 
   pub fn message_invoice<T: AsRef<MessageInvoice>>(t: T) -> Self { MessageContent::MessageInvoice(t.as_ref().clone()) }
 
@@ -509,13 +539,13 @@ impl MessageContent {
 
   pub fn message_video<T: AsRef<MessageVideo>>(t: T) -> Self { MessageContent::MessageVideo(t.as_ref().clone()) }
 
+  pub fn message_video_chat_ended<T: AsRef<MessageVideoChatEnded>>(t: T) -> Self { MessageContent::MessageVideoChatEnded(t.as_ref().clone()) }
+
+  pub fn message_video_chat_scheduled<T: AsRef<MessageVideoChatScheduled>>(t: T) -> Self { MessageContent::MessageVideoChatScheduled(t.as_ref().clone()) }
+
+  pub fn message_video_chat_started<T: AsRef<MessageVideoChatStarted>>(t: T) -> Self { MessageContent::MessageVideoChatStarted(t.as_ref().clone()) }
+
   pub fn message_video_note<T: AsRef<MessageVideoNote>>(t: T) -> Self { MessageContent::MessageVideoNote(t.as_ref().clone()) }
-
-  pub fn message_voice_chat_ended<T: AsRef<MessageVoiceChatEnded>>(t: T) -> Self { MessageContent::MessageVoiceChatEnded(t.as_ref().clone()) }
-
-  pub fn message_voice_chat_scheduled<T: AsRef<MessageVoiceChatScheduled>>(t: T) -> Self { MessageContent::MessageVoiceChatScheduled(t.as_ref().clone()) }
-
-  pub fn message_voice_chat_started<T: AsRef<MessageVoiceChatStarted>>(t: T) -> Self { MessageContent::MessageVoiceChatStarted(t.as_ref().clone()) }
 
   pub fn message_voice_note<T: AsRef<MessageVoiceNote>>(t: T) -> Self { MessageContent::MessageVoiceNote(t.as_ref().clone()) }
 
@@ -525,6 +555,84 @@ impl MessageContent {
 
 impl AsRef<MessageContent> for MessageContent {
   fn as_ref(&self) -> &MessageContent { self }
+}
+
+
+
+
+
+
+
+/// A message with an animated emoji
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct MessageAnimatedEmoji {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// The animated emoji
+  animated_emoji: AnimatedEmoji,
+  /// The corresponding emoji
+  emoji: String,
+  
+}
+
+impl RObject for MessageAnimatedEmoji {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageAnimatedEmoji" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDMessageContent for MessageAnimatedEmoji {}
+
+
+
+impl MessageAnimatedEmoji {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDMessageAnimatedEmojiBuilder {
+    let mut inner = MessageAnimatedEmoji::default();
+    inner.td_name = "messageAnimatedEmoji".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDMessageAnimatedEmojiBuilder { inner }
+  }
+
+  pub fn animated_emoji(&self) -> &AnimatedEmoji { &self.animated_emoji }
+
+  pub fn emoji(&self) -> &String { &self.emoji }
+
+}
+
+#[doc(hidden)]
+pub struct RTDMessageAnimatedEmojiBuilder {
+  inner: MessageAnimatedEmoji
+}
+
+impl RTDMessageAnimatedEmojiBuilder {
+  pub fn build(&self) -> MessageAnimatedEmoji { self.inner.clone() }
+
+   
+  pub fn animated_emoji<T: AsRef<AnimatedEmoji>>(&mut self, animated_emoji: T) -> &mut Self {
+    self.inner.animated_emoji = animated_emoji.as_ref().clone();
+    self
+  }
+
+   
+  pub fn emoji<T: AsRef<str>>(&mut self, emoji: T) -> &mut Self {
+    self.inner.emoji = emoji.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<MessageAnimatedEmoji> for MessageAnimatedEmoji {
+  fn as_ref(&self) -> &MessageAnimatedEmoji { self }
+}
+
+impl AsRef<MessageAnimatedEmoji> for RTDMessageAnimatedEmojiBuilder {
+  fn as_ref(&self) -> &MessageAnimatedEmoji { &self.inner }
 }
 
 
@@ -1245,6 +1353,132 @@ impl AsRef<MessageChatJoinByLink> for MessageChatJoinByLink {
 
 impl AsRef<MessageChatJoinByLink> for RTDMessageChatJoinByLinkBuilder {
   fn as_ref(&self) -> &MessageChatJoinByLink { &self.inner }
+}
+
+
+
+
+
+
+
+/// A new member was accepted to the chat by an administrator
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct MessageChatJoinByRequest {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  
+}
+
+impl RObject for MessageChatJoinByRequest {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageChatJoinByRequest" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDMessageContent for MessageChatJoinByRequest {}
+
+
+
+impl MessageChatJoinByRequest {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDMessageChatJoinByRequestBuilder {
+    let mut inner = MessageChatJoinByRequest::default();
+    inner.td_name = "messageChatJoinByRequest".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDMessageChatJoinByRequestBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDMessageChatJoinByRequestBuilder {
+  inner: MessageChatJoinByRequest
+}
+
+impl RTDMessageChatJoinByRequestBuilder {
+  pub fn build(&self) -> MessageChatJoinByRequest { self.inner.clone() }
+
+}
+
+impl AsRef<MessageChatJoinByRequest> for MessageChatJoinByRequest {
+  fn as_ref(&self) -> &MessageChatJoinByRequest { self }
+}
+
+impl AsRef<MessageChatJoinByRequest> for RTDMessageChatJoinByRequestBuilder {
+  fn as_ref(&self) -> &MessageChatJoinByRequest { &self.inner }
+}
+
+
+
+
+
+
+
+/// A theme in the chat has been changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct MessageChatSetTheme {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// If non-empty, name of a new theme, set for the chat. Otherwise chat theme was reset to the default one
+  theme_name: String,
+  
+}
+
+impl RObject for MessageChatSetTheme {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageChatSetTheme" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDMessageContent for MessageChatSetTheme {}
+
+
+
+impl MessageChatSetTheme {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDMessageChatSetThemeBuilder {
+    let mut inner = MessageChatSetTheme::default();
+    inner.td_name = "messageChatSetTheme".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDMessageChatSetThemeBuilder { inner }
+  }
+
+  pub fn theme_name(&self) -> &String { &self.theme_name }
+
+}
+
+#[doc(hidden)]
+pub struct RTDMessageChatSetThemeBuilder {
+  inner: MessageChatSetTheme
+}
+
+impl RTDMessageChatSetThemeBuilder {
+  pub fn build(&self) -> MessageChatSetTheme { self.inner.clone() }
+
+   
+  pub fn theme_name<T: AsRef<str>>(&mut self, theme_name: T) -> &mut Self {
+    self.inner.theme_name = theme_name.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<MessageChatSetTheme> for MessageChatSetTheme {
+  fn as_ref(&self) -> &MessageChatSetTheme { self }
+}
+
+impl AsRef<MessageChatSetTheme> for RTDMessageChatSetThemeBuilder {
+  fn as_ref(&self) -> &MessageChatSetTheme { &self.inner }
 }
 
 
@@ -2119,40 +2353,40 @@ impl AsRef<MessageGameScore> for RTDMessageGameScoreBuilder {
 
 
 
-/// A message with information about an invite to a voice chat
+/// A message with information about an invite to a video chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct MessageInviteVoiceChatParticipants {
+pub struct MessageInviteVideoChatParticipants {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+  /// Identifier of the video chat. The video chat can be received through the method getGroupCall
   group_call_id: i64,
   /// Invited user identifiers
   user_ids: Vec<i64>,
   
 }
 
-impl RObject for MessageInviteVoiceChatParticipants {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageInviteVoiceChatParticipants" }
+impl RObject for MessageInviteVideoChatParticipants {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageInviteVideoChatParticipants" }
   #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDMessageContent for MessageInviteVoiceChatParticipants {}
+impl TDMessageContent for MessageInviteVideoChatParticipants {}
 
 
 
-impl MessageInviteVoiceChatParticipants {
+impl MessageInviteVideoChatParticipants {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDMessageInviteVoiceChatParticipantsBuilder {
-    let mut inner = MessageInviteVoiceChatParticipants::default();
-    inner.td_name = "messageInviteVoiceChatParticipants".to_string();
+  pub fn builder() -> RTDMessageInviteVideoChatParticipantsBuilder {
+    let mut inner = MessageInviteVideoChatParticipants::default();
+    inner.td_name = "messageInviteVideoChatParticipants".to_string();
     inner.extra = Some(Uuid::new_v4().to_string());
-    RTDMessageInviteVoiceChatParticipantsBuilder { inner }
+    RTDMessageInviteVideoChatParticipantsBuilder { inner }
   }
 
   pub fn group_call_id(&self) -> i64 { self.group_call_id }
@@ -2162,12 +2396,12 @@ impl MessageInviteVoiceChatParticipants {
 }
 
 #[doc(hidden)]
-pub struct RTDMessageInviteVoiceChatParticipantsBuilder {
-  inner: MessageInviteVoiceChatParticipants
+pub struct RTDMessageInviteVideoChatParticipantsBuilder {
+  inner: MessageInviteVideoChatParticipants
 }
 
-impl RTDMessageInviteVoiceChatParticipantsBuilder {
-  pub fn build(&self) -> MessageInviteVoiceChatParticipants { self.inner.clone() }
+impl RTDMessageInviteVideoChatParticipantsBuilder {
+  pub fn build(&self) -> MessageInviteVideoChatParticipants { self.inner.clone() }
 
    
   pub fn group_call_id(&mut self, group_call_id: i64) -> &mut Self {
@@ -2183,12 +2417,12 @@ impl RTDMessageInviteVoiceChatParticipantsBuilder {
 
 }
 
-impl AsRef<MessageInviteVoiceChatParticipants> for MessageInviteVoiceChatParticipants {
-  fn as_ref(&self) -> &MessageInviteVoiceChatParticipants { self }
+impl AsRef<MessageInviteVideoChatParticipants> for MessageInviteVideoChatParticipants {
+  fn as_ref(&self) -> &MessageInviteVideoChatParticipants { self }
 }
 
-impl AsRef<MessageInviteVoiceChatParticipants> for RTDMessageInviteVoiceChatParticipantsBuilder {
-  fn as_ref(&self) -> &MessageInviteVoiceChatParticipants { &self.inner }
+impl AsRef<MessageInviteVideoChatParticipants> for RTDMessageInviteVideoChatParticipantsBuilder {
+  fn as_ref(&self) -> &MessageInviteVideoChatParticipants { &self.inner }
 }
 
 
@@ -2220,7 +2454,7 @@ pub struct MessageInvoice {
   start_parameter: String,
   /// True, if the invoice is a test invoice
   is_test: bool,
-  /// True, if the shipping address should be specified
+  /// True, if the shipping address must be specified
   need_shipping_address: bool,
   /// The identifier of the message with the receipt, after the product has been purchased
   receipt_message_id: i64,
@@ -3623,6 +3857,220 @@ impl AsRef<MessageVideo> for RTDMessageVideoBuilder {
 
 
 
+/// A message with information about an ended video chat
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct MessageVideoChatEnded {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Call duration, in seconds
+  duration: i64,
+  
+}
+
+impl RObject for MessageVideoChatEnded {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageVideoChatEnded" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDMessageContent for MessageVideoChatEnded {}
+
+
+
+impl MessageVideoChatEnded {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDMessageVideoChatEndedBuilder {
+    let mut inner = MessageVideoChatEnded::default();
+    inner.td_name = "messageVideoChatEnded".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDMessageVideoChatEndedBuilder { inner }
+  }
+
+  pub fn duration(&self) -> i64 { self.duration }
+
+}
+
+#[doc(hidden)]
+pub struct RTDMessageVideoChatEndedBuilder {
+  inner: MessageVideoChatEnded
+}
+
+impl RTDMessageVideoChatEndedBuilder {
+  pub fn build(&self) -> MessageVideoChatEnded { self.inner.clone() }
+
+   
+  pub fn duration(&mut self, duration: i64) -> &mut Self {
+    self.inner.duration = duration;
+    self
+  }
+
+}
+
+impl AsRef<MessageVideoChatEnded> for MessageVideoChatEnded {
+  fn as_ref(&self) -> &MessageVideoChatEnded { self }
+}
+
+impl AsRef<MessageVideoChatEnded> for RTDMessageVideoChatEndedBuilder {
+  fn as_ref(&self) -> &MessageVideoChatEnded { &self.inner }
+}
+
+
+
+
+
+
+
+/// A new video chat was scheduled
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct MessageVideoChatScheduled {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Identifier of the video chat. The video chat can be received through the method getGroupCall
+  group_call_id: i64,
+  /// Point in time (Unix timestamp) when the group call is supposed to be started by an administrator
+  start_date: i64,
+  
+}
+
+impl RObject for MessageVideoChatScheduled {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageVideoChatScheduled" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDMessageContent for MessageVideoChatScheduled {}
+
+
+
+impl MessageVideoChatScheduled {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDMessageVideoChatScheduledBuilder {
+    let mut inner = MessageVideoChatScheduled::default();
+    inner.td_name = "messageVideoChatScheduled".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDMessageVideoChatScheduledBuilder { inner }
+  }
+
+  pub fn group_call_id(&self) -> i64 { self.group_call_id }
+
+  pub fn start_date(&self) -> i64 { self.start_date }
+
+}
+
+#[doc(hidden)]
+pub struct RTDMessageVideoChatScheduledBuilder {
+  inner: MessageVideoChatScheduled
+}
+
+impl RTDMessageVideoChatScheduledBuilder {
+  pub fn build(&self) -> MessageVideoChatScheduled { self.inner.clone() }
+
+   
+  pub fn group_call_id(&mut self, group_call_id: i64) -> &mut Self {
+    self.inner.group_call_id = group_call_id;
+    self
+  }
+
+   
+  pub fn start_date(&mut self, start_date: i64) -> &mut Self {
+    self.inner.start_date = start_date;
+    self
+  }
+
+}
+
+impl AsRef<MessageVideoChatScheduled> for MessageVideoChatScheduled {
+  fn as_ref(&self) -> &MessageVideoChatScheduled { self }
+}
+
+impl AsRef<MessageVideoChatScheduled> for RTDMessageVideoChatScheduledBuilder {
+  fn as_ref(&self) -> &MessageVideoChatScheduled { &self.inner }
+}
+
+
+
+
+
+
+
+/// A newly created video chat
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct MessageVideoChatStarted {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Identifier of the video chat. The video chat can be received through the method getGroupCall
+  group_call_id: i64,
+  
+}
+
+impl RObject for MessageVideoChatStarted {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageVideoChatStarted" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDMessageContent for MessageVideoChatStarted {}
+
+
+
+impl MessageVideoChatStarted {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDMessageVideoChatStartedBuilder {
+    let mut inner = MessageVideoChatStarted::default();
+    inner.td_name = "messageVideoChatStarted".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDMessageVideoChatStartedBuilder { inner }
+  }
+
+  pub fn group_call_id(&self) -> i64 { self.group_call_id }
+
+}
+
+#[doc(hidden)]
+pub struct RTDMessageVideoChatStartedBuilder {
+  inner: MessageVideoChatStarted
+}
+
+impl RTDMessageVideoChatStartedBuilder {
+  pub fn build(&self) -> MessageVideoChatStarted { self.inner.clone() }
+
+   
+  pub fn group_call_id(&mut self, group_call_id: i64) -> &mut Self {
+    self.inner.group_call_id = group_call_id;
+    self
+  }
+
+}
+
+impl AsRef<MessageVideoChatStarted> for MessageVideoChatStarted {
+  fn as_ref(&self) -> &MessageVideoChatStarted { self }
+}
+
+impl AsRef<MessageVideoChatStarted> for RTDMessageVideoChatStartedBuilder {
+  fn as_ref(&self) -> &MessageVideoChatStarted { &self.inner }
+}
+
+
+
+
+
+
+
 /// A video note message
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageVideoNote {
@@ -3703,220 +4151,6 @@ impl AsRef<MessageVideoNote> for MessageVideoNote {
 
 impl AsRef<MessageVideoNote> for RTDMessageVideoNoteBuilder {
   fn as_ref(&self) -> &MessageVideoNote { &self.inner }
-}
-
-
-
-
-
-
-
-/// A message with information about an ended voice chat
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct MessageVoiceChatEnded {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
-  extra: Option<String>,
-  /// Call duration, in seconds
-  duration: i64,
-  
-}
-
-impl RObject for MessageVoiceChatEnded {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageVoiceChatEnded" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDMessageContent for MessageVoiceChatEnded {}
-
-
-
-impl MessageVoiceChatEnded {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDMessageVoiceChatEndedBuilder {
-    let mut inner = MessageVoiceChatEnded::default();
-    inner.td_name = "messageVoiceChatEnded".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
-    RTDMessageVoiceChatEndedBuilder { inner }
-  }
-
-  pub fn duration(&self) -> i64 { self.duration }
-
-}
-
-#[doc(hidden)]
-pub struct RTDMessageVoiceChatEndedBuilder {
-  inner: MessageVoiceChatEnded
-}
-
-impl RTDMessageVoiceChatEndedBuilder {
-  pub fn build(&self) -> MessageVoiceChatEnded { self.inner.clone() }
-
-   
-  pub fn duration(&mut self, duration: i64) -> &mut Self {
-    self.inner.duration = duration;
-    self
-  }
-
-}
-
-impl AsRef<MessageVoiceChatEnded> for MessageVoiceChatEnded {
-  fn as_ref(&self) -> &MessageVoiceChatEnded { self }
-}
-
-impl AsRef<MessageVoiceChatEnded> for RTDMessageVoiceChatEndedBuilder {
-  fn as_ref(&self) -> &MessageVoiceChatEnded { &self.inner }
-}
-
-
-
-
-
-
-
-/// A new voice chat was scheduled
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct MessageVoiceChatScheduled {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
-  extra: Option<String>,
-  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
-  group_call_id: i64,
-  /// Point in time (Unix timestamp) when the group call is supposed to be started by an administrator
-  start_date: i64,
-  
-}
-
-impl RObject for MessageVoiceChatScheduled {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageVoiceChatScheduled" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDMessageContent for MessageVoiceChatScheduled {}
-
-
-
-impl MessageVoiceChatScheduled {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDMessageVoiceChatScheduledBuilder {
-    let mut inner = MessageVoiceChatScheduled::default();
-    inner.td_name = "messageVoiceChatScheduled".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
-    RTDMessageVoiceChatScheduledBuilder { inner }
-  }
-
-  pub fn group_call_id(&self) -> i64 { self.group_call_id }
-
-  pub fn start_date(&self) -> i64 { self.start_date }
-
-}
-
-#[doc(hidden)]
-pub struct RTDMessageVoiceChatScheduledBuilder {
-  inner: MessageVoiceChatScheduled
-}
-
-impl RTDMessageVoiceChatScheduledBuilder {
-  pub fn build(&self) -> MessageVoiceChatScheduled { self.inner.clone() }
-
-   
-  pub fn group_call_id(&mut self, group_call_id: i64) -> &mut Self {
-    self.inner.group_call_id = group_call_id;
-    self
-  }
-
-   
-  pub fn start_date(&mut self, start_date: i64) -> &mut Self {
-    self.inner.start_date = start_date;
-    self
-  }
-
-}
-
-impl AsRef<MessageVoiceChatScheduled> for MessageVoiceChatScheduled {
-  fn as_ref(&self) -> &MessageVoiceChatScheduled { self }
-}
-
-impl AsRef<MessageVoiceChatScheduled> for RTDMessageVoiceChatScheduledBuilder {
-  fn as_ref(&self) -> &MessageVoiceChatScheduled { &self.inner }
-}
-
-
-
-
-
-
-
-/// A newly created voice chat
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct MessageVoiceChatStarted {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
-  extra: Option<String>,
-  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
-  group_call_id: i64,
-  
-}
-
-impl RObject for MessageVoiceChatStarted {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageVoiceChatStarted" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDMessageContent for MessageVoiceChatStarted {}
-
-
-
-impl MessageVoiceChatStarted {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDMessageVoiceChatStartedBuilder {
-    let mut inner = MessageVoiceChatStarted::default();
-    inner.td_name = "messageVoiceChatStarted".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
-    RTDMessageVoiceChatStartedBuilder { inner }
-  }
-
-  pub fn group_call_id(&self) -> i64 { self.group_call_id }
-
-}
-
-#[doc(hidden)]
-pub struct RTDMessageVoiceChatStartedBuilder {
-  inner: MessageVoiceChatStarted
-}
-
-impl RTDMessageVoiceChatStartedBuilder {
-  pub fn build(&self) -> MessageVoiceChatStarted { self.inner.clone() }
-
-   
-  pub fn group_call_id(&mut self, group_call_id: i64) -> &mut Self {
-    self.inner.group_call_id = group_call_id;
-    self
-  }
-
-}
-
-impl AsRef<MessageVoiceChatStarted> for MessageVoiceChatStarted {
-  fn as_ref(&self) -> &MessageVoiceChatStarted { self }
-}
-
-impl AsRef<MessageVoiceChatStarted> for RTDMessageVoiceChatStartedBuilder {
-  fn as_ref(&self) -> &MessageVoiceChatStarted { &self.inner }
 }
 
 

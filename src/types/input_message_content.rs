@@ -254,7 +254,7 @@ pub struct InputMessageAnimation {
   extra: Option<String>,
   /// Animation file to be sent
   animation: InputFile,
-  /// Animation thumbnail, if available
+  /// Animation thumbnail; pass null to skip thumbnail uploading
   thumbnail: InputThumbnail,
   /// File identifiers of the stickers added to the animation, if applicable
   added_sticker_file_ids: Vec<i64>,
@@ -264,7 +264,7 @@ pub struct InputMessageAnimation {
   width: i64,
   /// Height of the animation; may be replaced by the server
   height: i64,
-  /// Animation caption; 0-GetOption("message_caption_length_max") characters
+  /// Animation caption; pass null to use an empty caption; 0-GetOption("message_caption_length_max") characters
   caption: FormattedText,
   
 }
@@ -382,7 +382,7 @@ pub struct InputMessageAudio {
   extra: Option<String>,
   /// Audio file to be sent
   audio: InputFile,
-  /// Thumbnail of the cover for the album, if available
+  /// Thumbnail of the cover for the album; pass null to skip thumbnail uploading
   album_cover_thumbnail: InputThumbnail,
   /// Duration of the audio, in seconds; may be replaced by the server
   duration: i64,
@@ -390,7 +390,7 @@ pub struct InputMessageAudio {
   title: String,
   /// Performer of the audio; 0-64 characters, may be replaced by the server
   performer: String,
-  /// Audio caption; 0-GetOption("message_caption_length_max") characters
+  /// Audio caption; pass null to use an empty caption; 0-GetOption("message_caption_length_max") characters
   caption: FormattedText,
   
 }
@@ -568,7 +568,7 @@ pub struct InputMessageDice {
   extra: Option<String>,
   /// Emoji on which the dice throw animation is based
   emoji: String,
-  /// True, if a chat message draft should be deleted
+  /// True, if the chat message draft must be deleted
   clear_draft: bool,
   
 }
@@ -646,11 +646,11 @@ pub struct InputMessageDocument {
   extra: Option<String>,
   /// Document to be sent
   document: InputFile,
-  /// Document thumbnail, if available
+  /// Document thumbnail; pass null to skip thumbnail uploading
   thumbnail: InputThumbnail,
   /// If true, automatic file type detection will be disabled and the document will be always sent as file. Always true for files sent to secret chats
   disable_content_type_detection: bool,
-  /// Document caption; 0-GetOption("message_caption_length_max") characters
+  /// Document caption; pass null to use an empty caption; 0-GetOption("message_caption_length_max") characters
   caption: FormattedText,
   
 }
@@ -746,9 +746,9 @@ pub struct InputMessageForwarded {
   from_chat_id: i64,
   /// Identifier of the message to forward
   message_id: i64,
-  /// True, if a game message should be shared within a launched game; applies only to game messages
+  /// True, if a game message is being shared from a launched game; applies only to game messages
   in_game_share: bool,
-  /// Options to be used to copy content of the message without a link to the original message
+  /// Options to be used to copy content of the message without reference to the original sender; pass null to try to forward the message as usual
   copy_options: MessageCopyOptions,
   
 }
@@ -1088,7 +1088,7 @@ pub struct InputMessageLocation {
   extra: Option<String>,
   /// Location to be sent
   location: Location,
-  /// Period for which the location can be updated, in seconds; should be between 60 and 86400 for a live location and 0 otherwise
+  /// Period for which the location can be updated, in seconds; must be between 60 and 86400 for a live location and 0 otherwise
   live_period: i64,
   /// For live locations, a direction in which the location moves, in degrees; 1-360. Pass 0 if unknown
   heading: i64,
@@ -1186,7 +1186,7 @@ pub struct InputMessagePhoto {
   extra: Option<String>,
   /// Photo to send
   photo: InputFile,
-  /// Photo thumbnail to be sent, this is sent to the other party in secret chats only
+  /// Photo thumbnail to be sent; pass null to skip thumbnail uploading. The thumbnail is sent to the other party only in secret chats
   thumbnail: InputThumbnail,
   /// File identifiers of the stickers added to the photo, if applicable
   added_sticker_file_ids: Vec<i64>,
@@ -1194,7 +1194,7 @@ pub struct InputMessagePhoto {
   width: i64,
   /// Photo height
   height: i64,
-  /// Photo caption; 0-GetOption("message_caption_length_max") characters
+  /// Photo caption; pass null to use an empty caption; 0-GetOption("message_caption_length_max") characters
   caption: FormattedText,
   /// Photo TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
   ttl: i64,
@@ -1442,7 +1442,7 @@ pub struct InputMessageSticker {
   extra: Option<String>,
   /// Sticker to be sent
   sticker: InputFile,
-  /// Sticker thumbnail, if available
+  /// Sticker thumbnail; pass null to skip thumbnail uploading
   thumbnail: InputThumbnail,
   /// Sticker width
   width: i64,
@@ -1550,9 +1550,9 @@ pub struct InputMessageText {
   extra: Option<String>,
   /// Formatted text to be sent; 1-GetOption("message_text_length_max") characters. Only Bold, Italic, Underline, Strikethrough, Code, Pre, PreCode, TextUrl and MentionName entities are allowed to be specified manually
   text: FormattedText,
-  /// True, if rich web page previews for URLs in the message text should be disabled
+  /// True, if rich web page previews for URLs in the message text must be disabled
   disable_web_page_preview: bool,
-  /// True, if a chat message draft should be deleted
+  /// True, if a chat message draft must be deleted
   clear_draft: bool,
   
 }
@@ -1706,7 +1706,7 @@ pub struct InputMessageVideo {
   extra: Option<String>,
   /// Video to be sent
   video: InputFile,
-  /// Video thumbnail, if available
+  /// Video thumbnail; pass null to skip thumbnail uploading
   thumbnail: InputThumbnail,
   /// File identifiers of the stickers added to the video, if applicable
   added_sticker_file_ids: Vec<i64>,
@@ -1716,9 +1716,9 @@ pub struct InputMessageVideo {
   width: i64,
   /// Video height
   height: i64,
-  /// True, if the video should be tried to be streamed
+  /// True, if the video is supposed to be streamed
   supports_streaming: bool,
-  /// Video caption; 0-GetOption("message_caption_length_max") characters
+  /// Video caption; pass null to use an empty caption; 0-GetOption("message_caption_length_max") characters
   caption: FormattedText,
   /// Video TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
   ttl: i64,
@@ -1854,7 +1854,7 @@ pub struct InputMessageVideoNote {
   extra: Option<String>,
   /// Video note to be sent
   video_note: InputFile,
-  /// Video thumbnail, if available
+  /// Video thumbnail; pass null to skip thumbnail uploading
   thumbnail: InputThumbnail,
   /// Duration of the video, in seconds
   duration: i64,
@@ -1956,7 +1956,7 @@ pub struct InputMessageVoiceNote {
   duration: i64,
   /// Waveform representation of the voice note, in 5-bit format
   waveform: String,
-  /// Voice note caption; 0-GetOption("message_caption_length_max") characters
+  /// Voice note caption; pass null to use an empty caption; 0-GetOption("message_caption_length_max") characters
   caption: FormattedText,
   
 }

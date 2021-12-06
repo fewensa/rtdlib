@@ -184,8 +184,8 @@ pub struct InputStickerStatic {
   sticker: InputFile,
   /// Emojis corresponding to the sticker
   emojis: String,
-  /// For masks, position where the mask should be placed; may be null
-  mask_position: Option<MaskPosition>,
+  /// For masks, position where the mask is placed; pass null if unspecified
+  mask_position: MaskPosition,
   
 }
 
@@ -213,7 +213,7 @@ impl InputStickerStatic {
 
   pub fn emojis(&self) -> &String { &self.emojis }
 
-  pub fn mask_position(&self) -> &Option<MaskPosition> { &self.mask_position }
+  pub fn mask_position(&self) -> &MaskPosition { &self.mask_position }
 
 }
 
@@ -239,7 +239,7 @@ impl RTDInputStickerStaticBuilder {
 
    
   pub fn mask_position<T: AsRef<MaskPosition>>(&mut self, mask_position: T) -> &mut Self {
-    self.inner.mask_position = Some(mask_position.as_ref().clone());
+    self.inner.mask_position = mask_position.as_ref().clone();
     self
   }
 

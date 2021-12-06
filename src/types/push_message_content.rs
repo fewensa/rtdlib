@@ -35,6 +35,10 @@ pub enum PushMessageContent {
   ChatDeleteMember(PushMessageContentChatDeleteMember),
   /// A new member joined the chat by invite link
   ChatJoinByLink(PushMessageContentChatJoinByLink),
+  /// A new member was accepted to the chat by an administrator
+  ChatJoinByRequest(PushMessageContentChatJoinByRequest),
+  /// A chat theme was edited
+  ChatSetTheme(PushMessageContentChatSetTheme),
   /// A message with a user contact
   Contact(PushMessageContentContact),
   /// A contact has registered with Telegram
@@ -91,6 +95,8 @@ impl<'de> Deserialize<'de> for PushMessageContent {
       (pushMessageContentChatChangeTitle, ChatChangeTitle);
       (pushMessageContentChatDeleteMember, ChatDeleteMember);
       (pushMessageContentChatJoinByLink, ChatJoinByLink);
+      (pushMessageContentChatJoinByRequest, ChatJoinByRequest);
+      (pushMessageContentChatSetTheme, ChatSetTheme);
       (pushMessageContentContact, Contact);
       (pushMessageContentContactRegistered, ContactRegistered);
       (pushMessageContentDocument, Document);
@@ -125,6 +131,8 @@ impl RObject for PushMessageContent {
       PushMessageContent::ChatChangeTitle(t) => t.td_name(),
       PushMessageContent::ChatDeleteMember(t) => t.td_name(),
       PushMessageContent::ChatJoinByLink(t) => t.td_name(),
+      PushMessageContent::ChatJoinByRequest(t) => t.td_name(),
+      PushMessageContent::ChatSetTheme(t) => t.td_name(),
       PushMessageContent::Contact(t) => t.td_name(),
       PushMessageContent::ContactRegistered(t) => t.td_name(),
       PushMessageContent::Document(t) => t.td_name(),
@@ -157,6 +165,8 @@ impl RObject for PushMessageContent {
       PushMessageContent::ChatChangeTitle(t) => t.extra(),
       PushMessageContent::ChatDeleteMember(t) => t.extra(),
       PushMessageContent::ChatJoinByLink(t) => t.extra(),
+      PushMessageContent::ChatJoinByRequest(t) => t.extra(),
+      PushMessageContent::ChatSetTheme(t) => t.extra(),
       PushMessageContent::Contact(t) => t.extra(),
       PushMessageContent::ContactRegistered(t) => t.extra(),
       PushMessageContent::Document(t) => t.extra(),
@@ -194,6 +204,8 @@ impl PushMessageContent {
   pub fn is_chat_change_title(&self) -> bool { if let PushMessageContent::ChatChangeTitle(_) = self { true } else { false } }
   pub fn is_chat_delete_member(&self) -> bool { if let PushMessageContent::ChatDeleteMember(_) = self { true } else { false } }
   pub fn is_chat_join_by_link(&self) -> bool { if let PushMessageContent::ChatJoinByLink(_) = self { true } else { false } }
+  pub fn is_chat_join_by_request(&self) -> bool { if let PushMessageContent::ChatJoinByRequest(_) = self { true } else { false } }
+  pub fn is_chat_set_theme(&self) -> bool { if let PushMessageContent::ChatSetTheme(_) = self { true } else { false } }
   pub fn is_contact(&self) -> bool { if let PushMessageContent::Contact(_) = self { true } else { false } }
   pub fn is_contact_registered(&self) -> bool { if let PushMessageContent::ContactRegistered(_) = self { true } else { false } }
   pub fn is_document(&self) -> bool { if let PushMessageContent::Document(_) = self { true } else { false } }
@@ -221,6 +233,8 @@ impl PushMessageContent {
   pub fn on_chat_change_title<F: FnOnce(&PushMessageContentChatChangeTitle)>(&self, fnc: F) -> &Self { if let PushMessageContent::ChatChangeTitle(t) = self { fnc(t) }; self }
   pub fn on_chat_delete_member<F: FnOnce(&PushMessageContentChatDeleteMember)>(&self, fnc: F) -> &Self { if let PushMessageContent::ChatDeleteMember(t) = self { fnc(t) }; self }
   pub fn on_chat_join_by_link<F: FnOnce(&PushMessageContentChatJoinByLink)>(&self, fnc: F) -> &Self { if let PushMessageContent::ChatJoinByLink(t) = self { fnc(t) }; self }
+  pub fn on_chat_join_by_request<F: FnOnce(&PushMessageContentChatJoinByRequest)>(&self, fnc: F) -> &Self { if let PushMessageContent::ChatJoinByRequest(t) = self { fnc(t) }; self }
+  pub fn on_chat_set_theme<F: FnOnce(&PushMessageContentChatSetTheme)>(&self, fnc: F) -> &Self { if let PushMessageContent::ChatSetTheme(t) = self { fnc(t) }; self }
   pub fn on_contact<F: FnOnce(&PushMessageContentContact)>(&self, fnc: F) -> &Self { if let PushMessageContent::Contact(t) = self { fnc(t) }; self }
   pub fn on_contact_registered<F: FnOnce(&PushMessageContentContactRegistered)>(&self, fnc: F) -> &Self { if let PushMessageContent::ContactRegistered(t) = self { fnc(t) }; self }
   pub fn on_document<F: FnOnce(&PushMessageContentDocument)>(&self, fnc: F) -> &Self { if let PushMessageContent::Document(t) = self { fnc(t) }; self }
@@ -248,6 +262,8 @@ impl PushMessageContent {
   pub fn as_chat_change_title(&self) -> Option<&PushMessageContentChatChangeTitle> { if let PushMessageContent::ChatChangeTitle(t) = self { return Some(t) } None }
   pub fn as_chat_delete_member(&self) -> Option<&PushMessageContentChatDeleteMember> { if let PushMessageContent::ChatDeleteMember(t) = self { return Some(t) } None }
   pub fn as_chat_join_by_link(&self) -> Option<&PushMessageContentChatJoinByLink> { if let PushMessageContent::ChatJoinByLink(t) = self { return Some(t) } None }
+  pub fn as_chat_join_by_request(&self) -> Option<&PushMessageContentChatJoinByRequest> { if let PushMessageContent::ChatJoinByRequest(t) = self { return Some(t) } None }
+  pub fn as_chat_set_theme(&self) -> Option<&PushMessageContentChatSetTheme> { if let PushMessageContent::ChatSetTheme(t) = self { return Some(t) } None }
   pub fn as_contact(&self) -> Option<&PushMessageContentContact> { if let PushMessageContent::Contact(t) = self { return Some(t) } None }
   pub fn as_contact_registered(&self) -> Option<&PushMessageContentContactRegistered> { if let PushMessageContent::ContactRegistered(t) = self { return Some(t) } None }
   pub fn as_document(&self) -> Option<&PushMessageContentDocument> { if let PushMessageContent::Document(t) = self { return Some(t) } None }
@@ -284,6 +300,10 @@ impl PushMessageContent {
   pub fn chat_delete_member<T: AsRef<PushMessageContentChatDeleteMember>>(t: T) -> Self { PushMessageContent::ChatDeleteMember(t.as_ref().clone()) }
 
   pub fn chat_join_by_link<T: AsRef<PushMessageContentChatJoinByLink>>(t: T) -> Self { PushMessageContent::ChatJoinByLink(t.as_ref().clone()) }
+
+  pub fn chat_join_by_request<T: AsRef<PushMessageContentChatJoinByRequest>>(t: T) -> Self { PushMessageContent::ChatJoinByRequest(t.as_ref().clone()) }
+
+  pub fn chat_set_theme<T: AsRef<PushMessageContentChatSetTheme>>(t: T) -> Self { PushMessageContent::ChatSetTheme(t.as_ref().clone()) }
 
   pub fn contact<T: AsRef<PushMessageContentContact>>(t: T) -> Self { PushMessageContent::Contact(t.as_ref().clone()) }
 
@@ -909,6 +929,132 @@ impl AsRef<PushMessageContentChatJoinByLink> for PushMessageContentChatJoinByLin
 
 impl AsRef<PushMessageContentChatJoinByLink> for RTDPushMessageContentChatJoinByLinkBuilder {
   fn as_ref(&self) -> &PushMessageContentChatJoinByLink { &self.inner }
+}
+
+
+
+
+
+
+
+/// A new member was accepted to the chat by an administrator
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentChatJoinByRequest {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  
+}
+
+impl RObject for PushMessageContentChatJoinByRequest {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatJoinByRequest" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDPushMessageContent for PushMessageContentChatJoinByRequest {}
+
+
+
+impl PushMessageContentChatJoinByRequest {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPushMessageContentChatJoinByRequestBuilder {
+    let mut inner = PushMessageContentChatJoinByRequest::default();
+    inner.td_name = "pushMessageContentChatJoinByRequest".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDPushMessageContentChatJoinByRequestBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentChatJoinByRequestBuilder {
+  inner: PushMessageContentChatJoinByRequest
+}
+
+impl RTDPushMessageContentChatJoinByRequestBuilder {
+  pub fn build(&self) -> PushMessageContentChatJoinByRequest { self.inner.clone() }
+
+}
+
+impl AsRef<PushMessageContentChatJoinByRequest> for PushMessageContentChatJoinByRequest {
+  fn as_ref(&self) -> &PushMessageContentChatJoinByRequest { self }
+}
+
+impl AsRef<PushMessageContentChatJoinByRequest> for RTDPushMessageContentChatJoinByRequestBuilder {
+  fn as_ref(&self) -> &PushMessageContentChatJoinByRequest { &self.inner }
+}
+
+
+
+
+
+
+
+/// A chat theme was edited
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentChatSetTheme {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// If non-empty, name of a new theme, set for the chat. Otherwise chat theme was reset to the default one
+  theme_name: String,
+  
+}
+
+impl RObject for PushMessageContentChatSetTheme {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "pushMessageContentChatSetTheme" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDPushMessageContent for PushMessageContentChatSetTheme {}
+
+
+
+impl PushMessageContentChatSetTheme {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDPushMessageContentChatSetThemeBuilder {
+    let mut inner = PushMessageContentChatSetTheme::default();
+    inner.td_name = "pushMessageContentChatSetTheme".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDPushMessageContentChatSetThemeBuilder { inner }
+  }
+
+  pub fn theme_name(&self) -> &String { &self.theme_name }
+
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentChatSetThemeBuilder {
+  inner: PushMessageContentChatSetTheme
+}
+
+impl RTDPushMessageContentChatSetThemeBuilder {
+  pub fn build(&self) -> PushMessageContentChatSetTheme { self.inner.clone() }
+
+   
+  pub fn theme_name<T: AsRef<str>>(&mut self, theme_name: T) -> &mut Self {
+    self.inner.theme_name = theme_name.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<PushMessageContentChatSetTheme> for PushMessageContentChatSetTheme {
+  fn as_ref(&self) -> &PushMessageContentChatSetTheme { self }
+}
+
+impl AsRef<PushMessageContentChatSetTheme> for RTDPushMessageContentChatSetThemeBuilder {
+  fn as_ref(&self) -> &PushMessageContentChatSetTheme { &self.inner }
 }
 
 

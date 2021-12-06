@@ -15,7 +15,7 @@ pub struct StorageStatistics {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Total size of files
+  /// Total size of files, in bytes
   size: i64,
   /// Total number of files
   count: i64,

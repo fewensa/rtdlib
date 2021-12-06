@@ -17,7 +17,7 @@ pub struct PassportAuthorizationForm {
   extra: Option<String>,
   /// Unique identifier of the authorization form
   id: i64,
-  /// Information about the Telegram Passport elements that must be provided to complete the form
+  /// Telegram Passport elements that must be provided to complete the form
   required_elements: Vec<PassportRequiredElement>,
   /// URL for the privacy policy of the service; may be empty
   privacy_policy_url: String,

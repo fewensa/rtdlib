@@ -19,7 +19,7 @@ pub struct ChatStatisticsMessageSenderInfo {
   user_id: i64,
   /// Number of sent messages
   sent_message_count: i64,
-  /// Average number of characters in sent messages
+  /// Average number of characters in sent messages; 0 if unknown
   average_character_count: i64,
   
 }

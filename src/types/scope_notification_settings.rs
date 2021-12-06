@@ -19,7 +19,7 @@ pub struct ScopeNotificationSettings {
   mute_for: i64,
   /// The name of an audio file to be used for notification sounds; only applies to iOS applications
   sound: String,
-  /// True, if message content should be displayed in notifications
+  /// True, if message content must be displayed in notifications
   show_preview: bool,
   /// True, if notifications for incoming pinned messages will be created as for an ordinary unread message
   disable_pinned_message_notifications: bool,

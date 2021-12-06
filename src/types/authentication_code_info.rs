@@ -17,9 +17,9 @@ pub struct AuthenticationCodeInfo {
   extra: Option<String>,
   /// A phone number that is being authenticated
   phone_number: String,
-  /// Describes the way the code was sent to the user
+  /// The way the code was sent to the user
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: AuthenticationCodeType,
-  /// Describes the way the next code will be sent to the user; may be null
+  /// The way the next code will be sent to the user; may be null
   next_type: Option<AuthenticationCodeType>,
   /// Timeout before the code can be re-sent, in seconds
   timeout: i64,

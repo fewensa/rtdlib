@@ -17,7 +17,7 @@ pub struct StorageStatisticsByFileType {
   extra: Option<String>,
   /// File type
   file_type: FileType,
-  /// Total size of the files
+  /// Total size of the files, in bytes
   size: i64,
   /// Total number of files
   count: i64,

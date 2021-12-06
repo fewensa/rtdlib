@@ -17,13 +17,13 @@ pub struct InputIdentityDocument {
   extra: Option<String>,
   /// Document number; 1-24 characters
   number: String,
-  /// Document expiry date, if available
+  /// Document expiry date; pass null if not applicable
   expiry_date: Date,
   /// Front side of the document
   front_side: InputFile,
-  /// Reverse side of the document; only for driver license and identity card
+  /// Reverse side of the document; only for driver license and identity card; pass null otherwise
   reverse_side: InputFile,
-  /// Selfie with the document, if available
+  /// Selfie with the document; pass null if unavailable
   selfie: InputFile,
   /// List of files containing a certified English translation of the document
   translation: Vec<InputFile>,

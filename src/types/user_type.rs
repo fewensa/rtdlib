@@ -130,7 +130,7 @@ pub struct UserTypeBot {
   is_inline: bool,
   /// Placeholder for inline queries (displayed on the application input field)
   inline_query_placeholder: String,
-  /// True, if the location of the user should be sent with every inline query to this bot
+  /// True, if the location of the user is expected to be sent with every inline query to this bot
   need_location: bool,
   
 }

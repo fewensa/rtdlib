@@ -25,7 +25,7 @@ pub enum KeyboardButtonType {
   RequestPhoneNumber(KeyboardButtonTypeRequestPhoneNumber),
   /// A button that allows the user to create and send a poll when pressed; available only in private chats
   RequestPoll(KeyboardButtonTypeRequestPoll),
-  /// A simple button, with text that should be sent when the button is pressed
+  /// A simple button, with text that must be sent when the button is pressed
   Text(KeyboardButtonTypeText),
 
 }
@@ -307,7 +307,7 @@ impl AsRef<KeyboardButtonTypeRequestPoll> for RTDKeyboardButtonTypeRequestPollBu
 
 
 
-/// A simple button, with text that should be sent when the button is pressed
+/// A simple button, with text that must be sent when the button is pressed
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct KeyboardButtonTypeText {
   #[doc(hidden)]

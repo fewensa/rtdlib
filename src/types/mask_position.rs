@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 
 
-/// Position on a photo where a mask should be placed
+/// Position on a photo where a mask is placed
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MaskPosition {
   #[doc(hidden)]
@@ -15,7 +15,7 @@ pub struct MaskPosition {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Part of the face, relative to which the mask should be placed
+  /// Part of the face, relative to which the mask is placed
   point: MaskPoint,
   /// Shift by X-axis measured in widths of the mask scaled to the face size, from left to right. (For example, 1.0 will place the mask just to the left of the default mask position)
   x_shift: f32,

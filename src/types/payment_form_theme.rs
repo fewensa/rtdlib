@@ -23,7 +23,7 @@ pub struct PaymentFormTheme {
   hint_color: i64,
   /// A color of links in the RGB24 format
   link_color: i64,
-  /// A color of thebuttons in the RGB24 format
+  /// A color of the buttons in the RGB24 format
   button_color: i64,
   /// A color of text on the buttons in the RGB24 format
   button_text_color: i64,

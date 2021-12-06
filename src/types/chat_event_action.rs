@@ -41,6 +41,8 @@ pub enum ChatEventAction {
   ChatEventMemberJoined(ChatEventMemberJoined),
   /// A new member joined the chat by an invite link
   ChatEventMemberJoinedByInviteLink(ChatEventMemberJoinedByInviteLink),
+  /// A new member was accepted to the chat by an administrator
+  ChatEventMemberJoinedByRequest(ChatEventMemberJoinedByRequest),
   /// A member left the chat
   ChatEventMemberLeft(ChatEventMemberLeft),
   /// A chat member has gained/lost administrator status, or the list of their administrator privileges has changed
@@ -73,16 +75,16 @@ pub enum ChatEventAction {
   ChatEventTitleChanged(ChatEventTitleChanged),
   /// The chat username was changed
   ChatEventUsernameChanged(ChatEventUsernameChanged),
-  /// A voice chat was created
-  ChatEventVoiceChatCreated(ChatEventVoiceChatCreated),
-  /// A voice chat was discarded
-  ChatEventVoiceChatDiscarded(ChatEventVoiceChatDiscarded),
-  /// The mute_new_participants setting of a voice chat was toggled
-  ChatEventVoiceChatMuteNewParticipantsToggled(ChatEventVoiceChatMuteNewParticipantsToggled),
-  /// A voice chat participant was muted or unmuted
-  ChatEventVoiceChatParticipantIsMutedToggled(ChatEventVoiceChatParticipantIsMutedToggled),
-  /// A voice chat participant volume level was changed
-  ChatEventVoiceChatParticipantVolumeLevelChanged(ChatEventVoiceChatParticipantVolumeLevelChanged),
+  /// A video chat was created
+  ChatEventVideoChatCreated(ChatEventVideoChatCreated),
+  /// A video chat was discarded
+  ChatEventVideoChatDiscarded(ChatEventVideoChatDiscarded),
+  /// The mute_new_participants setting of a video chat was toggled
+  ChatEventVideoChatMuteNewParticipantsToggled(ChatEventVideoChatMuteNewParticipantsToggled),
+  /// A video chat participant was muted or unmuted
+  ChatEventVideoChatParticipantIsMutedToggled(ChatEventVideoChatParticipantIsMutedToggled),
+  /// A video chat participant volume level was changed
+  ChatEventVideoChatParticipantVolumeLevelChanged(ChatEventVideoChatParticipantVolumeLevelChanged),
 
 }
 
@@ -106,6 +108,7 @@ impl<'de> Deserialize<'de> for ChatEventAction {
       (chatEventMemberInvited, ChatEventMemberInvited);
       (chatEventMemberJoined, ChatEventMemberJoined);
       (chatEventMemberJoinedByInviteLink, ChatEventMemberJoinedByInviteLink);
+      (chatEventMemberJoinedByRequest, ChatEventMemberJoinedByRequest);
       (chatEventMemberLeft, ChatEventMemberLeft);
       (chatEventMemberPromoted, ChatEventMemberPromoted);
       (chatEventMemberRestricted, ChatEventMemberRestricted);
@@ -122,11 +125,11 @@ impl<'de> Deserialize<'de> for ChatEventAction {
       (chatEventStickerSetChanged, ChatEventStickerSetChanged);
       (chatEventTitleChanged, ChatEventTitleChanged);
       (chatEventUsernameChanged, ChatEventUsernameChanged);
-      (chatEventVoiceChatCreated, ChatEventVoiceChatCreated);
-      (chatEventVoiceChatDiscarded, ChatEventVoiceChatDiscarded);
-      (chatEventVoiceChatMuteNewParticipantsToggled, ChatEventVoiceChatMuteNewParticipantsToggled);
-      (chatEventVoiceChatParticipantIsMutedToggled, ChatEventVoiceChatParticipantIsMutedToggled);
-      (chatEventVoiceChatParticipantVolumeLevelChanged, ChatEventVoiceChatParticipantVolumeLevelChanged);
+      (chatEventVideoChatCreated, ChatEventVideoChatCreated);
+      (chatEventVideoChatDiscarded, ChatEventVideoChatDiscarded);
+      (chatEventVideoChatMuteNewParticipantsToggled, ChatEventVideoChatMuteNewParticipantsToggled);
+      (chatEventVideoChatParticipantIsMutedToggled, ChatEventVideoChatParticipantIsMutedToggled);
+      (chatEventVideoChatParticipantVolumeLevelChanged, ChatEventVideoChatParticipantVolumeLevelChanged);
 
     )(deserializer)
   }
@@ -146,6 +149,7 @@ impl RObject for ChatEventAction {
       ChatEventAction::ChatEventMemberInvited(t) => t.td_name(),
       ChatEventAction::ChatEventMemberJoined(t) => t.td_name(),
       ChatEventAction::ChatEventMemberJoinedByInviteLink(t) => t.td_name(),
+      ChatEventAction::ChatEventMemberJoinedByRequest(t) => t.td_name(),
       ChatEventAction::ChatEventMemberLeft(t) => t.td_name(),
       ChatEventAction::ChatEventMemberPromoted(t) => t.td_name(),
       ChatEventAction::ChatEventMemberRestricted(t) => t.td_name(),
@@ -162,11 +166,11 @@ impl RObject for ChatEventAction {
       ChatEventAction::ChatEventStickerSetChanged(t) => t.td_name(),
       ChatEventAction::ChatEventTitleChanged(t) => t.td_name(),
       ChatEventAction::ChatEventUsernameChanged(t) => t.td_name(),
-      ChatEventAction::ChatEventVoiceChatCreated(t) => t.td_name(),
-      ChatEventAction::ChatEventVoiceChatDiscarded(t) => t.td_name(),
-      ChatEventAction::ChatEventVoiceChatMuteNewParticipantsToggled(t) => t.td_name(),
-      ChatEventAction::ChatEventVoiceChatParticipantIsMutedToggled(t) => t.td_name(),
-      ChatEventAction::ChatEventVoiceChatParticipantVolumeLevelChanged(t) => t.td_name(),
+      ChatEventAction::ChatEventVideoChatCreated(t) => t.td_name(),
+      ChatEventAction::ChatEventVideoChatDiscarded(t) => t.td_name(),
+      ChatEventAction::ChatEventVideoChatMuteNewParticipantsToggled(t) => t.td_name(),
+      ChatEventAction::ChatEventVideoChatParticipantIsMutedToggled(t) => t.td_name(),
+      ChatEventAction::ChatEventVideoChatParticipantVolumeLevelChanged(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -184,6 +188,7 @@ impl RObject for ChatEventAction {
       ChatEventAction::ChatEventMemberInvited(t) => t.extra(),
       ChatEventAction::ChatEventMemberJoined(t) => t.extra(),
       ChatEventAction::ChatEventMemberJoinedByInviteLink(t) => t.extra(),
+      ChatEventAction::ChatEventMemberJoinedByRequest(t) => t.extra(),
       ChatEventAction::ChatEventMemberLeft(t) => t.extra(),
       ChatEventAction::ChatEventMemberPromoted(t) => t.extra(),
       ChatEventAction::ChatEventMemberRestricted(t) => t.extra(),
@@ -200,11 +205,11 @@ impl RObject for ChatEventAction {
       ChatEventAction::ChatEventStickerSetChanged(t) => t.extra(),
       ChatEventAction::ChatEventTitleChanged(t) => t.extra(),
       ChatEventAction::ChatEventUsernameChanged(t) => t.extra(),
-      ChatEventAction::ChatEventVoiceChatCreated(t) => t.extra(),
-      ChatEventAction::ChatEventVoiceChatDiscarded(t) => t.extra(),
-      ChatEventAction::ChatEventVoiceChatMuteNewParticipantsToggled(t) => t.extra(),
-      ChatEventAction::ChatEventVoiceChatParticipantIsMutedToggled(t) => t.extra(),
-      ChatEventAction::ChatEventVoiceChatParticipantVolumeLevelChanged(t) => t.extra(),
+      ChatEventAction::ChatEventVideoChatCreated(t) => t.extra(),
+      ChatEventAction::ChatEventVideoChatDiscarded(t) => t.extra(),
+      ChatEventAction::ChatEventVideoChatMuteNewParticipantsToggled(t) => t.extra(),
+      ChatEventAction::ChatEventVideoChatParticipantIsMutedToggled(t) => t.extra(),
+      ChatEventAction::ChatEventVideoChatParticipantVolumeLevelChanged(t) => t.extra(),
 
       _ => None,
     }
@@ -227,6 +232,7 @@ impl ChatEventAction {
   pub fn is_chat_event_member_invited(&self) -> bool { if let ChatEventAction::ChatEventMemberInvited(_) = self { true } else { false } }
   pub fn is_chat_event_member_joined(&self) -> bool { if let ChatEventAction::ChatEventMemberJoined(_) = self { true } else { false } }
   pub fn is_chat_event_member_joined_by_invite_link(&self) -> bool { if let ChatEventAction::ChatEventMemberJoinedByInviteLink(_) = self { true } else { false } }
+  pub fn is_chat_event_member_joined_by_request(&self) -> bool { if let ChatEventAction::ChatEventMemberJoinedByRequest(_) = self { true } else { false } }
   pub fn is_chat_event_member_left(&self) -> bool { if let ChatEventAction::ChatEventMemberLeft(_) = self { true } else { false } }
   pub fn is_chat_event_member_promoted(&self) -> bool { if let ChatEventAction::ChatEventMemberPromoted(_) = self { true } else { false } }
   pub fn is_chat_event_member_restricted(&self) -> bool { if let ChatEventAction::ChatEventMemberRestricted(_) = self { true } else { false } }
@@ -243,11 +249,11 @@ impl ChatEventAction {
   pub fn is_chat_event_sticker_set_changed(&self) -> bool { if let ChatEventAction::ChatEventStickerSetChanged(_) = self { true } else { false } }
   pub fn is_chat_event_title_changed(&self) -> bool { if let ChatEventAction::ChatEventTitleChanged(_) = self { true } else { false } }
   pub fn is_chat_event_username_changed(&self) -> bool { if let ChatEventAction::ChatEventUsernameChanged(_) = self { true } else { false } }
-  pub fn is_chat_event_voice_chat_created(&self) -> bool { if let ChatEventAction::ChatEventVoiceChatCreated(_) = self { true } else { false } }
-  pub fn is_chat_event_voice_chat_discarded(&self) -> bool { if let ChatEventAction::ChatEventVoiceChatDiscarded(_) = self { true } else { false } }
-  pub fn is_chat_event_voice_chat_mute_new_participants_toggled(&self) -> bool { if let ChatEventAction::ChatEventVoiceChatMuteNewParticipantsToggled(_) = self { true } else { false } }
-  pub fn is_chat_event_voice_chat_participant_is_muted_toggled(&self) -> bool { if let ChatEventAction::ChatEventVoiceChatParticipantIsMutedToggled(_) = self { true } else { false } }
-  pub fn is_chat_event_voice_chat_participant_volume_level_changed(&self) -> bool { if let ChatEventAction::ChatEventVoiceChatParticipantVolumeLevelChanged(_) = self { true } else { false } }
+  pub fn is_chat_event_video_chat_created(&self) -> bool { if let ChatEventAction::ChatEventVideoChatCreated(_) = self { true } else { false } }
+  pub fn is_chat_event_video_chat_discarded(&self) -> bool { if let ChatEventAction::ChatEventVideoChatDiscarded(_) = self { true } else { false } }
+  pub fn is_chat_event_video_chat_mute_new_participants_toggled(&self) -> bool { if let ChatEventAction::ChatEventVideoChatMuteNewParticipantsToggled(_) = self { true } else { false } }
+  pub fn is_chat_event_video_chat_participant_is_muted_toggled(&self) -> bool { if let ChatEventAction::ChatEventVideoChatParticipantIsMutedToggled(_) = self { true } else { false } }
+  pub fn is_chat_event_video_chat_participant_volume_level_changed(&self) -> bool { if let ChatEventAction::ChatEventVideoChatParticipantVolumeLevelChanged(_) = self { true } else { false } }
 
   pub fn on_chat_event_description_changed<F: FnOnce(&ChatEventDescriptionChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventDescriptionChanged(t) = self { fnc(t) }; self }
   pub fn on_chat_event_invite_link_deleted<F: FnOnce(&ChatEventInviteLinkDeleted)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventInviteLinkDeleted(t) = self { fnc(t) }; self }
@@ -260,6 +266,7 @@ impl ChatEventAction {
   pub fn on_chat_event_member_invited<F: FnOnce(&ChatEventMemberInvited)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventMemberInvited(t) = self { fnc(t) }; self }
   pub fn on_chat_event_member_joined<F: FnOnce(&ChatEventMemberJoined)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventMemberJoined(t) = self { fnc(t) }; self }
   pub fn on_chat_event_member_joined_by_invite_link<F: FnOnce(&ChatEventMemberJoinedByInviteLink)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventMemberJoinedByInviteLink(t) = self { fnc(t) }; self }
+  pub fn on_chat_event_member_joined_by_request<F: FnOnce(&ChatEventMemberJoinedByRequest)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventMemberJoinedByRequest(t) = self { fnc(t) }; self }
   pub fn on_chat_event_member_left<F: FnOnce(&ChatEventMemberLeft)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventMemberLeft(t) = self { fnc(t) }; self }
   pub fn on_chat_event_member_promoted<F: FnOnce(&ChatEventMemberPromoted)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventMemberPromoted(t) = self { fnc(t) }; self }
   pub fn on_chat_event_member_restricted<F: FnOnce(&ChatEventMemberRestricted)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventMemberRestricted(t) = self { fnc(t) }; self }
@@ -276,11 +283,11 @@ impl ChatEventAction {
   pub fn on_chat_event_sticker_set_changed<F: FnOnce(&ChatEventStickerSetChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventStickerSetChanged(t) = self { fnc(t) }; self }
   pub fn on_chat_event_title_changed<F: FnOnce(&ChatEventTitleChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventTitleChanged(t) = self { fnc(t) }; self }
   pub fn on_chat_event_username_changed<F: FnOnce(&ChatEventUsernameChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventUsernameChanged(t) = self { fnc(t) }; self }
-  pub fn on_chat_event_voice_chat_created<F: FnOnce(&ChatEventVoiceChatCreated)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventVoiceChatCreated(t) = self { fnc(t) }; self }
-  pub fn on_chat_event_voice_chat_discarded<F: FnOnce(&ChatEventVoiceChatDiscarded)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventVoiceChatDiscarded(t) = self { fnc(t) }; self }
-  pub fn on_chat_event_voice_chat_mute_new_participants_toggled<F: FnOnce(&ChatEventVoiceChatMuteNewParticipantsToggled)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventVoiceChatMuteNewParticipantsToggled(t) = self { fnc(t) }; self }
-  pub fn on_chat_event_voice_chat_participant_is_muted_toggled<F: FnOnce(&ChatEventVoiceChatParticipantIsMutedToggled)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventVoiceChatParticipantIsMutedToggled(t) = self { fnc(t) }; self }
-  pub fn on_chat_event_voice_chat_participant_volume_level_changed<F: FnOnce(&ChatEventVoiceChatParticipantVolumeLevelChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventVoiceChatParticipantVolumeLevelChanged(t) = self { fnc(t) }; self }
+  pub fn on_chat_event_video_chat_created<F: FnOnce(&ChatEventVideoChatCreated)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventVideoChatCreated(t) = self { fnc(t) }; self }
+  pub fn on_chat_event_video_chat_discarded<F: FnOnce(&ChatEventVideoChatDiscarded)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventVideoChatDiscarded(t) = self { fnc(t) }; self }
+  pub fn on_chat_event_video_chat_mute_new_participants_toggled<F: FnOnce(&ChatEventVideoChatMuteNewParticipantsToggled)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventVideoChatMuteNewParticipantsToggled(t) = self { fnc(t) }; self }
+  pub fn on_chat_event_video_chat_participant_is_muted_toggled<F: FnOnce(&ChatEventVideoChatParticipantIsMutedToggled)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventVideoChatParticipantIsMutedToggled(t) = self { fnc(t) }; self }
+  pub fn on_chat_event_video_chat_participant_volume_level_changed<F: FnOnce(&ChatEventVideoChatParticipantVolumeLevelChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventVideoChatParticipantVolumeLevelChanged(t) = self { fnc(t) }; self }
 
   pub fn as_chat_event_description_changed(&self) -> Option<&ChatEventDescriptionChanged> { if let ChatEventAction::ChatEventDescriptionChanged(t) = self { return Some(t) } None }
   pub fn as_chat_event_invite_link_deleted(&self) -> Option<&ChatEventInviteLinkDeleted> { if let ChatEventAction::ChatEventInviteLinkDeleted(t) = self { return Some(t) } None }
@@ -293,6 +300,7 @@ impl ChatEventAction {
   pub fn as_chat_event_member_invited(&self) -> Option<&ChatEventMemberInvited> { if let ChatEventAction::ChatEventMemberInvited(t) = self { return Some(t) } None }
   pub fn as_chat_event_member_joined(&self) -> Option<&ChatEventMemberJoined> { if let ChatEventAction::ChatEventMemberJoined(t) = self { return Some(t) } None }
   pub fn as_chat_event_member_joined_by_invite_link(&self) -> Option<&ChatEventMemberJoinedByInviteLink> { if let ChatEventAction::ChatEventMemberJoinedByInviteLink(t) = self { return Some(t) } None }
+  pub fn as_chat_event_member_joined_by_request(&self) -> Option<&ChatEventMemberJoinedByRequest> { if let ChatEventAction::ChatEventMemberJoinedByRequest(t) = self { return Some(t) } None }
   pub fn as_chat_event_member_left(&self) -> Option<&ChatEventMemberLeft> { if let ChatEventAction::ChatEventMemberLeft(t) = self { return Some(t) } None }
   pub fn as_chat_event_member_promoted(&self) -> Option<&ChatEventMemberPromoted> { if let ChatEventAction::ChatEventMemberPromoted(t) = self { return Some(t) } None }
   pub fn as_chat_event_member_restricted(&self) -> Option<&ChatEventMemberRestricted> { if let ChatEventAction::ChatEventMemberRestricted(t) = self { return Some(t) } None }
@@ -309,11 +317,11 @@ impl ChatEventAction {
   pub fn as_chat_event_sticker_set_changed(&self) -> Option<&ChatEventStickerSetChanged> { if let ChatEventAction::ChatEventStickerSetChanged(t) = self { return Some(t) } None }
   pub fn as_chat_event_title_changed(&self) -> Option<&ChatEventTitleChanged> { if let ChatEventAction::ChatEventTitleChanged(t) = self { return Some(t) } None }
   pub fn as_chat_event_username_changed(&self) -> Option<&ChatEventUsernameChanged> { if let ChatEventAction::ChatEventUsernameChanged(t) = self { return Some(t) } None }
-  pub fn as_chat_event_voice_chat_created(&self) -> Option<&ChatEventVoiceChatCreated> { if let ChatEventAction::ChatEventVoiceChatCreated(t) = self { return Some(t) } None }
-  pub fn as_chat_event_voice_chat_discarded(&self) -> Option<&ChatEventVoiceChatDiscarded> { if let ChatEventAction::ChatEventVoiceChatDiscarded(t) = self { return Some(t) } None }
-  pub fn as_chat_event_voice_chat_mute_new_participants_toggled(&self) -> Option<&ChatEventVoiceChatMuteNewParticipantsToggled> { if let ChatEventAction::ChatEventVoiceChatMuteNewParticipantsToggled(t) = self { return Some(t) } None }
-  pub fn as_chat_event_voice_chat_participant_is_muted_toggled(&self) -> Option<&ChatEventVoiceChatParticipantIsMutedToggled> { if let ChatEventAction::ChatEventVoiceChatParticipantIsMutedToggled(t) = self { return Some(t) } None }
-  pub fn as_chat_event_voice_chat_participant_volume_level_changed(&self) -> Option<&ChatEventVoiceChatParticipantVolumeLevelChanged> { if let ChatEventAction::ChatEventVoiceChatParticipantVolumeLevelChanged(t) = self { return Some(t) } None }
+  pub fn as_chat_event_video_chat_created(&self) -> Option<&ChatEventVideoChatCreated> { if let ChatEventAction::ChatEventVideoChatCreated(t) = self { return Some(t) } None }
+  pub fn as_chat_event_video_chat_discarded(&self) -> Option<&ChatEventVideoChatDiscarded> { if let ChatEventAction::ChatEventVideoChatDiscarded(t) = self { return Some(t) } None }
+  pub fn as_chat_event_video_chat_mute_new_participants_toggled(&self) -> Option<&ChatEventVideoChatMuteNewParticipantsToggled> { if let ChatEventAction::ChatEventVideoChatMuteNewParticipantsToggled(t) = self { return Some(t) } None }
+  pub fn as_chat_event_video_chat_participant_is_muted_toggled(&self) -> Option<&ChatEventVideoChatParticipantIsMutedToggled> { if let ChatEventAction::ChatEventVideoChatParticipantIsMutedToggled(t) = self { return Some(t) } None }
+  pub fn as_chat_event_video_chat_participant_volume_level_changed(&self) -> Option<&ChatEventVideoChatParticipantVolumeLevelChanged> { if let ChatEventAction::ChatEventVideoChatParticipantVolumeLevelChanged(t) = self { return Some(t) } None }
 
 
 
@@ -338,6 +346,8 @@ impl ChatEventAction {
   pub fn chat_event_member_joined<T: AsRef<ChatEventMemberJoined>>(t: T) -> Self { ChatEventAction::ChatEventMemberJoined(t.as_ref().clone()) }
 
   pub fn chat_event_member_joined_by_invite_link<T: AsRef<ChatEventMemberJoinedByInviteLink>>(t: T) -> Self { ChatEventAction::ChatEventMemberJoinedByInviteLink(t.as_ref().clone()) }
+
+  pub fn chat_event_member_joined_by_request<T: AsRef<ChatEventMemberJoinedByRequest>>(t: T) -> Self { ChatEventAction::ChatEventMemberJoinedByRequest(t.as_ref().clone()) }
 
   pub fn chat_event_member_left<T: AsRef<ChatEventMemberLeft>>(t: T) -> Self { ChatEventAction::ChatEventMemberLeft(t.as_ref().clone()) }
 
@@ -371,15 +381,15 @@ impl ChatEventAction {
 
   pub fn chat_event_username_changed<T: AsRef<ChatEventUsernameChanged>>(t: T) -> Self { ChatEventAction::ChatEventUsernameChanged(t.as_ref().clone()) }
 
-  pub fn chat_event_voice_chat_created<T: AsRef<ChatEventVoiceChatCreated>>(t: T) -> Self { ChatEventAction::ChatEventVoiceChatCreated(t.as_ref().clone()) }
+  pub fn chat_event_video_chat_created<T: AsRef<ChatEventVideoChatCreated>>(t: T) -> Self { ChatEventAction::ChatEventVideoChatCreated(t.as_ref().clone()) }
 
-  pub fn chat_event_voice_chat_discarded<T: AsRef<ChatEventVoiceChatDiscarded>>(t: T) -> Self { ChatEventAction::ChatEventVoiceChatDiscarded(t.as_ref().clone()) }
+  pub fn chat_event_video_chat_discarded<T: AsRef<ChatEventVideoChatDiscarded>>(t: T) -> Self { ChatEventAction::ChatEventVideoChatDiscarded(t.as_ref().clone()) }
 
-  pub fn chat_event_voice_chat_mute_new_participants_toggled<T: AsRef<ChatEventVoiceChatMuteNewParticipantsToggled>>(t: T) -> Self { ChatEventAction::ChatEventVoiceChatMuteNewParticipantsToggled(t.as_ref().clone()) }
+  pub fn chat_event_video_chat_mute_new_participants_toggled<T: AsRef<ChatEventVideoChatMuteNewParticipantsToggled>>(t: T) -> Self { ChatEventAction::ChatEventVideoChatMuteNewParticipantsToggled(t.as_ref().clone()) }
 
-  pub fn chat_event_voice_chat_participant_is_muted_toggled<T: AsRef<ChatEventVoiceChatParticipantIsMutedToggled>>(t: T) -> Self { ChatEventAction::ChatEventVoiceChatParticipantIsMutedToggled(t.as_ref().clone()) }
+  pub fn chat_event_video_chat_participant_is_muted_toggled<T: AsRef<ChatEventVideoChatParticipantIsMutedToggled>>(t: T) -> Self { ChatEventAction::ChatEventVideoChatParticipantIsMutedToggled(t.as_ref().clone()) }
 
-  pub fn chat_event_voice_chat_participant_volume_level_changed<T: AsRef<ChatEventVoiceChatParticipantVolumeLevelChanged>>(t: T) -> Self { ChatEventAction::ChatEventVoiceChatParticipantVolumeLevelChanged(t.as_ref().clone()) }
+  pub fn chat_event_video_chat_participant_volume_level_changed<T: AsRef<ChatEventVideoChatParticipantVolumeLevelChanged>>(t: T) -> Self { ChatEventAction::ChatEventVideoChatParticipantVolumeLevelChanged(t.as_ref().clone()) }
 
 }
 
@@ -1173,6 +1183,84 @@ impl AsRef<ChatEventMemberJoinedByInviteLink> for ChatEventMemberJoinedByInviteL
 
 impl AsRef<ChatEventMemberJoinedByInviteLink> for RTDChatEventMemberJoinedByInviteLinkBuilder {
   fn as_ref(&self) -> &ChatEventMemberJoinedByInviteLink { &self.inner }
+}
+
+
+
+
+
+
+
+/// A new member was accepted to the chat by an administrator
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventMemberJoinedByRequest {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// User identifier of the chat administrator, approved user join request
+  approver_user_id: i64,
+  /// Invite link used to join the chat; may be null
+  invite_link: Option<ChatInviteLink>,
+  
+}
+
+impl RObject for ChatEventMemberJoinedByRequest {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventMemberJoinedByRequest" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatEventAction for ChatEventMemberJoinedByRequest {}
+
+
+
+impl ChatEventMemberJoinedByRequest {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatEventMemberJoinedByRequestBuilder {
+    let mut inner = ChatEventMemberJoinedByRequest::default();
+    inner.td_name = "chatEventMemberJoinedByRequest".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDChatEventMemberJoinedByRequestBuilder { inner }
+  }
+
+  pub fn approver_user_id(&self) -> i64 { self.approver_user_id }
+
+  pub fn invite_link(&self) -> &Option<ChatInviteLink> { &self.invite_link }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventMemberJoinedByRequestBuilder {
+  inner: ChatEventMemberJoinedByRequest
+}
+
+impl RTDChatEventMemberJoinedByRequestBuilder {
+  pub fn build(&self) -> ChatEventMemberJoinedByRequest { self.inner.clone() }
+
+   
+  pub fn approver_user_id(&mut self, approver_user_id: i64) -> &mut Self {
+    self.inner.approver_user_id = approver_user_id;
+    self
+  }
+
+   
+  pub fn invite_link<T: AsRef<ChatInviteLink>>(&mut self, invite_link: T) -> &mut Self {
+    self.inner.invite_link = Some(invite_link.as_ref().clone());
+    self
+  }
+
+}
+
+impl AsRef<ChatEventMemberJoinedByRequest> for ChatEventMemberJoinedByRequest {
+  fn as_ref(&self) -> &ChatEventMemberJoinedByRequest { self }
+}
+
+impl AsRef<ChatEventMemberJoinedByRequest> for RTDChatEventMemberJoinedByRequestBuilder {
+  fn as_ref(&self) -> &ChatEventMemberJoinedByRequest { &self.inner }
 }
 
 
@@ -2076,9 +2164,9 @@ pub struct ChatEventSlowModeDelayChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Previous value of slow_mode_delay
+  /// Previous value of slow_mode_delay, in seconds
   old_slow_mode_delay: i64,
-  /// New value of slow_mode_delay
+  /// New value of slow_mode_delay, in seconds
   new_slow_mode_delay: i64,
   
 }
@@ -2379,38 +2467,38 @@ impl AsRef<ChatEventUsernameChanged> for RTDChatEventUsernameChangedBuilder {
 
 
 
-/// A voice chat was created
+/// A video chat was created
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ChatEventVoiceChatCreated {
+pub struct ChatEventVideoChatCreated {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+  /// Identifier of the video chat. The video chat can be received through the method getGroupCall
   group_call_id: i64,
   
 }
 
-impl RObject for ChatEventVoiceChatCreated {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventVoiceChatCreated" }
+impl RObject for ChatEventVideoChatCreated {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventVideoChatCreated" }
   #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDChatEventAction for ChatEventVoiceChatCreated {}
+impl TDChatEventAction for ChatEventVideoChatCreated {}
 
 
 
-impl ChatEventVoiceChatCreated {
+impl ChatEventVideoChatCreated {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDChatEventVoiceChatCreatedBuilder {
-    let mut inner = ChatEventVoiceChatCreated::default();
-    inner.td_name = "chatEventVoiceChatCreated".to_string();
+  pub fn builder() -> RTDChatEventVideoChatCreatedBuilder {
+    let mut inner = ChatEventVideoChatCreated::default();
+    inner.td_name = "chatEventVideoChatCreated".to_string();
     inner.extra = Some(Uuid::new_v4().to_string());
-    RTDChatEventVoiceChatCreatedBuilder { inner }
+    RTDChatEventVideoChatCreatedBuilder { inner }
   }
 
   pub fn group_call_id(&self) -> i64 { self.group_call_id }
@@ -2418,12 +2506,12 @@ impl ChatEventVoiceChatCreated {
 }
 
 #[doc(hidden)]
-pub struct RTDChatEventVoiceChatCreatedBuilder {
-  inner: ChatEventVoiceChatCreated
+pub struct RTDChatEventVideoChatCreatedBuilder {
+  inner: ChatEventVideoChatCreated
 }
 
-impl RTDChatEventVoiceChatCreatedBuilder {
-  pub fn build(&self) -> ChatEventVoiceChatCreated { self.inner.clone() }
+impl RTDChatEventVideoChatCreatedBuilder {
+  pub fn build(&self) -> ChatEventVideoChatCreated { self.inner.clone() }
 
    
   pub fn group_call_id(&mut self, group_call_id: i64) -> &mut Self {
@@ -2433,12 +2521,12 @@ impl RTDChatEventVoiceChatCreatedBuilder {
 
 }
 
-impl AsRef<ChatEventVoiceChatCreated> for ChatEventVoiceChatCreated {
-  fn as_ref(&self) -> &ChatEventVoiceChatCreated { self }
+impl AsRef<ChatEventVideoChatCreated> for ChatEventVideoChatCreated {
+  fn as_ref(&self) -> &ChatEventVideoChatCreated { self }
 }
 
-impl AsRef<ChatEventVoiceChatCreated> for RTDChatEventVoiceChatCreatedBuilder {
-  fn as_ref(&self) -> &ChatEventVoiceChatCreated { &self.inner }
+impl AsRef<ChatEventVideoChatCreated> for RTDChatEventVideoChatCreatedBuilder {
+  fn as_ref(&self) -> &ChatEventVideoChatCreated { &self.inner }
 }
 
 
@@ -2447,38 +2535,38 @@ impl AsRef<ChatEventVoiceChatCreated> for RTDChatEventVoiceChatCreatedBuilder {
 
 
 
-/// A voice chat was discarded
+/// A video chat was discarded
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ChatEventVoiceChatDiscarded {
+pub struct ChatEventVideoChatDiscarded {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+  /// Identifier of the video chat. The video chat can be received through the method getGroupCall
   group_call_id: i64,
   
 }
 
-impl RObject for ChatEventVoiceChatDiscarded {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventVoiceChatDiscarded" }
+impl RObject for ChatEventVideoChatDiscarded {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventVideoChatDiscarded" }
   #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDChatEventAction for ChatEventVoiceChatDiscarded {}
+impl TDChatEventAction for ChatEventVideoChatDiscarded {}
 
 
 
-impl ChatEventVoiceChatDiscarded {
+impl ChatEventVideoChatDiscarded {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDChatEventVoiceChatDiscardedBuilder {
-    let mut inner = ChatEventVoiceChatDiscarded::default();
-    inner.td_name = "chatEventVoiceChatDiscarded".to_string();
+  pub fn builder() -> RTDChatEventVideoChatDiscardedBuilder {
+    let mut inner = ChatEventVideoChatDiscarded::default();
+    inner.td_name = "chatEventVideoChatDiscarded".to_string();
     inner.extra = Some(Uuid::new_v4().to_string());
-    RTDChatEventVoiceChatDiscardedBuilder { inner }
+    RTDChatEventVideoChatDiscardedBuilder { inner }
   }
 
   pub fn group_call_id(&self) -> i64 { self.group_call_id }
@@ -2486,12 +2574,12 @@ impl ChatEventVoiceChatDiscarded {
 }
 
 #[doc(hidden)]
-pub struct RTDChatEventVoiceChatDiscardedBuilder {
-  inner: ChatEventVoiceChatDiscarded
+pub struct RTDChatEventVideoChatDiscardedBuilder {
+  inner: ChatEventVideoChatDiscarded
 }
 
-impl RTDChatEventVoiceChatDiscardedBuilder {
-  pub fn build(&self) -> ChatEventVoiceChatDiscarded { self.inner.clone() }
+impl RTDChatEventVideoChatDiscardedBuilder {
+  pub fn build(&self) -> ChatEventVideoChatDiscarded { self.inner.clone() }
 
    
   pub fn group_call_id(&mut self, group_call_id: i64) -> &mut Self {
@@ -2501,12 +2589,12 @@ impl RTDChatEventVoiceChatDiscardedBuilder {
 
 }
 
-impl AsRef<ChatEventVoiceChatDiscarded> for ChatEventVoiceChatDiscarded {
-  fn as_ref(&self) -> &ChatEventVoiceChatDiscarded { self }
+impl AsRef<ChatEventVideoChatDiscarded> for ChatEventVideoChatDiscarded {
+  fn as_ref(&self) -> &ChatEventVideoChatDiscarded { self }
 }
 
-impl AsRef<ChatEventVoiceChatDiscarded> for RTDChatEventVoiceChatDiscardedBuilder {
-  fn as_ref(&self) -> &ChatEventVoiceChatDiscarded { &self.inner }
+impl AsRef<ChatEventVideoChatDiscarded> for RTDChatEventVideoChatDiscardedBuilder {
+  fn as_ref(&self) -> &ChatEventVideoChatDiscarded { &self.inner }
 }
 
 
@@ -2515,9 +2603,9 @@ impl AsRef<ChatEventVoiceChatDiscarded> for RTDChatEventVoiceChatDiscardedBuilde
 
 
 
-/// The mute_new_participants setting of a voice chat was toggled
+/// The mute_new_participants setting of a video chat was toggled
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ChatEventVoiceChatMuteNewParticipantsToggled {
+pub struct ChatEventVideoChatMuteNewParticipantsToggled {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
@@ -2529,24 +2617,24 @@ pub struct ChatEventVoiceChatMuteNewParticipantsToggled {
   
 }
 
-impl RObject for ChatEventVoiceChatMuteNewParticipantsToggled {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventVoiceChatMuteNewParticipantsToggled" }
+impl RObject for ChatEventVideoChatMuteNewParticipantsToggled {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventVideoChatMuteNewParticipantsToggled" }
   #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDChatEventAction for ChatEventVoiceChatMuteNewParticipantsToggled {}
+impl TDChatEventAction for ChatEventVideoChatMuteNewParticipantsToggled {}
 
 
 
-impl ChatEventVoiceChatMuteNewParticipantsToggled {
+impl ChatEventVideoChatMuteNewParticipantsToggled {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDChatEventVoiceChatMuteNewParticipantsToggledBuilder {
-    let mut inner = ChatEventVoiceChatMuteNewParticipantsToggled::default();
-    inner.td_name = "chatEventVoiceChatMuteNewParticipantsToggled".to_string();
+  pub fn builder() -> RTDChatEventVideoChatMuteNewParticipantsToggledBuilder {
+    let mut inner = ChatEventVideoChatMuteNewParticipantsToggled::default();
+    inner.td_name = "chatEventVideoChatMuteNewParticipantsToggled".to_string();
     inner.extra = Some(Uuid::new_v4().to_string());
-    RTDChatEventVoiceChatMuteNewParticipantsToggledBuilder { inner }
+    RTDChatEventVideoChatMuteNewParticipantsToggledBuilder { inner }
   }
 
   pub fn mute_new_participants(&self) -> bool { self.mute_new_participants }
@@ -2554,12 +2642,12 @@ impl ChatEventVoiceChatMuteNewParticipantsToggled {
 }
 
 #[doc(hidden)]
-pub struct RTDChatEventVoiceChatMuteNewParticipantsToggledBuilder {
-  inner: ChatEventVoiceChatMuteNewParticipantsToggled
+pub struct RTDChatEventVideoChatMuteNewParticipantsToggledBuilder {
+  inner: ChatEventVideoChatMuteNewParticipantsToggled
 }
 
-impl RTDChatEventVoiceChatMuteNewParticipantsToggledBuilder {
-  pub fn build(&self) -> ChatEventVoiceChatMuteNewParticipantsToggled { self.inner.clone() }
+impl RTDChatEventVideoChatMuteNewParticipantsToggledBuilder {
+  pub fn build(&self) -> ChatEventVideoChatMuteNewParticipantsToggled { self.inner.clone() }
 
    
   pub fn mute_new_participants(&mut self, mute_new_participants: bool) -> &mut Self {
@@ -2569,12 +2657,12 @@ impl RTDChatEventVoiceChatMuteNewParticipantsToggledBuilder {
 
 }
 
-impl AsRef<ChatEventVoiceChatMuteNewParticipantsToggled> for ChatEventVoiceChatMuteNewParticipantsToggled {
-  fn as_ref(&self) -> &ChatEventVoiceChatMuteNewParticipantsToggled { self }
+impl AsRef<ChatEventVideoChatMuteNewParticipantsToggled> for ChatEventVideoChatMuteNewParticipantsToggled {
+  fn as_ref(&self) -> &ChatEventVideoChatMuteNewParticipantsToggled { self }
 }
 
-impl AsRef<ChatEventVoiceChatMuteNewParticipantsToggled> for RTDChatEventVoiceChatMuteNewParticipantsToggledBuilder {
-  fn as_ref(&self) -> &ChatEventVoiceChatMuteNewParticipantsToggled { &self.inner }
+impl AsRef<ChatEventVideoChatMuteNewParticipantsToggled> for RTDChatEventVideoChatMuteNewParticipantsToggledBuilder {
+  fn as_ref(&self) -> &ChatEventVideoChatMuteNewParticipantsToggled { &self.inner }
 }
 
 
@@ -2583,9 +2671,9 @@ impl AsRef<ChatEventVoiceChatMuteNewParticipantsToggled> for RTDChatEventVoiceCh
 
 
 
-/// A voice chat participant was muted or unmuted
+/// A video chat participant was muted or unmuted
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ChatEventVoiceChatParticipantIsMutedToggled {
+pub struct ChatEventVideoChatParticipantIsMutedToggled {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
@@ -2599,24 +2687,24 @@ pub struct ChatEventVoiceChatParticipantIsMutedToggled {
   
 }
 
-impl RObject for ChatEventVoiceChatParticipantIsMutedToggled {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventVoiceChatParticipantIsMutedToggled" }
+impl RObject for ChatEventVideoChatParticipantIsMutedToggled {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventVideoChatParticipantIsMutedToggled" }
   #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDChatEventAction for ChatEventVoiceChatParticipantIsMutedToggled {}
+impl TDChatEventAction for ChatEventVideoChatParticipantIsMutedToggled {}
 
 
 
-impl ChatEventVoiceChatParticipantIsMutedToggled {
+impl ChatEventVideoChatParticipantIsMutedToggled {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDChatEventVoiceChatParticipantIsMutedToggledBuilder {
-    let mut inner = ChatEventVoiceChatParticipantIsMutedToggled::default();
-    inner.td_name = "chatEventVoiceChatParticipantIsMutedToggled".to_string();
+  pub fn builder() -> RTDChatEventVideoChatParticipantIsMutedToggledBuilder {
+    let mut inner = ChatEventVideoChatParticipantIsMutedToggled::default();
+    inner.td_name = "chatEventVideoChatParticipantIsMutedToggled".to_string();
     inner.extra = Some(Uuid::new_v4().to_string());
-    RTDChatEventVoiceChatParticipantIsMutedToggledBuilder { inner }
+    RTDChatEventVideoChatParticipantIsMutedToggledBuilder { inner }
   }
 
   pub fn participant_id(&self) -> &MessageSender { &self.participant_id }
@@ -2626,12 +2714,12 @@ impl ChatEventVoiceChatParticipantIsMutedToggled {
 }
 
 #[doc(hidden)]
-pub struct RTDChatEventVoiceChatParticipantIsMutedToggledBuilder {
-  inner: ChatEventVoiceChatParticipantIsMutedToggled
+pub struct RTDChatEventVideoChatParticipantIsMutedToggledBuilder {
+  inner: ChatEventVideoChatParticipantIsMutedToggled
 }
 
-impl RTDChatEventVoiceChatParticipantIsMutedToggledBuilder {
-  pub fn build(&self) -> ChatEventVoiceChatParticipantIsMutedToggled { self.inner.clone() }
+impl RTDChatEventVideoChatParticipantIsMutedToggledBuilder {
+  pub fn build(&self) -> ChatEventVideoChatParticipantIsMutedToggled { self.inner.clone() }
 
    
   pub fn participant_id<T: AsRef<MessageSender>>(&mut self, participant_id: T) -> &mut Self {
@@ -2647,12 +2735,12 @@ impl RTDChatEventVoiceChatParticipantIsMutedToggledBuilder {
 
 }
 
-impl AsRef<ChatEventVoiceChatParticipantIsMutedToggled> for ChatEventVoiceChatParticipantIsMutedToggled {
-  fn as_ref(&self) -> &ChatEventVoiceChatParticipantIsMutedToggled { self }
+impl AsRef<ChatEventVideoChatParticipantIsMutedToggled> for ChatEventVideoChatParticipantIsMutedToggled {
+  fn as_ref(&self) -> &ChatEventVideoChatParticipantIsMutedToggled { self }
 }
 
-impl AsRef<ChatEventVoiceChatParticipantIsMutedToggled> for RTDChatEventVoiceChatParticipantIsMutedToggledBuilder {
-  fn as_ref(&self) -> &ChatEventVoiceChatParticipantIsMutedToggled { &self.inner }
+impl AsRef<ChatEventVideoChatParticipantIsMutedToggled> for RTDChatEventVideoChatParticipantIsMutedToggledBuilder {
+  fn as_ref(&self) -> &ChatEventVideoChatParticipantIsMutedToggled { &self.inner }
 }
 
 
@@ -2661,9 +2749,9 @@ impl AsRef<ChatEventVoiceChatParticipantIsMutedToggled> for RTDChatEventVoiceCha
 
 
 
-/// A voice chat participant volume level was changed
+/// A video chat participant volume level was changed
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ChatEventVoiceChatParticipantVolumeLevelChanged {
+pub struct ChatEventVideoChatParticipantVolumeLevelChanged {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
@@ -2677,24 +2765,24 @@ pub struct ChatEventVoiceChatParticipantVolumeLevelChanged {
   
 }
 
-impl RObject for ChatEventVoiceChatParticipantVolumeLevelChanged {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventVoiceChatParticipantVolumeLevelChanged" }
+impl RObject for ChatEventVideoChatParticipantVolumeLevelChanged {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventVideoChatParticipantVolumeLevelChanged" }
   #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDChatEventAction for ChatEventVoiceChatParticipantVolumeLevelChanged {}
+impl TDChatEventAction for ChatEventVideoChatParticipantVolumeLevelChanged {}
 
 
 
-impl ChatEventVoiceChatParticipantVolumeLevelChanged {
+impl ChatEventVideoChatParticipantVolumeLevelChanged {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDChatEventVoiceChatParticipantVolumeLevelChangedBuilder {
-    let mut inner = ChatEventVoiceChatParticipantVolumeLevelChanged::default();
-    inner.td_name = "chatEventVoiceChatParticipantVolumeLevelChanged".to_string();
+  pub fn builder() -> RTDChatEventVideoChatParticipantVolumeLevelChangedBuilder {
+    let mut inner = ChatEventVideoChatParticipantVolumeLevelChanged::default();
+    inner.td_name = "chatEventVideoChatParticipantVolumeLevelChanged".to_string();
     inner.extra = Some(Uuid::new_v4().to_string());
-    RTDChatEventVoiceChatParticipantVolumeLevelChangedBuilder { inner }
+    RTDChatEventVideoChatParticipantVolumeLevelChangedBuilder { inner }
   }
 
   pub fn participant_id(&self) -> &MessageSender { &self.participant_id }
@@ -2704,12 +2792,12 @@ impl ChatEventVoiceChatParticipantVolumeLevelChanged {
 }
 
 #[doc(hidden)]
-pub struct RTDChatEventVoiceChatParticipantVolumeLevelChangedBuilder {
-  inner: ChatEventVoiceChatParticipantVolumeLevelChanged
+pub struct RTDChatEventVideoChatParticipantVolumeLevelChangedBuilder {
+  inner: ChatEventVideoChatParticipantVolumeLevelChanged
 }
 
-impl RTDChatEventVoiceChatParticipantVolumeLevelChangedBuilder {
-  pub fn build(&self) -> ChatEventVoiceChatParticipantVolumeLevelChanged { self.inner.clone() }
+impl RTDChatEventVideoChatParticipantVolumeLevelChangedBuilder {
+  pub fn build(&self) -> ChatEventVideoChatParticipantVolumeLevelChanged { self.inner.clone() }
 
    
   pub fn participant_id<T: AsRef<MessageSender>>(&mut self, participant_id: T) -> &mut Self {
@@ -2725,12 +2813,12 @@ impl RTDChatEventVoiceChatParticipantVolumeLevelChangedBuilder {
 
 }
 
-impl AsRef<ChatEventVoiceChatParticipantVolumeLevelChanged> for ChatEventVoiceChatParticipantVolumeLevelChanged {
-  fn as_ref(&self) -> &ChatEventVoiceChatParticipantVolumeLevelChanged { self }
+impl AsRef<ChatEventVideoChatParticipantVolumeLevelChanged> for ChatEventVideoChatParticipantVolumeLevelChanged {
+  fn as_ref(&self) -> &ChatEventVideoChatParticipantVolumeLevelChanged { self }
 }
 
-impl AsRef<ChatEventVoiceChatParticipantVolumeLevelChanged> for RTDChatEventVoiceChatParticipantVolumeLevelChangedBuilder {
-  fn as_ref(&self) -> &ChatEventVoiceChatParticipantVolumeLevelChanged { &self.inner }
+impl AsRef<ChatEventVideoChatParticipantVolumeLevelChanged> for RTDChatEventVideoChatParticipantVolumeLevelChangedBuilder {
+  fn as_ref(&self) -> &ChatEventVideoChatParticipantVolumeLevelChanged { &self.inner }
 }
 
 

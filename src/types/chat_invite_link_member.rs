@@ -19,6 +19,8 @@ pub struct ChatInviteLinkMember {
   user_id: i64,
   /// Point in time (Unix timestamp) when the user joined the chat
   joined_chat_date: i64,
+  /// User identifier of the chat administrator, approved user join request
+  approver_user_id: i64,
   
 }
 
@@ -43,6 +45,8 @@ impl ChatInviteLinkMember {
 
   pub fn joined_chat_date(&self) -> i64 { self.joined_chat_date }
 
+  pub fn approver_user_id(&self) -> i64 { self.approver_user_id }
+
 }
 
 #[doc(hidden)]
@@ -62,6 +66,12 @@ impl RTDChatInviteLinkMemberBuilder {
    
   pub fn joined_chat_date(&mut self, joined_chat_date: i64) -> &mut Self {
     self.inner.joined_chat_date = joined_chat_date;
+    self
+  }
+
+   
+  pub fn approver_user_id(&mut self, approver_user_id: i64) -> &mut Self {
+    self.inner.approver_user_id = approver_user_id;
     self
   }
 

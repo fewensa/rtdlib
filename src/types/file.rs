@@ -17,9 +17,9 @@ pub struct File {
   extra: Option<String>,
   /// Unique file identifier
   id: i64,
-  /// File size; 0 if unknown
+  /// File size, in bytes; 0 if unknown
   size: i64,
-  /// Expected file size in case the exact file size is unknown, but an approximate size is known. Can be used to show download/upload progress
+  /// Approximate file size in bytes in case the exact file size is unknown. Can be used to show download/upload progress
   expected_size: i64,
   /// Information about the local copy of the file
   local: LocalFile,

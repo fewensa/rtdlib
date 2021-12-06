@@ -23,7 +23,7 @@ pub enum CheckChatUsernameResult {
   CheckChatUsername(CheckChatUsername),
   /// The username can be set
   Ok(CheckChatUsernameResultOk),
-  /// The user has too much chats with username, one of them should be made private first
+  /// The user has too much chats with username, one of them must be made private first
   PublicChatsTooMuch(CheckChatUsernameResultPublicChatsTooMuch),
   /// The user can't be a member of a public supergroup
   PublicGroupsUnavailable(CheckChatUsernameResultPublicGroupsUnavailable),
@@ -191,7 +191,7 @@ impl AsRef<CheckChatUsernameResultOk> for RTDCheckChatUsernameResultOkBuilder {
 
 
 
-/// The user has too much chats with username, one of them should be made private first
+/// The user has too much chats with username, one of them must be made private first
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct CheckChatUsernameResultPublicChatsTooMuch {
   #[doc(hidden)]

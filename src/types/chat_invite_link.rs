@@ -17,6 +17,8 @@ pub struct ChatInviteLink {
   extra: Option<String>,
   /// Chat invite link
   invite_link: String,
+  /// Name of the link
+  name: String,
   /// User identifier of an administrator created the link
   creator_user_id: i64,
   /// Point in time (Unix timestamp) when the link was created
@@ -25,11 +27,15 @@ pub struct ChatInviteLink {
   edit_date: i64,
   /// Point in time (Unix timestamp) when the link will expire; 0 if never
   expire_date: i64,
-  /// The maximum number of members, which can join the chat using the link simultaneously; 0 if not limited
+  /// The maximum number of members, which can join the chat using the link simultaneously; 0 if not limited. Always 0 if the link requires approval
   member_limit: i64,
   /// Number of chat members, which joined the chat using the link
   member_count: i64,
-  /// True, if the link is primary. Primary invite link can't have expire date or usage limit. There is exactly one primary invite link for each administrator with can_invite_users right at a given time
+  /// Number of pending join requests created using this link
+  pending_join_request_count: i64,
+  /// True, if the link only creates join request. If true, total number of joining members will be unlimited
+  creates_join_request: bool,
+  /// True, if the link is primary. Primary invite link can't have name, expire date or usage limit. There is exactly one primary invite link for each administrator with can_invite_users right at a given time
   is_primary: bool,
   /// True, if the link was revoked
   is_revoked: bool,
@@ -55,6 +61,8 @@ impl ChatInviteLink {
 
   pub fn invite_link(&self) -> &String { &self.invite_link }
 
+  pub fn name(&self) -> &String { &self.name }
+
   pub fn creator_user_id(&self) -> i64 { self.creator_user_id }
 
   pub fn date(&self) -> i64 { self.date }
@@ -66,6 +74,10 @@ impl ChatInviteLink {
   pub fn member_limit(&self) -> i64 { self.member_limit }
 
   pub fn member_count(&self) -> i64 { self.member_count }
+
+  pub fn pending_join_request_count(&self) -> i64 { self.pending_join_request_count }
+
+  pub fn creates_join_request(&self) -> bool { self.creates_join_request }
 
   pub fn is_primary(&self) -> bool { self.is_primary }
 
@@ -84,6 +96,12 @@ impl RTDChatInviteLinkBuilder {
    
   pub fn invite_link<T: AsRef<str>>(&mut self, invite_link: T) -> &mut Self {
     self.inner.invite_link = invite_link.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn name<T: AsRef<str>>(&mut self, name: T) -> &mut Self {
+    self.inner.name = name.as_ref().to_string();
     self
   }
 
@@ -120,6 +138,18 @@ impl RTDChatInviteLinkBuilder {
    
   pub fn member_count(&mut self, member_count: i64) -> &mut Self {
     self.inner.member_count = member_count;
+    self
+  }
+
+   
+  pub fn pending_join_request_count(&mut self, pending_join_request_count: i64) -> &mut Self {
+    self.inner.pending_join_request_count = pending_join_request_count;
+    self
+  }
+
+   
+  pub fn creates_join_request(&mut self, creates_join_request: bool) -> &mut Self {
+    self.inner.creates_join_request = creates_join_request;
     self
   }
 

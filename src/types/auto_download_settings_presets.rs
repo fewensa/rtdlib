@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 
 
-/// Contains auto-download settings presets for the user
+/// Contains auto-download settings presets for the current user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct AutoDownloadSettingsPresets {
   #[doc(hidden)]

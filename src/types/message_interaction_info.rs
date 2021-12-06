@@ -19,7 +19,7 @@ pub struct MessageInteractionInfo {
   view_count: i64,
   /// Number of times the message was forwarded
   forward_count: i64,
-  /// Contains information about direct or indirect replies to the message; may be null. Currently, available only in channels with a discussion supergroup and discussion supergroups for messages, which are not replies itself
+  /// Information about direct or indirect replies to the message; may be null. Currently, available only in channels with a discussion supergroup and discussion supergroups for messages, which are not replies itself
   reply_info: Option<MessageReplyInfo>,
   
 }

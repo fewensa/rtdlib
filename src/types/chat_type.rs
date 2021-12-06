@@ -19,13 +19,13 @@ pub trait TDChatType: Debug + RObject {}
 #[serde(untagged)]
 pub enum ChatType {
   #[doc(hidden)] _Default(()),
-  /// A basic group (i.e., a chat with 0-200 other users)
+  /// A basic group (a chat with 0-200 other users)
   BasicGroup(ChatTypeBasicGroup),
   /// An ordinary chat with a user
   Private(ChatTypePrivate),
   /// A secret chat with a user
   Secret(ChatTypeSecret),
-  /// A supergroup (i.e. a chat with up to GetOption("supergroup_max_size") other users), or channel (with unlimited members)
+  /// A supergroup or channel (with unlimited members)
   Supergroup(ChatTypeSupergroup),
 
 }
@@ -113,7 +113,7 @@ impl AsRef<ChatType> for ChatType {
 
 
 
-/// A basic group (i.e., a chat with 0-200 other users)
+/// A basic group (a chat with 0-200 other users)
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatTypeBasicGroup {
   #[doc(hidden)]
@@ -327,7 +327,7 @@ impl AsRef<ChatTypeSecret> for RTDChatTypeSecretBuilder {
 
 
 
-/// A supergroup (i.e. a chat with up to GetOption("supergroup_max_size") other users), or channel (with unlimited members)
+/// A supergroup or channel (with unlimited members)
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatTypeSupergroup {
   #[doc(hidden)]

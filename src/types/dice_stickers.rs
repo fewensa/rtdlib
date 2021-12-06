@@ -11,10 +11,10 @@ use serde::de::{Deserialize, Deserializer};
 
 
 
-/// TRAIT | Contains animated stickers which should be used for dice animation rendering
+/// TRAIT | Contains animated stickers which must be used for dice animation rendering
 pub trait TDDiceStickers: Debug + RObject {}
 
-/// Contains animated stickers which should be used for dice animation rendering
+/// Contains animated stickers which must be used for dice animation rendering
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum DiceStickers {

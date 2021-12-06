@@ -17,7 +17,7 @@ pub struct LanguagePackString {
   extra: Option<String>,
   /// String key
   key: String,
-  /// String value
+  /// String value; pass null if the string needs to be taken from the built-in English language pack
   value: LanguagePackStringValue,
   
 }

@@ -25,6 +25,8 @@ pub enum ChatAction {
   ChoosingContact(ChatActionChoosingContact),
   /// The user is picking a location or venue to send
   ChoosingLocation(ChatActionChoosingLocation),
+  /// The user is picking a sticker to send
+  ChoosingSticker(ChatActionChoosingSticker),
   /// The user is recording a video
   RecordingVideo(ChatActionRecordingVideo),
   /// The user is recording a video note
@@ -45,6 +47,8 @@ pub enum ChatAction {
   UploadingVideoNote(ChatActionUploadingVideoNote),
   /// The user is uploading a voice note
   UploadingVoiceNote(ChatActionUploadingVoiceNote),
+  /// The user is watching animations sent by the other party by clicking on an animated emoji
+  WatchingAnimations(ChatActionWatchingAnimations),
 
 }
 
@@ -60,6 +64,7 @@ impl<'de> Deserialize<'de> for ChatAction {
       (chatActionCancel, Cancel);
       (chatActionChoosingContact, ChoosingContact);
       (chatActionChoosingLocation, ChoosingLocation);
+      (chatActionChoosingSticker, ChoosingSticker);
       (chatActionRecordingVideo, RecordingVideo);
       (chatActionRecordingVideoNote, RecordingVideoNote);
       (chatActionRecordingVoiceNote, RecordingVoiceNote);
@@ -70,6 +75,7 @@ impl<'de> Deserialize<'de> for ChatAction {
       (chatActionUploadingVideo, UploadingVideo);
       (chatActionUploadingVideoNote, UploadingVideoNote);
       (chatActionUploadingVoiceNote, UploadingVoiceNote);
+      (chatActionWatchingAnimations, WatchingAnimations);
 
     )(deserializer)
   }
@@ -81,6 +87,7 @@ impl RObject for ChatAction {
       ChatAction::Cancel(t) => t.td_name(),
       ChatAction::ChoosingContact(t) => t.td_name(),
       ChatAction::ChoosingLocation(t) => t.td_name(),
+      ChatAction::ChoosingSticker(t) => t.td_name(),
       ChatAction::RecordingVideo(t) => t.td_name(),
       ChatAction::RecordingVideoNote(t) => t.td_name(),
       ChatAction::RecordingVoiceNote(t) => t.td_name(),
@@ -91,6 +98,7 @@ impl RObject for ChatAction {
       ChatAction::UploadingVideo(t) => t.td_name(),
       ChatAction::UploadingVideoNote(t) => t.td_name(),
       ChatAction::UploadingVoiceNote(t) => t.td_name(),
+      ChatAction::WatchingAnimations(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -100,6 +108,7 @@ impl RObject for ChatAction {
       ChatAction::Cancel(t) => t.extra(),
       ChatAction::ChoosingContact(t) => t.extra(),
       ChatAction::ChoosingLocation(t) => t.extra(),
+      ChatAction::ChoosingSticker(t) => t.extra(),
       ChatAction::RecordingVideo(t) => t.extra(),
       ChatAction::RecordingVideoNote(t) => t.extra(),
       ChatAction::RecordingVoiceNote(t) => t.extra(),
@@ -110,6 +119,7 @@ impl RObject for ChatAction {
       ChatAction::UploadingVideo(t) => t.extra(),
       ChatAction::UploadingVideoNote(t) => t.extra(),
       ChatAction::UploadingVoiceNote(t) => t.extra(),
+      ChatAction::WatchingAnimations(t) => t.extra(),
 
       _ => None,
     }
@@ -124,6 +134,7 @@ impl ChatAction {
   pub fn is_cancel(&self) -> bool { if let ChatAction::Cancel(_) = self { true } else { false } }
   pub fn is_choosing_contact(&self) -> bool { if let ChatAction::ChoosingContact(_) = self { true } else { false } }
   pub fn is_choosing_location(&self) -> bool { if let ChatAction::ChoosingLocation(_) = self { true } else { false } }
+  pub fn is_choosing_sticker(&self) -> bool { if let ChatAction::ChoosingSticker(_) = self { true } else { false } }
   pub fn is_recording_video(&self) -> bool { if let ChatAction::RecordingVideo(_) = self { true } else { false } }
   pub fn is_recording_video_note(&self) -> bool { if let ChatAction::RecordingVideoNote(_) = self { true } else { false } }
   pub fn is_recording_voice_note(&self) -> bool { if let ChatAction::RecordingVoiceNote(_) = self { true } else { false } }
@@ -134,10 +145,12 @@ impl ChatAction {
   pub fn is_uploading_video(&self) -> bool { if let ChatAction::UploadingVideo(_) = self { true } else { false } }
   pub fn is_uploading_video_note(&self) -> bool { if let ChatAction::UploadingVideoNote(_) = self { true } else { false } }
   pub fn is_uploading_voice_note(&self) -> bool { if let ChatAction::UploadingVoiceNote(_) = self { true } else { false } }
+  pub fn is_watching_animations(&self) -> bool { if let ChatAction::WatchingAnimations(_) = self { true } else { false } }
 
   pub fn on_cancel<F: FnOnce(&ChatActionCancel)>(&self, fnc: F) -> &Self { if let ChatAction::Cancel(t) = self { fnc(t) }; self }
   pub fn on_choosing_contact<F: FnOnce(&ChatActionChoosingContact)>(&self, fnc: F) -> &Self { if let ChatAction::ChoosingContact(t) = self { fnc(t) }; self }
   pub fn on_choosing_location<F: FnOnce(&ChatActionChoosingLocation)>(&self, fnc: F) -> &Self { if let ChatAction::ChoosingLocation(t) = self { fnc(t) }; self }
+  pub fn on_choosing_sticker<F: FnOnce(&ChatActionChoosingSticker)>(&self, fnc: F) -> &Self { if let ChatAction::ChoosingSticker(t) = self { fnc(t) }; self }
   pub fn on_recording_video<F: FnOnce(&ChatActionRecordingVideo)>(&self, fnc: F) -> &Self { if let ChatAction::RecordingVideo(t) = self { fnc(t) }; self }
   pub fn on_recording_video_note<F: FnOnce(&ChatActionRecordingVideoNote)>(&self, fnc: F) -> &Self { if let ChatAction::RecordingVideoNote(t) = self { fnc(t) }; self }
   pub fn on_recording_voice_note<F: FnOnce(&ChatActionRecordingVoiceNote)>(&self, fnc: F) -> &Self { if let ChatAction::RecordingVoiceNote(t) = self { fnc(t) }; self }
@@ -148,10 +161,12 @@ impl ChatAction {
   pub fn on_uploading_video<F: FnOnce(&ChatActionUploadingVideo)>(&self, fnc: F) -> &Self { if let ChatAction::UploadingVideo(t) = self { fnc(t) }; self }
   pub fn on_uploading_video_note<F: FnOnce(&ChatActionUploadingVideoNote)>(&self, fnc: F) -> &Self { if let ChatAction::UploadingVideoNote(t) = self { fnc(t) }; self }
   pub fn on_uploading_voice_note<F: FnOnce(&ChatActionUploadingVoiceNote)>(&self, fnc: F) -> &Self { if let ChatAction::UploadingVoiceNote(t) = self { fnc(t) }; self }
+  pub fn on_watching_animations<F: FnOnce(&ChatActionWatchingAnimations)>(&self, fnc: F) -> &Self { if let ChatAction::WatchingAnimations(t) = self { fnc(t) }; self }
 
   pub fn as_cancel(&self) -> Option<&ChatActionCancel> { if let ChatAction::Cancel(t) = self { return Some(t) } None }
   pub fn as_choosing_contact(&self) -> Option<&ChatActionChoosingContact> { if let ChatAction::ChoosingContact(t) = self { return Some(t) } None }
   pub fn as_choosing_location(&self) -> Option<&ChatActionChoosingLocation> { if let ChatAction::ChoosingLocation(t) = self { return Some(t) } None }
+  pub fn as_choosing_sticker(&self) -> Option<&ChatActionChoosingSticker> { if let ChatAction::ChoosingSticker(t) = self { return Some(t) } None }
   pub fn as_recording_video(&self) -> Option<&ChatActionRecordingVideo> { if let ChatAction::RecordingVideo(t) = self { return Some(t) } None }
   pub fn as_recording_video_note(&self) -> Option<&ChatActionRecordingVideoNote> { if let ChatAction::RecordingVideoNote(t) = self { return Some(t) } None }
   pub fn as_recording_voice_note(&self) -> Option<&ChatActionRecordingVoiceNote> { if let ChatAction::RecordingVoiceNote(t) = self { return Some(t) } None }
@@ -162,6 +177,7 @@ impl ChatAction {
   pub fn as_uploading_video(&self) -> Option<&ChatActionUploadingVideo> { if let ChatAction::UploadingVideo(t) = self { return Some(t) } None }
   pub fn as_uploading_video_note(&self) -> Option<&ChatActionUploadingVideoNote> { if let ChatAction::UploadingVideoNote(t) = self { return Some(t) } None }
   pub fn as_uploading_voice_note(&self) -> Option<&ChatActionUploadingVoiceNote> { if let ChatAction::UploadingVoiceNote(t) = self { return Some(t) } None }
+  pub fn as_watching_animations(&self) -> Option<&ChatActionWatchingAnimations> { if let ChatAction::WatchingAnimations(t) = self { return Some(t) } None }
 
 
 
@@ -170,6 +186,8 @@ impl ChatAction {
   pub fn choosing_contact<T: AsRef<ChatActionChoosingContact>>(t: T) -> Self { ChatAction::ChoosingContact(t.as_ref().clone()) }
 
   pub fn choosing_location<T: AsRef<ChatActionChoosingLocation>>(t: T) -> Self { ChatAction::ChoosingLocation(t.as_ref().clone()) }
+
+  pub fn choosing_sticker<T: AsRef<ChatActionChoosingSticker>>(t: T) -> Self { ChatAction::ChoosingSticker(t.as_ref().clone()) }
 
   pub fn recording_video<T: AsRef<ChatActionRecordingVideo>>(t: T) -> Self { ChatAction::RecordingVideo(t.as_ref().clone()) }
 
@@ -190,6 +208,8 @@ impl ChatAction {
   pub fn uploading_video_note<T: AsRef<ChatActionUploadingVideoNote>>(t: T) -> Self { ChatAction::UploadingVideoNote(t.as_ref().clone()) }
 
   pub fn uploading_voice_note<T: AsRef<ChatActionUploadingVoiceNote>>(t: T) -> Self { ChatAction::UploadingVoiceNote(t.as_ref().clone()) }
+
+  pub fn watching_animations<T: AsRef<ChatActionWatchingAnimations>>(t: T) -> Self { ChatAction::WatchingAnimations(t.as_ref().clone()) }
 
 }
 
@@ -369,6 +389,64 @@ impl AsRef<ChatActionChoosingLocation> for ChatActionChoosingLocation {
 
 impl AsRef<ChatActionChoosingLocation> for RTDChatActionChoosingLocationBuilder {
   fn as_ref(&self) -> &ChatActionChoosingLocation { &self.inner }
+}
+
+
+
+
+
+
+
+/// The user is picking a sticker to send
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatActionChoosingSticker {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  
+}
+
+impl RObject for ChatActionChoosingSticker {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionChoosingSticker" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatAction for ChatActionChoosingSticker {}
+
+
+
+impl ChatActionChoosingSticker {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatActionChoosingStickerBuilder {
+    let mut inner = ChatActionChoosingSticker::default();
+    inner.td_name = "chatActionChoosingSticker".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDChatActionChoosingStickerBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatActionChoosingStickerBuilder {
+  inner: ChatActionChoosingSticker
+}
+
+impl RTDChatActionChoosingStickerBuilder {
+  pub fn build(&self) -> ChatActionChoosingSticker { self.inner.clone() }
+
+}
+
+impl AsRef<ChatActionChoosingSticker> for ChatActionChoosingSticker {
+  fn as_ref(&self) -> &ChatActionChoosingSticker { self }
+}
+
+impl AsRef<ChatActionChoosingSticker> for RTDChatActionChoosingStickerBuilder {
+  fn as_ref(&self) -> &ChatActionChoosingSticker { &self.inner }
 }
 
 
@@ -999,6 +1077,74 @@ impl AsRef<ChatActionUploadingVoiceNote> for ChatActionUploadingVoiceNote {
 
 impl AsRef<ChatActionUploadingVoiceNote> for RTDChatActionUploadingVoiceNoteBuilder {
   fn as_ref(&self) -> &ChatActionUploadingVoiceNote { &self.inner }
+}
+
+
+
+
+
+
+
+/// The user is watching animations sent by the other party by clicking on an animated emoji
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatActionWatchingAnimations {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// The animated emoji
+  emoji: String,
+  
+}
+
+impl RObject for ChatActionWatchingAnimations {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatActionWatchingAnimations" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatAction for ChatActionWatchingAnimations {}
+
+
+
+impl ChatActionWatchingAnimations {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatActionWatchingAnimationsBuilder {
+    let mut inner = ChatActionWatchingAnimations::default();
+    inner.td_name = "chatActionWatchingAnimations".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDChatActionWatchingAnimationsBuilder { inner }
+  }
+
+  pub fn emoji(&self) -> &String { &self.emoji }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatActionWatchingAnimationsBuilder {
+  inner: ChatActionWatchingAnimations
+}
+
+impl RTDChatActionWatchingAnimationsBuilder {
+  pub fn build(&self) -> ChatActionWatchingAnimations { self.inner.clone() }
+
+   
+  pub fn emoji<T: AsRef<str>>(&mut self, emoji: T) -> &mut Self {
+    self.inner.emoji = emoji.as_ref().to_string();
+    self
+  }
+
+}
+
+impl AsRef<ChatActionWatchingAnimations> for ChatActionWatchingAnimations {
+  fn as_ref(&self) -> &ChatActionWatchingAnimations { self }
+}
+
+impl AsRef<ChatActionWatchingAnimations> for RTDChatActionWatchingAnimationsBuilder {
+  fn as_ref(&self) -> &ChatActionWatchingAnimations { &self.inner }
 }
 
 

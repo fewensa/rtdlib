@@ -29,7 +29,7 @@ pub struct Supergroup {
   has_linked_chat: bool,
   /// True, if the supergroup is connected to a location, i.e. the supergroup is a location-based supergroup
   has_location: bool,
-  /// True, if messages sent to the channel should contain information about the sender. This field is only applicable to channels
+  /// True, if messages sent to the channel need to contain information about the sender. This field is only applicable to channels
   sign_messages: bool,
   /// True, if the slow mode is enabled in the supergroup
   is_slow_mode_enabled: bool,

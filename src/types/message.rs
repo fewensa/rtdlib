@@ -21,9 +21,9 @@ pub struct Message {
   sender: MessageSender,
   /// Chat identifier
   chat_id: i64,
-  /// Information about the sending state of the message; may be null
+  /// The sending state of the message; may be null
   sending_state: Option<MessageSendingState>,
-  /// Information about the scheduling state of the message; may be null
+  /// The scheduling state of the message; may be null
   scheduling_state: Option<MessageSchedulingState>,
   /// True, if the message is outgoing
   is_outgoing: bool,
@@ -41,6 +41,8 @@ pub struct Message {
   can_get_statistics: bool,
   /// True, if the message thread info is available
   can_get_message_thread: bool,
+  /// True, if chat members already viewed the message can be received through getMessageViewers
+  can_get_viewers: bool,
   /// True, if media timestamp links can be generated for media timestamp entities in the message text, caption or web page description
   can_get_media_timestamp_links: bool,
   /// True, if media timestamp entities refers to a media in this message as opposed to a media in the replied message
@@ -124,6 +126,8 @@ impl Message {
   pub fn can_get_statistics(&self) -> bool { self.can_get_statistics }
 
   pub fn can_get_message_thread(&self) -> bool { self.can_get_message_thread }
+
+  pub fn can_get_viewers(&self) -> bool { self.can_get_viewers }
 
   pub fn can_get_media_timestamp_links(&self) -> bool { self.can_get_media_timestamp_links }
 
@@ -248,6 +252,12 @@ impl RTDMessageBuilder {
    
   pub fn can_get_message_thread(&mut self, can_get_message_thread: bool) -> &mut Self {
     self.inner.can_get_message_thread = can_get_message_thread;
+    self
+  }
+
+   
+  pub fn can_get_viewers(&mut self, can_get_viewers: bool) -> &mut Self {
+    self.inner.can_get_viewers = can_get_viewers;
     self
   }
 

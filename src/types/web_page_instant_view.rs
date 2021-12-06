@@ -25,6 +25,8 @@ pub struct WebPageInstantView {
   is_rtl: bool,
   /// True, if the instant view contains the full page. A network request might be needed to get the full web page instant view
   is_full: bool,
+  /// An internal link to be opened to leave feedback about the instant view
+  feedback_link: InternalLinkType,
   
 }
 
@@ -54,6 +56,8 @@ impl WebPageInstantView {
   pub fn is_rtl(&self) -> bool { self.is_rtl }
 
   pub fn is_full(&self) -> bool { self.is_full }
+
+  pub fn feedback_link(&self) -> &InternalLinkType { &self.feedback_link }
 
 }
 
@@ -92,6 +96,12 @@ impl RTDWebPageInstantViewBuilder {
    
   pub fn is_full(&mut self, is_full: bool) -> &mut Self {
     self.inner.is_full = is_full;
+    self
+  }
+
+   
+  pub fn feedback_link<T: AsRef<InternalLinkType>>(&mut self, feedback_link: T) -> &mut Self {
+    self.inner.feedback_link = feedback_link.as_ref().clone();
     self
   }
 

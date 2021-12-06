@@ -17,11 +17,11 @@ pub struct AutoDownloadSettings {
   extra: Option<String>,
   /// True, if the auto-download is enabled
   is_auto_download_enabled: bool,
-  /// The maximum size of a photo file to be auto-downloaded
+  /// The maximum size of a photo file to be auto-downloaded, in bytes
   max_photo_file_size: i64,
-  /// The maximum size of a video file to be auto-downloaded
+  /// The maximum size of a video file to be auto-downloaded, in bytes
   max_video_file_size: i64,
-  /// The maximum size of other file types to be auto-downloaded
+  /// The maximum size of other file types to be auto-downloaded, in bytes
   max_other_file_size: i64,
   /// The maximum suggested bitrate for uploaded videos, in kbit/s
   video_upload_bitrate: i64,

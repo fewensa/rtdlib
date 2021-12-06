@@ -144,9 +144,9 @@ pub struct CallStateDiscarded {
   extra: Option<String>,
   /// The reason, why the call has ended
   reason: CallDiscardReason,
-  /// True, if the call rating should be sent to the server
+  /// True, if the call rating must be sent to the server
   need_rating: bool,
-  /// True, if the call debug information should be sent to the server
+  /// True, if the call debug information must be sent to the server
   need_debug_information: bool,
   
 }

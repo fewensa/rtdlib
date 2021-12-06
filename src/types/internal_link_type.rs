@@ -33,7 +33,7 @@ pub enum InternalLinkType {
   BotStartInGroup(InternalLinkTypeBotStartInGroup),
   /// The link is a link to the change phone number section of the app
   ChangePhoneNumber(InternalLinkTypeChangePhoneNumber),
-  /// The link is a chat invite link. Call checkChatInviteLink to process the link
+  /// The link is a chat invite link. Call checkChatInviteLink with the given invite link to process the link
   ChatInvite(InternalLinkTypeChatInvite),
   /// The link is a link to the filter settings section of the app
   FilterSettings(InternalLinkTypeFilterSettings),
@@ -41,15 +41,15 @@ pub enum InternalLinkType {
   Game(InternalLinkTypeGame),
   /// The link is a link to a language pack. Call getLanguagePackInfo with the given language pack identifier to process the link
   LanguagePack(InternalLinkTypeLanguagePack),
-  /// The link is a link to a Telegram message. Call getMessageLinkInfo to process the link
+  /// The link is a link to a Telegram message. Call getMessageLinkInfo with the given URL to process the link
   Message(InternalLinkTypeMessage),
-  /// The link contains a message draft text. A share screen needs to be shown to the user, then the chosen chat should be open and the text should be added to the input field
+  /// The link contains a message draft text. A share screen needs to be shown to the user, then the chosen chat must be opened and the text is added to the input field
   MessageDraft(InternalLinkTypeMessageDraft),
-  /// The link contains a request of Telegram passport data. Call getPassportAuthorizationForm to process the link if the link was received outside of the app, otherwise ignore it
+  /// The link contains a request of Telegram passport data. Call getPassportAuthorizationForm with the given parameters to process the link if the link was received from outside of the app, otherwise ignore it
   PassportDataRequest(InternalLinkTypePassportDataRequest),
   /// The link can be used to confirm ownership of a phone number to prevent account deletion. Call sendPhoneNumberConfirmationCode with the given hash and phone number to process the link
   PhoneNumberConfirmation(InternalLinkTypePhoneNumberConfirmation),
-  /// The link is a link to a proxy. Call addProxy to process the link and add the proxy
+  /// The link is a link to a proxy. Call addProxy with the given parameters to process the link and add the proxy
   Proxy(InternalLinkTypeProxy),
   /// The link is a link to a chat by its username. Call searchPublicChat with the given chat username to process the link
   PublicChat(InternalLinkTypePublicChat),
@@ -65,8 +65,10 @@ pub enum InternalLinkType {
   ThemeSettings(InternalLinkTypeThemeSettings),
   /// The link is an unknown tg: link. Call getDeepLinkInfo to process the link
   UnknownDeepLink(InternalLinkTypeUnknownDeepLink),
-  /// The link is a link to a voice chat. Call searchPublicChat with the given chat username, and then joinGoupCall with the given invite hash to process the link
-  VoiceChat(InternalLinkTypeVoiceChat),
+  /// The link is a link to an unsupported proxy. An alert can be shown to the user
+  UnsupportedProxy(InternalLinkTypeUnsupportedProxy),
+  /// The link is a link to a video chat. Call searchPublicChat with the given chat username, and then joinGoupCall with the given invite hash to process the link
+  VideoChat(InternalLinkTypeVideoChat),
 
 }
 
@@ -102,7 +104,8 @@ impl<'de> Deserialize<'de> for InternalLinkType {
       (internalLinkTypeTheme, Theme);
       (internalLinkTypeThemeSettings, ThemeSettings);
       (internalLinkTypeUnknownDeepLink, UnknownDeepLink);
-      (internalLinkTypeVoiceChat, VoiceChat);
+      (internalLinkTypeUnsupportedProxy, UnsupportedProxy);
+      (internalLinkTypeVideoChat, VideoChat);
 
     )(deserializer)
   }
@@ -134,7 +137,8 @@ impl RObject for InternalLinkType {
       InternalLinkType::Theme(t) => t.td_name(),
       InternalLinkType::ThemeSettings(t) => t.td_name(),
       InternalLinkType::UnknownDeepLink(t) => t.td_name(),
-      InternalLinkType::VoiceChat(t) => t.td_name(),
+      InternalLinkType::UnsupportedProxy(t) => t.td_name(),
+      InternalLinkType::VideoChat(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -164,7 +168,8 @@ impl RObject for InternalLinkType {
       InternalLinkType::Theme(t) => t.extra(),
       InternalLinkType::ThemeSettings(t) => t.extra(),
       InternalLinkType::UnknownDeepLink(t) => t.extra(),
-      InternalLinkType::VoiceChat(t) => t.extra(),
+      InternalLinkType::UnsupportedProxy(t) => t.extra(),
+      InternalLinkType::VideoChat(t) => t.extra(),
 
       _ => None,
     }
@@ -199,7 +204,8 @@ impl InternalLinkType {
   pub fn is_theme(&self) -> bool { if let InternalLinkType::Theme(_) = self { true } else { false } }
   pub fn is_theme_settings(&self) -> bool { if let InternalLinkType::ThemeSettings(_) = self { true } else { false } }
   pub fn is_unknown_deep_link(&self) -> bool { if let InternalLinkType::UnknownDeepLink(_) = self { true } else { false } }
-  pub fn is_voice_chat(&self) -> bool { if let InternalLinkType::VoiceChat(_) = self { true } else { false } }
+  pub fn is_unsupported_proxy(&self) -> bool { if let InternalLinkType::UnsupportedProxy(_) = self { true } else { false } }
+  pub fn is_video_chat(&self) -> bool { if let InternalLinkType::VideoChat(_) = self { true } else { false } }
 
   pub fn on_get_internal_link_type<F: FnOnce(&GetInternalLinkType)>(&self, fnc: F) -> &Self { if let InternalLinkType::GetInternalLinkType(t) = self { fnc(t) }; self }
   pub fn on_active_sessions<F: FnOnce(&InternalLinkTypeActiveSessions)>(&self, fnc: F) -> &Self { if let InternalLinkType::ActiveSessions(t) = self { fnc(t) }; self }
@@ -224,7 +230,8 @@ impl InternalLinkType {
   pub fn on_theme<F: FnOnce(&InternalLinkTypeTheme)>(&self, fnc: F) -> &Self { if let InternalLinkType::Theme(t) = self { fnc(t) }; self }
   pub fn on_theme_settings<F: FnOnce(&InternalLinkTypeThemeSettings)>(&self, fnc: F) -> &Self { if let InternalLinkType::ThemeSettings(t) = self { fnc(t) }; self }
   pub fn on_unknown_deep_link<F: FnOnce(&InternalLinkTypeUnknownDeepLink)>(&self, fnc: F) -> &Self { if let InternalLinkType::UnknownDeepLink(t) = self { fnc(t) }; self }
-  pub fn on_voice_chat<F: FnOnce(&InternalLinkTypeVoiceChat)>(&self, fnc: F) -> &Self { if let InternalLinkType::VoiceChat(t) = self { fnc(t) }; self }
+  pub fn on_unsupported_proxy<F: FnOnce(&InternalLinkTypeUnsupportedProxy)>(&self, fnc: F) -> &Self { if let InternalLinkType::UnsupportedProxy(t) = self { fnc(t) }; self }
+  pub fn on_video_chat<F: FnOnce(&InternalLinkTypeVideoChat)>(&self, fnc: F) -> &Self { if let InternalLinkType::VideoChat(t) = self { fnc(t) }; self }
 
   pub fn as_get_internal_link_type(&self) -> Option<&GetInternalLinkType> { if let InternalLinkType::GetInternalLinkType(t) = self { return Some(t) } None }
   pub fn as_active_sessions(&self) -> Option<&InternalLinkTypeActiveSessions> { if let InternalLinkType::ActiveSessions(t) = self { return Some(t) } None }
@@ -249,7 +256,8 @@ impl InternalLinkType {
   pub fn as_theme(&self) -> Option<&InternalLinkTypeTheme> { if let InternalLinkType::Theme(t) = self { return Some(t) } None }
   pub fn as_theme_settings(&self) -> Option<&InternalLinkTypeThemeSettings> { if let InternalLinkType::ThemeSettings(t) = self { return Some(t) } None }
   pub fn as_unknown_deep_link(&self) -> Option<&InternalLinkTypeUnknownDeepLink> { if let InternalLinkType::UnknownDeepLink(t) = self { return Some(t) } None }
-  pub fn as_voice_chat(&self) -> Option<&InternalLinkTypeVoiceChat> { if let InternalLinkType::VoiceChat(t) = self { return Some(t) } None }
+  pub fn as_unsupported_proxy(&self) -> Option<&InternalLinkTypeUnsupportedProxy> { if let InternalLinkType::UnsupportedProxy(t) = self { return Some(t) } None }
+  pub fn as_video_chat(&self) -> Option<&InternalLinkTypeVideoChat> { if let InternalLinkType::VideoChat(t) = self { return Some(t) } None }
 
 
 
@@ -299,7 +307,9 @@ impl InternalLinkType {
 
   pub fn unknown_deep_link<T: AsRef<InternalLinkTypeUnknownDeepLink>>(t: T) -> Self { InternalLinkType::UnknownDeepLink(t.as_ref().clone()) }
 
-  pub fn voice_chat<T: AsRef<InternalLinkTypeVoiceChat>>(t: T) -> Self { InternalLinkType::VoiceChat(t.as_ref().clone()) }
+  pub fn unsupported_proxy<T: AsRef<InternalLinkTypeUnsupportedProxy>>(t: T) -> Self { InternalLinkType::UnsupportedProxy(t.as_ref().clone()) }
+
+  pub fn video_chat<T: AsRef<InternalLinkTypeVideoChat>>(t: T) -> Self { InternalLinkType::VideoChat(t.as_ref().clone()) }
 
 }
 
@@ -721,7 +731,7 @@ impl AsRef<InternalLinkTypeChangePhoneNumber> for RTDInternalLinkTypeChangePhone
 
 
 
-/// The link is a chat invite link. Call checkChatInviteLink to process the link
+/// The link is a chat invite link. Call checkChatInviteLink with the given invite link to process the link
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InternalLinkTypeChatInvite {
   #[doc(hidden)]
@@ -730,6 +740,8 @@ pub struct InternalLinkTypeChatInvite {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// Internal representation of the invite link
+  invite_link: String,
   
 }
 
@@ -753,6 +765,8 @@ impl InternalLinkTypeChatInvite {
     RTDInternalLinkTypeChatInviteBuilder { inner }
   }
 
+  pub fn invite_link(&self) -> &String { &self.invite_link }
+
 }
 
 #[doc(hidden)]
@@ -762,6 +776,12 @@ pub struct RTDInternalLinkTypeChatInviteBuilder {
 
 impl RTDInternalLinkTypeChatInviteBuilder {
   pub fn build(&self) -> InternalLinkTypeChatInvite { self.inner.clone() }
+
+   
+  pub fn invite_link<T: AsRef<str>>(&mut self, invite_link: T) -> &mut Self {
+    self.inner.invite_link = invite_link.as_ref().to_string();
+    self
+  }
 
 }
 
@@ -983,7 +1003,7 @@ impl AsRef<InternalLinkTypeLanguagePack> for RTDInternalLinkTypeLanguagePackBuil
 
 
 
-/// The link is a link to a Telegram message. Call getMessageLinkInfo to process the link
+/// The link is a link to a Telegram message. Call getMessageLinkInfo with the given URL to process the link
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InternalLinkTypeMessage {
   #[doc(hidden)]
@@ -992,6 +1012,8 @@ pub struct InternalLinkTypeMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// URL to be passed to getMessageLinkInfo
+  url: String,
   
 }
 
@@ -1015,6 +1037,8 @@ impl InternalLinkTypeMessage {
     RTDInternalLinkTypeMessageBuilder { inner }
   }
 
+  pub fn url(&self) -> &String { &self.url }
+
 }
 
 #[doc(hidden)]
@@ -1024,6 +1048,12 @@ pub struct RTDInternalLinkTypeMessageBuilder {
 
 impl RTDInternalLinkTypeMessageBuilder {
   pub fn build(&self) -> InternalLinkTypeMessage { self.inner.clone() }
+
+   
+  pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
+    self.inner.url = url.as_ref().to_string();
+    self
+  }
 
 }
 
@@ -1041,7 +1071,7 @@ impl AsRef<InternalLinkTypeMessage> for RTDInternalLinkTypeMessageBuilder {
 
 
 
-/// The link contains a message draft text. A share screen needs to be shown to the user, then the chosen chat should be open and the text should be added to the input field
+/// The link contains a message draft text. A share screen needs to be shown to the user, then the chosen chat must be opened and the text is added to the input field
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InternalLinkTypeMessageDraft {
   #[doc(hidden)]
@@ -1052,7 +1082,7 @@ pub struct InternalLinkTypeMessageDraft {
   extra: Option<String>,
   /// Message draft text
   text: FormattedText,
-  /// True, if the first line of the text contains a link. If true, the input field needs to be focused and the text after the link should be selected
+  /// True, if the first line of the text contains a link. If true, the input field needs to be focused and the text after the link must be selected
   contains_link: bool,
   
 }
@@ -1119,7 +1149,7 @@ impl AsRef<InternalLinkTypeMessageDraft> for RTDInternalLinkTypeMessageDraftBuil
 
 
 
-/// The link contains a request of Telegram passport data. Call getPassportAuthorizationForm to process the link if the link was received outside of the app, otherwise ignore it
+/// The link contains a request of Telegram passport data. Call getPassportAuthorizationForm with the given parameters to process the link if the link was received from outside of the app, otherwise ignore it
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InternalLinkTypePassportDataRequest {
   #[doc(hidden)]
@@ -1305,7 +1335,7 @@ impl AsRef<InternalLinkTypePhoneNumberConfirmation> for RTDInternalLinkTypePhone
 
 
 
-/// The link is a link to a proxy. Call addProxy to process the link and add the proxy
+/// The link is a link to a proxy. Call addProxy with the given parameters to process the link and add the proxy
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InternalLinkTypeProxy {
   #[doc(hidden)]
@@ -1780,6 +1810,8 @@ pub struct InternalLinkTypeUnknownDeepLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// Link to be passed to getDeepLinkInfo
+  link: String,
   
 }
 
@@ -1803,6 +1835,8 @@ impl InternalLinkTypeUnknownDeepLink {
     RTDInternalLinkTypeUnknownDeepLinkBuilder { inner }
   }
 
+  pub fn link(&self) -> &String { &self.link }
+
 }
 
 #[doc(hidden)]
@@ -1812,6 +1846,12 @@ pub struct RTDInternalLinkTypeUnknownDeepLinkBuilder {
 
 impl RTDInternalLinkTypeUnknownDeepLinkBuilder {
   pub fn build(&self) -> InternalLinkTypeUnknownDeepLink { self.inner.clone() }
+
+   
+  pub fn link<T: AsRef<str>>(&mut self, link: T) -> &mut Self {
+    self.inner.link = link.as_ref().to_string();
+    self
+  }
 
 }
 
@@ -1829,55 +1869,117 @@ impl AsRef<InternalLinkTypeUnknownDeepLink> for RTDInternalLinkTypeUnknownDeepLi
 
 
 
-/// The link is a link to a voice chat. Call searchPublicChat with the given chat username, and then joinGoupCall with the given invite hash to process the link
+/// The link is a link to an unsupported proxy. An alert can be shown to the user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct InternalLinkTypeVoiceChat {
+pub struct InternalLinkTypeUnsupportedProxy {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Username of the chat with the voice chat
-  chat_username: String,
-  /// If non-empty, invite hash to be used to join the voice chat without being muted by administrators
-  invite_hash: String,
   
 }
 
-impl RObject for InternalLinkTypeVoiceChat {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "internalLinkTypeVoiceChat" }
+impl RObject for InternalLinkTypeUnsupportedProxy {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "internalLinkTypeUnsupportedProxy" }
   #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
   fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
 }
 
 
-impl TDInternalLinkType for InternalLinkTypeVoiceChat {}
+impl TDInternalLinkType for InternalLinkTypeUnsupportedProxy {}
 
 
 
-impl InternalLinkTypeVoiceChat {
+impl InternalLinkTypeUnsupportedProxy {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDInternalLinkTypeVoiceChatBuilder {
-    let mut inner = InternalLinkTypeVoiceChat::default();
-    inner.td_name = "internalLinkTypeVoiceChat".to_string();
+  pub fn builder() -> RTDInternalLinkTypeUnsupportedProxyBuilder {
+    let mut inner = InternalLinkTypeUnsupportedProxy::default();
+    inner.td_name = "internalLinkTypeUnsupportedProxy".to_string();
     inner.extra = Some(Uuid::new_v4().to_string());
-    RTDInternalLinkTypeVoiceChatBuilder { inner }
+    RTDInternalLinkTypeUnsupportedProxyBuilder { inner }
+  }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInternalLinkTypeUnsupportedProxyBuilder {
+  inner: InternalLinkTypeUnsupportedProxy
+}
+
+impl RTDInternalLinkTypeUnsupportedProxyBuilder {
+  pub fn build(&self) -> InternalLinkTypeUnsupportedProxy { self.inner.clone() }
+
+}
+
+impl AsRef<InternalLinkTypeUnsupportedProxy> for InternalLinkTypeUnsupportedProxy {
+  fn as_ref(&self) -> &InternalLinkTypeUnsupportedProxy { self }
+}
+
+impl AsRef<InternalLinkTypeUnsupportedProxy> for RTDInternalLinkTypeUnsupportedProxyBuilder {
+  fn as_ref(&self) -> &InternalLinkTypeUnsupportedProxy { &self.inner }
+}
+
+
+
+
+
+
+
+/// The link is a link to a video chat. Call searchPublicChat with the given chat username, and then joinGoupCall with the given invite hash to process the link
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InternalLinkTypeVideoChat {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Username of the chat with the video chat
+  chat_username: String,
+  /// If non-empty, invite hash to be used to join the video chat without being muted by administrators
+  invite_hash: String,
+  /// True, if the video chat is expected to be a live stream in a channel or a broadcast group
+  is_live_stream: bool,
+  
+}
+
+impl RObject for InternalLinkTypeVideoChat {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "internalLinkTypeVideoChat" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInternalLinkType for InternalLinkTypeVideoChat {}
+
+
+
+impl InternalLinkTypeVideoChat {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInternalLinkTypeVideoChatBuilder {
+    let mut inner = InternalLinkTypeVideoChat::default();
+    inner.td_name = "internalLinkTypeVideoChat".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDInternalLinkTypeVideoChatBuilder { inner }
   }
 
   pub fn chat_username(&self) -> &String { &self.chat_username }
 
   pub fn invite_hash(&self) -> &String { &self.invite_hash }
 
+  pub fn is_live_stream(&self) -> bool { self.is_live_stream }
+
 }
 
 #[doc(hidden)]
-pub struct RTDInternalLinkTypeVoiceChatBuilder {
-  inner: InternalLinkTypeVoiceChat
+pub struct RTDInternalLinkTypeVideoChatBuilder {
+  inner: InternalLinkTypeVideoChat
 }
 
-impl RTDInternalLinkTypeVoiceChatBuilder {
-  pub fn build(&self) -> InternalLinkTypeVoiceChat { self.inner.clone() }
+impl RTDInternalLinkTypeVideoChatBuilder {
+  pub fn build(&self) -> InternalLinkTypeVideoChat { self.inner.clone() }
 
    
   pub fn chat_username<T: AsRef<str>>(&mut self, chat_username: T) -> &mut Self {
@@ -1891,14 +1993,20 @@ impl RTDInternalLinkTypeVoiceChatBuilder {
     self
   }
 
+   
+  pub fn is_live_stream(&mut self, is_live_stream: bool) -> &mut Self {
+    self.inner.is_live_stream = is_live_stream;
+    self
+  }
+
 }
 
-impl AsRef<InternalLinkTypeVoiceChat> for InternalLinkTypeVoiceChat {
-  fn as_ref(&self) -> &InternalLinkTypeVoiceChat { self }
+impl AsRef<InternalLinkTypeVideoChat> for InternalLinkTypeVideoChat {
+  fn as_ref(&self) -> &InternalLinkTypeVideoChat { self }
 }
 
-impl AsRef<InternalLinkTypeVoiceChat> for RTDInternalLinkTypeVoiceChatBuilder {
-  fn as_ref(&self) -> &InternalLinkTypeVoiceChat { &self.inner }
+impl AsRef<InternalLinkTypeVideoChat> for RTDInternalLinkTypeVideoChatBuilder {
+  fn as_ref(&self) -> &InternalLinkTypeVideoChat { &self.inner }
 }
 
 

@@ -444,7 +444,7 @@ pub struct PageBlockAnimation {
   animation: Option<Animation>,
   /// Animation caption
   caption: PageBlockCaption,
-  /// True, if the animation should be played automatically
+  /// True, if the animation must be played automatically
   need_autoplay: bool,
   
 }
@@ -766,7 +766,7 @@ pub struct PageBlockChatLink {
   title: String,
   /// Chat photo; may be null
   photo: Option<ChatPhotoInfo>,
-  /// Chat username, by which all other information about the chat should be resolved
+  /// Chat username, by which all other information about the chat can be resolved
   username: String,
   
 }
@@ -1154,9 +1154,9 @@ pub struct PageBlockEmbedded {
   height: i64,
   /// Block caption
   caption: PageBlockCaption,
-  /// True, if the block should be full width
+  /// True, if the block must be full width
   is_full_width: bool,
-  /// True, if scrolling should be allowed
+  /// True, if scrolling needs to be allowed
   allow_scrolling: bool,
   
 }
@@ -1936,7 +1936,7 @@ pub struct PageBlockPreformatted {
   extra: Option<String>,
   /// Paragraph text
   text: RichText,
-  /// Programming language for which the text should be formatted
+  /// Programming language for which the text needs to be formatted
   language: String,
   
 }
@@ -2552,9 +2552,9 @@ pub struct PageBlockVideo {
   video: Option<Video>,
   /// Video caption
   caption: PageBlockCaption,
-  /// True, if the video should be played automatically
+  /// True, if the video must be played automatically
   need_autoplay: bool,
-  /// True, if the video should be looped
+  /// True, if the video must be looped
   is_looped: bool,
   
 }

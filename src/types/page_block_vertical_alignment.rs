@@ -19,11 +19,11 @@ pub trait TDPageBlockVerticalAlignment: Debug + RObject {}
 #[serde(untagged)]
 pub enum PageBlockVerticalAlignment {
   #[doc(hidden)] _Default(()),
-  /// The content should be bottom-aligned
+  /// The content must be bottom-aligned
   Bottom(PageBlockVerticalAlignmentBottom),
-  /// The content should be middle-aligned
+  /// The content must be middle-aligned
   Middle(PageBlockVerticalAlignmentMiddle),
-  /// The content should be top-aligned
+  /// The content must be top-aligned
   Top(PageBlockVerticalAlignmentTop),
 
 }
@@ -103,7 +103,7 @@ impl AsRef<PageBlockVerticalAlignment> for PageBlockVerticalAlignment {
 
 
 
-/// The content should be bottom-aligned
+/// The content must be bottom-aligned
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockVerticalAlignmentBottom {
   #[doc(hidden)]
@@ -161,7 +161,7 @@ impl AsRef<PageBlockVerticalAlignmentBottom> for RTDPageBlockVerticalAlignmentBo
 
 
 
-/// The content should be middle-aligned
+/// The content must be middle-aligned
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockVerticalAlignmentMiddle {
   #[doc(hidden)]
@@ -219,7 +219,7 @@ impl AsRef<PageBlockVerticalAlignmentMiddle> for RTDPageBlockVerticalAlignmentMi
 
 
 
-/// The content should be top-aligned
+/// The content must be top-aligned
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockVerticalAlignmentTop {
   #[doc(hidden)]

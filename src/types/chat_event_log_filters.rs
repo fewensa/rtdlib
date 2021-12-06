@@ -15,30 +15,30 @@ pub struct ChatEventLogFilters {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// True, if message edits should be returned
+  /// True, if message edits need to be returned
   message_edits: bool,
-  /// True, if message deletions should be returned
+  /// True, if message deletions need to be returned
   message_deletions: bool,
-  /// True, if pin/unpin events should be returned
+  /// True, if pin/unpin events need to be returned
   message_pins: bool,
-  /// True, if members joining events should be returned
+  /// True, if members joining events need to be returned
   member_joins: bool,
-  /// True, if members leaving events should be returned
+  /// True, if members leaving events need to be returned
   member_leaves: bool,
-  /// True, if invited member events should be returned
+  /// True, if invited member events need to be returned
   member_invites: bool,
-  /// True, if member promotion/demotion events should be returned
+  /// True, if member promotion/demotion events need to be returned
   member_promotions: bool,
-  /// True, if member restricted/unrestricted/banned/unbanned events should be returned
+  /// True, if member restricted/unrestricted/banned/unbanned events need to be returned
   member_restrictions: bool,
-  /// True, if changes in chat information should be returned
+  /// True, if changes in chat information need to be returned
   info_changes: bool,
-  /// True, if changes in chat settings should be returned
+  /// True, if changes in chat settings need to be returned
   setting_changes: bool,
-  /// True, if changes to invite links should be returned
+  /// True, if changes to invite links need to be returned
   invite_link_changes: bool,
-  /// True, if voice chat actions should be returned
-  voice_chat_changes: bool,
+  /// True, if video chat actions need to be returned
+  video_chat_changes: bool,
   
 }
 
@@ -81,7 +81,7 @@ impl ChatEventLogFilters {
 
   pub fn invite_link_changes(&self) -> bool { self.invite_link_changes }
 
-  pub fn voice_chat_changes(&self) -> bool { self.voice_chat_changes }
+  pub fn video_chat_changes(&self) -> bool { self.video_chat_changes }
 
 }
 
@@ -160,8 +160,8 @@ impl RTDChatEventLogFiltersBuilder {
   }
 
    
-  pub fn voice_chat_changes(&mut self, voice_chat_changes: bool) -> &mut Self {
-    self.inner.voice_chat_changes = voice_chat_changes;
+  pub fn video_chat_changes(&mut self, video_chat_changes: bool) -> &mut Self {
+    self.inner.video_chat_changes = video_chat_changes;
     self
   }
 

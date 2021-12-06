@@ -25,7 +25,7 @@ pub struct ChatNotificationSettings {
   sound: String,
   /// If true, show_preview is ignored and the value for the relevant type of chat is used instead
   use_default_show_preview: bool,
-  /// True, if message content should be displayed in notifications
+  /// True, if message content must be displayed in notifications
   show_preview: bool,
   /// If true, disable_pinned_message_notifications is ignored and the value for the relevant type of chat is used instead
   use_default_disable_pinned_message_notifications: bool,

@@ -17,7 +17,7 @@ pub struct LanguagePackInfo {
   extra: Option<String>,
   /// Unique language pack identifier
   id: String,
-  /// Identifier of a base language pack; may be empty. If a string is missed in the language pack, then it should be fetched from base language pack. Unsupported in custom language packs
+  /// Identifier of a base language pack; may be empty. If a string is missed in the language pack, then it must be fetched from base language pack. Unsupported in custom language packs
   base_language_pack_id: String,
   /// Language name
   name: String,

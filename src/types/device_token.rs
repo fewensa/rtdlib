@@ -274,7 +274,7 @@ pub struct DeviceTokenApplePushVoIP {
   device_token: String,
   /// True, if App Sandbox is enabled
   is_app_sandbox: bool,
-  /// True, if push notifications should be additionally encrypted
+  /// True, if push notifications must be additionally encrypted
   encrypt: bool,
   
 }
@@ -428,7 +428,7 @@ pub struct DeviceTokenFirebaseCloudMessaging {
   extra: Option<String>,
   /// Device registration token; may be empty to de-register a device
   token: String,
-  /// True, if push notifications should be additionally encrypted
+  /// True, if push notifications must be additionally encrypted
   encrypt: bool,
   
 }

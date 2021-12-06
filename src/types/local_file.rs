@@ -27,9 +27,9 @@ pub struct LocalFile {
   is_downloading_completed: bool,
   /// Download will be started from this offset. downloaded_prefix_size is calculated from this offset
   download_offset: i64,
-  /// If is_downloading_completed is false, then only some prefix of the file starting from download_offset is ready to be read. downloaded_prefix_size is the size of that prefix
+  /// If is_downloading_completed is false, then only some prefix of the file starting from download_offset is ready to be read. downloaded_prefix_size is the size of that prefix in bytes
   downloaded_prefix_size: i64,
-  /// Total downloaded file bytes. Should be used only for calculating download progress. The actual file size may be bigger, and some parts of it may contain garbage
+  /// Total downloaded file size, in bytes. Can be used only for calculating download progress. The actual file size may be bigger, and some parts of it may contain garbage
   downloaded_size: i64,
   
 }

@@ -25,11 +25,11 @@ pub struct PaymentForm {
   seller_bot_user_id: i64,
   /// User identifier of the payment provider bot
   payments_provider_user_id: i64,
-  /// Contains information about the payment provider, if available, to support it natively without the need for opening the URL; may be null
+  /// Information about the payment provider, if available, to support it natively without the need for opening the URL; may be null
   payments_provider: Option<PaymentsProviderStripe>,
   /// Saved server-side order information; may be null
   saved_order_info: Option<OrderInfo>,
-  /// Contains information about saved card credentials; may be null
+  /// Information about saved card credentials; may be null
   saved_credentials: Option<SavedCredentials>,
   /// True, if the user can choose to save credentials
   can_save_credentials: bool,

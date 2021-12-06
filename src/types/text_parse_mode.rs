@@ -11,10 +11,10 @@ use serde::de::{Deserialize, Deserializer};
 
 
 
-/// TRAIT | Describes the way the text should be parsed for TextEntities
+/// TRAIT | Describes the way the text needs to be parsed for TextEntities
 pub trait TDTextParseMode: Debug + RObject {}
 
-/// Describes the way the text should be parsed for TextEntities
+/// Describes the way the text needs to be parsed for TextEntities
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum TextParseMode {

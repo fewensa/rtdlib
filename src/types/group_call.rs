@@ -46,9 +46,11 @@ pub struct GroupCall {
   /// True, if only group call administrators can unmute new participants
   mute_new_participants: bool,
   /// True, if the current user can enable or disable mute_new_participants setting
-  can_change_mute_new_participants: bool,
+  can_toggle_mute_new_participants: bool,
   /// Duration of the ongoing group call recording, in seconds; 0 if none. An updateGroupCall update is not triggered when value of this field changes, but the same recording goes on
   record_duration: i64,
+  /// True, if a video file is being recorded for the call
+  is_video_recorded: bool,
   /// Call duration, in seconds; for ended calls only
   duration: i64,
   
@@ -101,9 +103,11 @@ impl GroupCall {
 
   pub fn mute_new_participants(&self) -> bool { self.mute_new_participants }
 
-  pub fn can_change_mute_new_participants(&self) -> bool { self.can_change_mute_new_participants }
+  pub fn can_toggle_mute_new_participants(&self) -> bool { self.can_toggle_mute_new_participants }
 
   pub fn record_duration(&self) -> i64 { self.record_duration }
+
+  pub fn is_video_recorded(&self) -> bool { self.is_video_recorded }
 
   pub fn duration(&self) -> i64 { self.duration }
 
@@ -208,14 +212,20 @@ impl RTDGroupCallBuilder {
   }
 
    
-  pub fn can_change_mute_new_participants(&mut self, can_change_mute_new_participants: bool) -> &mut Self {
-    self.inner.can_change_mute_new_participants = can_change_mute_new_participants;
+  pub fn can_toggle_mute_new_participants(&mut self, can_toggle_mute_new_participants: bool) -> &mut Self {
+    self.inner.can_toggle_mute_new_participants = can_toggle_mute_new_participants;
     self
   }
 
    
   pub fn record_duration(&mut self, record_duration: i64) -> &mut Self {
     self.inner.record_duration = record_duration;
+    self
+  }
+
+   
+  pub fn is_video_recorded(&mut self, is_video_recorded: bool) -> &mut Self {
+    self.inner.is_video_recorded = is_video_recorded;
     self
   }
 

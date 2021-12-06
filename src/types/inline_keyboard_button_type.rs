@@ -494,7 +494,7 @@ pub struct InlineKeyboardButtonTypeSwitchInline {
   extra: Option<String>,
   /// Inline query to be sent to the bot
   query: String,
-  /// True, if the inline query should be sent from the current chat
+  /// True, if the inline query must be sent from the current chat
   in_current_chat: bool,
   
 }
