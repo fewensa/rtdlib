@@ -15,12 +15,16 @@ pub struct PhoneNumberAuthenticationSettings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Pass true if the authentication code may be sent via flash call to the specified phone number
+  /// Pass true if the authentication code may be sent via a flash call to the specified phone number
   allow_flash_call: bool,
+  /// Pass true if the authentication code may be sent via a missed call to the specified phone number
+  allow_missed_call: bool,
   /// Pass true if the authenticated phone number is used on the current device
   is_current_phone_number: bool,
   /// For official applications only. True, if the application can use Android SMS Retriever API (requires Google Play Services >= 10.2) to automatically receive the authentication code from the SMS. See https://developers.google.com/identity/sms-retriever/ for more details
   allow_sms_retriever_api: bool,
+  /// List of up to 20 authentication tokens, recently received in updateOption("authentication_token") in previously logged out sessions
+  authentication_tokens: Vec<String>,
   
 }
 
@@ -43,9 +47,13 @@ impl PhoneNumberAuthenticationSettings {
 
   pub fn allow_flash_call(&self) -> bool { self.allow_flash_call }
 
+  pub fn allow_missed_call(&self) -> bool { self.allow_missed_call }
+
   pub fn is_current_phone_number(&self) -> bool { self.is_current_phone_number }
 
   pub fn allow_sms_retriever_api(&self) -> bool { self.allow_sms_retriever_api }
+
+  pub fn authentication_tokens(&self) -> &Vec<String> { &self.authentication_tokens }
 
 }
 
@@ -64,6 +72,12 @@ impl RTDPhoneNumberAuthenticationSettingsBuilder {
   }
 
    
+  pub fn allow_missed_call(&mut self, allow_missed_call: bool) -> &mut Self {
+    self.inner.allow_missed_call = allow_missed_call;
+    self
+  }
+
+   
   pub fn is_current_phone_number(&mut self, is_current_phone_number: bool) -> &mut Self {
     self.inner.is_current_phone_number = is_current_phone_number;
     self
@@ -72,6 +86,12 @@ impl RTDPhoneNumberAuthenticationSettingsBuilder {
    
   pub fn allow_sms_retriever_api(&mut self, allow_sms_retriever_api: bool) -> &mut Self {
     self.inner.allow_sms_retriever_api = allow_sms_retriever_api;
+    self
+  }
+
+   
+  pub fn authentication_tokens(&mut self, authentication_tokens: Vec<String>) -> &mut Self {
+    self.inner.authentication_tokens = authentication_tokens;
     self
   }
 

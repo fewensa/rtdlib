@@ -21,6 +21,10 @@ pub struct Session {
   is_current: bool,
   /// True, if a password is needed to complete authorization of the session
   is_password_pending: bool,
+  /// True, if incoming secret chats can be accepted by the session
+  can_accept_secret_chats: bool,
+  /// True, if incoming calls can be accepted by the session
+  can_accept_calls: bool,
   /// Telegram API identifier, as provided by the application
   api_id: i64,
   /// Name of the application, as provided by the application
@@ -71,6 +75,10 @@ impl Session {
 
   pub fn is_password_pending(&self) -> bool { self.is_password_pending }
 
+  pub fn can_accept_secret_chats(&self) -> bool { self.can_accept_secret_chats }
+
+  pub fn can_accept_calls(&self) -> bool { self.can_accept_calls }
+
   pub fn api_id(&self) -> i64 { self.api_id }
 
   pub fn application_name(&self) -> &String { &self.application_name }
@@ -120,6 +128,18 @@ impl RTDSessionBuilder {
    
   pub fn is_password_pending(&mut self, is_password_pending: bool) -> &mut Self {
     self.inner.is_password_pending = is_password_pending;
+    self
+  }
+
+   
+  pub fn can_accept_secret_chats(&mut self, can_accept_secret_chats: bool) -> &mut Self {
+    self.inner.can_accept_secret_chats = can_accept_secret_chats;
+    self
+  }
+
+   
+  pub fn can_accept_calls(&mut self, can_accept_calls: bool) -> &mut Self {
+    self.inner.can_accept_calls = can_accept_calls;
     self
   }
 

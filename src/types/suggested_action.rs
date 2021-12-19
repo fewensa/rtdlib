@@ -27,8 +27,10 @@ pub enum SuggestedAction {
   ConvertToBroadcastGroup(SuggestedActionConvertToBroadcastGroup),
   /// Suggests the user to enable "archive_and_mute_new_chats_from_unknown_users" option
   EnableArchiveAndMuteNewChats(SuggestedActionEnableArchiveAndMuteNewChats),
-  /// Suggests the user to see a hint about meaning of one and two ticks on sent message
+  /// Suggests the user to see a hint about meaning of one and two ticks on sent messages
   SeeTicksHint(SuggestedActionSeeTicksHint),
+  /// Suggests the user to set a 2-step verification password to be able to log in again
+  SetPassword(SuggestedActionSetPassword),
 
 }
 
@@ -46,6 +48,7 @@ impl<'de> Deserialize<'de> for SuggestedAction {
       (suggestedActionConvertToBroadcastGroup, ConvertToBroadcastGroup);
       (suggestedActionEnableArchiveAndMuteNewChats, EnableArchiveAndMuteNewChats);
       (suggestedActionSeeTicksHint, SeeTicksHint);
+      (suggestedActionSetPassword, SetPassword);
 
     )(deserializer)
   }
@@ -59,6 +62,7 @@ impl RObject for SuggestedAction {
       SuggestedAction::ConvertToBroadcastGroup(t) => t.td_name(),
       SuggestedAction::EnableArchiveAndMuteNewChats(t) => t.td_name(),
       SuggestedAction::SeeTicksHint(t) => t.td_name(),
+      SuggestedAction::SetPassword(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -70,6 +74,7 @@ impl RObject for SuggestedAction {
       SuggestedAction::ConvertToBroadcastGroup(t) => t.extra(),
       SuggestedAction::EnableArchiveAndMuteNewChats(t) => t.extra(),
       SuggestedAction::SeeTicksHint(t) => t.extra(),
+      SuggestedAction::SetPassword(t) => t.extra(),
 
       _ => None,
     }
@@ -86,18 +91,21 @@ impl SuggestedAction {
   pub fn is_convert_to_broadcast_group(&self) -> bool { if let SuggestedAction::ConvertToBroadcastGroup(_) = self { true } else { false } }
   pub fn is_enable_archive_and_mute_new_chats(&self) -> bool { if let SuggestedAction::EnableArchiveAndMuteNewChats(_) = self { true } else { false } }
   pub fn is_see_ticks_hint(&self) -> bool { if let SuggestedAction::SeeTicksHint(_) = self { true } else { false } }
+  pub fn is_set_password(&self) -> bool { if let SuggestedAction::SetPassword(_) = self { true } else { false } }
 
   pub fn on_check_password<F: FnOnce(&SuggestedActionCheckPassword)>(&self, fnc: F) -> &Self { if let SuggestedAction::CheckPassword(t) = self { fnc(t) }; self }
   pub fn on_check_phone_number<F: FnOnce(&SuggestedActionCheckPhoneNumber)>(&self, fnc: F) -> &Self { if let SuggestedAction::CheckPhoneNumber(t) = self { fnc(t) }; self }
   pub fn on_convert_to_broadcast_group<F: FnOnce(&SuggestedActionConvertToBroadcastGroup)>(&self, fnc: F) -> &Self { if let SuggestedAction::ConvertToBroadcastGroup(t) = self { fnc(t) }; self }
   pub fn on_enable_archive_and_mute_new_chats<F: FnOnce(&SuggestedActionEnableArchiveAndMuteNewChats)>(&self, fnc: F) -> &Self { if let SuggestedAction::EnableArchiveAndMuteNewChats(t) = self { fnc(t) }; self }
   pub fn on_see_ticks_hint<F: FnOnce(&SuggestedActionSeeTicksHint)>(&self, fnc: F) -> &Self { if let SuggestedAction::SeeTicksHint(t) = self { fnc(t) }; self }
+  pub fn on_set_password<F: FnOnce(&SuggestedActionSetPassword)>(&self, fnc: F) -> &Self { if let SuggestedAction::SetPassword(t) = self { fnc(t) }; self }
 
   pub fn as_check_password(&self) -> Option<&SuggestedActionCheckPassword> { if let SuggestedAction::CheckPassword(t) = self { return Some(t) } None }
   pub fn as_check_phone_number(&self) -> Option<&SuggestedActionCheckPhoneNumber> { if let SuggestedAction::CheckPhoneNumber(t) = self { return Some(t) } None }
   pub fn as_convert_to_broadcast_group(&self) -> Option<&SuggestedActionConvertToBroadcastGroup> { if let SuggestedAction::ConvertToBroadcastGroup(t) = self { return Some(t) } None }
   pub fn as_enable_archive_and_mute_new_chats(&self) -> Option<&SuggestedActionEnableArchiveAndMuteNewChats> { if let SuggestedAction::EnableArchiveAndMuteNewChats(t) = self { return Some(t) } None }
   pub fn as_see_ticks_hint(&self) -> Option<&SuggestedActionSeeTicksHint> { if let SuggestedAction::SeeTicksHint(t) = self { return Some(t) } None }
+  pub fn as_set_password(&self) -> Option<&SuggestedActionSetPassword> { if let SuggestedAction::SetPassword(t) = self { return Some(t) } None }
 
 
 
@@ -110,6 +118,8 @@ impl SuggestedAction {
   pub fn enable_archive_and_mute_new_chats<T: AsRef<SuggestedActionEnableArchiveAndMuteNewChats>>(t: T) -> Self { SuggestedAction::EnableArchiveAndMuteNewChats(t.as_ref().clone()) }
 
   pub fn see_ticks_hint<T: AsRef<SuggestedActionSeeTicksHint>>(t: T) -> Self { SuggestedAction::SeeTicksHint(t.as_ref().clone()) }
+
+  pub fn set_password<T: AsRef<SuggestedActionSetPassword>>(t: T) -> Self { SuggestedAction::SetPassword(t.as_ref().clone()) }
 
 }
 
@@ -365,7 +375,7 @@ impl AsRef<SuggestedActionEnableArchiveAndMuteNewChats> for RTDSuggestedActionEn
 
 
 
-/// Suggests the user to see a hint about meaning of one and two ticks on sent message
+/// Suggests the user to see a hint about meaning of one and two ticks on sent messages
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SuggestedActionSeeTicksHint {
   #[doc(hidden)]
@@ -415,6 +425,74 @@ impl AsRef<SuggestedActionSeeTicksHint> for SuggestedActionSeeTicksHint {
 
 impl AsRef<SuggestedActionSeeTicksHint> for RTDSuggestedActionSeeTicksHintBuilder {
   fn as_ref(&self) -> &SuggestedActionSeeTicksHint { &self.inner }
+}
+
+
+
+
+
+
+
+/// Suggests the user to set a 2-step verification password to be able to log in again
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SuggestedActionSetPassword {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// The number of days to pass between consecutive authorizations if the user declines to set password
+  authorization_delay: i64,
+  
+}
+
+impl RObject for SuggestedActionSetPassword {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "suggestedActionSetPassword" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDSuggestedAction for SuggestedActionSetPassword {}
+
+
+
+impl SuggestedActionSetPassword {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDSuggestedActionSetPasswordBuilder {
+    let mut inner = SuggestedActionSetPassword::default();
+    inner.td_name = "suggestedActionSetPassword".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDSuggestedActionSetPasswordBuilder { inner }
+  }
+
+  pub fn authorization_delay(&self) -> i64 { self.authorization_delay }
+
+}
+
+#[doc(hidden)]
+pub struct RTDSuggestedActionSetPasswordBuilder {
+  inner: SuggestedActionSetPassword
+}
+
+impl RTDSuggestedActionSetPasswordBuilder {
+  pub fn build(&self) -> SuggestedActionSetPassword { self.inner.clone() }
+
+   
+  pub fn authorization_delay(&mut self, authorization_delay: i64) -> &mut Self {
+    self.inner.authorization_delay = authorization_delay;
+    self
+  }
+
+}
+
+impl AsRef<SuggestedActionSetPassword> for SuggestedActionSetPassword {
+  fn as_ref(&self) -> &SuggestedActionSetPassword { self }
+}
+
+impl AsRef<SuggestedActionSetPassword> for RTDSuggestedActionSetPasswordBuilder {
+  fn as_ref(&self) -> &SuggestedActionSetPassword { &self.inner }
 }
 
 

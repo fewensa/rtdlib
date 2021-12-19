@@ -31,18 +31,24 @@ pub enum Update {
   AuthorizationState(UpdateAuthorizationState),
   /// Some data of a basic group has changed. This update is guaranteed to come before the basic group identifier is returned to the application
   BasicGroup(UpdateBasicGroup),
-  /// Some data from basicGroupFullInfo has been changed
+  /// Some data in basicGroupFullInfo has been changed
   BasicGroupFullInfo(UpdateBasicGroupFullInfo),
   /// New call was created or information about a call was updated
   Call(UpdateCall),
+  /// A message sender activity in the chat has changed
+  ChatAction(UpdateChatAction),
   /// The chat action bar was changed
   ChatActionBar(UpdateChatActionBar),
   /// The value of the default disable_notification parameter, used when a message is sent to the chat, was changed
   ChatDefaultDisableNotification(UpdateChatDefaultDisableNotification),
+  /// The default message sender that is chosen to send messages in a chat has changed
+  ChatDefaultMessageSenderId(UpdateChatDefaultMessageSenderId),
   /// A chat draft has changed. Be aware that the update may come in the currently opened chat but with old content of the draft. If the user has changed the content of the draft, this update mustn't be applied
   ChatDraftMessage(UpdateChatDraftMessage),
   /// The list of chat filters or a chat filter has changed
   ChatFilters(UpdateChatFilters),
+  /// A chat content was allowed or restricted for saving
+  ChatHasProtectedContent(UpdateChatHasProtectedContent),
   /// A chat's has_scheduled_messages field has changed
   ChatHasScheduledMessages(UpdateChatHasScheduledMessages),
   /// A chat was blocked or unblocked
@@ -171,7 +177,7 @@ pub enum Update {
   SecretChat(UpdateSecretChat),
   /// The selected background has changed
   SelectedBackground(UpdateSelectedBackground),
-  /// Service notification from the server. Upon receiving this the application must show a popup with the content of the notification
+  /// A service notification from the server was received. Upon receiving this the application must show a popup with the content of the notification
   ServiceNotification(UpdateServiceNotification),
   /// A sticker set has changed
   StickerSet(UpdateStickerSet),
@@ -179,7 +185,7 @@ pub enum Update {
   SuggestedActions(UpdateSuggestedActions),
   /// Some data of a supergroup or a channel has changed. This update is guaranteed to come before the supergroup identifier is returned to the application
   Supergroup(UpdateSupergroup),
-  /// Some data from supergroupFullInfo has been changed
+  /// Some data in supergroupFullInfo has been changed
   SupergroupFullInfo(UpdateSupergroupFullInfo),
   /// New terms of service must be accepted by the user. If the terms of service are declined, then the deleteAccount method must be called with the reason "Decline ToS update"
   TermsOfService(UpdateTermsOfService),
@@ -191,9 +197,7 @@ pub enum Update {
   UnreadMessageCount(UpdateUnreadMessageCount),
   /// Some data of a user has changed. This update is guaranteed to come before the user identifier is returned to the application
   User(UpdateUser),
-  /// User activity in the chat has changed
-  UserChatAction(UpdateUserChatAction),
-  /// Some data from userFullInfo has been changed
+  /// Some data in userFullInfo has been changed
   UserFullInfo(UpdateUserFullInfo),
   /// Some privacy setting rules have been changed
   UserPrivacySettingRules(UpdateUserPrivacySettingRules),
@@ -221,10 +225,13 @@ impl<'de> Deserialize<'de> for Update {
       (updateBasicGroup, BasicGroup);
       (updateBasicGroupFullInfo, BasicGroupFullInfo);
       (updateCall, Call);
+      (updateChatAction, ChatAction);
       (updateChatActionBar, ChatActionBar);
       (updateChatDefaultDisableNotification, ChatDefaultDisableNotification);
+      (updateChatDefaultMessageSenderId, ChatDefaultMessageSenderId);
       (updateChatDraftMessage, ChatDraftMessage);
       (updateChatFilters, ChatFilters);
+      (updateChatHasProtectedContent, ChatHasProtectedContent);
       (updateChatHasScheduledMessages, ChatHasScheduledMessages);
       (updateChatIsBlocked, ChatIsBlocked);
       (updateChatIsMarkedAsUnread, ChatIsMarkedAsUnread);
@@ -299,7 +306,6 @@ impl<'de> Deserialize<'de> for Update {
       (updateUnreadChatCount, UnreadChatCount);
       (updateUnreadMessageCount, UnreadMessageCount);
       (updateUser, User);
-      (updateUserChatAction, UserChatAction);
       (updateUserFullInfo, UserFullInfo);
       (updateUserPrivacySettingRules, UserPrivacySettingRules);
       (updateUserStatus, UserStatus);
@@ -320,10 +326,13 @@ impl RObject for Update {
       Update::BasicGroup(t) => t.td_name(),
       Update::BasicGroupFullInfo(t) => t.td_name(),
       Update::Call(t) => t.td_name(),
+      Update::ChatAction(t) => t.td_name(),
       Update::ChatActionBar(t) => t.td_name(),
       Update::ChatDefaultDisableNotification(t) => t.td_name(),
+      Update::ChatDefaultMessageSenderId(t) => t.td_name(),
       Update::ChatDraftMessage(t) => t.td_name(),
       Update::ChatFilters(t) => t.td_name(),
+      Update::ChatHasProtectedContent(t) => t.td_name(),
       Update::ChatHasScheduledMessages(t) => t.td_name(),
       Update::ChatIsBlocked(t) => t.td_name(),
       Update::ChatIsMarkedAsUnread(t) => t.td_name(),
@@ -398,7 +407,6 @@ impl RObject for Update {
       Update::UnreadChatCount(t) => t.td_name(),
       Update::UnreadMessageCount(t) => t.td_name(),
       Update::User(t) => t.td_name(),
-      Update::UserChatAction(t) => t.td_name(),
       Update::UserFullInfo(t) => t.td_name(),
       Update::UserPrivacySettingRules(t) => t.td_name(),
       Update::UserStatus(t) => t.td_name(),
@@ -417,10 +425,13 @@ impl RObject for Update {
       Update::BasicGroup(t) => t.extra(),
       Update::BasicGroupFullInfo(t) => t.extra(),
       Update::Call(t) => t.extra(),
+      Update::ChatAction(t) => t.extra(),
       Update::ChatActionBar(t) => t.extra(),
       Update::ChatDefaultDisableNotification(t) => t.extra(),
+      Update::ChatDefaultMessageSenderId(t) => t.extra(),
       Update::ChatDraftMessage(t) => t.extra(),
       Update::ChatFilters(t) => t.extra(),
+      Update::ChatHasProtectedContent(t) => t.extra(),
       Update::ChatHasScheduledMessages(t) => t.extra(),
       Update::ChatIsBlocked(t) => t.extra(),
       Update::ChatIsMarkedAsUnread(t) => t.extra(),
@@ -495,7 +506,6 @@ impl RObject for Update {
       Update::UnreadChatCount(t) => t.extra(),
       Update::UnreadMessageCount(t) => t.extra(),
       Update::User(t) => t.extra(),
-      Update::UserChatAction(t) => t.extra(),
       Update::UserFullInfo(t) => t.extra(),
       Update::UserPrivacySettingRules(t) => t.extra(),
       Update::UserStatus(t) => t.extra(),
@@ -519,10 +529,13 @@ impl Update {
   pub fn is_basic_group(&self) -> bool { if let Update::BasicGroup(_) = self { true } else { false } }
   pub fn is_basic_group_full_info(&self) -> bool { if let Update::BasicGroupFullInfo(_) = self { true } else { false } }
   pub fn is_call(&self) -> bool { if let Update::Call(_) = self { true } else { false } }
+  pub fn is_chat_action(&self) -> bool { if let Update::ChatAction(_) = self { true } else { false } }
   pub fn is_chat_action_bar(&self) -> bool { if let Update::ChatActionBar(_) = self { true } else { false } }
   pub fn is_chat_default_disable_notification(&self) -> bool { if let Update::ChatDefaultDisableNotification(_) = self { true } else { false } }
+  pub fn is_chat_default_message_sender_id(&self) -> bool { if let Update::ChatDefaultMessageSenderId(_) = self { true } else { false } }
   pub fn is_chat_draft_message(&self) -> bool { if let Update::ChatDraftMessage(_) = self { true } else { false } }
   pub fn is_chat_filters(&self) -> bool { if let Update::ChatFilters(_) = self { true } else { false } }
+  pub fn is_chat_has_protected_content(&self) -> bool { if let Update::ChatHasProtectedContent(_) = self { true } else { false } }
   pub fn is_chat_has_scheduled_messages(&self) -> bool { if let Update::ChatHasScheduledMessages(_) = self { true } else { false } }
   pub fn is_chat_is_blocked(&self) -> bool { if let Update::ChatIsBlocked(_) = self { true } else { false } }
   pub fn is_chat_is_marked_as_unread(&self) -> bool { if let Update::ChatIsMarkedAsUnread(_) = self { true } else { false } }
@@ -597,7 +610,6 @@ impl Update {
   pub fn is_unread_chat_count(&self) -> bool { if let Update::UnreadChatCount(_) = self { true } else { false } }
   pub fn is_unread_message_count(&self) -> bool { if let Update::UnreadMessageCount(_) = self { true } else { false } }
   pub fn is_user(&self) -> bool { if let Update::User(_) = self { true } else { false } }
-  pub fn is_user_chat_action(&self) -> bool { if let Update::UserChatAction(_) = self { true } else { false } }
   pub fn is_user_full_info(&self) -> bool { if let Update::UserFullInfo(_) = self { true } else { false } }
   pub fn is_user_privacy_setting_rules(&self) -> bool { if let Update::UserPrivacySettingRules(_) = self { true } else { false } }
   pub fn is_user_status(&self) -> bool { if let Update::UserStatus(_) = self { true } else { false } }
@@ -611,10 +623,13 @@ impl Update {
   pub fn on_basic_group<F: FnOnce(&UpdateBasicGroup)>(&self, fnc: F) -> &Self { if let Update::BasicGroup(t) = self { fnc(t) }; self }
   pub fn on_basic_group_full_info<F: FnOnce(&UpdateBasicGroupFullInfo)>(&self, fnc: F) -> &Self { if let Update::BasicGroupFullInfo(t) = self { fnc(t) }; self }
   pub fn on_call<F: FnOnce(&UpdateCall)>(&self, fnc: F) -> &Self { if let Update::Call(t) = self { fnc(t) }; self }
+  pub fn on_chat_action<F: FnOnce(&UpdateChatAction)>(&self, fnc: F) -> &Self { if let Update::ChatAction(t) = self { fnc(t) }; self }
   pub fn on_chat_action_bar<F: FnOnce(&UpdateChatActionBar)>(&self, fnc: F) -> &Self { if let Update::ChatActionBar(t) = self { fnc(t) }; self }
   pub fn on_chat_default_disable_notification<F: FnOnce(&UpdateChatDefaultDisableNotification)>(&self, fnc: F) -> &Self { if let Update::ChatDefaultDisableNotification(t) = self { fnc(t) }; self }
+  pub fn on_chat_default_message_sender_id<F: FnOnce(&UpdateChatDefaultMessageSenderId)>(&self, fnc: F) -> &Self { if let Update::ChatDefaultMessageSenderId(t) = self { fnc(t) }; self }
   pub fn on_chat_draft_message<F: FnOnce(&UpdateChatDraftMessage)>(&self, fnc: F) -> &Self { if let Update::ChatDraftMessage(t) = self { fnc(t) }; self }
   pub fn on_chat_filters<F: FnOnce(&UpdateChatFilters)>(&self, fnc: F) -> &Self { if let Update::ChatFilters(t) = self { fnc(t) }; self }
+  pub fn on_chat_has_protected_content<F: FnOnce(&UpdateChatHasProtectedContent)>(&self, fnc: F) -> &Self { if let Update::ChatHasProtectedContent(t) = self { fnc(t) }; self }
   pub fn on_chat_has_scheduled_messages<F: FnOnce(&UpdateChatHasScheduledMessages)>(&self, fnc: F) -> &Self { if let Update::ChatHasScheduledMessages(t) = self { fnc(t) }; self }
   pub fn on_chat_is_blocked<F: FnOnce(&UpdateChatIsBlocked)>(&self, fnc: F) -> &Self { if let Update::ChatIsBlocked(t) = self { fnc(t) }; self }
   pub fn on_chat_is_marked_as_unread<F: FnOnce(&UpdateChatIsMarkedAsUnread)>(&self, fnc: F) -> &Self { if let Update::ChatIsMarkedAsUnread(t) = self { fnc(t) }; self }
@@ -689,7 +704,6 @@ impl Update {
   pub fn on_unread_chat_count<F: FnOnce(&UpdateUnreadChatCount)>(&self, fnc: F) -> &Self { if let Update::UnreadChatCount(t) = self { fnc(t) }; self }
   pub fn on_unread_message_count<F: FnOnce(&UpdateUnreadMessageCount)>(&self, fnc: F) -> &Self { if let Update::UnreadMessageCount(t) = self { fnc(t) }; self }
   pub fn on_user<F: FnOnce(&UpdateUser)>(&self, fnc: F) -> &Self { if let Update::User(t) = self { fnc(t) }; self }
-  pub fn on_user_chat_action<F: FnOnce(&UpdateUserChatAction)>(&self, fnc: F) -> &Self { if let Update::UserChatAction(t) = self { fnc(t) }; self }
   pub fn on_user_full_info<F: FnOnce(&UpdateUserFullInfo)>(&self, fnc: F) -> &Self { if let Update::UserFullInfo(t) = self { fnc(t) }; self }
   pub fn on_user_privacy_setting_rules<F: FnOnce(&UpdateUserPrivacySettingRules)>(&self, fnc: F) -> &Self { if let Update::UserPrivacySettingRules(t) = self { fnc(t) }; self }
   pub fn on_user_status<F: FnOnce(&UpdateUserStatus)>(&self, fnc: F) -> &Self { if let Update::UserStatus(t) = self { fnc(t) }; self }
@@ -703,10 +717,13 @@ impl Update {
   pub fn as_basic_group(&self) -> Option<&UpdateBasicGroup> { if let Update::BasicGroup(t) = self { return Some(t) } None }
   pub fn as_basic_group_full_info(&self) -> Option<&UpdateBasicGroupFullInfo> { if let Update::BasicGroupFullInfo(t) = self { return Some(t) } None }
   pub fn as_call(&self) -> Option<&UpdateCall> { if let Update::Call(t) = self { return Some(t) } None }
+  pub fn as_chat_action(&self) -> Option<&UpdateChatAction> { if let Update::ChatAction(t) = self { return Some(t) } None }
   pub fn as_chat_action_bar(&self) -> Option<&UpdateChatActionBar> { if let Update::ChatActionBar(t) = self { return Some(t) } None }
   pub fn as_chat_default_disable_notification(&self) -> Option<&UpdateChatDefaultDisableNotification> { if let Update::ChatDefaultDisableNotification(t) = self { return Some(t) } None }
+  pub fn as_chat_default_message_sender_id(&self) -> Option<&UpdateChatDefaultMessageSenderId> { if let Update::ChatDefaultMessageSenderId(t) = self { return Some(t) } None }
   pub fn as_chat_draft_message(&self) -> Option<&UpdateChatDraftMessage> { if let Update::ChatDraftMessage(t) = self { return Some(t) } None }
   pub fn as_chat_filters(&self) -> Option<&UpdateChatFilters> { if let Update::ChatFilters(t) = self { return Some(t) } None }
+  pub fn as_chat_has_protected_content(&self) -> Option<&UpdateChatHasProtectedContent> { if let Update::ChatHasProtectedContent(t) = self { return Some(t) } None }
   pub fn as_chat_has_scheduled_messages(&self) -> Option<&UpdateChatHasScheduledMessages> { if let Update::ChatHasScheduledMessages(t) = self { return Some(t) } None }
   pub fn as_chat_is_blocked(&self) -> Option<&UpdateChatIsBlocked> { if let Update::ChatIsBlocked(t) = self { return Some(t) } None }
   pub fn as_chat_is_marked_as_unread(&self) -> Option<&UpdateChatIsMarkedAsUnread> { if let Update::ChatIsMarkedAsUnread(t) = self { return Some(t) } None }
@@ -781,7 +798,6 @@ impl Update {
   pub fn as_unread_chat_count(&self) -> Option<&UpdateUnreadChatCount> { if let Update::UnreadChatCount(t) = self { return Some(t) } None }
   pub fn as_unread_message_count(&self) -> Option<&UpdateUnreadMessageCount> { if let Update::UnreadMessageCount(t) = self { return Some(t) } None }
   pub fn as_user(&self) -> Option<&UpdateUser> { if let Update::User(t) = self { return Some(t) } None }
-  pub fn as_user_chat_action(&self) -> Option<&UpdateUserChatAction> { if let Update::UserChatAction(t) = self { return Some(t) } None }
   pub fn as_user_full_info(&self) -> Option<&UpdateUserFullInfo> { if let Update::UserFullInfo(t) = self { return Some(t) } None }
   pub fn as_user_privacy_setting_rules(&self) -> Option<&UpdateUserPrivacySettingRules> { if let Update::UserPrivacySettingRules(t) = self { return Some(t) } None }
   pub fn as_user_status(&self) -> Option<&UpdateUserStatus> { if let Update::UserStatus(t) = self { return Some(t) } None }
@@ -805,13 +821,19 @@ impl Update {
 
   pub fn call<T: AsRef<UpdateCall>>(t: T) -> Self { Update::Call(t.as_ref().clone()) }
 
+  pub fn chat_action<T: AsRef<UpdateChatAction>>(t: T) -> Self { Update::ChatAction(t.as_ref().clone()) }
+
   pub fn chat_action_bar<T: AsRef<UpdateChatActionBar>>(t: T) -> Self { Update::ChatActionBar(t.as_ref().clone()) }
 
   pub fn chat_default_disable_notification<T: AsRef<UpdateChatDefaultDisableNotification>>(t: T) -> Self { Update::ChatDefaultDisableNotification(t.as_ref().clone()) }
 
+  pub fn chat_default_message_sender_id<T: AsRef<UpdateChatDefaultMessageSenderId>>(t: T) -> Self { Update::ChatDefaultMessageSenderId(t.as_ref().clone()) }
+
   pub fn chat_draft_message<T: AsRef<UpdateChatDraftMessage>>(t: T) -> Self { Update::ChatDraftMessage(t.as_ref().clone()) }
 
   pub fn chat_filters<T: AsRef<UpdateChatFilters>>(t: T) -> Self { Update::ChatFilters(t.as_ref().clone()) }
+
+  pub fn chat_has_protected_content<T: AsRef<UpdateChatHasProtectedContent>>(t: T) -> Self { Update::ChatHasProtectedContent(t.as_ref().clone()) }
 
   pub fn chat_has_scheduled_messages<T: AsRef<UpdateChatHasScheduledMessages>>(t: T) -> Self { Update::ChatHasScheduledMessages(t.as_ref().clone()) }
 
@@ -960,8 +982,6 @@ impl Update {
   pub fn unread_message_count<T: AsRef<UpdateUnreadMessageCount>>(t: T) -> Self { Update::UnreadMessageCount(t.as_ref().clone()) }
 
   pub fn user<T: AsRef<UpdateUser>>(t: T) -> Self { Update::User(t.as_ref().clone()) }
-
-  pub fn user_chat_action<T: AsRef<UpdateUserChatAction>>(t: T) -> Self { Update::UserChatAction(t.as_ref().clone()) }
 
   pub fn user_full_info<T: AsRef<UpdateUserFullInfo>>(t: T) -> Self { Update::UserFullInfo(t.as_ref().clone()) }
 
@@ -1353,7 +1373,7 @@ impl AsRef<UpdateBasicGroup> for RTDUpdateBasicGroupBuilder {
 
 
 
-/// Some data from basicGroupFullInfo has been changed
+/// Some data in basicGroupFullInfo has been changed
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateBasicGroupFullInfo {
   #[doc(hidden)]
@@ -1491,6 +1511,104 @@ impl AsRef<UpdateCall> for UpdateCall {
 
 impl AsRef<UpdateCall> for RTDUpdateCallBuilder {
   fn as_ref(&self) -> &UpdateCall { &self.inner }
+}
+
+
+
+
+
+
+
+/// A message sender activity in the chat has changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UpdateChatAction {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Chat identifier
+  chat_id: i64,
+  /// If not 0, a message thread identifier in which the action was performed
+  message_thread_id: i64,
+  /// Identifier of a message sender performing the action
+  sender_id: MessageSender,
+  /// The action
+  action: ChatAction,
+  
+}
+
+impl RObject for UpdateChatAction {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatAction" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUpdate for UpdateChatAction {}
+
+
+
+impl UpdateChatAction {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUpdateChatActionBuilder {
+    let mut inner = UpdateChatAction::default();
+    inner.td_name = "updateChatAction".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDUpdateChatActionBuilder { inner }
+  }
+
+  pub fn chat_id(&self) -> i64 { self.chat_id }
+
+  pub fn message_thread_id(&self) -> i64 { self.message_thread_id }
+
+  pub fn sender_id(&self) -> &MessageSender { &self.sender_id }
+
+  pub fn action(&self) -> &ChatAction { &self.action }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUpdateChatActionBuilder {
+  inner: UpdateChatAction
+}
+
+impl RTDUpdateChatActionBuilder {
+  pub fn build(&self) -> UpdateChatAction { self.inner.clone() }
+
+   
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
+    self.inner.chat_id = chat_id;
+    self
+  }
+
+   
+  pub fn message_thread_id(&mut self, message_thread_id: i64) -> &mut Self {
+    self.inner.message_thread_id = message_thread_id;
+    self
+  }
+
+   
+  pub fn sender_id<T: AsRef<MessageSender>>(&mut self, sender_id: T) -> &mut Self {
+    self.inner.sender_id = sender_id.as_ref().clone();
+    self
+  }
+
+   
+  pub fn action<T: AsRef<ChatAction>>(&mut self, action: T) -> &mut Self {
+    self.inner.action = action.as_ref().clone();
+    self
+  }
+
+}
+
+impl AsRef<UpdateChatAction> for UpdateChatAction {
+  fn as_ref(&self) -> &UpdateChatAction { self }
+}
+
+impl AsRef<UpdateChatAction> for RTDUpdateChatActionBuilder {
+  fn as_ref(&self) -> &UpdateChatAction { &self.inner }
 }
 
 
@@ -1655,6 +1773,84 @@ impl AsRef<UpdateChatDefaultDisableNotification> for RTDUpdateChatDefaultDisable
 
 
 
+/// The default message sender that is chosen to send messages in a chat has changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UpdateChatDefaultMessageSenderId {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Chat identifier
+  chat_id: i64,
+  /// New value of default_message_sender_id; may be null if the user can't change message sender
+  default_message_sender_id: Option<MessageSender>,
+  
+}
+
+impl RObject for UpdateChatDefaultMessageSenderId {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatDefaultMessageSenderId" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUpdate for UpdateChatDefaultMessageSenderId {}
+
+
+
+impl UpdateChatDefaultMessageSenderId {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUpdateChatDefaultMessageSenderIdBuilder {
+    let mut inner = UpdateChatDefaultMessageSenderId::default();
+    inner.td_name = "updateChatDefaultMessageSenderId".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDUpdateChatDefaultMessageSenderIdBuilder { inner }
+  }
+
+  pub fn chat_id(&self) -> i64 { self.chat_id }
+
+  pub fn default_message_sender_id(&self) -> &Option<MessageSender> { &self.default_message_sender_id }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUpdateChatDefaultMessageSenderIdBuilder {
+  inner: UpdateChatDefaultMessageSenderId
+}
+
+impl RTDUpdateChatDefaultMessageSenderIdBuilder {
+  pub fn build(&self) -> UpdateChatDefaultMessageSenderId { self.inner.clone() }
+
+   
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
+    self.inner.chat_id = chat_id;
+    self
+  }
+
+   
+  pub fn default_message_sender_id<T: AsRef<MessageSender>>(&mut self, default_message_sender_id: T) -> &mut Self {
+    self.inner.default_message_sender_id = Some(default_message_sender_id.as_ref().clone());
+    self
+  }
+
+}
+
+impl AsRef<UpdateChatDefaultMessageSenderId> for UpdateChatDefaultMessageSenderId {
+  fn as_ref(&self) -> &UpdateChatDefaultMessageSenderId { self }
+}
+
+impl AsRef<UpdateChatDefaultMessageSenderId> for RTDUpdateChatDefaultMessageSenderIdBuilder {
+  fn as_ref(&self) -> &UpdateChatDefaultMessageSenderId { &self.inner }
+}
+
+
+
+
+
+
+
 /// A chat draft has changed. Be aware that the update may come in the currently opened chat but with old content of the draft. If the user has changed the content of the draft, this update mustn't be applied
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateChatDraftMessage {
@@ -1803,6 +1999,84 @@ impl AsRef<UpdateChatFilters> for UpdateChatFilters {
 
 impl AsRef<UpdateChatFilters> for RTDUpdateChatFiltersBuilder {
   fn as_ref(&self) -> &UpdateChatFilters { &self.inner }
+}
+
+
+
+
+
+
+
+/// A chat content was allowed or restricted for saving
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UpdateChatHasProtectedContent {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Chat identifier
+  chat_id: i64,
+  /// New value of has_protected_content
+  has_protected_content: bool,
+  
+}
+
+impl RObject for UpdateChatHasProtectedContent {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateChatHasProtectedContent" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDUpdate for UpdateChatHasProtectedContent {}
+
+
+
+impl UpdateChatHasProtectedContent {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDUpdateChatHasProtectedContentBuilder {
+    let mut inner = UpdateChatHasProtectedContent::default();
+    inner.td_name = "updateChatHasProtectedContent".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDUpdateChatHasProtectedContentBuilder { inner }
+  }
+
+  pub fn chat_id(&self) -> i64 { self.chat_id }
+
+  pub fn has_protected_content(&self) -> bool { self.has_protected_content }
+
+}
+
+#[doc(hidden)]
+pub struct RTDUpdateChatHasProtectedContentBuilder {
+  inner: UpdateChatHasProtectedContent
+}
+
+impl RTDUpdateChatHasProtectedContentBuilder {
+  pub fn build(&self) -> UpdateChatHasProtectedContent { self.inner.clone() }
+
+   
+  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
+    self.inner.chat_id = chat_id;
+    self
+  }
+
+   
+  pub fn has_protected_content(&mut self, has_protected_content: bool) -> &mut Self {
+    self.inner.has_protected_content = has_protected_content;
+    self
+  }
+
+}
+
+impl AsRef<UpdateChatHasProtectedContent> for UpdateChatHasProtectedContent {
+  fn as_ref(&self) -> &UpdateChatHasProtectedContent { self }
+}
+
+impl AsRef<UpdateChatHasProtectedContent> for RTDUpdateChatHasProtectedContentBuilder {
+  fn as_ref(&self) -> &UpdateChatHasProtectedContent { &self.inner }
 }
 
 
@@ -7163,7 +7437,7 @@ impl AsRef<UpdateSelectedBackground> for RTDUpdateSelectedBackgroundBuilder {
 
 
 
-/// Service notification from the server. Upon receiving this the application must show a popup with the content of the notification
+/// A service notification from the server was received. Upon receiving this the application must show a popup with the content of the notification
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateServiceNotification {
   #[doc(hidden)]
@@ -7455,7 +7729,7 @@ impl AsRef<UpdateSupergroup> for RTDUpdateSupergroupBuilder {
 
 
 
-/// Some data from supergroupFullInfo has been changed
+/// Some data in supergroupFullInfo has been changed
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateSupergroupFullInfo {
   #[doc(hidden)]
@@ -7953,105 +8227,7 @@ impl AsRef<UpdateUser> for RTDUpdateUserBuilder {
 
 
 
-/// User activity in the chat has changed
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UpdateUserChatAction {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
-  extra: Option<String>,
-  /// Chat identifier
-  chat_id: i64,
-  /// If not 0, a message thread identifier in which the action was performed
-  message_thread_id: i64,
-  /// Identifier of a user performing an action
-  user_id: i64,
-  /// The action description
-  action: ChatAction,
-  
-}
-
-impl RObject for UpdateUserChatAction {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "updateUserChatAction" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDUpdate for UpdateUserChatAction {}
-
-
-
-impl UpdateUserChatAction {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDUpdateUserChatActionBuilder {
-    let mut inner = UpdateUserChatAction::default();
-    inner.td_name = "updateUserChatAction".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
-    RTDUpdateUserChatActionBuilder { inner }
-  }
-
-  pub fn chat_id(&self) -> i64 { self.chat_id }
-
-  pub fn message_thread_id(&self) -> i64 { self.message_thread_id }
-
-  pub fn user_id(&self) -> i64 { self.user_id }
-
-  pub fn action(&self) -> &ChatAction { &self.action }
-
-}
-
-#[doc(hidden)]
-pub struct RTDUpdateUserChatActionBuilder {
-  inner: UpdateUserChatAction
-}
-
-impl RTDUpdateUserChatActionBuilder {
-  pub fn build(&self) -> UpdateUserChatAction { self.inner.clone() }
-
-   
-  pub fn chat_id(&mut self, chat_id: i64) -> &mut Self {
-    self.inner.chat_id = chat_id;
-    self
-  }
-
-   
-  pub fn message_thread_id(&mut self, message_thread_id: i64) -> &mut Self {
-    self.inner.message_thread_id = message_thread_id;
-    self
-  }
-
-   
-  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
-    self.inner.user_id = user_id;
-    self
-  }
-
-   
-  pub fn action<T: AsRef<ChatAction>>(&mut self, action: T) -> &mut Self {
-    self.inner.action = action.as_ref().clone();
-    self
-  }
-
-}
-
-impl AsRef<UpdateUserChatAction> for UpdateUserChatAction {
-  fn as_ref(&self) -> &UpdateUserChatAction { self }
-}
-
-impl AsRef<UpdateUserChatAction> for RTDUpdateUserChatActionBuilder {
-  fn as_ref(&self) -> &UpdateUserChatAction { &self.inner }
-}
-
-
-
-
-
-
-
-/// Some data from userFullInfo has been changed
+/// Some data in userFullInfo has been changed
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UpdateUserFullInfo {
   #[doc(hidden)]

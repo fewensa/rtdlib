@@ -21,8 +21,10 @@ pub enum AuthenticationCodeType {
   #[doc(hidden)] _Default(()),
   /// An authentication code is delivered via a phone call to the specified phone number
   Call(AuthenticationCodeTypeCall),
-  /// An authentication code is delivered by an immediately canceled call to the specified phone number. The number from which the call was made is the code
+  /// An authentication code is delivered by an immediately canceled call to the specified phone number. The phone number, from which the call was made, is the code that must be entered automatically
   FlashCall(AuthenticationCodeTypeFlashCall),
+  /// An authentication code is delivered by an immediately canceled call to the specified phone number. The phone number, from which the call was made, is the code that is supposed to be entered manually by the user
+  MissedCall(AuthenticationCodeTypeMissedCall),
   /// An authentication code is delivered via an SMS message to the specified phone number
   Sms(AuthenticationCodeTypeSms),
   /// An authentication code is delivered via a private Telegram message, which can be viewed from another active session
@@ -41,6 +43,7 @@ impl<'de> Deserialize<'de> for AuthenticationCodeType {
       AuthenticationCodeType,
       (authenticationCodeTypeCall, Call);
       (authenticationCodeTypeFlashCall, FlashCall);
+      (authenticationCodeTypeMissedCall, MissedCall);
       (authenticationCodeTypeSms, Sms);
       (authenticationCodeTypeTelegramMessage, TelegramMessage);
 
@@ -53,6 +56,7 @@ impl RObject for AuthenticationCodeType {
     match self {
       AuthenticationCodeType::Call(t) => t.td_name(),
       AuthenticationCodeType::FlashCall(t) => t.td_name(),
+      AuthenticationCodeType::MissedCall(t) => t.td_name(),
       AuthenticationCodeType::Sms(t) => t.td_name(),
       AuthenticationCodeType::TelegramMessage(t) => t.td_name(),
 
@@ -63,6 +67,7 @@ impl RObject for AuthenticationCodeType {
     match self {
       AuthenticationCodeType::Call(t) => t.extra(),
       AuthenticationCodeType::FlashCall(t) => t.extra(),
+      AuthenticationCodeType::MissedCall(t) => t.extra(),
       AuthenticationCodeType::Sms(t) => t.extra(),
       AuthenticationCodeType::TelegramMessage(t) => t.extra(),
 
@@ -78,16 +83,19 @@ impl AuthenticationCodeType {
 
   pub fn is_call(&self) -> bool { if let AuthenticationCodeType::Call(_) = self { true } else { false } }
   pub fn is_flash_call(&self) -> bool { if let AuthenticationCodeType::FlashCall(_) = self { true } else { false } }
+  pub fn is_missed_call(&self) -> bool { if let AuthenticationCodeType::MissedCall(_) = self { true } else { false } }
   pub fn is_sms(&self) -> bool { if let AuthenticationCodeType::Sms(_) = self { true } else { false } }
   pub fn is_telegram_message(&self) -> bool { if let AuthenticationCodeType::TelegramMessage(_) = self { true } else { false } }
 
   pub fn on_call<F: FnOnce(&AuthenticationCodeTypeCall)>(&self, fnc: F) -> &Self { if let AuthenticationCodeType::Call(t) = self { fnc(t) }; self }
   pub fn on_flash_call<F: FnOnce(&AuthenticationCodeTypeFlashCall)>(&self, fnc: F) -> &Self { if let AuthenticationCodeType::FlashCall(t) = self { fnc(t) }; self }
+  pub fn on_missed_call<F: FnOnce(&AuthenticationCodeTypeMissedCall)>(&self, fnc: F) -> &Self { if let AuthenticationCodeType::MissedCall(t) = self { fnc(t) }; self }
   pub fn on_sms<F: FnOnce(&AuthenticationCodeTypeSms)>(&self, fnc: F) -> &Self { if let AuthenticationCodeType::Sms(t) = self { fnc(t) }; self }
   pub fn on_telegram_message<F: FnOnce(&AuthenticationCodeTypeTelegramMessage)>(&self, fnc: F) -> &Self { if let AuthenticationCodeType::TelegramMessage(t) = self { fnc(t) }; self }
 
   pub fn as_call(&self) -> Option<&AuthenticationCodeTypeCall> { if let AuthenticationCodeType::Call(t) = self { return Some(t) } None }
   pub fn as_flash_call(&self) -> Option<&AuthenticationCodeTypeFlashCall> { if let AuthenticationCodeType::FlashCall(t) = self { return Some(t) } None }
+  pub fn as_missed_call(&self) -> Option<&AuthenticationCodeTypeMissedCall> { if let AuthenticationCodeType::MissedCall(t) = self { return Some(t) } None }
   pub fn as_sms(&self) -> Option<&AuthenticationCodeTypeSms> { if let AuthenticationCodeType::Sms(t) = self { return Some(t) } None }
   pub fn as_telegram_message(&self) -> Option<&AuthenticationCodeTypeTelegramMessage> { if let AuthenticationCodeType::TelegramMessage(t) = self { return Some(t) } None }
 
@@ -96,6 +104,8 @@ impl AuthenticationCodeType {
   pub fn call<T: AsRef<AuthenticationCodeTypeCall>>(t: T) -> Self { AuthenticationCodeType::Call(t.as_ref().clone()) }
 
   pub fn flash_call<T: AsRef<AuthenticationCodeTypeFlashCall>>(t: T) -> Self { AuthenticationCodeType::FlashCall(t.as_ref().clone()) }
+
+  pub fn missed_call<T: AsRef<AuthenticationCodeTypeMissedCall>>(t: T) -> Self { AuthenticationCodeType::MissedCall(t.as_ref().clone()) }
 
   pub fn sms<T: AsRef<AuthenticationCodeTypeSms>>(t: T) -> Self { AuthenticationCodeType::Sms(t.as_ref().clone()) }
 
@@ -181,7 +191,7 @@ impl AsRef<AuthenticationCodeTypeCall> for RTDAuthenticationCodeTypeCallBuilder 
 
 
 
-/// An authentication code is delivered by an immediately canceled call to the specified phone number. The number from which the call was made is the code
+/// An authentication code is delivered by an immediately canceled call to the specified phone number. The phone number, from which the call was made, is the code that must be entered automatically
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct AuthenticationCodeTypeFlashCall {
   #[doc(hidden)]
@@ -241,6 +251,84 @@ impl AsRef<AuthenticationCodeTypeFlashCall> for AuthenticationCodeTypeFlashCall 
 
 impl AsRef<AuthenticationCodeTypeFlashCall> for RTDAuthenticationCodeTypeFlashCallBuilder {
   fn as_ref(&self) -> &AuthenticationCodeTypeFlashCall { &self.inner }
+}
+
+
+
+
+
+
+
+/// An authentication code is delivered by an immediately canceled call to the specified phone number. The phone number, from which the call was made, is the code that is supposed to be entered manually by the user
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct AuthenticationCodeTypeMissedCall {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Prefix of the phone number from which the call will be made
+  phone_number_prefix: String,
+  /// Number of digits in the code, excluding the prefix
+  length: i64,
+  
+}
+
+impl RObject for AuthenticationCodeTypeMissedCall {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "authenticationCodeTypeMissedCall" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDAuthenticationCodeType for AuthenticationCodeTypeMissedCall {}
+
+
+
+impl AuthenticationCodeTypeMissedCall {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDAuthenticationCodeTypeMissedCallBuilder {
+    let mut inner = AuthenticationCodeTypeMissedCall::default();
+    inner.td_name = "authenticationCodeTypeMissedCall".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDAuthenticationCodeTypeMissedCallBuilder { inner }
+  }
+
+  pub fn phone_number_prefix(&self) -> &String { &self.phone_number_prefix }
+
+  pub fn length(&self) -> i64 { self.length }
+
+}
+
+#[doc(hidden)]
+pub struct RTDAuthenticationCodeTypeMissedCallBuilder {
+  inner: AuthenticationCodeTypeMissedCall
+}
+
+impl RTDAuthenticationCodeTypeMissedCallBuilder {
+  pub fn build(&self) -> AuthenticationCodeTypeMissedCall { self.inner.clone() }
+
+   
+  pub fn phone_number_prefix<T: AsRef<str>>(&mut self, phone_number_prefix: T) -> &mut Self {
+    self.inner.phone_number_prefix = phone_number_prefix.as_ref().to_string();
+    self
+  }
+
+   
+  pub fn length(&mut self, length: i64) -> &mut Self {
+    self.inner.length = length;
+    self
+  }
+
+}
+
+impl AsRef<AuthenticationCodeTypeMissedCall> for AuthenticationCodeTypeMissedCall {
+  fn as_ref(&self) -> &AuthenticationCodeTypeMissedCall { self }
+}
+
+impl AsRef<AuthenticationCodeTypeMissedCall> for RTDAuthenticationCodeTypeMissedCallBuilder {
+  fn as_ref(&self) -> &AuthenticationCodeTypeMissedCall { &self.inner }
 }
 
 

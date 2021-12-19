@@ -3292,10 +3292,10 @@ pub struct MessageProximityAlertTriggered {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// The user or chat, which triggered the proximity alert
-  traveler: MessageSender,
-  /// The user or chat, which subscribed for the proximity alert
-  watcher: MessageSender,
+  /// The identifier of a user or chat that triggered the proximity alert
+  traveler_id: MessageSender,
+  /// The identifier of a user or chat that subscribed for the proximity alert
+  watcher_id: MessageSender,
   /// The distance between the users
   distance: i64,
   
@@ -3321,9 +3321,9 @@ impl MessageProximityAlertTriggered {
     RTDMessageProximityAlertTriggeredBuilder { inner }
   }
 
-  pub fn traveler(&self) -> &MessageSender { &self.traveler }
+  pub fn traveler_id(&self) -> &MessageSender { &self.traveler_id }
 
-  pub fn watcher(&self) -> &MessageSender { &self.watcher }
+  pub fn watcher_id(&self) -> &MessageSender { &self.watcher_id }
 
   pub fn distance(&self) -> i64 { self.distance }
 
@@ -3338,14 +3338,14 @@ impl RTDMessageProximityAlertTriggeredBuilder {
   pub fn build(&self) -> MessageProximityAlertTriggered { self.inner.clone() }
 
    
-  pub fn traveler<T: AsRef<MessageSender>>(&mut self, traveler: T) -> &mut Self {
-    self.inner.traveler = traveler.as_ref().clone();
+  pub fn traveler_id<T: AsRef<MessageSender>>(&mut self, traveler_id: T) -> &mut Self {
+    self.inner.traveler_id = traveler_id.as_ref().clone();
     self
   }
 
    
-  pub fn watcher<T: AsRef<MessageSender>>(&mut self, watcher: T) -> &mut Self {
-    self.inner.watcher = watcher.as_ref().clone();
+  pub fn watcher_id<T: AsRef<MessageSender>>(&mut self, watcher_id: T) -> &mut Self {
+    self.inner.watcher_id = watcher_id.as_ref().clone();
     self
   }
 

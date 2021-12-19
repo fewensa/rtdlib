@@ -17,8 +17,8 @@ pub struct Message {
   extra: Option<String>,
   /// Message identifier; unique for the chat to which the message belongs
   id: i64,
-  /// The sender of the message
-  sender: MessageSender,
+  /// Identifier of the sender of the message
+  sender_id: MessageSender,
   /// Chat identifier
   chat_id: i64,
   /// The sending state of the message; may be null
@@ -33,6 +33,8 @@ pub struct Message {
   can_be_edited: bool,
   /// True, if the message can be forwarded
   can_be_forwarded: bool,
+  /// True, if content of the message can be saved locally or copied
+  can_be_saved: bool,
   /// True, if the message can be deleted only for the current user while other users will continue to see it
   can_be_deleted_only_for_self: bool,
   /// True, if the message can be deleted for all users
@@ -103,7 +105,7 @@ impl Message {
 
   pub fn id(&self) -> i64 { self.id }
 
-  pub fn sender(&self) -> &MessageSender { &self.sender }
+  pub fn sender_id(&self) -> &MessageSender { &self.sender_id }
 
   pub fn chat_id(&self) -> i64 { self.chat_id }
 
@@ -118,6 +120,8 @@ impl Message {
   pub fn can_be_edited(&self) -> bool { self.can_be_edited }
 
   pub fn can_be_forwarded(&self) -> bool { self.can_be_forwarded }
+
+  pub fn can_be_saved(&self) -> bool { self.can_be_saved }
 
   pub fn can_be_deleted_only_for_self(&self) -> bool { self.can_be_deleted_only_for_self }
 
@@ -184,8 +188,8 @@ impl RTDMessageBuilder {
   }
 
    
-  pub fn sender<T: AsRef<MessageSender>>(&mut self, sender: T) -> &mut Self {
-    self.inner.sender = sender.as_ref().clone();
+  pub fn sender_id<T: AsRef<MessageSender>>(&mut self, sender_id: T) -> &mut Self {
+    self.inner.sender_id = sender_id.as_ref().clone();
     self
   }
 
@@ -228,6 +232,12 @@ impl RTDMessageBuilder {
    
   pub fn can_be_forwarded(&mut self, can_be_forwarded: bool) -> &mut Self {
     self.inner.can_be_forwarded = can_be_forwarded;
+    self
+  }
+
+   
+  pub fn can_be_saved(&mut self, can_be_saved: bool) -> &mut Self {
+    self.inner.can_be_saved = can_be_saved;
     self
   }
 

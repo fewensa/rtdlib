@@ -33,6 +33,8 @@ pub enum InlineKeyboardButtonType {
   SwitchInline(InlineKeyboardButtonTypeSwitchInline),
   /// A button that opens a specified URL
   Url(InlineKeyboardButtonTypeUrl),
+  /// A button with a user reference to be handled in the same way as textEntityTypeMentionName entities
+  User(InlineKeyboardButtonTypeUser),
 
 }
 
@@ -52,6 +54,7 @@ impl<'de> Deserialize<'de> for InlineKeyboardButtonType {
       (inlineKeyboardButtonTypeLoginUrl, LoginUrl);
       (inlineKeyboardButtonTypeSwitchInline, SwitchInline);
       (inlineKeyboardButtonTypeUrl, Url);
+      (inlineKeyboardButtonTypeUser, User);
 
     )(deserializer)
   }
@@ -67,6 +70,7 @@ impl RObject for InlineKeyboardButtonType {
       InlineKeyboardButtonType::LoginUrl(t) => t.td_name(),
       InlineKeyboardButtonType::SwitchInline(t) => t.td_name(),
       InlineKeyboardButtonType::Url(t) => t.td_name(),
+      InlineKeyboardButtonType::User(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -80,6 +84,7 @@ impl RObject for InlineKeyboardButtonType {
       InlineKeyboardButtonType::LoginUrl(t) => t.extra(),
       InlineKeyboardButtonType::SwitchInline(t) => t.extra(),
       InlineKeyboardButtonType::Url(t) => t.extra(),
+      InlineKeyboardButtonType::User(t) => t.extra(),
 
       _ => None,
     }
@@ -98,6 +103,7 @@ impl InlineKeyboardButtonType {
   pub fn is_login_url(&self) -> bool { if let InlineKeyboardButtonType::LoginUrl(_) = self { true } else { false } }
   pub fn is_switch_inline(&self) -> bool { if let InlineKeyboardButtonType::SwitchInline(_) = self { true } else { false } }
   pub fn is_url(&self) -> bool { if let InlineKeyboardButtonType::Url(_) = self { true } else { false } }
+  pub fn is_user(&self) -> bool { if let InlineKeyboardButtonType::User(_) = self { true } else { false } }
 
   pub fn on_buy<F: FnOnce(&InlineKeyboardButtonTypeBuy)>(&self, fnc: F) -> &Self { if let InlineKeyboardButtonType::Buy(t) = self { fnc(t) }; self }
   pub fn on_callback<F: FnOnce(&InlineKeyboardButtonTypeCallback)>(&self, fnc: F) -> &Self { if let InlineKeyboardButtonType::Callback(t) = self { fnc(t) }; self }
@@ -106,6 +112,7 @@ impl InlineKeyboardButtonType {
   pub fn on_login_url<F: FnOnce(&InlineKeyboardButtonTypeLoginUrl)>(&self, fnc: F) -> &Self { if let InlineKeyboardButtonType::LoginUrl(t) = self { fnc(t) }; self }
   pub fn on_switch_inline<F: FnOnce(&InlineKeyboardButtonTypeSwitchInline)>(&self, fnc: F) -> &Self { if let InlineKeyboardButtonType::SwitchInline(t) = self { fnc(t) }; self }
   pub fn on_url<F: FnOnce(&InlineKeyboardButtonTypeUrl)>(&self, fnc: F) -> &Self { if let InlineKeyboardButtonType::Url(t) = self { fnc(t) }; self }
+  pub fn on_user<F: FnOnce(&InlineKeyboardButtonTypeUser)>(&self, fnc: F) -> &Self { if let InlineKeyboardButtonType::User(t) = self { fnc(t) }; self }
 
   pub fn as_buy(&self) -> Option<&InlineKeyboardButtonTypeBuy> { if let InlineKeyboardButtonType::Buy(t) = self { return Some(t) } None }
   pub fn as_callback(&self) -> Option<&InlineKeyboardButtonTypeCallback> { if let InlineKeyboardButtonType::Callback(t) = self { return Some(t) } None }
@@ -114,6 +121,7 @@ impl InlineKeyboardButtonType {
   pub fn as_login_url(&self) -> Option<&InlineKeyboardButtonTypeLoginUrl> { if let InlineKeyboardButtonType::LoginUrl(t) = self { return Some(t) } None }
   pub fn as_switch_inline(&self) -> Option<&InlineKeyboardButtonTypeSwitchInline> { if let InlineKeyboardButtonType::SwitchInline(t) = self { return Some(t) } None }
   pub fn as_url(&self) -> Option<&InlineKeyboardButtonTypeUrl> { if let InlineKeyboardButtonType::Url(t) = self { return Some(t) } None }
+  pub fn as_user(&self) -> Option<&InlineKeyboardButtonTypeUser> { if let InlineKeyboardButtonType::User(t) = self { return Some(t) } None }
 
 
 
@@ -130,6 +138,8 @@ impl InlineKeyboardButtonType {
   pub fn switch_inline<T: AsRef<InlineKeyboardButtonTypeSwitchInline>>(t: T) -> Self { InlineKeyboardButtonType::SwitchInline(t.as_ref().clone()) }
 
   pub fn url<T: AsRef<InlineKeyboardButtonTypeUrl>>(t: T) -> Self { InlineKeyboardButtonType::Url(t.as_ref().clone()) }
+
+  pub fn user<T: AsRef<InlineKeyboardButtonTypeUser>>(t: T) -> Self { InlineKeyboardButtonType::User(t.as_ref().clone()) }
 
 }
 
@@ -621,6 +631,74 @@ impl AsRef<InlineKeyboardButtonTypeUrl> for InlineKeyboardButtonTypeUrl {
 
 impl AsRef<InlineKeyboardButtonTypeUrl> for RTDInlineKeyboardButtonTypeUrlBuilder {
   fn as_ref(&self) -> &InlineKeyboardButtonTypeUrl { &self.inner }
+}
+
+
+
+
+
+
+
+/// A button with a user reference to be handled in the same way as textEntityTypeMentionName entities
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InlineKeyboardButtonTypeUser {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// User identifier
+  user_id: i64,
+  
+}
+
+impl RObject for InlineKeyboardButtonTypeUser {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "inlineKeyboardButtonTypeUser" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDInlineKeyboardButtonType for InlineKeyboardButtonTypeUser {}
+
+
+
+impl InlineKeyboardButtonTypeUser {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDInlineKeyboardButtonTypeUserBuilder {
+    let mut inner = InlineKeyboardButtonTypeUser::default();
+    inner.td_name = "inlineKeyboardButtonTypeUser".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDInlineKeyboardButtonTypeUserBuilder { inner }
+  }
+
+  pub fn user_id(&self) -> i64 { self.user_id }
+
+}
+
+#[doc(hidden)]
+pub struct RTDInlineKeyboardButtonTypeUserBuilder {
+  inner: InlineKeyboardButtonTypeUser
+}
+
+impl RTDInlineKeyboardButtonTypeUserBuilder {
+  pub fn build(&self) -> InlineKeyboardButtonTypeUser { self.inner.clone() }
+
+   
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
+    self.inner.user_id = user_id;
+    self
+  }
+
+}
+
+impl AsRef<InlineKeyboardButtonTypeUser> for InlineKeyboardButtonTypeUser {
+  fn as_ref(&self) -> &InlineKeyboardButtonTypeUser { self }
+}
+
+impl AsRef<InlineKeyboardButtonTypeUser> for RTDInlineKeyboardButtonTypeUserBuilder {
+  fn as_ref(&self) -> &InlineKeyboardButtonTypeUser { &self.inner }
 }
 
 

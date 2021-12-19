@@ -21,6 +21,8 @@ pub enum ChatEventAction {
   #[doc(hidden)] _Default(()),
   /// The chat description was changed
   ChatEventDescriptionChanged(ChatEventDescriptionChanged),
+  /// The has_protected_content setting of a channel was toggled
+  ChatEventHasProtectedContentToggled(ChatEventHasProtectedContentToggled),
   /// A revoked chat invite link was deleted
   ChatEventInviteLinkDeleted(ChatEventInviteLinkDeleted),
   /// A chat invite link was edited
@@ -98,6 +100,7 @@ impl<'de> Deserialize<'de> for ChatEventAction {
     rtd_enum_deserialize!(
       ChatEventAction,
       (chatEventDescriptionChanged, ChatEventDescriptionChanged);
+      (chatEventHasProtectedContentToggled, ChatEventHasProtectedContentToggled);
       (chatEventInviteLinkDeleted, ChatEventInviteLinkDeleted);
       (chatEventInviteLinkEdited, ChatEventInviteLinkEdited);
       (chatEventInviteLinkRevoked, ChatEventInviteLinkRevoked);
@@ -139,6 +142,7 @@ impl RObject for ChatEventAction {
   #[doc(hidden)] fn td_name(&self) -> &'static str {
     match self {
       ChatEventAction::ChatEventDescriptionChanged(t) => t.td_name(),
+      ChatEventAction::ChatEventHasProtectedContentToggled(t) => t.td_name(),
       ChatEventAction::ChatEventInviteLinkDeleted(t) => t.td_name(),
       ChatEventAction::ChatEventInviteLinkEdited(t) => t.td_name(),
       ChatEventAction::ChatEventInviteLinkRevoked(t) => t.td_name(),
@@ -178,6 +182,7 @@ impl RObject for ChatEventAction {
   #[doc(hidden)] fn extra(&self) -> Option<String> {
     match self {
       ChatEventAction::ChatEventDescriptionChanged(t) => t.extra(),
+      ChatEventAction::ChatEventHasProtectedContentToggled(t) => t.extra(),
       ChatEventAction::ChatEventInviteLinkDeleted(t) => t.extra(),
       ChatEventAction::ChatEventInviteLinkEdited(t) => t.extra(),
       ChatEventAction::ChatEventInviteLinkRevoked(t) => t.extra(),
@@ -222,6 +227,7 @@ impl ChatEventAction {
   #[doc(hidden)] pub fn _is_default(&self) -> bool { if let ChatEventAction::_Default(_) = self { true } else { false } }
 
   pub fn is_chat_event_description_changed(&self) -> bool { if let ChatEventAction::ChatEventDescriptionChanged(_) = self { true } else { false } }
+  pub fn is_chat_event_has_protected_content_toggled(&self) -> bool { if let ChatEventAction::ChatEventHasProtectedContentToggled(_) = self { true } else { false } }
   pub fn is_chat_event_invite_link_deleted(&self) -> bool { if let ChatEventAction::ChatEventInviteLinkDeleted(_) = self { true } else { false } }
   pub fn is_chat_event_invite_link_edited(&self) -> bool { if let ChatEventAction::ChatEventInviteLinkEdited(_) = self { true } else { false } }
   pub fn is_chat_event_invite_link_revoked(&self) -> bool { if let ChatEventAction::ChatEventInviteLinkRevoked(_) = self { true } else { false } }
@@ -256,6 +262,7 @@ impl ChatEventAction {
   pub fn is_chat_event_video_chat_participant_volume_level_changed(&self) -> bool { if let ChatEventAction::ChatEventVideoChatParticipantVolumeLevelChanged(_) = self { true } else { false } }
 
   pub fn on_chat_event_description_changed<F: FnOnce(&ChatEventDescriptionChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventDescriptionChanged(t) = self { fnc(t) }; self }
+  pub fn on_chat_event_has_protected_content_toggled<F: FnOnce(&ChatEventHasProtectedContentToggled)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventHasProtectedContentToggled(t) = self { fnc(t) }; self }
   pub fn on_chat_event_invite_link_deleted<F: FnOnce(&ChatEventInviteLinkDeleted)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventInviteLinkDeleted(t) = self { fnc(t) }; self }
   pub fn on_chat_event_invite_link_edited<F: FnOnce(&ChatEventInviteLinkEdited)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventInviteLinkEdited(t) = self { fnc(t) }; self }
   pub fn on_chat_event_invite_link_revoked<F: FnOnce(&ChatEventInviteLinkRevoked)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventInviteLinkRevoked(t) = self { fnc(t) }; self }
@@ -290,6 +297,7 @@ impl ChatEventAction {
   pub fn on_chat_event_video_chat_participant_volume_level_changed<F: FnOnce(&ChatEventVideoChatParticipantVolumeLevelChanged)>(&self, fnc: F) -> &Self { if let ChatEventAction::ChatEventVideoChatParticipantVolumeLevelChanged(t) = self { fnc(t) }; self }
 
   pub fn as_chat_event_description_changed(&self) -> Option<&ChatEventDescriptionChanged> { if let ChatEventAction::ChatEventDescriptionChanged(t) = self { return Some(t) } None }
+  pub fn as_chat_event_has_protected_content_toggled(&self) -> Option<&ChatEventHasProtectedContentToggled> { if let ChatEventAction::ChatEventHasProtectedContentToggled(t) = self { return Some(t) } None }
   pub fn as_chat_event_invite_link_deleted(&self) -> Option<&ChatEventInviteLinkDeleted> { if let ChatEventAction::ChatEventInviteLinkDeleted(t) = self { return Some(t) } None }
   pub fn as_chat_event_invite_link_edited(&self) -> Option<&ChatEventInviteLinkEdited> { if let ChatEventAction::ChatEventInviteLinkEdited(t) = self { return Some(t) } None }
   pub fn as_chat_event_invite_link_revoked(&self) -> Option<&ChatEventInviteLinkRevoked> { if let ChatEventAction::ChatEventInviteLinkRevoked(t) = self { return Some(t) } None }
@@ -326,6 +334,8 @@ impl ChatEventAction {
 
 
   pub fn chat_event_description_changed<T: AsRef<ChatEventDescriptionChanged>>(t: T) -> Self { ChatEventAction::ChatEventDescriptionChanged(t.as_ref().clone()) }
+
+  pub fn chat_event_has_protected_content_toggled<T: AsRef<ChatEventHasProtectedContentToggled>>(t: T) -> Self { ChatEventAction::ChatEventHasProtectedContentToggled(t.as_ref().clone()) }
 
   pub fn chat_event_invite_link_deleted<T: AsRef<ChatEventInviteLinkDeleted>>(t: T) -> Self { ChatEventAction::ChatEventInviteLinkDeleted(t.as_ref().clone()) }
 
@@ -473,6 +483,74 @@ impl AsRef<ChatEventDescriptionChanged> for ChatEventDescriptionChanged {
 
 impl AsRef<ChatEventDescriptionChanged> for RTDChatEventDescriptionChangedBuilder {
   fn as_ref(&self) -> &ChatEventDescriptionChanged { &self.inner }
+}
+
+
+
+
+
+
+
+/// The has_protected_content setting of a channel was toggled
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventHasProtectedContentToggled {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// New value of has_protected_content
+  has_protected_content: bool,
+  
+}
+
+impl RObject for ChatEventHasProtectedContentToggled {
+  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatEventHasProtectedContentToggled" }
+  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
+  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+}
+
+
+impl TDChatEventAction for ChatEventHasProtectedContentToggled {}
+
+
+
+impl ChatEventHasProtectedContentToggled {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn builder() -> RTDChatEventHasProtectedContentToggledBuilder {
+    let mut inner = ChatEventHasProtectedContentToggled::default();
+    inner.td_name = "chatEventHasProtectedContentToggled".to_string();
+    inner.extra = Some(Uuid::new_v4().to_string());
+    RTDChatEventHasProtectedContentToggledBuilder { inner }
+  }
+
+  pub fn has_protected_content(&self) -> bool { self.has_protected_content }
+
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventHasProtectedContentToggledBuilder {
+  inner: ChatEventHasProtectedContentToggled
+}
+
+impl RTDChatEventHasProtectedContentToggledBuilder {
+  pub fn build(&self) -> ChatEventHasProtectedContentToggled { self.inner.clone() }
+
+   
+  pub fn has_protected_content(&mut self, has_protected_content: bool) -> &mut Self {
+    self.inner.has_protected_content = has_protected_content;
+    self
+  }
+
+}
+
+impl AsRef<ChatEventHasProtectedContentToggled> for ChatEventHasProtectedContentToggled {
+  fn as_ref(&self) -> &ChatEventHasProtectedContentToggled { self }
+}
+
+impl AsRef<ChatEventHasProtectedContentToggled> for RTDChatEventHasProtectedContentToggledBuilder {
+  fn as_ref(&self) -> &ChatEventHasProtectedContentToggled { &self.inner }
 }
 
 

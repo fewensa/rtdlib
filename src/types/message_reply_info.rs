@@ -17,8 +17,8 @@ pub struct MessageReplyInfo {
   extra: Option<String>,
   /// Number of times the message was directly or indirectly replied
   reply_count: i64,
-  /// Recent repliers to the message; available in channels with a discussion supergroup
-  recent_repliers: Vec<MessageSender>,
+  /// Identifiers of recent repliers to the message; available in channels with a discussion supergroup
+  recent_replier_ids: Vec<MessageSender>,
   /// Identifier of the last read incoming reply to the message
   last_read_inbox_message_id: i64,
   /// Identifier of the last read outgoing reply to the message
@@ -47,7 +47,7 @@ impl MessageReplyInfo {
 
   pub fn reply_count(&self) -> i64 { self.reply_count }
 
-  pub fn recent_repliers(&self) -> &Vec<MessageSender> { &self.recent_repliers }
+  pub fn recent_replier_ids(&self) -> &Vec<MessageSender> { &self.recent_replier_ids }
 
   pub fn last_read_inbox_message_id(&self) -> i64 { self.last_read_inbox_message_id }
 
@@ -72,8 +72,8 @@ impl RTDMessageReplyInfoBuilder {
   }
 
    
-  pub fn recent_repliers(&mut self, recent_repliers: Vec<MessageSender>) -> &mut Self {
-    self.inner.recent_repliers = recent_repliers;
+  pub fn recent_replier_ids(&mut self, recent_replier_ids: Vec<MessageSender>) -> &mut Self {
+    self.inner.recent_replier_ids = recent_replier_ids;
     self
   }
 

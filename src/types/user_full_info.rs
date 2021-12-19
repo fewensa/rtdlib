@@ -25,6 +25,8 @@ pub struct UserFullInfo {
   supports_video_calls: bool,
   /// True, if the user can't be called due to their privacy settings
   has_private_calls: bool,
+  /// True, if the user can't be linked in forwarded messages due to their privacy settings
+  has_private_forwards: bool,
   /// True, if the current user needs to explicitly allow to share their phone number with the user when the method addContact is used
   need_phone_number_privacy_exception: bool,
   /// A short user bio
@@ -66,6 +68,8 @@ impl UserFullInfo {
   pub fn supports_video_calls(&self) -> bool { self.supports_video_calls }
 
   pub fn has_private_calls(&self) -> bool { self.has_private_calls }
+
+  pub fn has_private_forwards(&self) -> bool { self.has_private_forwards }
 
   pub fn need_phone_number_privacy_exception(&self) -> bool { self.need_phone_number_privacy_exception }
 
@@ -116,6 +120,12 @@ impl RTDUserFullInfoBuilder {
    
   pub fn has_private_calls(&mut self, has_private_calls: bool) -> &mut Self {
     self.inner.has_private_calls = has_private_calls;
+    self
+  }
+
+   
+  pub fn has_private_forwards(&mut self, has_private_forwards: bool) -> &mut Self {
+    self.inner.has_private_forwards = has_private_forwards;
     self
   }
 

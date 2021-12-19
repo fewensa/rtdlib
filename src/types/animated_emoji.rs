@@ -17,8 +17,8 @@ pub struct AnimatedEmoji {
   extra: Option<String>,
   /// Animated sticker for the emoji
   sticker: Sticker,
-  /// List of colors to be replaced while the sticker is rendered
-  color_replacements: Vec<ColorReplacement>,
+  /// Emoji modifier fitzpatrick type; 0-6; 0 if none
+  fitzpatrick_type: i64,
   /// File containing the sound to be played when the animated emoji is clicked if any; may be null. The sound is encoded with the Opus codec, and stored inside an OGG container
   sound: Option<File>,
   
@@ -43,7 +43,7 @@ impl AnimatedEmoji {
 
   pub fn sticker(&self) -> &Sticker { &self.sticker }
 
-  pub fn color_replacements(&self) -> &Vec<ColorReplacement> { &self.color_replacements }
+  pub fn fitzpatrick_type(&self) -> i64 { self.fitzpatrick_type }
 
   pub fn sound(&self) -> &Option<File> { &self.sound }
 
@@ -64,8 +64,8 @@ impl RTDAnimatedEmojiBuilder {
   }
 
    
-  pub fn color_replacements(&mut self, color_replacements: Vec<ColorReplacement>) -> &mut Self {
-    self.inner.color_replacements = color_replacements;
+  pub fn fitzpatrick_type(&mut self, fitzpatrick_type: i64) -> &mut Self {
+    self.inner.fitzpatrick_type = fitzpatrick_type;
     self
   }
 

@@ -29,6 +29,10 @@ pub struct Chat {
   last_message: Option<Message>,
   /// Positions of the chat in chat lists
   positions: Option<Vec<ChatPosition>>,
+  /// Default identifier of a user or chat that is chosen to send messages in the chat; may be null if the user can't change message sender
+  default_message_sender_id: Option<MessageSender>,
+  /// True, if chat content can't be saved locally, forwarded, or copied
+  has_protected_content: bool,
   /// True, if the chat is marked as unread
   is_marked_as_unread: bool,
   /// True, if the chat is blocked by the current user and private messages from the chat can't be received
@@ -102,6 +106,10 @@ impl Chat {
   pub fn last_message(&self) -> &Option<Message> { &self.last_message }
 
   pub fn positions(&self) -> &Option<Vec<ChatPosition>> { &self.positions }
+
+  pub fn default_message_sender_id(&self) -> &Option<MessageSender> { &self.default_message_sender_id }
+
+  pub fn has_protected_content(&self) -> bool { self.has_protected_content }
 
   pub fn is_marked_as_unread(&self) -> bool { self.is_marked_as_unread }
 
@@ -192,6 +200,18 @@ impl RTDChatBuilder {
    
   pub fn positions(&mut self, positions: Vec<ChatPosition>) -> &mut Self {
     self.inner.positions = Some(positions);
+    self
+  }
+
+   
+  pub fn default_message_sender_id<T: AsRef<MessageSender>>(&mut self, default_message_sender_id: T) -> &mut Self {
+    self.inner.default_message_sender_id = Some(default_message_sender_id.as_ref().clone());
+    self
+  }
+
+   
+  pub fn has_protected_content(&mut self, has_protected_content: bool) -> &mut Self {
+    self.inner.has_protected_content = has_protected_content;
     self
   }
 

@@ -108,6 +108,8 @@ pub struct MessageSendingStateFailed {
   error_message: String,
   /// True, if the message can be re-sent
   can_retry: bool,
+  /// True, if the message can be re-sent only on behalf of a different sender
+  need_another_sender: bool,
   /// Time left before the message can be re-sent, in seconds. No update is sent when this field changes
   retry_after: f32,
   
@@ -139,6 +141,8 @@ impl MessageSendingStateFailed {
 
   pub fn can_retry(&self) -> bool { self.can_retry }
 
+  pub fn need_another_sender(&self) -> bool { self.need_another_sender }
+
   pub fn retry_after(&self) -> f32 { self.retry_after }
 
 }
@@ -166,6 +170,12 @@ impl RTDMessageSendingStateFailedBuilder {
    
   pub fn can_retry(&mut self, can_retry: bool) -> &mut Self {
     self.inner.can_retry = can_retry;
+    self
+  }
+
+   
+  pub fn need_another_sender(&mut self, need_another_sender: bool) -> &mut Self {
+    self.inner.need_another_sender = need_another_sender;
     self
   }
 

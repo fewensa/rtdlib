@@ -31,7 +31,7 @@ pub struct Poll {
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: PollType,
   /// Amount of time the poll will be active after creation, in seconds
   open_period: i64,
-  /// Point in time (Unix timestamp) when the poll will be automatically closed
+  /// Point in time (Unix timestamp) when the poll will automatically be closed
   close_date: i64,
   /// True, if the poll is closed
   is_closed: bool,

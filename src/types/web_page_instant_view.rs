@@ -19,7 +19,7 @@ pub struct WebPageInstantView {
   page_blocks: Vec<PageBlock>,
   /// Number of the instant view views; 0 if unknown
   view_count: i64,
-  /// Version of the instant view, currently can be 1 or 2
+  /// Version of the instant view; currently, can be 1 or 2
   version: i64,
   /// True, if the instant view must be shown from right to left
   is_rtl: bool,

@@ -1322,7 +1322,7 @@ pub struct InputMessagePoll {
   #[serde(rename(serialize = "type", deserialize = "type"))] type_: PollType,
   /// Amount of time the poll will be active after creation, in seconds; for bots only
   open_period: i64,
-  /// Point in time (Unix timestamp) when the poll will be automatically closed; for bots only
+  /// Point in time (Unix timestamp) when the poll will automatically be closed; for bots only
   close_date: i64,
   /// True, if the poll needs to be sent already closed; for bots only
   is_closed: bool,

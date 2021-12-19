@@ -412,10 +412,13 @@ pub enum TdType {
   UpdateBasicGroup(UpdateBasicGroup),
   UpdateBasicGroupFullInfo(UpdateBasicGroupFullInfo),
   UpdateCall(UpdateCall),
+  UpdateChatAction(UpdateChatAction),
   UpdateChatActionBar(UpdateChatActionBar),
   UpdateChatDefaultDisableNotification(UpdateChatDefaultDisableNotification),
+  UpdateChatDefaultMessageSenderId(UpdateChatDefaultMessageSenderId),
   UpdateChatDraftMessage(UpdateChatDraftMessage),
   UpdateChatFilters(UpdateChatFilters),
+  UpdateChatHasProtectedContent(UpdateChatHasProtectedContent),
   UpdateChatHasScheduledMessages(UpdateChatHasScheduledMessages),
   UpdateChatIsBlocked(UpdateChatIsBlocked),
   UpdateChatIsMarkedAsUnread(UpdateChatIsMarkedAsUnread),
@@ -490,7 +493,6 @@ pub enum TdType {
   UpdateUnreadChatCount(UpdateUnreadChatCount),
   UpdateUnreadMessageCount(UpdateUnreadMessageCount),
   UpdateUser(UpdateUser),
-  UpdateUserChatAction(UpdateUserChatAction),
   UpdateUserFullInfo(UpdateUserFullInfo),
   UpdateUserPrivacySettingRules(UpdateUserPrivacySettingRules),
   UpdateUserStatus(UpdateUserStatus),
@@ -640,10 +642,13 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (updateBasicGroup, UpdateBasicGroup);
   (updateBasicGroupFullInfo, UpdateBasicGroupFullInfo);
   (updateCall, UpdateCall);
+  (updateChatAction, UpdateChatAction);
   (updateChatActionBar, UpdateChatActionBar);
   (updateChatDefaultDisableNotification, UpdateChatDefaultDisableNotification);
+  (updateChatDefaultMessageSenderId, UpdateChatDefaultMessageSenderId);
   (updateChatDraftMessage, UpdateChatDraftMessage);
   (updateChatFilters, UpdateChatFilters);
+  (updateChatHasProtectedContent, UpdateChatHasProtectedContent);
   (updateChatHasScheduledMessages, UpdateChatHasScheduledMessages);
   (updateChatIsBlocked, UpdateChatIsBlocked);
   (updateChatIsMarkedAsUnread, UpdateChatIsMarkedAsUnread);
@@ -718,7 +723,6 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (updateUnreadChatCount, UpdateUnreadChatCount);
   (updateUnreadMessageCount, UpdateUnreadMessageCount);
   (updateUser, UpdateUser);
-  (updateUserChatAction, UpdateUserChatAction);
   (updateUserFullInfo, UpdateUserFullInfo);
   (updateUserPrivacySettingRules, UpdateUserPrivacySettingRules);
   (updateUserStatus, UpdateUserStatus);
@@ -871,10 +875,13 @@ impl RObject for TdType {
       Self::UpdateBasicGroup(value) => value.td_name(),
       Self::UpdateBasicGroupFullInfo(value) => value.td_name(),
       Self::UpdateCall(value) => value.td_name(),
+      Self::UpdateChatAction(value) => value.td_name(),
       Self::UpdateChatActionBar(value) => value.td_name(),
       Self::UpdateChatDefaultDisableNotification(value) => value.td_name(),
+      Self::UpdateChatDefaultMessageSenderId(value) => value.td_name(),
       Self::UpdateChatDraftMessage(value) => value.td_name(),
       Self::UpdateChatFilters(value) => value.td_name(),
+      Self::UpdateChatHasProtectedContent(value) => value.td_name(),
       Self::UpdateChatHasScheduledMessages(value) => value.td_name(),
       Self::UpdateChatIsBlocked(value) => value.td_name(),
       Self::UpdateChatIsMarkedAsUnread(value) => value.td_name(),
@@ -949,7 +956,6 @@ impl RObject for TdType {
       Self::UpdateUnreadChatCount(value) => value.td_name(),
       Self::UpdateUnreadMessageCount(value) => value.td_name(),
       Self::UpdateUser(value) => value.td_name(),
-      Self::UpdateUserChatAction(value) => value.td_name(),
       Self::UpdateUserFullInfo(value) => value.td_name(),
       Self::UpdateUserPrivacySettingRules(value) => value.td_name(),
       Self::UpdateUserStatus(value) => value.td_name(),
@@ -1098,10 +1104,13 @@ impl RObject for TdType {
         Self::UpdateBasicGroup(value) => value.extra(),
         Self::UpdateBasicGroupFullInfo(value) => value.extra(),
         Self::UpdateCall(value) => value.extra(),
+        Self::UpdateChatAction(value) => value.extra(),
         Self::UpdateChatActionBar(value) => value.extra(),
         Self::UpdateChatDefaultDisableNotification(value) => value.extra(),
+        Self::UpdateChatDefaultMessageSenderId(value) => value.extra(),
         Self::UpdateChatDraftMessage(value) => value.extra(),
         Self::UpdateChatFilters(value) => value.extra(),
+        Self::UpdateChatHasProtectedContent(value) => value.extra(),
         Self::UpdateChatHasScheduledMessages(value) => value.extra(),
         Self::UpdateChatIsBlocked(value) => value.extra(),
         Self::UpdateChatIsMarkedAsUnread(value) => value.extra(),
@@ -1176,7 +1185,6 @@ impl RObject for TdType {
         Self::UpdateUnreadChatCount(value) => value.extra(),
         Self::UpdateUnreadMessageCount(value) => value.extra(),
         Self::UpdateUser(value) => value.extra(),
-        Self::UpdateUserChatAction(value) => value.extra(),
         Self::UpdateUserFullInfo(value) => value.extra(),
         Self::UpdateUserPrivacySettingRules(value) => value.extra(),
         Self::UpdateUserStatus(value) => value.extra(),
@@ -1325,10 +1333,13 @@ impl RObject for TdType {
         Self::UpdateBasicGroup(value) => value.to_json(),
         Self::UpdateBasicGroupFullInfo(value) => value.to_json(),
         Self::UpdateCall(value) => value.to_json(),
+        Self::UpdateChatAction(value) => value.to_json(),
         Self::UpdateChatActionBar(value) => value.to_json(),
         Self::UpdateChatDefaultDisableNotification(value) => value.to_json(),
+        Self::UpdateChatDefaultMessageSenderId(value) => value.to_json(),
         Self::UpdateChatDraftMessage(value) => value.to_json(),
         Self::UpdateChatFilters(value) => value.to_json(),
+        Self::UpdateChatHasProtectedContent(value) => value.to_json(),
         Self::UpdateChatHasScheduledMessages(value) => value.to_json(),
         Self::UpdateChatIsBlocked(value) => value.to_json(),
         Self::UpdateChatIsMarkedAsUnread(value) => value.to_json(),
@@ -1403,7 +1414,6 @@ impl RObject for TdType {
         Self::UpdateUnreadChatCount(value) => value.to_json(),
         Self::UpdateUnreadMessageCount(value) => value.to_json(),
         Self::UpdateUser(value) => value.to_json(),
-        Self::UpdateUserChatAction(value) => value.to_json(),
         Self::UpdateUserFullInfo(value) => value.to_json(),
         Self::UpdateUserPrivacySettingRules(value) => value.to_json(),
         Self::UpdateUserStatus(value) => value.to_json(),

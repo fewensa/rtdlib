@@ -21,7 +21,7 @@ pub struct SponsoredMessage {
   sponsor_chat_id: i64,
   /// An internal link to be opened when the sponsored message is clicked; may be null. If null, the sponsor chat needs to be opened instead
   link: Option<InternalLinkType>,
-  /// Content of the message
+  /// Content of the message. Currently, can be only of the type messageText
   content: MessageContent,
   
 }
