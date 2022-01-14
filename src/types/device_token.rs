@@ -192,7 +192,7 @@ pub struct DeviceTokenApplePush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Device token; may be empty to de-register a device
+  /// Device token; may be empty to deregister a device
   device_token: String,
   /// True, if App Sandbox is enabled
   is_app_sandbox: bool,
@@ -270,7 +270,7 @@ pub struct DeviceTokenApplePushVoIP {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Device token; may be empty to de-register a device
+  /// Device token; may be empty to deregister a device
   device_token: String,
   /// True, if App Sandbox is enabled
   is_app_sandbox: bool,
@@ -358,7 +358,7 @@ pub struct DeviceTokenBlackBerryPush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Token; may be empty to de-register a device
+  /// Token; may be empty to deregister a device
   token: String,
   
 }
@@ -426,7 +426,7 @@ pub struct DeviceTokenFirebaseCloudMessaging {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Device registration token; may be empty to de-register a device
+  /// Device registration token; may be empty to deregister a device
   token: String,
   /// True, if push notifications must be additionally encrypted
   encrypt: bool,
@@ -504,7 +504,7 @@ pub struct DeviceTokenMicrosoftPush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Push notification channel URI; may be empty to de-register a device
+  /// Push notification channel URI; may be empty to deregister a device
   channel_uri: String,
   
 }
@@ -572,7 +572,7 @@ pub struct DeviceTokenMicrosoftPushVoIP {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Push notification channel URI; may be empty to de-register a device
+  /// Push notification channel URI; may be empty to deregister a device
   channel_uri: String,
   
 }
@@ -640,7 +640,7 @@ pub struct DeviceTokenSimplePush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Absolute URL exposed by the push service where the application server can send push messages; may be empty to de-register a device
+  /// Absolute URL exposed by the push service where the application server can send push messages; may be empty to deregister a device
   endpoint: String,
   
 }
@@ -708,7 +708,7 @@ pub struct DeviceTokenTizenPush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Push service registration identifier; may be empty to de-register a device
+  /// Push service registration identifier; may be empty to deregister a device
   reg_id: String,
   
 }
@@ -776,7 +776,7 @@ pub struct DeviceTokenUbuntuPush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Token; may be empty to de-register a device
+  /// Token; may be empty to deregister a device
   token: String,
   
 }
@@ -844,7 +844,7 @@ pub struct DeviceTokenWebPush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Absolute URL exposed by the push service where the application server can send push messages; may be empty to de-register a device
+  /// Absolute URL exposed by the push service where the application server can send push messages; may be empty to deregister a device
   endpoint: String,
   /// Base64url-encoded P-256 elliptic curve Diffie-Hellman public key
   p256dh_base64url: String,
@@ -932,7 +932,7 @@ pub struct DeviceTokenWindowsPush {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// The access token that will be used to send notifications; may be empty to de-register a device
+  /// The access token that will be used to send notifications; may be empty to deregister a device
   access_token: String,
   
 }

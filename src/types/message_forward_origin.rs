@@ -21,7 +21,7 @@ pub enum MessageForwardOrigin {
   #[doc(hidden)] _Default(()),
   /// The message was originally a post in a channel
   Channel(MessageForwardOriginChannel),
-  /// The message was originally sent by an anonymous chat administrator on behalf of the chat
+  /// The message was originally sent on behalf of a chat
   Chat(MessageForwardOriginChat),
   /// The message was originally sent by a user, which is hidden by their privacy settings
   HiddenUser(MessageForwardOriginHiddenUser),
@@ -211,7 +211,7 @@ impl AsRef<MessageForwardOriginChannel> for RTDMessageForwardOriginChannelBuilde
 
 
 
-/// The message was originally sent by an anonymous chat administrator on behalf of the chat
+/// The message was originally sent on behalf of a chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageForwardOriginChat {
   #[doc(hidden)]
@@ -222,7 +222,7 @@ pub struct MessageForwardOriginChat {
   extra: Option<String>,
   /// Identifier of the chat that originally sent the message
   sender_chat_id: i64,
-  /// Original message author signature
+  /// For messages originally sent by an anonymous chat administrator, original message author signature
   author_signature: String,
   
 }

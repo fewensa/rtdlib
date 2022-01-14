@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 
 
-/// Contains information about found messages, splitted by days according to the option "utc_time_offset"
+/// Contains information about found messages, split by days according to the option "utc_time_offset"
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageCalendar {
   #[doc(hidden)]

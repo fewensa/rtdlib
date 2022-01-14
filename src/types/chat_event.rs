@@ -19,9 +19,9 @@ pub struct ChatEvent {
   id: isize,
   /// Point in time (Unix timestamp) when the event happened
   date: i64,
-  /// Identifier of the user who performed the action that triggered the event
-  user_id: i64,
-  /// Action performed by the user
+  /// Identifier of the user or chat who performed the action
+  member_id: MessageSender,
+  /// The action
   action: ChatEventAction,
   
 }
@@ -47,7 +47,7 @@ impl ChatEvent {
 
   pub fn date(&self) -> i64 { self.date }
 
-  pub fn user_id(&self) -> i64 { self.user_id }
+  pub fn member_id(&self) -> &MessageSender { &self.member_id }
 
   pub fn action(&self) -> &ChatEventAction { &self.action }
 
@@ -74,8 +74,8 @@ impl RTDChatEventBuilder {
   }
 
    
-  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
-    self.inner.user_id = user_id;
+  pub fn member_id<T: AsRef<MessageSender>>(&mut self, member_id: T) -> &mut Self {
+    self.inner.member_id = member_id.as_ref().clone();
     self
   }
 

@@ -26,7 +26,7 @@ pub struct ChatInviteLink {
   /// Point in time (Unix timestamp) when the link was last edited; 0 if never or unknown
   edit_date: i64,
   /// Point in time (Unix timestamp) when the link will expire; 0 if never
-  expire_date: i64,
+  expiration_date: i64,
   /// The maximum number of members, which can join the chat using the link simultaneously; 0 if not limited. Always 0 if the link requires approval
   member_limit: i64,
   /// Number of chat members, which joined the chat using the link
@@ -69,7 +69,7 @@ impl ChatInviteLink {
 
   pub fn edit_date(&self) -> i64 { self.edit_date }
 
-  pub fn expire_date(&self) -> i64 { self.expire_date }
+  pub fn expiration_date(&self) -> i64 { self.expiration_date }
 
   pub fn member_limit(&self) -> i64 { self.member_limit }
 
@@ -124,8 +124,8 @@ impl RTDChatInviteLinkBuilder {
   }
 
    
-  pub fn expire_date(&mut self, expire_date: i64) -> &mut Self {
-    self.inner.expire_date = expire_date;
+  pub fn expiration_date(&mut self, expiration_date: i64) -> &mut Self {
+    self.inner.expiration_date = expiration_date;
     self
   }
 

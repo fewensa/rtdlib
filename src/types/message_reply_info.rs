@@ -17,7 +17,7 @@ pub struct MessageReplyInfo {
   extra: Option<String>,
   /// Number of times the message was directly or indirectly replied
   reply_count: i64,
-  /// Identifiers of recent repliers to the message; available in channels with a discussion supergroup
+  /// Identifiers of at most 3 recent repliers to the message; available in channels with a discussion supergroup. The users and chats are expected to be inaccessible: only their photo and name will be available
   recent_replier_ids: Vec<MessageSender>,
   /// Identifier of the last read incoming reply to the message
   last_read_inbox_message_id: i64,

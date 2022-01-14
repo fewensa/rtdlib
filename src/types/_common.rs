@@ -415,7 +415,6 @@ pub enum TdType {
   UpdateChatAction(UpdateChatAction),
   UpdateChatActionBar(UpdateChatActionBar),
   UpdateChatDefaultDisableNotification(UpdateChatDefaultDisableNotification),
-  UpdateChatDefaultMessageSenderId(UpdateChatDefaultMessageSenderId),
   UpdateChatDraftMessage(UpdateChatDraftMessage),
   UpdateChatFilters(UpdateChatFilters),
   UpdateChatHasProtectedContent(UpdateChatHasProtectedContent),
@@ -424,7 +423,8 @@ pub enum TdType {
   UpdateChatIsMarkedAsUnread(UpdateChatIsMarkedAsUnread),
   UpdateChatLastMessage(UpdateChatLastMessage),
   UpdateChatMember(UpdateChatMember),
-  UpdateChatMessageTtlSetting(UpdateChatMessageTtlSetting),
+  UpdateChatMessageSender(UpdateChatMessageSender),
+  UpdateChatMessageTtl(UpdateChatMessageTtl),
   UpdateChatNotificationSettings(UpdateChatNotificationSettings),
   UpdateChatOnlineMemberCount(UpdateChatOnlineMemberCount),
   UpdateChatPendingJoinRequests(UpdateChatPendingJoinRequests),
@@ -599,7 +599,7 @@ pub enum TdType {
   SecretChat(SecretChat),
   Session(Session),
   Sessions(Sessions),
-  SponsoredMessages(SponsoredMessages),
+  SponsoredMessage(SponsoredMessage),
   Sticker(Sticker),
   StickerSet(StickerSet),
   StickerSets(StickerSets),
@@ -645,7 +645,6 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (updateChatAction, UpdateChatAction);
   (updateChatActionBar, UpdateChatActionBar);
   (updateChatDefaultDisableNotification, UpdateChatDefaultDisableNotification);
-  (updateChatDefaultMessageSenderId, UpdateChatDefaultMessageSenderId);
   (updateChatDraftMessage, UpdateChatDraftMessage);
   (updateChatFilters, UpdateChatFilters);
   (updateChatHasProtectedContent, UpdateChatHasProtectedContent);
@@ -654,7 +653,8 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (updateChatIsMarkedAsUnread, UpdateChatIsMarkedAsUnread);
   (updateChatLastMessage, UpdateChatLastMessage);
   (updateChatMember, UpdateChatMember);
-  (updateChatMessageTtlSetting, UpdateChatMessageTtlSetting);
+  (updateChatMessageSender, UpdateChatMessageSender);
+  (updateChatMessageTtl, UpdateChatMessageTtl);
   (updateChatNotificationSettings, UpdateChatNotificationSettings);
   (updateChatOnlineMemberCount, UpdateChatOnlineMemberCount);
   (updateChatPendingJoinRequests, UpdateChatPendingJoinRequests);
@@ -829,7 +829,7 @@ fn deserialize<D>(deserializer: D) -> Result<TdType, D::Error> where D: Deserial
   (secretChat, SecretChat);
   (session, Session);
   (sessions, Sessions);
-  (sponsoredMessages, SponsoredMessages);
+  (sponsoredMessage, SponsoredMessage);
   (sticker, Sticker);
   (stickerSet, StickerSet);
   (stickerSets, StickerSets);
@@ -878,7 +878,6 @@ impl RObject for TdType {
       Self::UpdateChatAction(value) => value.td_name(),
       Self::UpdateChatActionBar(value) => value.td_name(),
       Self::UpdateChatDefaultDisableNotification(value) => value.td_name(),
-      Self::UpdateChatDefaultMessageSenderId(value) => value.td_name(),
       Self::UpdateChatDraftMessage(value) => value.td_name(),
       Self::UpdateChatFilters(value) => value.td_name(),
       Self::UpdateChatHasProtectedContent(value) => value.td_name(),
@@ -887,7 +886,8 @@ impl RObject for TdType {
       Self::UpdateChatIsMarkedAsUnread(value) => value.td_name(),
       Self::UpdateChatLastMessage(value) => value.td_name(),
       Self::UpdateChatMember(value) => value.td_name(),
-      Self::UpdateChatMessageTtlSetting(value) => value.td_name(),
+      Self::UpdateChatMessageSender(value) => value.td_name(),
+      Self::UpdateChatMessageTtl(value) => value.td_name(),
       Self::UpdateChatNotificationSettings(value) => value.td_name(),
       Self::UpdateChatOnlineMemberCount(value) => value.td_name(),
       Self::UpdateChatPendingJoinRequests(value) => value.td_name(),
@@ -1062,7 +1062,7 @@ impl RObject for TdType {
       Self::SecretChat(value) => value.td_name(),
       Self::Session(value) => value.td_name(),
       Self::Sessions(value) => value.td_name(),
-      Self::SponsoredMessages(value) => value.td_name(),
+      Self::SponsoredMessage(value) => value.td_name(),
       Self::Sticker(value) => value.td_name(),
       Self::StickerSet(value) => value.td_name(),
       Self::StickerSets(value) => value.td_name(),
@@ -1107,7 +1107,6 @@ impl RObject for TdType {
         Self::UpdateChatAction(value) => value.extra(),
         Self::UpdateChatActionBar(value) => value.extra(),
         Self::UpdateChatDefaultDisableNotification(value) => value.extra(),
-        Self::UpdateChatDefaultMessageSenderId(value) => value.extra(),
         Self::UpdateChatDraftMessage(value) => value.extra(),
         Self::UpdateChatFilters(value) => value.extra(),
         Self::UpdateChatHasProtectedContent(value) => value.extra(),
@@ -1116,7 +1115,8 @@ impl RObject for TdType {
         Self::UpdateChatIsMarkedAsUnread(value) => value.extra(),
         Self::UpdateChatLastMessage(value) => value.extra(),
         Self::UpdateChatMember(value) => value.extra(),
-        Self::UpdateChatMessageTtlSetting(value) => value.extra(),
+        Self::UpdateChatMessageSender(value) => value.extra(),
+        Self::UpdateChatMessageTtl(value) => value.extra(),
         Self::UpdateChatNotificationSettings(value) => value.extra(),
         Self::UpdateChatOnlineMemberCount(value) => value.extra(),
         Self::UpdateChatPendingJoinRequests(value) => value.extra(),
@@ -1291,7 +1291,7 @@ impl RObject for TdType {
         Self::SecretChat(value) => value.extra(),
         Self::Session(value) => value.extra(),
         Self::Sessions(value) => value.extra(),
-        Self::SponsoredMessages(value) => value.extra(),
+        Self::SponsoredMessage(value) => value.extra(),
         Self::Sticker(value) => value.extra(),
         Self::StickerSet(value) => value.extra(),
         Self::StickerSets(value) => value.extra(),
@@ -1336,7 +1336,6 @@ impl RObject for TdType {
         Self::UpdateChatAction(value) => value.to_json(),
         Self::UpdateChatActionBar(value) => value.to_json(),
         Self::UpdateChatDefaultDisableNotification(value) => value.to_json(),
-        Self::UpdateChatDefaultMessageSenderId(value) => value.to_json(),
         Self::UpdateChatDraftMessage(value) => value.to_json(),
         Self::UpdateChatFilters(value) => value.to_json(),
         Self::UpdateChatHasProtectedContent(value) => value.to_json(),
@@ -1345,7 +1344,8 @@ impl RObject for TdType {
         Self::UpdateChatIsMarkedAsUnread(value) => value.to_json(),
         Self::UpdateChatLastMessage(value) => value.to_json(),
         Self::UpdateChatMember(value) => value.to_json(),
-        Self::UpdateChatMessageTtlSetting(value) => value.to_json(),
+        Self::UpdateChatMessageSender(value) => value.to_json(),
+        Self::UpdateChatMessageTtl(value) => value.to_json(),
         Self::UpdateChatNotificationSettings(value) => value.to_json(),
         Self::UpdateChatOnlineMemberCount(value) => value.to_json(),
         Self::UpdateChatPendingJoinRequests(value) => value.to_json(),
@@ -1520,7 +1520,7 @@ impl RObject for TdType {
         Self::SecretChat(value) => value.to_json(),
         Self::Session(value) => value.to_json(),
         Self::Sessions(value) => value.to_json(),
-        Self::SponsoredMessages(value) => value.to_json(),
+        Self::SponsoredMessage(value) => value.to_json(),
         Self::Sticker(value) => value.to_json(),
         Self::StickerSet(value) => value.to_json(),
         Self::StickerSets(value) => value.to_json(),

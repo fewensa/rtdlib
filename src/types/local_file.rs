@@ -17,7 +17,7 @@ pub struct LocalFile {
   extra: Option<String>,
   /// Local path to the locally available file part; may be empty
   path: String,
-  /// True, if it is possible to try to download or generate the file
+  /// True, if it is possible to download or generate the file
   can_be_downloaded: bool,
   /// True, if the file can be deleted
   can_be_deleted: bool,

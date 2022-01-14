@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 
 
-/// Contains a list of chat join requests
+/// Contains a list of requests to join a chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatJoinRequests {
   #[doc(hidden)]

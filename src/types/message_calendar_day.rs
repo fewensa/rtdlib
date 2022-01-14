@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 
 
-/// Contains information about found messages sent in a specific day
+/// Contains information about found messages sent on a specific day
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageCalendarDay {
   #[doc(hidden)]
@@ -15,9 +15,9 @@ pub struct MessageCalendarDay {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Total number of found messages sent in the day
+  /// Total number of found messages sent on the day
   total_count: i64,
-  /// First message sent in the day
+  /// First message sent on the day
   message: Message,
   
 }

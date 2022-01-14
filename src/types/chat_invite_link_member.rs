@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 
 
-/// Describes a chat member joined a chat by an invite link
+/// Describes a chat member joined a chat via an invite link
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatInviteLinkMember {
   #[doc(hidden)]

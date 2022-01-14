@@ -35,7 +35,7 @@ pub struct GroupCall {
   participant_count: i64,
   /// True, if all group call participants are loaded
   loaded_all_participants: bool,
-  /// Recently speaking users in the group call
+  /// At most 3 recently speaking users in the group call
   recent_speakers: Vec<GroupCallRecentSpeaker>,
   /// True, if the current user's video is enabled
   is_my_video_enabled: bool,

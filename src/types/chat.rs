@@ -29,8 +29,8 @@ pub struct Chat {
   last_message: Option<Message>,
   /// Positions of the chat in chat lists
   positions: Option<Vec<ChatPosition>>,
-  /// Default identifier of a user or chat that is chosen to send messages in the chat; may be null if the user can't change message sender
-  default_message_sender_id: Option<MessageSender>,
+  /// Identifier of a user or chat that is selected to send messages in the chat; may be null if the user can't change message sender
+  message_sender_id: Option<MessageSender>,
   /// True, if chat content can't be saved locally, forwarded, or copied
   has_protected_content: bool,
   /// True, if the chat is marked as unread
@@ -58,7 +58,7 @@ pub struct Chat {
   /// Notification settings for this chat
   notification_settings: ChatNotificationSettings,
   /// Current message Time To Live setting (self-destruct timer) for the chat; 0 if not defined. TTL is counted from the time message or its content is viewed in secret chats and from the send date in other chats
-  message_ttl_setting: i64,
+  message_ttl: i64,
   /// If non-empty, name of a theme, set for the chat
   theme_name: String,
   /// Information about actions which must be possible to do through the chat action bar; may be null
@@ -107,7 +107,7 @@ impl Chat {
 
   pub fn positions(&self) -> &Option<Vec<ChatPosition>> { &self.positions }
 
-  pub fn default_message_sender_id(&self) -> &Option<MessageSender> { &self.default_message_sender_id }
+  pub fn message_sender_id(&self) -> &Option<MessageSender> { &self.message_sender_id }
 
   pub fn has_protected_content(&self) -> bool { self.has_protected_content }
 
@@ -135,7 +135,7 @@ impl Chat {
 
   pub fn notification_settings(&self) -> &ChatNotificationSettings { &self.notification_settings }
 
-  pub fn message_ttl_setting(&self) -> i64 { self.message_ttl_setting }
+  pub fn message_ttl(&self) -> i64 { self.message_ttl }
 
   pub fn theme_name(&self) -> &String { &self.theme_name }
 
@@ -204,8 +204,8 @@ impl RTDChatBuilder {
   }
 
    
-  pub fn default_message_sender_id<T: AsRef<MessageSender>>(&mut self, default_message_sender_id: T) -> &mut Self {
-    self.inner.default_message_sender_id = Some(default_message_sender_id.as_ref().clone());
+  pub fn message_sender_id<T: AsRef<MessageSender>>(&mut self, message_sender_id: T) -> &mut Self {
+    self.inner.message_sender_id = Some(message_sender_id.as_ref().clone());
     self
   }
 
@@ -288,8 +288,8 @@ impl RTDChatBuilder {
   }
 
    
-  pub fn message_ttl_setting(&mut self, message_ttl_setting: i64) -> &mut Self {
-    self.inner.message_ttl_setting = message_ttl_setting;
+  pub fn message_ttl(&mut self, message_ttl: i64) -> &mut Self {
+    self.inner.message_ttl = message_ttl;
     self
   }
 

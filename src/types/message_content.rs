@@ -39,7 +39,7 @@ pub enum MessageContent {
   MessageChatDeleteMember(MessageChatDeleteMember),
   /// A deleted chat photo
   MessageChatDeletePhoto(MessageChatDeletePhoto),
-  /// A new member joined the chat by invite link
+  /// A new member joined the chat via an invite link
   MessageChatJoinByLink(MessageChatJoinByLink),
   /// A new member was accepted to the chat by an administrator
   MessageChatJoinByRequest(MessageChatJoinByRequest),
@@ -1303,7 +1303,7 @@ impl AsRef<MessageChatDeletePhoto> for RTDMessageChatDeletePhotoBuilder {
 
 
 
-/// A new member joined the chat by invite link
+/// A new member joined the chat via an invite link
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageChatJoinByLink {
   #[doc(hidden)]
@@ -1496,7 +1496,7 @@ pub struct MessageChatSetTtl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// New message TTL setting
+  /// New message TTL
   ttl: i64,
   
 }

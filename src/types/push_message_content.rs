@@ -33,7 +33,7 @@ pub enum PushMessageContent {
   ChatChangeTitle(PushMessageContentChatChangeTitle),
   /// A chat member was deleted
   ChatDeleteMember(PushMessageContentChatDeleteMember),
-  /// A new member joined the chat by invite link
+  /// A new member joined the chat via an invite link
   ChatJoinByLink(PushMessageContentChatJoinByLink),
   /// A new member was accepted to the chat by an administrator
   ChatJoinByRequest(PushMessageContentChatJoinByRequest),
@@ -879,7 +879,7 @@ impl AsRef<PushMessageContentChatDeleteMember> for RTDPushMessageContentChatDele
 
 
 
-/// A new member joined the chat by invite link
+/// A new member joined the chat via an invite link
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PushMessageContentChatJoinByLink {
   #[doc(hidden)]

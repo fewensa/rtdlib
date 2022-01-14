@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 
 
-/// Contains a list of chat members joined a chat by an invite link
+/// Contains a list of chat members joined a chat via an invite link
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatInviteLinkMembers {
   #[doc(hidden)]
@@ -17,7 +17,7 @@ pub struct ChatInviteLinkMembers {
   extra: Option<String>,
   /// Approximate total count of chat members found
   total_count: i64,
-  /// List of chat members, joined a chat by an invite link
+  /// List of chat members, joined a chat via an invite link
   members: Vec<ChatInviteLinkMember>,
   
 }

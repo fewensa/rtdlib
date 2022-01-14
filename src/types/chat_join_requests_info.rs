@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 
 
-/// Contains information about pending chat join requests
+/// Contains information about pending join requests for a chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatJoinRequestsInfo {
   #[doc(hidden)]
@@ -17,7 +17,7 @@ pub struct ChatJoinRequestsInfo {
   extra: Option<String>,
   /// Total number of pending join requests
   total_count: i64,
-  /// Identifiers of users sent the newest pending join requests
+  /// Identifiers of at most 3 users sent the newest pending join requests
   user_ids: Vec<i64>,
   
 }

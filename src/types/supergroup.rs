@@ -35,7 +35,7 @@ pub struct Supergroup {
   is_slow_mode_enabled: bool,
   /// True, if the supergroup is a channel
   is_channel: bool,
-  /// True, if the supergroup is a broadcast group, i.e. only administrators can send messages and there is no limit on number of members
+  /// True, if the supergroup is a broadcast group, i.e. only administrators can send messages and there is no limit on the number of members
   is_broadcast_group: bool,
   /// True, if the supergroup or channel is verified
   is_verified: bool,
