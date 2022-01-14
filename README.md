@@ -13,14 +13,14 @@ rtdlib
 
 ```toml
 [dependencies]
-rtdlib = "0.8.*"
+rtdlib = "1.8.*"
 ```
 
 The default, `rtdlib` only have `td` types, not have call tdjson dylib, if you want , you need add `features` to your dependency.
 
 ```toml
 [dependencies]
-rtdlib = { version = "0.8.*", features = "sys" }
+rtdlib = { version = "1.8.*", features = "sys" }
 ```
 
 ## version

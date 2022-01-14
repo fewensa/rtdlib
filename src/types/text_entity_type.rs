@@ -47,8 +47,6 @@ pub enum TextEntityType {
   Pre(TextEntityTypePre),
   /// Text that must be formatted as if inside pre, and code HTML tags
   PreCode(TextEntityTypePreCode),
-  /// A spoiler text. Not supported in secret chats
-  Spoiler(TextEntityTypeSpoiler),
   /// A strikethrough text
   Strikethrough(TextEntityTypeStrikethrough),
   /// A text description shown instead of a raw URL
@@ -83,7 +81,6 @@ impl<'de> Deserialize<'de> for TextEntityType {
       (textEntityTypePhoneNumber, PhoneNumber);
       (textEntityTypePre, Pre);
       (textEntityTypePreCode, PreCode);
-      (textEntityTypeSpoiler, Spoiler);
       (textEntityTypeStrikethrough, Strikethrough);
       (textEntityTypeTextUrl, TextUrl);
       (textEntityTypeUnderline, Underline);
@@ -110,7 +107,6 @@ impl RObject for TextEntityType {
       TextEntityType::PhoneNumber(t) => t.td_name(),
       TextEntityType::Pre(t) => t.td_name(),
       TextEntityType::PreCode(t) => t.td_name(),
-      TextEntityType::Spoiler(t) => t.td_name(),
       TextEntityType::Strikethrough(t) => t.td_name(),
       TextEntityType::TextUrl(t) => t.td_name(),
       TextEntityType::Underline(t) => t.td_name(),
@@ -135,7 +131,6 @@ impl RObject for TextEntityType {
       TextEntityType::PhoneNumber(t) => t.extra(),
       TextEntityType::Pre(t) => t.extra(),
       TextEntityType::PreCode(t) => t.extra(),
-      TextEntityType::Spoiler(t) => t.extra(),
       TextEntityType::Strikethrough(t) => t.extra(),
       TextEntityType::TextUrl(t) => t.extra(),
       TextEntityType::Underline(t) => t.extra(),
@@ -165,7 +160,6 @@ impl TextEntityType {
   pub fn is_phone_number(&self) -> bool { if let TextEntityType::PhoneNumber(_) = self { true } else { false } }
   pub fn is_pre(&self) -> bool { if let TextEntityType::Pre(_) = self { true } else { false } }
   pub fn is_pre_code(&self) -> bool { if let TextEntityType::PreCode(_) = self { true } else { false } }
-  pub fn is_spoiler(&self) -> bool { if let TextEntityType::Spoiler(_) = self { true } else { false } }
   pub fn is_strikethrough(&self) -> bool { if let TextEntityType::Strikethrough(_) = self { true } else { false } }
   pub fn is_text_url(&self) -> bool { if let TextEntityType::TextUrl(_) = self { true } else { false } }
   pub fn is_underline(&self) -> bool { if let TextEntityType::Underline(_) = self { true } else { false } }
@@ -185,7 +179,6 @@ impl TextEntityType {
   pub fn on_phone_number<F: FnOnce(&TextEntityTypePhoneNumber)>(&self, fnc: F) -> &Self { if let TextEntityType::PhoneNumber(t) = self { fnc(t) }; self }
   pub fn on_pre<F: FnOnce(&TextEntityTypePre)>(&self, fnc: F) -> &Self { if let TextEntityType::Pre(t) = self { fnc(t) }; self }
   pub fn on_pre_code<F: FnOnce(&TextEntityTypePreCode)>(&self, fnc: F) -> &Self { if let TextEntityType::PreCode(t) = self { fnc(t) }; self }
-  pub fn on_spoiler<F: FnOnce(&TextEntityTypeSpoiler)>(&self, fnc: F) -> &Self { if let TextEntityType::Spoiler(t) = self { fnc(t) }; self }
   pub fn on_strikethrough<F: FnOnce(&TextEntityTypeStrikethrough)>(&self, fnc: F) -> &Self { if let TextEntityType::Strikethrough(t) = self { fnc(t) }; self }
   pub fn on_text_url<F: FnOnce(&TextEntityTypeTextUrl)>(&self, fnc: F) -> &Self { if let TextEntityType::TextUrl(t) = self { fnc(t) }; self }
   pub fn on_underline<F: FnOnce(&TextEntityTypeUnderline)>(&self, fnc: F) -> &Self { if let TextEntityType::Underline(t) = self { fnc(t) }; self }
@@ -205,7 +198,6 @@ impl TextEntityType {
   pub fn as_phone_number(&self) -> Option<&TextEntityTypePhoneNumber> { if let TextEntityType::PhoneNumber(t) = self { return Some(t) } None }
   pub fn as_pre(&self) -> Option<&TextEntityTypePre> { if let TextEntityType::Pre(t) = self { return Some(t) } None }
   pub fn as_pre_code(&self) -> Option<&TextEntityTypePreCode> { if let TextEntityType::PreCode(t) = self { return Some(t) } None }
-  pub fn as_spoiler(&self) -> Option<&TextEntityTypeSpoiler> { if let TextEntityType::Spoiler(t) = self { return Some(t) } None }
   pub fn as_strikethrough(&self) -> Option<&TextEntityTypeStrikethrough> { if let TextEntityType::Strikethrough(t) = self { return Some(t) } None }
   pub fn as_text_url(&self) -> Option<&TextEntityTypeTextUrl> { if let TextEntityType::TextUrl(t) = self { return Some(t) } None }
   pub fn as_underline(&self) -> Option<&TextEntityTypeUnderline> { if let TextEntityType::Underline(t) = self { return Some(t) } None }
@@ -240,8 +232,6 @@ impl TextEntityType {
   pub fn pre<T: AsRef<TextEntityTypePre>>(t: T) -> Self { TextEntityType::Pre(t.as_ref().clone()) }
 
   pub fn pre_code<T: AsRef<TextEntityTypePreCode>>(t: T) -> Self { TextEntityType::PreCode(t.as_ref().clone()) }
-
-  pub fn spoiler<T: AsRef<TextEntityTypeSpoiler>>(t: T) -> Self { TextEntityType::Spoiler(t.as_ref().clone()) }
 
   pub fn strikethrough<T: AsRef<TextEntityTypeStrikethrough>>(t: T) -> Self { TextEntityType::Strikethrough(t.as_ref().clone()) }
 
@@ -1097,64 +1087,6 @@ impl AsRef<TextEntityTypePreCode> for TextEntityTypePreCode {
 
 impl AsRef<TextEntityTypePreCode> for RTDTextEntityTypePreCodeBuilder {
   fn as_ref(&self) -> &TextEntityTypePreCode { &self.inner }
-}
-
-
-
-
-
-
-
-/// A spoiler text. Not supported in secret chats
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct TextEntityTypeSpoiler {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
-  extra: Option<String>,
-  
-}
-
-impl RObject for TextEntityTypeSpoiler {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "textEntityTypeSpoiler" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
-}
-
-
-impl TDTextEntityType for TextEntityTypeSpoiler {}
-
-
-
-impl TextEntityTypeSpoiler {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  pub fn builder() -> RTDTextEntityTypeSpoilerBuilder {
-    let mut inner = TextEntityTypeSpoiler::default();
-    inner.td_name = "textEntityTypeSpoiler".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
-    RTDTextEntityTypeSpoilerBuilder { inner }
-  }
-
-}
-
-#[doc(hidden)]
-pub struct RTDTextEntityTypeSpoilerBuilder {
-  inner: TextEntityTypeSpoiler
-}
-
-impl RTDTextEntityTypeSpoilerBuilder {
-  pub fn build(&self) -> TextEntityTypeSpoiler { self.inner.clone() }
-
-}
-
-impl AsRef<TextEntityTypeSpoiler> for TextEntityTypeSpoiler {
-  fn as_ref(&self) -> &TextEntityTypeSpoiler { self }
-}
-
-impl AsRef<TextEntityTypeSpoiler> for RTDTextEntityTypeSpoilerBuilder {
-  fn as_ref(&self) -> &TextEntityTypeSpoiler { &self.inner }
 }
 
 
