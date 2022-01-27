@@ -16,7 +16,7 @@ pub struct Background {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// Unique background identifier
-  id: isize,
+  id: String,
   /// True, if this is one of default backgrounds
   is_default: bool,
   /// True, if the background is dark and is recommended to be used with dark theme
@@ -47,7 +47,7 @@ impl Background {
     RTDBackgroundBuilder { inner }
   }
 
-  pub fn id(&self) -> isize { self.id }
+  pub fn id(&self) -> &str { &self.id }
 
   pub fn is_default(&self) -> bool { self.is_default }
 
@@ -70,8 +70,8 @@ impl RTDBackgroundBuilder {
   pub fn build(&self) -> Background { self.inner.clone() }
 
    
-  pub fn id(&mut self, id: isize) -> &mut Self {
-    self.inner.id = id;
+  pub fn id<T: Into<String>>(&mut self, id: T) -> &mut Self {
+    self.inner.id = id.into();
     self
   }
 
