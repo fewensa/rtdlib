@@ -16,7 +16,7 @@ pub struct Background {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// Unique background identifier
-  id: isize,
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")] id: isize,
   /// True, if this is one of default backgrounds
   is_default: bool,
   /// True, if the background is dark and is recommended to be used with dark theme
