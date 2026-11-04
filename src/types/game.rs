@@ -2,7 +2,7 @@ use crate::errors::*;
 use crate::types::*;
 use uuid::Uuid;
 
-/// Describes a game
+/// Describes a game. Use getInternalLink with internalLinkTypeGame to share the game
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Game {
   #[doc(hidden)]
@@ -11,15 +11,16 @@ pub struct Game {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Game ID
+  /// Unique game identifier
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
   id: isize,
-  /// Game short name. To share a game use the URL https://t.me/{bot_username}?game={game_short_name}
+  /// Game short name
   short_name: String,
   /// Game title
   title: String,
   /// Game text, usually containing scoreboards for a game
   text: FormattedText,
-  /// Describes a game
+  /// Describes a game. Use getInternalLink with internalLinkTypeGame to share the game
   description: String,
   /// Game photo
   photo: Photo,

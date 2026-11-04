@@ -4,10 +4,10 @@
 
 | Version | Supported |
 | --- | --- |
-| 0.8.2 | yes |
-| < 0.8.2 | no |
+| 1.8.69 | yes |
+| < 1.8.69 | no |
 
-Only the latest 0.8.x release from this repository is supported. The crates.io `1.8.x` line tracks the TDLib 1.8.0 API and is not maintained from `master`.
+Only 1.8.69, generated from TDLib 1.8.69, is supported. Older crates.io releases (`1.8.1` and the `0.8.x` snapshot line) are not.
 
 ## Reporting a vulnerability
 

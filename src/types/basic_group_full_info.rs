@@ -11,7 +11,7 @@ pub struct BasicGroupFullInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Chat photo; may be null
+  /// Chat photo; may be null if empty or unknown. If non-null, then it is the same photo as in chat.photo
   photo: Option<ChatPhoto>,
   /// Contains full information about a basic group
   description: String,
@@ -19,6 +19,10 @@ pub struct BasicGroupFullInfo {
   creator_user_id: i64,
   /// Group members
   members: Vec<ChatMember>,
+  /// True, if non-administrators and non-bots can be hidden in responses to getSupergroupMembers and searchChatMembers for non-administrators after upgrading the basic group to a supergroup
+  can_hide_members: bool,
+  /// True, if aggressive anti-spam checks can be enabled or disabled in the supergroup after upgrading the basic group to a supergroup
+  can_toggle_aggressive_anti_spam: bool,
   /// Primary invite link for this group; may be null. For chat administrators with can_invite_users right only. Updated only after the basic group is opened
   invite_link: Option<ChatInviteLink>,
   /// List of commands of bots in the group
@@ -68,6 +72,14 @@ impl BasicGroupFullInfo {
     &self.members
   }
 
+  pub fn can_hide_members(&self) -> bool {
+    self.can_hide_members
+  }
+
+  pub fn can_toggle_aggressive_anti_spam(&self) -> bool {
+    self.can_toggle_aggressive_anti_spam
+  }
+
   pub fn invite_link(&self) -> &Option<ChatInviteLink> {
     &self.invite_link
   }
@@ -104,6 +116,19 @@ impl RTDBasicGroupFullInfoBuilder {
 
   pub fn members(&mut self, members: Vec<ChatMember>) -> &mut Self {
     self.inner.members = members;
+    self
+  }
+
+  pub fn can_hide_members(&mut self, can_hide_members: bool) -> &mut Self {
+    self.inner.can_hide_members = can_hide_members;
+    self
+  }
+
+  pub fn can_toggle_aggressive_anti_spam(
+    &mut self,
+    can_toggle_aggressive_anti_spam: bool,
+  ) -> &mut Self {
+    self.inner.can_toggle_aggressive_anti_spam = can_toggle_aggressive_anti_spam;
     self
   }
 

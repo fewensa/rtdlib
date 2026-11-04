@@ -25,6 +25,8 @@ pub struct AutoDownloadSettings {
   preload_large_videos: bool,
   /// True, if the next audio track needs to be preloaded while the user is listening to an audio file
   preload_next_audio: bool,
+  /// True, if stories need to be preloaded
+  preload_stories: bool,
   /// True, if "use less data for calls" option needs to be enabled
   use_less_data_for_calls: bool,
 }
@@ -84,6 +86,10 @@ impl AutoDownloadSettings {
     self.preload_next_audio
   }
 
+  pub fn preload_stories(&self) -> bool {
+    self.preload_stories
+  }
+
   pub fn use_less_data_for_calls(&self) -> bool {
     self.use_less_data_for_calls
   }
@@ -131,6 +137,11 @@ impl RTDAutoDownloadSettingsBuilder {
 
   pub fn preload_next_audio(&mut self, preload_next_audio: bool) -> &mut Self {
     self.inner.preload_next_audio = preload_next_audio;
+    self
+  }
+
+  pub fn preload_stories(&mut self, preload_stories: bool) -> &mut Self {
+    self.inner.preload_stories = preload_stories;
     self
   }
 

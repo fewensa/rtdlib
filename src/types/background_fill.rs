@@ -155,7 +155,7 @@ pub struct BackgroundFillFreeformGradient {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// A list of 3 or 4 colors of the freeform gradients in the RGB24 format
+  /// A list of 3 or 4 colors of the freeform gradient in the RGB format
   colors: Vec<i64>,
 }
 
@@ -230,11 +230,11 @@ pub struct BackgroundFillGradient {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// A top color of the background in the RGB24 format
+  /// A top color of the background in the RGB format
   top_color: i64,
-  /// A bottom color of the background in the RGB24 format
+  /// A bottom color of the background in the RGB format
   bottom_color: i64,
-  /// Clockwise rotation angle of the gradient, in degrees; 0-359. Must be always divisible by 45
+  /// Clockwise rotation angle of the gradient, in degrees; 0-359. Must always be divisible by 45
   rotation_angle: i64,
 }
 
@@ -327,7 +327,7 @@ pub struct BackgroundFillSolid {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// A color of the background in the RGB24 format
+  /// A color of the background in the RGB format
   color: i64,
 }
 

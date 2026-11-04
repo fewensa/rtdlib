@@ -1,0 +1,5 @@
+[workspace]
+members = [
+  "fantasy",
+  "tl-parser",
+]

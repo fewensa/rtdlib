@@ -11,15 +11,19 @@ pub struct ThemeSettings {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// Base theme for this theme
+  base_theme: BuiltInTheme,
   /// Theme accent color in ARGB format
   accent_color: i64,
   /// The background to be used in chats; may be null
   background: Option<Background>,
-  /// The fill to be used as a background for outgoing messages
-  outgoing_message_fill: BackgroundFill,
+  /// The fill to be used as a background for outgoing messages; may be null if the fill from the base theme must be used instead
+  outgoing_message_fill: Option<BackgroundFill>,
   /// If true, the freeform gradient fill needs to be animated on every sent message
   animate_outgoing_message_fill: bool,
-  /// Accent color of outgoing messages in ARGB format
+  /// True, if there is chosen accent color for outgoing messages; otherwise, the color must be deduced from other theme settings
+  has_outgoing_message_accent_color: bool,
+  /// Accent color of outgoing messages in ARGB format; must be ignored if has_outgoing_message_accent_color is false
   outgoing_message_accent_color: i64,
 }
 
@@ -50,6 +54,10 @@ impl ThemeSettings {
     RTDThemeSettingsBuilder { inner }
   }
 
+  pub fn base_theme(&self) -> &BuiltInTheme {
+    &self.base_theme
+  }
+
   pub fn accent_color(&self) -> i64 {
     self.accent_color
   }
@@ -58,12 +66,16 @@ impl ThemeSettings {
     &self.background
   }
 
-  pub fn outgoing_message_fill(&self) -> &BackgroundFill {
+  pub fn outgoing_message_fill(&self) -> &Option<BackgroundFill> {
     &self.outgoing_message_fill
   }
 
   pub fn animate_outgoing_message_fill(&self) -> bool {
     self.animate_outgoing_message_fill
+  }
+
+  pub fn has_outgoing_message_accent_color(&self) -> bool {
+    self.has_outgoing_message_accent_color
   }
 
   pub fn outgoing_message_accent_color(&self) -> i64 {
@@ -81,6 +93,11 @@ impl RTDThemeSettingsBuilder {
     self.inner.clone()
   }
 
+  pub fn base_theme<T: AsRef<BuiltInTheme>>(&mut self, base_theme: T) -> &mut Self {
+    self.inner.base_theme = base_theme.as_ref().clone();
+    self
+  }
+
   pub fn accent_color(&mut self, accent_color: i64) -> &mut Self {
     self.inner.accent_color = accent_color;
     self
@@ -95,7 +112,7 @@ impl RTDThemeSettingsBuilder {
     &mut self,
     outgoing_message_fill: T,
   ) -> &mut Self {
-    self.inner.outgoing_message_fill = outgoing_message_fill.as_ref().clone();
+    self.inner.outgoing_message_fill = Some(outgoing_message_fill.as_ref().clone());
     self
   }
 
@@ -104,6 +121,14 @@ impl RTDThemeSettingsBuilder {
     animate_outgoing_message_fill: bool,
   ) -> &mut Self {
     self.inner.animate_outgoing_message_fill = animate_outgoing_message_fill;
+    self
+  }
+
+  pub fn has_outgoing_message_accent_color(
+    &mut self,
+    has_outgoing_message_accent_color: bool,
+  ) -> &mut Self {
+    self.inner.has_outgoing_message_accent_color = has_outgoing_message_accent_color;
     self
   }
 

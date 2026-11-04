@@ -11,7 +11,7 @@ pub struct Users {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Approximate total count of users found
+  /// Approximate total number of users found
   total_count: i64,
   /// A list of user identifiers
   user_ids: Vec<i64>,

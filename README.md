@@ -4,24 +4,22 @@
 
 `rtdlib` is Rust types for [TDLib](https://github.com/tdlib/td).
 
-This repository's `master` branch is the **0.8.x** line. Those types were generated from TDLib commit [`789b9c0`](https://github.com/tdlib/td/commit/789b9c0a554d779945db027fd2612909c676345f) (January 2022). They have not been regenerated for newer TDLib. The crates.io **1.8.x** versions track TDLib 1.8.0 and are published from the `1d8x` branch; `0.8.2` does not replace `1.8.1` as the highest version number. See [version mapping](https://github.com/fewensa/telegram-client/blob/master/version.md) and [CHANGELOG](CHANGELOG.md).
+This release is **1.8.69**, generated from TDLib 1.8.69 commit [`4c6377aa`](https://github.com/tdlib/td/commit/4c6377aa7386c39217878a9a56d581922ad37ca4). It is the highest version of this crate. The older `0.8.x` snapshot line and `1.8.0` / `1.8.1` (TDLib v1.8.0) are not current. Pin the version. See [CHANGELOG](CHANGELOG.md).
 
 Minimum supported Rust version: **1.89**.
 
 ## Usage
 
-Pin the version. TDLib types and `telegram-client` move together.
-
 ```toml
 [dependencies]
-rtdlib = "=0.8.2"
+rtdlib = "=1.8.69"
 ```
 
 The default crate contains TDLib types only. To call `tdjson`, enable `sys`. That re-exports `rtdlib_sys::Tdlib` and needs `libtdjson` at link time. `rtdlib-sys` is still 0.1.0.
 
 ```toml
 [dependencies]
-rtdlib = { version = "=0.8.2", features = ["sys"] }
+rtdlib = { version = "=1.8.69", features = ["sys"] }
 ```
 
 ## Example
@@ -46,6 +44,8 @@ let tdlib = Tdlib::new();
 let request = r#"{"@type": "getMe"}"#;
 tdlib.send(request);
 ```
+
+Initialization parameters are fields of `SetTdlibParameters`. There is no `TdlibParameters` type.
 
 ## td
 

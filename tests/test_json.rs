@@ -12,19 +12,18 @@ fn test_authorization_state() {
 
 #[test]
 fn test_builder_set_tdlib_parameters() {
-  let set_tdlib_paramters = SetTdlibParameters::builder()
-    .parameters(
-      TdlibParameters::builder()
-        .use_test_dc(false)
-        .database_directory("/tmp/td")
-        .files_directory("/tmp/td")
-        .use_file_database(false)
-        .api_id(123)
-        .api_hash("abc")
-        .build(),
-    )
+  let set_tdlib_parameters = SetTdlibParameters::builder()
+    .use_test_dc(false)
+    .database_directory("/tmp/td")
+    .files_directory("/tmp/td")
+    .database_encryption_key("key")
+    .use_file_database(false)
+    .api_id(123)
+    .api_hash("abc")
     .build();
-  println!("{}", set_tdlib_paramters.to_json().unwrap())
+  let json = set_tdlib_parameters.to_json().unwrap();
+  assert!(json.contains("\"@type\":\"setTdlibParameters\""));
+  assert!(json.contains("\"database_encryption_key\":\"key\""));
 }
 
 #[test]

@@ -27,6 +27,8 @@ pub struct ChatEventLogFilters {
   member_promotions: bool,
   /// True, if member restricted/unrestricted/banned/unbanned events need to be returned
   member_restrictions: bool,
+  /// True, if member tag and custom title change events need to be returned
+  member_tag_changes: bool,
   /// True, if changes in chat information need to be returned
   info_changes: bool,
   /// True, if changes in chat settings need to be returned
@@ -35,6 +37,10 @@ pub struct ChatEventLogFilters {
   invite_link_changes: bool,
   /// True, if video chat actions need to be returned
   video_chat_changes: bool,
+  /// True, if forum-related actions need to be returned
+  forum_changes: bool,
+  /// True, if subscription extensions need to be returned
+  subscription_extensions: bool,
 }
 
 impl RObject for ChatEventLogFilters {
@@ -96,6 +102,10 @@ impl ChatEventLogFilters {
     self.member_restrictions
   }
 
+  pub fn member_tag_changes(&self) -> bool {
+    self.member_tag_changes
+  }
+
   pub fn info_changes(&self) -> bool {
     self.info_changes
   }
@@ -110,6 +120,14 @@ impl ChatEventLogFilters {
 
   pub fn video_chat_changes(&self) -> bool {
     self.video_chat_changes
+  }
+
+  pub fn forum_changes(&self) -> bool {
+    self.forum_changes
+  }
+
+  pub fn subscription_extensions(&self) -> bool {
+    self.subscription_extensions
   }
 }
 
@@ -163,6 +181,11 @@ impl RTDChatEventLogFiltersBuilder {
     self
   }
 
+  pub fn member_tag_changes(&mut self, member_tag_changes: bool) -> &mut Self {
+    self.inner.member_tag_changes = member_tag_changes;
+    self
+  }
+
   pub fn info_changes(&mut self, info_changes: bool) -> &mut Self {
     self.inner.info_changes = info_changes;
     self
@@ -180,6 +203,16 @@ impl RTDChatEventLogFiltersBuilder {
 
   pub fn video_chat_changes(&mut self, video_chat_changes: bool) -> &mut Self {
     self.inner.video_chat_changes = video_chat_changes;
+    self
+  }
+
+  pub fn forum_changes(&mut self, forum_changes: bool) -> &mut Self {
+    self.inner.forum_changes = forum_changes;
+    self
+  }
+
+  pub fn subscription_extensions(&mut self, subscription_extensions: bool) -> &mut Self {
+    self.inner.subscription_extensions = subscription_extensions;
     self
   }
 }

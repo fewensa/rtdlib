@@ -12,15 +12,20 @@ pub struct Session {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// Session identifier
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
   id: isize,
   /// True, if this session is the current session
   is_current: bool,
-  /// True, if a password is needed to complete authorization of the session
+  /// True, if a 2-step verification password is needed to complete authorization of the session
   is_password_pending: bool,
+  /// True, if the session wasn't confirmed from another session
+  is_unconfirmed: bool,
   /// True, if incoming secret chats can be accepted by the session
   can_accept_secret_chats: bool,
   /// True, if incoming calls can be accepted by the session
   can_accept_calls: bool,
+  /// Session device type based on the system and application version, which can be used to display a corresponding icon
+  device_type: SessionDeviceType,
   /// Telegram API identifier, as provided by the application
   api_id: i64,
   /// Name of the application, as provided by the application
@@ -40,11 +45,9 @@ pub struct Session {
   /// Point in time (Unix timestamp) when the session was last used
   last_active_date: i64,
   /// IP address from which the session was created, in human-readable format
-  ip: String,
-  /// A two-letter country code for the country from which the session was created, based on the IP address
-  country: String,
-  /// Region code from which the session was created, based on the IP address
-  region: String,
+  ip_address: String,
+  /// A human-readable description of the location from which the session was created, based on the IP address
+  location: String,
 }
 
 impl RObject for Session {
@@ -86,12 +89,20 @@ impl Session {
     self.is_password_pending
   }
 
+  pub fn is_unconfirmed(&self) -> bool {
+    self.is_unconfirmed
+  }
+
   pub fn can_accept_secret_chats(&self) -> bool {
     self.can_accept_secret_chats
   }
 
   pub fn can_accept_calls(&self) -> bool {
     self.can_accept_calls
+  }
+
+  pub fn device_type(&self) -> &SessionDeviceType {
+    &self.device_type
   }
 
   pub fn api_id(&self) -> i64 {
@@ -130,16 +141,12 @@ impl Session {
     self.last_active_date
   }
 
-  pub fn ip(&self) -> &String {
-    &self.ip
+  pub fn ip_address(&self) -> &String {
+    &self.ip_address
   }
 
-  pub fn country(&self) -> &String {
-    &self.country
-  }
-
-  pub fn region(&self) -> &String {
-    &self.region
+  pub fn location(&self) -> &String {
+    &self.location
   }
 }
 
@@ -168,6 +175,11 @@ impl RTDSessionBuilder {
     self
   }
 
+  pub fn is_unconfirmed(&mut self, is_unconfirmed: bool) -> &mut Self {
+    self.inner.is_unconfirmed = is_unconfirmed;
+    self
+  }
+
   pub fn can_accept_secret_chats(&mut self, can_accept_secret_chats: bool) -> &mut Self {
     self.inner.can_accept_secret_chats = can_accept_secret_chats;
     self
@@ -175,6 +187,11 @@ impl RTDSessionBuilder {
 
   pub fn can_accept_calls(&mut self, can_accept_calls: bool) -> &mut Self {
     self.inner.can_accept_calls = can_accept_calls;
+    self
+  }
+
+  pub fn device_type<T: AsRef<SessionDeviceType>>(&mut self, device_type: T) -> &mut Self {
+    self.inner.device_type = device_type.as_ref().clone();
     self
   }
 
@@ -223,18 +240,13 @@ impl RTDSessionBuilder {
     self
   }
 
-  pub fn ip<T: AsRef<str>>(&mut self, ip: T) -> &mut Self {
-    self.inner.ip = ip.as_ref().to_string();
+  pub fn ip_address<T: AsRef<str>>(&mut self, ip_address: T) -> &mut Self {
+    self.inner.ip_address = ip_address.as_ref().to_string();
     self
   }
 
-  pub fn country<T: AsRef<str>>(&mut self, country: T) -> &mut Self {
-    self.inner.country = country.as_ref().to_string();
-    self
-  }
-
-  pub fn region<T: AsRef<str>>(&mut self, region: T) -> &mut Self {
-    self.inner.region = region.as_ref().to_string();
+  pub fn location<T: AsRef<str>>(&mut self, location: T) -> &mut Self {
+    self.inner.location = location.as_ref().to_string();
     self
   }
 }

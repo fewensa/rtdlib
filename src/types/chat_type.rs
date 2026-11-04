@@ -5,10 +5,10 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Describes the type of a chat
+/// TRAIT | Describes the type of chat
 pub trait TDChatType: Debug + RObject {}
 
-/// Describes the type of a chat
+/// Describes the type of chat
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum ChatType {
@@ -331,7 +331,7 @@ pub struct ChatTypeSecret {
   extra: Option<String>,
   /// Secret chat identifier
   secret_chat_id: i64,
-  /// User identifier of the secret chat peer
+  /// User identifier of the other user in the secret chat
   user_id: i64,
 }
 

@@ -11,16 +11,26 @@ pub struct PollOption {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Option text; 1-100 characters
-  text: String,
-  /// Number of voters for this option, available only for closed or voted polls
+  /// Unique identifier of the option in the poll; may be empty if yet unassigned
+  id: String,
+  /// Option text; 1-100 characters; may contain only custom emoji entities
+  text: FormattedText,
+  /// Option media; may be null if none. If present, currently, can be only of the types pollMediaAnimation, pollMediaLink, pollMediaLocation, pollMediaPhoto, pollMediaSticker, pollMediaVenue, or pollMediaVideo
+  media: Option<PollMedia>,
+  /// Number of voters for this option, available only for closed or voted polls, or if the current user is the creator of the poll
   voter_count: i64,
   /// The percentage of votes for this option; 0-100
   vote_percentage: i64,
+  /// Identifiers of recent voters for the option, if the poll is non-anonymous and poll results are available
+  recent_voter_ids: Vec<MessageSender>,
   /// True, if the option was chosen by the user
   is_chosen: bool,
   /// True, if the option is being chosen by a pending setPollAnswer request
   is_being_chosen: bool,
+  /// Identifier of the user or chat who added the option; may be null if the option existed from creation of the poll
+  author: Option<MessageSender>,
+  /// Point in time (Unix timestamp) when the option was added; 0 if the option existed from creation of the poll
+  addition_date: i64,
 }
 
 impl RObject for PollOption {
@@ -50,8 +60,16 @@ impl PollOption {
     RTDPollOptionBuilder { inner }
   }
 
-  pub fn text(&self) -> &String {
+  pub fn id(&self) -> &String {
+    &self.id
+  }
+
+  pub fn text(&self) -> &FormattedText {
     &self.text
+  }
+
+  pub fn media(&self) -> &Option<PollMedia> {
+    &self.media
   }
 
   pub fn voter_count(&self) -> i64 {
@@ -62,12 +80,24 @@ impl PollOption {
     self.vote_percentage
   }
 
+  pub fn recent_voter_ids(&self) -> &Vec<MessageSender> {
+    &self.recent_voter_ids
+  }
+
   pub fn is_chosen(&self) -> bool {
     self.is_chosen
   }
 
   pub fn is_being_chosen(&self) -> bool {
     self.is_being_chosen
+  }
+
+  pub fn author(&self) -> &Option<MessageSender> {
+    &self.author
+  }
+
+  pub fn addition_date(&self) -> i64 {
+    self.addition_date
   }
 }
 
@@ -81,8 +111,18 @@ impl RTDPollOptionBuilder {
     self.inner.clone()
   }
 
-  pub fn text<T: AsRef<str>>(&mut self, text: T) -> &mut Self {
-    self.inner.text = text.as_ref().to_string();
+  pub fn id<T: AsRef<str>>(&mut self, id: T) -> &mut Self {
+    self.inner.id = id.as_ref().to_string();
+    self
+  }
+
+  pub fn text<T: AsRef<FormattedText>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().clone();
+    self
+  }
+
+  pub fn media<T: AsRef<PollMedia>>(&mut self, media: T) -> &mut Self {
+    self.inner.media = Some(media.as_ref().clone());
     self
   }
 
@@ -96,6 +136,11 @@ impl RTDPollOptionBuilder {
     self
   }
 
+  pub fn recent_voter_ids(&mut self, recent_voter_ids: Vec<MessageSender>) -> &mut Self {
+    self.inner.recent_voter_ids = recent_voter_ids;
+    self
+  }
+
   pub fn is_chosen(&mut self, is_chosen: bool) -> &mut Self {
     self.inner.is_chosen = is_chosen;
     self
@@ -103,6 +148,16 @@ impl RTDPollOptionBuilder {
 
   pub fn is_being_chosen(&mut self, is_being_chosen: bool) -> &mut Self {
     self.inner.is_being_chosen = is_being_chosen;
+    self
+  }
+
+  pub fn author<T: AsRef<MessageSender>>(&mut self, author: T) -> &mut Self {
+    self.inner.author = Some(author.as_ref().clone());
+    self
+  }
+
+  pub fn addition_date(&mut self, addition_date: i64) -> &mut Self {
+    self.inner.addition_date = addition_date;
     self
   }
 }

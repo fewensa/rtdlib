@@ -5,10 +5,10 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Describes the type of a call server
+/// TRAIT | Describes the type of call server
 pub trait TDCallServerType: Debug + RObject {}
 
-/// Describes the type of a call server
+/// Describes the type of call server
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum CallServerType {
@@ -136,6 +136,8 @@ pub struct CallServerTypeTelegramReflector {
   extra: Option<String>,
   /// A peer tag to be used with the reflector
   peer_tag: String,
+  /// True, if the server uses TCP instead of UDP
+  is_tcp: bool,
 }
 
 impl RObject for CallServerTypeTelegramReflector {
@@ -170,6 +172,10 @@ impl CallServerTypeTelegramReflector {
   pub fn peer_tag(&self) -> &String {
     &self.peer_tag
   }
+
+  pub fn is_tcp(&self) -> bool {
+    self.is_tcp
+  }
 }
 
 #[doc(hidden)]
@@ -184,6 +190,11 @@ impl RTDCallServerTypeTelegramReflectorBuilder {
 
   pub fn peer_tag<T: AsRef<str>>(&mut self, peer_tag: T) -> &mut Self {
     self.inner.peer_tag = peer_tag.as_ref().to_string();
+    self
+  }
+
+  pub fn is_tcp(&mut self, is_tcp: bool) -> &mut Self {
+    self.inner.is_tcp = is_tcp;
     self
   }
 }

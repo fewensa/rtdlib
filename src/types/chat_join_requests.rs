@@ -11,7 +11,7 @@ pub struct ChatJoinRequests {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Approximate total count of requests found
+  /// Approximate total number of requests found
   total_count: i64,
   /// List of the requests
   requests: Vec<ChatJoinRequest>,

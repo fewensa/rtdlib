@@ -1,6 +1,6 @@
 [package]
 name = "rtdlib"
-version = "0.8.2"
+version = "1.8.69"
 authors = ["fewensa <fewensa@protonmail.com>"]
 description = "TDLib for rust"
 homepage = "https://github.com/fewensa/rtdlib"
@@ -10,7 +10,8 @@ keywords = ["tdlib", "telegram"]
 categories = ["data-structures"]
 include = [
   "Cargo.toml",
-  "**/*.rs",
+  "src/**/*.rs",
+  "tests/**/*.rs",
   "README.md",
   "LICENSE",
   "CHANGELOG.md",

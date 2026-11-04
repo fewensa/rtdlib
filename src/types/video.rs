@@ -23,7 +23,7 @@ pub struct Video {
   mime_type: String,
   /// True, if stickers were added to the video. The list of corresponding sticker sets can be received using getAttachedStickerSets
   has_stickers: bool,
-  /// True, if the video is supposed to be streamed
+  /// True, if the video is expected to be streamed
   supports_streaming: bool,
   /// Video minithumbnail; may be null
   minithumbnail: Option<Minithumbnail>,

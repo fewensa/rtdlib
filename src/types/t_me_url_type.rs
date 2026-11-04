@@ -5,10 +5,10 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Describes the type of a URL linking to an internal Telegram entity
+/// TRAIT | Describes the type of URL linking to an internal Telegram entity
 pub trait TDTMeUrlType: Debug + RObject {}
 
-/// Describes the type of a URL linking to an internal Telegram entity
+/// Describes the type of URL linking to an internal Telegram entity
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum TMeUrlType {
@@ -179,7 +179,7 @@ pub struct TMeUrlTypeChatInvite {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Chat invite link info
+  /// Information about the chat invite link
   info: ChatInviteLinkInfo,
 }
 
@@ -255,6 +255,7 @@ pub struct TMeUrlTypeStickerSet {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// Identifier of the sticker set
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
   sticker_set_id: isize,
 }
 

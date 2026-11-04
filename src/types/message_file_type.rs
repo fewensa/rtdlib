@@ -14,13 +14,13 @@ pub trait TDMessageFileType: Debug + RObject {}
 pub enum MessageFileType {
   #[doc(hidden)]
   _Default(()),
-  /// Returns information about a file with messages exported from another app
+  /// Returns information about a file with messages exported from another application
   GetMessageFileType(GetMessageFileType),
-  /// The messages was exported from a group chat
+  /// The messages were exported from a group chat
   Group(MessageFileTypeGroup),
-  /// The messages was exported from a private chat
+  /// The messages were exported from a private chat
   Private(MessageFileTypePrivate),
-  /// The messages was exported from a chat of unknown type
+  /// The messages were exported from a chat of unknown type
   Unknown(MessageFileTypeUnknown),
 }
 
@@ -170,7 +170,7 @@ impl AsRef<MessageFileType> for MessageFileType {
   }
 }
 
-/// The messages was exported from a group chat
+/// The messages were exported from a group chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageFileTypeGroup {
   #[doc(hidden)]
@@ -245,7 +245,7 @@ impl AsRef<MessageFileTypeGroup> for RTDMessageFileTypeGroupBuilder {
   }
 }
 
-/// The messages was exported from a private chat
+/// The messages were exported from a private chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageFileTypePrivate {
   #[doc(hidden)]
@@ -320,7 +320,7 @@ impl AsRef<MessageFileTypePrivate> for RTDMessageFileTypePrivateBuilder {
   }
 }
 
-/// The messages was exported from a chat of unknown type
+/// The messages were exported from a chat of unknown type
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageFileTypeUnknown {
   #[doc(hidden)]

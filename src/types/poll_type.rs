@@ -5,16 +5,16 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Describes the type of a poll
+/// TRAIT | Describes the type of poll
 pub trait TDPollType: Debug + RObject {}
 
-/// Describes the type of a poll
+/// Describes the type of poll
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum PollType {
   #[doc(hidden)]
   _Default(()),
-  /// A poll in quiz mode, which has exactly one correct answer option and can be answered only once
+  /// A poll in quiz mode, which has predefined correct answers
   Quiz(PollTypeQuiz),
   /// A regular poll
   Regular(PollTypeRegular),
@@ -122,7 +122,7 @@ impl AsRef<PollType> for PollType {
   }
 }
 
-/// A poll in quiz mode, which has exactly one correct answer option and can be answered only once
+/// A poll in quiz mode, which has predefined correct answers
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PollTypeQuiz {
   #[doc(hidden)]
@@ -131,10 +131,12 @@ pub struct PollTypeQuiz {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// 0-based identifier of the correct answer option; 1 for a yet unanswered poll
-  correct_option_id: i64,
-  /// Text that is shown when the user chooses an incorrect answer or taps on the lamp icon; 0-200 characters with at most 2 line feeds; empty for a yet unanswered poll
+  /// Increasing list of 0-based identifiers of the correct answer options; empty for a yet unanswered poll
+  correct_option_ids: Vec<i64>,
+  /// Text that is shown when the user chooses an incorrect answer or taps on the lamp icon; empty for a yet unanswered poll
   explanation: FormattedText,
+  /// Media that is shown when the user chooses an incorrect answer or taps on the lamp icon; may be null if none or the poll is unanswered yet. If present, currently, can be only of the types pollMediaAnimation, pollMediaAudio, pollMediaDocument, pollMediaLocation, pollMediaPhoto, pollMediaVenue, or pollMediaVideo
+  explanation_media: Option<PollMedia>,
 }
 
 impl RObject for PollTypeQuiz {
@@ -166,12 +168,16 @@ impl PollTypeQuiz {
     RTDPollTypeQuizBuilder { inner }
   }
 
-  pub fn correct_option_id(&self) -> i64 {
-    self.correct_option_id
+  pub fn correct_option_ids(&self) -> &Vec<i64> {
+    &self.correct_option_ids
   }
 
   pub fn explanation(&self) -> &FormattedText {
     &self.explanation
+  }
+
+  pub fn explanation_media(&self) -> &Option<PollMedia> {
+    &self.explanation_media
   }
 }
 
@@ -185,13 +191,18 @@ impl RTDPollTypeQuizBuilder {
     self.inner.clone()
   }
 
-  pub fn correct_option_id(&mut self, correct_option_id: i64) -> &mut Self {
-    self.inner.correct_option_id = correct_option_id;
+  pub fn correct_option_ids(&mut self, correct_option_ids: Vec<i64>) -> &mut Self {
+    self.inner.correct_option_ids = correct_option_ids;
     self
   }
 
   pub fn explanation<T: AsRef<FormattedText>>(&mut self, explanation: T) -> &mut Self {
     self.inner.explanation = explanation.as_ref().clone();
+    self
+  }
+
+  pub fn explanation_media<T: AsRef<PollMedia>>(&mut self, explanation_media: T) -> &mut Self {
+    self.inner.explanation_media = Some(explanation_media.as_ref().clone());
     self
   }
 }
@@ -217,8 +228,6 @@ pub struct PollTypeRegular {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// True, if multiple answer options can be chosen simultaneously
-  allow_multiple_answers: bool,
 }
 
 impl RObject for PollTypeRegular {
@@ -245,13 +254,8 @@ impl PollTypeRegular {
     let inner = PollTypeRegular {
       td_name: "pollTypeRegular".to_string(),
       extra: Some(Uuid::new_v4().to_string()),
-      ..Default::default()
     };
     RTDPollTypeRegularBuilder { inner }
-  }
-
-  pub fn allow_multiple_answers(&self) -> bool {
-    self.allow_multiple_answers
   }
 }
 
@@ -263,11 +267,6 @@ pub struct RTDPollTypeRegularBuilder {
 impl RTDPollTypeRegularBuilder {
   pub fn build(&self) -> PollTypeRegular {
     self.inner.clone()
-  }
-
-  pub fn allow_multiple_answers(&mut self, allow_multiple_answers: bool) -> &mut Self {
-    self.inner.allow_multiple_answers = allow_multiple_answers;
-    self
   }
 }
 

@@ -15,7 +15,7 @@ pub struct Notification {
   id: i64,
   /// Notification date
   date: i64,
-  /// True, if the notification was initially silent
+  /// True, if the notification was explicitly sent without sound
   is_silent: bool,
   /// Notification type
   #[serde(rename(serialize = "type", deserialize = "type"))]

@@ -16,8 +16,8 @@ pub struct EncryptedPassportElement {
   type_: PassportElementType,
   /// Encrypted JSON-encoded data about the user
   data: String,
-  /// The front side of an identity document
-  front_side: DatedFile,
+  /// The front side of an identity document; may be null if the element isn't an identity document
+  front_side: Option<DatedFile>,
   /// The reverse side of an identity document; may be null
   reverse_side: Option<DatedFile>,
   /// Selfie with the document; may be null
@@ -67,7 +67,7 @@ impl EncryptedPassportElement {
     &self.data
   }
 
-  pub fn front_side(&self) -> &DatedFile {
+  pub fn front_side(&self) -> &Option<DatedFile> {
     &self.front_side
   }
 
@@ -117,7 +117,7 @@ impl RTDEncryptedPassportElementBuilder {
   }
 
   pub fn front_side<T: AsRef<DatedFile>>(&mut self, front_side: T) -> &mut Self {
-    self.inner.front_side = front_side.as_ref().clone();
+    self.inner.front_side = Some(front_side.as_ref().clone());
     self
   }
 

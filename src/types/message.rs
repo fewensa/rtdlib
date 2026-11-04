@@ -15,71 +15,95 @@ pub struct Message {
   id: i64,
   /// Identifier of the sender of the message
   sender_id: MessageSender,
+  /// Identifier of the user or the chat which received the ephemeral message; may be null. Always null for non-ephemeral messages
+  receiver_id: Option<MessageSender>,
   /// Chat identifier
   chat_id: i64,
-  /// The sending state of the message; may be null
+  /// The sending state of the message; may be null if the message isn't being sent and didn't fail to be sent
   sending_state: Option<MessageSendingState>,
-  /// The scheduling state of the message; may be null
+  /// The scheduling state of the message; may be null if the message isn't scheduled
   scheduling_state: Option<MessageSchedulingState>,
   /// True, if the message is outgoing
   is_outgoing: bool,
   /// True, if the message is pinned
   is_pinned: bool,
-  /// True, if the message can be edited. For live location and poll messages this fields shows whether editMessageLiveLocation or stopPoll can be used with this message by the application
-  can_be_edited: bool,
-  /// True, if the message can be forwarded
-  can_be_forwarded: bool,
-  /// True, if content of the message can be saved locally or copied
+  /// True, if the message was sent because of a scheduled action by the message sender, for example, as away, or greeting service message
+  is_from_offline: bool,
+  /// True, if content of the message can be saved locally
   can_be_saved: bool,
-  /// True, if the message can be deleted only for the current user while other users will continue to see it
-  can_be_deleted_only_for_self: bool,
-  /// True, if the message can be deleted for all users
-  can_be_deleted_for_all_users: bool,
-  /// True, if the message statistics are available
-  can_get_statistics: bool,
-  /// True, if the message thread info is available
-  can_get_message_thread: bool,
-  /// True, if chat members already viewed the message can be received through getMessageViewers
-  can_get_viewers: bool,
-  /// True, if media timestamp links can be generated for media timestamp entities in the message text, caption or web page description
-  can_get_media_timestamp_links: bool,
   /// True, if media timestamp entities refers to a media in this message as opposed to a media in the replied message
   has_timestamped_media: bool,
   /// True, if the message is a channel post. All messages to channels are channel posts, all other messages are not channel posts
   is_channel_post: bool,
+  /// True, if the message is a suggested channel post which was paid in Telegram Stars; a warning must be shown if the message is deleted in less than getOption("suggested_post_lifetime_min") seconds after sending
+  is_paid_star_suggested_post: bool,
+  /// True, if the message is a suggested channel post which was paid in TON Grams; a warning must be shown if the message is deleted in less than getOption("suggested_post_lifetime_min") seconds after sending
+  is_paid_gram_suggested_post: bool,
   /// True, if the message contains an unread mention for the current user
   contains_unread_mention: bool,
-  /// Point in time (Unix timestamp) when the message was sent
+  /// True, if the message is a poll message with unread votes
+  contains_unread_poll_votes: bool,
+  /// Point in time (Unix timestamp) when the message was sent; 0 for scheduled messages
   date: i64,
-  /// Point in time (Unix timestamp) when the message was last edited
+  /// Point in time (Unix timestamp) when the message was last edited; 0 for scheduled messages. If getOption("show_message_edit_date_by_default") is true, then the date must be shown along with the message instead of the date when the message was sent
   edit_date: i64,
-  /// Information about the initial message sender; may be null
+  /// Information about the initial message sender; may be null if none or unknown
   forward_info: Option<MessageForwardInfo>,
-  /// Information about interactions with the message; may be null
+  /// Information about the initial message for messages created with importMessages; may be null if the message isn't imported
+  import_info: Option<MessageImportInfo>,
+  /// Information about interactions with the message; may be null if none
   interaction_info: Option<MessageInteractionInfo>,
-  /// If non-zero, the identifier of the chat to which the replied message belongs; Currently, only messages in the Replies chat can have different reply_in_chat_id and chat_id
-  reply_in_chat_id: i64,
-  /// If non-zero, the identifier of the message this message is replying to; can be the identifier of a deleted message
-  reply_to_message_id: i64,
-  /// If non-zero, the identifier of the message thread the message belongs to; unique within the chat to which the message belongs
-  message_thread_id: i64,
-  /// For self-destructing messages, the message's TTL (Time To Live), in seconds; 0 if none. TDLib will send updateDeleteMessages or updateMessageContent once the TTL expires
-  ttl: i64,
-  /// Time left before the message expires, in seconds. If the TTL timer isn't started yet, equals to the value of the ttl field
-  ttl_expires_in: f32,
-  /// If non-zero, the user identifier of the bot through which this message was sent
+  /// Information about unread reactions added to the message
+  unread_reactions: Vec<UnreadReaction>,
+  /// Information about fact-check added to the message; may be null if none
+  fact_check: Option<FactCheck>,
+  /// Information about the suggested post; may be null if the message isn't a suggested post
+  suggested_post_info: Option<SuggestedPostInfo>,
+  /// Information about the message or the story this message is replying to; may be null if none
+  reply_to: Option<MessageReplyTo>,
+  /// Identifier of the topic within the chat to which the message belongs; may be null if none; may change when the chat is converted to a forum or back
+  topic_id: Option<MessageTopic>,
+  /// The message's self-destruct type; may be null if none
+  self_destruct_type: Option<MessageSelfDestructType>,
+  /// Time left before the message self-destruct timer expires, in seconds; 0 if self-destruction isn't scheduled yet
+  self_destruct_in: f32,
+  /// Time left before the message will be automatically deleted by message_auto_delete_time setting of the chat, in seconds; 0 if never
+  auto_delete_in: f32,
+  /// If non-zero, the user identifier of the inline bot through which this message was sent
   via_bot_user_id: i64,
+  /// The identifier of the user or chat which used a guest bot to send the message; may be null if none
+  guest_bot_caller_id: Option<MessageSender>,
+  /// If non-zero, the user identifier of the business bot that sent this message
+  sender_business_bot_user_id: i64,
+  /// Number of times the sender of the message boosted the supergroup at the time the message was sent; 0 if none or unknown. For messages sent by the current user, supergroupFullInfo.my_boost_count must be used instead
+  sender_boost_count: i64,
+  /// Tag of the sender of the message in the supergroup at the time the message was sent; may be empty if none or unknown. For messages sent in basic groups or by supergroup administrators, the current custom title or tag must be used instead
+  sender_tag: String,
+  /// The number of Telegram Stars the sender paid to send the message
+  paid_message_star_count: i64,
   /// For channel posts and anonymous group messages, optional author signature
   author_signature: String,
-  /// Unique identifier of an album this message belongs to. Only audios, documents, photos and videos can be grouped together in albums
+  /// Unique identifier of an album this message belongs to; 0 if none. Only audios, documents, photos and videos can be grouped together in albums
   #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
   media_album_id: isize,
-  /// If non-empty, contains a human-readable description of the reason why access to this message must be restricted
-  restriction_reason: String,
+  /// Unique identifier of the effect added to the message; 0 if none
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
+  effect_id: isize,
+  /// Information about the restrictions that must be applied to the message content; may be null if none
+  restriction_info: Option<RestrictionInfo>,
+  /// IETF language tag of the message language on which it can be summarized; empty if summary isn't available for the message
+  summary_language_code: String,
   /// Content of the message
   content: MessageContent,
-  /// Reply markup for the message; may be null
+  /// Content of the message, which is visible only to the current user and must be shown instead of the regular content; may be null if none
+  ephemeral_content: Option<EphemeralMessageContent>,
+  /// Reply markup for the message; may be null if none
   reply_markup: Option<ReplyMarkup>,
+  /// Unique identifier of the ephemeral message if the message is ephemeral; for bots only
+  ephemeral_message_id: i64,
+  /// Identifier that uniquely corresponds to the chat to which the message was sent; for bots only
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
+  chat_instance: isize,
 }
 
 impl RObject for Message {
@@ -117,6 +141,10 @@ impl Message {
     &self.sender_id
   }
 
+  pub fn receiver_id(&self) -> &Option<MessageSender> {
+    &self.receiver_id
+  }
+
   pub fn chat_id(&self) -> i64 {
     self.chat_id
   }
@@ -137,40 +165,12 @@ impl Message {
     self.is_pinned
   }
 
-  pub fn can_be_edited(&self) -> bool {
-    self.can_be_edited
-  }
-
-  pub fn can_be_forwarded(&self) -> bool {
-    self.can_be_forwarded
+  pub fn is_from_offline(&self) -> bool {
+    self.is_from_offline
   }
 
   pub fn can_be_saved(&self) -> bool {
     self.can_be_saved
-  }
-
-  pub fn can_be_deleted_only_for_self(&self) -> bool {
-    self.can_be_deleted_only_for_self
-  }
-
-  pub fn can_be_deleted_for_all_users(&self) -> bool {
-    self.can_be_deleted_for_all_users
-  }
-
-  pub fn can_get_statistics(&self) -> bool {
-    self.can_get_statistics
-  }
-
-  pub fn can_get_message_thread(&self) -> bool {
-    self.can_get_message_thread
-  }
-
-  pub fn can_get_viewers(&self) -> bool {
-    self.can_get_viewers
-  }
-
-  pub fn can_get_media_timestamp_links(&self) -> bool {
-    self.can_get_media_timestamp_links
   }
 
   pub fn has_timestamped_media(&self) -> bool {
@@ -181,8 +181,20 @@ impl Message {
     self.is_channel_post
   }
 
+  pub fn is_paid_star_suggested_post(&self) -> bool {
+    self.is_paid_star_suggested_post
+  }
+
+  pub fn is_paid_gram_suggested_post(&self) -> bool {
+    self.is_paid_gram_suggested_post
+  }
+
   pub fn contains_unread_mention(&self) -> bool {
     self.contains_unread_mention
+  }
+
+  pub fn contains_unread_poll_votes(&self) -> bool {
+    self.contains_unread_poll_votes
   }
 
   pub fn date(&self) -> i64 {
@@ -197,32 +209,68 @@ impl Message {
     &self.forward_info
   }
 
+  pub fn import_info(&self) -> &Option<MessageImportInfo> {
+    &self.import_info
+  }
+
   pub fn interaction_info(&self) -> &Option<MessageInteractionInfo> {
     &self.interaction_info
   }
 
-  pub fn reply_in_chat_id(&self) -> i64 {
-    self.reply_in_chat_id
+  pub fn unread_reactions(&self) -> &Vec<UnreadReaction> {
+    &self.unread_reactions
   }
 
-  pub fn reply_to_message_id(&self) -> i64 {
-    self.reply_to_message_id
+  pub fn fact_check(&self) -> &Option<FactCheck> {
+    &self.fact_check
   }
 
-  pub fn message_thread_id(&self) -> i64 {
-    self.message_thread_id
+  pub fn suggested_post_info(&self) -> &Option<SuggestedPostInfo> {
+    &self.suggested_post_info
   }
 
-  pub fn ttl(&self) -> i64 {
-    self.ttl
+  pub fn reply_to(&self) -> &Option<MessageReplyTo> {
+    &self.reply_to
   }
 
-  pub fn ttl_expires_in(&self) -> f32 {
-    self.ttl_expires_in
+  pub fn topic_id(&self) -> &Option<MessageTopic> {
+    &self.topic_id
+  }
+
+  pub fn self_destruct_type(&self) -> &Option<MessageSelfDestructType> {
+    &self.self_destruct_type
+  }
+
+  pub fn self_destruct_in(&self) -> f32 {
+    self.self_destruct_in
+  }
+
+  pub fn auto_delete_in(&self) -> f32 {
+    self.auto_delete_in
   }
 
   pub fn via_bot_user_id(&self) -> i64 {
     self.via_bot_user_id
+  }
+
+  pub fn guest_bot_caller_id(&self) -> &Option<MessageSender> {
+    &self.guest_bot_caller_id
+  }
+
+  pub fn sender_business_bot_user_id(&self) -> i64 {
+    self.sender_business_bot_user_id
+  }
+
+  pub fn sender_boost_count(&self) -> i64 {
+    self.sender_boost_count
+  }
+
+  pub fn sender_tag(&self) -> &String {
+    &self.sender_tag
+  }
+
+  pub fn paid_message_star_count(&self) -> i64 {
+    self.paid_message_star_count
   }
 
   pub fn author_signature(&self) -> &String {
@@ -233,16 +281,36 @@ impl Message {
     self.media_album_id
   }
 
-  pub fn restriction_reason(&self) -> &String {
-    &self.restriction_reason
+  pub fn effect_id(&self) -> isize {
+    self.effect_id
+  }
+
+  pub fn restriction_info(&self) -> &Option<RestrictionInfo> {
+    &self.restriction_info
+  }
+
+  pub fn summary_language_code(&self) -> &String {
+    &self.summary_language_code
   }
 
   pub fn content(&self) -> &MessageContent {
     &self.content
   }
 
+  pub fn ephemeral_content(&self) -> &Option<EphemeralMessageContent> {
+    &self.ephemeral_content
+  }
+
   pub fn reply_markup(&self) -> &Option<ReplyMarkup> {
     &self.reply_markup
+  }
+
+  pub fn ephemeral_message_id(&self) -> i64 {
+    self.ephemeral_message_id
+  }
+
+  pub fn chat_instance(&self) -> isize {
+    self.chat_instance
   }
 }
 
@@ -263,6 +331,11 @@ impl RTDMessageBuilder {
 
   pub fn sender_id<T: AsRef<MessageSender>>(&mut self, sender_id: T) -> &mut Self {
     self.inner.sender_id = sender_id.as_ref().clone();
+    self
+  }
+
+  pub fn receiver_id<T: AsRef<MessageSender>>(&mut self, receiver_id: T) -> &mut Self {
+    self.inner.receiver_id = Some(receiver_id.as_ref().clone());
     self
   }
 
@@ -294,51 +367,13 @@ impl RTDMessageBuilder {
     self
   }
 
-  pub fn can_be_edited(&mut self, can_be_edited: bool) -> &mut Self {
-    self.inner.can_be_edited = can_be_edited;
-    self
-  }
-
-  pub fn can_be_forwarded(&mut self, can_be_forwarded: bool) -> &mut Self {
-    self.inner.can_be_forwarded = can_be_forwarded;
+  pub fn is_from_offline(&mut self, is_from_offline: bool) -> &mut Self {
+    self.inner.is_from_offline = is_from_offline;
     self
   }
 
   pub fn can_be_saved(&mut self, can_be_saved: bool) -> &mut Self {
     self.inner.can_be_saved = can_be_saved;
-    self
-  }
-
-  pub fn can_be_deleted_only_for_self(&mut self, can_be_deleted_only_for_self: bool) -> &mut Self {
-    self.inner.can_be_deleted_only_for_self = can_be_deleted_only_for_self;
-    self
-  }
-
-  pub fn can_be_deleted_for_all_users(&mut self, can_be_deleted_for_all_users: bool) -> &mut Self {
-    self.inner.can_be_deleted_for_all_users = can_be_deleted_for_all_users;
-    self
-  }
-
-  pub fn can_get_statistics(&mut self, can_get_statistics: bool) -> &mut Self {
-    self.inner.can_get_statistics = can_get_statistics;
-    self
-  }
-
-  pub fn can_get_message_thread(&mut self, can_get_message_thread: bool) -> &mut Self {
-    self.inner.can_get_message_thread = can_get_message_thread;
-    self
-  }
-
-  pub fn can_get_viewers(&mut self, can_get_viewers: bool) -> &mut Self {
-    self.inner.can_get_viewers = can_get_viewers;
-    self
-  }
-
-  pub fn can_get_media_timestamp_links(
-    &mut self,
-    can_get_media_timestamp_links: bool,
-  ) -> &mut Self {
-    self.inner.can_get_media_timestamp_links = can_get_media_timestamp_links;
     self
   }
 
@@ -352,8 +387,23 @@ impl RTDMessageBuilder {
     self
   }
 
+  pub fn is_paid_star_suggested_post(&mut self, is_paid_star_suggested_post: bool) -> &mut Self {
+    self.inner.is_paid_star_suggested_post = is_paid_star_suggested_post;
+    self
+  }
+
+  pub fn is_paid_gram_suggested_post(&mut self, is_paid_gram_suggested_post: bool) -> &mut Self {
+    self.inner.is_paid_gram_suggested_post = is_paid_gram_suggested_post;
+    self
+  }
+
   pub fn contains_unread_mention(&mut self, contains_unread_mention: bool) -> &mut Self {
     self.inner.contains_unread_mention = contains_unread_mention;
+    self
+  }
+
+  pub fn contains_unread_poll_votes(&mut self, contains_unread_poll_votes: bool) -> &mut Self {
+    self.inner.contains_unread_poll_votes = contains_unread_poll_votes;
     self
   }
 
@@ -372,6 +422,11 @@ impl RTDMessageBuilder {
     self
   }
 
+  pub fn import_info<T: AsRef<MessageImportInfo>>(&mut self, import_info: T) -> &mut Self {
+    self.inner.import_info = Some(import_info.as_ref().clone());
+    self
+  }
+
   pub fn interaction_info<T: AsRef<MessageInteractionInfo>>(
     &mut self,
     interaction_info: T,
@@ -380,33 +435,82 @@ impl RTDMessageBuilder {
     self
   }
 
-  pub fn reply_in_chat_id(&mut self, reply_in_chat_id: i64) -> &mut Self {
-    self.inner.reply_in_chat_id = reply_in_chat_id;
+  pub fn unread_reactions(&mut self, unread_reactions: Vec<UnreadReaction>) -> &mut Self {
+    self.inner.unread_reactions = unread_reactions;
     self
   }
 
-  pub fn reply_to_message_id(&mut self, reply_to_message_id: i64) -> &mut Self {
-    self.inner.reply_to_message_id = reply_to_message_id;
+  pub fn fact_check<T: AsRef<FactCheck>>(&mut self, fact_check: T) -> &mut Self {
+    self.inner.fact_check = Some(fact_check.as_ref().clone());
     self
   }
 
-  pub fn message_thread_id(&mut self, message_thread_id: i64) -> &mut Self {
-    self.inner.message_thread_id = message_thread_id;
+  pub fn suggested_post_info<T: AsRef<SuggestedPostInfo>>(
+    &mut self,
+    suggested_post_info: T,
+  ) -> &mut Self {
+    self.inner.suggested_post_info = Some(suggested_post_info.as_ref().clone());
     self
   }
 
-  pub fn ttl(&mut self, ttl: i64) -> &mut Self {
-    self.inner.ttl = ttl;
+  pub fn reply_to<T: AsRef<MessageReplyTo>>(&mut self, reply_to: T) -> &mut Self {
+    self.inner.reply_to = Some(reply_to.as_ref().clone());
     self
   }
 
-  pub fn ttl_expires_in(&mut self, ttl_expires_in: f32) -> &mut Self {
-    self.inner.ttl_expires_in = ttl_expires_in;
+  pub fn topic_id<T: AsRef<MessageTopic>>(&mut self, topic_id: T) -> &mut Self {
+    self.inner.topic_id = Some(topic_id.as_ref().clone());
+    self
+  }
+
+  pub fn self_destruct_type<T: AsRef<MessageSelfDestructType>>(
+    &mut self,
+    self_destruct_type: T,
+  ) -> &mut Self {
+    self.inner.self_destruct_type = Some(self_destruct_type.as_ref().clone());
+    self
+  }
+
+  pub fn self_destruct_in(&mut self, self_destruct_in: f32) -> &mut Self {
+    self.inner.self_destruct_in = self_destruct_in;
+    self
+  }
+
+  pub fn auto_delete_in(&mut self, auto_delete_in: f32) -> &mut Self {
+    self.inner.auto_delete_in = auto_delete_in;
     self
   }
 
   pub fn via_bot_user_id(&mut self, via_bot_user_id: i64) -> &mut Self {
     self.inner.via_bot_user_id = via_bot_user_id;
+    self
+  }
+
+  pub fn guest_bot_caller_id<T: AsRef<MessageSender>>(
+    &mut self,
+    guest_bot_caller_id: T,
+  ) -> &mut Self {
+    self.inner.guest_bot_caller_id = Some(guest_bot_caller_id.as_ref().clone());
+    self
+  }
+
+  pub fn sender_business_bot_user_id(&mut self, sender_business_bot_user_id: i64) -> &mut Self {
+    self.inner.sender_business_bot_user_id = sender_business_bot_user_id;
+    self
+  }
+
+  pub fn sender_boost_count(&mut self, sender_boost_count: i64) -> &mut Self {
+    self.inner.sender_boost_count = sender_boost_count;
+    self
+  }
+
+  pub fn sender_tag<T: AsRef<str>>(&mut self, sender_tag: T) -> &mut Self {
+    self.inner.sender_tag = sender_tag.as_ref().to_string();
+    self
+  }
+
+  pub fn paid_message_star_count(&mut self, paid_message_star_count: i64) -> &mut Self {
+    self.inner.paid_message_star_count = paid_message_star_count;
     self
   }
 
@@ -420,8 +524,18 @@ impl RTDMessageBuilder {
     self
   }
 
-  pub fn restriction_reason<T: AsRef<str>>(&mut self, restriction_reason: T) -> &mut Self {
-    self.inner.restriction_reason = restriction_reason.as_ref().to_string();
+  pub fn effect_id(&mut self, effect_id: isize) -> &mut Self {
+    self.inner.effect_id = effect_id;
+    self
+  }
+
+  pub fn restriction_info<T: AsRef<RestrictionInfo>>(&mut self, restriction_info: T) -> &mut Self {
+    self.inner.restriction_info = Some(restriction_info.as_ref().clone());
+    self
+  }
+
+  pub fn summary_language_code<T: AsRef<str>>(&mut self, summary_language_code: T) -> &mut Self {
+    self.inner.summary_language_code = summary_language_code.as_ref().to_string();
     self
   }
 
@@ -430,8 +544,26 @@ impl RTDMessageBuilder {
     self
   }
 
+  pub fn ephemeral_content<T: AsRef<EphemeralMessageContent>>(
+    &mut self,
+    ephemeral_content: T,
+  ) -> &mut Self {
+    self.inner.ephemeral_content = Some(ephemeral_content.as_ref().clone());
+    self
+  }
+
   pub fn reply_markup<T: AsRef<ReplyMarkup>>(&mut self, reply_markup: T) -> &mut Self {
     self.inner.reply_markup = Some(reply_markup.as_ref().clone());
+    self
+  }
+
+  pub fn ephemeral_message_id(&mut self, ephemeral_message_id: i64) -> &mut Self {
+    self.inner.ephemeral_message_id = ephemeral_message_id;
+    self
+  }
+
+  pub fn chat_instance(&mut self, chat_instance: isize) -> &mut Self {
+    self.inner.chat_instance = chat_instance;
     self
   }
 }

@@ -11,7 +11,7 @@ pub struct MessagePositions {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Total count of messages found
+  /// Total number of messages found
   total_count: i64,
   /// List of message positions
   positions: Vec<MessagePosition>,

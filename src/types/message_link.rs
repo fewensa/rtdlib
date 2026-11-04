@@ -2,7 +2,7 @@ use crate::errors::*;
 use crate::types::*;
 use uuid::Uuid;
 
-/// Contains an HTTPS link to a message in a supergroup or channel
+/// Contains an HTTPS link to a message in a supergroup or channel, or a forum topic
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageLink {
   #[doc(hidden)]
@@ -11,7 +11,7 @@ pub struct MessageLink {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Message link
+  /// The link
   link: String,
   /// True, if the link will work for non-members of the chat
   is_public: bool,

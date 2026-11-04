@@ -5,10 +5,10 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Represents the type of a network
+/// TRAIT | Represents the type of network
 pub trait TDNetworkType: Debug + RObject {}
 
-/// Represents the type of a network
+/// Represents the type of network
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum NetworkType {

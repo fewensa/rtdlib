@@ -20,12 +20,10 @@ pub enum ChatActionBar {
   InviteMembers(ChatActionBarInviteMembers),
   /// The chat is a private chat with an administrator of a chat to which the user sent join request
   JoinRequest(ChatActionBarJoinRequest),
-  /// The chat is a private or secret chat, which can be reported using the method reportChat, or the other user can be blocked using the method toggleMessageSenderIsBlocked, or the other user can be added to the contact list using the method addContact
+  /// The chat is a private or secret chat, which can be reported using the method reportChat, or the other user can be blocked using the method setMessageSenderBlockList, or the other user can be added to the contact list using the method addContact. If the chat is a private chat with a user with an emoji status, then a notice about emoji status usage must be shown
   ReportAddBlock(ChatActionBarReportAddBlock),
-  /// The chat can be reported as spam using the method reportChat with the reason chatReportReasonSpam
+  /// The chat can be reported as spam using the method reportChat with an empty option_id and message_ids. If the chat is a private chat with a user with an emoji status, then a notice about emoji status usage must be shown
   ReportSpam(ChatActionBarReportSpam),
-  /// The chat is a location-based supergroup, which can be reported as having unrelated location using the method reportChat with the reason chatReportReasonUnrelatedLocation
-  ReportUnrelatedLocation(ChatActionBarReportUnrelatedLocation),
   /// The chat is a private or secret chat with a mutual contact and the user's phone number can be shared with the other user using the method sharePhoneNumber
   SharePhoneNumber(ChatActionBarSharePhoneNumber),
 }
@@ -49,7 +47,6 @@ impl<'de> Deserialize<'de> for ChatActionBar {
       (chatActionBarJoinRequest, JoinRequest);
       (chatActionBarReportAddBlock, ReportAddBlock);
       (chatActionBarReportSpam, ReportSpam);
-      (chatActionBarReportUnrelatedLocation, ReportUnrelatedLocation);
       (chatActionBarSharePhoneNumber, SharePhoneNumber);
 
     )(deserializer)
@@ -65,7 +62,6 @@ impl RObject for ChatActionBar {
       ChatActionBar::JoinRequest(t) => t.td_name(),
       ChatActionBar::ReportAddBlock(t) => t.td_name(),
       ChatActionBar::ReportSpam(t) => t.td_name(),
-      ChatActionBar::ReportUnrelatedLocation(t) => t.td_name(),
       ChatActionBar::SharePhoneNumber(t) => t.td_name(),
 
       _ => "-1",
@@ -79,7 +75,6 @@ impl RObject for ChatActionBar {
       ChatActionBar::JoinRequest(t) => t.extra(),
       ChatActionBar::ReportAddBlock(t) => t.extra(),
       ChatActionBar::ReportSpam(t) => t.extra(),
-      ChatActionBar::ReportUnrelatedLocation(t) => t.extra(),
       ChatActionBar::SharePhoneNumber(t) => t.extra(),
 
       _ => None,
@@ -114,9 +109,6 @@ impl ChatActionBar {
   pub fn is_report_spam(&self) -> bool {
     matches!(self, ChatActionBar::ReportSpam(_))
   }
-  pub fn is_report_unrelated_location(&self) -> bool {
-    matches!(self, ChatActionBar::ReportUnrelatedLocation(_))
-  }
   pub fn is_share_phone_number(&self) -> bool {
     matches!(self, ChatActionBar::SharePhoneNumber(_))
   }
@@ -147,15 +139,6 @@ impl ChatActionBar {
   }
   pub fn on_report_spam<F: FnOnce(&ChatActionBarReportSpam)>(&self, fnc: F) -> &Self {
     if let ChatActionBar::ReportSpam(t) = self {
-      fnc(t)
-    };
-    self
-  }
-  pub fn on_report_unrelated_location<F: FnOnce(&ChatActionBarReportUnrelatedLocation)>(
-    &self,
-    fnc: F,
-  ) -> &Self {
-    if let ChatActionBar::ReportUnrelatedLocation(t) = self {
       fnc(t)
     };
     self
@@ -197,12 +180,6 @@ impl ChatActionBar {
     }
     None
   }
-  pub fn as_report_unrelated_location(&self) -> Option<&ChatActionBarReportUnrelatedLocation> {
-    if let ChatActionBar::ReportUnrelatedLocation(t) = self {
-      return Some(t);
-    }
-    None
-  }
   pub fn as_share_phone_number(&self) -> Option<&ChatActionBarSharePhoneNumber> {
     if let ChatActionBar::SharePhoneNumber(t) = self {
       return Some(t);
@@ -228,10 +205,6 @@ impl ChatActionBar {
 
   pub fn report_spam<T: AsRef<ChatActionBarReportSpam>>(t: T) -> Self {
     ChatActionBar::ReportSpam(t.as_ref().clone())
-  }
-
-  pub fn report_unrelated_location<T: AsRef<ChatActionBarReportUnrelatedLocation>>(t: T) -> Self {
-    ChatActionBar::ReportUnrelatedLocation(t.as_ref().clone())
   }
 
   pub fn share_phone_number<T: AsRef<ChatActionBarSharePhoneNumber>>(t: T) -> Self {
@@ -468,7 +441,7 @@ impl AsRef<ChatActionBarJoinRequest> for RTDChatActionBarJoinRequestBuilder {
   }
 }
 
-/// The chat is a private or secret chat, which can be reported using the method reportChat, or the other user can be blocked using the method toggleMessageSenderIsBlocked, or the other user can be added to the contact list using the method addContact
+/// The chat is a private or secret chat, which can be reported using the method reportChat, or the other user can be blocked using the method setMessageSenderBlockList, or the other user can be added to the contact list using the method addContact. If the chat is a private chat with a user with an emoji status, then a notice about emoji status usage must be shown
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatActionBarReportAddBlock {
   #[doc(hidden)]
@@ -479,8 +452,8 @@ pub struct ChatActionBarReportAddBlock {
   extra: Option<String>,
   /// If true, the chat was automatically archived and can be moved back to the main chat list using addChatToList simultaneously with setting chat notification settings to default using setChatNotificationSettings
   can_unarchive: bool,
-  /// If non-negative, the current user was found by the peer through searchChatsNearby and this is the distance between the users
-  distance: i64,
+  /// Basic information about the other user in the chat; may be null if unknown
+  account_info: Option<AccountInfo>,
 }
 
 impl RObject for ChatActionBarReportAddBlock {
@@ -516,8 +489,8 @@ impl ChatActionBarReportAddBlock {
     self.can_unarchive
   }
 
-  pub fn distance(&self) -> i64 {
-    self.distance
+  pub fn account_info(&self) -> &Option<AccountInfo> {
+    &self.account_info
   }
 }
 
@@ -536,8 +509,8 @@ impl RTDChatActionBarReportAddBlockBuilder {
     self
   }
 
-  pub fn distance(&mut self, distance: i64) -> &mut Self {
-    self.inner.distance = distance;
+  pub fn account_info<T: AsRef<AccountInfo>>(&mut self, account_info: T) -> &mut Self {
+    self.inner.account_info = Some(account_info.as_ref().clone());
     self
   }
 }
@@ -554,7 +527,7 @@ impl AsRef<ChatActionBarReportAddBlock> for RTDChatActionBarReportAddBlockBuilde
   }
 }
 
-/// The chat can be reported as spam using the method reportChat with the reason chatReportReasonSpam
+/// The chat can be reported as spam using the method reportChat with an empty option_id and message_ids. If the chat is a private chat with a user with an emoji status, then a notice about emoji status usage must be shown
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatActionBarReportSpam {
   #[doc(hidden)]
@@ -625,71 +598,6 @@ impl AsRef<ChatActionBarReportSpam> for ChatActionBarReportSpam {
 
 impl AsRef<ChatActionBarReportSpam> for RTDChatActionBarReportSpamBuilder {
   fn as_ref(&self) -> &ChatActionBarReportSpam {
-    &self.inner
-  }
-}
-
-/// The chat is a location-based supergroup, which can be reported as having unrelated location using the method reportChat with the reason chatReportReasonUnrelatedLocation
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ChatActionBarReportUnrelatedLocation {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
-  extra: Option<String>,
-}
-
-impl RObject for ChatActionBarReportUnrelatedLocation {
-  #[doc(hidden)]
-  fn td_name(&self) -> &'static str {
-    "chatActionBarReportUnrelatedLocation"
-  }
-  #[doc(hidden)]
-  fn extra(&self) -> Option<String> {
-    self.extra.clone()
-  }
-  fn to_json(&self) -> RTDResult<String> {
-    Ok(serde_json::to_string(self)?)
-  }
-}
-
-impl TDChatActionBar for ChatActionBarReportUnrelatedLocation {}
-
-impl ChatActionBarReportUnrelatedLocation {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
-    Ok(serde_json::from_str(json.as_ref())?)
-  }
-  pub fn builder() -> RTDChatActionBarReportUnrelatedLocationBuilder {
-    let inner = ChatActionBarReportUnrelatedLocation {
-      td_name: "chatActionBarReportUnrelatedLocation".to_string(),
-      extra: Some(Uuid::new_v4().to_string()),
-    };
-    RTDChatActionBarReportUnrelatedLocationBuilder { inner }
-  }
-}
-
-#[doc(hidden)]
-pub struct RTDChatActionBarReportUnrelatedLocationBuilder {
-  inner: ChatActionBarReportUnrelatedLocation,
-}
-
-impl RTDChatActionBarReportUnrelatedLocationBuilder {
-  pub fn build(&self) -> ChatActionBarReportUnrelatedLocation {
-    self.inner.clone()
-  }
-}
-
-impl AsRef<ChatActionBarReportUnrelatedLocation> for ChatActionBarReportUnrelatedLocation {
-  fn as_ref(&self) -> &ChatActionBarReportUnrelatedLocation {
-    self
-  }
-}
-
-impl AsRef<ChatActionBarReportUnrelatedLocation>
-  for RTDChatActionBarReportUnrelatedLocationBuilder
-{
-  fn as_ref(&self) -> &ChatActionBarReportUnrelatedLocation {
     &self.inner
   }
 }

@@ -2,7 +2,7 @@ use crate::errors::*;
 use crate::types::*;
 use uuid::Uuid;
 
-/// Contains a caption of an instant view web page block, consisting of a text and a trailing credit
+/// Contains a caption of another block
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockCaption {
   #[doc(hidden)]
@@ -13,8 +13,8 @@ pub struct PageBlockCaption {
   extra: Option<String>,
   /// Content of the caption
   text: RichText,
-  /// Block credit (like HTML tag <cite>)
-  credit: RichText,
+  /// Block credit (like HTML tag <cite>); may be null if none
+  credit: Option<RichText>,
 }
 
 impl RObject for PageBlockCaption {
@@ -48,7 +48,7 @@ impl PageBlockCaption {
     &self.text
   }
 
-  pub fn credit(&self) -> &RichText {
+  pub fn credit(&self) -> &Option<RichText> {
     &self.credit
   }
 }
@@ -69,7 +69,7 @@ impl RTDPageBlockCaptionBuilder {
   }
 
   pub fn credit<T: AsRef<RichText>>(&mut self, credit: T) -> &mut Self {
-    self.inner.credit = credit.as_ref().clone();
+    self.inner.credit = Some(credit.as_ref().clone());
     self
   }
 }

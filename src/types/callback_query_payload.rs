@@ -233,7 +233,7 @@ pub struct CallbackQueryPayloadDataWithPassword {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// The password for the current user
+  /// The 2-step verification password for the current user
   password: String,
   /// Data that was attached to the callback button
   data: String,

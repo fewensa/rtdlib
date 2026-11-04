@@ -24,7 +24,7 @@ pub enum ChatMembersFilter {
   Contacts(ChatMembersFilterContacts),
   /// Returns all chat members, including restricted chat members
   Members(ChatMembersFilterMembers),
-  /// Returns users which can be mentioned in the chat
+  /// Returns users who can be mentioned in the chat
   Mention(ChatMembersFilterMention),
   /// Returns users under certain restrictions in the chat; can be used only by administrators in a supergroup
   Restricted(ChatMembersFilterRestricted),
@@ -557,7 +557,7 @@ impl AsRef<ChatMembersFilterMembers> for RTDChatMembersFilterMembersBuilder {
   }
 }
 
-/// Returns users which can be mentioned in the chat
+/// Returns users who can be mentioned in the chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatMembersFilterMention {
   #[doc(hidden)]
@@ -566,8 +566,8 @@ pub struct ChatMembersFilterMention {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// If non-zero, the identifier of the current message thread
-  message_thread_id: i64,
+  /// Identifier of the topic in which the users will be mentioned; pass null if none
+  topic_id: MessageTopic,
 }
 
 impl RObject for ChatMembersFilterMention {
@@ -599,8 +599,8 @@ impl ChatMembersFilterMention {
     RTDChatMembersFilterMentionBuilder { inner }
   }
 
-  pub fn message_thread_id(&self) -> i64 {
-    self.message_thread_id
+  pub fn topic_id(&self) -> &MessageTopic {
+    &self.topic_id
   }
 }
 
@@ -614,8 +614,8 @@ impl RTDChatMembersFilterMentionBuilder {
     self.inner.clone()
   }
 
-  pub fn message_thread_id(&mut self, message_thread_id: i64) -> &mut Self {
-    self.inner.message_thread_id = message_thread_id;
+  pub fn topic_id<T: AsRef<MessageTopic>>(&mut self, topic_id: T) -> &mut Self {
+    self.inner.topic_id = topic_id.as_ref().clone();
     self
   }
 }

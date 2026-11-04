@@ -18,6 +18,8 @@ pub enum MessageSender {
   Chat(MessageSenderChat),
   /// The message was sent by a known user
   User(MessageSenderUser),
+  /// Informs TDLib that speaking state of a participant of an active group call has changed. Returns identifier of the participant if it is found
+  SetGroupCallParticipantIsSpeaking(SetGroupCallParticipantIsSpeaking),
 }
 
 impl Default for MessageSender {
@@ -36,6 +38,7 @@ impl<'de> Deserialize<'de> for MessageSender {
       MessageSender,
       (messageSenderChat, Chat);
       (messageSenderUser, User);
+      (setGroupCallParticipantIsSpeaking, SetGroupCallParticipantIsSpeaking);
 
     )(deserializer)
   }
@@ -47,6 +50,7 @@ impl RObject for MessageSender {
     match self {
       MessageSender::Chat(t) => t.td_name(),
       MessageSender::User(t) => t.td_name(),
+      MessageSender::SetGroupCallParticipantIsSpeaking(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -56,6 +60,7 @@ impl RObject for MessageSender {
     match self {
       MessageSender::Chat(t) => t.extra(),
       MessageSender::User(t) => t.extra(),
+      MessageSender::SetGroupCallParticipantIsSpeaking(t) => t.extra(),
 
       _ => None,
     }
@@ -80,6 +85,9 @@ impl MessageSender {
   pub fn is_user(&self) -> bool {
     matches!(self, MessageSender::User(_))
   }
+  pub fn is_set_group_call_participant_is_speaking(&self) -> bool {
+    matches!(self, MessageSender::SetGroupCallParticipantIsSpeaking(_))
+  }
 
   pub fn on_chat<F: FnOnce(&MessageSenderChat)>(&self, fnc: F) -> &Self {
     if let MessageSender::Chat(t) = self {
@@ -89,6 +97,17 @@ impl MessageSender {
   }
   pub fn on_user<F: FnOnce(&MessageSenderUser)>(&self, fnc: F) -> &Self {
     if let MessageSender::User(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_set_group_call_participant_is_speaking<
+    F: FnOnce(&SetGroupCallParticipantIsSpeaking),
+  >(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let MessageSender::SetGroupCallParticipantIsSpeaking(t) = self {
       fnc(t)
     };
     self
@@ -106,6 +125,14 @@ impl MessageSender {
     }
     None
   }
+  pub fn as_set_group_call_participant_is_speaking(
+    &self,
+  ) -> Option<&SetGroupCallParticipantIsSpeaking> {
+    if let MessageSender::SetGroupCallParticipantIsSpeaking(t) = self {
+      return Some(t);
+    }
+    None
+  }
 
   pub fn chat<T: AsRef<MessageSenderChat>>(t: T) -> Self {
     MessageSender::Chat(t.as_ref().clone())
@@ -113,6 +140,12 @@ impl MessageSender {
 
   pub fn user<T: AsRef<MessageSenderUser>>(t: T) -> Self {
     MessageSender::User(t.as_ref().clone())
+  }
+
+  pub fn set_group_call_participant_is_speaking<T: AsRef<SetGroupCallParticipantIsSpeaking>>(
+    t: T,
+  ) -> Self {
+    MessageSender::SetGroupCallParticipantIsSpeaking(t.as_ref().clone())
   }
 }
 
@@ -206,7 +239,7 @@ pub struct MessageSenderUser {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Identifier of the user that sent the message
+  /// Identifier of the user who sent the message
   user_id: i64,
 }
 

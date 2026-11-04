@@ -256,6 +256,8 @@ pub struct NotificationTypeNewMessage {
   extra: Option<String>,
   /// The message
   message: Message,
+  /// True, if message content must be displayed in notifications
+  show_preview: bool,
 }
 
 impl RObject for NotificationTypeNewMessage {
@@ -290,6 +292,10 @@ impl NotificationTypeNewMessage {
   pub fn message(&self) -> &Message {
     &self.message
   }
+
+  pub fn show_preview(&self) -> bool {
+    self.show_preview
+  }
 }
 
 #[doc(hidden)]
@@ -304,6 +310,11 @@ impl RTDNotificationTypeNewMessageBuilder {
 
   pub fn message<T: AsRef<Message>>(&mut self, message: T) -> &mut Self {
     self.inner.message = message.as_ref().clone();
+    self
+  }
+
+  pub fn show_preview(&mut self, show_preview: bool) -> &mut Self {
+    self.inner.show_preview = show_preview;
     self
   }
 }
@@ -329,7 +340,7 @@ pub struct NotificationTypeNewPushMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// The message identifier. The message will not be available in the chat history, but the ID can be used in viewMessages, or as reply_to_message_id
+  /// The message identifier. The message will not be available in the chat history, but the identifier can be used in viewMessages, or as a message to be replied in the same chat
   message_id: i64,
   /// Identifier of the sender of the message. Corresponding user or chat may be inaccessible
   sender_id: MessageSender,

@@ -34,8 +34,14 @@ pub enum SearchMessagesFilter {
   PhotoAndVideo(SearchMessagesFilterPhotoAndVideo),
   /// Returns only pinned messages
   Pinned(SearchMessagesFilterPinned),
-  /// Returns only messages with unread mentions of the current user, or messages that are replies to their messages. When using this filter the results can't be additionally filtered by a query, a message thread or by the sending user
+  /// Returns only poll messages
+  Poll(SearchMessagesFilterPoll),
+  /// Returns only messages with unread mentions of the current user, or messages that are replies to their messages. When using this filter the results can't be additionally filtered by a query or by the sending user
   UnreadMention(SearchMessagesFilterUnreadMention),
+  /// Returns only messages with unread poll votes for the current user. When using this filter the results can't be additionally filtered by a query or by the sending user
+  UnreadPollVote(SearchMessagesFilterUnreadPollVote),
+  /// Returns only messages with unread reactions for the current user. When using this filter the results can't be additionally filtered by a query or by the sending user
+  UnreadReaction(SearchMessagesFilterUnreadReaction),
   /// Returns only messages containing URLs
   Url(SearchMessagesFilterUrl),
   /// Returns only video messages
@@ -72,7 +78,10 @@ impl<'de> Deserialize<'de> for SearchMessagesFilter {
       (searchMessagesFilterPhoto, Photo);
       (searchMessagesFilterPhotoAndVideo, PhotoAndVideo);
       (searchMessagesFilterPinned, Pinned);
+      (searchMessagesFilterPoll, Poll);
       (searchMessagesFilterUnreadMention, UnreadMention);
+      (searchMessagesFilterUnreadPollVote, UnreadPollVote);
+      (searchMessagesFilterUnreadReaction, UnreadReaction);
       (searchMessagesFilterUrl, Url);
       (searchMessagesFilterVideo, Video);
       (searchMessagesFilterVideoNote, VideoNote);
@@ -97,7 +106,10 @@ impl RObject for SearchMessagesFilter {
       SearchMessagesFilter::Photo(t) => t.td_name(),
       SearchMessagesFilter::PhotoAndVideo(t) => t.td_name(),
       SearchMessagesFilter::Pinned(t) => t.td_name(),
+      SearchMessagesFilter::Poll(t) => t.td_name(),
       SearchMessagesFilter::UnreadMention(t) => t.td_name(),
+      SearchMessagesFilter::UnreadPollVote(t) => t.td_name(),
+      SearchMessagesFilter::UnreadReaction(t) => t.td_name(),
       SearchMessagesFilter::Url(t) => t.td_name(),
       SearchMessagesFilter::Video(t) => t.td_name(),
       SearchMessagesFilter::VideoNote(t) => t.td_name(),
@@ -120,7 +132,10 @@ impl RObject for SearchMessagesFilter {
       SearchMessagesFilter::Photo(t) => t.extra(),
       SearchMessagesFilter::PhotoAndVideo(t) => t.extra(),
       SearchMessagesFilter::Pinned(t) => t.extra(),
+      SearchMessagesFilter::Poll(t) => t.extra(),
       SearchMessagesFilter::UnreadMention(t) => t.extra(),
+      SearchMessagesFilter::UnreadPollVote(t) => t.extra(),
+      SearchMessagesFilter::UnreadReaction(t) => t.extra(),
       SearchMessagesFilter::Url(t) => t.extra(),
       SearchMessagesFilter::Video(t) => t.extra(),
       SearchMessagesFilter::VideoNote(t) => t.extra(),
@@ -174,8 +189,17 @@ impl SearchMessagesFilter {
   pub fn is_pinned(&self) -> bool {
     matches!(self, SearchMessagesFilter::Pinned(_))
   }
+  pub fn is_poll(&self) -> bool {
+    matches!(self, SearchMessagesFilter::Poll(_))
+  }
   pub fn is_unread_mention(&self) -> bool {
     matches!(self, SearchMessagesFilter::UnreadMention(_))
+  }
+  pub fn is_unread_poll_vote(&self) -> bool {
+    matches!(self, SearchMessagesFilter::UnreadPollVote(_))
+  }
+  pub fn is_unread_reaction(&self) -> bool {
+    matches!(self, SearchMessagesFilter::UnreadReaction(_))
   }
   pub fn is_url(&self) -> bool {
     matches!(self, SearchMessagesFilter::Url(_))
@@ -253,8 +277,32 @@ impl SearchMessagesFilter {
     };
     self
   }
+  pub fn on_poll<F: FnOnce(&SearchMessagesFilterPoll)>(&self, fnc: F) -> &Self {
+    if let SearchMessagesFilter::Poll(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_unread_mention<F: FnOnce(&SearchMessagesFilterUnreadMention)>(&self, fnc: F) -> &Self {
     if let SearchMessagesFilter::UnreadMention(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_unread_poll_vote<F: FnOnce(&SearchMessagesFilterUnreadPollVote)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let SearchMessagesFilter::UnreadPollVote(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_unread_reaction<F: FnOnce(&SearchMessagesFilterUnreadReaction)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let SearchMessagesFilter::UnreadReaction(t) = self {
       fnc(t)
     };
     self
@@ -353,8 +401,26 @@ impl SearchMessagesFilter {
     }
     None
   }
+  pub fn as_poll(&self) -> Option<&SearchMessagesFilterPoll> {
+    if let SearchMessagesFilter::Poll(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_unread_mention(&self) -> Option<&SearchMessagesFilterUnreadMention> {
     if let SearchMessagesFilter::UnreadMention(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_unread_poll_vote(&self) -> Option<&SearchMessagesFilterUnreadPollVote> {
+    if let SearchMessagesFilter::UnreadPollVote(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_unread_reaction(&self) -> Option<&SearchMessagesFilterUnreadReaction> {
+    if let SearchMessagesFilter::UnreadReaction(t) = self {
       return Some(t);
     }
     None
@@ -430,8 +496,20 @@ impl SearchMessagesFilter {
     SearchMessagesFilter::Pinned(t.as_ref().clone())
   }
 
+  pub fn poll<T: AsRef<SearchMessagesFilterPoll>>(t: T) -> Self {
+    SearchMessagesFilter::Poll(t.as_ref().clone())
+  }
+
   pub fn unread_mention<T: AsRef<SearchMessagesFilterUnreadMention>>(t: T) -> Self {
     SearchMessagesFilter::UnreadMention(t.as_ref().clone())
+  }
+
+  pub fn unread_poll_vote<T: AsRef<SearchMessagesFilterUnreadPollVote>>(t: T) -> Self {
+    SearchMessagesFilter::UnreadPollVote(t.as_ref().clone())
+  }
+
+  pub fn unread_reaction<T: AsRef<SearchMessagesFilterUnreadReaction>>(t: T) -> Self {
+    SearchMessagesFilter::UnreadReaction(t.as_ref().clone())
   }
 
   pub fn url<T: AsRef<SearchMessagesFilterUrl>>(t: T) -> Self {
@@ -1091,7 +1169,70 @@ impl AsRef<SearchMessagesFilterPinned> for RTDSearchMessagesFilterPinnedBuilder 
   }
 }
 
-/// Returns only messages with unread mentions of the current user, or messages that are replies to their messages. When using this filter the results can't be additionally filtered by a query, a message thread or by the sending user
+/// Returns only poll messages
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SearchMessagesFilterPoll {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for SearchMessagesFilterPoll {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "searchMessagesFilterPoll"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDSearchMessagesFilter for SearchMessagesFilterPoll {}
+
+impl SearchMessagesFilterPoll {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDSearchMessagesFilterPollBuilder {
+    let inner = SearchMessagesFilterPoll {
+      td_name: "searchMessagesFilterPoll".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDSearchMessagesFilterPollBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDSearchMessagesFilterPollBuilder {
+  inner: SearchMessagesFilterPoll,
+}
+
+impl RTDSearchMessagesFilterPollBuilder {
+  pub fn build(&self) -> SearchMessagesFilterPoll {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<SearchMessagesFilterPoll> for SearchMessagesFilterPoll {
+  fn as_ref(&self) -> &SearchMessagesFilterPoll {
+    self
+  }
+}
+
+impl AsRef<SearchMessagesFilterPoll> for RTDSearchMessagesFilterPollBuilder {
+  fn as_ref(&self) -> &SearchMessagesFilterPoll {
+    &self.inner
+  }
+}
+
+/// Returns only messages with unread mentions of the current user, or messages that are replies to their messages. When using this filter the results can't be additionally filtered by a query or by the sending user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SearchMessagesFilterUnreadMention {
   #[doc(hidden)]
@@ -1150,6 +1291,132 @@ impl AsRef<SearchMessagesFilterUnreadMention> for SearchMessagesFilterUnreadMent
 
 impl AsRef<SearchMessagesFilterUnreadMention> for RTDSearchMessagesFilterUnreadMentionBuilder {
   fn as_ref(&self) -> &SearchMessagesFilterUnreadMention {
+    &self.inner
+  }
+}
+
+/// Returns only messages with unread poll votes for the current user. When using this filter the results can't be additionally filtered by a query or by the sending user
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SearchMessagesFilterUnreadPollVote {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for SearchMessagesFilterUnreadPollVote {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "searchMessagesFilterUnreadPollVote"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDSearchMessagesFilter for SearchMessagesFilterUnreadPollVote {}
+
+impl SearchMessagesFilterUnreadPollVote {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDSearchMessagesFilterUnreadPollVoteBuilder {
+    let inner = SearchMessagesFilterUnreadPollVote {
+      td_name: "searchMessagesFilterUnreadPollVote".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDSearchMessagesFilterUnreadPollVoteBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDSearchMessagesFilterUnreadPollVoteBuilder {
+  inner: SearchMessagesFilterUnreadPollVote,
+}
+
+impl RTDSearchMessagesFilterUnreadPollVoteBuilder {
+  pub fn build(&self) -> SearchMessagesFilterUnreadPollVote {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<SearchMessagesFilterUnreadPollVote> for SearchMessagesFilterUnreadPollVote {
+  fn as_ref(&self) -> &SearchMessagesFilterUnreadPollVote {
+    self
+  }
+}
+
+impl AsRef<SearchMessagesFilterUnreadPollVote> for RTDSearchMessagesFilterUnreadPollVoteBuilder {
+  fn as_ref(&self) -> &SearchMessagesFilterUnreadPollVote {
+    &self.inner
+  }
+}
+
+/// Returns only messages with unread reactions for the current user. When using this filter the results can't be additionally filtered by a query or by the sending user
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SearchMessagesFilterUnreadReaction {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for SearchMessagesFilterUnreadReaction {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "searchMessagesFilterUnreadReaction"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDSearchMessagesFilter for SearchMessagesFilterUnreadReaction {}
+
+impl SearchMessagesFilterUnreadReaction {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDSearchMessagesFilterUnreadReactionBuilder {
+    let inner = SearchMessagesFilterUnreadReaction {
+      td_name: "searchMessagesFilterUnreadReaction".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDSearchMessagesFilterUnreadReactionBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDSearchMessagesFilterUnreadReactionBuilder {
+  inner: SearchMessagesFilterUnreadReaction,
+}
+
+impl RTDSearchMessagesFilterUnreadReactionBuilder {
+  pub fn build(&self) -> SearchMessagesFilterUnreadReaction {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<SearchMessagesFilterUnreadReaction> for SearchMessagesFilterUnreadReaction {
+  fn as_ref(&self) -> &SearchMessagesFilterUnreadReaction {
+    self
+  }
+}
+
+impl AsRef<SearchMessagesFilterUnreadReaction> for RTDSearchMessagesFilterUnreadReactionBuilder {
+  fn as_ref(&self) -> &SearchMessagesFilterUnreadReaction {
     &self.inner
   }
 }

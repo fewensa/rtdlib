@@ -18,7 +18,7 @@ pub enum ReplyMarkup {
   ForceReply(ReplyMarkupForceReply),
   /// Contains an inline keyboard layout
   InlineKeyboard(ReplyMarkupInlineKeyboard),
-  /// Instructs application to remove the keyboard once this message has been received. This kind of keyboard can't be received in an incoming message; instead, UpdateChatReplyMarkup with message_id == 0 will be sent
+  /// Instructs application to remove the keyboard once this message has been received. This kind of keyboard can't be received in an incoming message; instead, updateChatReplyMarkup with reply_markup_message == null will be sent
   RemoveKeyboard(ReplyMarkupRemoveKeyboard),
   /// Contains a custom keyboard layout to quickly reply to bots
   ShowKeyboard(ReplyMarkupShowKeyboard),
@@ -270,6 +270,8 @@ pub struct ReplyMarkupInlineKeyboard {
   extra: Option<String>,
   /// A list of rows of inline keyboard buttons
   rows: Vec<Vec<InlineKeyboardButton>>,
+  /// True, if a reply to the message must be forced when the message is received
+  force_reply: bool,
 }
 
 impl RObject for ReplyMarkupInlineKeyboard {
@@ -304,6 +306,10 @@ impl ReplyMarkupInlineKeyboard {
   pub fn rows(&self) -> &Vec<Vec<InlineKeyboardButton>> {
     &self.rows
   }
+
+  pub fn force_reply(&self) -> bool {
+    self.force_reply
+  }
 }
 
 #[doc(hidden)]
@@ -320,6 +326,11 @@ impl RTDReplyMarkupInlineKeyboardBuilder {
     self.inner.rows = rows;
     self
   }
+
+  pub fn force_reply(&mut self, force_reply: bool) -> &mut Self {
+    self.inner.force_reply = force_reply;
+    self
+  }
 }
 
 impl AsRef<ReplyMarkupInlineKeyboard> for ReplyMarkupInlineKeyboard {
@@ -334,7 +345,7 @@ impl AsRef<ReplyMarkupInlineKeyboard> for RTDReplyMarkupInlineKeyboardBuilder {
   }
 }
 
-/// Instructs application to remove the keyboard once this message has been received. This kind of keyboard can't be received in an incoming message; instead, UpdateChatReplyMarkup with message_id == 0 will be sent
+/// Instructs application to remove the keyboard once this message has been received. This kind of keyboard can't be received in an incoming message; instead, updateChatReplyMarkup with reply_markup_message == null will be sent
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ReplyMarkupRemoveKeyboard {
   #[doc(hidden)]
@@ -420,12 +431,16 @@ pub struct ReplyMarkupShowKeyboard {
   extra: Option<String>,
   /// A list of rows of bot keyboard buttons
   rows: Vec<Vec<KeyboardButton>>,
+  /// True, if the keyboard is expected to always be shown when the ordinary keyboard is hidden
+  is_persistent: bool,
   /// True, if the application needs to resize the keyboard vertically
   resize_keyboard: bool,
   /// True, if the application needs to hide the keyboard after use
   one_time: bool,
   /// True, if the keyboard must automatically be shown to the current user. For outgoing messages, specify true to show the keyboard only for the mentioned users and for the target user of a reply
   is_personal: bool,
+  /// True, if the keyboard must force reply to the message with the keyboard
+  force_reply: bool,
   /// If non-empty, the placeholder to be shown in the input field when the keyboard is active; 0-64 characters
   input_field_placeholder: String,
 }
@@ -463,6 +478,10 @@ impl ReplyMarkupShowKeyboard {
     &self.rows
   }
 
+  pub fn is_persistent(&self) -> bool {
+    self.is_persistent
+  }
+
   pub fn resize_keyboard(&self) -> bool {
     self.resize_keyboard
   }
@@ -473,6 +492,10 @@ impl ReplyMarkupShowKeyboard {
 
   pub fn is_personal(&self) -> bool {
     self.is_personal
+  }
+
+  pub fn force_reply(&self) -> bool {
+    self.force_reply
   }
 
   pub fn input_field_placeholder(&self) -> &String {
@@ -495,6 +518,11 @@ impl RTDReplyMarkupShowKeyboardBuilder {
     self
   }
 
+  pub fn is_persistent(&mut self, is_persistent: bool) -> &mut Self {
+    self.inner.is_persistent = is_persistent;
+    self
+  }
+
   pub fn resize_keyboard(&mut self, resize_keyboard: bool) -> &mut Self {
     self.inner.resize_keyboard = resize_keyboard;
     self
@@ -507,6 +535,11 @@ impl RTDReplyMarkupShowKeyboardBuilder {
 
   pub fn is_personal(&mut self, is_personal: bool) -> &mut Self {
     self.inner.is_personal = is_personal;
+    self
+  }
+
+  pub fn force_reply(&mut self, force_reply: bool) -> &mut Self {
+    self.inner.force_reply = force_reply;
     self
   }
 

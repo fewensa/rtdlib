@@ -13,6 +13,8 @@ pub struct MessageStatistics {
   extra: Option<String>,
   /// A graph containing number of message views and shares
   message_interaction_graph: StatisticalGraph,
+  /// A graph containing number of message reactions
+  message_reaction_graph: StatisticalGraph,
 }
 
 impl RObject for MessageStatistics {
@@ -45,6 +47,10 @@ impl MessageStatistics {
   pub fn message_interaction_graph(&self) -> &StatisticalGraph {
     &self.message_interaction_graph
   }
+
+  pub fn message_reaction_graph(&self) -> &StatisticalGraph {
+    &self.message_reaction_graph
+  }
 }
 
 #[doc(hidden)]
@@ -62,6 +68,14 @@ impl RTDMessageStatisticsBuilder {
     message_interaction_graph: T,
   ) -> &mut Self {
     self.inner.message_interaction_graph = message_interaction_graph.as_ref().clone();
+    self
+  }
+
+  pub fn message_reaction_graph<T: AsRef<StatisticalGraph>>(
+    &mut self,
+    message_reaction_graph: T,
+  ) -> &mut Self {
+    self.inner.message_reaction_graph = message_reaction_graph.as_ref().clone();
     self
   }
 }

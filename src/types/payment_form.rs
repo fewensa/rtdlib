@@ -12,25 +12,15 @@ pub struct PaymentForm {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// The payment form identifier
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
   id: isize,
-  /// Full information of the invoice
-  invoice: Invoice,
-  /// Payment form URL
-  url: String,
+  /// Type of the payment form
+  #[serde(rename(serialize = "type", deserialize = "type"))]
+  type_: PaymentFormType,
   /// User identifier of the seller bot
   seller_bot_user_id: i64,
-  /// User identifier of the payment provider bot
-  payments_provider_user_id: i64,
-  /// Information about the payment provider, if available, to support it natively without the need for opening the URL; may be null
-  payments_provider: Option<PaymentsProviderStripe>,
-  /// Saved server-side order information; may be null
-  saved_order_info: Option<OrderInfo>,
-  /// Information about saved card credentials; may be null
-  saved_credentials: Option<SavedCredentials>,
-  /// True, if the user can choose to save credentials
-  can_save_credentials: bool,
-  /// True, if the user will be able to save credentials protected by a password they set up
-  need_password: bool,
+  /// Information about the product
+  product_info: ProductInfo,
 }
 
 impl RObject for PaymentForm {
@@ -64,40 +54,16 @@ impl PaymentForm {
     self.id
   }
 
-  pub fn invoice(&self) -> &Invoice {
-    &self.invoice
-  }
-
-  pub fn url(&self) -> &String {
-    &self.url
+  pub fn type_(&self) -> &PaymentFormType {
+    &self.type_
   }
 
   pub fn seller_bot_user_id(&self) -> i64 {
     self.seller_bot_user_id
   }
 
-  pub fn payments_provider_user_id(&self) -> i64 {
-    self.payments_provider_user_id
-  }
-
-  pub fn payments_provider(&self) -> &Option<PaymentsProviderStripe> {
-    &self.payments_provider
-  }
-
-  pub fn saved_order_info(&self) -> &Option<OrderInfo> {
-    &self.saved_order_info
-  }
-
-  pub fn saved_credentials(&self) -> &Option<SavedCredentials> {
-    &self.saved_credentials
-  }
-
-  pub fn can_save_credentials(&self) -> bool {
-    self.can_save_credentials
-  }
-
-  pub fn need_password(&self) -> bool {
-    self.need_password
+  pub fn product_info(&self) -> &ProductInfo {
+    &self.product_info
   }
 }
 
@@ -116,13 +82,8 @@ impl RTDPaymentFormBuilder {
     self
   }
 
-  pub fn invoice<T: AsRef<Invoice>>(&mut self, invoice: T) -> &mut Self {
-    self.inner.invoice = invoice.as_ref().clone();
-    self
-  }
-
-  pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
-    self.inner.url = url.as_ref().to_string();
+  pub fn type_<T: AsRef<PaymentFormType>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().clone();
     self
   }
 
@@ -131,39 +92,8 @@ impl RTDPaymentFormBuilder {
     self
   }
 
-  pub fn payments_provider_user_id(&mut self, payments_provider_user_id: i64) -> &mut Self {
-    self.inner.payments_provider_user_id = payments_provider_user_id;
-    self
-  }
-
-  pub fn payments_provider<T: AsRef<PaymentsProviderStripe>>(
-    &mut self,
-    payments_provider: T,
-  ) -> &mut Self {
-    self.inner.payments_provider = Some(payments_provider.as_ref().clone());
-    self
-  }
-
-  pub fn saved_order_info<T: AsRef<OrderInfo>>(&mut self, saved_order_info: T) -> &mut Self {
-    self.inner.saved_order_info = Some(saved_order_info.as_ref().clone());
-    self
-  }
-
-  pub fn saved_credentials<T: AsRef<SavedCredentials>>(
-    &mut self,
-    saved_credentials: T,
-  ) -> &mut Self {
-    self.inner.saved_credentials = Some(saved_credentials.as_ref().clone());
-    self
-  }
-
-  pub fn can_save_credentials(&mut self, can_save_credentials: bool) -> &mut Self {
-    self.inner.can_save_credentials = can_save_credentials;
-    self
-  }
-
-  pub fn need_password(&mut self, need_password: bool) -> &mut Self {
-    self.inner.need_password = need_password;
+  pub fn product_info<T: AsRef<ProductInfo>>(&mut self, product_info: T) -> &mut Self {
+    self.inner.product_info = product_info.as_ref().clone();
     self
   }
 }

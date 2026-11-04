@@ -5,10 +5,10 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Describes the exact type of a problem with a call
+/// TRAIT | Describes the exact type of problem with a call
 pub trait TDCallProblem: Debug + RObject {}
 
-/// Describes the exact type of a problem with a call
+/// Describes the exact type of problem with a call
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum CallProblem {

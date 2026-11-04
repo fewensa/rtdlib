@@ -14,7 +14,16 @@ pub struct PageBlockListItem {
   /// Item label
   label: String,
   /// Item blocks
-  page_blocks: Vec<PageBlock>,
+  blocks: Vec<PageBlock>,
+  /// True, if the item has a checkbox
+  has_checkbox: bool,
+  /// True, if the item is checked
+  is_checked: bool,
+  /// Value of the item; 0 for unordered lists
+  value: i64,
+  /// Type of item numbering; must be one of "a" for lowercase letters, "A" for uppercase letters, "i" for lowercase Roman numerals, "I" for uppercase Roman numerals, "1" for decimal numbers, or an empty string for unordered lists
+  #[serde(rename(serialize = "type", deserialize = "type"))]
+  type_: String,
 }
 
 impl RObject for PageBlockListItem {
@@ -48,8 +57,24 @@ impl PageBlockListItem {
     &self.label
   }
 
-  pub fn page_blocks(&self) -> &Vec<PageBlock> {
-    &self.page_blocks
+  pub fn blocks(&self) -> &Vec<PageBlock> {
+    &self.blocks
+  }
+
+  pub fn has_checkbox(&self) -> bool {
+    self.has_checkbox
+  }
+
+  pub fn is_checked(&self) -> bool {
+    self.is_checked
+  }
+
+  pub fn value(&self) -> i64 {
+    self.value
+  }
+
+  pub fn type_(&self) -> &String {
+    &self.type_
   }
 }
 
@@ -68,8 +93,28 @@ impl RTDPageBlockListItemBuilder {
     self
   }
 
-  pub fn page_blocks(&mut self, page_blocks: Vec<PageBlock>) -> &mut Self {
-    self.inner.page_blocks = page_blocks;
+  pub fn blocks(&mut self, blocks: Vec<PageBlock>) -> &mut Self {
+    self.inner.blocks = blocks;
+    self
+  }
+
+  pub fn has_checkbox(&mut self, has_checkbox: bool) -> &mut Self {
+    self.inner.has_checkbox = has_checkbox;
+    self
+  }
+
+  pub fn is_checked(&mut self, is_checked: bool) -> &mut Self {
+    self.inner.is_checked = is_checked;
+    self
+  }
+
+  pub fn value(&mut self, value: i64) -> &mut Self {
+    self.inner.value = value;
+    self
+  }
+
+  pub fn type_<T: AsRef<str>>(&mut self, type_: T) -> &mut Self {
+    self.inner.type_ = type_.as_ref().to_string();
     self
   }
 }

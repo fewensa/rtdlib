@@ -2,7 +2,7 @@ use crate::errors::*;
 use crate::types::*;
 use uuid::Uuid;
 
-/// Contains information about a Telegram Passport elements and corresponding errors
+/// Contains information about Telegram Passport elements and corresponding errors
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PassportElementsWithErrors {
   #[doc(hidden)]

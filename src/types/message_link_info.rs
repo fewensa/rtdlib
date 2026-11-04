@@ -2,7 +2,7 @@ use crate::errors::*;
 use crate::types::*;
 use uuid::Uuid;
 
-/// Contains information about a link to a message in a chat
+/// Contains information about a link to a message or a forum topic in a chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageLinkInfo {
   #[doc(hidden)]
@@ -11,18 +11,22 @@ pub struct MessageLinkInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// True, if the link is a public link for a message in a chat
+  /// True, if the link is a public link for a message or a forum topic in a chat
   is_public: bool,
-  /// If found, identifier of the chat to which the message belongs, 0 otherwise
+  /// If found, identifier of the chat to which the link points, 0 otherwise
   chat_id: i64,
+  /// Identifier of the specific topic in which the message must be opened, or a topic to open if the message is missing; may be null if none
+  topic_id: Option<MessageTopic>,
   /// If found, the linked message; may be null
   message: Option<Message>,
-  /// Timestamp from which the video/audio/video note/voice note playing must start, in seconds; 0 if not specified. The media can be in the message content or in its web page preview
+  /// Timestamp from which the video/audio/video note/voice note/story playing must start, in seconds; 0 if not specified. The media can be in the message content or in its link preview
   media_timestamp: i64,
+  /// Identifier of the checklist task that is linked; 0 if none
+  checklist_task_id: i64,
+  /// Identifier of the poll option that is linked; empty if none
+  poll_option_id: String,
   /// True, if the whole media album to which the message belongs is linked
   for_album: bool,
-  /// True, if the message is linked as a channel post comment or from a message thread
-  for_comment: bool,
 }
 
 impl RObject for MessageLinkInfo {
@@ -60,6 +64,10 @@ impl MessageLinkInfo {
     self.chat_id
   }
 
+  pub fn topic_id(&self) -> &Option<MessageTopic> {
+    &self.topic_id
+  }
+
   pub fn message(&self) -> &Option<Message> {
     &self.message
   }
@@ -68,12 +76,16 @@ impl MessageLinkInfo {
     self.media_timestamp
   }
 
-  pub fn for_album(&self) -> bool {
-    self.for_album
+  pub fn checklist_task_id(&self) -> i64 {
+    self.checklist_task_id
   }
 
-  pub fn for_comment(&self) -> bool {
-    self.for_comment
+  pub fn poll_option_id(&self) -> &String {
+    &self.poll_option_id
+  }
+
+  pub fn for_album(&self) -> bool {
+    self.for_album
   }
 }
 
@@ -97,6 +109,11 @@ impl RTDMessageLinkInfoBuilder {
     self
   }
 
+  pub fn topic_id<T: AsRef<MessageTopic>>(&mut self, topic_id: T) -> &mut Self {
+    self.inner.topic_id = Some(topic_id.as_ref().clone());
+    self
+  }
+
   pub fn message<T: AsRef<Message>>(&mut self, message: T) -> &mut Self {
     self.inner.message = Some(message.as_ref().clone());
     self
@@ -107,13 +124,18 @@ impl RTDMessageLinkInfoBuilder {
     self
   }
 
-  pub fn for_album(&mut self, for_album: bool) -> &mut Self {
-    self.inner.for_album = for_album;
+  pub fn checklist_task_id(&mut self, checklist_task_id: i64) -> &mut Self {
+    self.inner.checklist_task_id = checklist_task_id;
     self
   }
 
-  pub fn for_comment(&mut self, for_comment: bool) -> &mut Self {
-    self.inner.for_comment = for_comment;
+  pub fn poll_option_id<T: AsRef<str>>(&mut self, poll_option_id: T) -> &mut Self {
+    self.inner.poll_option_id = poll_option_id.as_ref().to_string();
+    self
+  }
+
+  pub fn for_album(&mut self, for_album: bool) -> &mut Self {
+    self.inner.for_album = for_album;
     self
   }
 }

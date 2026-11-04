@@ -5,10 +5,10 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Represents the type of a user. The following types are possible: regular users, deleted users and bots
+/// TRAIT | Represents the type of user. The following types are possible: regular users, deleted users and bots
 pub trait TDUserType: Debug + RObject {}
 
-/// Represents the type of a user. The following types are possible: regular users, deleted users and bots
+/// Represents the type of user. The following types are possible: regular users, deleted users and bots
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum UserType {
@@ -179,16 +179,36 @@ pub struct UserTypeBot {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// True, if the bot is owned by the current user and can be edited using the methods toggleBotUsernameIsActive, reorderBotActiveUsernames, setBotProfilePhoto, setBotName, setBotInfoDescription, and setBotInfoShortDescription
+  can_be_edited: bool,
   /// True, if the bot can be invited to basic group and supergroup chats
   can_join_groups: bool,
   /// True, if the bot can read all messages in basic group or supergroup chats and not just those addressed to the bot. In private and channel chats a bot can always read all messages
   can_read_all_group_messages: bool,
+  /// True, if the bot has the main Web App
+  has_main_web_app: bool,
+  /// True, if the bot has topics
+  has_topics: bool,
+  /// True, if users can create and delete topics in the chat with the bot
+  allows_users_to_create_topics: bool,
+  /// True, if the bot can manage other bots
+  can_manage_bots: bool,
   /// True, if the bot supports inline queries
   is_inline: bool,
   /// Placeholder for inline queries (displayed on the application input field)
   inline_query_placeholder: String,
+  /// True, if the bot can be queried by username from any non-secret chat
+  supports_guest_queries: bool,
+  /// True, if the bot can be set as a guard bot in supergroup chats
+  is_guard: bool,
   /// True, if the location of the user is expected to be sent with every inline query to this bot
   need_location: bool,
+  /// True, if the bot supports connection to user accounts for chat automation
+  can_connect_to_business: bool,
+  /// True, if the bot can be added to attachment or side menu
+  can_be_added_to_attachment_menu: bool,
+  /// The number of recently active users of the bot
+  active_user_count: i64,
 }
 
 impl RObject for UserTypeBot {
@@ -220,12 +240,32 @@ impl UserTypeBot {
     RTDUserTypeBotBuilder { inner }
   }
 
+  pub fn can_be_edited(&self) -> bool {
+    self.can_be_edited
+  }
+
   pub fn can_join_groups(&self) -> bool {
     self.can_join_groups
   }
 
   pub fn can_read_all_group_messages(&self) -> bool {
     self.can_read_all_group_messages
+  }
+
+  pub fn has_main_web_app(&self) -> bool {
+    self.has_main_web_app
+  }
+
+  pub fn has_topics(&self) -> bool {
+    self.has_topics
+  }
+
+  pub fn allows_users_to_create_topics(&self) -> bool {
+    self.allows_users_to_create_topics
+  }
+
+  pub fn can_manage_bots(&self) -> bool {
+    self.can_manage_bots
   }
 
   pub fn is_inline(&self) -> bool {
@@ -236,8 +276,28 @@ impl UserTypeBot {
     &self.inline_query_placeholder
   }
 
+  pub fn supports_guest_queries(&self) -> bool {
+    self.supports_guest_queries
+  }
+
+  pub fn is_guard(&self) -> bool {
+    self.is_guard
+  }
+
   pub fn need_location(&self) -> bool {
     self.need_location
+  }
+
+  pub fn can_connect_to_business(&self) -> bool {
+    self.can_connect_to_business
+  }
+
+  pub fn can_be_added_to_attachment_menu(&self) -> bool {
+    self.can_be_added_to_attachment_menu
+  }
+
+  pub fn active_user_count(&self) -> i64 {
+    self.active_user_count
   }
 }
 
@@ -251,6 +311,11 @@ impl RTDUserTypeBotBuilder {
     self.inner.clone()
   }
 
+  pub fn can_be_edited(&mut self, can_be_edited: bool) -> &mut Self {
+    self.inner.can_be_edited = can_be_edited;
+    self
+  }
+
   pub fn can_join_groups(&mut self, can_join_groups: bool) -> &mut Self {
     self.inner.can_join_groups = can_join_groups;
     self
@@ -258,6 +323,29 @@ impl RTDUserTypeBotBuilder {
 
   pub fn can_read_all_group_messages(&mut self, can_read_all_group_messages: bool) -> &mut Self {
     self.inner.can_read_all_group_messages = can_read_all_group_messages;
+    self
+  }
+
+  pub fn has_main_web_app(&mut self, has_main_web_app: bool) -> &mut Self {
+    self.inner.has_main_web_app = has_main_web_app;
+    self
+  }
+
+  pub fn has_topics(&mut self, has_topics: bool) -> &mut Self {
+    self.inner.has_topics = has_topics;
+    self
+  }
+
+  pub fn allows_users_to_create_topics(
+    &mut self,
+    allows_users_to_create_topics: bool,
+  ) -> &mut Self {
+    self.inner.allows_users_to_create_topics = allows_users_to_create_topics;
+    self
+  }
+
+  pub fn can_manage_bots(&mut self, can_manage_bots: bool) -> &mut Self {
+    self.inner.can_manage_bots = can_manage_bots;
     self
   }
 
@@ -274,8 +362,36 @@ impl RTDUserTypeBotBuilder {
     self
   }
 
+  pub fn supports_guest_queries(&mut self, supports_guest_queries: bool) -> &mut Self {
+    self.inner.supports_guest_queries = supports_guest_queries;
+    self
+  }
+
+  pub fn is_guard(&mut self, is_guard: bool) -> &mut Self {
+    self.inner.is_guard = is_guard;
+    self
+  }
+
   pub fn need_location(&mut self, need_location: bool) -> &mut Self {
     self.inner.need_location = need_location;
+    self
+  }
+
+  pub fn can_connect_to_business(&mut self, can_connect_to_business: bool) -> &mut Self {
+    self.inner.can_connect_to_business = can_connect_to_business;
+    self
+  }
+
+  pub fn can_be_added_to_attachment_menu(
+    &mut self,
+    can_be_added_to_attachment_menu: bool,
+  ) -> &mut Self {
+    self.inner.can_be_added_to_attachment_menu = can_be_added_to_attachment_menu;
+    self
+  }
+
+  pub fn active_user_count(&mut self, active_user_count: i64) -> &mut Self {
+    self.inner.active_user_count = active_user_count;
     self
   }
 }

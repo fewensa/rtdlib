@@ -5,10 +5,10 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Represents a single rule for managing privacy settings
+/// TRAIT | Represents a single rule for managing user privacy settings
 pub trait TDUserPrivacySettingRule: Debug + RObject {}
 
-/// Represents a single rule for managing privacy settings
+/// Represents a single rule for managing user privacy settings
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum UserPrivacySettingRule {
@@ -16,17 +16,23 @@ pub enum UserPrivacySettingRule {
   _Default(()),
   /// A rule to allow all users to do something
   AllowAll(UserPrivacySettingRuleAllowAll),
-  /// A rule to allow all members of certain specified basic groups and supergroups to doing something
+  /// A rule to allow all bots to do something
+  AllowBots(UserPrivacySettingRuleAllowBots),
+  /// A rule to allow all members of certain specified basic groups and supergroups to do something
   AllowChatMembers(UserPrivacySettingRuleAllowChatMembers),
-  /// A rule to allow all of a user's contacts to do something
+  /// A rule to allow all contacts of the user to do something
   AllowContacts(UserPrivacySettingRuleAllowContacts),
+  /// A rule to allow all Premium Users to do something; currently, allowed only for userPrivacySettingAllowChatInvites
+  AllowPremiumUsers(UserPrivacySettingRuleAllowPremiumUsers),
   /// A rule to allow certain specified users to do something
   AllowUsers(UserPrivacySettingRuleAllowUsers),
   /// A rule to restrict all users from doing something
   RestrictAll(UserPrivacySettingRuleRestrictAll),
+  /// A rule to restrict all bots from doing something
+  RestrictBots(UserPrivacySettingRuleRestrictBots),
   /// A rule to restrict all members of specified basic groups and supergroups from doing something
   RestrictChatMembers(UserPrivacySettingRuleRestrictChatMembers),
-  /// A rule to restrict all contacts of a user from doing something
+  /// A rule to restrict all contacts of the user from doing something
   RestrictContacts(UserPrivacySettingRuleRestrictContacts),
   /// A rule to restrict all specified users from doing something
   RestrictUsers(UserPrivacySettingRuleRestrictUsers),
@@ -47,10 +53,13 @@ impl<'de> Deserialize<'de> for UserPrivacySettingRule {
     rtd_enum_deserialize!(
       UserPrivacySettingRule,
       (userPrivacySettingRuleAllowAll, AllowAll);
+      (userPrivacySettingRuleAllowBots, AllowBots);
       (userPrivacySettingRuleAllowChatMembers, AllowChatMembers);
       (userPrivacySettingRuleAllowContacts, AllowContacts);
+      (userPrivacySettingRuleAllowPremiumUsers, AllowPremiumUsers);
       (userPrivacySettingRuleAllowUsers, AllowUsers);
       (userPrivacySettingRuleRestrictAll, RestrictAll);
+      (userPrivacySettingRuleRestrictBots, RestrictBots);
       (userPrivacySettingRuleRestrictChatMembers, RestrictChatMembers);
       (userPrivacySettingRuleRestrictContacts, RestrictContacts);
       (userPrivacySettingRuleRestrictUsers, RestrictUsers);
@@ -64,10 +73,13 @@ impl RObject for UserPrivacySettingRule {
   fn td_name(&self) -> &'static str {
     match self {
       UserPrivacySettingRule::AllowAll(t) => t.td_name(),
+      UserPrivacySettingRule::AllowBots(t) => t.td_name(),
       UserPrivacySettingRule::AllowChatMembers(t) => t.td_name(),
       UserPrivacySettingRule::AllowContacts(t) => t.td_name(),
+      UserPrivacySettingRule::AllowPremiumUsers(t) => t.td_name(),
       UserPrivacySettingRule::AllowUsers(t) => t.td_name(),
       UserPrivacySettingRule::RestrictAll(t) => t.td_name(),
+      UserPrivacySettingRule::RestrictBots(t) => t.td_name(),
       UserPrivacySettingRule::RestrictChatMembers(t) => t.td_name(),
       UserPrivacySettingRule::RestrictContacts(t) => t.td_name(),
       UserPrivacySettingRule::RestrictUsers(t) => t.td_name(),
@@ -79,10 +91,13 @@ impl RObject for UserPrivacySettingRule {
   fn extra(&self) -> Option<String> {
     match self {
       UserPrivacySettingRule::AllowAll(t) => t.extra(),
+      UserPrivacySettingRule::AllowBots(t) => t.extra(),
       UserPrivacySettingRule::AllowChatMembers(t) => t.extra(),
       UserPrivacySettingRule::AllowContacts(t) => t.extra(),
+      UserPrivacySettingRule::AllowPremiumUsers(t) => t.extra(),
       UserPrivacySettingRule::AllowUsers(t) => t.extra(),
       UserPrivacySettingRule::RestrictAll(t) => t.extra(),
+      UserPrivacySettingRule::RestrictBots(t) => t.extra(),
       UserPrivacySettingRule::RestrictChatMembers(t) => t.extra(),
       UserPrivacySettingRule::RestrictContacts(t) => t.extra(),
       UserPrivacySettingRule::RestrictUsers(t) => t.extra(),
@@ -107,17 +122,26 @@ impl UserPrivacySettingRule {
   pub fn is_allow_all(&self) -> bool {
     matches!(self, UserPrivacySettingRule::AllowAll(_))
   }
+  pub fn is_allow_bots(&self) -> bool {
+    matches!(self, UserPrivacySettingRule::AllowBots(_))
+  }
   pub fn is_allow_chat_members(&self) -> bool {
     matches!(self, UserPrivacySettingRule::AllowChatMembers(_))
   }
   pub fn is_allow_contacts(&self) -> bool {
     matches!(self, UserPrivacySettingRule::AllowContacts(_))
   }
+  pub fn is_allow_premium_users(&self) -> bool {
+    matches!(self, UserPrivacySettingRule::AllowPremiumUsers(_))
+  }
   pub fn is_allow_users(&self) -> bool {
     matches!(self, UserPrivacySettingRule::AllowUsers(_))
   }
   pub fn is_restrict_all(&self) -> bool {
     matches!(self, UserPrivacySettingRule::RestrictAll(_))
+  }
+  pub fn is_restrict_bots(&self) -> bool {
+    matches!(self, UserPrivacySettingRule::RestrictBots(_))
   }
   pub fn is_restrict_chat_members(&self) -> bool {
     matches!(self, UserPrivacySettingRule::RestrictChatMembers(_))
@@ -131,6 +155,12 @@ impl UserPrivacySettingRule {
 
   pub fn on_allow_all<F: FnOnce(&UserPrivacySettingRuleAllowAll)>(&self, fnc: F) -> &Self {
     if let UserPrivacySettingRule::AllowAll(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_allow_bots<F: FnOnce(&UserPrivacySettingRuleAllowBots)>(&self, fnc: F) -> &Self {
+    if let UserPrivacySettingRule::AllowBots(t) = self {
       fnc(t)
     };
     self
@@ -153,6 +183,15 @@ impl UserPrivacySettingRule {
     };
     self
   }
+  pub fn on_allow_premium_users<F: FnOnce(&UserPrivacySettingRuleAllowPremiumUsers)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let UserPrivacySettingRule::AllowPremiumUsers(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_allow_users<F: FnOnce(&UserPrivacySettingRuleAllowUsers)>(&self, fnc: F) -> &Self {
     if let UserPrivacySettingRule::AllowUsers(t) = self {
       fnc(t)
@@ -161,6 +200,12 @@ impl UserPrivacySettingRule {
   }
   pub fn on_restrict_all<F: FnOnce(&UserPrivacySettingRuleRestrictAll)>(&self, fnc: F) -> &Self {
     if let UserPrivacySettingRule::RestrictAll(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_restrict_bots<F: FnOnce(&UserPrivacySettingRuleRestrictBots)>(&self, fnc: F) -> &Self {
+    if let UserPrivacySettingRule::RestrictBots(t) = self {
       fnc(t)
     };
     self
@@ -199,6 +244,12 @@ impl UserPrivacySettingRule {
     }
     None
   }
+  pub fn as_allow_bots(&self) -> Option<&UserPrivacySettingRuleAllowBots> {
+    if let UserPrivacySettingRule::AllowBots(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_allow_chat_members(&self) -> Option<&UserPrivacySettingRuleAllowChatMembers> {
     if let UserPrivacySettingRule::AllowChatMembers(t) = self {
       return Some(t);
@@ -211,6 +262,12 @@ impl UserPrivacySettingRule {
     }
     None
   }
+  pub fn as_allow_premium_users(&self) -> Option<&UserPrivacySettingRuleAllowPremiumUsers> {
+    if let UserPrivacySettingRule::AllowPremiumUsers(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_allow_users(&self) -> Option<&UserPrivacySettingRuleAllowUsers> {
     if let UserPrivacySettingRule::AllowUsers(t) = self {
       return Some(t);
@@ -219,6 +276,12 @@ impl UserPrivacySettingRule {
   }
   pub fn as_restrict_all(&self) -> Option<&UserPrivacySettingRuleRestrictAll> {
     if let UserPrivacySettingRule::RestrictAll(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_restrict_bots(&self) -> Option<&UserPrivacySettingRuleRestrictBots> {
+    if let UserPrivacySettingRule::RestrictBots(t) = self {
       return Some(t);
     }
     None
@@ -246,6 +309,10 @@ impl UserPrivacySettingRule {
     UserPrivacySettingRule::AllowAll(t.as_ref().clone())
   }
 
+  pub fn allow_bots<T: AsRef<UserPrivacySettingRuleAllowBots>>(t: T) -> Self {
+    UserPrivacySettingRule::AllowBots(t.as_ref().clone())
+  }
+
   pub fn allow_chat_members<T: AsRef<UserPrivacySettingRuleAllowChatMembers>>(t: T) -> Self {
     UserPrivacySettingRule::AllowChatMembers(t.as_ref().clone())
   }
@@ -254,12 +321,20 @@ impl UserPrivacySettingRule {
     UserPrivacySettingRule::AllowContacts(t.as_ref().clone())
   }
 
+  pub fn allow_premium_users<T: AsRef<UserPrivacySettingRuleAllowPremiumUsers>>(t: T) -> Self {
+    UserPrivacySettingRule::AllowPremiumUsers(t.as_ref().clone())
+  }
+
   pub fn allow_users<T: AsRef<UserPrivacySettingRuleAllowUsers>>(t: T) -> Self {
     UserPrivacySettingRule::AllowUsers(t.as_ref().clone())
   }
 
   pub fn restrict_all<T: AsRef<UserPrivacySettingRuleRestrictAll>>(t: T) -> Self {
     UserPrivacySettingRule::RestrictAll(t.as_ref().clone())
+  }
+
+  pub fn restrict_bots<T: AsRef<UserPrivacySettingRuleRestrictBots>>(t: T) -> Self {
+    UserPrivacySettingRule::RestrictBots(t.as_ref().clone())
   }
 
   pub fn restrict_chat_members<T: AsRef<UserPrivacySettingRuleRestrictChatMembers>>(t: T) -> Self {
@@ -344,7 +419,70 @@ impl AsRef<UserPrivacySettingRuleAllowAll> for RTDUserPrivacySettingRuleAllowAll
   }
 }
 
-/// A rule to allow all members of certain specified basic groups and supergroups to doing something
+/// A rule to allow all bots to do something
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UserPrivacySettingRuleAllowBots {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for UserPrivacySettingRuleAllowBots {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "userPrivacySettingRuleAllowBots"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDUserPrivacySettingRule for UserPrivacySettingRuleAllowBots {}
+
+impl UserPrivacySettingRuleAllowBots {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDUserPrivacySettingRuleAllowBotsBuilder {
+    let inner = UserPrivacySettingRuleAllowBots {
+      td_name: "userPrivacySettingRuleAllowBots".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDUserPrivacySettingRuleAllowBotsBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDUserPrivacySettingRuleAllowBotsBuilder {
+  inner: UserPrivacySettingRuleAllowBots,
+}
+
+impl RTDUserPrivacySettingRuleAllowBotsBuilder {
+  pub fn build(&self) -> UserPrivacySettingRuleAllowBots {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<UserPrivacySettingRuleAllowBots> for UserPrivacySettingRuleAllowBots {
+  fn as_ref(&self) -> &UserPrivacySettingRuleAllowBots {
+    self
+  }
+}
+
+impl AsRef<UserPrivacySettingRuleAllowBots> for RTDUserPrivacySettingRuleAllowBotsBuilder {
+  fn as_ref(&self) -> &UserPrivacySettingRuleAllowBots {
+    &self.inner
+  }
+}
+
+/// A rule to allow all members of certain specified basic groups and supergroups to do something
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UserPrivacySettingRuleAllowChatMembers {
   #[doc(hidden)]
@@ -421,7 +559,7 @@ impl AsRef<UserPrivacySettingRuleAllowChatMembers>
   }
 }
 
-/// A rule to allow all of a user's contacts to do something
+/// A rule to allow all contacts of the user to do something
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UserPrivacySettingRuleAllowContacts {
   #[doc(hidden)]
@@ -480,6 +618,71 @@ impl AsRef<UserPrivacySettingRuleAllowContacts> for UserPrivacySettingRuleAllowC
 
 impl AsRef<UserPrivacySettingRuleAllowContacts> for RTDUserPrivacySettingRuleAllowContactsBuilder {
   fn as_ref(&self) -> &UserPrivacySettingRuleAllowContacts {
+    &self.inner
+  }
+}
+
+/// A rule to allow all Premium Users to do something; currently, allowed only for userPrivacySettingAllowChatInvites
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UserPrivacySettingRuleAllowPremiumUsers {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for UserPrivacySettingRuleAllowPremiumUsers {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "userPrivacySettingRuleAllowPremiumUsers"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDUserPrivacySettingRule for UserPrivacySettingRuleAllowPremiumUsers {}
+
+impl UserPrivacySettingRuleAllowPremiumUsers {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDUserPrivacySettingRuleAllowPremiumUsersBuilder {
+    let inner = UserPrivacySettingRuleAllowPremiumUsers {
+      td_name: "userPrivacySettingRuleAllowPremiumUsers".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDUserPrivacySettingRuleAllowPremiumUsersBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDUserPrivacySettingRuleAllowPremiumUsersBuilder {
+  inner: UserPrivacySettingRuleAllowPremiumUsers,
+}
+
+impl RTDUserPrivacySettingRuleAllowPremiumUsersBuilder {
+  pub fn build(&self) -> UserPrivacySettingRuleAllowPremiumUsers {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<UserPrivacySettingRuleAllowPremiumUsers> for UserPrivacySettingRuleAllowPremiumUsers {
+  fn as_ref(&self) -> &UserPrivacySettingRuleAllowPremiumUsers {
+    self
+  }
+}
+
+impl AsRef<UserPrivacySettingRuleAllowPremiumUsers>
+  for RTDUserPrivacySettingRuleAllowPremiumUsersBuilder
+{
+  fn as_ref(&self) -> &UserPrivacySettingRuleAllowPremiumUsers {
     &self.inner
   }
 }
@@ -622,6 +825,69 @@ impl AsRef<UserPrivacySettingRuleRestrictAll> for RTDUserPrivacySettingRuleRestr
   }
 }
 
+/// A rule to restrict all bots from doing something
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UserPrivacySettingRuleRestrictBots {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for UserPrivacySettingRuleRestrictBots {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "userPrivacySettingRuleRestrictBots"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDUserPrivacySettingRule for UserPrivacySettingRuleRestrictBots {}
+
+impl UserPrivacySettingRuleRestrictBots {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDUserPrivacySettingRuleRestrictBotsBuilder {
+    let inner = UserPrivacySettingRuleRestrictBots {
+      td_name: "userPrivacySettingRuleRestrictBots".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDUserPrivacySettingRuleRestrictBotsBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDUserPrivacySettingRuleRestrictBotsBuilder {
+  inner: UserPrivacySettingRuleRestrictBots,
+}
+
+impl RTDUserPrivacySettingRuleRestrictBotsBuilder {
+  pub fn build(&self) -> UserPrivacySettingRuleRestrictBots {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<UserPrivacySettingRuleRestrictBots> for UserPrivacySettingRuleRestrictBots {
+  fn as_ref(&self) -> &UserPrivacySettingRuleRestrictBots {
+    self
+  }
+}
+
+impl AsRef<UserPrivacySettingRuleRestrictBots> for RTDUserPrivacySettingRuleRestrictBotsBuilder {
+  fn as_ref(&self) -> &UserPrivacySettingRuleRestrictBots {
+    &self.inner
+  }
+}
+
 /// A rule to restrict all members of specified basic groups and supergroups from doing something
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UserPrivacySettingRuleRestrictChatMembers {
@@ -701,7 +967,7 @@ impl AsRef<UserPrivacySettingRuleRestrictChatMembers>
   }
 }
 
-/// A rule to restrict all contacts of a user from doing something
+/// A rule to restrict all contacts of the user from doing something
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UserPrivacySettingRuleRestrictContacts {
   #[doc(hidden)]

@@ -13,6 +13,11 @@ pub struct KeyboardButton {
   extra: Option<String>,
   /// Text of the button
   text: String,
+  /// Identifier of the custom emoji that must be shown on the button; 0 if none
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
+  icon_custom_emoji_id: isize,
+  /// Style of the button
+  style: ButtonStyle,
   /// Type of the button
   #[serde(rename(serialize = "type", deserialize = "type"))]
   type_: KeyboardButtonType,
@@ -49,6 +54,14 @@ impl KeyboardButton {
     &self.text
   }
 
+  pub fn icon_custom_emoji_id(&self) -> isize {
+    self.icon_custom_emoji_id
+  }
+
+  pub fn style(&self) -> &ButtonStyle {
+    &self.style
+  }
+
   pub fn type_(&self) -> &KeyboardButtonType {
     &self.type_
   }
@@ -66,6 +79,16 @@ impl RTDKeyboardButtonBuilder {
 
   pub fn text<T: AsRef<str>>(&mut self, text: T) -> &mut Self {
     self.inner.text = text.as_ref().to_string();
+    self
+  }
+
+  pub fn icon_custom_emoji_id(&mut self, icon_custom_emoji_id: isize) -> &mut Self {
+    self.inner.icon_custom_emoji_id = icon_custom_emoji_id;
+    self
+  }
+
+  pub fn style<T: AsRef<ButtonStyle>>(&mut self, style: T) -> &mut Self {
+    self.inner.style = style.as_ref().clone();
     self
   }
 

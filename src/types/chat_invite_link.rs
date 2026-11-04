@@ -23,15 +23,19 @@ pub struct ChatInviteLink {
   edit_date: i64,
   /// Point in time (Unix timestamp) when the link will expire; 0 if never
   expiration_date: i64,
+  /// Information about subscription plan that is applied to the users joining the chat by the link; may be null if the link doesn't require subscription
+  subscription_pricing: Option<StarSubscriptionPricing>,
   /// The maximum number of members, which can join the chat using the link simultaneously; 0 if not limited. Always 0 if the link requires approval
   member_limit: i64,
   /// Number of chat members, which joined the chat using the link
   member_count: i64,
+  /// Number of chat members, which joined the chat using the link, but have already left because of expired subscription; for subscription links only
+  expired_member_count: i64,
   /// Number of pending join requests created using this link
   pending_join_request_count: i64,
   /// True, if the link only creates join request. If true, total number of joining members will be unlimited
   creates_join_request: bool,
-  /// True, if the link is primary. Primary invite link can't have name, expiration date, or usage limit. There is exactly one primary invite link for each administrator with can_invite_users right at a given time
+  /// True, if the link is primary. Primary invite link can't have name, expiration date, or usage limit. Primary link can create join requests only if this is set up using toggleSupergroupJoinByRequest. There is exactly one primary invite link for each administrator with can_invite_users right at a given time
   is_primary: bool,
   /// True, if the link was revoked
   is_revoked: bool,
@@ -88,12 +92,20 @@ impl ChatInviteLink {
     self.expiration_date
   }
 
+  pub fn subscription_pricing(&self) -> &Option<StarSubscriptionPricing> {
+    &self.subscription_pricing
+  }
+
   pub fn member_limit(&self) -> i64 {
     self.member_limit
   }
 
   pub fn member_count(&self) -> i64 {
     self.member_count
+  }
+
+  pub fn expired_member_count(&self) -> i64 {
+    self.expired_member_count
   }
 
   pub fn pending_join_request_count(&self) -> i64 {
@@ -153,6 +165,14 @@ impl RTDChatInviteLinkBuilder {
     self
   }
 
+  pub fn subscription_pricing<T: AsRef<StarSubscriptionPricing>>(
+    &mut self,
+    subscription_pricing: T,
+  ) -> &mut Self {
+    self.inner.subscription_pricing = Some(subscription_pricing.as_ref().clone());
+    self
+  }
+
   pub fn member_limit(&mut self, member_limit: i64) -> &mut Self {
     self.inner.member_limit = member_limit;
     self
@@ -160,6 +180,11 @@ impl RTDChatInviteLinkBuilder {
 
   pub fn member_count(&mut self, member_count: i64) -> &mut Self {
     self.inner.member_count = member_count;
+    self
+  }
+
+  pub fn expired_member_count(&mut self, expired_member_count: i64) -> &mut Self {
+    self.inner.expired_member_count = expired_member_count;
     self
   }
 

@@ -2,7 +2,7 @@ use crate::errors::*;
 use crate::types::*;
 use uuid::Uuid;
 
-/// Describes a voice note. The voice note must be encoded with the Opus codec, and stored inside an OGG container. Voice notes can have only a single audio channel
+/// Describes a voice note
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct VoiceNote {
   #[doc(hidden)]
@@ -15,8 +15,10 @@ pub struct VoiceNote {
   duration: i64,
   /// A waveform representation of the voice note in 5-bit format
   waveform: String,
-  /// MIME type of the file; as defined by the sender
+  /// MIME type of the file; as defined by the sender. Usually, one of "audio/ogg" for Opus in an OGG container, "audio/mpeg" for an MP3 audio, or "audio/mp4" for an M4A audio
   mime_type: String,
+  /// Result of speech recognition in the voice note; may be null
+  speech_recognition_result: Option<SpeechRecognitionResult>,
   /// File containing the voice note
   voice: File,
 }
@@ -60,6 +62,10 @@ impl VoiceNote {
     &self.mime_type
   }
 
+  pub fn speech_recognition_result(&self) -> &Option<SpeechRecognitionResult> {
+    &self.speech_recognition_result
+  }
+
   pub fn voice(&self) -> &File {
     &self.voice
   }
@@ -87,6 +93,14 @@ impl RTDVoiceNoteBuilder {
 
   pub fn mime_type<T: AsRef<str>>(&mut self, mime_type: T) -> &mut Self {
     self.inner.mime_type = mime_type.as_ref().to_string();
+    self
+  }
+
+  pub fn speech_recognition_result<T: AsRef<SpeechRecognitionResult>>(
+    &mut self,
+    speech_recognition_result: T,
+  ) -> &mut Self {
+    self.inner.speech_recognition_result = Some(speech_recognition_result.as_ref().clone());
     self
   }
 

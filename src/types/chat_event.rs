@@ -12,6 +12,7 @@ pub struct ChatEvent {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// Chat event identifier
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
   id: isize,
   /// Point in time (Unix timestamp) when the event happened
   date: i64,

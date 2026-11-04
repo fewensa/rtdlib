@@ -13,10 +13,20 @@ pub struct ScopeNotificationSettings {
   extra: Option<String>,
   /// Time left before notifications will be unmuted, in seconds
   mute_for: i64,
-  /// The name of an audio file to be used for notification sounds; only applies to iOS applications
-  sound: String,
+  /// Identifier of the notification sound to be played; 0 if sound is disabled; pass 1 to use the app-dependent default sound
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
+  sound_id: isize,
   /// True, if message content must be displayed in notifications
   show_preview: bool,
+  /// If true, story notifications are received only for the first 5 chats from topChatCategoryUsers regardless of the value of mute_stories
+  use_default_mute_stories: bool,
+  /// True, if story notifications are disabled
+  mute_stories: bool,
+  /// Identifier of the notification sound to be played for stories; 0 if sound is disabled; pass 1 to use the app-dependent default sound
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
+  story_sound_id: isize,
+  /// True, if the chat that posted a story must be displayed in notifications
+  show_story_poster: bool,
   /// True, if notifications for incoming pinned messages will be created as for an ordinary unread message
   disable_pinned_message_notifications: bool,
   /// True, if notifications for messages with mentions will be created as for an ordinary unread message
@@ -54,12 +64,28 @@ impl ScopeNotificationSettings {
     self.mute_for
   }
 
-  pub fn sound(&self) -> &String {
-    &self.sound
+  pub fn sound_id(&self) -> isize {
+    self.sound_id
   }
 
   pub fn show_preview(&self) -> bool {
     self.show_preview
+  }
+
+  pub fn use_default_mute_stories(&self) -> bool {
+    self.use_default_mute_stories
+  }
+
+  pub fn mute_stories(&self) -> bool {
+    self.mute_stories
+  }
+
+  pub fn story_sound_id(&self) -> isize {
+    self.story_sound_id
+  }
+
+  pub fn show_story_poster(&self) -> bool {
+    self.show_story_poster
   }
 
   pub fn disable_pinned_message_notifications(&self) -> bool {
@@ -86,13 +112,33 @@ impl RTDScopeNotificationSettingsBuilder {
     self
   }
 
-  pub fn sound<T: AsRef<str>>(&mut self, sound: T) -> &mut Self {
-    self.inner.sound = sound.as_ref().to_string();
+  pub fn sound_id(&mut self, sound_id: isize) -> &mut Self {
+    self.inner.sound_id = sound_id;
     self
   }
 
   pub fn show_preview(&mut self, show_preview: bool) -> &mut Self {
     self.inner.show_preview = show_preview;
+    self
+  }
+
+  pub fn use_default_mute_stories(&mut self, use_default_mute_stories: bool) -> &mut Self {
+    self.inner.use_default_mute_stories = use_default_mute_stories;
+    self
+  }
+
+  pub fn mute_stories(&mut self, mute_stories: bool) -> &mut Self {
+    self.inner.mute_stories = mute_stories;
+    self
+  }
+
+  pub fn story_sound_id(&mut self, story_sound_id: isize) -> &mut Self {
+    self.inner.story_sound_id = story_sound_id;
+    self
+  }
+
+  pub fn show_story_poster(&mut self, show_story_poster: bool) -> &mut Self {
+    self.inner.show_story_poster = show_story_poster;
     self
   }
 

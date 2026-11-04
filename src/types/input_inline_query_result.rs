@@ -30,7 +30,7 @@ pub enum InputInlineQueryResult {
   Location(InputInlineQueryResultLocation),
   /// Represents link to a JPEG image
   Photo(InputInlineQueryResultPhoto),
-  /// Represents a link to a WEBP or TGS sticker
+  /// Represents a link to a WEBP, TGS, or WEBM sticker
   Sticker(InputInlineQueryResultSticker),
   /// Represents information about a venue
   Venue(InputInlineQueryResultVenue),
@@ -391,7 +391,7 @@ pub struct InputInlineQueryResultAnimation {
   video_height: i64,
   /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageAnimation, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageRichMessage, inputMessageAnimation, inputMessageInvoice, inputMessageLiveLocation, inputMessageLocation, inputMessageVenue, or inputMessageContact
   input_message_content: InputMessageContent,
 }
 
@@ -563,8 +563,6 @@ pub struct InputInlineQueryResultArticle {
   id: String,
   /// URL of the result, if it exists
   url: String,
-  /// True, if the URL must be not shown
-  hide_url: bool,
   /// Title of the result
   title: String,
   /// Represents a link to an article or web page
@@ -577,7 +575,7 @@ pub struct InputInlineQueryResultArticle {
   thumbnail_height: i64,
   /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageRichMessage, inputMessageInvoice, inputMessageLiveLocation, inputMessageLocation, inputMessageVenue, or inputMessageContact
   input_message_content: InputMessageContent,
 }
 
@@ -616,10 +614,6 @@ impl InputInlineQueryResultArticle {
 
   pub fn url(&self) -> &String {
     &self.url
-  }
-
-  pub fn hide_url(&self) -> bool {
-    self.hide_url
   }
 
   pub fn title(&self) -> &String {
@@ -668,11 +662,6 @@ impl RTDInputInlineQueryResultArticleBuilder {
 
   pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
     self.inner.url = url.as_ref().to_string();
-    self
-  }
-
-  pub fn hide_url(&mut self, hide_url: bool) -> &mut Self {
-    self.inner.hide_url = hide_url;
     self
   }
 
@@ -748,7 +737,7 @@ pub struct InputInlineQueryResultAudio {
   audio_duration: i64,
   /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageAudio, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageRichMessage, inputMessageAudio, inputMessageInvoice, inputMessageLiveLocation, inputMessageLocation, inputMessageVenue, or inputMessageContact
   input_message_content: InputMessageContent,
 }
 
@@ -892,7 +881,7 @@ pub struct InputInlineQueryResultContact {
   thumbnail_height: i64,
   /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageRichMessage, inputMessageInvoice, inputMessageLiveLocation, inputMessageLocation, inputMessageVenue, or inputMessageContact
   input_message_content: InputMessageContent,
 }
 
@@ -1042,7 +1031,7 @@ pub struct InputInlineQueryResultDocument {
   thumbnail_height: i64,
   /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageDocument, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageRichMessage, inputMessageDocument, inputMessageInvoice, inputMessageLiveLocation, inputMessageLocation, inputMessageVenue, or inputMessageContact
   input_message_content: InputMessageContent,
 }
 
@@ -1314,7 +1303,7 @@ pub struct InputInlineQueryResultLocation {
   thumbnail_height: i64,
   /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageRichMessage, inputMessageInvoice, inputMessageLiveLocation, inputMessageLocation, inputMessageVenue, or inputMessageContact
   input_message_content: InputMessageContent,
 }
 
@@ -1480,7 +1469,7 @@ pub struct InputInlineQueryResultPhoto {
   photo_height: i64,
   /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessagePhoto, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageRichMessage, inputMessagePhoto, inputMessageInvoice, inputMessageLiveLocation, inputMessageLocation, inputMessageVenue, or inputMessageContact
   input_message_content: InputMessageContent,
 }
 
@@ -1621,7 +1610,7 @@ impl AsRef<InputInlineQueryResultPhoto> for RTDInputInlineQueryResultPhotoBuilde
   }
 }
 
-/// Represents a link to a WEBP or TGS sticker
+/// Represents a link to a WEBP, TGS, or WEBM sticker
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InputInlineQueryResultSticker {
   #[doc(hidden)]
@@ -1634,7 +1623,7 @@ pub struct InputInlineQueryResultSticker {
   id: String,
   /// URL of the sticker thumbnail, if it exists
   thumbnail_url: String,
-  /// The URL of the WEBP or TGS sticker (sticker file size must not exceed 5MB)
+  /// The URL of the WEBP, TGS, or WEBM sticker (sticker file size must not exceed 5MB)
   sticker_url: String,
   /// Width of the sticker
   sticker_width: i64,
@@ -1642,7 +1631,7 @@ pub struct InputInlineQueryResultSticker {
   sticker_height: i64,
   /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageSticker, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageRichMessage, inputMessageSticker, inputMessageInvoice, inputMessageLiveLocation, inputMessageLocation, inputMessageVenue, or inputMessageContact
   input_message_content: InputMessageContent,
 }
 
@@ -1786,7 +1775,7 @@ pub struct InputInlineQueryResultVenue {
   thumbnail_height: i64,
   /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageRichMessage, inputMessageInvoice, inputMessageLiveLocation, inputMessageLocation, inputMessageVenue, or inputMessageContact
   input_message_content: InputMessageContent,
 }
 
@@ -1938,7 +1927,7 @@ pub struct InputInlineQueryResultVideo {
   video_duration: i64,
   /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageVideo, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageRichMessage, inputMessageVideo, inputMessageInvoice, inputMessageLiveLocation, inputMessageLocation, inputMessageVenue, or inputMessageContact
   input_message_content: InputMessageContent,
 }
 
@@ -2116,7 +2105,7 @@ pub struct InputInlineQueryResultVoiceNote {
   voice_note_duration: i64,
   /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   reply_markup: ReplyMarkup,
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageVoiceNote, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageRichMessage, inputMessageVoiceNote, inputMessageInvoice, inputMessageLiveLocation, inputMessageLocation, inputMessageVenue, or inputMessageContact
   input_message_content: InputMessageContent,
 }
 

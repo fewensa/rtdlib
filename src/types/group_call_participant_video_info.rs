@@ -15,7 +15,7 @@ pub struct GroupCallParticipantVideoInfo {
   source_groups: Vec<GroupCallVideoSourceGroup>,
   /// Video channel endpoint identifier
   endpoint_id: String,
-  /// True if the video is paused. This flag needs to be ignored, if new video frames are received
+  /// True, if the video is paused. This flag needs to be ignored, if new video frames are received
   is_paused: bool,
 }
 

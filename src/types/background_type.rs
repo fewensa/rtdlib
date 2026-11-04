@@ -5,15 +5,17 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Describes the type of a background
+/// TRAIT | Describes the type of background
 pub trait TDBackgroundType: Debug + RObject {}
 
-/// Describes the type of a background
+/// Describes the type of background
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum BackgroundType {
   #[doc(hidden)]
   _Default(()),
+  /// A background from a chat theme based on an emoji; can be used only as a chat background in channels
+  ChatTheme(BackgroundTypeChatTheme),
   /// A filled background
   Fill(BackgroundTypeFill),
   /// A PNG or TGV (gzipped subset of SVG with MIME type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user
@@ -36,6 +38,7 @@ impl<'de> Deserialize<'de> for BackgroundType {
     use serde::de::Error;
     rtd_enum_deserialize!(
       BackgroundType,
+      (backgroundTypeChatTheme, ChatTheme);
       (backgroundTypeFill, Fill);
       (backgroundTypePattern, Pattern);
       (backgroundTypeWallpaper, Wallpaper);
@@ -48,6 +51,7 @@ impl RObject for BackgroundType {
   #[doc(hidden)]
   fn td_name(&self) -> &'static str {
     match self {
+      BackgroundType::ChatTheme(t) => t.td_name(),
       BackgroundType::Fill(t) => t.td_name(),
       BackgroundType::Pattern(t) => t.td_name(),
       BackgroundType::Wallpaper(t) => t.td_name(),
@@ -58,6 +62,7 @@ impl RObject for BackgroundType {
   #[doc(hidden)]
   fn extra(&self) -> Option<String> {
     match self {
+      BackgroundType::ChatTheme(t) => t.extra(),
       BackgroundType::Fill(t) => t.extra(),
       BackgroundType::Pattern(t) => t.extra(),
       BackgroundType::Wallpaper(t) => t.extra(),
@@ -79,6 +84,9 @@ impl BackgroundType {
     matches!(self, BackgroundType::_Default(_))
   }
 
+  pub fn is_chat_theme(&self) -> bool {
+    matches!(self, BackgroundType::ChatTheme(_))
+  }
   pub fn is_fill(&self) -> bool {
     matches!(self, BackgroundType::Fill(_))
   }
@@ -89,6 +97,12 @@ impl BackgroundType {
     matches!(self, BackgroundType::Wallpaper(_))
   }
 
+  pub fn on_chat_theme<F: FnOnce(&BackgroundTypeChatTheme)>(&self, fnc: F) -> &Self {
+    if let BackgroundType::ChatTheme(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_fill<F: FnOnce(&BackgroundTypeFill)>(&self, fnc: F) -> &Self {
     if let BackgroundType::Fill(t) = self {
       fnc(t)
@@ -108,6 +122,12 @@ impl BackgroundType {
     self
   }
 
+  pub fn as_chat_theme(&self) -> Option<&BackgroundTypeChatTheme> {
+    if let BackgroundType::ChatTheme(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_fill(&self) -> Option<&BackgroundTypeFill> {
     if let BackgroundType::Fill(t) = self {
       return Some(t);
@@ -127,6 +147,10 @@ impl BackgroundType {
     None
   }
 
+  pub fn chat_theme<T: AsRef<BackgroundTypeChatTheme>>(t: T) -> Self {
+    BackgroundType::ChatTheme(t.as_ref().clone())
+  }
+
   pub fn fill<T: AsRef<BackgroundTypeFill>>(t: T) -> Self {
     BackgroundType::Fill(t.as_ref().clone())
   }
@@ -143,6 +167,81 @@ impl BackgroundType {
 impl AsRef<BackgroundType> for BackgroundType {
   fn as_ref(&self) -> &BackgroundType {
     self
+  }
+}
+
+/// A background from a chat theme based on an emoji; can be used only as a chat background in channels
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct BackgroundTypeChatTheme {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Name of the emoji chat theme
+  theme_name: String,
+}
+
+impl RObject for BackgroundTypeChatTheme {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "backgroundTypeChatTheme"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDBackgroundType for BackgroundTypeChatTheme {}
+
+impl BackgroundTypeChatTheme {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDBackgroundTypeChatThemeBuilder {
+    let inner = BackgroundTypeChatTheme {
+      td_name: "backgroundTypeChatTheme".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDBackgroundTypeChatThemeBuilder { inner }
+  }
+
+  pub fn theme_name(&self) -> &String {
+    &self.theme_name
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDBackgroundTypeChatThemeBuilder {
+  inner: BackgroundTypeChatTheme,
+}
+
+impl RTDBackgroundTypeChatThemeBuilder {
+  pub fn build(&self) -> BackgroundTypeChatTheme {
+    self.inner.clone()
+  }
+
+  pub fn theme_name<T: AsRef<str>>(&mut self, theme_name: T) -> &mut Self {
+    self.inner.theme_name = theme_name.as_ref().to_string();
+    self
+  }
+}
+
+impl AsRef<BackgroundTypeChatTheme> for BackgroundTypeChatTheme {
+  fn as_ref(&self) -> &BackgroundTypeChatTheme {
+    self
+  }
+}
+
+impl AsRef<BackgroundTypeChatTheme> for RTDBackgroundTypeChatThemeBuilder {
+  fn as_ref(&self) -> &BackgroundTypeChatTheme {
+    &self.inner
   }
 }
 
@@ -232,7 +331,7 @@ pub struct BackgroundTypePattern {
   extra: Option<String>,
   /// Fill of the background
   fill: BackgroundFill,
-  /// Intensity of the pattern when it is shown above the filled background; 0-100.
+  /// Intensity of the pattern when it is shown above the filled background; 0-100
   intensity: i64,
   /// True, if the background fill must be applied only to the pattern itself. All other pixels are black in this case. For dark themes only
   is_inverted: bool,

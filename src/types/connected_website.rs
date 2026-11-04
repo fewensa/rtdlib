@@ -12,6 +12,7 @@ pub struct ConnectedWebsite {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// Website identifier
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
   id: isize,
   /// The domain name of the website
   domain_name: String,
@@ -26,8 +27,8 @@ pub struct ConnectedWebsite {
   /// Point in time (Unix timestamp) when obtained authorization was last used
   last_active_date: i64,
   /// IP address from which the user was logged in, in human-readable format
-  ip: String,
-  /// Human-readable description of a country and a region, from which the user was logged in, based on the IP address
+  ip_address: String,
+  /// Human-readable description of a country and a region from which the user was logged in, based on the IP address
   location: String,
 }
 
@@ -86,8 +87,8 @@ impl ConnectedWebsite {
     self.last_active_date
   }
 
-  pub fn ip(&self) -> &String {
-    &self.ip
+  pub fn ip_address(&self) -> &String {
+    &self.ip_address
   }
 
   pub fn location(&self) -> &String {
@@ -140,8 +141,8 @@ impl RTDConnectedWebsiteBuilder {
     self
   }
 
-  pub fn ip<T: AsRef<str>>(&mut self, ip: T) -> &mut Self {
-    self.inner.ip = ip.as_ref().to_string();
+  pub fn ip_address<T: AsRef<str>>(&mut self, ip_address: T) -> &mut Self {
+    self.inner.ip_address = ip_address.as_ref().to_string();
     self
   }
 

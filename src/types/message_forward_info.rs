@@ -11,16 +11,14 @@ pub struct MessageForwardInfo {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Origin of a forwarded message
-  origin: MessageForwardOrigin,
+  /// Origin of the forwarded message
+  origin: MessageOrigin,
   /// Point in time (Unix timestamp) when the message was originally sent
   date: i64,
-  /// The type of a public service announcement for the forwarded message
+  /// For messages forwarded to the chat with the current user (Saved Messages), to the Replies bot chat, or to the channel's discussion group, information about the source message from which the message was forwarded last time; may be null for other forwards or if unknown
+  source: Option<ForwardSource>,
+  /// The type of public service announcement for the forwarded message
   public_service_announcement_type: String,
-  /// For messages forwarded to the chat with the current user (Saved Messages), to the Replies bot chat, or to the channel's discussion group, the identifier of the chat from which the message was forwarded last time; 0 if unknown
-  from_chat_id: i64,
-  /// For messages forwarded to the chat with the current user (Saved Messages), to the Replies bot chat, or to the channel's discussion group, the identifier of the original message from which the new message was forwarded last time; 0 if unknown
-  from_message_id: i64,
 }
 
 impl RObject for MessageForwardInfo {
@@ -50,7 +48,7 @@ impl MessageForwardInfo {
     RTDMessageForwardInfoBuilder { inner }
   }
 
-  pub fn origin(&self) -> &MessageForwardOrigin {
+  pub fn origin(&self) -> &MessageOrigin {
     &self.origin
   }
 
@@ -58,16 +56,12 @@ impl MessageForwardInfo {
     self.date
   }
 
+  pub fn source(&self) -> &Option<ForwardSource> {
+    &self.source
+  }
+
   pub fn public_service_announcement_type(&self) -> &String {
     &self.public_service_announcement_type
-  }
-
-  pub fn from_chat_id(&self) -> i64 {
-    self.from_chat_id
-  }
-
-  pub fn from_message_id(&self) -> i64 {
-    self.from_message_id
   }
 }
 
@@ -81,7 +75,7 @@ impl RTDMessageForwardInfoBuilder {
     self.inner.clone()
   }
 
-  pub fn origin<T: AsRef<MessageForwardOrigin>>(&mut self, origin: T) -> &mut Self {
+  pub fn origin<T: AsRef<MessageOrigin>>(&mut self, origin: T) -> &mut Self {
     self.inner.origin = origin.as_ref().clone();
     self
   }
@@ -91,22 +85,17 @@ impl RTDMessageForwardInfoBuilder {
     self
   }
 
+  pub fn source<T: AsRef<ForwardSource>>(&mut self, source: T) -> &mut Self {
+    self.inner.source = Some(source.as_ref().clone());
+    self
+  }
+
   pub fn public_service_announcement_type<T: AsRef<str>>(
     &mut self,
     public_service_announcement_type: T,
   ) -> &mut Self {
     self.inner.public_service_announcement_type =
       public_service_announcement_type.as_ref().to_string();
-    self
-  }
-
-  pub fn from_chat_id(&mut self, from_chat_id: i64) -> &mut Self {
-    self.inner.from_chat_id = from_chat_id;
-    self
-  }
-
-  pub fn from_message_id(&mut self, from_message_id: i64) -> &mut Self {
-    self.inner.from_message_id = from_message_id;
     self
   }
 }

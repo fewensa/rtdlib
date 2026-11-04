@@ -5,10 +5,10 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Describes the type of a proxy server
+/// TRAIT | Describes the type of proxy server
 pub trait TDProxyType: Debug + RObject {}
 
-/// Describes the type of a proxy server
+/// Describes the type of proxy server
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum ProxyType {
@@ -20,6 +20,8 @@ pub enum ProxyType {
   Mtproto(ProxyTypeMtproto),
   /// A SOCKS5 proxy server
   Socks5(ProxyTypeSocks5),
+  /// A web proxy server. MTProto traffic goes through an HTTPS relay page hosted by the application in a hidden web view; see updateWebProxyCarrierOpened. The proxy server must be a domain name and the port must be 443
+  Web(ProxyTypeWeb),
 }
 
 impl Default for ProxyType {
@@ -39,6 +41,7 @@ impl<'de> Deserialize<'de> for ProxyType {
       (proxyTypeHttp, Http);
       (proxyTypeMtproto, Mtproto);
       (proxyTypeSocks5, Socks5);
+      (proxyTypeWeb, Web);
 
     )(deserializer)
   }
@@ -51,6 +54,7 @@ impl RObject for ProxyType {
       ProxyType::Http(t) => t.td_name(),
       ProxyType::Mtproto(t) => t.td_name(),
       ProxyType::Socks5(t) => t.td_name(),
+      ProxyType::Web(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -61,6 +65,7 @@ impl RObject for ProxyType {
       ProxyType::Http(t) => t.extra(),
       ProxyType::Mtproto(t) => t.extra(),
       ProxyType::Socks5(t) => t.extra(),
+      ProxyType::Web(t) => t.extra(),
 
       _ => None,
     }
@@ -88,6 +93,9 @@ impl ProxyType {
   pub fn is_socks5(&self) -> bool {
     matches!(self, ProxyType::Socks5(_))
   }
+  pub fn is_web(&self) -> bool {
+    matches!(self, ProxyType::Web(_))
+  }
 
   pub fn on_http<F: FnOnce(&ProxyTypeHttp)>(&self, fnc: F) -> &Self {
     if let ProxyType::Http(t) = self {
@@ -103,6 +111,12 @@ impl ProxyType {
   }
   pub fn on_socks5<F: FnOnce(&ProxyTypeSocks5)>(&self, fnc: F) -> &Self {
     if let ProxyType::Socks5(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_web<F: FnOnce(&ProxyTypeWeb)>(&self, fnc: F) -> &Self {
+    if let ProxyType::Web(t) = self {
       fnc(t)
     };
     self
@@ -126,6 +140,12 @@ impl ProxyType {
     }
     None
   }
+  pub fn as_web(&self) -> Option<&ProxyTypeWeb> {
+    if let ProxyType::Web(t) = self {
+      return Some(t);
+    }
+    None
+  }
 
   pub fn http<T: AsRef<ProxyTypeHttp>>(t: T) -> Self {
     ProxyType::Http(t.as_ref().clone())
@@ -137,6 +157,10 @@ impl ProxyType {
 
   pub fn socks5<T: AsRef<ProxyTypeSocks5>>(t: T) -> Self {
     ProxyType::Socks5(t.as_ref().clone())
+  }
+
+  pub fn web<T: AsRef<ProxyTypeWeb>>(t: T) -> Self {
+    ProxyType::Web(t.as_ref().clone())
   }
 }
 
@@ -400,6 +424,92 @@ impl AsRef<ProxyTypeSocks5> for ProxyTypeSocks5 {
 
 impl AsRef<ProxyTypeSocks5> for RTDProxyTypeSocks5Builder {
   fn as_ref(&self) -> &ProxyTypeSocks5 {
+    &self.inner
+  }
+}
+
+/// A web proxy server. MTProto traffic goes through an HTTPS relay page hosted by the application in a hidden web view; see updateWebProxyCarrierOpened. The proxy server must be a domain name and the port must be 443
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ProxyTypeWeb {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Base path of the relay on the server, without leading and trailing slashes; may be empty. Consists of 0-128 characters; each "/"-separated segment must match [A-Za-z0-9][A-Za-z0-9_-]*
+  path: String,
+  /// The MTProto proxy secret in hexadecimal encoding; must be 16 bytes long, optionally prefixed with the byte 0xdd
+  secret: String,
+}
+
+impl RObject for ProxyTypeWeb {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "proxyTypeWeb"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDProxyType for ProxyTypeWeb {}
+
+impl ProxyTypeWeb {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDProxyTypeWebBuilder {
+    let inner = ProxyTypeWeb {
+      td_name: "proxyTypeWeb".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDProxyTypeWebBuilder { inner }
+  }
+
+  pub fn path(&self) -> &String {
+    &self.path
+  }
+
+  pub fn secret(&self) -> &String {
+    &self.secret
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDProxyTypeWebBuilder {
+  inner: ProxyTypeWeb,
+}
+
+impl RTDProxyTypeWebBuilder {
+  pub fn build(&self) -> ProxyTypeWeb {
+    self.inner.clone()
+  }
+
+  pub fn path<T: AsRef<str>>(&mut self, path: T) -> &mut Self {
+    self.inner.path = path.as_ref().to_string();
+    self
+  }
+
+  pub fn secret<T: AsRef<str>>(&mut self, secret: T) -> &mut Self {
+    self.inner.secret = secret.as_ref().to_string();
+    self
+  }
+}
+
+impl AsRef<ProxyTypeWeb> for ProxyTypeWeb {
+  fn as_ref(&self) -> &ProxyTypeWeb {
+    self
+  }
+}
+
+impl AsRef<ProxyTypeWeb> for RTDProxyTypeWebBuilder {
+  fn as_ref(&self) -> &ProxyTypeWeb {
     &self.inner
   }
 }

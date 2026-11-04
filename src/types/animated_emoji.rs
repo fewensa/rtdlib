@@ -2,7 +2,7 @@ use crate::errors::*;
 use crate::types::*;
 use uuid::Uuid;
 
-/// Describes an animated representation of an emoji
+/// Describes an animated or custom representation of an emoji
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct AnimatedEmoji {
   #[doc(hidden)]
@@ -11,12 +11,18 @@ pub struct AnimatedEmoji {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Animated sticker for the emoji
-  sticker: Sticker,
+  /// Sticker for the emoji; may be null if yet unknown for a custom emoji. If the sticker is a custom emoji, then it can have arbitrary format
+  sticker: Option<Sticker>,
+  /// Expected width of the sticker, which can be used if the sticker is null
+  sticker_width: i64,
+  /// Expected height of the sticker, which can be used if the sticker is null
+  sticker_height: i64,
   /// Emoji modifier fitzpatrick type; 0-6; 0 if none
   fitzpatrick_type: i64,
-  /// File containing the sound to be played when the animated emoji is clicked if any; may be null. The sound is encoded with the Opus codec, and stored inside an OGG container
+  /// File containing the sound to be played when the sticker is clicked; may be null. The sound is encoded with the Opus codec, and stored inside an OGG container
   sound: Option<File>,
+  /// True, if the emoji is a regular emoji
+  is_regular_emoji: bool,
 }
 
 impl RObject for AnimatedEmoji {
@@ -46,8 +52,16 @@ impl AnimatedEmoji {
     RTDAnimatedEmojiBuilder { inner }
   }
 
-  pub fn sticker(&self) -> &Sticker {
+  pub fn sticker(&self) -> &Option<Sticker> {
     &self.sticker
+  }
+
+  pub fn sticker_width(&self) -> i64 {
+    self.sticker_width
+  }
+
+  pub fn sticker_height(&self) -> i64 {
+    self.sticker_height
   }
 
   pub fn fitzpatrick_type(&self) -> i64 {
@@ -56,6 +70,10 @@ impl AnimatedEmoji {
 
   pub fn sound(&self) -> &Option<File> {
     &self.sound
+  }
+
+  pub fn is_regular_emoji(&self) -> bool {
+    self.is_regular_emoji
   }
 }
 
@@ -70,7 +88,17 @@ impl RTDAnimatedEmojiBuilder {
   }
 
   pub fn sticker<T: AsRef<Sticker>>(&mut self, sticker: T) -> &mut Self {
-    self.inner.sticker = sticker.as_ref().clone();
+    self.inner.sticker = Some(sticker.as_ref().clone());
+    self
+  }
+
+  pub fn sticker_width(&mut self, sticker_width: i64) -> &mut Self {
+    self.inner.sticker_width = sticker_width;
+    self
+  }
+
+  pub fn sticker_height(&mut self, sticker_height: i64) -> &mut Self {
+    self.inner.sticker_height = sticker_height;
     self
   }
 
@@ -81,6 +109,11 @@ impl RTDAnimatedEmojiBuilder {
 
   pub fn sound<T: AsRef<File>>(&mut self, sound: T) -> &mut Self {
     self.inner.sound = Some(sound.as_ref().clone());
+    self
+  }
+
+  pub fn is_regular_emoji(&mut self, is_regular_emoji: bool) -> &mut Self {
+    self.inner.is_regular_emoji = is_regular_emoji;
     self
   }
 }

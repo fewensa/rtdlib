@@ -2,7 +2,7 @@ use crate::errors::*;
 use crate::types::*;
 use uuid::Uuid;
 
-/// Contains information about a proxy server
+/// Describes a proxy server
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Proxy {
   #[doc(hidden)]
@@ -11,16 +11,10 @@ pub struct Proxy {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Unique identifier of the proxy
-  id: i64,
-  /// Proxy server IP address
+  /// Proxy server domain or IP address
   server: String,
   /// Proxy server port
   port: i64,
-  /// Point in time (Unix timestamp) when the proxy was last used; 0 if never
-  last_used_date: i64,
-  /// True, if the proxy is enabled now
-  is_enabled: bool,
   /// Type of the proxy
   #[serde(rename(serialize = "type", deserialize = "type"))]
   type_: ProxyType,
@@ -53,24 +47,12 @@ impl Proxy {
     RTDProxyBuilder { inner }
   }
 
-  pub fn id(&self) -> i64 {
-    self.id
-  }
-
   pub fn server(&self) -> &String {
     &self.server
   }
 
   pub fn port(&self) -> i64 {
     self.port
-  }
-
-  pub fn last_used_date(&self) -> i64 {
-    self.last_used_date
-  }
-
-  pub fn is_enabled(&self) -> bool {
-    self.is_enabled
   }
 
   pub fn type_(&self) -> &ProxyType {
@@ -88,11 +70,6 @@ impl RTDProxyBuilder {
     self.inner.clone()
   }
 
-  pub fn id(&mut self, id: i64) -> &mut Self {
-    self.inner.id = id;
-    self
-  }
-
   pub fn server<T: AsRef<str>>(&mut self, server: T) -> &mut Self {
     self.inner.server = server.as_ref().to_string();
     self
@@ -100,16 +77,6 @@ impl RTDProxyBuilder {
 
   pub fn port(&mut self, port: i64) -> &mut Self {
     self.inner.port = port;
-    self
-  }
-
-  pub fn last_used_date(&mut self, last_used_date: i64) -> &mut Self {
-    self.inner.last_used_date = last_used_date;
-    self
-  }
-
-  pub fn is_enabled(&mut self, is_enabled: bool) -> &mut Self {
-    self.inner.is_enabled = is_enabled;
     self
   }
 

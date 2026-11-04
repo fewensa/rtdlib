@@ -13,7 +13,10 @@ pub struct Call {
   extra: Option<String>,
   /// Call identifier, not persistent
   id: i64,
-  /// Peer user identifier
+  /// Persistent unique call identifier; 0 if isn't assigned yet by the server
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
+  unique_id: isize,
+  /// User identifier of the other call participant
   user_id: i64,
   /// True, if the call is outgoing
   is_outgoing: bool,
@@ -54,6 +57,10 @@ impl Call {
     self.id
   }
 
+  pub fn unique_id(&self) -> isize {
+    self.unique_id
+  }
+
   pub fn user_id(&self) -> i64 {
     self.user_id
   }
@@ -83,6 +90,11 @@ impl RTDCallBuilder {
 
   pub fn id(&mut self, id: i64) -> &mut Self {
     self.inner.id = id;
+    self
+  }
+
+  pub fn unique_id(&mut self, unique_id: isize) -> &mut Self {
+    self.inner.unique_id = unique_id;
     self
   }
 

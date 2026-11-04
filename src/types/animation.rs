@@ -21,7 +21,7 @@ pub struct Animation {
   file_name: String,
   /// MIME type of the file, usually "image/gif" or "video/mp4"
   mime_type: String,
-  /// True, if stickers were added to the animation. The list of corresponding sticker set can be received using getAttachedStickerSets
+  /// True, if stickers were added to the animation. The list of corresponding sticker sets can be received using getAttachedStickerSets
   has_stickers: bool,
   /// Animation minithumbnail; may be null
   minithumbnail: Option<Minithumbnail>,

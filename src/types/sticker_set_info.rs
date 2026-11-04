@@ -12,25 +12,30 @@ pub struct StickerSetInfo {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// Identifier of the sticker set
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
   id: isize,
   /// Title of the sticker set
   title: String,
   /// Name of the sticker set
   name: String,
-  /// Sticker set thumbnail in WEBP or TGS format with width and height 100; may be null
+  /// Sticker set thumbnail in WEBP, TGS, or WEBM format with width and height 100; may be null. The file can be downloaded only before the thumbnail is changed
   thumbnail: Option<Thumbnail>,
-  /// Sticker set thumbnail's outline represented as a list of closed vector paths; may be empty. The coordinate system origin is in the upper-left corner
-  thumbnail_outline: Vec<ClosedVectorPath>,
+  /// Sticker set thumbnail's outline; may be null if unknown
+  thumbnail_outline: Option<Outline>,
+  /// True, if the sticker set is owned by the current user
+  is_owned: bool,
   /// True, if the sticker set has been installed by the current user
   is_installed: bool,
   /// True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
   is_archived: bool,
   /// True, if the sticker set is official
   is_official: bool,
-  /// True, is the stickers in the set are animated
-  is_animated: bool,
-  /// True, if the stickers in the set are masks
-  is_masks: bool,
+  /// Type of the stickers in the set
+  sticker_type: StickerType,
+  /// True, if stickers in the sticker set are custom emoji that must be repainted; for custom emoji sticker sets only
+  needs_repainting: bool,
+  /// True, if stickers in the sticker set are custom emoji that can be used as chat emoji status; for custom emoji sticker sets only
+  is_allowed_as_chat_emoji_status: bool,
   /// True for already viewed trending sticker sets
   is_viewed: bool,
   /// Total number of stickers in the set
@@ -82,8 +87,12 @@ impl StickerSetInfo {
     &self.thumbnail
   }
 
-  pub fn thumbnail_outline(&self) -> &Vec<ClosedVectorPath> {
+  pub fn thumbnail_outline(&self) -> &Option<Outline> {
     &self.thumbnail_outline
+  }
+
+  pub fn is_owned(&self) -> bool {
+    self.is_owned
   }
 
   pub fn is_installed(&self) -> bool {
@@ -98,12 +107,16 @@ impl StickerSetInfo {
     self.is_official
   }
 
-  pub fn is_animated(&self) -> bool {
-    self.is_animated
+  pub fn sticker_type(&self) -> &StickerType {
+    &self.sticker_type
   }
 
-  pub fn is_masks(&self) -> bool {
-    self.is_masks
+  pub fn needs_repainting(&self) -> bool {
+    self.needs_repainting
+  }
+
+  pub fn is_allowed_as_chat_emoji_status(&self) -> bool {
+    self.is_allowed_as_chat_emoji_status
   }
 
   pub fn is_viewed(&self) -> bool {
@@ -149,8 +162,13 @@ impl RTDStickerSetInfoBuilder {
     self
   }
 
-  pub fn thumbnail_outline(&mut self, thumbnail_outline: Vec<ClosedVectorPath>) -> &mut Self {
-    self.inner.thumbnail_outline = thumbnail_outline;
+  pub fn thumbnail_outline<T: AsRef<Outline>>(&mut self, thumbnail_outline: T) -> &mut Self {
+    self.inner.thumbnail_outline = Some(thumbnail_outline.as_ref().clone());
+    self
+  }
+
+  pub fn is_owned(&mut self, is_owned: bool) -> &mut Self {
+    self.inner.is_owned = is_owned;
     self
   }
 
@@ -169,13 +187,21 @@ impl RTDStickerSetInfoBuilder {
     self
   }
 
-  pub fn is_animated(&mut self, is_animated: bool) -> &mut Self {
-    self.inner.is_animated = is_animated;
+  pub fn sticker_type<T: AsRef<StickerType>>(&mut self, sticker_type: T) -> &mut Self {
+    self.inner.sticker_type = sticker_type.as_ref().clone();
     self
   }
 
-  pub fn is_masks(&mut self, is_masks: bool) -> &mut Self {
-    self.inner.is_masks = is_masks;
+  pub fn needs_repainting(&mut self, needs_repainting: bool) -> &mut Self {
+    self.inner.needs_repainting = needs_repainting;
+    self
+  }
+
+  pub fn is_allowed_as_chat_emoji_status(
+    &mut self,
+    is_allowed_as_chat_emoji_status: bool,
+  ) -> &mut Self {
+    self.inner.is_allowed_as_chat_emoji_status = is_allowed_as_chat_emoji_status;
     self
   }
 

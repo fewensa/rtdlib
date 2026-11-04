@@ -15,10 +15,16 @@ pub struct Invoice {
   currency: String,
   /// A list of objects used to calculate the total price of the product
   price_parts: Vec<LabeledPricePart>,
+  /// The number of seconds between consecutive Telegram Star debiting for subscription invoices; 0 if the invoice doesn't create subscription
+  subscription_period: i64,
   /// The maximum allowed amount of tip in the smallest units of the currency
   max_tip_amount: i64,
   /// Suggested amounts of tip in the smallest units of the currency
   suggested_tip_amounts: Vec<i64>,
+  /// An HTTP URL with terms of service for recurring payments. If non-empty, the invoice payment will result in recurring payments and the user must accept the terms of service before allowed to pay
+  recurring_payment_terms_of_service_url: String,
+  /// An HTTP URL with terms of service for non-recurring payments. If non-empty, then the user must accept the terms of service before allowed to pay
+  terms_of_service_url: String,
   /// True, if the payment is a test payment
   is_test: bool,
   /// True, if the user's name is needed for payment
@@ -72,12 +78,24 @@ impl Invoice {
     &self.price_parts
   }
 
+  pub fn subscription_period(&self) -> i64 {
+    self.subscription_period
+  }
+
   pub fn max_tip_amount(&self) -> i64 {
     self.max_tip_amount
   }
 
   pub fn suggested_tip_amounts(&self) -> &Vec<i64> {
     &self.suggested_tip_amounts
+  }
+
+  pub fn recurring_payment_terms_of_service_url(&self) -> &String {
+    &self.recurring_payment_terms_of_service_url
+  }
+
+  pub fn terms_of_service_url(&self) -> &String {
+    &self.terms_of_service_url
   }
 
   pub fn is_test(&self) -> bool {
@@ -133,6 +151,11 @@ impl RTDInvoiceBuilder {
     self
   }
 
+  pub fn subscription_period(&mut self, subscription_period: i64) -> &mut Self {
+    self.inner.subscription_period = subscription_period;
+    self
+  }
+
   pub fn max_tip_amount(&mut self, max_tip_amount: i64) -> &mut Self {
     self.inner.max_tip_amount = max_tip_amount;
     self
@@ -140,6 +163,20 @@ impl RTDInvoiceBuilder {
 
   pub fn suggested_tip_amounts(&mut self, suggested_tip_amounts: Vec<i64>) -> &mut Self {
     self.inner.suggested_tip_amounts = suggested_tip_amounts;
+    self
+  }
+
+  pub fn recurring_payment_terms_of_service_url<T: AsRef<str>>(
+    &mut self,
+    recurring_payment_terms_of_service_url: T,
+  ) -> &mut Self {
+    self.inner.recurring_payment_terms_of_service_url =
+      recurring_payment_terms_of_service_url.as_ref().to_string();
+    self
+  }
+
+  pub fn terms_of_service_url<T: AsRef<str>>(&mut self, terms_of_service_url: T) -> &mut Self {
+    self.inner.terms_of_service_url = terms_of_service_url.as_ref().to_string();
     self
   }
 

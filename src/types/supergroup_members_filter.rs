@@ -20,9 +20,9 @@ pub enum SupergroupMembersFilter {
   Banned(SupergroupMembersFilterBanned),
   /// Returns bot members of the supergroup or channel
   Bots(SupergroupMembersFilterBots),
-  /// Returns contacts of the user, which are members of the supergroup or channel
+  /// Returns contacts of the current user who are members of the supergroup or channel
   Contacts(SupergroupMembersFilterContacts),
-  /// Returns users which can be mentioned in the supergroup
+  /// Returns users who can be mentioned in the supergroup
   Mention(SupergroupMembersFilterMention),
   /// Returns recently active users in reverse chronological order
   Recent(SupergroupMembersFilterRecent),
@@ -472,7 +472,7 @@ impl AsRef<SupergroupMembersFilterBots> for RTDSupergroupMembersFilterBotsBuilde
   }
 }
 
-/// Returns contacts of the user, which are members of the supergroup or channel
+/// Returns contacts of the current user who are members of the supergroup or channel
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SupergroupMembersFilterContacts {
   #[doc(hidden)]
@@ -547,7 +547,7 @@ impl AsRef<SupergroupMembersFilterContacts> for RTDSupergroupMembersFilterContac
   }
 }
 
-/// Returns users which can be mentioned in the supergroup
+/// Returns users who can be mentioned in the supergroup
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct SupergroupMembersFilterMention {
   #[doc(hidden)]
@@ -558,8 +558,8 @@ pub struct SupergroupMembersFilterMention {
   extra: Option<String>,
   /// Query to search for
   query: String,
-  /// If non-zero, the identifier of the current message thread
-  message_thread_id: i64,
+  /// Identifier of the topic in which the users will be mentioned; pass null if none
+  topic_id: MessageTopic,
 }
 
 impl RObject for SupergroupMembersFilterMention {
@@ -595,8 +595,8 @@ impl SupergroupMembersFilterMention {
     &self.query
   }
 
-  pub fn message_thread_id(&self) -> i64 {
-    self.message_thread_id
+  pub fn topic_id(&self) -> &MessageTopic {
+    &self.topic_id
   }
 }
 
@@ -615,8 +615,8 @@ impl RTDSupergroupMembersFilterMentionBuilder {
     self
   }
 
-  pub fn message_thread_id(&mut self, message_thread_id: i64) -> &mut Self {
-    self.inner.message_thread_id = message_thread_id;
+  pub fn topic_id<T: AsRef<MessageTopic>>(&mut self, topic_id: T) -> &mut Self {
+    self.inner.topic_id = topic_id.as_ref().clone();
     self
   }
 }

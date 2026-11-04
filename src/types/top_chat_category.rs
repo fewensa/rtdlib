@@ -24,10 +24,14 @@ pub enum TopChatCategory {
   ForwardChats(TopChatCategoryForwardChats),
   /// A category containing frequently used basic groups and supergroups
   Groups(TopChatCategoryGroups),
+  /// A category containing frequently used chats with bots, which were used as guest bots
+  GuestBots(TopChatCategoryGuestBots),
   /// A category containing frequently used chats with inline bots sorted by their usage in inline mode
   InlineBots(TopChatCategoryInlineBots),
   /// A category containing frequently used private chats with non-bot users
   Users(TopChatCategoryUsers),
+  /// A category containing frequently used chats with bots, which Web Apps were opened
+  WebAppBots(TopChatCategoryWebAppBots),
 }
 
 impl Default for TopChatCategory {
@@ -49,8 +53,10 @@ impl<'de> Deserialize<'de> for TopChatCategory {
       (topChatCategoryChannels, Channels);
       (topChatCategoryForwardChats, ForwardChats);
       (topChatCategoryGroups, Groups);
+      (topChatCategoryGuestBots, GuestBots);
       (topChatCategoryInlineBots, InlineBots);
       (topChatCategoryUsers, Users);
+      (topChatCategoryWebAppBots, WebAppBots);
 
     )(deserializer)
   }
@@ -65,8 +71,10 @@ impl RObject for TopChatCategory {
       TopChatCategory::Channels(t) => t.td_name(),
       TopChatCategory::ForwardChats(t) => t.td_name(),
       TopChatCategory::Groups(t) => t.td_name(),
+      TopChatCategory::GuestBots(t) => t.td_name(),
       TopChatCategory::InlineBots(t) => t.td_name(),
       TopChatCategory::Users(t) => t.td_name(),
+      TopChatCategory::WebAppBots(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -79,8 +87,10 @@ impl RObject for TopChatCategory {
       TopChatCategory::Channels(t) => t.extra(),
       TopChatCategory::ForwardChats(t) => t.extra(),
       TopChatCategory::Groups(t) => t.extra(),
+      TopChatCategory::GuestBots(t) => t.extra(),
       TopChatCategory::InlineBots(t) => t.extra(),
       TopChatCategory::Users(t) => t.extra(),
+      TopChatCategory::WebAppBots(t) => t.extra(),
 
       _ => None,
     }
@@ -114,11 +124,17 @@ impl TopChatCategory {
   pub fn is_groups(&self) -> bool {
     matches!(self, TopChatCategory::Groups(_))
   }
+  pub fn is_guest_bots(&self) -> bool {
+    matches!(self, TopChatCategory::GuestBots(_))
+  }
   pub fn is_inline_bots(&self) -> bool {
     matches!(self, TopChatCategory::InlineBots(_))
   }
   pub fn is_users(&self) -> bool {
     matches!(self, TopChatCategory::Users(_))
+  }
+  pub fn is_web_app_bots(&self) -> bool {
+    matches!(self, TopChatCategory::WebAppBots(_))
   }
 
   pub fn on_bots<F: FnOnce(&TopChatCategoryBots)>(&self, fnc: F) -> &Self {
@@ -151,6 +167,12 @@ impl TopChatCategory {
     };
     self
   }
+  pub fn on_guest_bots<F: FnOnce(&TopChatCategoryGuestBots)>(&self, fnc: F) -> &Self {
+    if let TopChatCategory::GuestBots(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_inline_bots<F: FnOnce(&TopChatCategoryInlineBots)>(&self, fnc: F) -> &Self {
     if let TopChatCategory::InlineBots(t) = self {
       fnc(t)
@@ -159,6 +181,12 @@ impl TopChatCategory {
   }
   pub fn on_users<F: FnOnce(&TopChatCategoryUsers)>(&self, fnc: F) -> &Self {
     if let TopChatCategory::Users(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_web_app_bots<F: FnOnce(&TopChatCategoryWebAppBots)>(&self, fnc: F) -> &Self {
+    if let TopChatCategory::WebAppBots(t) = self {
       fnc(t)
     };
     self
@@ -194,6 +222,12 @@ impl TopChatCategory {
     }
     None
   }
+  pub fn as_guest_bots(&self) -> Option<&TopChatCategoryGuestBots> {
+    if let TopChatCategory::GuestBots(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_inline_bots(&self) -> Option<&TopChatCategoryInlineBots> {
     if let TopChatCategory::InlineBots(t) = self {
       return Some(t);
@@ -202,6 +236,12 @@ impl TopChatCategory {
   }
   pub fn as_users(&self) -> Option<&TopChatCategoryUsers> {
     if let TopChatCategory::Users(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_web_app_bots(&self) -> Option<&TopChatCategoryWebAppBots> {
+    if let TopChatCategory::WebAppBots(t) = self {
       return Some(t);
     }
     None
@@ -227,12 +267,20 @@ impl TopChatCategory {
     TopChatCategory::Groups(t.as_ref().clone())
   }
 
+  pub fn guest_bots<T: AsRef<TopChatCategoryGuestBots>>(t: T) -> Self {
+    TopChatCategory::GuestBots(t.as_ref().clone())
+  }
+
   pub fn inline_bots<T: AsRef<TopChatCategoryInlineBots>>(t: T) -> Self {
     TopChatCategory::InlineBots(t.as_ref().clone())
   }
 
   pub fn users<T: AsRef<TopChatCategoryUsers>>(t: T) -> Self {
     TopChatCategory::Users(t.as_ref().clone())
+  }
+
+  pub fn web_app_bots<T: AsRef<TopChatCategoryWebAppBots>>(t: T) -> Self {
+    TopChatCategory::WebAppBots(t.as_ref().clone())
   }
 }
 
@@ -557,6 +605,69 @@ impl AsRef<TopChatCategoryGroups> for RTDTopChatCategoryGroupsBuilder {
   }
 }
 
+/// A category containing frequently used chats with bots, which were used as guest bots
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct TopChatCategoryGuestBots {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for TopChatCategoryGuestBots {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "topChatCategoryGuestBots"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDTopChatCategory for TopChatCategoryGuestBots {}
+
+impl TopChatCategoryGuestBots {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDTopChatCategoryGuestBotsBuilder {
+    let inner = TopChatCategoryGuestBots {
+      td_name: "topChatCategoryGuestBots".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDTopChatCategoryGuestBotsBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDTopChatCategoryGuestBotsBuilder {
+  inner: TopChatCategoryGuestBots,
+}
+
+impl RTDTopChatCategoryGuestBotsBuilder {
+  pub fn build(&self) -> TopChatCategoryGuestBots {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<TopChatCategoryGuestBots> for TopChatCategoryGuestBots {
+  fn as_ref(&self) -> &TopChatCategoryGuestBots {
+    self
+  }
+}
+
+impl AsRef<TopChatCategoryGuestBots> for RTDTopChatCategoryGuestBotsBuilder {
+  fn as_ref(&self) -> &TopChatCategoryGuestBots {
+    &self.inner
+  }
+}
+
 /// A category containing frequently used chats with inline bots sorted by their usage in inline mode
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TopChatCategoryInlineBots {
@@ -679,6 +790,69 @@ impl AsRef<TopChatCategoryUsers> for TopChatCategoryUsers {
 
 impl AsRef<TopChatCategoryUsers> for RTDTopChatCategoryUsersBuilder {
   fn as_ref(&self) -> &TopChatCategoryUsers {
+    &self.inner
+  }
+}
+
+/// A category containing frequently used chats with bots, which Web Apps were opened
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct TopChatCategoryWebAppBots {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for TopChatCategoryWebAppBots {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "topChatCategoryWebAppBots"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDTopChatCategory for TopChatCategoryWebAppBots {}
+
+impl TopChatCategoryWebAppBots {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDTopChatCategoryWebAppBotsBuilder {
+    let inner = TopChatCategoryWebAppBots {
+      td_name: "topChatCategoryWebAppBots".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDTopChatCategoryWebAppBotsBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDTopChatCategoryWebAppBotsBuilder {
+  inner: TopChatCategoryWebAppBots,
+}
+
+impl RTDTopChatCategoryWebAppBotsBuilder {
+  pub fn build(&self) -> TopChatCategoryWebAppBots {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<TopChatCategoryWebAppBots> for TopChatCategoryWebAppBots {
+  fn as_ref(&self) -> &TopChatCategoryWebAppBots {
+    self
+  }
+}
+
+impl AsRef<TopChatCategoryWebAppBots> for RTDTopChatCategoryWebAppBotsBuilder {
+  fn as_ref(&self) -> &TopChatCategoryWebAppBots {
     &self.inner
   }
 }

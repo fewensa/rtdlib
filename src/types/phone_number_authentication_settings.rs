@@ -17,9 +17,13 @@ pub struct PhoneNumberAuthenticationSettings {
   allow_missed_call: bool,
   /// Pass true if the authenticated phone number is used on the current device
   is_current_phone_number: bool,
+  /// Pass true if there is a SIM card in the current device, but it is not possible to check whether phone number matches
+  has_unknown_phone_number: bool,
   /// For official applications only. True, if the application can use Android SMS Retriever API (requires Google Play Services >= 10.2) to automatically receive the authentication code from the SMS. See https://developers.google.com/identity/sms-retriever/ for more details
   allow_sms_retriever_api: bool,
-  /// List of up to 20 authentication tokens, recently received in updateOption("authentication_token") in previously logged out sessions
+  /// For official Android and iOS applications only; pass null otherwise. Settings for Firebase Authentication
+  firebase_authentication_settings: FirebaseAuthenticationSettings,
+  /// List of up to 20 authentication tokens, recently received in updateOption("authentication_token") in previously logged out sessions; for setAuthenticationPhoneNumber only
   authentication_tokens: Vec<String>,
 }
 
@@ -62,8 +66,16 @@ impl PhoneNumberAuthenticationSettings {
     self.is_current_phone_number
   }
 
+  pub fn has_unknown_phone_number(&self) -> bool {
+    self.has_unknown_phone_number
+  }
+
   pub fn allow_sms_retriever_api(&self) -> bool {
     self.allow_sms_retriever_api
+  }
+
+  pub fn firebase_authentication_settings(&self) -> &FirebaseAuthenticationSettings {
+    &self.firebase_authentication_settings
   }
 
   pub fn authentication_tokens(&self) -> &Vec<String> {
@@ -96,8 +108,21 @@ impl RTDPhoneNumberAuthenticationSettingsBuilder {
     self
   }
 
+  pub fn has_unknown_phone_number(&mut self, has_unknown_phone_number: bool) -> &mut Self {
+    self.inner.has_unknown_phone_number = has_unknown_phone_number;
+    self
+  }
+
   pub fn allow_sms_retriever_api(&mut self, allow_sms_retriever_api: bool) -> &mut Self {
     self.inner.allow_sms_retriever_api = allow_sms_retriever_api;
+    self
+  }
+
+  pub fn firebase_authentication_settings<T: AsRef<FirebaseAuthenticationSettings>>(
+    &mut self,
+    firebase_authentication_settings: T,
+  ) -> &mut Self {
+    self.inner.firebase_authentication_settings = firebase_authentication_settings.as_ref().clone();
     self
   }
 

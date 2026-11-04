@@ -12,6 +12,7 @@ pub struct PushReceiverId {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// The globally unique identifier of push notification subscription
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
   id: isize,
 }
 

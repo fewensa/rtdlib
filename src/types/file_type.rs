@@ -5,10 +5,10 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Represents the type of a file
+/// TRAIT | Represents the type of file
 pub trait TDFileType: Debug + RObject {}
 
-/// Represents the type of a file
+/// Represents the type of file
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum FileType {
@@ -20,10 +20,16 @@ pub enum FileType {
   Audio(FileTypeAudio),
   /// The file is a document
   Document(FileTypeDocument),
+  /// The file is a video for a live photo
+  LivePhotoVideo(FileTypeLivePhotoVideo),
   /// The data is not a file
   None(FileTypeNone),
+  /// The file is a notification sound
+  NotificationSound(FileTypeNotificationSound),
   /// The file is a photo
   Photo(FileTypePhoto),
+  /// The file is a photo published as a story
+  PhotoStory(FileTypePhotoStory),
   /// The file is a profile photo
   ProfilePhoto(FileTypeProfilePhoto),
   /// The file was sent to a secret chat (the file type is not known to the server)
@@ -32,6 +38,16 @@ pub enum FileType {
   SecretThumbnail(FileTypeSecretThumbnail),
   /// The file is a file from Secure storage used for storing Telegram Passport files
   Secure(FileTypeSecure),
+  /// The file is a self-destructing video for a live photo in a private chat
+  SelfDestructingLivePhotoVideo(FileTypeSelfDestructingLivePhotoVideo),
+  /// The file is a self-destructing photo in a private chat
+  SelfDestructingPhoto(FileTypeSelfDestructingPhoto),
+  /// The file is a self-destructing video in a private chat
+  SelfDestructingVideo(FileTypeSelfDestructingVideo),
+  /// The file is a self-destructing video note in a private chat
+  SelfDestructingVideoNote(FileTypeSelfDestructingVideoNote),
+  /// The file is a self-destructing voice note in a private chat
+  SelfDestructingVoiceNote(FileTypeSelfDestructingVoiceNote),
   /// The file is a sticker
   Sticker(FileTypeSticker),
   /// The file is a thumbnail of another file
@@ -42,6 +58,8 @@ pub enum FileType {
   Video(FileTypeVideo),
   /// The file is a video note
   VideoNote(FileTypeVideoNote),
+  /// The file is a video published as a story
+  VideoStory(FileTypeVideoStory),
   /// The file is a voice note
   VoiceNote(FileTypeVoiceNote),
   /// The file is a wallpaper or a background pattern
@@ -65,17 +83,26 @@ impl<'de> Deserialize<'de> for FileType {
       (fileTypeAnimation, Animation);
       (fileTypeAudio, Audio);
       (fileTypeDocument, Document);
+      (fileTypeLivePhotoVideo, LivePhotoVideo);
       (fileTypeNone, None);
+      (fileTypeNotificationSound, NotificationSound);
       (fileTypePhoto, Photo);
+      (fileTypePhotoStory, PhotoStory);
       (fileTypeProfilePhoto, ProfilePhoto);
       (fileTypeSecret, Secret);
       (fileTypeSecretThumbnail, SecretThumbnail);
       (fileTypeSecure, Secure);
+      (fileTypeSelfDestructingLivePhotoVideo, SelfDestructingLivePhotoVideo);
+      (fileTypeSelfDestructingPhoto, SelfDestructingPhoto);
+      (fileTypeSelfDestructingVideo, SelfDestructingVideo);
+      (fileTypeSelfDestructingVideoNote, SelfDestructingVideoNote);
+      (fileTypeSelfDestructingVoiceNote, SelfDestructingVoiceNote);
       (fileTypeSticker, Sticker);
       (fileTypeThumbnail, Thumbnail);
       (fileTypeUnknown, Unknown);
       (fileTypeVideo, Video);
       (fileTypeVideoNote, VideoNote);
+      (fileTypeVideoStory, VideoStory);
       (fileTypeVoiceNote, VoiceNote);
       (fileTypeWallpaper, Wallpaper);
 
@@ -90,17 +117,26 @@ impl RObject for FileType {
       FileType::Animation(t) => t.td_name(),
       FileType::Audio(t) => t.td_name(),
       FileType::Document(t) => t.td_name(),
+      FileType::LivePhotoVideo(t) => t.td_name(),
       FileType::None(t) => t.td_name(),
+      FileType::NotificationSound(t) => t.td_name(),
       FileType::Photo(t) => t.td_name(),
+      FileType::PhotoStory(t) => t.td_name(),
       FileType::ProfilePhoto(t) => t.td_name(),
       FileType::Secret(t) => t.td_name(),
       FileType::SecretThumbnail(t) => t.td_name(),
       FileType::Secure(t) => t.td_name(),
+      FileType::SelfDestructingLivePhotoVideo(t) => t.td_name(),
+      FileType::SelfDestructingPhoto(t) => t.td_name(),
+      FileType::SelfDestructingVideo(t) => t.td_name(),
+      FileType::SelfDestructingVideoNote(t) => t.td_name(),
+      FileType::SelfDestructingVoiceNote(t) => t.td_name(),
       FileType::Sticker(t) => t.td_name(),
       FileType::Thumbnail(t) => t.td_name(),
       FileType::Unknown(t) => t.td_name(),
       FileType::Video(t) => t.td_name(),
       FileType::VideoNote(t) => t.td_name(),
+      FileType::VideoStory(t) => t.td_name(),
       FileType::VoiceNote(t) => t.td_name(),
       FileType::Wallpaper(t) => t.td_name(),
 
@@ -113,17 +149,26 @@ impl RObject for FileType {
       FileType::Animation(t) => t.extra(),
       FileType::Audio(t) => t.extra(),
       FileType::Document(t) => t.extra(),
+      FileType::LivePhotoVideo(t) => t.extra(),
       FileType::None(t) => t.extra(),
+      FileType::NotificationSound(t) => t.extra(),
       FileType::Photo(t) => t.extra(),
+      FileType::PhotoStory(t) => t.extra(),
       FileType::ProfilePhoto(t) => t.extra(),
       FileType::Secret(t) => t.extra(),
       FileType::SecretThumbnail(t) => t.extra(),
       FileType::Secure(t) => t.extra(),
+      FileType::SelfDestructingLivePhotoVideo(t) => t.extra(),
+      FileType::SelfDestructingPhoto(t) => t.extra(),
+      FileType::SelfDestructingVideo(t) => t.extra(),
+      FileType::SelfDestructingVideoNote(t) => t.extra(),
+      FileType::SelfDestructingVoiceNote(t) => t.extra(),
       FileType::Sticker(t) => t.extra(),
       FileType::Thumbnail(t) => t.extra(),
       FileType::Unknown(t) => t.extra(),
       FileType::Video(t) => t.extra(),
       FileType::VideoNote(t) => t.extra(),
+      FileType::VideoStory(t) => t.extra(),
       FileType::VoiceNote(t) => t.extra(),
       FileType::Wallpaper(t) => t.extra(),
 
@@ -153,11 +198,20 @@ impl FileType {
   pub fn is_document(&self) -> bool {
     matches!(self, FileType::Document(_))
   }
+  pub fn is_live_photo_video(&self) -> bool {
+    matches!(self, FileType::LivePhotoVideo(_))
+  }
   pub fn is_none(&self) -> bool {
     matches!(self, FileType::None(_))
   }
+  pub fn is_notification_sound(&self) -> bool {
+    matches!(self, FileType::NotificationSound(_))
+  }
   pub fn is_photo(&self) -> bool {
     matches!(self, FileType::Photo(_))
+  }
+  pub fn is_photo_story(&self) -> bool {
+    matches!(self, FileType::PhotoStory(_))
   }
   pub fn is_profile_photo(&self) -> bool {
     matches!(self, FileType::ProfilePhoto(_))
@@ -170,6 +224,21 @@ impl FileType {
   }
   pub fn is_secure(&self) -> bool {
     matches!(self, FileType::Secure(_))
+  }
+  pub fn is_self_destructing_live_photo_video(&self) -> bool {
+    matches!(self, FileType::SelfDestructingLivePhotoVideo(_))
+  }
+  pub fn is_self_destructing_photo(&self) -> bool {
+    matches!(self, FileType::SelfDestructingPhoto(_))
+  }
+  pub fn is_self_destructing_video(&self) -> bool {
+    matches!(self, FileType::SelfDestructingVideo(_))
+  }
+  pub fn is_self_destructing_video_note(&self) -> bool {
+    matches!(self, FileType::SelfDestructingVideoNote(_))
+  }
+  pub fn is_self_destructing_voice_note(&self) -> bool {
+    matches!(self, FileType::SelfDestructingVoiceNote(_))
   }
   pub fn is_sticker(&self) -> bool {
     matches!(self, FileType::Sticker(_))
@@ -185,6 +254,9 @@ impl FileType {
   }
   pub fn is_video_note(&self) -> bool {
     matches!(self, FileType::VideoNote(_))
+  }
+  pub fn is_video_story(&self) -> bool {
+    matches!(self, FileType::VideoStory(_))
   }
   pub fn is_voice_note(&self) -> bool {
     matches!(self, FileType::VoiceNote(_))
@@ -211,14 +283,32 @@ impl FileType {
     };
     self
   }
+  pub fn on_live_photo_video<F: FnOnce(&FileTypeLivePhotoVideo)>(&self, fnc: F) -> &Self {
+    if let FileType::LivePhotoVideo(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_none<F: FnOnce(&FileTypeNone)>(&self, fnc: F) -> &Self {
     if let FileType::None(t) = self {
       fnc(t)
     };
     self
   }
+  pub fn on_notification_sound<F: FnOnce(&FileTypeNotificationSound)>(&self, fnc: F) -> &Self {
+    if let FileType::NotificationSound(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_photo<F: FnOnce(&FileTypePhoto)>(&self, fnc: F) -> &Self {
     if let FileType::Photo(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_photo_story<F: FnOnce(&FileTypePhotoStory)>(&self, fnc: F) -> &Self {
+    if let FileType::PhotoStory(t) = self {
       fnc(t)
     };
     self
@@ -243,6 +333,51 @@ impl FileType {
   }
   pub fn on_secure<F: FnOnce(&FileTypeSecure)>(&self, fnc: F) -> &Self {
     if let FileType::Secure(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_self_destructing_live_photo_video<F: FnOnce(&FileTypeSelfDestructingLivePhotoVideo)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let FileType::SelfDestructingLivePhotoVideo(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_self_destructing_photo<F: FnOnce(&FileTypeSelfDestructingPhoto)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let FileType::SelfDestructingPhoto(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_self_destructing_video<F: FnOnce(&FileTypeSelfDestructingVideo)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let FileType::SelfDestructingVideo(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_self_destructing_video_note<F: FnOnce(&FileTypeSelfDestructingVideoNote)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let FileType::SelfDestructingVideoNote(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_self_destructing_voice_note<F: FnOnce(&FileTypeSelfDestructingVoiceNote)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let FileType::SelfDestructingVoiceNote(t) = self {
       fnc(t)
     };
     self
@@ -273,6 +408,12 @@ impl FileType {
   }
   pub fn on_video_note<F: FnOnce(&FileTypeVideoNote)>(&self, fnc: F) -> &Self {
     if let FileType::VideoNote(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_video_story<F: FnOnce(&FileTypeVideoStory)>(&self, fnc: F) -> &Self {
+    if let FileType::VideoStory(t) = self {
       fnc(t)
     };
     self
@@ -308,14 +449,32 @@ impl FileType {
     }
     None
   }
+  pub fn as_live_photo_video(&self) -> Option<&FileTypeLivePhotoVideo> {
+    if let FileType::LivePhotoVideo(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_none(&self) -> Option<&FileTypeNone> {
     if let FileType::None(t) = self {
       return Some(t);
     }
     None
   }
+  pub fn as_notification_sound(&self) -> Option<&FileTypeNotificationSound> {
+    if let FileType::NotificationSound(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_photo(&self) -> Option<&FileTypePhoto> {
     if let FileType::Photo(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_photo_story(&self) -> Option<&FileTypePhotoStory> {
+    if let FileType::PhotoStory(t) = self {
       return Some(t);
     }
     None
@@ -340,6 +499,38 @@ impl FileType {
   }
   pub fn as_secure(&self) -> Option<&FileTypeSecure> {
     if let FileType::Secure(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_self_destructing_live_photo_video(
+    &self,
+  ) -> Option<&FileTypeSelfDestructingLivePhotoVideo> {
+    if let FileType::SelfDestructingLivePhotoVideo(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_self_destructing_photo(&self) -> Option<&FileTypeSelfDestructingPhoto> {
+    if let FileType::SelfDestructingPhoto(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_self_destructing_video(&self) -> Option<&FileTypeSelfDestructingVideo> {
+    if let FileType::SelfDestructingVideo(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_self_destructing_video_note(&self) -> Option<&FileTypeSelfDestructingVideoNote> {
+    if let FileType::SelfDestructingVideoNote(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_self_destructing_voice_note(&self) -> Option<&FileTypeSelfDestructingVoiceNote> {
+    if let FileType::SelfDestructingVoiceNote(t) = self {
       return Some(t);
     }
     None
@@ -374,6 +565,12 @@ impl FileType {
     }
     None
   }
+  pub fn as_video_story(&self) -> Option<&FileTypeVideoStory> {
+    if let FileType::VideoStory(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_voice_note(&self) -> Option<&FileTypeVoiceNote> {
     if let FileType::VoiceNote(t) = self {
       return Some(t);
@@ -399,12 +596,24 @@ impl FileType {
     FileType::Document(t.as_ref().clone())
   }
 
+  pub fn live_photo_video<T: AsRef<FileTypeLivePhotoVideo>>(t: T) -> Self {
+    FileType::LivePhotoVideo(t.as_ref().clone())
+  }
+
   pub fn none<T: AsRef<FileTypeNone>>(t: T) -> Self {
     FileType::None(t.as_ref().clone())
   }
 
+  pub fn notification_sound<T: AsRef<FileTypeNotificationSound>>(t: T) -> Self {
+    FileType::NotificationSound(t.as_ref().clone())
+  }
+
   pub fn photo<T: AsRef<FileTypePhoto>>(t: T) -> Self {
     FileType::Photo(t.as_ref().clone())
+  }
+
+  pub fn photo_story<T: AsRef<FileTypePhotoStory>>(t: T) -> Self {
+    FileType::PhotoStory(t.as_ref().clone())
   }
 
   pub fn profile_photo<T: AsRef<FileTypeProfilePhoto>>(t: T) -> Self {
@@ -421,6 +630,28 @@ impl FileType {
 
   pub fn secure<T: AsRef<FileTypeSecure>>(t: T) -> Self {
     FileType::Secure(t.as_ref().clone())
+  }
+
+  pub fn self_destructing_live_photo_video<T: AsRef<FileTypeSelfDestructingLivePhotoVideo>>(
+    t: T,
+  ) -> Self {
+    FileType::SelfDestructingLivePhotoVideo(t.as_ref().clone())
+  }
+
+  pub fn self_destructing_photo<T: AsRef<FileTypeSelfDestructingPhoto>>(t: T) -> Self {
+    FileType::SelfDestructingPhoto(t.as_ref().clone())
+  }
+
+  pub fn self_destructing_video<T: AsRef<FileTypeSelfDestructingVideo>>(t: T) -> Self {
+    FileType::SelfDestructingVideo(t.as_ref().clone())
+  }
+
+  pub fn self_destructing_video_note<T: AsRef<FileTypeSelfDestructingVideoNote>>(t: T) -> Self {
+    FileType::SelfDestructingVideoNote(t.as_ref().clone())
+  }
+
+  pub fn self_destructing_voice_note<T: AsRef<FileTypeSelfDestructingVoiceNote>>(t: T) -> Self {
+    FileType::SelfDestructingVoiceNote(t.as_ref().clone())
   }
 
   pub fn sticker<T: AsRef<FileTypeSticker>>(t: T) -> Self {
@@ -441,6 +672,10 @@ impl FileType {
 
   pub fn video_note<T: AsRef<FileTypeVideoNote>>(t: T) -> Self {
     FileType::VideoNote(t.as_ref().clone())
+  }
+
+  pub fn video_story<T: AsRef<FileTypeVideoStory>>(t: T) -> Self {
+    FileType::VideoStory(t.as_ref().clone())
   }
 
   pub fn voice_note<T: AsRef<FileTypeVoiceNote>>(t: T) -> Self {
@@ -647,6 +882,69 @@ impl AsRef<FileTypeDocument> for RTDFileTypeDocumentBuilder {
   }
 }
 
+/// The file is a video for a live photo
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct FileTypeLivePhotoVideo {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for FileTypeLivePhotoVideo {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "fileTypeLivePhotoVideo"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDFileType for FileTypeLivePhotoVideo {}
+
+impl FileTypeLivePhotoVideo {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDFileTypeLivePhotoVideoBuilder {
+    let inner = FileTypeLivePhotoVideo {
+      td_name: "fileTypeLivePhotoVideo".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDFileTypeLivePhotoVideoBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDFileTypeLivePhotoVideoBuilder {
+  inner: FileTypeLivePhotoVideo,
+}
+
+impl RTDFileTypeLivePhotoVideoBuilder {
+  pub fn build(&self) -> FileTypeLivePhotoVideo {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<FileTypeLivePhotoVideo> for FileTypeLivePhotoVideo {
+  fn as_ref(&self) -> &FileTypeLivePhotoVideo {
+    self
+  }
+}
+
+impl AsRef<FileTypeLivePhotoVideo> for RTDFileTypeLivePhotoVideoBuilder {
+  fn as_ref(&self) -> &FileTypeLivePhotoVideo {
+    &self.inner
+  }
+}
+
 /// The data is not a file
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct FileTypeNone {
@@ -710,6 +1008,69 @@ impl AsRef<FileTypeNone> for RTDFileTypeNoneBuilder {
   }
 }
 
+/// The file is a notification sound
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct FileTypeNotificationSound {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for FileTypeNotificationSound {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "fileTypeNotificationSound"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDFileType for FileTypeNotificationSound {}
+
+impl FileTypeNotificationSound {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDFileTypeNotificationSoundBuilder {
+    let inner = FileTypeNotificationSound {
+      td_name: "fileTypeNotificationSound".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDFileTypeNotificationSoundBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDFileTypeNotificationSoundBuilder {
+  inner: FileTypeNotificationSound,
+}
+
+impl RTDFileTypeNotificationSoundBuilder {
+  pub fn build(&self) -> FileTypeNotificationSound {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<FileTypeNotificationSound> for FileTypeNotificationSound {
+  fn as_ref(&self) -> &FileTypeNotificationSound {
+    self
+  }
+}
+
+impl AsRef<FileTypeNotificationSound> for RTDFileTypeNotificationSoundBuilder {
+  fn as_ref(&self) -> &FileTypeNotificationSound {
+    &self.inner
+  }
+}
+
 /// The file is a photo
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct FileTypePhoto {
@@ -769,6 +1130,69 @@ impl AsRef<FileTypePhoto> for FileTypePhoto {
 
 impl AsRef<FileTypePhoto> for RTDFileTypePhotoBuilder {
   fn as_ref(&self) -> &FileTypePhoto {
+    &self.inner
+  }
+}
+
+/// The file is a photo published as a story
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct FileTypePhotoStory {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for FileTypePhotoStory {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "fileTypePhotoStory"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDFileType for FileTypePhotoStory {}
+
+impl FileTypePhotoStory {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDFileTypePhotoStoryBuilder {
+    let inner = FileTypePhotoStory {
+      td_name: "fileTypePhotoStory".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDFileTypePhotoStoryBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDFileTypePhotoStoryBuilder {
+  inner: FileTypePhotoStory,
+}
+
+impl RTDFileTypePhotoStoryBuilder {
+  pub fn build(&self) -> FileTypePhotoStory {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<FileTypePhotoStory> for FileTypePhotoStory {
+  fn as_ref(&self) -> &FileTypePhotoStory {
+    self
+  }
+}
+
+impl AsRef<FileTypePhotoStory> for RTDFileTypePhotoStoryBuilder {
+  fn as_ref(&self) -> &FileTypePhotoStory {
     &self.inner
   }
 }
@@ -1021,6 +1445,323 @@ impl AsRef<FileTypeSecure> for FileTypeSecure {
 
 impl AsRef<FileTypeSecure> for RTDFileTypeSecureBuilder {
   fn as_ref(&self) -> &FileTypeSecure {
+    &self.inner
+  }
+}
+
+/// The file is a self-destructing video for a live photo in a private chat
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct FileTypeSelfDestructingLivePhotoVideo {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for FileTypeSelfDestructingLivePhotoVideo {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "fileTypeSelfDestructingLivePhotoVideo"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDFileType for FileTypeSelfDestructingLivePhotoVideo {}
+
+impl FileTypeSelfDestructingLivePhotoVideo {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDFileTypeSelfDestructingLivePhotoVideoBuilder {
+    let inner = FileTypeSelfDestructingLivePhotoVideo {
+      td_name: "fileTypeSelfDestructingLivePhotoVideo".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDFileTypeSelfDestructingLivePhotoVideoBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDFileTypeSelfDestructingLivePhotoVideoBuilder {
+  inner: FileTypeSelfDestructingLivePhotoVideo,
+}
+
+impl RTDFileTypeSelfDestructingLivePhotoVideoBuilder {
+  pub fn build(&self) -> FileTypeSelfDestructingLivePhotoVideo {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<FileTypeSelfDestructingLivePhotoVideo> for FileTypeSelfDestructingLivePhotoVideo {
+  fn as_ref(&self) -> &FileTypeSelfDestructingLivePhotoVideo {
+    self
+  }
+}
+
+impl AsRef<FileTypeSelfDestructingLivePhotoVideo>
+  for RTDFileTypeSelfDestructingLivePhotoVideoBuilder
+{
+  fn as_ref(&self) -> &FileTypeSelfDestructingLivePhotoVideo {
+    &self.inner
+  }
+}
+
+/// The file is a self-destructing photo in a private chat
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct FileTypeSelfDestructingPhoto {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for FileTypeSelfDestructingPhoto {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "fileTypeSelfDestructingPhoto"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDFileType for FileTypeSelfDestructingPhoto {}
+
+impl FileTypeSelfDestructingPhoto {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDFileTypeSelfDestructingPhotoBuilder {
+    let inner = FileTypeSelfDestructingPhoto {
+      td_name: "fileTypeSelfDestructingPhoto".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDFileTypeSelfDestructingPhotoBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDFileTypeSelfDestructingPhotoBuilder {
+  inner: FileTypeSelfDestructingPhoto,
+}
+
+impl RTDFileTypeSelfDestructingPhotoBuilder {
+  pub fn build(&self) -> FileTypeSelfDestructingPhoto {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<FileTypeSelfDestructingPhoto> for FileTypeSelfDestructingPhoto {
+  fn as_ref(&self) -> &FileTypeSelfDestructingPhoto {
+    self
+  }
+}
+
+impl AsRef<FileTypeSelfDestructingPhoto> for RTDFileTypeSelfDestructingPhotoBuilder {
+  fn as_ref(&self) -> &FileTypeSelfDestructingPhoto {
+    &self.inner
+  }
+}
+
+/// The file is a self-destructing video in a private chat
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct FileTypeSelfDestructingVideo {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for FileTypeSelfDestructingVideo {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "fileTypeSelfDestructingVideo"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDFileType for FileTypeSelfDestructingVideo {}
+
+impl FileTypeSelfDestructingVideo {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDFileTypeSelfDestructingVideoBuilder {
+    let inner = FileTypeSelfDestructingVideo {
+      td_name: "fileTypeSelfDestructingVideo".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDFileTypeSelfDestructingVideoBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDFileTypeSelfDestructingVideoBuilder {
+  inner: FileTypeSelfDestructingVideo,
+}
+
+impl RTDFileTypeSelfDestructingVideoBuilder {
+  pub fn build(&self) -> FileTypeSelfDestructingVideo {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<FileTypeSelfDestructingVideo> for FileTypeSelfDestructingVideo {
+  fn as_ref(&self) -> &FileTypeSelfDestructingVideo {
+    self
+  }
+}
+
+impl AsRef<FileTypeSelfDestructingVideo> for RTDFileTypeSelfDestructingVideoBuilder {
+  fn as_ref(&self) -> &FileTypeSelfDestructingVideo {
+    &self.inner
+  }
+}
+
+/// The file is a self-destructing video note in a private chat
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct FileTypeSelfDestructingVideoNote {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for FileTypeSelfDestructingVideoNote {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "fileTypeSelfDestructingVideoNote"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDFileType for FileTypeSelfDestructingVideoNote {}
+
+impl FileTypeSelfDestructingVideoNote {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDFileTypeSelfDestructingVideoNoteBuilder {
+    let inner = FileTypeSelfDestructingVideoNote {
+      td_name: "fileTypeSelfDestructingVideoNote".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDFileTypeSelfDestructingVideoNoteBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDFileTypeSelfDestructingVideoNoteBuilder {
+  inner: FileTypeSelfDestructingVideoNote,
+}
+
+impl RTDFileTypeSelfDestructingVideoNoteBuilder {
+  pub fn build(&self) -> FileTypeSelfDestructingVideoNote {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<FileTypeSelfDestructingVideoNote> for FileTypeSelfDestructingVideoNote {
+  fn as_ref(&self) -> &FileTypeSelfDestructingVideoNote {
+    self
+  }
+}
+
+impl AsRef<FileTypeSelfDestructingVideoNote> for RTDFileTypeSelfDestructingVideoNoteBuilder {
+  fn as_ref(&self) -> &FileTypeSelfDestructingVideoNote {
+    &self.inner
+  }
+}
+
+/// The file is a self-destructing voice note in a private chat
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct FileTypeSelfDestructingVoiceNote {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for FileTypeSelfDestructingVoiceNote {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "fileTypeSelfDestructingVoiceNote"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDFileType for FileTypeSelfDestructingVoiceNote {}
+
+impl FileTypeSelfDestructingVoiceNote {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDFileTypeSelfDestructingVoiceNoteBuilder {
+    let inner = FileTypeSelfDestructingVoiceNote {
+      td_name: "fileTypeSelfDestructingVoiceNote".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDFileTypeSelfDestructingVoiceNoteBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDFileTypeSelfDestructingVoiceNoteBuilder {
+  inner: FileTypeSelfDestructingVoiceNote,
+}
+
+impl RTDFileTypeSelfDestructingVoiceNoteBuilder {
+  pub fn build(&self) -> FileTypeSelfDestructingVoiceNote {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<FileTypeSelfDestructingVoiceNote> for FileTypeSelfDestructingVoiceNote {
+  fn as_ref(&self) -> &FileTypeSelfDestructingVoiceNote {
+    self
+  }
+}
+
+impl AsRef<FileTypeSelfDestructingVoiceNote> for RTDFileTypeSelfDestructingVoiceNoteBuilder {
+  fn as_ref(&self) -> &FileTypeSelfDestructingVoiceNote {
     &self.inner
   }
 }
@@ -1336,6 +2077,69 @@ impl AsRef<FileTypeVideoNote> for FileTypeVideoNote {
 
 impl AsRef<FileTypeVideoNote> for RTDFileTypeVideoNoteBuilder {
   fn as_ref(&self) -> &FileTypeVideoNote {
+    &self.inner
+  }
+}
+
+/// The file is a video published as a story
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct FileTypeVideoStory {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for FileTypeVideoStory {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "fileTypeVideoStory"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDFileType for FileTypeVideoStory {}
+
+impl FileTypeVideoStory {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDFileTypeVideoStoryBuilder {
+    let inner = FileTypeVideoStory {
+      td_name: "fileTypeVideoStory".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDFileTypeVideoStoryBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDFileTypeVideoStoryBuilder {
+  inner: FileTypeVideoStory,
+}
+
+impl RTDFileTypeVideoStoryBuilder {
+  pub fn build(&self) -> FileTypeVideoStory {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<FileTypeVideoStory> for FileTypeVideoStory {
+  fn as_ref(&self) -> &FileTypeVideoStory {
+    self
+  }
+}
+
+impl AsRef<FileTypeVideoStory> for RTDFileTypeVideoStoryBuilder {
+  fn as_ref(&self) -> &FileTypeVideoStory {
     &self.inner
   }
 }

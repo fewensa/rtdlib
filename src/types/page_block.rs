@@ -5,10 +5,10 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Describes a block of an instant view web page
+/// TRAIT | Describes a block of an instant view for a web page or a block of a rich message
 pub trait TDPageBlock: Debug + RObject {}
 
-/// Describes a block of an instant view web page
+/// Describes a block of an instant view for a web page or a block of a rich message
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum PageBlock {
@@ -20,34 +20,42 @@ pub enum PageBlock {
   Animation(PageBlockAnimation),
   /// An audio file
   Audio(PageBlockAudio),
-  /// The author and publishing date of a page
+  /// The author and publishing date of a page; instant view only
   AuthorDate(PageBlockAuthorDate),
   /// A block quote
   BlockQuote(PageBlockBlockQuote),
-  /// A link to a chat
+  /// A list of buttons shown in a row
+  ButtonRow(PageBlockButtonRow),
+  /// A link to a chat; instant view only
   ChatLink(PageBlockChatLink),
   /// A collage
   Collage(PageBlockCollage),
-  /// A page cover
+  /// A page cover; instant view only
   Cover(PageBlockCover),
   /// A collapsible block
   Details(PageBlockDetails),
   /// An empty block separating a page
   Divider(PageBlockDivider),
-  /// An embedded web page
+  /// A general file
+  Document(PageBlockDocument),
+  /// An embedded web page; instant view only
   Embedded(PageBlockEmbedded),
-  /// An embedded post
+  /// An embedded post; instant view only
   EmbeddedPost(PageBlockEmbeddedPost),
+  /// An expandable block quote
+  ExpandableBlockQuote(PageBlockExpandableBlockQuote),
   /// The footer of a page
   Footer(PageBlockFooter),
-  /// A header
+  /// A header; instant view only
   Header(PageBlockHeader),
-  /// A kicker
+  /// A kicker; instant view only
   Kicker(PageBlockKicker),
   /// A list of data blocks
   List(PageBlockList),
   /// A map
   Map(PageBlockMap),
+  /// A mathematical expression
+  MathematicalExpression(PageBlockMathematicalExpression),
   /// A text paragraph
   Paragraph(PageBlockParagraph),
   /// A photo
@@ -56,18 +64,24 @@ pub enum PageBlock {
   Preformatted(PageBlockPreformatted),
   /// A pull quote
   PullQuote(PageBlockPullQuote),
-  /// Related articles
+  /// Related articles; instant view only
   RelatedArticles(PageBlockRelatedArticles),
+  /// A section heading
+  SectionHeading(PageBlockSectionHeading),
   /// A slideshow
   Slideshow(PageBlockSlideshow),
-  /// A subheader
+  /// A subheader; instant view only
   Subheader(PageBlockSubheader),
-  /// The subtitle of a page
+  /// The subtitle of a page; instant view only
   Subtitle(PageBlockSubtitle),
   /// A table
   Table(PageBlockTable),
-  /// The title of a page
+  /// A "Thinking..." placeholder; for pending rich messages only
+  Thinking(PageBlockThinking),
+  /// The title of a page; instant view only
   Title(PageBlockTitle),
+  /// Represents a block unsupported by the current application version
+  Unsupported(PageBlockUnsupported),
   /// A video
   Video(PageBlockVideo),
   /// A voice note
@@ -93,28 +107,35 @@ impl<'de> Deserialize<'de> for PageBlock {
       (pageBlockAudio, Audio);
       (pageBlockAuthorDate, AuthorDate);
       (pageBlockBlockQuote, BlockQuote);
+      (pageBlockButtonRow, ButtonRow);
       (pageBlockChatLink, ChatLink);
       (pageBlockCollage, Collage);
       (pageBlockCover, Cover);
       (pageBlockDetails, Details);
       (pageBlockDivider, Divider);
+      (pageBlockDocument, Document);
       (pageBlockEmbedded, Embedded);
       (pageBlockEmbeddedPost, EmbeddedPost);
+      (pageBlockExpandableBlockQuote, ExpandableBlockQuote);
       (pageBlockFooter, Footer);
       (pageBlockHeader, Header);
       (pageBlockKicker, Kicker);
       (pageBlockList, List);
       (pageBlockMap, Map);
+      (pageBlockMathematicalExpression, MathematicalExpression);
       (pageBlockParagraph, Paragraph);
       (pageBlockPhoto, Photo);
       (pageBlockPreformatted, Preformatted);
       (pageBlockPullQuote, PullQuote);
       (pageBlockRelatedArticles, RelatedArticles);
+      (pageBlockSectionHeading, SectionHeading);
       (pageBlockSlideshow, Slideshow);
       (pageBlockSubheader, Subheader);
       (pageBlockSubtitle, Subtitle);
       (pageBlockTable, Table);
+      (pageBlockThinking, Thinking);
       (pageBlockTitle, Title);
+      (pageBlockUnsupported, Unsupported);
       (pageBlockVideo, Video);
       (pageBlockVoiceNote, VoiceNote);
 
@@ -131,28 +152,35 @@ impl RObject for PageBlock {
       PageBlock::Audio(t) => t.td_name(),
       PageBlock::AuthorDate(t) => t.td_name(),
       PageBlock::BlockQuote(t) => t.td_name(),
+      PageBlock::ButtonRow(t) => t.td_name(),
       PageBlock::ChatLink(t) => t.td_name(),
       PageBlock::Collage(t) => t.td_name(),
       PageBlock::Cover(t) => t.td_name(),
       PageBlock::Details(t) => t.td_name(),
       PageBlock::Divider(t) => t.td_name(),
+      PageBlock::Document(t) => t.td_name(),
       PageBlock::Embedded(t) => t.td_name(),
       PageBlock::EmbeddedPost(t) => t.td_name(),
+      PageBlock::ExpandableBlockQuote(t) => t.td_name(),
       PageBlock::Footer(t) => t.td_name(),
       PageBlock::Header(t) => t.td_name(),
       PageBlock::Kicker(t) => t.td_name(),
       PageBlock::List(t) => t.td_name(),
       PageBlock::Map(t) => t.td_name(),
+      PageBlock::MathematicalExpression(t) => t.td_name(),
       PageBlock::Paragraph(t) => t.td_name(),
       PageBlock::Photo(t) => t.td_name(),
       PageBlock::Preformatted(t) => t.td_name(),
       PageBlock::PullQuote(t) => t.td_name(),
       PageBlock::RelatedArticles(t) => t.td_name(),
+      PageBlock::SectionHeading(t) => t.td_name(),
       PageBlock::Slideshow(t) => t.td_name(),
       PageBlock::Subheader(t) => t.td_name(),
       PageBlock::Subtitle(t) => t.td_name(),
       PageBlock::Table(t) => t.td_name(),
+      PageBlock::Thinking(t) => t.td_name(),
       PageBlock::Title(t) => t.td_name(),
+      PageBlock::Unsupported(t) => t.td_name(),
       PageBlock::Video(t) => t.td_name(),
       PageBlock::VoiceNote(t) => t.td_name(),
 
@@ -167,28 +195,35 @@ impl RObject for PageBlock {
       PageBlock::Audio(t) => t.extra(),
       PageBlock::AuthorDate(t) => t.extra(),
       PageBlock::BlockQuote(t) => t.extra(),
+      PageBlock::ButtonRow(t) => t.extra(),
       PageBlock::ChatLink(t) => t.extra(),
       PageBlock::Collage(t) => t.extra(),
       PageBlock::Cover(t) => t.extra(),
       PageBlock::Details(t) => t.extra(),
       PageBlock::Divider(t) => t.extra(),
+      PageBlock::Document(t) => t.extra(),
       PageBlock::Embedded(t) => t.extra(),
       PageBlock::EmbeddedPost(t) => t.extra(),
+      PageBlock::ExpandableBlockQuote(t) => t.extra(),
       PageBlock::Footer(t) => t.extra(),
       PageBlock::Header(t) => t.extra(),
       PageBlock::Kicker(t) => t.extra(),
       PageBlock::List(t) => t.extra(),
       PageBlock::Map(t) => t.extra(),
+      PageBlock::MathematicalExpression(t) => t.extra(),
       PageBlock::Paragraph(t) => t.extra(),
       PageBlock::Photo(t) => t.extra(),
       PageBlock::Preformatted(t) => t.extra(),
       PageBlock::PullQuote(t) => t.extra(),
       PageBlock::RelatedArticles(t) => t.extra(),
+      PageBlock::SectionHeading(t) => t.extra(),
       PageBlock::Slideshow(t) => t.extra(),
       PageBlock::Subheader(t) => t.extra(),
       PageBlock::Subtitle(t) => t.extra(),
       PageBlock::Table(t) => t.extra(),
+      PageBlock::Thinking(t) => t.extra(),
       PageBlock::Title(t) => t.extra(),
+      PageBlock::Unsupported(t) => t.extra(),
       PageBlock::Video(t) => t.extra(),
       PageBlock::VoiceNote(t) => t.extra(),
 
@@ -224,6 +259,9 @@ impl PageBlock {
   pub fn is_block_quote(&self) -> bool {
     matches!(self, PageBlock::BlockQuote(_))
   }
+  pub fn is_button_row(&self) -> bool {
+    matches!(self, PageBlock::ButtonRow(_))
+  }
   pub fn is_chat_link(&self) -> bool {
     matches!(self, PageBlock::ChatLink(_))
   }
@@ -239,11 +277,17 @@ impl PageBlock {
   pub fn is_divider(&self) -> bool {
     matches!(self, PageBlock::Divider(_))
   }
+  pub fn is_document(&self) -> bool {
+    matches!(self, PageBlock::Document(_))
+  }
   pub fn is_embedded(&self) -> bool {
     matches!(self, PageBlock::Embedded(_))
   }
   pub fn is_embedded_post(&self) -> bool {
     matches!(self, PageBlock::EmbeddedPost(_))
+  }
+  pub fn is_expandable_block_quote(&self) -> bool {
+    matches!(self, PageBlock::ExpandableBlockQuote(_))
   }
   pub fn is_footer(&self) -> bool {
     matches!(self, PageBlock::Footer(_))
@@ -260,6 +304,9 @@ impl PageBlock {
   pub fn is_map(&self) -> bool {
     matches!(self, PageBlock::Map(_))
   }
+  pub fn is_mathematical_expression(&self) -> bool {
+    matches!(self, PageBlock::MathematicalExpression(_))
+  }
   pub fn is_paragraph(&self) -> bool {
     matches!(self, PageBlock::Paragraph(_))
   }
@@ -275,6 +322,9 @@ impl PageBlock {
   pub fn is_related_articles(&self) -> bool {
     matches!(self, PageBlock::RelatedArticles(_))
   }
+  pub fn is_section_heading(&self) -> bool {
+    matches!(self, PageBlock::SectionHeading(_))
+  }
   pub fn is_slideshow(&self) -> bool {
     matches!(self, PageBlock::Slideshow(_))
   }
@@ -287,8 +337,14 @@ impl PageBlock {
   pub fn is_table(&self) -> bool {
     matches!(self, PageBlock::Table(_))
   }
+  pub fn is_thinking(&self) -> bool {
+    matches!(self, PageBlock::Thinking(_))
+  }
   pub fn is_title(&self) -> bool {
     matches!(self, PageBlock::Title(_))
+  }
+  pub fn is_unsupported(&self) -> bool {
+    matches!(self, PageBlock::Unsupported(_))
   }
   pub fn is_video(&self) -> bool {
     matches!(self, PageBlock::Video(_))
@@ -327,6 +383,12 @@ impl PageBlock {
     };
     self
   }
+  pub fn on_button_row<F: FnOnce(&PageBlockButtonRow)>(&self, fnc: F) -> &Self {
+    if let PageBlock::ButtonRow(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_chat_link<F: FnOnce(&PageBlockChatLink)>(&self, fnc: F) -> &Self {
     if let PageBlock::ChatLink(t) = self {
       fnc(t)
@@ -357,6 +419,12 @@ impl PageBlock {
     };
     self
   }
+  pub fn on_document<F: FnOnce(&PageBlockDocument)>(&self, fnc: F) -> &Self {
+    if let PageBlock::Document(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_embedded<F: FnOnce(&PageBlockEmbedded)>(&self, fnc: F) -> &Self {
     if let PageBlock::Embedded(t) = self {
       fnc(t)
@@ -365,6 +433,15 @@ impl PageBlock {
   }
   pub fn on_embedded_post<F: FnOnce(&PageBlockEmbeddedPost)>(&self, fnc: F) -> &Self {
     if let PageBlock::EmbeddedPost(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_expandable_block_quote<F: FnOnce(&PageBlockExpandableBlockQuote)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let PageBlock::ExpandableBlockQuote(t) = self {
       fnc(t)
     };
     self
@@ -399,6 +476,15 @@ impl PageBlock {
     };
     self
   }
+  pub fn on_mathematical_expression<F: FnOnce(&PageBlockMathematicalExpression)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let PageBlock::MathematicalExpression(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_paragraph<F: FnOnce(&PageBlockParagraph)>(&self, fnc: F) -> &Self {
     if let PageBlock::Paragraph(t) = self {
       fnc(t)
@@ -429,6 +515,12 @@ impl PageBlock {
     };
     self
   }
+  pub fn on_section_heading<F: FnOnce(&PageBlockSectionHeading)>(&self, fnc: F) -> &Self {
+    if let PageBlock::SectionHeading(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_slideshow<F: FnOnce(&PageBlockSlideshow)>(&self, fnc: F) -> &Self {
     if let PageBlock::Slideshow(t) = self {
       fnc(t)
@@ -453,8 +545,20 @@ impl PageBlock {
     };
     self
   }
+  pub fn on_thinking<F: FnOnce(&PageBlockThinking)>(&self, fnc: F) -> &Self {
+    if let PageBlock::Thinking(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_title<F: FnOnce(&PageBlockTitle)>(&self, fnc: F) -> &Self {
     if let PageBlock::Title(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_unsupported<F: FnOnce(&PageBlockUnsupported)>(&self, fnc: F) -> &Self {
+    if let PageBlock::Unsupported(t) = self {
       fnc(t)
     };
     self
@@ -502,6 +606,12 @@ impl PageBlock {
     }
     None
   }
+  pub fn as_button_row(&self) -> Option<&PageBlockButtonRow> {
+    if let PageBlock::ButtonRow(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_chat_link(&self) -> Option<&PageBlockChatLink> {
     if let PageBlock::ChatLink(t) = self {
       return Some(t);
@@ -532,6 +642,12 @@ impl PageBlock {
     }
     None
   }
+  pub fn as_document(&self) -> Option<&PageBlockDocument> {
+    if let PageBlock::Document(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_embedded(&self) -> Option<&PageBlockEmbedded> {
     if let PageBlock::Embedded(t) = self {
       return Some(t);
@@ -540,6 +656,12 @@ impl PageBlock {
   }
   pub fn as_embedded_post(&self) -> Option<&PageBlockEmbeddedPost> {
     if let PageBlock::EmbeddedPost(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_expandable_block_quote(&self) -> Option<&PageBlockExpandableBlockQuote> {
+    if let PageBlock::ExpandableBlockQuote(t) = self {
       return Some(t);
     }
     None
@@ -574,6 +696,12 @@ impl PageBlock {
     }
     None
   }
+  pub fn as_mathematical_expression(&self) -> Option<&PageBlockMathematicalExpression> {
+    if let PageBlock::MathematicalExpression(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_paragraph(&self) -> Option<&PageBlockParagraph> {
     if let PageBlock::Paragraph(t) = self {
       return Some(t);
@@ -604,6 +732,12 @@ impl PageBlock {
     }
     None
   }
+  pub fn as_section_heading(&self) -> Option<&PageBlockSectionHeading> {
+    if let PageBlock::SectionHeading(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_slideshow(&self) -> Option<&PageBlockSlideshow> {
     if let PageBlock::Slideshow(t) = self {
       return Some(t);
@@ -628,8 +762,20 @@ impl PageBlock {
     }
     None
   }
+  pub fn as_thinking(&self) -> Option<&PageBlockThinking> {
+    if let PageBlock::Thinking(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_title(&self) -> Option<&PageBlockTitle> {
     if let PageBlock::Title(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_unsupported(&self) -> Option<&PageBlockUnsupported> {
+    if let PageBlock::Unsupported(t) = self {
       return Some(t);
     }
     None
@@ -667,6 +813,10 @@ impl PageBlock {
     PageBlock::BlockQuote(t.as_ref().clone())
   }
 
+  pub fn button_row<T: AsRef<PageBlockButtonRow>>(t: T) -> Self {
+    PageBlock::ButtonRow(t.as_ref().clone())
+  }
+
   pub fn chat_link<T: AsRef<PageBlockChatLink>>(t: T) -> Self {
     PageBlock::ChatLink(t.as_ref().clone())
   }
@@ -687,12 +837,20 @@ impl PageBlock {
     PageBlock::Divider(t.as_ref().clone())
   }
 
+  pub fn document<T: AsRef<PageBlockDocument>>(t: T) -> Self {
+    PageBlock::Document(t.as_ref().clone())
+  }
+
   pub fn embedded<T: AsRef<PageBlockEmbedded>>(t: T) -> Self {
     PageBlock::Embedded(t.as_ref().clone())
   }
 
   pub fn embedded_post<T: AsRef<PageBlockEmbeddedPost>>(t: T) -> Self {
     PageBlock::EmbeddedPost(t.as_ref().clone())
+  }
+
+  pub fn expandable_block_quote<T: AsRef<PageBlockExpandableBlockQuote>>(t: T) -> Self {
+    PageBlock::ExpandableBlockQuote(t.as_ref().clone())
   }
 
   pub fn footer<T: AsRef<PageBlockFooter>>(t: T) -> Self {
@@ -715,6 +873,10 @@ impl PageBlock {
     PageBlock::Map(t.as_ref().clone())
   }
 
+  pub fn mathematical_expression<T: AsRef<PageBlockMathematicalExpression>>(t: T) -> Self {
+    PageBlock::MathematicalExpression(t.as_ref().clone())
+  }
+
   pub fn paragraph<T: AsRef<PageBlockParagraph>>(t: T) -> Self {
     PageBlock::Paragraph(t.as_ref().clone())
   }
@@ -735,6 +897,10 @@ impl PageBlock {
     PageBlock::RelatedArticles(t.as_ref().clone())
   }
 
+  pub fn section_heading<T: AsRef<PageBlockSectionHeading>>(t: T) -> Self {
+    PageBlock::SectionHeading(t.as_ref().clone())
+  }
+
   pub fn slideshow<T: AsRef<PageBlockSlideshow>>(t: T) -> Self {
     PageBlock::Slideshow(t.as_ref().clone())
   }
@@ -751,8 +917,16 @@ impl PageBlock {
     PageBlock::Table(t.as_ref().clone())
   }
 
+  pub fn thinking<T: AsRef<PageBlockThinking>>(t: T) -> Self {
+    PageBlock::Thinking(t.as_ref().clone())
+  }
+
   pub fn title<T: AsRef<PageBlockTitle>>(t: T) -> Self {
     PageBlock::Title(t.as_ref().clone())
+  }
+
+  pub fn unsupported<T: AsRef<PageBlockUnsupported>>(t: T) -> Self {
+    PageBlock::Unsupported(t.as_ref().clone())
   }
 
   pub fn video<T: AsRef<PageBlockVideo>>(t: T) -> Self {
@@ -856,10 +1030,12 @@ pub struct PageBlockAnimation {
   extra: Option<String>,
   /// Animation file; may be null
   animation: Option<Animation>,
-  /// Animation caption
-  caption: PageBlockCaption,
+  /// Animation caption; may be null if none
+  caption: Option<PageBlockCaption>,
   /// True, if the animation must be played automatically
   need_autoplay: bool,
+  /// True, if the animation preview must be covered by a spoiler animation
+  has_spoiler: bool,
 }
 
 impl RObject for PageBlockAnimation {
@@ -895,12 +1071,16 @@ impl PageBlockAnimation {
     &self.animation
   }
 
-  pub fn caption(&self) -> &PageBlockCaption {
+  pub fn caption(&self) -> &Option<PageBlockCaption> {
     &self.caption
   }
 
   pub fn need_autoplay(&self) -> bool {
     self.need_autoplay
+  }
+
+  pub fn has_spoiler(&self) -> bool {
+    self.has_spoiler
   }
 }
 
@@ -920,12 +1100,17 @@ impl RTDPageBlockAnimationBuilder {
   }
 
   pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
-    self.inner.caption = caption.as_ref().clone();
+    self.inner.caption = Some(caption.as_ref().clone());
     self
   }
 
   pub fn need_autoplay(&mut self, need_autoplay: bool) -> &mut Self {
     self.inner.need_autoplay = need_autoplay;
+    self
+  }
+
+  pub fn has_spoiler(&mut self, has_spoiler: bool) -> &mut Self {
+    self.inner.has_spoiler = has_spoiler;
     self
   }
 }
@@ -951,10 +1136,10 @@ pub struct PageBlockAudio {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Audio file; may be null
-  audio: Option<Audio>,
-  /// Audio file caption
-  caption: PageBlockCaption,
+  /// Audio file
+  audio: Audio,
+  /// Audio file caption; may be null if none
+  caption: Option<PageBlockCaption>,
 }
 
 impl RObject for PageBlockAudio {
@@ -986,11 +1171,11 @@ impl PageBlockAudio {
     RTDPageBlockAudioBuilder { inner }
   }
 
-  pub fn audio(&self) -> &Option<Audio> {
+  pub fn audio(&self) -> &Audio {
     &self.audio
   }
 
-  pub fn caption(&self) -> &PageBlockCaption {
+  pub fn caption(&self) -> &Option<PageBlockCaption> {
     &self.caption
   }
 }
@@ -1006,12 +1191,12 @@ impl RTDPageBlockAudioBuilder {
   }
 
   pub fn audio<T: AsRef<Audio>>(&mut self, audio: T) -> &mut Self {
-    self.inner.audio = Some(audio.as_ref().clone());
+    self.inner.audio = audio.as_ref().clone();
     self
   }
 
   pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
-    self.inner.caption = caption.as_ref().clone();
+    self.inner.caption = Some(caption.as_ref().clone());
     self
   }
 }
@@ -1028,7 +1213,7 @@ impl AsRef<PageBlockAudio> for RTDPageBlockAudioBuilder {
   }
 }
 
-/// The author and publishing date of a page
+/// The author and publishing date of a page; instant view only
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockAuthorDate {
   #[doc(hidden)]
@@ -1123,10 +1308,10 @@ pub struct PageBlockBlockQuote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Quote text
-  text: RichText,
-  /// Quote credit
-  credit: RichText,
+  /// Quote blocks
+  blocks: Vec<PageBlock>,
+  /// Quote credit; may be null if none
+  credit: Option<RichText>,
 }
 
 impl RObject for PageBlockBlockQuote {
@@ -1158,11 +1343,11 @@ impl PageBlockBlockQuote {
     RTDPageBlockBlockQuoteBuilder { inner }
   }
 
-  pub fn text(&self) -> &RichText {
-    &self.text
+  pub fn blocks(&self) -> &Vec<PageBlock> {
+    &self.blocks
   }
 
-  pub fn credit(&self) -> &RichText {
+  pub fn credit(&self) -> &Option<RichText> {
     &self.credit
   }
 }
@@ -1177,13 +1362,13 @@ impl RTDPageBlockBlockQuoteBuilder {
     self.inner.clone()
   }
 
-  pub fn text<T: AsRef<RichText>>(&mut self, text: T) -> &mut Self {
-    self.inner.text = text.as_ref().clone();
+  pub fn blocks(&mut self, blocks: Vec<PageBlock>) -> &mut Self {
+    self.inner.blocks = blocks;
     self
   }
 
   pub fn credit<T: AsRef<RichText>>(&mut self, credit: T) -> &mut Self {
-    self.inner.credit = credit.as_ref().clone();
+    self.inner.credit = Some(credit.as_ref().clone());
     self
   }
 }
@@ -1200,7 +1385,93 @@ impl AsRef<PageBlockBlockQuote> for RTDPageBlockBlockQuoteBuilder {
   }
 }
 
-/// A link to a chat
+/// A list of buttons shown in a row
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PageBlockButtonRow {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// The buttons
+  buttons: Vec<InlineButton>,
+  /// Horizontal alignment of the buttons; may be null if the buttons must be shown full-width
+  align: Option<PageBlockHorizontalAlignment>,
+}
+
+impl RObject for PageBlockButtonRow {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pageBlockButtonRow"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPageBlock for PageBlockButtonRow {}
+
+impl PageBlockButtonRow {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPageBlockButtonRowBuilder {
+    let inner = PageBlockButtonRow {
+      td_name: "pageBlockButtonRow".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPageBlockButtonRowBuilder { inner }
+  }
+
+  pub fn buttons(&self) -> &Vec<InlineButton> {
+    &self.buttons
+  }
+
+  pub fn align(&self) -> &Option<PageBlockHorizontalAlignment> {
+    &self.align
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPageBlockButtonRowBuilder {
+  inner: PageBlockButtonRow,
+}
+
+impl RTDPageBlockButtonRowBuilder {
+  pub fn build(&self) -> PageBlockButtonRow {
+    self.inner.clone()
+  }
+
+  pub fn buttons(&mut self, buttons: Vec<InlineButton>) -> &mut Self {
+    self.inner.buttons = buttons;
+    self
+  }
+
+  pub fn align<T: AsRef<PageBlockHorizontalAlignment>>(&mut self, align: T) -> &mut Self {
+    self.inner.align = Some(align.as_ref().clone());
+    self
+  }
+}
+
+impl AsRef<PageBlockButtonRow> for PageBlockButtonRow {
+  fn as_ref(&self) -> &PageBlockButtonRow {
+    self
+  }
+}
+
+impl AsRef<PageBlockButtonRow> for RTDPageBlockButtonRowBuilder {
+  fn as_ref(&self) -> &PageBlockButtonRow {
+    &self.inner
+  }
+}
+
+/// A link to a chat; instant view only
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockChatLink {
   #[doc(hidden)]
@@ -1213,7 +1484,9 @@ pub struct PageBlockChatLink {
   title: String,
   /// Chat photo; may be null
   photo: Option<ChatPhotoInfo>,
-  /// Chat username, by which all other information about the chat can be resolved
+  /// Identifier of the accent color for chat title and background of chat photo
+  accent_color_id: i64,
+  /// Chat username by which all other information about the chat can be resolved
   username: String,
 }
 
@@ -1254,6 +1527,10 @@ impl PageBlockChatLink {
     &self.photo
   }
 
+  pub fn accent_color_id(&self) -> i64 {
+    self.accent_color_id
+  }
+
   pub fn username(&self) -> &String {
     &self.username
   }
@@ -1276,6 +1553,11 @@ impl RTDPageBlockChatLinkBuilder {
 
   pub fn photo<T: AsRef<ChatPhotoInfo>>(&mut self, photo: T) -> &mut Self {
     self.inner.photo = Some(photo.as_ref().clone());
+    self
+  }
+
+  pub fn accent_color_id(&mut self, accent_color_id: i64) -> &mut Self {
+    self.inner.accent_color_id = accent_color_id;
     self
   }
 
@@ -1307,9 +1589,9 @@ pub struct PageBlockCollage {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// Collage item contents
-  page_blocks: Vec<PageBlock>,
-  /// Block caption
-  caption: PageBlockCaption,
+  blocks: Vec<PageBlock>,
+  /// Block caption; may be null if none
+  caption: Option<PageBlockCaption>,
 }
 
 impl RObject for PageBlockCollage {
@@ -1341,11 +1623,11 @@ impl PageBlockCollage {
     RTDPageBlockCollageBuilder { inner }
   }
 
-  pub fn page_blocks(&self) -> &Vec<PageBlock> {
-    &self.page_blocks
+  pub fn blocks(&self) -> &Vec<PageBlock> {
+    &self.blocks
   }
 
-  pub fn caption(&self) -> &PageBlockCaption {
+  pub fn caption(&self) -> &Option<PageBlockCaption> {
     &self.caption
   }
 }
@@ -1360,13 +1642,13 @@ impl RTDPageBlockCollageBuilder {
     self.inner.clone()
   }
 
-  pub fn page_blocks(&mut self, page_blocks: Vec<PageBlock>) -> &mut Self {
-    self.inner.page_blocks = page_blocks;
+  pub fn blocks(&mut self, blocks: Vec<PageBlock>) -> &mut Self {
+    self.inner.blocks = blocks;
     self
   }
 
   pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
-    self.inner.caption = caption.as_ref().clone();
+    self.inner.caption = Some(caption.as_ref().clone());
     self
   }
 }
@@ -1383,7 +1665,7 @@ impl AsRef<PageBlockCollage> for RTDPageBlockCollageBuilder {
   }
 }
 
-/// A page cover
+/// A page cover; instant view only
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockCover {
   #[doc(hidden)]
@@ -1470,7 +1752,7 @@ pub struct PageBlockDetails {
   /// Always visible heading for the block
   header: RichText,
   /// Block contents
-  page_blocks: Vec<PageBlock>,
+  blocks: Vec<PageBlock>,
   /// True, if the block is open by default
   is_open: bool,
 }
@@ -1508,8 +1790,8 @@ impl PageBlockDetails {
     &self.header
   }
 
-  pub fn page_blocks(&self) -> &Vec<PageBlock> {
-    &self.page_blocks
+  pub fn blocks(&self) -> &Vec<PageBlock> {
+    &self.blocks
   }
 
   pub fn is_open(&self) -> bool {
@@ -1532,8 +1814,8 @@ impl RTDPageBlockDetailsBuilder {
     self
   }
 
-  pub fn page_blocks(&mut self, page_blocks: Vec<PageBlock>) -> &mut Self {
-    self.inner.page_blocks = page_blocks;
+  pub fn blocks(&mut self, blocks: Vec<PageBlock>) -> &mut Self {
+    self.inner.blocks = blocks;
     self
   }
 
@@ -1618,7 +1900,93 @@ impl AsRef<PageBlockDivider> for RTDPageBlockDividerBuilder {
   }
 }
 
-/// An embedded web page
+/// A general file
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PageBlockDocument {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// The file
+  document: Document,
+  /// File caption; may be null if none
+  caption: Option<PageBlockCaption>,
+}
+
+impl RObject for PageBlockDocument {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pageBlockDocument"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPageBlock for PageBlockDocument {}
+
+impl PageBlockDocument {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPageBlockDocumentBuilder {
+    let inner = PageBlockDocument {
+      td_name: "pageBlockDocument".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPageBlockDocumentBuilder { inner }
+  }
+
+  pub fn document(&self) -> &Document {
+    &self.document
+  }
+
+  pub fn caption(&self) -> &Option<PageBlockCaption> {
+    &self.caption
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPageBlockDocumentBuilder {
+  inner: PageBlockDocument,
+}
+
+impl RTDPageBlockDocumentBuilder {
+  pub fn build(&self) -> PageBlockDocument {
+    self.inner.clone()
+  }
+
+  pub fn document<T: AsRef<Document>>(&mut self, document: T) -> &mut Self {
+    self.inner.document = document.as_ref().clone();
+    self
+  }
+
+  pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
+    self.inner.caption = Some(caption.as_ref().clone());
+    self
+  }
+}
+
+impl AsRef<PageBlockDocument> for PageBlockDocument {
+  fn as_ref(&self) -> &PageBlockDocument {
+    self
+  }
+}
+
+impl AsRef<PageBlockDocument> for RTDPageBlockDocumentBuilder {
+  fn as_ref(&self) -> &PageBlockDocument {
+    &self.inner
+  }
+}
+
+/// An embedded web page; instant view only
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockEmbedded {
   #[doc(hidden)]
@@ -1627,7 +1995,7 @@ pub struct PageBlockEmbedded {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Web page URL, if available
+  /// URL of the embedded page, if available
   url: String,
   /// HTML-markup of the embedded page
   html: String,
@@ -1637,8 +2005,8 @@ pub struct PageBlockEmbedded {
   width: i64,
   /// Block height; 0 if unknown
   height: i64,
-  /// Block caption
-  caption: PageBlockCaption,
+  /// Block caption; may be null if none
+  caption: Option<PageBlockCaption>,
   /// True, if the block must be full width
   is_full_width: bool,
   /// True, if scrolling needs to be allowed
@@ -1694,7 +2062,7 @@ impl PageBlockEmbedded {
     self.height
   }
 
-  pub fn caption(&self) -> &PageBlockCaption {
+  pub fn caption(&self) -> &Option<PageBlockCaption> {
     &self.caption
   }
 
@@ -1743,7 +2111,7 @@ impl RTDPageBlockEmbeddedBuilder {
   }
 
   pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
-    self.inner.caption = caption.as_ref().clone();
+    self.inner.caption = Some(caption.as_ref().clone());
     self
   }
 
@@ -1770,7 +2138,7 @@ impl AsRef<PageBlockEmbedded> for RTDPageBlockEmbeddedBuilder {
   }
 }
 
-/// An embedded post
+/// An embedded post; instant view only
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockEmbeddedPost {
   #[doc(hidden)]
@@ -1779,7 +2147,7 @@ pub struct PageBlockEmbeddedPost {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Web page URL
+  /// URL of the embedded post
   url: String,
   /// Post author
   author: String,
@@ -1788,9 +2156,9 @@ pub struct PageBlockEmbeddedPost {
   /// Point in time (Unix timestamp) when the post was created; 0 if unknown
   date: i64,
   /// Post content
-  page_blocks: Vec<PageBlock>,
-  /// Post caption
-  caption: PageBlockCaption,
+  blocks: Vec<PageBlock>,
+  /// Post caption; may be null if none
+  caption: Option<PageBlockCaption>,
 }
 
 impl RObject for PageBlockEmbeddedPost {
@@ -1838,11 +2206,11 @@ impl PageBlockEmbeddedPost {
     self.date
   }
 
-  pub fn page_blocks(&self) -> &Vec<PageBlock> {
-    &self.page_blocks
+  pub fn blocks(&self) -> &Vec<PageBlock> {
+    &self.blocks
   }
 
-  pub fn caption(&self) -> &PageBlockCaption {
+  pub fn caption(&self) -> &Option<PageBlockCaption> {
     &self.caption
   }
 }
@@ -1877,13 +2245,13 @@ impl RTDPageBlockEmbeddedPostBuilder {
     self
   }
 
-  pub fn page_blocks(&mut self, page_blocks: Vec<PageBlock>) -> &mut Self {
-    self.inner.page_blocks = page_blocks;
+  pub fn blocks(&mut self, blocks: Vec<PageBlock>) -> &mut Self {
+    self.inner.blocks = blocks;
     self
   }
 
   pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
-    self.inner.caption = caption.as_ref().clone();
+    self.inner.caption = Some(caption.as_ref().clone());
     self
   }
 }
@@ -1896,6 +2264,92 @@ impl AsRef<PageBlockEmbeddedPost> for PageBlockEmbeddedPost {
 
 impl AsRef<PageBlockEmbeddedPost> for RTDPageBlockEmbeddedPostBuilder {
   fn as_ref(&self) -> &PageBlockEmbeddedPost {
+    &self.inner
+  }
+}
+
+/// An expandable block quote
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PageBlockExpandableBlockQuote {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Text of the quote
+  text: RichText,
+  /// Quote credit; may be null if none
+  credit: Option<RichText>,
+}
+
+impl RObject for PageBlockExpandableBlockQuote {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pageBlockExpandableBlockQuote"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPageBlock for PageBlockExpandableBlockQuote {}
+
+impl PageBlockExpandableBlockQuote {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPageBlockExpandableBlockQuoteBuilder {
+    let inner = PageBlockExpandableBlockQuote {
+      td_name: "pageBlockExpandableBlockQuote".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPageBlockExpandableBlockQuoteBuilder { inner }
+  }
+
+  pub fn text(&self) -> &RichText {
+    &self.text
+  }
+
+  pub fn credit(&self) -> &Option<RichText> {
+    &self.credit
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPageBlockExpandableBlockQuoteBuilder {
+  inner: PageBlockExpandableBlockQuote,
+}
+
+impl RTDPageBlockExpandableBlockQuoteBuilder {
+  pub fn build(&self) -> PageBlockExpandableBlockQuote {
+    self.inner.clone()
+  }
+
+  pub fn text<T: AsRef<RichText>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().clone();
+    self
+  }
+
+  pub fn credit<T: AsRef<RichText>>(&mut self, credit: T) -> &mut Self {
+    self.inner.credit = Some(credit.as_ref().clone());
+    self
+  }
+}
+
+impl AsRef<PageBlockExpandableBlockQuote> for PageBlockExpandableBlockQuote {
+  fn as_ref(&self) -> &PageBlockExpandableBlockQuote {
+    self
+  }
+}
+
+impl AsRef<PageBlockExpandableBlockQuote> for RTDPageBlockExpandableBlockQuoteBuilder {
+  fn as_ref(&self) -> &PageBlockExpandableBlockQuote {
     &self.inner
   }
 }
@@ -1975,7 +2429,7 @@ impl AsRef<PageBlockFooter> for RTDPageBlockFooterBuilder {
   }
 }
 
-/// A header
+/// A header; instant view only
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockHeader {
   #[doc(hidden)]
@@ -2050,7 +2504,7 @@ impl AsRef<PageBlockHeader> for RTDPageBlockHeaderBuilder {
   }
 }
 
-/// A kicker
+/// A kicker; instant view only
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockKicker {
   #[doc(hidden)]
@@ -2217,8 +2671,8 @@ pub struct PageBlockMap {
   width: i64,
   /// Map height
   height: i64,
-  /// Block caption
-  caption: PageBlockCaption,
+  /// Block caption; may be null if none
+  caption: Option<PageBlockCaption>,
 }
 
 impl RObject for PageBlockMap {
@@ -2266,7 +2720,7 @@ impl PageBlockMap {
     self.height
   }
 
-  pub fn caption(&self) -> &PageBlockCaption {
+  pub fn caption(&self) -> &Option<PageBlockCaption> {
     &self.caption
   }
 }
@@ -2302,7 +2756,7 @@ impl RTDPageBlockMapBuilder {
   }
 
   pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
-    self.inner.caption = caption.as_ref().clone();
+    self.inner.caption = Some(caption.as_ref().clone());
     self
   }
 }
@@ -2315,6 +2769,81 @@ impl AsRef<PageBlockMap> for PageBlockMap {
 
 impl AsRef<PageBlockMap> for RTDPageBlockMapBuilder {
   fn as_ref(&self) -> &PageBlockMap {
+    &self.inner
+  }
+}
+
+/// A mathematical expression
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PageBlockMathematicalExpression {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// The expression in LaTeX format
+  expression: String,
+}
+
+impl RObject for PageBlockMathematicalExpression {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pageBlockMathematicalExpression"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPageBlock for PageBlockMathematicalExpression {}
+
+impl PageBlockMathematicalExpression {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPageBlockMathematicalExpressionBuilder {
+    let inner = PageBlockMathematicalExpression {
+      td_name: "pageBlockMathematicalExpression".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPageBlockMathematicalExpressionBuilder { inner }
+  }
+
+  pub fn expression(&self) -> &String {
+    &self.expression
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPageBlockMathematicalExpressionBuilder {
+  inner: PageBlockMathematicalExpression,
+}
+
+impl RTDPageBlockMathematicalExpressionBuilder {
+  pub fn build(&self) -> PageBlockMathematicalExpression {
+    self.inner.clone()
+  }
+
+  pub fn expression<T: AsRef<str>>(&mut self, expression: T) -> &mut Self {
+    self.inner.expression = expression.as_ref().to_string();
+    self
+  }
+}
+
+impl AsRef<PageBlockMathematicalExpression> for PageBlockMathematicalExpression {
+  fn as_ref(&self) -> &PageBlockMathematicalExpression {
+    self
+  }
+}
+
+impl AsRef<PageBlockMathematicalExpression> for RTDPageBlockMathematicalExpressionBuilder {
+  fn as_ref(&self) -> &PageBlockMathematicalExpression {
     &self.inner
   }
 }
@@ -2405,10 +2934,12 @@ pub struct PageBlockPhoto {
   extra: Option<String>,
   /// Photo file; may be null
   photo: Option<Photo>,
-  /// Photo caption
-  caption: PageBlockCaption,
-  /// URL that needs to be opened when the photo is clicked
+  /// Photo caption; may be null if none
+  caption: Option<PageBlockCaption>,
+  /// URL that needs to be opened when the photo is clicked; instant view only
   url: String,
+  /// True, if the photo preview must be covered by a spoiler animation
+  has_spoiler: bool,
 }
 
 impl RObject for PageBlockPhoto {
@@ -2444,12 +2975,16 @@ impl PageBlockPhoto {
     &self.photo
   }
 
-  pub fn caption(&self) -> &PageBlockCaption {
+  pub fn caption(&self) -> &Option<PageBlockCaption> {
     &self.caption
   }
 
   pub fn url(&self) -> &String {
     &self.url
+  }
+
+  pub fn has_spoiler(&self) -> bool {
+    self.has_spoiler
   }
 }
 
@@ -2469,12 +3004,17 @@ impl RTDPageBlockPhotoBuilder {
   }
 
   pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
-    self.inner.caption = caption.as_ref().clone();
+    self.inner.caption = Some(caption.as_ref().clone());
     self
   }
 
   pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
     self.inner.url = url.as_ref().to_string();
+    self
+  }
+
+  pub fn has_spoiler(&mut self, has_spoiler: bool) -> &mut Self {
+    self.inner.has_spoiler = has_spoiler;
     self
   }
 }
@@ -2588,8 +3128,8 @@ pub struct PageBlockPullQuote {
   extra: Option<String>,
   /// Quote text
   text: RichText,
-  /// Quote credit
-  credit: RichText,
+  /// Quote credit; may be null if none
+  credit: Option<RichText>,
 }
 
 impl RObject for PageBlockPullQuote {
@@ -2625,7 +3165,7 @@ impl PageBlockPullQuote {
     &self.text
   }
 
-  pub fn credit(&self) -> &RichText {
+  pub fn credit(&self) -> &Option<RichText> {
     &self.credit
   }
 }
@@ -2646,7 +3186,7 @@ impl RTDPageBlockPullQuoteBuilder {
   }
 
   pub fn credit<T: AsRef<RichText>>(&mut self, credit: T) -> &mut Self {
-    self.inner.credit = credit.as_ref().clone();
+    self.inner.credit = Some(credit.as_ref().clone());
     self
   }
 }
@@ -2663,7 +3203,7 @@ impl AsRef<PageBlockPullQuote> for RTDPageBlockPullQuoteBuilder {
   }
 }
 
-/// Related articles
+/// Related articles; instant view only
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockRelatedArticles {
   #[doc(hidden)]
@@ -2749,6 +3289,92 @@ impl AsRef<PageBlockRelatedArticles> for RTDPageBlockRelatedArticlesBuilder {
   }
 }
 
+/// A section heading
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PageBlockSectionHeading {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Text of the section heading
+  text: RichText,
+  /// Relative size of the text font; 1-6, 1 is the largest, 6 is the smallest
+  size: i64,
+}
+
+impl RObject for PageBlockSectionHeading {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pageBlockSectionHeading"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPageBlock for PageBlockSectionHeading {}
+
+impl PageBlockSectionHeading {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPageBlockSectionHeadingBuilder {
+    let inner = PageBlockSectionHeading {
+      td_name: "pageBlockSectionHeading".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPageBlockSectionHeadingBuilder { inner }
+  }
+
+  pub fn text(&self) -> &RichText {
+    &self.text
+  }
+
+  pub fn size(&self) -> i64 {
+    self.size
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPageBlockSectionHeadingBuilder {
+  inner: PageBlockSectionHeading,
+}
+
+impl RTDPageBlockSectionHeadingBuilder {
+  pub fn build(&self) -> PageBlockSectionHeading {
+    self.inner.clone()
+  }
+
+  pub fn text<T: AsRef<RichText>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().clone();
+    self
+  }
+
+  pub fn size(&mut self, size: i64) -> &mut Self {
+    self.inner.size = size;
+    self
+  }
+}
+
+impl AsRef<PageBlockSectionHeading> for PageBlockSectionHeading {
+  fn as_ref(&self) -> &PageBlockSectionHeading {
+    self
+  }
+}
+
+impl AsRef<PageBlockSectionHeading> for RTDPageBlockSectionHeadingBuilder {
+  fn as_ref(&self) -> &PageBlockSectionHeading {
+    &self.inner
+  }
+}
+
 /// A slideshow
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockSlideshow {
@@ -2759,9 +3385,9 @@ pub struct PageBlockSlideshow {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// Slideshow item contents
-  page_blocks: Vec<PageBlock>,
-  /// Block caption
-  caption: PageBlockCaption,
+  blocks: Vec<PageBlock>,
+  /// Block caption; may be null if none
+  caption: Option<PageBlockCaption>,
 }
 
 impl RObject for PageBlockSlideshow {
@@ -2793,11 +3419,11 @@ impl PageBlockSlideshow {
     RTDPageBlockSlideshowBuilder { inner }
   }
 
-  pub fn page_blocks(&self) -> &Vec<PageBlock> {
-    &self.page_blocks
+  pub fn blocks(&self) -> &Vec<PageBlock> {
+    &self.blocks
   }
 
-  pub fn caption(&self) -> &PageBlockCaption {
+  pub fn caption(&self) -> &Option<PageBlockCaption> {
     &self.caption
   }
 }
@@ -2812,13 +3438,13 @@ impl RTDPageBlockSlideshowBuilder {
     self.inner.clone()
   }
 
-  pub fn page_blocks(&mut self, page_blocks: Vec<PageBlock>) -> &mut Self {
-    self.inner.page_blocks = page_blocks;
+  pub fn blocks(&mut self, blocks: Vec<PageBlock>) -> &mut Self {
+    self.inner.blocks = blocks;
     self
   }
 
   pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
-    self.inner.caption = caption.as_ref().clone();
+    self.inner.caption = Some(caption.as_ref().clone());
     self
   }
 }
@@ -2835,7 +3461,7 @@ impl AsRef<PageBlockSlideshow> for RTDPageBlockSlideshowBuilder {
   }
 }
 
-/// A subheader
+/// A subheader; instant view only
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockSubheader {
   #[doc(hidden)]
@@ -2910,7 +3536,7 @@ impl AsRef<PageBlockSubheader> for RTDPageBlockSubheaderBuilder {
   }
 }
 
-/// The subtitle of a page
+/// The subtitle of a page; instant view only
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockSubtitle {
   #[doc(hidden)]
@@ -2994,14 +3620,16 @@ pub struct PageBlockTable {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Table caption
-  caption: RichText,
+  /// Table caption; may be null if none
+  caption: Option<RichText>,
   /// Table cells
   cells: Vec<Vec<PageBlockTableCell>>,
   /// True, if the table is bordered
   is_bordered: bool,
   /// True, if the table is striped
   is_striped: bool,
+  /// True, if table cells must have smaller indents
+  is_compact: bool,
 }
 
 impl RObject for PageBlockTable {
@@ -3033,7 +3661,7 @@ impl PageBlockTable {
     RTDPageBlockTableBuilder { inner }
   }
 
-  pub fn caption(&self) -> &RichText {
+  pub fn caption(&self) -> &Option<RichText> {
     &self.caption
   }
 
@@ -3048,6 +3676,10 @@ impl PageBlockTable {
   pub fn is_striped(&self) -> bool {
     self.is_striped
   }
+
+  pub fn is_compact(&self) -> bool {
+    self.is_compact
+  }
 }
 
 #[doc(hidden)]
@@ -3061,7 +3693,7 @@ impl RTDPageBlockTableBuilder {
   }
 
   pub fn caption<T: AsRef<RichText>>(&mut self, caption: T) -> &mut Self {
-    self.inner.caption = caption.as_ref().clone();
+    self.inner.caption = Some(caption.as_ref().clone());
     self
   }
 
@@ -3079,6 +3711,11 @@ impl RTDPageBlockTableBuilder {
     self.inner.is_striped = is_striped;
     self
   }
+
+  pub fn is_compact(&mut self, is_compact: bool) -> &mut Self {
+    self.inner.is_compact = is_compact;
+    self
+  }
 }
 
 impl AsRef<PageBlockTable> for PageBlockTable {
@@ -3093,7 +3730,82 @@ impl AsRef<PageBlockTable> for RTDPageBlockTableBuilder {
   }
 }
 
-/// The title of a page
+/// A "Thinking..." placeholder; for pending rich messages only
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PageBlockThinking {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Text of the placeholder
+  text: RichText,
+}
+
+impl RObject for PageBlockThinking {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pageBlockThinking"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPageBlock for PageBlockThinking {}
+
+impl PageBlockThinking {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPageBlockThinkingBuilder {
+    let inner = PageBlockThinking {
+      td_name: "pageBlockThinking".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPageBlockThinkingBuilder { inner }
+  }
+
+  pub fn text(&self) -> &RichText {
+    &self.text
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPageBlockThinkingBuilder {
+  inner: PageBlockThinking,
+}
+
+impl RTDPageBlockThinkingBuilder {
+  pub fn build(&self) -> PageBlockThinking {
+    self.inner.clone()
+  }
+
+  pub fn text<T: AsRef<RichText>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().clone();
+    self
+  }
+}
+
+impl AsRef<PageBlockThinking> for PageBlockThinking {
+  fn as_ref(&self) -> &PageBlockThinking {
+    self
+  }
+}
+
+impl AsRef<PageBlockThinking> for RTDPageBlockThinkingBuilder {
+  fn as_ref(&self) -> &PageBlockThinking {
+    &self.inner
+  }
+}
+
+/// The title of a page; instant view only
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockTitle {
   #[doc(hidden)]
@@ -3168,6 +3880,69 @@ impl AsRef<PageBlockTitle> for RTDPageBlockTitleBuilder {
   }
 }
 
+/// Represents a block unsupported by the current application version
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PageBlockUnsupported {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for PageBlockUnsupported {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pageBlockUnsupported"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPageBlock for PageBlockUnsupported {}
+
+impl PageBlockUnsupported {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPageBlockUnsupportedBuilder {
+    let inner = PageBlockUnsupported {
+      td_name: "pageBlockUnsupported".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDPageBlockUnsupportedBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPageBlockUnsupportedBuilder {
+  inner: PageBlockUnsupported,
+}
+
+impl RTDPageBlockUnsupportedBuilder {
+  pub fn build(&self) -> PageBlockUnsupported {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<PageBlockUnsupported> for PageBlockUnsupported {
+  fn as_ref(&self) -> &PageBlockUnsupported {
+    self
+  }
+}
+
+impl AsRef<PageBlockUnsupported> for RTDPageBlockUnsupportedBuilder {
+  fn as_ref(&self) -> &PageBlockUnsupported {
+    &self.inner
+  }
+}
+
 /// A video
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageBlockVideo {
@@ -3179,12 +3954,14 @@ pub struct PageBlockVideo {
   extra: Option<String>,
   /// Video file; may be null
   video: Option<Video>,
-  /// Video caption
-  caption: PageBlockCaption,
+  /// Video caption; may be null if none
+  caption: Option<PageBlockCaption>,
   /// True, if the video must be played automatically
   need_autoplay: bool,
   /// True, if the video must be looped
   is_looped: bool,
+  /// True, if the video preview must be covered by a spoiler animation
+  has_spoiler: bool,
 }
 
 impl RObject for PageBlockVideo {
@@ -3220,7 +3997,7 @@ impl PageBlockVideo {
     &self.video
   }
 
-  pub fn caption(&self) -> &PageBlockCaption {
+  pub fn caption(&self) -> &Option<PageBlockCaption> {
     &self.caption
   }
 
@@ -3230,6 +4007,10 @@ impl PageBlockVideo {
 
   pub fn is_looped(&self) -> bool {
     self.is_looped
+  }
+
+  pub fn has_spoiler(&self) -> bool {
+    self.has_spoiler
   }
 }
 
@@ -3249,7 +4030,7 @@ impl RTDPageBlockVideoBuilder {
   }
 
   pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
-    self.inner.caption = caption.as_ref().clone();
+    self.inner.caption = Some(caption.as_ref().clone());
     self
   }
 
@@ -3260,6 +4041,11 @@ impl RTDPageBlockVideoBuilder {
 
   pub fn is_looped(&mut self, is_looped: bool) -> &mut Self {
     self.inner.is_looped = is_looped;
+    self
+  }
+
+  pub fn has_spoiler(&mut self, has_spoiler: bool) -> &mut Self {
+    self.inner.has_spoiler = has_spoiler;
     self
   }
 }
@@ -3285,10 +4071,10 @@ pub struct PageBlockVoiceNote {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Voice note; may be null
-  voice_note: Option<VoiceNote>,
-  /// Voice note caption
-  caption: PageBlockCaption,
+  /// Voice note
+  voice_note: VoiceNote,
+  /// Voice note caption; may be null if none
+  caption: Option<PageBlockCaption>,
 }
 
 impl RObject for PageBlockVoiceNote {
@@ -3320,11 +4106,11 @@ impl PageBlockVoiceNote {
     RTDPageBlockVoiceNoteBuilder { inner }
   }
 
-  pub fn voice_note(&self) -> &Option<VoiceNote> {
+  pub fn voice_note(&self) -> &VoiceNote {
     &self.voice_note
   }
 
-  pub fn caption(&self) -> &PageBlockCaption {
+  pub fn caption(&self) -> &Option<PageBlockCaption> {
     &self.caption
   }
 }
@@ -3340,12 +4126,12 @@ impl RTDPageBlockVoiceNoteBuilder {
   }
 
   pub fn voice_note<T: AsRef<VoiceNote>>(&mut self, voice_note: T) -> &mut Self {
-    self.inner.voice_note = Some(voice_note.as_ref().clone());
+    self.inner.voice_note = voice_note.as_ref().clone();
     self
   }
 
   pub fn caption<T: AsRef<PageBlockCaption>>(&mut self, caption: T) -> &mut Self {
-    self.inner.caption = caption.as_ref().clone();
+    self.inner.caption = Some(caption.as_ref().clone());
     self
   }
 }

@@ -11,7 +11,7 @@ pub struct AccountTtl {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Number of days of inactivity before the account will be flagged for deletion; 30-366 days
+  /// Number of days of inactivity before the account will be flagged for deletion; 30-730 days
   days: i64,
 }
 

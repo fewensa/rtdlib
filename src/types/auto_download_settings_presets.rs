@@ -11,11 +11,11 @@ pub struct AutoDownloadSettingsPresets {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Preset with lowest settings; supposed to be used by default when roaming
+  /// Preset with lowest settings; expected to be used by default when roaming
   low: AutoDownloadSettings,
-  /// Preset with medium settings; supposed to be used by default when using mobile data
+  /// Preset with medium settings; expected to be used by default when using mobile data
   medium: AutoDownloadSettings,
-  /// Preset with highest settings; supposed to be used by default when connected on Wi-Fi
+  /// Preset with highest settings; expected to be used by default when connected on Wi-Fi
   high: AutoDownloadSettings,
 }
 

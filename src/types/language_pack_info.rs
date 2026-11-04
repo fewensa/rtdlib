@@ -19,7 +19,7 @@ pub struct LanguagePackInfo {
   name: String,
   /// Name of the language in that language
   native_name: String,
-  /// A language code to be used to apply plural forms. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more info
+  /// A language code to be used to apply plural forms. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more information
   plural_code: String,
   /// True, if the language pack is official
   is_official: bool,

@@ -11,12 +11,17 @@ pub struct DraftMessage {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Identifier of the message to reply to; 0 if none
-  reply_to_message_id: i64,
+  /// Information about the message to be replied; inputMessageReplyToStory is unsupported; may be null if none
+  reply_to: Option<InputMessageReplyTo>,
   /// Point in time (Unix timestamp) when the draft was created
   date: i64,
-  /// Content of the message draft; must be of the type inputMessageText
-  input_message_text: InputMessageContent,
+  /// Content of the message draft
+  content: DraftMessageContent,
+  /// Identifier of the effect to apply to the message when it is sent; 0 if none
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
+  effect_id: isize,
+  /// Information about the suggested post; may be null if none
+  suggested_post_info: Option<InputSuggestedPostInfo>,
 }
 
 impl RObject for DraftMessage {
@@ -46,16 +51,24 @@ impl DraftMessage {
     RTDDraftMessageBuilder { inner }
   }
 
-  pub fn reply_to_message_id(&self) -> i64 {
-    self.reply_to_message_id
+  pub fn reply_to(&self) -> &Option<InputMessageReplyTo> {
+    &self.reply_to
   }
 
   pub fn date(&self) -> i64 {
     self.date
   }
 
-  pub fn input_message_text(&self) -> &InputMessageContent {
-    &self.input_message_text
+  pub fn content(&self) -> &DraftMessageContent {
+    &self.content
+  }
+
+  pub fn effect_id(&self) -> isize {
+    self.effect_id
+  }
+
+  pub fn suggested_post_info(&self) -> &Option<InputSuggestedPostInfo> {
+    &self.suggested_post_info
   }
 }
 
@@ -69,8 +82,8 @@ impl RTDDraftMessageBuilder {
     self.inner.clone()
   }
 
-  pub fn reply_to_message_id(&mut self, reply_to_message_id: i64) -> &mut Self {
-    self.inner.reply_to_message_id = reply_to_message_id;
+  pub fn reply_to<T: AsRef<InputMessageReplyTo>>(&mut self, reply_to: T) -> &mut Self {
+    self.inner.reply_to = Some(reply_to.as_ref().clone());
     self
   }
 
@@ -79,11 +92,21 @@ impl RTDDraftMessageBuilder {
     self
   }
 
-  pub fn input_message_text<T: AsRef<InputMessageContent>>(
+  pub fn content<T: AsRef<DraftMessageContent>>(&mut self, content: T) -> &mut Self {
+    self.inner.content = content.as_ref().clone();
+    self
+  }
+
+  pub fn effect_id(&mut self, effect_id: isize) -> &mut Self {
+    self.inner.effect_id = effect_id;
+    self
+  }
+
+  pub fn suggested_post_info<T: AsRef<InputSuggestedPostInfo>>(
     &mut self,
-    input_message_text: T,
+    suggested_post_info: T,
   ) -> &mut Self {
-    self.inner.input_message_text = input_message_text.as_ref().clone();
+    self.inner.suggested_post_info = Some(suggested_post_info.as_ref().clone());
     self
   }
 }

@@ -159,11 +159,19 @@ pub struct ChatStatisticsChannel {
   period: DateRange,
   /// Number of members in the chat
   member_count: StatisticalValue,
-  /// Mean number of times the recently sent messages was viewed
-  mean_view_count: StatisticalValue,
-  /// Mean number of times the recently sent messages was shared
-  mean_share_count: StatisticalValue,
-  /// A percentage of users with enabled notifications for the chat
+  /// Mean number of times the recently sent messages were viewed
+  mean_message_view_count: StatisticalValue,
+  /// Mean number of times the recently sent messages were shared
+  mean_message_share_count: StatisticalValue,
+  /// Mean number of times reactions were added to the recently sent messages
+  mean_message_reaction_count: StatisticalValue,
+  /// Mean number of times the recently posted stories were viewed
+  mean_story_view_count: StatisticalValue,
+  /// Mean number of times the recently posted stories were shared
+  mean_story_share_count: StatisticalValue,
+  /// Mean number of times reactions were added to the recently posted stories
+  mean_story_reaction_count: StatisticalValue,
+  /// A percentage of users with enabled notifications for the chat; 0-100
   enabled_notifications_percentage: f32,
   /// A graph containing number of members in the chat
   member_count_graph: StatisticalGraph,
@@ -181,10 +189,16 @@ pub struct ChatStatisticsChannel {
   language_graph: StatisticalGraph,
   /// A graph containing number of chat message views and shares
   message_interaction_graph: StatisticalGraph,
+  /// A graph containing number of reactions on messages
+  message_reaction_graph: StatisticalGraph,
+  /// A graph containing number of story views and shares
+  story_interaction_graph: StatisticalGraph,
+  /// A graph containing number of reactions on stories
+  story_reaction_graph: StatisticalGraph,
   /// A graph containing number of views of associated with the chat instant views
   instant_view_interaction_graph: StatisticalGraph,
-  /// Detailed statistics about number of views and shares of recently sent messages
-  recent_message_interactions: Vec<ChatStatisticsMessageInteractionInfo>,
+  /// Detailed statistics about number of views and shares of recently sent messages and posted stories
+  recent_interactions: Vec<ChatStatisticsInteractionInfo>,
 }
 
 impl RObject for ChatStatisticsChannel {
@@ -224,12 +238,28 @@ impl ChatStatisticsChannel {
     &self.member_count
   }
 
-  pub fn mean_view_count(&self) -> &StatisticalValue {
-    &self.mean_view_count
+  pub fn mean_message_view_count(&self) -> &StatisticalValue {
+    &self.mean_message_view_count
   }
 
-  pub fn mean_share_count(&self) -> &StatisticalValue {
-    &self.mean_share_count
+  pub fn mean_message_share_count(&self) -> &StatisticalValue {
+    &self.mean_message_share_count
+  }
+
+  pub fn mean_message_reaction_count(&self) -> &StatisticalValue {
+    &self.mean_message_reaction_count
+  }
+
+  pub fn mean_story_view_count(&self) -> &StatisticalValue {
+    &self.mean_story_view_count
+  }
+
+  pub fn mean_story_share_count(&self) -> &StatisticalValue {
+    &self.mean_story_share_count
+  }
+
+  pub fn mean_story_reaction_count(&self) -> &StatisticalValue {
+    &self.mean_story_reaction_count
   }
 
   pub fn enabled_notifications_percentage(&self) -> f32 {
@@ -268,12 +298,24 @@ impl ChatStatisticsChannel {
     &self.message_interaction_graph
   }
 
+  pub fn message_reaction_graph(&self) -> &StatisticalGraph {
+    &self.message_reaction_graph
+  }
+
+  pub fn story_interaction_graph(&self) -> &StatisticalGraph {
+    &self.story_interaction_graph
+  }
+
+  pub fn story_reaction_graph(&self) -> &StatisticalGraph {
+    &self.story_reaction_graph
+  }
+
   pub fn instant_view_interaction_graph(&self) -> &StatisticalGraph {
     &self.instant_view_interaction_graph
   }
 
-  pub fn recent_message_interactions(&self) -> &Vec<ChatStatisticsMessageInteractionInfo> {
-    &self.recent_message_interactions
+  pub fn recent_interactions(&self) -> &Vec<ChatStatisticsInteractionInfo> {
+    &self.recent_interactions
   }
 }
 
@@ -297,13 +339,51 @@ impl RTDChatStatisticsChannelBuilder {
     self
   }
 
-  pub fn mean_view_count<T: AsRef<StatisticalValue>>(&mut self, mean_view_count: T) -> &mut Self {
-    self.inner.mean_view_count = mean_view_count.as_ref().clone();
+  pub fn mean_message_view_count<T: AsRef<StatisticalValue>>(
+    &mut self,
+    mean_message_view_count: T,
+  ) -> &mut Self {
+    self.inner.mean_message_view_count = mean_message_view_count.as_ref().clone();
     self
   }
 
-  pub fn mean_share_count<T: AsRef<StatisticalValue>>(&mut self, mean_share_count: T) -> &mut Self {
-    self.inner.mean_share_count = mean_share_count.as_ref().clone();
+  pub fn mean_message_share_count<T: AsRef<StatisticalValue>>(
+    &mut self,
+    mean_message_share_count: T,
+  ) -> &mut Self {
+    self.inner.mean_message_share_count = mean_message_share_count.as_ref().clone();
+    self
+  }
+
+  pub fn mean_message_reaction_count<T: AsRef<StatisticalValue>>(
+    &mut self,
+    mean_message_reaction_count: T,
+  ) -> &mut Self {
+    self.inner.mean_message_reaction_count = mean_message_reaction_count.as_ref().clone();
+    self
+  }
+
+  pub fn mean_story_view_count<T: AsRef<StatisticalValue>>(
+    &mut self,
+    mean_story_view_count: T,
+  ) -> &mut Self {
+    self.inner.mean_story_view_count = mean_story_view_count.as_ref().clone();
+    self
+  }
+
+  pub fn mean_story_share_count<T: AsRef<StatisticalValue>>(
+    &mut self,
+    mean_story_share_count: T,
+  ) -> &mut Self {
+    self.inner.mean_story_share_count = mean_story_share_count.as_ref().clone();
+    self
+  }
+
+  pub fn mean_story_reaction_count<T: AsRef<StatisticalValue>>(
+    &mut self,
+    mean_story_reaction_count: T,
+  ) -> &mut Self {
+    self.inner.mean_story_reaction_count = mean_story_reaction_count.as_ref().clone();
     self
   }
 
@@ -370,6 +450,30 @@ impl RTDChatStatisticsChannelBuilder {
     self
   }
 
+  pub fn message_reaction_graph<T: AsRef<StatisticalGraph>>(
+    &mut self,
+    message_reaction_graph: T,
+  ) -> &mut Self {
+    self.inner.message_reaction_graph = message_reaction_graph.as_ref().clone();
+    self
+  }
+
+  pub fn story_interaction_graph<T: AsRef<StatisticalGraph>>(
+    &mut self,
+    story_interaction_graph: T,
+  ) -> &mut Self {
+    self.inner.story_interaction_graph = story_interaction_graph.as_ref().clone();
+    self
+  }
+
+  pub fn story_reaction_graph<T: AsRef<StatisticalGraph>>(
+    &mut self,
+    story_reaction_graph: T,
+  ) -> &mut Self {
+    self.inner.story_reaction_graph = story_reaction_graph.as_ref().clone();
+    self
+  }
+
   pub fn instant_view_interaction_graph<T: AsRef<StatisticalGraph>>(
     &mut self,
     instant_view_interaction_graph: T,
@@ -378,11 +482,11 @@ impl RTDChatStatisticsChannelBuilder {
     self
   }
 
-  pub fn recent_message_interactions(
+  pub fn recent_interactions(
     &mut self,
-    recent_message_interactions: Vec<ChatStatisticsMessageInteractionInfo>,
+    recent_interactions: Vec<ChatStatisticsInteractionInfo>,
   ) -> &mut Self {
-    self.inner.recent_message_interactions = recent_message_interactions;
+    self.inner.recent_interactions = recent_interactions;
     self
   }
 }

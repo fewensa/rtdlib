@@ -2,7 +2,7 @@ use crate::errors::*;
 use crate::types::*;
 use uuid::Uuid;
 
-/// Represents a closed vector path. The path begins at the end point of the last command
+/// Represents a closed vector path. The path begins at the end point of the last command. The coordinate system origin is in the upper-left corner
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ClosedVectorPath {
   #[doc(hidden)]

@@ -5,10 +5,10 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Describes a Vertical alignment of a table cell content
+/// TRAIT | Describes a vertical alignment of a table cell content
 pub trait TDPageBlockVerticalAlignment: Debug + RObject {}
 
-/// Describes a Vertical alignment of a table cell content
+/// Describes a vertical alignment of a table cell content
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum PageBlockVerticalAlignment {

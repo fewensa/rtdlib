@@ -17,7 +17,7 @@ pub struct CallProtocol {
   udp_reflector: bool,
   /// The minimum supported API layer; use 65
   min_layer: i64,
-  /// The maximum supported API layer; use 65
+  /// The maximum supported API layer; use 92
   max_layer: i64,
   /// List of supported tgcalls versions
   library_versions: Vec<String>,

@@ -17,6 +17,8 @@ pub struct CountryInfo {
   name: String,
   /// English name of the country
   english_name: String,
+  /// An emoji for the flag of the country; may be empty if unknown
+  flag_emoji: String,
   /// True, if the country must be hidden from the list of all countries
   is_hidden: bool,
   /// List of country calling codes
@@ -62,6 +64,10 @@ impl CountryInfo {
     &self.english_name
   }
 
+  pub fn flag_emoji(&self) -> &String {
+    &self.flag_emoji
+  }
+
   pub fn is_hidden(&self) -> bool {
     self.is_hidden
   }
@@ -93,6 +99,11 @@ impl RTDCountryInfoBuilder {
 
   pub fn english_name<T: AsRef<str>>(&mut self, english_name: T) -> &mut Self {
     self.inner.english_name = english_name.as_ref().to_string();
+    self
+  }
+
+  pub fn flag_emoji<T: AsRef<str>>(&mut self, flag_emoji: T) -> &mut Self {
+    self.inner.flag_emoji = flag_emoji.as_ref().to_string();
     self
   }
 

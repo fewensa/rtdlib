@@ -2,7 +2,7 @@ use crate::errors::*;
 use crate::types::*;
 use uuid::Uuid;
 
-/// Describes a user contact
+/// Describes a contact of a user
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Contact {
   #[doc(hidden)]
@@ -13,13 +13,13 @@ pub struct Contact {
   extra: Option<String>,
   /// Phone number of the user
   phone_number: String,
-  /// First name of the user; 1-255 characters in length
+  /// First name of the user; 1-64 characters
   first_name: String,
-  /// Last name of the user
+  /// Last name of the user; 0-64 characters
   last_name: String,
   /// Additional data about the user in a form of vCard; 0-2048 bytes in length
   vcard: String,
-  /// Identifier of the user, if known; otherwise 0
+  /// Identifier of the user, if known; 0 otherwise
   user_id: i64,
 }
 

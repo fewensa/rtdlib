@@ -5,10 +5,10 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Contains the type of a Telegram Passport element
+/// TRAIT | Contains the type of Telegram Passport element
 pub trait TDPassportElementType: Debug + RObject {}
 
-/// Contains the type of a Telegram Passport element
+/// Contains the type of Telegram Passport element
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum PassportElementType {

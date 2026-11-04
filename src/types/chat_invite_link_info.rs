@@ -17,21 +17,27 @@ pub struct ChatInviteLinkInfo {
   accessible_for: i64,
   /// Type of the chat
   #[serde(rename(serialize = "type", deserialize = "type"))]
-  type_: ChatType,
+  type_: InviteLinkChatType,
   /// Title of the chat
   title: String,
   /// Chat photo; may be null
   photo: Option<ChatPhotoInfo>,
+  /// Identifier of the accent color for chat title and background of chat photo
+  accent_color_id: i64,
   /// Contains information about a chat invite link
   description: String,
   /// Number of members in the chat
   member_count: i64,
   /// User identifiers of some chat members that may be known to the current user
   member_user_ids: Vec<i64>,
+  /// Information about subscription plan that must be paid by the user to use the link; may be null if the link doesn't require subscription
+  subscription_info: Option<ChatInviteLinkSubscriptionInfo>,
   /// True, if the link only creates join request
   creates_join_request: bool,
   /// True, if the chat is a public supergroup or channel, i.e. it has a username or it is a location-based supergroup
   is_public: bool,
+  /// Information about verification status of the chat; may be null if none
+  verification_status: Option<VerificationStatus>,
 }
 
 impl RObject for ChatInviteLinkInfo {
@@ -69,7 +75,7 @@ impl ChatInviteLinkInfo {
     self.accessible_for
   }
 
-  pub fn type_(&self) -> &ChatType {
+  pub fn type_(&self) -> &InviteLinkChatType {
     &self.type_
   }
 
@@ -79,6 +85,10 @@ impl ChatInviteLinkInfo {
 
   pub fn photo(&self) -> &Option<ChatPhotoInfo> {
     &self.photo
+  }
+
+  pub fn accent_color_id(&self) -> i64 {
+    self.accent_color_id
   }
 
   pub fn description(&self) -> &String {
@@ -93,12 +103,20 @@ impl ChatInviteLinkInfo {
     &self.member_user_ids
   }
 
+  pub fn subscription_info(&self) -> &Option<ChatInviteLinkSubscriptionInfo> {
+    &self.subscription_info
+  }
+
   pub fn creates_join_request(&self) -> bool {
     self.creates_join_request
   }
 
   pub fn is_public(&self) -> bool {
     self.is_public
+  }
+
+  pub fn verification_status(&self) -> &Option<VerificationStatus> {
+    &self.verification_status
   }
 }
 
@@ -122,7 +140,7 @@ impl RTDChatInviteLinkInfoBuilder {
     self
   }
 
-  pub fn type_<T: AsRef<ChatType>>(&mut self, type_: T) -> &mut Self {
+  pub fn type_<T: AsRef<InviteLinkChatType>>(&mut self, type_: T) -> &mut Self {
     self.inner.type_ = type_.as_ref().clone();
     self
   }
@@ -134,6 +152,11 @@ impl RTDChatInviteLinkInfoBuilder {
 
   pub fn photo<T: AsRef<ChatPhotoInfo>>(&mut self, photo: T) -> &mut Self {
     self.inner.photo = Some(photo.as_ref().clone());
+    self
+  }
+
+  pub fn accent_color_id(&mut self, accent_color_id: i64) -> &mut Self {
+    self.inner.accent_color_id = accent_color_id;
     self
   }
 
@@ -152,6 +175,14 @@ impl RTDChatInviteLinkInfoBuilder {
     self
   }
 
+  pub fn subscription_info<T: AsRef<ChatInviteLinkSubscriptionInfo>>(
+    &mut self,
+    subscription_info: T,
+  ) -> &mut Self {
+    self.inner.subscription_info = Some(subscription_info.as_ref().clone());
+    self
+  }
+
   pub fn creates_join_request(&mut self, creates_join_request: bool) -> &mut Self {
     self.inner.creates_join_request = creates_join_request;
     self
@@ -159,6 +190,14 @@ impl RTDChatInviteLinkInfoBuilder {
 
   pub fn is_public(&mut self, is_public: bool) -> &mut Self {
     self.inner.is_public = is_public;
+    self
+  }
+
+  pub fn verification_status<T: AsRef<VerificationStatus>>(
+    &mut self,
+    verification_status: T,
+  ) -> &mut Self {
+    self.inner.verification_status = Some(verification_status.as_ref().clone());
     self
   }
 }

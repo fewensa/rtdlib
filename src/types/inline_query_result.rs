@@ -472,8 +472,6 @@ pub struct InlineQueryResultArticle {
   id: String,
   /// URL of the result, if it exists
   url: String,
-  /// True, if the URL must be not shown
-  hide_url: bool,
   /// Title of the result
   title: String,
   /// Represents a link to an article or web page
@@ -519,10 +517,6 @@ impl InlineQueryResultArticle {
     &self.url
   }
 
-  pub fn hide_url(&self) -> bool {
-    self.hide_url
-  }
-
   pub fn title(&self) -> &String {
     &self.title
   }
@@ -553,11 +547,6 @@ impl RTDInlineQueryResultArticleBuilder {
 
   pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
     self.inner.url = url.as_ref().to_string();
-    self
-  }
-
-  pub fn hide_url(&mut self, hide_url: bool) -> &mut Self {
-    self.inner.hide_url = hide_url;
     self
   }
 

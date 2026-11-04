@@ -12,6 +12,7 @@ pub struct CallServer {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// Server identifier
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
   id: isize,
   /// Server IPv4 address
   ip_address: String,

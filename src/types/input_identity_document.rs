@@ -13,8 +13,8 @@ pub struct InputIdentityDocument {
   extra: Option<String>,
   /// Document number; 1-24 characters
   number: String,
-  /// Document expiry date; pass null if not applicable
-  expiry_date: Date,
+  /// Document expiration date; pass null if not applicable
+  expiration_date: Date,
   /// Front side of the document
   front_side: InputFile,
   /// Reverse side of the document; only for driver license and identity card; pass null otherwise
@@ -56,8 +56,8 @@ impl InputIdentityDocument {
     &self.number
   }
 
-  pub fn expiry_date(&self) -> &Date {
-    &self.expiry_date
+  pub fn expiration_date(&self) -> &Date {
+    &self.expiration_date
   }
 
   pub fn front_side(&self) -> &InputFile {
@@ -92,8 +92,8 @@ impl RTDInputIdentityDocumentBuilder {
     self
   }
 
-  pub fn expiry_date<T: AsRef<Date>>(&mut self, expiry_date: T) -> &mut Self {
-    self.inner.expiry_date = expiry_date.as_ref().clone();
+  pub fn expiration_date<T: AsRef<Date>>(&mut self, expiration_date: T) -> &mut Self {
+    self.inner.expiration_date = expiration_date.as_ref().clone();
     self
   }
 

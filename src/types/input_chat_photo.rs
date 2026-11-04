@@ -14,12 +14,14 @@ pub trait TDInputChatPhoto: Debug + RObject {}
 pub enum InputChatPhoto {
   #[doc(hidden)]
   _Default(()),
-  /// An animation in MPEG4 format; must be square, at most 10 seconds long, have width between 160 and 800 and be at most 2MB in size
+  /// An animation in MPEG4 format; must be square, at most 10 seconds long, have width between 160 and 1280 and be at most 2MB in size
   Animation(InputChatPhotoAnimation),
   /// A previously used profile photo of the current user
   Previous(InputChatPhotoPrevious),
   /// A static photo in JPEG format
   Static(InputChatPhotoStatic),
+  /// A sticker on a custom background
+  Sticker(InputChatPhotoSticker),
 }
 
 impl Default for InputChatPhoto {
@@ -39,6 +41,7 @@ impl<'de> Deserialize<'de> for InputChatPhoto {
       (inputChatPhotoAnimation, Animation);
       (inputChatPhotoPrevious, Previous);
       (inputChatPhotoStatic, Static);
+      (inputChatPhotoSticker, Sticker);
 
     )(deserializer)
   }
@@ -51,6 +54,7 @@ impl RObject for InputChatPhoto {
       InputChatPhoto::Animation(t) => t.td_name(),
       InputChatPhoto::Previous(t) => t.td_name(),
       InputChatPhoto::Static(t) => t.td_name(),
+      InputChatPhoto::Sticker(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -61,6 +65,7 @@ impl RObject for InputChatPhoto {
       InputChatPhoto::Animation(t) => t.extra(),
       InputChatPhoto::Previous(t) => t.extra(),
       InputChatPhoto::Static(t) => t.extra(),
+      InputChatPhoto::Sticker(t) => t.extra(),
 
       _ => None,
     }
@@ -88,6 +93,9 @@ impl InputChatPhoto {
   pub fn is_static(&self) -> bool {
     matches!(self, InputChatPhoto::Static(_))
   }
+  pub fn is_sticker(&self) -> bool {
+    matches!(self, InputChatPhoto::Sticker(_))
+  }
 
   pub fn on_animation<F: FnOnce(&InputChatPhotoAnimation)>(&self, fnc: F) -> &Self {
     if let InputChatPhoto::Animation(t) = self {
@@ -103,6 +111,12 @@ impl InputChatPhoto {
   }
   pub fn on_static<F: FnOnce(&InputChatPhotoStatic)>(&self, fnc: F) -> &Self {
     if let InputChatPhoto::Static(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_sticker<F: FnOnce(&InputChatPhotoSticker)>(&self, fnc: F) -> &Self {
+    if let InputChatPhoto::Sticker(t) = self {
       fnc(t)
     };
     self
@@ -126,6 +140,12 @@ impl InputChatPhoto {
     }
     None
   }
+  pub fn as_sticker(&self) -> Option<&InputChatPhotoSticker> {
+    if let InputChatPhoto::Sticker(t) = self {
+      return Some(t);
+    }
+    None
+  }
 
   pub fn animation<T: AsRef<InputChatPhotoAnimation>>(t: T) -> Self {
     InputChatPhoto::Animation(t.as_ref().clone())
@@ -138,6 +158,10 @@ impl InputChatPhoto {
   pub fn static_<T: AsRef<InputChatPhotoStatic>>(t: T) -> Self {
     InputChatPhoto::Static(t.as_ref().clone())
   }
+
+  pub fn sticker<T: AsRef<InputChatPhotoSticker>>(t: T) -> Self {
+    InputChatPhoto::Sticker(t.as_ref().clone())
+  }
 }
 
 impl AsRef<InputChatPhoto> for InputChatPhoto {
@@ -146,7 +170,7 @@ impl AsRef<InputChatPhoto> for InputChatPhoto {
   }
 }
 
-/// An animation in MPEG4 format; must be square, at most 10 seconds long, have width between 160 and 800 and be at most 2MB in size
+/// An animation in MPEG4 format; must be square, at most 10 seconds long, have width between 160 and 1280 and be at most 2MB in size
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct InputChatPhotoAnimation {
   #[doc(hidden)]
@@ -242,6 +266,7 @@ pub struct InputChatPhotoPrevious {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// Identifier of the current user's profile photo to reuse
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
   chat_photo_id: isize,
 }
 
@@ -378,6 +403,81 @@ impl AsRef<InputChatPhotoStatic> for InputChatPhotoStatic {
 
 impl AsRef<InputChatPhotoStatic> for RTDInputChatPhotoStaticBuilder {
   fn as_ref(&self) -> &InputChatPhotoStatic {
+    &self.inner
+  }
+}
+
+/// A sticker on a custom background
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct InputChatPhotoSticker {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Information about the sticker
+  sticker: ChatPhotoSticker,
+}
+
+impl RObject for InputChatPhotoSticker {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "inputChatPhotoSticker"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDInputChatPhoto for InputChatPhotoSticker {}
+
+impl InputChatPhotoSticker {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDInputChatPhotoStickerBuilder {
+    let inner = InputChatPhotoSticker {
+      td_name: "inputChatPhotoSticker".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDInputChatPhotoStickerBuilder { inner }
+  }
+
+  pub fn sticker(&self) -> &ChatPhotoSticker {
+    &self.sticker
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDInputChatPhotoStickerBuilder {
+  inner: InputChatPhotoSticker,
+}
+
+impl RTDInputChatPhotoStickerBuilder {
+  pub fn build(&self) -> InputChatPhotoSticker {
+    self.inner.clone()
+  }
+
+  pub fn sticker<T: AsRef<ChatPhotoSticker>>(&mut self, sticker: T) -> &mut Self {
+    self.inner.sticker = sticker.as_ref().clone();
+    self
+  }
+}
+
+impl AsRef<InputChatPhotoSticker> for InputChatPhotoSticker {
+  fn as_ref(&self) -> &InputChatPhotoSticker {
+    self
+  }
+}
+
+impl AsRef<InputChatPhotoSticker> for RTDInputChatPhotoStickerBuilder {
+  fn as_ref(&self) -> &InputChatPhotoSticker {
     &self.inner
   }
 }

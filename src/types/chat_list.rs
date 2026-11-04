@@ -16,8 +16,8 @@ pub enum ChatList {
   _Default(()),
   /// A list of chats usually located at the top of the main chat list. Unmuted chats are automatically moved from the Archive to the Main chat list when a new message arrives
   Archive(ChatListArchive),
-  /// A list of chats belonging to a chat filter
-  Filter(ChatListFilter),
+  /// A list of chats added to a chat folder
+  Folder(ChatListFolder),
   /// A main list of chats
   Main(ChatListMain),
 }
@@ -37,7 +37,7 @@ impl<'de> Deserialize<'de> for ChatList {
     rtd_enum_deserialize!(
       ChatList,
       (chatListArchive, Archive);
-      (chatListFilter, Filter);
+      (chatListFolder, Folder);
       (chatListMain, Main);
 
     )(deserializer)
@@ -49,7 +49,7 @@ impl RObject for ChatList {
   fn td_name(&self) -> &'static str {
     match self {
       ChatList::Archive(t) => t.td_name(),
-      ChatList::Filter(t) => t.td_name(),
+      ChatList::Folder(t) => t.td_name(),
       ChatList::Main(t) => t.td_name(),
 
       _ => "-1",
@@ -59,7 +59,7 @@ impl RObject for ChatList {
   fn extra(&self) -> Option<String> {
     match self {
       ChatList::Archive(t) => t.extra(),
-      ChatList::Filter(t) => t.extra(),
+      ChatList::Folder(t) => t.extra(),
       ChatList::Main(t) => t.extra(),
 
       _ => None,
@@ -82,8 +82,8 @@ impl ChatList {
   pub fn is_archive(&self) -> bool {
     matches!(self, ChatList::Archive(_))
   }
-  pub fn is_filter(&self) -> bool {
-    matches!(self, ChatList::Filter(_))
+  pub fn is_folder(&self) -> bool {
+    matches!(self, ChatList::Folder(_))
   }
   pub fn is_main(&self) -> bool {
     matches!(self, ChatList::Main(_))
@@ -95,8 +95,8 @@ impl ChatList {
     };
     self
   }
-  pub fn on_filter<F: FnOnce(&ChatListFilter)>(&self, fnc: F) -> &Self {
-    if let ChatList::Filter(t) = self {
+  pub fn on_folder<F: FnOnce(&ChatListFolder)>(&self, fnc: F) -> &Self {
+    if let ChatList::Folder(t) = self {
       fnc(t)
     };
     self
@@ -114,8 +114,8 @@ impl ChatList {
     }
     None
   }
-  pub fn as_filter(&self) -> Option<&ChatListFilter> {
-    if let ChatList::Filter(t) = self {
+  pub fn as_folder(&self) -> Option<&ChatListFolder> {
+    if let ChatList::Folder(t) = self {
       return Some(t);
     }
     None
@@ -131,8 +131,8 @@ impl ChatList {
     ChatList::Archive(t.as_ref().clone())
   }
 
-  pub fn filter<T: AsRef<ChatListFilter>>(t: T) -> Self {
-    ChatList::Filter(t.as_ref().clone())
+  pub fn folder<T: AsRef<ChatListFolder>>(t: T) -> Self {
+    ChatList::Folder(t.as_ref().clone())
   }
 
   pub fn main<T: AsRef<ChatListMain>>(t: T) -> Self {
@@ -209,23 +209,23 @@ impl AsRef<ChatListArchive> for RTDChatListArchiveBuilder {
   }
 }
 
-/// A list of chats belonging to a chat filter
+/// A list of chats added to a chat folder
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ChatListFilter {
+pub struct ChatListFolder {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Chat filter identifier
-  chat_filter_id: i64,
+  /// Chat folder identifier
+  chat_folder_id: i64,
 }
 
-impl RObject for ChatListFilter {
+impl RObject for ChatListFolder {
   #[doc(hidden)]
   fn td_name(&self) -> &'static str {
-    "chatListFilter"
+    "chatListFolder"
   }
   #[doc(hidden)]
   fn extra(&self) -> Option<String> {
@@ -236,50 +236,50 @@ impl RObject for ChatListFilter {
   }
 }
 
-impl TDChatList for ChatListFilter {}
+impl TDChatList for ChatListFolder {}
 
-impl ChatListFilter {
+impl ChatListFolder {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
     Ok(serde_json::from_str(json.as_ref())?)
   }
-  pub fn builder() -> RTDChatListFilterBuilder {
-    let inner = ChatListFilter {
-      td_name: "chatListFilter".to_string(),
+  pub fn builder() -> RTDChatListFolderBuilder {
+    let inner = ChatListFolder {
+      td_name: "chatListFolder".to_string(),
       extra: Some(Uuid::new_v4().to_string()),
       ..Default::default()
     };
-    RTDChatListFilterBuilder { inner }
+    RTDChatListFolderBuilder { inner }
   }
 
-  pub fn chat_filter_id(&self) -> i64 {
-    self.chat_filter_id
+  pub fn chat_folder_id(&self) -> i64 {
+    self.chat_folder_id
   }
 }
 
 #[doc(hidden)]
-pub struct RTDChatListFilterBuilder {
-  inner: ChatListFilter,
+pub struct RTDChatListFolderBuilder {
+  inner: ChatListFolder,
 }
 
-impl RTDChatListFilterBuilder {
-  pub fn build(&self) -> ChatListFilter {
+impl RTDChatListFolderBuilder {
+  pub fn build(&self) -> ChatListFolder {
     self.inner.clone()
   }
 
-  pub fn chat_filter_id(&mut self, chat_filter_id: i64) -> &mut Self {
-    self.inner.chat_filter_id = chat_filter_id;
+  pub fn chat_folder_id(&mut self, chat_folder_id: i64) -> &mut Self {
+    self.inner.chat_folder_id = chat_folder_id;
     self
   }
 }
 
-impl AsRef<ChatListFilter> for ChatListFilter {
-  fn as_ref(&self) -> &ChatListFilter {
+impl AsRef<ChatListFolder> for ChatListFolder {
+  fn as_ref(&self) -> &ChatListFolder {
     self
   }
 }
 
-impl AsRef<ChatListFilter> for RTDChatListFilterBuilder {
-  fn as_ref(&self) -> &ChatListFilter {
+impl AsRef<ChatListFolder> for RTDChatListFolderBuilder {
+  fn as_ref(&self) -> &ChatListFolder {
     &self.inner
   }
 }

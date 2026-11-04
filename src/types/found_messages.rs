@@ -11,11 +11,11 @@ pub struct FoundMessages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Approximate total count of messages found; 1 if unknown
+  /// Approximate total number of messages found; 1 if unknown
   total_count: i64,
   /// List of messages
   messages: Vec<Message>,
-  /// The offset for the next request. If empty, there are no more results
+  /// The offset for the next request. If empty, then there are no more results
   next_offset: String,
 }
 

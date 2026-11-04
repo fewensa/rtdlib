@@ -1,28 +1,28 @@
 # Changelog
 
-## 0.8.2 - 2026-11-04
+## 1.8.69 - 2026-11-04
 
-Maintenance release of the 0.8.x line (TDLib snapshot `789b9c0a554d779945db027fd2612909c676345f`). The Rust API is compatible with 0.8.1. Types were not regenerated.
+Breaking release. Types are regenerated from TDLib **1.8.69** (`td_api.tl` at commit `4c6377aa7386c39217878a9a56d581922ad37ca4`). This replaces both the crates.io `1.8.1` line (TDLib v1.8.0) and the unreleased `0.8.2` snapshot. Pin `rtdlib = "=1.8.69"`. A requirement such as `^1.8.1` will select this crate and will not compile against 1.8.1 code.
 
-### Changed
+Edition 2021. Minimum supported Rust is 1.89. `uuid` 1 and `serde-aux` 4. `cargo audit` is clean. CI, `SECURITY.md`, and the tag publish workflow are unchanged from the maintenance pass except for this version.
 
-- Edition is 2021. The minimum supported Rust version is 1.89.
-- `uuid` 0.8 is now `uuid` 1, used only to fill `@extra` on builders. `Uuid` is not part of the public API.
-- `serde-aux` 0.6 is now `serde-aux` 4. Numeric fields still deserialize with `serde_aux::field_attributes::deserialize_number_from_string`.
-- The unused direct `libc` dependency is gone. The `sys` feature still depends on `rtdlib-sys` 0.1, which links `libtdjson`.
+### Breaking
 
-### Fixed
-
-- `RTDError` implements `Error::source`. `Error::cause` still reports that same underlying error through the trait default.
-- Clippy warnings in hand-written code and in the generated builders and `is_*` helpers.
-- JSON helpers no longer discard parse errors with `unwrap` after an `is_err` check.
+- The TDLib schema moved from the January 2022 snapshot to 1.8.69. 15 type modules from 1.8.1 are gone and 505 modules are new. Removed modules: `chat_filter`, `chat_filter_info`, `chat_nearby`, `chat_report_reason`, `chat_statistics_message_interaction_info`, `chats_nearby`, `file_part`, `message_forward_origin`, `payment_form_theme`, `payments_provider_stripe`, `proxies`, `recommended_chat_filter`, `recommended_chat_filters`, `tdlib_parameters`, `web_page`.
+- Renames that show up in client code: `ChatFilter` is `ChatFolder`, `WebPage` is `LinkPreview`, `MessageForwardOrigin` is `MessageOrigin`.
+- `TdlibParameters` is gone. `setTdlibParameters` carries the fields directly. `database_encryption_key` is new. `enable_storage_optimizer` and `ignore_file_names` are gone.
+- Scalar `int64` values deserialize from a JSON string or a number. TDLib's JSON client sends those values as strings.
+- A TL field named `extra` (on `TonNft`) is the Rust field `extra_`. `@extra` is unchanged.
+- Cycles in `RichText`, `PageBlock`, and `InternalLinkType` / `TargetChat` use `Box` on the field that closes the cycle.
 
 ### Not in this release
 
-- Regeneration against current TDLib. The types still match the January 2022 snapshot above.
-- The crates.io `1.8.x` line, which tracks TDLib 1.8.0 and lives on the `1d8x` branch. This release does not replace `1.8.1` as the highest version number.
-- Changes to `rtdlib-sys`.
+`rtdlib-sys` is still 0.1.0. The `sys` feature still re-exports `rtdlib_sys::Tdlib` and still links `libtdjson`.
+
+## 1.8.1 - 2022-01-29
+
+Types for TDLib v1.8.0.
 
 ## 0.8.1 - 2022-01-29
 
-Types for TDLib commit `789b9c0a554d779945db027fd2612909c676345f`.
+Types for TDLib commit `789b9c0a554d779945db027fd2612909c676345f`. Not the crates.io latest line.

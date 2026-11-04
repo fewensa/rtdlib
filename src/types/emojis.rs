@@ -2,7 +2,7 @@ use crate::errors::*;
 use crate::types::*;
 use uuid::Uuid;
 
-/// Represents a list of emoji
+/// Represents a list of emojis
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Emojis {
   #[doc(hidden)]

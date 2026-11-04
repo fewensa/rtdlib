@@ -22,10 +22,22 @@ pub enum UserPrivacySetting {
   AllowFindingByPhoneNumber(UserPrivacySettingAllowFindingByPhoneNumber),
   /// A privacy setting for managing whether peer-to-peer connections can be used for calls
   AllowPeerToPeerCalls(UserPrivacySettingAllowPeerToPeerCalls),
+  /// A privacy setting for managing whether the user can receive voice and video messages in private chats; for Telegram Premium users only
+  AllowPrivateVoiceAndVideoNoteMessages(UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages),
+  /// A privacy setting for managing whether the user can receive messages without additional payment
+  AllowUnpaidMessages(UserPrivacySettingAllowUnpaidMessages),
+  /// A privacy setting for managing whether received gifts are automatically shown on the user's profile page
+  AutosaveGifts(UserPrivacySettingAutosaveGifts),
+  /// A privacy setting for managing whether the user's bio is visible
+  ShowBio(UserPrivacySettingShowBio),
+  /// A privacy setting for managing whether the user's birthdate is visible
+  ShowBirthdate(UserPrivacySettingShowBirthdate),
   /// A privacy setting for managing whether a link to the user's account is included in forwarded messages
   ShowLinkInForwardedMessages(UserPrivacySettingShowLinkInForwardedMessages),
   /// A privacy setting for managing whether the user's phone number is visible
   ShowPhoneNumber(UserPrivacySettingShowPhoneNumber),
+  /// A privacy setting for managing whether the user's profile audio files are visible
+  ShowProfileAudio(UserPrivacySettingShowProfileAudio),
   /// A privacy setting for managing whether the user's profile photo is visible
   ShowProfilePhoto(UserPrivacySettingShowProfilePhoto),
   /// A privacy setting for managing whether the user's online status is visible
@@ -50,8 +62,14 @@ impl<'de> Deserialize<'de> for UserPrivacySetting {
       (userPrivacySettingAllowChatInvites, AllowChatInvites);
       (userPrivacySettingAllowFindingByPhoneNumber, AllowFindingByPhoneNumber);
       (userPrivacySettingAllowPeerToPeerCalls, AllowPeerToPeerCalls);
+      (userPrivacySettingAllowPrivateVoiceAndVideoNoteMessages, AllowPrivateVoiceAndVideoNoteMessages);
+      (userPrivacySettingAllowUnpaidMessages, AllowUnpaidMessages);
+      (userPrivacySettingAutosaveGifts, AutosaveGifts);
+      (userPrivacySettingShowBio, ShowBio);
+      (userPrivacySettingShowBirthdate, ShowBirthdate);
       (userPrivacySettingShowLinkInForwardedMessages, ShowLinkInForwardedMessages);
       (userPrivacySettingShowPhoneNumber, ShowPhoneNumber);
+      (userPrivacySettingShowProfileAudio, ShowProfileAudio);
       (userPrivacySettingShowProfilePhoto, ShowProfilePhoto);
       (userPrivacySettingShowStatus, ShowStatus);
 
@@ -67,8 +85,14 @@ impl RObject for UserPrivacySetting {
       UserPrivacySetting::AllowChatInvites(t) => t.td_name(),
       UserPrivacySetting::AllowFindingByPhoneNumber(t) => t.td_name(),
       UserPrivacySetting::AllowPeerToPeerCalls(t) => t.td_name(),
+      UserPrivacySetting::AllowPrivateVoiceAndVideoNoteMessages(t) => t.td_name(),
+      UserPrivacySetting::AllowUnpaidMessages(t) => t.td_name(),
+      UserPrivacySetting::AutosaveGifts(t) => t.td_name(),
+      UserPrivacySetting::ShowBio(t) => t.td_name(),
+      UserPrivacySetting::ShowBirthdate(t) => t.td_name(),
       UserPrivacySetting::ShowLinkInForwardedMessages(t) => t.td_name(),
       UserPrivacySetting::ShowPhoneNumber(t) => t.td_name(),
+      UserPrivacySetting::ShowProfileAudio(t) => t.td_name(),
       UserPrivacySetting::ShowProfilePhoto(t) => t.td_name(),
       UserPrivacySetting::ShowStatus(t) => t.td_name(),
 
@@ -82,8 +106,14 @@ impl RObject for UserPrivacySetting {
       UserPrivacySetting::AllowChatInvites(t) => t.extra(),
       UserPrivacySetting::AllowFindingByPhoneNumber(t) => t.extra(),
       UserPrivacySetting::AllowPeerToPeerCalls(t) => t.extra(),
+      UserPrivacySetting::AllowPrivateVoiceAndVideoNoteMessages(t) => t.extra(),
+      UserPrivacySetting::AllowUnpaidMessages(t) => t.extra(),
+      UserPrivacySetting::AutosaveGifts(t) => t.extra(),
+      UserPrivacySetting::ShowBio(t) => t.extra(),
+      UserPrivacySetting::ShowBirthdate(t) => t.extra(),
       UserPrivacySetting::ShowLinkInForwardedMessages(t) => t.extra(),
       UserPrivacySetting::ShowPhoneNumber(t) => t.extra(),
+      UserPrivacySetting::ShowProfileAudio(t) => t.extra(),
       UserPrivacySetting::ShowProfilePhoto(t) => t.extra(),
       UserPrivacySetting::ShowStatus(t) => t.extra(),
 
@@ -116,11 +146,32 @@ impl UserPrivacySetting {
   pub fn is_allow_peer_to_peer_calls(&self) -> bool {
     matches!(self, UserPrivacySetting::AllowPeerToPeerCalls(_))
   }
+  pub fn is_allow_private_voice_and_video_note_messages(&self) -> bool {
+    matches!(
+      self,
+      UserPrivacySetting::AllowPrivateVoiceAndVideoNoteMessages(_)
+    )
+  }
+  pub fn is_allow_unpaid_messages(&self) -> bool {
+    matches!(self, UserPrivacySetting::AllowUnpaidMessages(_))
+  }
+  pub fn is_autosave_gifts(&self) -> bool {
+    matches!(self, UserPrivacySetting::AutosaveGifts(_))
+  }
+  pub fn is_show_bio(&self) -> bool {
+    matches!(self, UserPrivacySetting::ShowBio(_))
+  }
+  pub fn is_show_birthdate(&self) -> bool {
+    matches!(self, UserPrivacySetting::ShowBirthdate(_))
+  }
   pub fn is_show_link_in_forwarded_messages(&self) -> bool {
     matches!(self, UserPrivacySetting::ShowLinkInForwardedMessages(_))
   }
   pub fn is_show_phone_number(&self) -> bool {
     matches!(self, UserPrivacySetting::ShowPhoneNumber(_))
+  }
+  pub fn is_show_profile_audio(&self) -> bool {
+    matches!(self, UserPrivacySetting::ShowProfileAudio(_))
   }
   pub fn is_show_profile_photo(&self) -> bool {
     matches!(self, UserPrivacySetting::ShowProfilePhoto(_))
@@ -164,6 +215,44 @@ impl UserPrivacySetting {
     };
     self
   }
+  pub fn on_allow_private_voice_and_video_note_messages<
+    F: FnOnce(&UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages),
+  >(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let UserPrivacySetting::AllowPrivateVoiceAndVideoNoteMessages(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_allow_unpaid_messages<F: FnOnce(&UserPrivacySettingAllowUnpaidMessages)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let UserPrivacySetting::AllowUnpaidMessages(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_autosave_gifts<F: FnOnce(&UserPrivacySettingAutosaveGifts)>(&self, fnc: F) -> &Self {
+    if let UserPrivacySetting::AutosaveGifts(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_show_bio<F: FnOnce(&UserPrivacySettingShowBio)>(&self, fnc: F) -> &Self {
+    if let UserPrivacySetting::ShowBio(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_show_birthdate<F: FnOnce(&UserPrivacySettingShowBirthdate)>(&self, fnc: F) -> &Self {
+    if let UserPrivacySetting::ShowBirthdate(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_show_link_in_forwarded_messages<
     F: FnOnce(&UserPrivacySettingShowLinkInForwardedMessages),
   >(
@@ -180,6 +269,15 @@ impl UserPrivacySetting {
     fnc: F,
   ) -> &Self {
     if let UserPrivacySetting::ShowPhoneNumber(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_show_profile_audio<F: FnOnce(&UserPrivacySettingShowProfileAudio)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let UserPrivacySetting::ShowProfileAudio(t) = self {
       fnc(t)
     };
     self
@@ -226,6 +324,38 @@ impl UserPrivacySetting {
     }
     None
   }
+  pub fn as_allow_private_voice_and_video_note_messages(
+    &self,
+  ) -> Option<&UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages> {
+    if let UserPrivacySetting::AllowPrivateVoiceAndVideoNoteMessages(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_allow_unpaid_messages(&self) -> Option<&UserPrivacySettingAllowUnpaidMessages> {
+    if let UserPrivacySetting::AllowUnpaidMessages(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_autosave_gifts(&self) -> Option<&UserPrivacySettingAutosaveGifts> {
+    if let UserPrivacySetting::AutosaveGifts(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_show_bio(&self) -> Option<&UserPrivacySettingShowBio> {
+    if let UserPrivacySetting::ShowBio(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_show_birthdate(&self) -> Option<&UserPrivacySettingShowBirthdate> {
+    if let UserPrivacySetting::ShowBirthdate(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_show_link_in_forwarded_messages(
     &self,
   ) -> Option<&UserPrivacySettingShowLinkInForwardedMessages> {
@@ -236,6 +366,12 @@ impl UserPrivacySetting {
   }
   pub fn as_show_phone_number(&self) -> Option<&UserPrivacySettingShowPhoneNumber> {
     if let UserPrivacySetting::ShowPhoneNumber(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_show_profile_audio(&self) -> Option<&UserPrivacySettingShowProfileAudio> {
+    if let UserPrivacySetting::ShowProfileAudio(t) = self {
       return Some(t);
     }
     None
@@ -271,6 +407,30 @@ impl UserPrivacySetting {
     UserPrivacySetting::AllowPeerToPeerCalls(t.as_ref().clone())
   }
 
+  pub fn allow_private_voice_and_video_note_messages<
+    T: AsRef<UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages>,
+  >(
+    t: T,
+  ) -> Self {
+    UserPrivacySetting::AllowPrivateVoiceAndVideoNoteMessages(t.as_ref().clone())
+  }
+
+  pub fn allow_unpaid_messages<T: AsRef<UserPrivacySettingAllowUnpaidMessages>>(t: T) -> Self {
+    UserPrivacySetting::AllowUnpaidMessages(t.as_ref().clone())
+  }
+
+  pub fn autosave_gifts<T: AsRef<UserPrivacySettingAutosaveGifts>>(t: T) -> Self {
+    UserPrivacySetting::AutosaveGifts(t.as_ref().clone())
+  }
+
+  pub fn show_bio<T: AsRef<UserPrivacySettingShowBio>>(t: T) -> Self {
+    UserPrivacySetting::ShowBio(t.as_ref().clone())
+  }
+
+  pub fn show_birthdate<T: AsRef<UserPrivacySettingShowBirthdate>>(t: T) -> Self {
+    UserPrivacySetting::ShowBirthdate(t.as_ref().clone())
+  }
+
   pub fn show_link_in_forwarded_messages<
     T: AsRef<UserPrivacySettingShowLinkInForwardedMessages>,
   >(
@@ -281,6 +441,10 @@ impl UserPrivacySetting {
 
   pub fn show_phone_number<T: AsRef<UserPrivacySettingShowPhoneNumber>>(t: T) -> Self {
     UserPrivacySetting::ShowPhoneNumber(t.as_ref().clone())
+  }
+
+  pub fn show_profile_audio<T: AsRef<UserPrivacySettingShowProfileAudio>>(t: T) -> Self {
+    UserPrivacySetting::ShowProfileAudio(t.as_ref().clone())
   }
 
   pub fn show_profile_photo<T: AsRef<UserPrivacySettingShowProfilePhoto>>(t: T) -> Self {
@@ -556,6 +720,327 @@ impl AsRef<UserPrivacySettingAllowPeerToPeerCalls>
   }
 }
 
+/// A privacy setting for managing whether the user can receive voice and video messages in private chats; for Telegram Premium users only
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "userPrivacySettingAllowPrivateVoiceAndVideoNoteMessages"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDUserPrivacySetting for UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages {}
+
+impl UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDUserPrivacySettingAllowPrivateVoiceAndVideoNoteMessagesBuilder {
+    let inner = UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages {
+      td_name: "userPrivacySettingAllowPrivateVoiceAndVideoNoteMessages".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDUserPrivacySettingAllowPrivateVoiceAndVideoNoteMessagesBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDUserPrivacySettingAllowPrivateVoiceAndVideoNoteMessagesBuilder {
+  inner: UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages,
+}
+
+impl RTDUserPrivacySettingAllowPrivateVoiceAndVideoNoteMessagesBuilder {
+  pub fn build(&self) -> UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages>
+  for UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages
+{
+  fn as_ref(&self) -> &UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages {
+    self
+  }
+}
+
+impl AsRef<UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages>
+  for RTDUserPrivacySettingAllowPrivateVoiceAndVideoNoteMessagesBuilder
+{
+  fn as_ref(&self) -> &UserPrivacySettingAllowPrivateVoiceAndVideoNoteMessages {
+    &self.inner
+  }
+}
+
+/// A privacy setting for managing whether the user can receive messages without additional payment
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UserPrivacySettingAllowUnpaidMessages {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for UserPrivacySettingAllowUnpaidMessages {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "userPrivacySettingAllowUnpaidMessages"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDUserPrivacySetting for UserPrivacySettingAllowUnpaidMessages {}
+
+impl UserPrivacySettingAllowUnpaidMessages {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDUserPrivacySettingAllowUnpaidMessagesBuilder {
+    let inner = UserPrivacySettingAllowUnpaidMessages {
+      td_name: "userPrivacySettingAllowUnpaidMessages".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDUserPrivacySettingAllowUnpaidMessagesBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDUserPrivacySettingAllowUnpaidMessagesBuilder {
+  inner: UserPrivacySettingAllowUnpaidMessages,
+}
+
+impl RTDUserPrivacySettingAllowUnpaidMessagesBuilder {
+  pub fn build(&self) -> UserPrivacySettingAllowUnpaidMessages {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<UserPrivacySettingAllowUnpaidMessages> for UserPrivacySettingAllowUnpaidMessages {
+  fn as_ref(&self) -> &UserPrivacySettingAllowUnpaidMessages {
+    self
+  }
+}
+
+impl AsRef<UserPrivacySettingAllowUnpaidMessages>
+  for RTDUserPrivacySettingAllowUnpaidMessagesBuilder
+{
+  fn as_ref(&self) -> &UserPrivacySettingAllowUnpaidMessages {
+    &self.inner
+  }
+}
+
+/// A privacy setting for managing whether received gifts are automatically shown on the user's profile page
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UserPrivacySettingAutosaveGifts {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for UserPrivacySettingAutosaveGifts {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "userPrivacySettingAutosaveGifts"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDUserPrivacySetting for UserPrivacySettingAutosaveGifts {}
+
+impl UserPrivacySettingAutosaveGifts {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDUserPrivacySettingAutosaveGiftsBuilder {
+    let inner = UserPrivacySettingAutosaveGifts {
+      td_name: "userPrivacySettingAutosaveGifts".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDUserPrivacySettingAutosaveGiftsBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDUserPrivacySettingAutosaveGiftsBuilder {
+  inner: UserPrivacySettingAutosaveGifts,
+}
+
+impl RTDUserPrivacySettingAutosaveGiftsBuilder {
+  pub fn build(&self) -> UserPrivacySettingAutosaveGifts {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<UserPrivacySettingAutosaveGifts> for UserPrivacySettingAutosaveGifts {
+  fn as_ref(&self) -> &UserPrivacySettingAutosaveGifts {
+    self
+  }
+}
+
+impl AsRef<UserPrivacySettingAutosaveGifts> for RTDUserPrivacySettingAutosaveGiftsBuilder {
+  fn as_ref(&self) -> &UserPrivacySettingAutosaveGifts {
+    &self.inner
+  }
+}
+
+/// A privacy setting for managing whether the user's bio is visible
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UserPrivacySettingShowBio {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for UserPrivacySettingShowBio {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "userPrivacySettingShowBio"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDUserPrivacySetting for UserPrivacySettingShowBio {}
+
+impl UserPrivacySettingShowBio {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDUserPrivacySettingShowBioBuilder {
+    let inner = UserPrivacySettingShowBio {
+      td_name: "userPrivacySettingShowBio".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDUserPrivacySettingShowBioBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDUserPrivacySettingShowBioBuilder {
+  inner: UserPrivacySettingShowBio,
+}
+
+impl RTDUserPrivacySettingShowBioBuilder {
+  pub fn build(&self) -> UserPrivacySettingShowBio {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<UserPrivacySettingShowBio> for UserPrivacySettingShowBio {
+  fn as_ref(&self) -> &UserPrivacySettingShowBio {
+    self
+  }
+}
+
+impl AsRef<UserPrivacySettingShowBio> for RTDUserPrivacySettingShowBioBuilder {
+  fn as_ref(&self) -> &UserPrivacySettingShowBio {
+    &self.inner
+  }
+}
+
+/// A privacy setting for managing whether the user's birthdate is visible
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UserPrivacySettingShowBirthdate {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for UserPrivacySettingShowBirthdate {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "userPrivacySettingShowBirthdate"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDUserPrivacySetting for UserPrivacySettingShowBirthdate {}
+
+impl UserPrivacySettingShowBirthdate {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDUserPrivacySettingShowBirthdateBuilder {
+    let inner = UserPrivacySettingShowBirthdate {
+      td_name: "userPrivacySettingShowBirthdate".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDUserPrivacySettingShowBirthdateBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDUserPrivacySettingShowBirthdateBuilder {
+  inner: UserPrivacySettingShowBirthdate,
+}
+
+impl RTDUserPrivacySettingShowBirthdateBuilder {
+  pub fn build(&self) -> UserPrivacySettingShowBirthdate {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<UserPrivacySettingShowBirthdate> for UserPrivacySettingShowBirthdate {
+  fn as_ref(&self) -> &UserPrivacySettingShowBirthdate {
+    self
+  }
+}
+
+impl AsRef<UserPrivacySettingShowBirthdate> for RTDUserPrivacySettingShowBirthdateBuilder {
+  fn as_ref(&self) -> &UserPrivacySettingShowBirthdate {
+    &self.inner
+  }
+}
+
 /// A privacy setting for managing whether a link to the user's account is included in forwarded messages
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UserPrivacySettingShowLinkInForwardedMessages {
@@ -682,6 +1167,69 @@ impl AsRef<UserPrivacySettingShowPhoneNumber> for UserPrivacySettingShowPhoneNum
 
 impl AsRef<UserPrivacySettingShowPhoneNumber> for RTDUserPrivacySettingShowPhoneNumberBuilder {
   fn as_ref(&self) -> &UserPrivacySettingShowPhoneNumber {
+    &self.inner
+  }
+}
+
+/// A privacy setting for managing whether the user's profile audio files are visible
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct UserPrivacySettingShowProfileAudio {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for UserPrivacySettingShowProfileAudio {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "userPrivacySettingShowProfileAudio"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDUserPrivacySetting for UserPrivacySettingShowProfileAudio {}
+
+impl UserPrivacySettingShowProfileAudio {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDUserPrivacySettingShowProfileAudioBuilder {
+    let inner = UserPrivacySettingShowProfileAudio {
+      td_name: "userPrivacySettingShowProfileAudio".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDUserPrivacySettingShowProfileAudioBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDUserPrivacySettingShowProfileAudioBuilder {
+  inner: UserPrivacySettingShowProfileAudio,
+}
+
+impl RTDUserPrivacySettingShowProfileAudioBuilder {
+  pub fn build(&self) -> UserPrivacySettingShowProfileAudio {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<UserPrivacySettingShowProfileAudio> for UserPrivacySettingShowProfileAudio {
+  fn as_ref(&self) -> &UserPrivacySettingShowProfileAudio {
+    self
+  }
+}
+
+impl AsRef<UserPrivacySettingShowProfileAudio> for RTDUserPrivacySettingShowProfileAudioBuilder {
+  fn as_ref(&self) -> &UserPrivacySettingShowProfileAudio {
     &self.inner
   }
 }

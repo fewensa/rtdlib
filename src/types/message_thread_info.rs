@@ -15,13 +15,13 @@ pub struct MessageThreadInfo {
   chat_id: i64,
   /// Message thread identifier, unique within the chat
   message_thread_id: i64,
-  /// Information about the message thread
-  reply_info: MessageReplyInfo,
+  /// Information about the message thread; may be null for forum topic threads
+  reply_info: Option<MessageReplyInfo>,
   /// Approximate number of unread messages in the message thread
   unread_message_count: i64,
-  /// The messages from which the thread starts. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id)
+  /// The messages from which the thread starts. The messages are returned in reverse chronological order (i.e., in order of decreasing message_id)
   messages: Vec<Message>,
-  /// A draft of a message in the message thread; may be null
+  /// A draft of a message in the message thread; may be null if none
   draft_message: Option<DraftMessage>,
 }
 
@@ -60,7 +60,7 @@ impl MessageThreadInfo {
     self.message_thread_id
   }
 
-  pub fn reply_info(&self) -> &MessageReplyInfo {
+  pub fn reply_info(&self) -> &Option<MessageReplyInfo> {
     &self.reply_info
   }
 
@@ -98,7 +98,7 @@ impl RTDMessageThreadInfoBuilder {
   }
 
   pub fn reply_info<T: AsRef<MessageReplyInfo>>(&mut self, reply_info: T) -> &mut Self {
-    self.inner.reply_info = reply_info.as_ref().clone();
+    self.inner.reply_info = Some(reply_info.as_ref().clone());
     self
   }
 

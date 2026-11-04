@@ -11,7 +11,7 @@ pub struct Chats {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Approximate total count of chats found
+  /// Approximate total number of chats found
   total_count: i64,
   /// List of chat identifiers
   chat_ids: Vec<i64>,

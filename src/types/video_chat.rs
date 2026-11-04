@@ -2,7 +2,7 @@ use crate::errors::*;
 use crate::types::*;
 use uuid::Uuid;
 
-/// Describes a video chat
+/// Describes a video chat, i.e. a group call bound to a chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct VideoChat {
   #[doc(hidden)]

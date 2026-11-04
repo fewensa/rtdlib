@@ -11,7 +11,7 @@ pub struct Messages {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Approximate total count of messages found
+  /// Approximate total number of messages found
   total_count: i64,
   /// List of messages; messages may be null
   messages: Vec<Option<Message>>,

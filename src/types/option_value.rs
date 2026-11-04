@@ -14,7 +14,7 @@ pub trait TDOptionValue: Debug + RObject {}
 pub enum OptionValue {
   #[doc(hidden)]
   _Default(()),
-  /// Returns the value of an option by its name. (Check the list of available options on https://core.telegram.org/tdlib/options.) Can be called before authorization
+  /// Returns the value of an option by its name. (Check the list of available options on https://core.telegram.org/tdlib/options.) Can be called before authorization. Can be called synchronously for options "version" and "commit_hash"
   GetOption(GetOption),
   /// Represents a boolean option
   Boolean(OptionValueBoolean),

@@ -11,15 +11,15 @@ pub struct WebPageInstantView {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Content of the web page
-  page_blocks: Vec<PageBlock>,
+  /// Content of the instant view page
+  blocks: Vec<PageBlock>,
   /// Number of the instant view views; 0 if unknown
   view_count: i64,
   /// Version of the instant view; currently, can be 1 or 2
   version: i64,
   /// True, if the instant view must be shown from right to left
   is_rtl: bool,
-  /// True, if the instant view contains the full page. A network request might be needed to get the full web page instant view
+  /// True, if the instant view contains the full page. A network request might be needed to get the full instant view
   is_full: bool,
   /// An internal link to be opened to leave feedback about the instant view
   feedback_link: InternalLinkType,
@@ -52,8 +52,8 @@ impl WebPageInstantView {
     RTDWebPageInstantViewBuilder { inner }
   }
 
-  pub fn page_blocks(&self) -> &Vec<PageBlock> {
-    &self.page_blocks
+  pub fn blocks(&self) -> &Vec<PageBlock> {
+    &self.blocks
   }
 
   pub fn view_count(&self) -> i64 {
@@ -87,8 +87,8 @@ impl RTDWebPageInstantViewBuilder {
     self.inner.clone()
   }
 
-  pub fn page_blocks(&mut self, page_blocks: Vec<PageBlock>) -> &mut Self {
-    self.inner.page_blocks = page_blocks;
+  pub fn blocks(&mut self, blocks: Vec<PageBlock>) -> &mut Self {
+    self.inner.blocks = blocks;
     self
   }
 

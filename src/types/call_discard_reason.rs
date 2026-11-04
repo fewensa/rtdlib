@@ -24,6 +24,8 @@ pub enum CallDiscardReason {
   HungUp(CallDiscardReasonHungUp),
   /// The call was ended before the conversation started. It was canceled by the caller or missed by the other party
   Missed(CallDiscardReasonMissed),
+  /// The call was ended because it has been upgraded to a group call
+  UpgradeToGroupCall(CallDiscardReasonUpgradeToGroupCall),
 }
 
 impl Default for CallDiscardReason {
@@ -45,6 +47,7 @@ impl<'de> Deserialize<'de> for CallDiscardReason {
       (callDiscardReasonEmpty, Empty);
       (callDiscardReasonHungUp, HungUp);
       (callDiscardReasonMissed, Missed);
+      (callDiscardReasonUpgradeToGroupCall, UpgradeToGroupCall);
 
     )(deserializer)
   }
@@ -59,6 +62,7 @@ impl RObject for CallDiscardReason {
       CallDiscardReason::Empty(t) => t.td_name(),
       CallDiscardReason::HungUp(t) => t.td_name(),
       CallDiscardReason::Missed(t) => t.td_name(),
+      CallDiscardReason::UpgradeToGroupCall(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -71,6 +75,7 @@ impl RObject for CallDiscardReason {
       CallDiscardReason::Empty(t) => t.extra(),
       CallDiscardReason::HungUp(t) => t.extra(),
       CallDiscardReason::Missed(t) => t.extra(),
+      CallDiscardReason::UpgradeToGroupCall(t) => t.extra(),
 
       _ => None,
     }
@@ -104,6 +109,9 @@ impl CallDiscardReason {
   pub fn is_missed(&self) -> bool {
     matches!(self, CallDiscardReason::Missed(_))
   }
+  pub fn is_upgrade_to_group_call(&self) -> bool {
+    matches!(self, CallDiscardReason::UpgradeToGroupCall(_))
+  }
 
   pub fn on_declined<F: FnOnce(&CallDiscardReasonDeclined)>(&self, fnc: F) -> &Self {
     if let CallDiscardReason::Declined(t) = self {
@@ -131,6 +139,15 @@ impl CallDiscardReason {
   }
   pub fn on_missed<F: FnOnce(&CallDiscardReasonMissed)>(&self, fnc: F) -> &Self {
     if let CallDiscardReason::Missed(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_upgrade_to_group_call<F: FnOnce(&CallDiscardReasonUpgradeToGroupCall)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let CallDiscardReason::UpgradeToGroupCall(t) = self {
       fnc(t)
     };
     self
@@ -166,6 +183,12 @@ impl CallDiscardReason {
     }
     None
   }
+  pub fn as_upgrade_to_group_call(&self) -> Option<&CallDiscardReasonUpgradeToGroupCall> {
+    if let CallDiscardReason::UpgradeToGroupCall(t) = self {
+      return Some(t);
+    }
+    None
+  }
 
   pub fn declined<T: AsRef<CallDiscardReasonDeclined>>(t: T) -> Self {
     CallDiscardReason::Declined(t.as_ref().clone())
@@ -185,6 +208,10 @@ impl CallDiscardReason {
 
   pub fn missed<T: AsRef<CallDiscardReasonMissed>>(t: T) -> Self {
     CallDiscardReason::Missed(t.as_ref().clone())
+  }
+
+  pub fn upgrade_to_group_call<T: AsRef<CallDiscardReasonUpgradeToGroupCall>>(t: T) -> Self {
+    CallDiscardReason::UpgradeToGroupCall(t.as_ref().clone())
   }
 }
 
@@ -505,6 +532,81 @@ impl AsRef<CallDiscardReasonMissed> for CallDiscardReasonMissed {
 
 impl AsRef<CallDiscardReasonMissed> for RTDCallDiscardReasonMissedBuilder {
   fn as_ref(&self) -> &CallDiscardReasonMissed {
+    &self.inner
+  }
+}
+
+/// The call was ended because it has been upgraded to a group call
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct CallDiscardReasonUpgradeToGroupCall {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Invite link for the group call
+  invite_link: String,
+}
+
+impl RObject for CallDiscardReasonUpgradeToGroupCall {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "callDiscardReasonUpgradeToGroupCall"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDCallDiscardReason for CallDiscardReasonUpgradeToGroupCall {}
+
+impl CallDiscardReasonUpgradeToGroupCall {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDCallDiscardReasonUpgradeToGroupCallBuilder {
+    let inner = CallDiscardReasonUpgradeToGroupCall {
+      td_name: "callDiscardReasonUpgradeToGroupCall".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDCallDiscardReasonUpgradeToGroupCallBuilder { inner }
+  }
+
+  pub fn invite_link(&self) -> &String {
+    &self.invite_link
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDCallDiscardReasonUpgradeToGroupCallBuilder {
+  inner: CallDiscardReasonUpgradeToGroupCall,
+}
+
+impl RTDCallDiscardReasonUpgradeToGroupCallBuilder {
+  pub fn build(&self) -> CallDiscardReasonUpgradeToGroupCall {
+    self.inner.clone()
+  }
+
+  pub fn invite_link<T: AsRef<str>>(&mut self, invite_link: T) -> &mut Self {
+    self.inner.invite_link = invite_link.as_ref().to_string();
+    self
+  }
+}
+
+impl AsRef<CallDiscardReasonUpgradeToGroupCall> for CallDiscardReasonUpgradeToGroupCall {
+  fn as_ref(&self) -> &CallDiscardReasonUpgradeToGroupCall {
+    self
+  }
+}
+
+impl AsRef<CallDiscardReasonUpgradeToGroupCall> for RTDCallDiscardReasonUpgradeToGroupCallBuilder {
+  fn as_ref(&self) -> &CallDiscardReasonUpgradeToGroupCall {
     &self.inner
   }
 }

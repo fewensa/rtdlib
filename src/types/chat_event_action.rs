@@ -14,9 +14,37 @@ pub trait TDChatEventAction: Debug + RObject {}
 pub enum ChatEventAction {
   #[doc(hidden)]
   _Default(()),
+  /// The chat accent color or background custom emoji were changed
+  ChatEventAccentColorChanged(ChatEventAccentColorChanged),
+  /// The chat active usernames were changed
+  ChatEventActiveUsernamesChanged(ChatEventActiveUsernamesChanged),
+  /// The has_automatic_translation setting of a channel was toggled
+  ChatEventAutomaticTranslationToggled(ChatEventAutomaticTranslationToggled),
+  /// The chat available reactions were changed
+  ChatEventAvailableReactionsChanged(ChatEventAvailableReactionsChanged),
+  /// The chat background was changed
+  ChatEventBackgroundChanged(ChatEventBackgroundChanged),
+  /// The supergroup sticker set with allowed custom emoji was changed
+  ChatEventCustomEmojiStickerSetChanged(ChatEventCustomEmojiStickerSetChanged),
   /// The chat description was changed
   ChatEventDescriptionChanged(ChatEventDescriptionChanged),
-  /// The has_protected_content setting of a channel was toggled
+  /// The chat emoji status was changed
+  ChatEventEmojiStatusChanged(ChatEventEmojiStatusChanged),
+  /// A new forum topic was created
+  ChatEventForumTopicCreated(ChatEventForumTopicCreated),
+  /// A forum topic was deleted
+  ChatEventForumTopicDeleted(ChatEventForumTopicDeleted),
+  /// A forum topic was edited
+  ChatEventForumTopicEdited(ChatEventForumTopicEdited),
+  /// A pinned forum topic was changed
+  ChatEventForumTopicPinned(ChatEventForumTopicPinned),
+  /// A forum topic was closed or reopened
+  ChatEventForumTopicToggleIsClosed(ChatEventForumTopicToggleIsClosed),
+  /// The General forum topic was hidden or unhidden
+  ChatEventForumTopicToggleIsHidden(ChatEventForumTopicToggleIsHidden),
+  /// The has_aggressive_anti_spam_enabled setting of a supergroup was toggled
+  ChatEventHasAggressiveAntiSpamEnabledToggled(ChatEventHasAggressiveAntiSpamEnabledToggled),
+  /// The has_protected_content setting of a chat was toggled
   ChatEventHasProtectedContentToggled(ChatEventHasProtectedContentToggled),
   /// A revoked chat invite link was deleted
   ChatEventInviteLinkDeleted(ChatEventInviteLinkDeleted),
@@ -28,6 +56,8 @@ pub enum ChatEventAction {
   ChatEventInvitesToggled(ChatEventInvitesToggled),
   /// The is_all_history_available setting of a supergroup was toggled
   ChatEventIsAllHistoryAvailableToggled(ChatEventIsAllHistoryAvailableToggled),
+  /// The is_forum setting of a supergroup was toggled
+  ChatEventIsForumToggled(ChatEventIsForumToggled),
   /// The linked chat of a supergroup was changed
   ChatEventLinkedChatChanged(ChatEventLinkedChatChanged),
   /// The supergroup location was changed
@@ -46,22 +76,30 @@ pub enum ChatEventAction {
   ChatEventMemberPromoted(ChatEventMemberPromoted),
   /// A chat member was restricted/unrestricted or banned/unbanned, or the list of their restrictions has changed
   ChatEventMemberRestricted(ChatEventMemberRestricted),
+  /// A chat member extended their subscription to the chat
+  ChatEventMemberSubscriptionExtended(ChatEventMemberSubscriptionExtended),
+  /// A chat member tag has been changed
+  ChatEventMemberTagChanged(ChatEventMemberTagChanged),
+  /// The message auto-delete timer was changed
+  ChatEventMessageAutoDeleteTimeChanged(ChatEventMessageAutoDeleteTimeChanged),
   /// A message was deleted
   ChatEventMessageDeleted(ChatEventMessageDeleted),
   /// A message was edited
   ChatEventMessageEdited(ChatEventMessageEdited),
   /// A message was pinned
   ChatEventMessagePinned(ChatEventMessagePinned),
-  /// The message TTL was changed
-  ChatEventMessageTtlChanged(ChatEventMessageTtlChanged),
   /// A message was unpinned
   ChatEventMessageUnpinned(ChatEventMessageUnpinned),
-  /// The chat permissions was changed
+  /// The chat permissions were changed
   ChatEventPermissionsChanged(ChatEventPermissionsChanged),
   /// The chat photo was changed
   ChatEventPhotoChanged(ChatEventPhotoChanged),
   /// A poll in a message was stopped
   ChatEventPollStopped(ChatEventPollStopped),
+  /// The chat's profile accent color or profile background custom emoji were changed
+  ChatEventProfileAccentColorChanged(ChatEventProfileAccentColorChanged),
+  /// The show_message_sender setting of a channel was toggled
+  ChatEventShowMessageSenderToggled(ChatEventShowMessageSenderToggled),
   /// The sign_messages setting of a channel was toggled
   ChatEventSignMessagesToggled(ChatEventSignMessagesToggled),
   /// The slow_mode_delay setting of a supergroup was changed
@@ -70,7 +108,7 @@ pub enum ChatEventAction {
   ChatEventStickerSetChanged(ChatEventStickerSetChanged),
   /// The chat title was changed
   ChatEventTitleChanged(ChatEventTitleChanged),
-  /// The chat username was changed
+  /// The chat editable username was changed
   ChatEventUsernameChanged(ChatEventUsernameChanged),
   /// A video chat was created
   ChatEventVideoChatCreated(ChatEventVideoChatCreated),
@@ -98,13 +136,28 @@ impl<'de> Deserialize<'de> for ChatEventAction {
     use serde::de::Error;
     rtd_enum_deserialize!(
       ChatEventAction,
+      (chatEventAccentColorChanged, ChatEventAccentColorChanged);
+      (chatEventActiveUsernamesChanged, ChatEventActiveUsernamesChanged);
+      (chatEventAutomaticTranslationToggled, ChatEventAutomaticTranslationToggled);
+      (chatEventAvailableReactionsChanged, ChatEventAvailableReactionsChanged);
+      (chatEventBackgroundChanged, ChatEventBackgroundChanged);
+      (chatEventCustomEmojiStickerSetChanged, ChatEventCustomEmojiStickerSetChanged);
       (chatEventDescriptionChanged, ChatEventDescriptionChanged);
+      (chatEventEmojiStatusChanged, ChatEventEmojiStatusChanged);
+      (chatEventForumTopicCreated, ChatEventForumTopicCreated);
+      (chatEventForumTopicDeleted, ChatEventForumTopicDeleted);
+      (chatEventForumTopicEdited, ChatEventForumTopicEdited);
+      (chatEventForumTopicPinned, ChatEventForumTopicPinned);
+      (chatEventForumTopicToggleIsClosed, ChatEventForumTopicToggleIsClosed);
+      (chatEventForumTopicToggleIsHidden, ChatEventForumTopicToggleIsHidden);
+      (chatEventHasAggressiveAntiSpamEnabledToggled, ChatEventHasAggressiveAntiSpamEnabledToggled);
       (chatEventHasProtectedContentToggled, ChatEventHasProtectedContentToggled);
       (chatEventInviteLinkDeleted, ChatEventInviteLinkDeleted);
       (chatEventInviteLinkEdited, ChatEventInviteLinkEdited);
       (chatEventInviteLinkRevoked, ChatEventInviteLinkRevoked);
       (chatEventInvitesToggled, ChatEventInvitesToggled);
       (chatEventIsAllHistoryAvailableToggled, ChatEventIsAllHistoryAvailableToggled);
+      (chatEventIsForumToggled, ChatEventIsForumToggled);
       (chatEventLinkedChatChanged, ChatEventLinkedChatChanged);
       (chatEventLocationChanged, ChatEventLocationChanged);
       (chatEventMemberInvited, ChatEventMemberInvited);
@@ -114,14 +167,18 @@ impl<'de> Deserialize<'de> for ChatEventAction {
       (chatEventMemberLeft, ChatEventMemberLeft);
       (chatEventMemberPromoted, ChatEventMemberPromoted);
       (chatEventMemberRestricted, ChatEventMemberRestricted);
+      (chatEventMemberSubscriptionExtended, ChatEventMemberSubscriptionExtended);
+      (chatEventMemberTagChanged, ChatEventMemberTagChanged);
+      (chatEventMessageAutoDeleteTimeChanged, ChatEventMessageAutoDeleteTimeChanged);
       (chatEventMessageDeleted, ChatEventMessageDeleted);
       (chatEventMessageEdited, ChatEventMessageEdited);
       (chatEventMessagePinned, ChatEventMessagePinned);
-      (chatEventMessageTtlChanged, ChatEventMessageTtlChanged);
       (chatEventMessageUnpinned, ChatEventMessageUnpinned);
       (chatEventPermissionsChanged, ChatEventPermissionsChanged);
       (chatEventPhotoChanged, ChatEventPhotoChanged);
       (chatEventPollStopped, ChatEventPollStopped);
+      (chatEventProfileAccentColorChanged, ChatEventProfileAccentColorChanged);
+      (chatEventShowMessageSenderToggled, ChatEventShowMessageSenderToggled);
       (chatEventSignMessagesToggled, ChatEventSignMessagesToggled);
       (chatEventSlowModeDelayChanged, ChatEventSlowModeDelayChanged);
       (chatEventStickerSetChanged, ChatEventStickerSetChanged);
@@ -141,13 +198,28 @@ impl RObject for ChatEventAction {
   #[doc(hidden)]
   fn td_name(&self) -> &'static str {
     match self {
+      ChatEventAction::ChatEventAccentColorChanged(t) => t.td_name(),
+      ChatEventAction::ChatEventActiveUsernamesChanged(t) => t.td_name(),
+      ChatEventAction::ChatEventAutomaticTranslationToggled(t) => t.td_name(),
+      ChatEventAction::ChatEventAvailableReactionsChanged(t) => t.td_name(),
+      ChatEventAction::ChatEventBackgroundChanged(t) => t.td_name(),
+      ChatEventAction::ChatEventCustomEmojiStickerSetChanged(t) => t.td_name(),
       ChatEventAction::ChatEventDescriptionChanged(t) => t.td_name(),
+      ChatEventAction::ChatEventEmojiStatusChanged(t) => t.td_name(),
+      ChatEventAction::ChatEventForumTopicCreated(t) => t.td_name(),
+      ChatEventAction::ChatEventForumTopicDeleted(t) => t.td_name(),
+      ChatEventAction::ChatEventForumTopicEdited(t) => t.td_name(),
+      ChatEventAction::ChatEventForumTopicPinned(t) => t.td_name(),
+      ChatEventAction::ChatEventForumTopicToggleIsClosed(t) => t.td_name(),
+      ChatEventAction::ChatEventForumTopicToggleIsHidden(t) => t.td_name(),
+      ChatEventAction::ChatEventHasAggressiveAntiSpamEnabledToggled(t) => t.td_name(),
       ChatEventAction::ChatEventHasProtectedContentToggled(t) => t.td_name(),
       ChatEventAction::ChatEventInviteLinkDeleted(t) => t.td_name(),
       ChatEventAction::ChatEventInviteLinkEdited(t) => t.td_name(),
       ChatEventAction::ChatEventInviteLinkRevoked(t) => t.td_name(),
       ChatEventAction::ChatEventInvitesToggled(t) => t.td_name(),
       ChatEventAction::ChatEventIsAllHistoryAvailableToggled(t) => t.td_name(),
+      ChatEventAction::ChatEventIsForumToggled(t) => t.td_name(),
       ChatEventAction::ChatEventLinkedChatChanged(t) => t.td_name(),
       ChatEventAction::ChatEventLocationChanged(t) => t.td_name(),
       ChatEventAction::ChatEventMemberInvited(t) => t.td_name(),
@@ -157,14 +229,18 @@ impl RObject for ChatEventAction {
       ChatEventAction::ChatEventMemberLeft(t) => t.td_name(),
       ChatEventAction::ChatEventMemberPromoted(t) => t.td_name(),
       ChatEventAction::ChatEventMemberRestricted(t) => t.td_name(),
+      ChatEventAction::ChatEventMemberSubscriptionExtended(t) => t.td_name(),
+      ChatEventAction::ChatEventMemberTagChanged(t) => t.td_name(),
+      ChatEventAction::ChatEventMessageAutoDeleteTimeChanged(t) => t.td_name(),
       ChatEventAction::ChatEventMessageDeleted(t) => t.td_name(),
       ChatEventAction::ChatEventMessageEdited(t) => t.td_name(),
       ChatEventAction::ChatEventMessagePinned(t) => t.td_name(),
-      ChatEventAction::ChatEventMessageTtlChanged(t) => t.td_name(),
       ChatEventAction::ChatEventMessageUnpinned(t) => t.td_name(),
       ChatEventAction::ChatEventPermissionsChanged(t) => t.td_name(),
       ChatEventAction::ChatEventPhotoChanged(t) => t.td_name(),
       ChatEventAction::ChatEventPollStopped(t) => t.td_name(),
+      ChatEventAction::ChatEventProfileAccentColorChanged(t) => t.td_name(),
+      ChatEventAction::ChatEventShowMessageSenderToggled(t) => t.td_name(),
       ChatEventAction::ChatEventSignMessagesToggled(t) => t.td_name(),
       ChatEventAction::ChatEventSlowModeDelayChanged(t) => t.td_name(),
       ChatEventAction::ChatEventStickerSetChanged(t) => t.td_name(),
@@ -182,13 +258,28 @@ impl RObject for ChatEventAction {
   #[doc(hidden)]
   fn extra(&self) -> Option<String> {
     match self {
+      ChatEventAction::ChatEventAccentColorChanged(t) => t.extra(),
+      ChatEventAction::ChatEventActiveUsernamesChanged(t) => t.extra(),
+      ChatEventAction::ChatEventAutomaticTranslationToggled(t) => t.extra(),
+      ChatEventAction::ChatEventAvailableReactionsChanged(t) => t.extra(),
+      ChatEventAction::ChatEventBackgroundChanged(t) => t.extra(),
+      ChatEventAction::ChatEventCustomEmojiStickerSetChanged(t) => t.extra(),
       ChatEventAction::ChatEventDescriptionChanged(t) => t.extra(),
+      ChatEventAction::ChatEventEmojiStatusChanged(t) => t.extra(),
+      ChatEventAction::ChatEventForumTopicCreated(t) => t.extra(),
+      ChatEventAction::ChatEventForumTopicDeleted(t) => t.extra(),
+      ChatEventAction::ChatEventForumTopicEdited(t) => t.extra(),
+      ChatEventAction::ChatEventForumTopicPinned(t) => t.extra(),
+      ChatEventAction::ChatEventForumTopicToggleIsClosed(t) => t.extra(),
+      ChatEventAction::ChatEventForumTopicToggleIsHidden(t) => t.extra(),
+      ChatEventAction::ChatEventHasAggressiveAntiSpamEnabledToggled(t) => t.extra(),
       ChatEventAction::ChatEventHasProtectedContentToggled(t) => t.extra(),
       ChatEventAction::ChatEventInviteLinkDeleted(t) => t.extra(),
       ChatEventAction::ChatEventInviteLinkEdited(t) => t.extra(),
       ChatEventAction::ChatEventInviteLinkRevoked(t) => t.extra(),
       ChatEventAction::ChatEventInvitesToggled(t) => t.extra(),
       ChatEventAction::ChatEventIsAllHistoryAvailableToggled(t) => t.extra(),
+      ChatEventAction::ChatEventIsForumToggled(t) => t.extra(),
       ChatEventAction::ChatEventLinkedChatChanged(t) => t.extra(),
       ChatEventAction::ChatEventLocationChanged(t) => t.extra(),
       ChatEventAction::ChatEventMemberInvited(t) => t.extra(),
@@ -198,14 +289,18 @@ impl RObject for ChatEventAction {
       ChatEventAction::ChatEventMemberLeft(t) => t.extra(),
       ChatEventAction::ChatEventMemberPromoted(t) => t.extra(),
       ChatEventAction::ChatEventMemberRestricted(t) => t.extra(),
+      ChatEventAction::ChatEventMemberSubscriptionExtended(t) => t.extra(),
+      ChatEventAction::ChatEventMemberTagChanged(t) => t.extra(),
+      ChatEventAction::ChatEventMessageAutoDeleteTimeChanged(t) => t.extra(),
       ChatEventAction::ChatEventMessageDeleted(t) => t.extra(),
       ChatEventAction::ChatEventMessageEdited(t) => t.extra(),
       ChatEventAction::ChatEventMessagePinned(t) => t.extra(),
-      ChatEventAction::ChatEventMessageTtlChanged(t) => t.extra(),
       ChatEventAction::ChatEventMessageUnpinned(t) => t.extra(),
       ChatEventAction::ChatEventPermissionsChanged(t) => t.extra(),
       ChatEventAction::ChatEventPhotoChanged(t) => t.extra(),
       ChatEventAction::ChatEventPollStopped(t) => t.extra(),
+      ChatEventAction::ChatEventProfileAccentColorChanged(t) => t.extra(),
+      ChatEventAction::ChatEventShowMessageSenderToggled(t) => t.extra(),
       ChatEventAction::ChatEventSignMessagesToggled(t) => t.extra(),
       ChatEventAction::ChatEventSlowModeDelayChanged(t) => t.extra(),
       ChatEventAction::ChatEventStickerSetChanged(t) => t.extra(),
@@ -234,8 +329,59 @@ impl ChatEventAction {
     matches!(self, ChatEventAction::_Default(_))
   }
 
+  pub fn is_chat_event_accent_color_changed(&self) -> bool {
+    matches!(self, ChatEventAction::ChatEventAccentColorChanged(_))
+  }
+  pub fn is_chat_event_active_usernames_changed(&self) -> bool {
+    matches!(self, ChatEventAction::ChatEventActiveUsernamesChanged(_))
+  }
+  pub fn is_chat_event_automatic_translation_toggled(&self) -> bool {
+    matches!(
+      self,
+      ChatEventAction::ChatEventAutomaticTranslationToggled(_)
+    )
+  }
+  pub fn is_chat_event_available_reactions_changed(&self) -> bool {
+    matches!(self, ChatEventAction::ChatEventAvailableReactionsChanged(_))
+  }
+  pub fn is_chat_event_background_changed(&self) -> bool {
+    matches!(self, ChatEventAction::ChatEventBackgroundChanged(_))
+  }
+  pub fn is_chat_event_custom_emoji_sticker_set_changed(&self) -> bool {
+    matches!(
+      self,
+      ChatEventAction::ChatEventCustomEmojiStickerSetChanged(_)
+    )
+  }
   pub fn is_chat_event_description_changed(&self) -> bool {
     matches!(self, ChatEventAction::ChatEventDescriptionChanged(_))
+  }
+  pub fn is_chat_event_emoji_status_changed(&self) -> bool {
+    matches!(self, ChatEventAction::ChatEventEmojiStatusChanged(_))
+  }
+  pub fn is_chat_event_forum_topic_created(&self) -> bool {
+    matches!(self, ChatEventAction::ChatEventForumTopicCreated(_))
+  }
+  pub fn is_chat_event_forum_topic_deleted(&self) -> bool {
+    matches!(self, ChatEventAction::ChatEventForumTopicDeleted(_))
+  }
+  pub fn is_chat_event_forum_topic_edited(&self) -> bool {
+    matches!(self, ChatEventAction::ChatEventForumTopicEdited(_))
+  }
+  pub fn is_chat_event_forum_topic_pinned(&self) -> bool {
+    matches!(self, ChatEventAction::ChatEventForumTopicPinned(_))
+  }
+  pub fn is_chat_event_forum_topic_toggle_is_closed(&self) -> bool {
+    matches!(self, ChatEventAction::ChatEventForumTopicToggleIsClosed(_))
+  }
+  pub fn is_chat_event_forum_topic_toggle_is_hidden(&self) -> bool {
+    matches!(self, ChatEventAction::ChatEventForumTopicToggleIsHidden(_))
+  }
+  pub fn is_chat_event_has_aggressive_anti_spam_enabled_toggled(&self) -> bool {
+    matches!(
+      self,
+      ChatEventAction::ChatEventHasAggressiveAntiSpamEnabledToggled(_)
+    )
   }
   pub fn is_chat_event_has_protected_content_toggled(&self) -> bool {
     matches!(
@@ -260,6 +406,9 @@ impl ChatEventAction {
       self,
       ChatEventAction::ChatEventIsAllHistoryAvailableToggled(_)
     )
+  }
+  pub fn is_chat_event_is_forum_toggled(&self) -> bool {
+    matches!(self, ChatEventAction::ChatEventIsForumToggled(_))
   }
   pub fn is_chat_event_linked_chat_changed(&self) -> bool {
     matches!(self, ChatEventAction::ChatEventLinkedChatChanged(_))
@@ -288,6 +437,21 @@ impl ChatEventAction {
   pub fn is_chat_event_member_restricted(&self) -> bool {
     matches!(self, ChatEventAction::ChatEventMemberRestricted(_))
   }
+  pub fn is_chat_event_member_subscription_extended(&self) -> bool {
+    matches!(
+      self,
+      ChatEventAction::ChatEventMemberSubscriptionExtended(_)
+    )
+  }
+  pub fn is_chat_event_member_tag_changed(&self) -> bool {
+    matches!(self, ChatEventAction::ChatEventMemberTagChanged(_))
+  }
+  pub fn is_chat_event_message_auto_delete_time_changed(&self) -> bool {
+    matches!(
+      self,
+      ChatEventAction::ChatEventMessageAutoDeleteTimeChanged(_)
+    )
+  }
   pub fn is_chat_event_message_deleted(&self) -> bool {
     matches!(self, ChatEventAction::ChatEventMessageDeleted(_))
   }
@@ -296,9 +460,6 @@ impl ChatEventAction {
   }
   pub fn is_chat_event_message_pinned(&self) -> bool {
     matches!(self, ChatEventAction::ChatEventMessagePinned(_))
-  }
-  pub fn is_chat_event_message_ttl_changed(&self) -> bool {
-    matches!(self, ChatEventAction::ChatEventMessageTtlChanged(_))
   }
   pub fn is_chat_event_message_unpinned(&self) -> bool {
     matches!(self, ChatEventAction::ChatEventMessageUnpinned(_))
@@ -311,6 +472,12 @@ impl ChatEventAction {
   }
   pub fn is_chat_event_poll_stopped(&self) -> bool {
     matches!(self, ChatEventAction::ChatEventPollStopped(_))
+  }
+  pub fn is_chat_event_profile_accent_color_changed(&self) -> bool {
+    matches!(self, ChatEventAction::ChatEventProfileAccentColorChanged(_))
+  }
+  pub fn is_chat_event_show_message_sender_toggled(&self) -> bool {
+    matches!(self, ChatEventAction::ChatEventShowMessageSenderToggled(_))
   }
   pub fn is_chat_event_sign_messages_toggled(&self) -> bool {
     matches!(self, ChatEventAction::ChatEventSignMessagesToggled(_))
@@ -352,11 +519,149 @@ impl ChatEventAction {
     )
   }
 
+  pub fn on_chat_event_accent_color_changed<F: FnOnce(&ChatEventAccentColorChanged)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventAccentColorChanged(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_active_usernames_changed<F: FnOnce(&ChatEventActiveUsernamesChanged)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventActiveUsernamesChanged(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_automatic_translation_toggled<
+    F: FnOnce(&ChatEventAutomaticTranslationToggled),
+  >(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventAutomaticTranslationToggled(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_available_reactions_changed<
+    F: FnOnce(&ChatEventAvailableReactionsChanged),
+  >(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventAvailableReactionsChanged(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_background_changed<F: FnOnce(&ChatEventBackgroundChanged)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventBackgroundChanged(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_custom_emoji_sticker_set_changed<
+    F: FnOnce(&ChatEventCustomEmojiStickerSetChanged),
+  >(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventCustomEmojiStickerSetChanged(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_chat_event_description_changed<F: FnOnce(&ChatEventDescriptionChanged)>(
     &self,
     fnc: F,
   ) -> &Self {
     if let ChatEventAction::ChatEventDescriptionChanged(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_emoji_status_changed<F: FnOnce(&ChatEventEmojiStatusChanged)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventEmojiStatusChanged(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_forum_topic_created<F: FnOnce(&ChatEventForumTopicCreated)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventForumTopicCreated(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_forum_topic_deleted<F: FnOnce(&ChatEventForumTopicDeleted)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventForumTopicDeleted(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_forum_topic_edited<F: FnOnce(&ChatEventForumTopicEdited)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventForumTopicEdited(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_forum_topic_pinned<F: FnOnce(&ChatEventForumTopicPinned)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventForumTopicPinned(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_forum_topic_toggle_is_closed<
+    F: FnOnce(&ChatEventForumTopicToggleIsClosed),
+  >(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventForumTopicToggleIsClosed(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_forum_topic_toggle_is_hidden<
+    F: FnOnce(&ChatEventForumTopicToggleIsHidden),
+  >(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventForumTopicToggleIsHidden(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_has_aggressive_anti_spam_enabled_toggled<
+    F: FnOnce(&ChatEventHasAggressiveAntiSpamEnabledToggled),
+  >(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventHasAggressiveAntiSpamEnabledToggled(t) = self {
       fnc(t)
     };
     self
@@ -415,6 +720,15 @@ impl ChatEventAction {
     fnc: F,
   ) -> &Self {
     if let ChatEventAction::ChatEventIsAllHistoryAvailableToggled(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_is_forum_toggled<F: FnOnce(&ChatEventIsForumToggled)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventIsForumToggled(t) = self {
       fnc(t)
     };
     self
@@ -493,6 +807,37 @@ impl ChatEventAction {
     };
     self
   }
+  pub fn on_chat_event_member_subscription_extended<
+    F: FnOnce(&ChatEventMemberSubscriptionExtended),
+  >(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventMemberSubscriptionExtended(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_member_tag_changed<F: FnOnce(&ChatEventMemberTagChanged)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventMemberTagChanged(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_message_auto_delete_time_changed<
+    F: FnOnce(&ChatEventMessageAutoDeleteTimeChanged),
+  >(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventMessageAutoDeleteTimeChanged(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_chat_event_message_deleted<F: FnOnce(&ChatEventMessageDeleted)>(
     &self,
     fnc: F,
@@ -510,15 +855,6 @@ impl ChatEventAction {
   }
   pub fn on_chat_event_message_pinned<F: FnOnce(&ChatEventMessagePinned)>(&self, fnc: F) -> &Self {
     if let ChatEventAction::ChatEventMessagePinned(t) = self {
-      fnc(t)
-    };
-    self
-  }
-  pub fn on_chat_event_message_ttl_changed<F: FnOnce(&ChatEventMessageTtlChanged)>(
-    &self,
-    fnc: F,
-  ) -> &Self {
-    if let ChatEventAction::ChatEventMessageTtlChanged(t) = self {
       fnc(t)
     };
     self
@@ -549,6 +885,28 @@ impl ChatEventAction {
   }
   pub fn on_chat_event_poll_stopped<F: FnOnce(&ChatEventPollStopped)>(&self, fnc: F) -> &Self {
     if let ChatEventAction::ChatEventPollStopped(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_profile_accent_color_changed<
+    F: FnOnce(&ChatEventProfileAccentColorChanged),
+  >(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventProfileAccentColorChanged(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_chat_event_show_message_sender_toggled<
+    F: FnOnce(&ChatEventShowMessageSenderToggled),
+  >(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let ChatEventAction::ChatEventShowMessageSenderToggled(t) = self {
       fnc(t)
     };
     self
@@ -647,8 +1005,104 @@ impl ChatEventAction {
     self
   }
 
+  pub fn as_chat_event_accent_color_changed(&self) -> Option<&ChatEventAccentColorChanged> {
+    if let ChatEventAction::ChatEventAccentColorChanged(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_active_usernames_changed(&self) -> Option<&ChatEventActiveUsernamesChanged> {
+    if let ChatEventAction::ChatEventActiveUsernamesChanged(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_automatic_translation_toggled(
+    &self,
+  ) -> Option<&ChatEventAutomaticTranslationToggled> {
+    if let ChatEventAction::ChatEventAutomaticTranslationToggled(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_available_reactions_changed(
+    &self,
+  ) -> Option<&ChatEventAvailableReactionsChanged> {
+    if let ChatEventAction::ChatEventAvailableReactionsChanged(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_background_changed(&self) -> Option<&ChatEventBackgroundChanged> {
+    if let ChatEventAction::ChatEventBackgroundChanged(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_custom_emoji_sticker_set_changed(
+    &self,
+  ) -> Option<&ChatEventCustomEmojiStickerSetChanged> {
+    if let ChatEventAction::ChatEventCustomEmojiStickerSetChanged(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_chat_event_description_changed(&self) -> Option<&ChatEventDescriptionChanged> {
     if let ChatEventAction::ChatEventDescriptionChanged(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_emoji_status_changed(&self) -> Option<&ChatEventEmojiStatusChanged> {
+    if let ChatEventAction::ChatEventEmojiStatusChanged(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_forum_topic_created(&self) -> Option<&ChatEventForumTopicCreated> {
+    if let ChatEventAction::ChatEventForumTopicCreated(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_forum_topic_deleted(&self) -> Option<&ChatEventForumTopicDeleted> {
+    if let ChatEventAction::ChatEventForumTopicDeleted(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_forum_topic_edited(&self) -> Option<&ChatEventForumTopicEdited> {
+    if let ChatEventAction::ChatEventForumTopicEdited(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_forum_topic_pinned(&self) -> Option<&ChatEventForumTopicPinned> {
+    if let ChatEventAction::ChatEventForumTopicPinned(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_forum_topic_toggle_is_closed(
+    &self,
+  ) -> Option<&ChatEventForumTopicToggleIsClosed> {
+    if let ChatEventAction::ChatEventForumTopicToggleIsClosed(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_forum_topic_toggle_is_hidden(
+    &self,
+  ) -> Option<&ChatEventForumTopicToggleIsHidden> {
+    if let ChatEventAction::ChatEventForumTopicToggleIsHidden(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_has_aggressive_anti_spam_enabled_toggled(
+    &self,
+  ) -> Option<&ChatEventHasAggressiveAntiSpamEnabledToggled> {
+    if let ChatEventAction::ChatEventHasAggressiveAntiSpamEnabledToggled(t) = self {
       return Some(t);
     }
     None
@@ -689,6 +1143,12 @@ impl ChatEventAction {
     &self,
   ) -> Option<&ChatEventIsAllHistoryAvailableToggled> {
     if let ChatEventAction::ChatEventIsAllHistoryAvailableToggled(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_is_forum_toggled(&self) -> Option<&ChatEventIsForumToggled> {
+    if let ChatEventAction::ChatEventIsForumToggled(t) = self {
       return Some(t);
     }
     None
@@ -749,6 +1209,28 @@ impl ChatEventAction {
     }
     None
   }
+  pub fn as_chat_event_member_subscription_extended(
+    &self,
+  ) -> Option<&ChatEventMemberSubscriptionExtended> {
+    if let ChatEventAction::ChatEventMemberSubscriptionExtended(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_member_tag_changed(&self) -> Option<&ChatEventMemberTagChanged> {
+    if let ChatEventAction::ChatEventMemberTagChanged(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_message_auto_delete_time_changed(
+    &self,
+  ) -> Option<&ChatEventMessageAutoDeleteTimeChanged> {
+    if let ChatEventAction::ChatEventMessageAutoDeleteTimeChanged(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_chat_event_message_deleted(&self) -> Option<&ChatEventMessageDeleted> {
     if let ChatEventAction::ChatEventMessageDeleted(t) = self {
       return Some(t);
@@ -763,12 +1245,6 @@ impl ChatEventAction {
   }
   pub fn as_chat_event_message_pinned(&self) -> Option<&ChatEventMessagePinned> {
     if let ChatEventAction::ChatEventMessagePinned(t) = self {
-      return Some(t);
-    }
-    None
-  }
-  pub fn as_chat_event_message_ttl_changed(&self) -> Option<&ChatEventMessageTtlChanged> {
-    if let ChatEventAction::ChatEventMessageTtlChanged(t) = self {
       return Some(t);
     }
     None
@@ -793,6 +1269,22 @@ impl ChatEventAction {
   }
   pub fn as_chat_event_poll_stopped(&self) -> Option<&ChatEventPollStopped> {
     if let ChatEventAction::ChatEventPollStopped(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_profile_accent_color_changed(
+    &self,
+  ) -> Option<&ChatEventProfileAccentColorChanged> {
+    if let ChatEventAction::ChatEventProfileAccentColorChanged(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_chat_event_show_message_sender_toggled(
+    &self,
+  ) -> Option<&ChatEventShowMessageSenderToggled> {
+    if let ChatEventAction::ChatEventShowMessageSenderToggled(t) = self {
       return Some(t);
     }
     None
@@ -864,8 +1356,84 @@ impl ChatEventAction {
     None
   }
 
+  pub fn chat_event_accent_color_changed<T: AsRef<ChatEventAccentColorChanged>>(t: T) -> Self {
+    ChatEventAction::ChatEventAccentColorChanged(t.as_ref().clone())
+  }
+
+  pub fn chat_event_active_usernames_changed<T: AsRef<ChatEventActiveUsernamesChanged>>(
+    t: T,
+  ) -> Self {
+    ChatEventAction::ChatEventActiveUsernamesChanged(t.as_ref().clone())
+  }
+
+  pub fn chat_event_automatic_translation_toggled<
+    T: AsRef<ChatEventAutomaticTranslationToggled>,
+  >(
+    t: T,
+  ) -> Self {
+    ChatEventAction::ChatEventAutomaticTranslationToggled(t.as_ref().clone())
+  }
+
+  pub fn chat_event_available_reactions_changed<T: AsRef<ChatEventAvailableReactionsChanged>>(
+    t: T,
+  ) -> Self {
+    ChatEventAction::ChatEventAvailableReactionsChanged(t.as_ref().clone())
+  }
+
+  pub fn chat_event_background_changed<T: AsRef<ChatEventBackgroundChanged>>(t: T) -> Self {
+    ChatEventAction::ChatEventBackgroundChanged(t.as_ref().clone())
+  }
+
+  pub fn chat_event_custom_emoji_sticker_set_changed<
+    T: AsRef<ChatEventCustomEmojiStickerSetChanged>,
+  >(
+    t: T,
+  ) -> Self {
+    ChatEventAction::ChatEventCustomEmojiStickerSetChanged(t.as_ref().clone())
+  }
+
   pub fn chat_event_description_changed<T: AsRef<ChatEventDescriptionChanged>>(t: T) -> Self {
     ChatEventAction::ChatEventDescriptionChanged(t.as_ref().clone())
+  }
+
+  pub fn chat_event_emoji_status_changed<T: AsRef<ChatEventEmojiStatusChanged>>(t: T) -> Self {
+    ChatEventAction::ChatEventEmojiStatusChanged(t.as_ref().clone())
+  }
+
+  pub fn chat_event_forum_topic_created<T: AsRef<ChatEventForumTopicCreated>>(t: T) -> Self {
+    ChatEventAction::ChatEventForumTopicCreated(t.as_ref().clone())
+  }
+
+  pub fn chat_event_forum_topic_deleted<T: AsRef<ChatEventForumTopicDeleted>>(t: T) -> Self {
+    ChatEventAction::ChatEventForumTopicDeleted(t.as_ref().clone())
+  }
+
+  pub fn chat_event_forum_topic_edited<T: AsRef<ChatEventForumTopicEdited>>(t: T) -> Self {
+    ChatEventAction::ChatEventForumTopicEdited(t.as_ref().clone())
+  }
+
+  pub fn chat_event_forum_topic_pinned<T: AsRef<ChatEventForumTopicPinned>>(t: T) -> Self {
+    ChatEventAction::ChatEventForumTopicPinned(t.as_ref().clone())
+  }
+
+  pub fn chat_event_forum_topic_toggle_is_closed<T: AsRef<ChatEventForumTopicToggleIsClosed>>(
+    t: T,
+  ) -> Self {
+    ChatEventAction::ChatEventForumTopicToggleIsClosed(t.as_ref().clone())
+  }
+
+  pub fn chat_event_forum_topic_toggle_is_hidden<T: AsRef<ChatEventForumTopicToggleIsHidden>>(
+    t: T,
+  ) -> Self {
+    ChatEventAction::ChatEventForumTopicToggleIsHidden(t.as_ref().clone())
+  }
+
+  pub fn chat_event_has_aggressive_anti_spam_enabled_toggled<
+    T: AsRef<ChatEventHasAggressiveAntiSpamEnabledToggled>,
+  >(
+    t: T,
+  ) -> Self {
+    ChatEventAction::ChatEventHasAggressiveAntiSpamEnabledToggled(t.as_ref().clone())
   }
 
   pub fn chat_event_has_protected_content_toggled<T: AsRef<ChatEventHasProtectedContentToggled>>(
@@ -896,6 +1464,10 @@ impl ChatEventAction {
     t: T,
   ) -> Self {
     ChatEventAction::ChatEventIsAllHistoryAvailableToggled(t.as_ref().clone())
+  }
+
+  pub fn chat_event_is_forum_toggled<T: AsRef<ChatEventIsForumToggled>>(t: T) -> Self {
+    ChatEventAction::ChatEventIsForumToggled(t.as_ref().clone())
   }
 
   pub fn chat_event_linked_chat_changed<T: AsRef<ChatEventLinkedChatChanged>>(t: T) -> Self {
@@ -938,6 +1510,24 @@ impl ChatEventAction {
     ChatEventAction::ChatEventMemberRestricted(t.as_ref().clone())
   }
 
+  pub fn chat_event_member_subscription_extended<T: AsRef<ChatEventMemberSubscriptionExtended>>(
+    t: T,
+  ) -> Self {
+    ChatEventAction::ChatEventMemberSubscriptionExtended(t.as_ref().clone())
+  }
+
+  pub fn chat_event_member_tag_changed<T: AsRef<ChatEventMemberTagChanged>>(t: T) -> Self {
+    ChatEventAction::ChatEventMemberTagChanged(t.as_ref().clone())
+  }
+
+  pub fn chat_event_message_auto_delete_time_changed<
+    T: AsRef<ChatEventMessageAutoDeleteTimeChanged>,
+  >(
+    t: T,
+  ) -> Self {
+    ChatEventAction::ChatEventMessageAutoDeleteTimeChanged(t.as_ref().clone())
+  }
+
   pub fn chat_event_message_deleted<T: AsRef<ChatEventMessageDeleted>>(t: T) -> Self {
     ChatEventAction::ChatEventMessageDeleted(t.as_ref().clone())
   }
@@ -948,10 +1538,6 @@ impl ChatEventAction {
 
   pub fn chat_event_message_pinned<T: AsRef<ChatEventMessagePinned>>(t: T) -> Self {
     ChatEventAction::ChatEventMessagePinned(t.as_ref().clone())
-  }
-
-  pub fn chat_event_message_ttl_changed<T: AsRef<ChatEventMessageTtlChanged>>(t: T) -> Self {
-    ChatEventAction::ChatEventMessageTtlChanged(t.as_ref().clone())
   }
 
   pub fn chat_event_message_unpinned<T: AsRef<ChatEventMessageUnpinned>>(t: T) -> Self {
@@ -968,6 +1554,18 @@ impl ChatEventAction {
 
   pub fn chat_event_poll_stopped<T: AsRef<ChatEventPollStopped>>(t: T) -> Self {
     ChatEventAction::ChatEventPollStopped(t.as_ref().clone())
+  }
+
+  pub fn chat_event_profile_accent_color_changed<T: AsRef<ChatEventProfileAccentColorChanged>>(
+    t: T,
+  ) -> Self {
+    ChatEventAction::ChatEventProfileAccentColorChanged(t.as_ref().clone())
+  }
+
+  pub fn chat_event_show_message_sender_toggled<T: AsRef<ChatEventShowMessageSenderToggled>>(
+    t: T,
+  ) -> Self {
+    ChatEventAction::ChatEventShowMessageSenderToggled(t.as_ref().clone())
   }
 
   pub fn chat_event_sign_messages_toggled<T: AsRef<ChatEventSignMessagesToggled>>(t: T) -> Self {
@@ -1026,6 +1624,553 @@ impl ChatEventAction {
 impl AsRef<ChatEventAction> for ChatEventAction {
   fn as_ref(&self) -> &ChatEventAction {
     self
+  }
+}
+
+/// The chat accent color or background custom emoji were changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventAccentColorChanged {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Previous identifier of chat accent color
+  old_accent_color_id: i64,
+  /// Previous identifier of the custom emoji; 0 if none
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
+  old_background_custom_emoji_id: isize,
+  /// New identifier of chat accent color
+  new_accent_color_id: i64,
+  /// New identifier of the custom emoji; 0 if none
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
+  new_background_custom_emoji_id: isize,
+}
+
+impl RObject for ChatEventAccentColorChanged {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventAccentColorChanged"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventAccentColorChanged {}
+
+impl ChatEventAccentColorChanged {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventAccentColorChangedBuilder {
+    let inner = ChatEventAccentColorChanged {
+      td_name: "chatEventAccentColorChanged".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventAccentColorChangedBuilder { inner }
+  }
+
+  pub fn old_accent_color_id(&self) -> i64 {
+    self.old_accent_color_id
+  }
+
+  pub fn old_background_custom_emoji_id(&self) -> isize {
+    self.old_background_custom_emoji_id
+  }
+
+  pub fn new_accent_color_id(&self) -> i64 {
+    self.new_accent_color_id
+  }
+
+  pub fn new_background_custom_emoji_id(&self) -> isize {
+    self.new_background_custom_emoji_id
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventAccentColorChangedBuilder {
+  inner: ChatEventAccentColorChanged,
+}
+
+impl RTDChatEventAccentColorChangedBuilder {
+  pub fn build(&self) -> ChatEventAccentColorChanged {
+    self.inner.clone()
+  }
+
+  pub fn old_accent_color_id(&mut self, old_accent_color_id: i64) -> &mut Self {
+    self.inner.old_accent_color_id = old_accent_color_id;
+    self
+  }
+
+  pub fn old_background_custom_emoji_id(
+    &mut self,
+    old_background_custom_emoji_id: isize,
+  ) -> &mut Self {
+    self.inner.old_background_custom_emoji_id = old_background_custom_emoji_id;
+    self
+  }
+
+  pub fn new_accent_color_id(&mut self, new_accent_color_id: i64) -> &mut Self {
+    self.inner.new_accent_color_id = new_accent_color_id;
+    self
+  }
+
+  pub fn new_background_custom_emoji_id(
+    &mut self,
+    new_background_custom_emoji_id: isize,
+  ) -> &mut Self {
+    self.inner.new_background_custom_emoji_id = new_background_custom_emoji_id;
+    self
+  }
+}
+
+impl AsRef<ChatEventAccentColorChanged> for ChatEventAccentColorChanged {
+  fn as_ref(&self) -> &ChatEventAccentColorChanged {
+    self
+  }
+}
+
+impl AsRef<ChatEventAccentColorChanged> for RTDChatEventAccentColorChangedBuilder {
+  fn as_ref(&self) -> &ChatEventAccentColorChanged {
+    &self.inner
+  }
+}
+
+/// The chat active usernames were changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventActiveUsernamesChanged {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Previous list of active usernames
+  old_usernames: Vec<String>,
+  /// New list of active usernames
+  new_usernames: Vec<String>,
+}
+
+impl RObject for ChatEventActiveUsernamesChanged {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventActiveUsernamesChanged"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventActiveUsernamesChanged {}
+
+impl ChatEventActiveUsernamesChanged {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventActiveUsernamesChangedBuilder {
+    let inner = ChatEventActiveUsernamesChanged {
+      td_name: "chatEventActiveUsernamesChanged".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventActiveUsernamesChangedBuilder { inner }
+  }
+
+  pub fn old_usernames(&self) -> &Vec<String> {
+    &self.old_usernames
+  }
+
+  pub fn new_usernames(&self) -> &Vec<String> {
+    &self.new_usernames
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventActiveUsernamesChangedBuilder {
+  inner: ChatEventActiveUsernamesChanged,
+}
+
+impl RTDChatEventActiveUsernamesChangedBuilder {
+  pub fn build(&self) -> ChatEventActiveUsernamesChanged {
+    self.inner.clone()
+  }
+
+  pub fn old_usernames(&mut self, old_usernames: Vec<String>) -> &mut Self {
+    self.inner.old_usernames = old_usernames;
+    self
+  }
+
+  pub fn new_usernames(&mut self, new_usernames: Vec<String>) -> &mut Self {
+    self.inner.new_usernames = new_usernames;
+    self
+  }
+}
+
+impl AsRef<ChatEventActiveUsernamesChanged> for ChatEventActiveUsernamesChanged {
+  fn as_ref(&self) -> &ChatEventActiveUsernamesChanged {
+    self
+  }
+}
+
+impl AsRef<ChatEventActiveUsernamesChanged> for RTDChatEventActiveUsernamesChangedBuilder {
+  fn as_ref(&self) -> &ChatEventActiveUsernamesChanged {
+    &self.inner
+  }
+}
+
+/// The has_automatic_translation setting of a channel was toggled
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventAutomaticTranslationToggled {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// New value of has_automatic_translation
+  has_automatic_translation: bool,
+}
+
+impl RObject for ChatEventAutomaticTranslationToggled {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventAutomaticTranslationToggled"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventAutomaticTranslationToggled {}
+
+impl ChatEventAutomaticTranslationToggled {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventAutomaticTranslationToggledBuilder {
+    let inner = ChatEventAutomaticTranslationToggled {
+      td_name: "chatEventAutomaticTranslationToggled".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventAutomaticTranslationToggledBuilder { inner }
+  }
+
+  pub fn has_automatic_translation(&self) -> bool {
+    self.has_automatic_translation
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventAutomaticTranslationToggledBuilder {
+  inner: ChatEventAutomaticTranslationToggled,
+}
+
+impl RTDChatEventAutomaticTranslationToggledBuilder {
+  pub fn build(&self) -> ChatEventAutomaticTranslationToggled {
+    self.inner.clone()
+  }
+
+  pub fn has_automatic_translation(&mut self, has_automatic_translation: bool) -> &mut Self {
+    self.inner.has_automatic_translation = has_automatic_translation;
+    self
+  }
+}
+
+impl AsRef<ChatEventAutomaticTranslationToggled> for ChatEventAutomaticTranslationToggled {
+  fn as_ref(&self) -> &ChatEventAutomaticTranslationToggled {
+    self
+  }
+}
+
+impl AsRef<ChatEventAutomaticTranslationToggled>
+  for RTDChatEventAutomaticTranslationToggledBuilder
+{
+  fn as_ref(&self) -> &ChatEventAutomaticTranslationToggled {
+    &self.inner
+  }
+}
+
+/// The chat available reactions were changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventAvailableReactionsChanged {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Previous chat available reactions
+  old_available_reactions: ChatAvailableReactions,
+  /// New chat available reactions
+  new_available_reactions: ChatAvailableReactions,
+}
+
+impl RObject for ChatEventAvailableReactionsChanged {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventAvailableReactionsChanged"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventAvailableReactionsChanged {}
+
+impl ChatEventAvailableReactionsChanged {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventAvailableReactionsChangedBuilder {
+    let inner = ChatEventAvailableReactionsChanged {
+      td_name: "chatEventAvailableReactionsChanged".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventAvailableReactionsChangedBuilder { inner }
+  }
+
+  pub fn old_available_reactions(&self) -> &ChatAvailableReactions {
+    &self.old_available_reactions
+  }
+
+  pub fn new_available_reactions(&self) -> &ChatAvailableReactions {
+    &self.new_available_reactions
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventAvailableReactionsChangedBuilder {
+  inner: ChatEventAvailableReactionsChanged,
+}
+
+impl RTDChatEventAvailableReactionsChangedBuilder {
+  pub fn build(&self) -> ChatEventAvailableReactionsChanged {
+    self.inner.clone()
+  }
+
+  pub fn old_available_reactions<T: AsRef<ChatAvailableReactions>>(
+    &mut self,
+    old_available_reactions: T,
+  ) -> &mut Self {
+    self.inner.old_available_reactions = old_available_reactions.as_ref().clone();
+    self
+  }
+
+  pub fn new_available_reactions<T: AsRef<ChatAvailableReactions>>(
+    &mut self,
+    new_available_reactions: T,
+  ) -> &mut Self {
+    self.inner.new_available_reactions = new_available_reactions.as_ref().clone();
+    self
+  }
+}
+
+impl AsRef<ChatEventAvailableReactionsChanged> for ChatEventAvailableReactionsChanged {
+  fn as_ref(&self) -> &ChatEventAvailableReactionsChanged {
+    self
+  }
+}
+
+impl AsRef<ChatEventAvailableReactionsChanged> for RTDChatEventAvailableReactionsChangedBuilder {
+  fn as_ref(&self) -> &ChatEventAvailableReactionsChanged {
+    &self.inner
+  }
+}
+
+/// The chat background was changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventBackgroundChanged {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Previous background; may be null if none
+  old_background: Option<ChatBackground>,
+  /// New background; may be null if none
+  new_background: Option<ChatBackground>,
+}
+
+impl RObject for ChatEventBackgroundChanged {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventBackgroundChanged"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventBackgroundChanged {}
+
+impl ChatEventBackgroundChanged {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventBackgroundChangedBuilder {
+    let inner = ChatEventBackgroundChanged {
+      td_name: "chatEventBackgroundChanged".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventBackgroundChangedBuilder { inner }
+  }
+
+  pub fn old_background(&self) -> &Option<ChatBackground> {
+    &self.old_background
+  }
+
+  pub fn new_background(&self) -> &Option<ChatBackground> {
+    &self.new_background
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventBackgroundChangedBuilder {
+  inner: ChatEventBackgroundChanged,
+}
+
+impl RTDChatEventBackgroundChangedBuilder {
+  pub fn build(&self) -> ChatEventBackgroundChanged {
+    self.inner.clone()
+  }
+
+  pub fn old_background<T: AsRef<ChatBackground>>(&mut self, old_background: T) -> &mut Self {
+    self.inner.old_background = Some(old_background.as_ref().clone());
+    self
+  }
+
+  pub fn new_background<T: AsRef<ChatBackground>>(&mut self, new_background: T) -> &mut Self {
+    self.inner.new_background = Some(new_background.as_ref().clone());
+    self
+  }
+}
+
+impl AsRef<ChatEventBackgroundChanged> for ChatEventBackgroundChanged {
+  fn as_ref(&self) -> &ChatEventBackgroundChanged {
+    self
+  }
+}
+
+impl AsRef<ChatEventBackgroundChanged> for RTDChatEventBackgroundChangedBuilder {
+  fn as_ref(&self) -> &ChatEventBackgroundChanged {
+    &self.inner
+  }
+}
+
+/// The supergroup sticker set with allowed custom emoji was changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventCustomEmojiStickerSetChanged {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Previous identifier of the chat sticker set; 0 if none
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
+  old_sticker_set_id: isize,
+  /// New identifier of the chat sticker set; 0 if none
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
+  new_sticker_set_id: isize,
+}
+
+impl RObject for ChatEventCustomEmojiStickerSetChanged {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventCustomEmojiStickerSetChanged"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventCustomEmojiStickerSetChanged {}
+
+impl ChatEventCustomEmojiStickerSetChanged {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventCustomEmojiStickerSetChangedBuilder {
+    let inner = ChatEventCustomEmojiStickerSetChanged {
+      td_name: "chatEventCustomEmojiStickerSetChanged".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventCustomEmojiStickerSetChangedBuilder { inner }
+  }
+
+  pub fn old_sticker_set_id(&self) -> isize {
+    self.old_sticker_set_id
+  }
+
+  pub fn new_sticker_set_id(&self) -> isize {
+    self.new_sticker_set_id
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventCustomEmojiStickerSetChangedBuilder {
+  inner: ChatEventCustomEmojiStickerSetChanged,
+}
+
+impl RTDChatEventCustomEmojiStickerSetChangedBuilder {
+  pub fn build(&self) -> ChatEventCustomEmojiStickerSetChanged {
+    self.inner.clone()
+  }
+
+  pub fn old_sticker_set_id(&mut self, old_sticker_set_id: isize) -> &mut Self {
+    self.inner.old_sticker_set_id = old_sticker_set_id;
+    self
+  }
+
+  pub fn new_sticker_set_id(&mut self, new_sticker_set_id: isize) -> &mut Self {
+    self.inner.new_sticker_set_id = new_sticker_set_id;
+    self
+  }
+}
+
+impl AsRef<ChatEventCustomEmojiStickerSetChanged> for ChatEventCustomEmojiStickerSetChanged {
+  fn as_ref(&self) -> &ChatEventCustomEmojiStickerSetChanged {
+    self
+  }
+}
+
+impl AsRef<ChatEventCustomEmojiStickerSetChanged>
+  for RTDChatEventCustomEmojiStickerSetChangedBuilder
+{
+  fn as_ref(&self) -> &ChatEventCustomEmojiStickerSetChanged {
+    &self.inner
   }
 }
 
@@ -1115,7 +2260,647 @@ impl AsRef<ChatEventDescriptionChanged> for RTDChatEventDescriptionChangedBuilde
   }
 }
 
-/// The has_protected_content setting of a channel was toggled
+/// The chat emoji status was changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventEmojiStatusChanged {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Previous emoji status; may be null if none
+  old_emoji_status: Option<EmojiStatus>,
+  /// New emoji status; may be null if none
+  new_emoji_status: Option<EmojiStatus>,
+}
+
+impl RObject for ChatEventEmojiStatusChanged {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventEmojiStatusChanged"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventEmojiStatusChanged {}
+
+impl ChatEventEmojiStatusChanged {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventEmojiStatusChangedBuilder {
+    let inner = ChatEventEmojiStatusChanged {
+      td_name: "chatEventEmojiStatusChanged".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventEmojiStatusChangedBuilder { inner }
+  }
+
+  pub fn old_emoji_status(&self) -> &Option<EmojiStatus> {
+    &self.old_emoji_status
+  }
+
+  pub fn new_emoji_status(&self) -> &Option<EmojiStatus> {
+    &self.new_emoji_status
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventEmojiStatusChangedBuilder {
+  inner: ChatEventEmojiStatusChanged,
+}
+
+impl RTDChatEventEmojiStatusChangedBuilder {
+  pub fn build(&self) -> ChatEventEmojiStatusChanged {
+    self.inner.clone()
+  }
+
+  pub fn old_emoji_status<T: AsRef<EmojiStatus>>(&mut self, old_emoji_status: T) -> &mut Self {
+    self.inner.old_emoji_status = Some(old_emoji_status.as_ref().clone());
+    self
+  }
+
+  pub fn new_emoji_status<T: AsRef<EmojiStatus>>(&mut self, new_emoji_status: T) -> &mut Self {
+    self.inner.new_emoji_status = Some(new_emoji_status.as_ref().clone());
+    self
+  }
+}
+
+impl AsRef<ChatEventEmojiStatusChanged> for ChatEventEmojiStatusChanged {
+  fn as_ref(&self) -> &ChatEventEmojiStatusChanged {
+    self
+  }
+}
+
+impl AsRef<ChatEventEmojiStatusChanged> for RTDChatEventEmojiStatusChangedBuilder {
+  fn as_ref(&self) -> &ChatEventEmojiStatusChanged {
+    &self.inner
+  }
+}
+
+/// A new forum topic was created
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventForumTopicCreated {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Information about the topic
+  topic_info: ForumTopicInfo,
+}
+
+impl RObject for ChatEventForumTopicCreated {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventForumTopicCreated"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventForumTopicCreated {}
+
+impl ChatEventForumTopicCreated {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventForumTopicCreatedBuilder {
+    let inner = ChatEventForumTopicCreated {
+      td_name: "chatEventForumTopicCreated".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventForumTopicCreatedBuilder { inner }
+  }
+
+  pub fn topic_info(&self) -> &ForumTopicInfo {
+    &self.topic_info
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventForumTopicCreatedBuilder {
+  inner: ChatEventForumTopicCreated,
+}
+
+impl RTDChatEventForumTopicCreatedBuilder {
+  pub fn build(&self) -> ChatEventForumTopicCreated {
+    self.inner.clone()
+  }
+
+  pub fn topic_info<T: AsRef<ForumTopicInfo>>(&mut self, topic_info: T) -> &mut Self {
+    self.inner.topic_info = topic_info.as_ref().clone();
+    self
+  }
+}
+
+impl AsRef<ChatEventForumTopicCreated> for ChatEventForumTopicCreated {
+  fn as_ref(&self) -> &ChatEventForumTopicCreated {
+    self
+  }
+}
+
+impl AsRef<ChatEventForumTopicCreated> for RTDChatEventForumTopicCreatedBuilder {
+  fn as_ref(&self) -> &ChatEventForumTopicCreated {
+    &self.inner
+  }
+}
+
+/// A forum topic was deleted
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventForumTopicDeleted {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Information about the topic
+  topic_info: ForumTopicInfo,
+}
+
+impl RObject for ChatEventForumTopicDeleted {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventForumTopicDeleted"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventForumTopicDeleted {}
+
+impl ChatEventForumTopicDeleted {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventForumTopicDeletedBuilder {
+    let inner = ChatEventForumTopicDeleted {
+      td_name: "chatEventForumTopicDeleted".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventForumTopicDeletedBuilder { inner }
+  }
+
+  pub fn topic_info(&self) -> &ForumTopicInfo {
+    &self.topic_info
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventForumTopicDeletedBuilder {
+  inner: ChatEventForumTopicDeleted,
+}
+
+impl RTDChatEventForumTopicDeletedBuilder {
+  pub fn build(&self) -> ChatEventForumTopicDeleted {
+    self.inner.clone()
+  }
+
+  pub fn topic_info<T: AsRef<ForumTopicInfo>>(&mut self, topic_info: T) -> &mut Self {
+    self.inner.topic_info = topic_info.as_ref().clone();
+    self
+  }
+}
+
+impl AsRef<ChatEventForumTopicDeleted> for ChatEventForumTopicDeleted {
+  fn as_ref(&self) -> &ChatEventForumTopicDeleted {
+    self
+  }
+}
+
+impl AsRef<ChatEventForumTopicDeleted> for RTDChatEventForumTopicDeletedBuilder {
+  fn as_ref(&self) -> &ChatEventForumTopicDeleted {
+    &self.inner
+  }
+}
+
+/// A forum topic was edited
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventForumTopicEdited {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Old information about the topic
+  old_topic_info: ForumTopicInfo,
+  /// New information about the topic
+  new_topic_info: ForumTopicInfo,
+}
+
+impl RObject for ChatEventForumTopicEdited {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventForumTopicEdited"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventForumTopicEdited {}
+
+impl ChatEventForumTopicEdited {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventForumTopicEditedBuilder {
+    let inner = ChatEventForumTopicEdited {
+      td_name: "chatEventForumTopicEdited".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventForumTopicEditedBuilder { inner }
+  }
+
+  pub fn old_topic_info(&self) -> &ForumTopicInfo {
+    &self.old_topic_info
+  }
+
+  pub fn new_topic_info(&self) -> &ForumTopicInfo {
+    &self.new_topic_info
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventForumTopicEditedBuilder {
+  inner: ChatEventForumTopicEdited,
+}
+
+impl RTDChatEventForumTopicEditedBuilder {
+  pub fn build(&self) -> ChatEventForumTopicEdited {
+    self.inner.clone()
+  }
+
+  pub fn old_topic_info<T: AsRef<ForumTopicInfo>>(&mut self, old_topic_info: T) -> &mut Self {
+    self.inner.old_topic_info = old_topic_info.as_ref().clone();
+    self
+  }
+
+  pub fn new_topic_info<T: AsRef<ForumTopicInfo>>(&mut self, new_topic_info: T) -> &mut Self {
+    self.inner.new_topic_info = new_topic_info.as_ref().clone();
+    self
+  }
+}
+
+impl AsRef<ChatEventForumTopicEdited> for ChatEventForumTopicEdited {
+  fn as_ref(&self) -> &ChatEventForumTopicEdited {
+    self
+  }
+}
+
+impl AsRef<ChatEventForumTopicEdited> for RTDChatEventForumTopicEditedBuilder {
+  fn as_ref(&self) -> &ChatEventForumTopicEdited {
+    &self.inner
+  }
+}
+
+/// A pinned forum topic was changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventForumTopicPinned {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Information about the old pinned topic; may be null
+  old_topic_info: Option<ForumTopicInfo>,
+  /// Information about the new pinned topic; may be null
+  new_topic_info: Option<ForumTopicInfo>,
+}
+
+impl RObject for ChatEventForumTopicPinned {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventForumTopicPinned"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventForumTopicPinned {}
+
+impl ChatEventForumTopicPinned {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventForumTopicPinnedBuilder {
+    let inner = ChatEventForumTopicPinned {
+      td_name: "chatEventForumTopicPinned".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventForumTopicPinnedBuilder { inner }
+  }
+
+  pub fn old_topic_info(&self) -> &Option<ForumTopicInfo> {
+    &self.old_topic_info
+  }
+
+  pub fn new_topic_info(&self) -> &Option<ForumTopicInfo> {
+    &self.new_topic_info
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventForumTopicPinnedBuilder {
+  inner: ChatEventForumTopicPinned,
+}
+
+impl RTDChatEventForumTopicPinnedBuilder {
+  pub fn build(&self) -> ChatEventForumTopicPinned {
+    self.inner.clone()
+  }
+
+  pub fn old_topic_info<T: AsRef<ForumTopicInfo>>(&mut self, old_topic_info: T) -> &mut Self {
+    self.inner.old_topic_info = Some(old_topic_info.as_ref().clone());
+    self
+  }
+
+  pub fn new_topic_info<T: AsRef<ForumTopicInfo>>(&mut self, new_topic_info: T) -> &mut Self {
+    self.inner.new_topic_info = Some(new_topic_info.as_ref().clone());
+    self
+  }
+}
+
+impl AsRef<ChatEventForumTopicPinned> for ChatEventForumTopicPinned {
+  fn as_ref(&self) -> &ChatEventForumTopicPinned {
+    self
+  }
+}
+
+impl AsRef<ChatEventForumTopicPinned> for RTDChatEventForumTopicPinnedBuilder {
+  fn as_ref(&self) -> &ChatEventForumTopicPinned {
+    &self.inner
+  }
+}
+
+/// A forum topic was closed or reopened
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventForumTopicToggleIsClosed {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// New information about the topic
+  topic_info: ForumTopicInfo,
+}
+
+impl RObject for ChatEventForumTopicToggleIsClosed {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventForumTopicToggleIsClosed"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventForumTopicToggleIsClosed {}
+
+impl ChatEventForumTopicToggleIsClosed {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventForumTopicToggleIsClosedBuilder {
+    let inner = ChatEventForumTopicToggleIsClosed {
+      td_name: "chatEventForumTopicToggleIsClosed".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventForumTopicToggleIsClosedBuilder { inner }
+  }
+
+  pub fn topic_info(&self) -> &ForumTopicInfo {
+    &self.topic_info
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventForumTopicToggleIsClosedBuilder {
+  inner: ChatEventForumTopicToggleIsClosed,
+}
+
+impl RTDChatEventForumTopicToggleIsClosedBuilder {
+  pub fn build(&self) -> ChatEventForumTopicToggleIsClosed {
+    self.inner.clone()
+  }
+
+  pub fn topic_info<T: AsRef<ForumTopicInfo>>(&mut self, topic_info: T) -> &mut Self {
+    self.inner.topic_info = topic_info.as_ref().clone();
+    self
+  }
+}
+
+impl AsRef<ChatEventForumTopicToggleIsClosed> for ChatEventForumTopicToggleIsClosed {
+  fn as_ref(&self) -> &ChatEventForumTopicToggleIsClosed {
+    self
+  }
+}
+
+impl AsRef<ChatEventForumTopicToggleIsClosed> for RTDChatEventForumTopicToggleIsClosedBuilder {
+  fn as_ref(&self) -> &ChatEventForumTopicToggleIsClosed {
+    &self.inner
+  }
+}
+
+/// The General forum topic was hidden or unhidden
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventForumTopicToggleIsHidden {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// New information about the topic
+  topic_info: ForumTopicInfo,
+}
+
+impl RObject for ChatEventForumTopicToggleIsHidden {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventForumTopicToggleIsHidden"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventForumTopicToggleIsHidden {}
+
+impl ChatEventForumTopicToggleIsHidden {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventForumTopicToggleIsHiddenBuilder {
+    let inner = ChatEventForumTopicToggleIsHidden {
+      td_name: "chatEventForumTopicToggleIsHidden".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventForumTopicToggleIsHiddenBuilder { inner }
+  }
+
+  pub fn topic_info(&self) -> &ForumTopicInfo {
+    &self.topic_info
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventForumTopicToggleIsHiddenBuilder {
+  inner: ChatEventForumTopicToggleIsHidden,
+}
+
+impl RTDChatEventForumTopicToggleIsHiddenBuilder {
+  pub fn build(&self) -> ChatEventForumTopicToggleIsHidden {
+    self.inner.clone()
+  }
+
+  pub fn topic_info<T: AsRef<ForumTopicInfo>>(&mut self, topic_info: T) -> &mut Self {
+    self.inner.topic_info = topic_info.as_ref().clone();
+    self
+  }
+}
+
+impl AsRef<ChatEventForumTopicToggleIsHidden> for ChatEventForumTopicToggleIsHidden {
+  fn as_ref(&self) -> &ChatEventForumTopicToggleIsHidden {
+    self
+  }
+}
+
+impl AsRef<ChatEventForumTopicToggleIsHidden> for RTDChatEventForumTopicToggleIsHiddenBuilder {
+  fn as_ref(&self) -> &ChatEventForumTopicToggleIsHidden {
+    &self.inner
+  }
+}
+
+/// The has_aggressive_anti_spam_enabled setting of a supergroup was toggled
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventHasAggressiveAntiSpamEnabledToggled {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// New value of has_aggressive_anti_spam_enabled
+  has_aggressive_anti_spam_enabled: bool,
+}
+
+impl RObject for ChatEventHasAggressiveAntiSpamEnabledToggled {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventHasAggressiveAntiSpamEnabledToggled"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventHasAggressiveAntiSpamEnabledToggled {}
+
+impl ChatEventHasAggressiveAntiSpamEnabledToggled {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventHasAggressiveAntiSpamEnabledToggledBuilder {
+    let inner = ChatEventHasAggressiveAntiSpamEnabledToggled {
+      td_name: "chatEventHasAggressiveAntiSpamEnabledToggled".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventHasAggressiveAntiSpamEnabledToggledBuilder { inner }
+  }
+
+  pub fn has_aggressive_anti_spam_enabled(&self) -> bool {
+    self.has_aggressive_anti_spam_enabled
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventHasAggressiveAntiSpamEnabledToggledBuilder {
+  inner: ChatEventHasAggressiveAntiSpamEnabledToggled,
+}
+
+impl RTDChatEventHasAggressiveAntiSpamEnabledToggledBuilder {
+  pub fn build(&self) -> ChatEventHasAggressiveAntiSpamEnabledToggled {
+    self.inner.clone()
+  }
+
+  pub fn has_aggressive_anti_spam_enabled(
+    &mut self,
+    has_aggressive_anti_spam_enabled: bool,
+  ) -> &mut Self {
+    self.inner.has_aggressive_anti_spam_enabled = has_aggressive_anti_spam_enabled;
+    self
+  }
+}
+
+impl AsRef<ChatEventHasAggressiveAntiSpamEnabledToggled>
+  for ChatEventHasAggressiveAntiSpamEnabledToggled
+{
+  fn as_ref(&self) -> &ChatEventHasAggressiveAntiSpamEnabledToggled {
+    self
+  }
+}
+
+impl AsRef<ChatEventHasAggressiveAntiSpamEnabledToggled>
+  for RTDChatEventHasAggressiveAntiSpamEnabledToggledBuilder
+{
+  fn as_ref(&self) -> &ChatEventHasAggressiveAntiSpamEnabledToggled {
+    &self.inner
+  }
+}
+
+/// The has_protected_content setting of a chat was toggled
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatEventHasProtectedContentToggled {
   #[doc(hidden)]
@@ -1578,6 +3363,81 @@ impl AsRef<ChatEventIsAllHistoryAvailableToggled>
   }
 }
 
+/// The is_forum setting of a supergroup was toggled
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventIsForumToggled {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// New value of is_forum
+  is_forum: bool,
+}
+
+impl RObject for ChatEventIsForumToggled {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventIsForumToggled"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventIsForumToggled {}
+
+impl ChatEventIsForumToggled {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventIsForumToggledBuilder {
+    let inner = ChatEventIsForumToggled {
+      td_name: "chatEventIsForumToggled".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventIsForumToggledBuilder { inner }
+  }
+
+  pub fn is_forum(&self) -> bool {
+    self.is_forum
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventIsForumToggledBuilder {
+  inner: ChatEventIsForumToggled,
+}
+
+impl RTDChatEventIsForumToggledBuilder {
+  pub fn build(&self) -> ChatEventIsForumToggled {
+    self.inner.clone()
+  }
+
+  pub fn is_forum(&mut self, is_forum: bool) -> &mut Self {
+    self.inner.is_forum = is_forum;
+    self
+  }
+}
+
+impl AsRef<ChatEventIsForumToggled> for ChatEventIsForumToggled {
+  fn as_ref(&self) -> &ChatEventIsForumToggled {
+    self
+  }
+}
+
+impl AsRef<ChatEventIsForumToggled> for RTDChatEventIsForumToggledBuilder {
+  fn as_ref(&self) -> &ChatEventIsForumToggled {
+    &self.inner
+  }
+}
+
 /// The linked chat of a supergroup was changed
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatEventLinkedChatChanged {
@@ -1910,6 +3770,8 @@ pub struct ChatEventMemberJoinedByInviteLink {
   extra: Option<String>,
   /// Invite link used to join the chat
   invite_link: ChatInviteLink,
+  /// True, if the user has joined the chat using an invite link for a chat folder
+  via_chat_folder_invite_link: bool,
 }
 
 impl RObject for ChatEventMemberJoinedByInviteLink {
@@ -1944,6 +3806,10 @@ impl ChatEventMemberJoinedByInviteLink {
   pub fn invite_link(&self) -> &ChatInviteLink {
     &self.invite_link
   }
+
+  pub fn via_chat_folder_invite_link(&self) -> bool {
+    self.via_chat_folder_invite_link
+  }
 }
 
 #[doc(hidden)]
@@ -1958,6 +3824,11 @@ impl RTDChatEventMemberJoinedByInviteLinkBuilder {
 
   pub fn invite_link<T: AsRef<ChatInviteLink>>(&mut self, invite_link: T) -> &mut Self {
     self.inner.invite_link = invite_link.as_ref().clone();
+    self
+  }
+
+  pub fn via_chat_folder_invite_link(&mut self, via_chat_folder_invite_link: bool) -> &mut Self {
+    self.inner.via_chat_folder_invite_link = via_chat_folder_invite_link;
     self
   }
 }
@@ -2317,6 +4188,288 @@ impl AsRef<ChatEventMemberRestricted> for RTDChatEventMemberRestrictedBuilder {
   }
 }
 
+/// A chat member extended their subscription to the chat
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventMemberSubscriptionExtended {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Affected chat member user identifier
+  user_id: i64,
+  /// Previous status of the chat member
+  old_status: ChatMemberStatus,
+  /// New status of the chat member
+  new_status: ChatMemberStatus,
+}
+
+impl RObject for ChatEventMemberSubscriptionExtended {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventMemberSubscriptionExtended"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventMemberSubscriptionExtended {}
+
+impl ChatEventMemberSubscriptionExtended {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventMemberSubscriptionExtendedBuilder {
+    let inner = ChatEventMemberSubscriptionExtended {
+      td_name: "chatEventMemberSubscriptionExtended".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventMemberSubscriptionExtendedBuilder { inner }
+  }
+
+  pub fn user_id(&self) -> i64 {
+    self.user_id
+  }
+
+  pub fn old_status(&self) -> &ChatMemberStatus {
+    &self.old_status
+  }
+
+  pub fn new_status(&self) -> &ChatMemberStatus {
+    &self.new_status
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventMemberSubscriptionExtendedBuilder {
+  inner: ChatEventMemberSubscriptionExtended,
+}
+
+impl RTDChatEventMemberSubscriptionExtendedBuilder {
+  pub fn build(&self) -> ChatEventMemberSubscriptionExtended {
+    self.inner.clone()
+  }
+
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
+    self.inner.user_id = user_id;
+    self
+  }
+
+  pub fn old_status<T: AsRef<ChatMemberStatus>>(&mut self, old_status: T) -> &mut Self {
+    self.inner.old_status = old_status.as_ref().clone();
+    self
+  }
+
+  pub fn new_status<T: AsRef<ChatMemberStatus>>(&mut self, new_status: T) -> &mut Self {
+    self.inner.new_status = new_status.as_ref().clone();
+    self
+  }
+}
+
+impl AsRef<ChatEventMemberSubscriptionExtended> for ChatEventMemberSubscriptionExtended {
+  fn as_ref(&self) -> &ChatEventMemberSubscriptionExtended {
+    self
+  }
+}
+
+impl AsRef<ChatEventMemberSubscriptionExtended> for RTDChatEventMemberSubscriptionExtendedBuilder {
+  fn as_ref(&self) -> &ChatEventMemberSubscriptionExtended {
+    &self.inner
+  }
+}
+
+/// A chat member tag has been changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventMemberTagChanged {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Affected chat member user identifier
+  user_id: i64,
+  /// Previous tag of the chat member
+  old_tag: String,
+  /// New tag of the chat member
+  new_tag: String,
+}
+
+impl RObject for ChatEventMemberTagChanged {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventMemberTagChanged"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventMemberTagChanged {}
+
+impl ChatEventMemberTagChanged {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventMemberTagChangedBuilder {
+    let inner = ChatEventMemberTagChanged {
+      td_name: "chatEventMemberTagChanged".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventMemberTagChangedBuilder { inner }
+  }
+
+  pub fn user_id(&self) -> i64 {
+    self.user_id
+  }
+
+  pub fn old_tag(&self) -> &String {
+    &self.old_tag
+  }
+
+  pub fn new_tag(&self) -> &String {
+    &self.new_tag
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventMemberTagChangedBuilder {
+  inner: ChatEventMemberTagChanged,
+}
+
+impl RTDChatEventMemberTagChangedBuilder {
+  pub fn build(&self) -> ChatEventMemberTagChanged {
+    self.inner.clone()
+  }
+
+  pub fn user_id(&mut self, user_id: i64) -> &mut Self {
+    self.inner.user_id = user_id;
+    self
+  }
+
+  pub fn old_tag<T: AsRef<str>>(&mut self, old_tag: T) -> &mut Self {
+    self.inner.old_tag = old_tag.as_ref().to_string();
+    self
+  }
+
+  pub fn new_tag<T: AsRef<str>>(&mut self, new_tag: T) -> &mut Self {
+    self.inner.new_tag = new_tag.as_ref().to_string();
+    self
+  }
+}
+
+impl AsRef<ChatEventMemberTagChanged> for ChatEventMemberTagChanged {
+  fn as_ref(&self) -> &ChatEventMemberTagChanged {
+    self
+  }
+}
+
+impl AsRef<ChatEventMemberTagChanged> for RTDChatEventMemberTagChangedBuilder {
+  fn as_ref(&self) -> &ChatEventMemberTagChanged {
+    &self.inner
+  }
+}
+
+/// The message auto-delete timer was changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventMessageAutoDeleteTimeChanged {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Previous value of message_auto_delete_time
+  old_message_auto_delete_time: i64,
+  /// New value of message_auto_delete_time
+  new_message_auto_delete_time: i64,
+}
+
+impl RObject for ChatEventMessageAutoDeleteTimeChanged {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventMessageAutoDeleteTimeChanged"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventMessageAutoDeleteTimeChanged {}
+
+impl ChatEventMessageAutoDeleteTimeChanged {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventMessageAutoDeleteTimeChangedBuilder {
+    let inner = ChatEventMessageAutoDeleteTimeChanged {
+      td_name: "chatEventMessageAutoDeleteTimeChanged".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventMessageAutoDeleteTimeChangedBuilder { inner }
+  }
+
+  pub fn old_message_auto_delete_time(&self) -> i64 {
+    self.old_message_auto_delete_time
+  }
+
+  pub fn new_message_auto_delete_time(&self) -> i64 {
+    self.new_message_auto_delete_time
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventMessageAutoDeleteTimeChangedBuilder {
+  inner: ChatEventMessageAutoDeleteTimeChanged,
+}
+
+impl RTDChatEventMessageAutoDeleteTimeChangedBuilder {
+  pub fn build(&self) -> ChatEventMessageAutoDeleteTimeChanged {
+    self.inner.clone()
+  }
+
+  pub fn old_message_auto_delete_time(&mut self, old_message_auto_delete_time: i64) -> &mut Self {
+    self.inner.old_message_auto_delete_time = old_message_auto_delete_time;
+    self
+  }
+
+  pub fn new_message_auto_delete_time(&mut self, new_message_auto_delete_time: i64) -> &mut Self {
+    self.inner.new_message_auto_delete_time = new_message_auto_delete_time;
+    self
+  }
+}
+
+impl AsRef<ChatEventMessageAutoDeleteTimeChanged> for ChatEventMessageAutoDeleteTimeChanged {
+  fn as_ref(&self) -> &ChatEventMessageAutoDeleteTimeChanged {
+    self
+  }
+}
+
+impl AsRef<ChatEventMessageAutoDeleteTimeChanged>
+  for RTDChatEventMessageAutoDeleteTimeChangedBuilder
+{
+  fn as_ref(&self) -> &ChatEventMessageAutoDeleteTimeChanged {
+    &self.inner
+  }
+}
+
 /// A message was deleted
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatEventMessageDeleted {
@@ -2328,6 +4481,8 @@ pub struct ChatEventMessageDeleted {
   extra: Option<String>,
   /// Deleted message
   message: Message,
+  /// True, if the message deletion can be reported via reportSupergroupAntiSpamFalsePositive
+  can_report_anti_spam_false_positive: bool,
 }
 
 impl RObject for ChatEventMessageDeleted {
@@ -2362,6 +4517,10 @@ impl ChatEventMessageDeleted {
   pub fn message(&self) -> &Message {
     &self.message
   }
+
+  pub fn can_report_anti_spam_false_positive(&self) -> bool {
+    self.can_report_anti_spam_false_positive
+  }
 }
 
 #[doc(hidden)]
@@ -2376,6 +4535,14 @@ impl RTDChatEventMessageDeletedBuilder {
 
   pub fn message<T: AsRef<Message>>(&mut self, message: T) -> &mut Self {
     self.inner.message = message.as_ref().clone();
+    self
+  }
+
+  pub fn can_report_anti_spam_false_positive(
+    &mut self,
+    can_report_anti_spam_false_positive: bool,
+  ) -> &mut Self {
+    self.inner.can_report_anti_spam_false_positive = can_report_anti_spam_false_positive;
     self
   }
 }
@@ -2553,92 +4720,6 @@ impl AsRef<ChatEventMessagePinned> for RTDChatEventMessagePinnedBuilder {
   }
 }
 
-/// The message TTL was changed
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ChatEventMessageTtlChanged {
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@type", deserialize = "@type"))]
-  td_name: String,
-  #[doc(hidden)]
-  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
-  extra: Option<String>,
-  /// Previous value of message_ttl
-  old_message_ttl: i64,
-  /// New value of message_ttl
-  new_message_ttl: i64,
-}
-
-impl RObject for ChatEventMessageTtlChanged {
-  #[doc(hidden)]
-  fn td_name(&self) -> &'static str {
-    "chatEventMessageTtlChanged"
-  }
-  #[doc(hidden)]
-  fn extra(&self) -> Option<String> {
-    self.extra.clone()
-  }
-  fn to_json(&self) -> RTDResult<String> {
-    Ok(serde_json::to_string(self)?)
-  }
-}
-
-impl TDChatEventAction for ChatEventMessageTtlChanged {}
-
-impl ChatEventMessageTtlChanged {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
-    Ok(serde_json::from_str(json.as_ref())?)
-  }
-  pub fn builder() -> RTDChatEventMessageTtlChangedBuilder {
-    let inner = ChatEventMessageTtlChanged {
-      td_name: "chatEventMessageTtlChanged".to_string(),
-      extra: Some(Uuid::new_v4().to_string()),
-      ..Default::default()
-    };
-    RTDChatEventMessageTtlChangedBuilder { inner }
-  }
-
-  pub fn old_message_ttl(&self) -> i64 {
-    self.old_message_ttl
-  }
-
-  pub fn new_message_ttl(&self) -> i64 {
-    self.new_message_ttl
-  }
-}
-
-#[doc(hidden)]
-pub struct RTDChatEventMessageTtlChangedBuilder {
-  inner: ChatEventMessageTtlChanged,
-}
-
-impl RTDChatEventMessageTtlChangedBuilder {
-  pub fn build(&self) -> ChatEventMessageTtlChanged {
-    self.inner.clone()
-  }
-
-  pub fn old_message_ttl(&mut self, old_message_ttl: i64) -> &mut Self {
-    self.inner.old_message_ttl = old_message_ttl;
-    self
-  }
-
-  pub fn new_message_ttl(&mut self, new_message_ttl: i64) -> &mut Self {
-    self.inner.new_message_ttl = new_message_ttl;
-    self
-  }
-}
-
-impl AsRef<ChatEventMessageTtlChanged> for ChatEventMessageTtlChanged {
-  fn as_ref(&self) -> &ChatEventMessageTtlChanged {
-    self
-  }
-}
-
-impl AsRef<ChatEventMessageTtlChanged> for RTDChatEventMessageTtlChangedBuilder {
-  fn as_ref(&self) -> &ChatEventMessageTtlChanged {
-    &self.inner
-  }
-}
-
 /// A message was unpinned
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatEventMessageUnpinned {
@@ -2714,7 +4795,7 @@ impl AsRef<ChatEventMessageUnpinned> for RTDChatEventMessageUnpinnedBuilder {
   }
 }
 
-/// The chat permissions was changed
+/// The chat permissions were changed
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatEventPermissionsChanged {
   #[doc(hidden)]
@@ -2961,6 +5042,197 @@ impl AsRef<ChatEventPollStopped> for RTDChatEventPollStoppedBuilder {
   }
 }
 
+/// The chat's profile accent color or profile background custom emoji were changed
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventProfileAccentColorChanged {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Previous identifier of chat's profile accent color; 1 if none
+  old_profile_accent_color_id: i64,
+  /// Previous identifier of the custom emoji; 0 if none
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
+  old_profile_background_custom_emoji_id: isize,
+  /// New identifier of chat's profile accent color; 1 if none
+  new_profile_accent_color_id: i64,
+  /// New identifier of the custom emoji; 0 if none
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
+  new_profile_background_custom_emoji_id: isize,
+}
+
+impl RObject for ChatEventProfileAccentColorChanged {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventProfileAccentColorChanged"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventProfileAccentColorChanged {}
+
+impl ChatEventProfileAccentColorChanged {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventProfileAccentColorChangedBuilder {
+    let inner = ChatEventProfileAccentColorChanged {
+      td_name: "chatEventProfileAccentColorChanged".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventProfileAccentColorChangedBuilder { inner }
+  }
+
+  pub fn old_profile_accent_color_id(&self) -> i64 {
+    self.old_profile_accent_color_id
+  }
+
+  pub fn old_profile_background_custom_emoji_id(&self) -> isize {
+    self.old_profile_background_custom_emoji_id
+  }
+
+  pub fn new_profile_accent_color_id(&self) -> i64 {
+    self.new_profile_accent_color_id
+  }
+
+  pub fn new_profile_background_custom_emoji_id(&self) -> isize {
+    self.new_profile_background_custom_emoji_id
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventProfileAccentColorChangedBuilder {
+  inner: ChatEventProfileAccentColorChanged,
+}
+
+impl RTDChatEventProfileAccentColorChangedBuilder {
+  pub fn build(&self) -> ChatEventProfileAccentColorChanged {
+    self.inner.clone()
+  }
+
+  pub fn old_profile_accent_color_id(&mut self, old_profile_accent_color_id: i64) -> &mut Self {
+    self.inner.old_profile_accent_color_id = old_profile_accent_color_id;
+    self
+  }
+
+  pub fn old_profile_background_custom_emoji_id(
+    &mut self,
+    old_profile_background_custom_emoji_id: isize,
+  ) -> &mut Self {
+    self.inner.old_profile_background_custom_emoji_id = old_profile_background_custom_emoji_id;
+    self
+  }
+
+  pub fn new_profile_accent_color_id(&mut self, new_profile_accent_color_id: i64) -> &mut Self {
+    self.inner.new_profile_accent_color_id = new_profile_accent_color_id;
+    self
+  }
+
+  pub fn new_profile_background_custom_emoji_id(
+    &mut self,
+    new_profile_background_custom_emoji_id: isize,
+  ) -> &mut Self {
+    self.inner.new_profile_background_custom_emoji_id = new_profile_background_custom_emoji_id;
+    self
+  }
+}
+
+impl AsRef<ChatEventProfileAccentColorChanged> for ChatEventProfileAccentColorChanged {
+  fn as_ref(&self) -> &ChatEventProfileAccentColorChanged {
+    self
+  }
+}
+
+impl AsRef<ChatEventProfileAccentColorChanged> for RTDChatEventProfileAccentColorChangedBuilder {
+  fn as_ref(&self) -> &ChatEventProfileAccentColorChanged {
+    &self.inner
+  }
+}
+
+/// The show_message_sender setting of a channel was toggled
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ChatEventShowMessageSenderToggled {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// New value of show_message_sender
+  show_message_sender: bool,
+}
+
+impl RObject for ChatEventShowMessageSenderToggled {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatEventShowMessageSenderToggled"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDChatEventAction for ChatEventShowMessageSenderToggled {}
+
+impl ChatEventShowMessageSenderToggled {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDChatEventShowMessageSenderToggledBuilder {
+    let inner = ChatEventShowMessageSenderToggled {
+      td_name: "chatEventShowMessageSenderToggled".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDChatEventShowMessageSenderToggledBuilder { inner }
+  }
+
+  pub fn show_message_sender(&self) -> bool {
+    self.show_message_sender
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDChatEventShowMessageSenderToggledBuilder {
+  inner: ChatEventShowMessageSenderToggled,
+}
+
+impl RTDChatEventShowMessageSenderToggledBuilder {
+  pub fn build(&self) -> ChatEventShowMessageSenderToggled {
+    self.inner.clone()
+  }
+
+  pub fn show_message_sender(&mut self, show_message_sender: bool) -> &mut Self {
+    self.inner.show_message_sender = show_message_sender;
+    self
+  }
+}
+
+impl AsRef<ChatEventShowMessageSenderToggled> for ChatEventShowMessageSenderToggled {
+  fn as_ref(&self) -> &ChatEventShowMessageSenderToggled {
+    self
+  }
+}
+
+impl AsRef<ChatEventShowMessageSenderToggled> for RTDChatEventShowMessageSenderToggledBuilder {
+  fn as_ref(&self) -> &ChatEventShowMessageSenderToggled {
+    &self.inner
+  }
+}
+
 /// The sign_messages setting of a channel was toggled
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatEventSignMessagesToggled {
@@ -3132,8 +5404,10 @@ pub struct ChatEventStickerSetChanged {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// Previous identifier of the chat sticker set; 0 if none
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
   old_sticker_set_id: isize,
   /// New identifier of the chat sticker set; 0 if none
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
   new_sticker_set_id: isize,
 }
 
@@ -3294,7 +5568,7 @@ impl AsRef<ChatEventTitleChanged> for RTDChatEventTitleChangedBuilder {
   }
 }
 
-/// The chat username was changed
+/// The chat editable username was changed
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatEventUsernameChanged {
   #[doc(hidden)]

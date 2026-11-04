@@ -16,8 +16,10 @@ pub enum MessageSchedulingState {
   _Default(()),
   /// The message will be sent at the specified date
   SendAtDate(MessageSchedulingStateSendAtDate),
-  /// The message will be sent when the peer will be online. Applicable to private chats only and when the exact online status of the peer is known
+  /// The message will be sent when the other user is online. Applicable to private chats only and when the exact online status of the other user is known
   SendWhenOnline(MessageSchedulingStateSendWhenOnline),
+  /// The message will be sent when the video in the message is converted and optimized; can be used only by the server
+  SendWhenVideoProcessed(MessageSchedulingStateSendWhenVideoProcessed),
 }
 
 impl Default for MessageSchedulingState {
@@ -36,6 +38,7 @@ impl<'de> Deserialize<'de> for MessageSchedulingState {
       MessageSchedulingState,
       (messageSchedulingStateSendAtDate, SendAtDate);
       (messageSchedulingStateSendWhenOnline, SendWhenOnline);
+      (messageSchedulingStateSendWhenVideoProcessed, SendWhenVideoProcessed);
 
     )(deserializer)
   }
@@ -47,6 +50,7 @@ impl RObject for MessageSchedulingState {
     match self {
       MessageSchedulingState::SendAtDate(t) => t.td_name(),
       MessageSchedulingState::SendWhenOnline(t) => t.td_name(),
+      MessageSchedulingState::SendWhenVideoProcessed(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -56,6 +60,7 @@ impl RObject for MessageSchedulingState {
     match self {
       MessageSchedulingState::SendAtDate(t) => t.extra(),
       MessageSchedulingState::SendWhenOnline(t) => t.extra(),
+      MessageSchedulingState::SendWhenVideoProcessed(t) => t.extra(),
 
       _ => None,
     }
@@ -80,6 +85,9 @@ impl MessageSchedulingState {
   pub fn is_send_when_online(&self) -> bool {
     matches!(self, MessageSchedulingState::SendWhenOnline(_))
   }
+  pub fn is_send_when_video_processed(&self) -> bool {
+    matches!(self, MessageSchedulingState::SendWhenVideoProcessed(_))
+  }
 
   pub fn on_send_at_date<F: FnOnce(&MessageSchedulingStateSendAtDate)>(&self, fnc: F) -> &Self {
     if let MessageSchedulingState::SendAtDate(t) = self {
@@ -92,6 +100,15 @@ impl MessageSchedulingState {
     fnc: F,
   ) -> &Self {
     if let MessageSchedulingState::SendWhenOnline(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_send_when_video_processed<F: FnOnce(&MessageSchedulingStateSendWhenVideoProcessed)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let MessageSchedulingState::SendWhenVideoProcessed(t) = self {
       fnc(t)
     };
     self
@@ -109,6 +126,14 @@ impl MessageSchedulingState {
     }
     None
   }
+  pub fn as_send_when_video_processed(
+    &self,
+  ) -> Option<&MessageSchedulingStateSendWhenVideoProcessed> {
+    if let MessageSchedulingState::SendWhenVideoProcessed(t) = self {
+      return Some(t);
+    }
+    None
+  }
 
   pub fn send_at_date<T: AsRef<MessageSchedulingStateSendAtDate>>(t: T) -> Self {
     MessageSchedulingState::SendAtDate(t.as_ref().clone())
@@ -116,6 +141,12 @@ impl MessageSchedulingState {
 
   pub fn send_when_online<T: AsRef<MessageSchedulingStateSendWhenOnline>>(t: T) -> Self {
     MessageSchedulingState::SendWhenOnline(t.as_ref().clone())
+  }
+
+  pub fn send_when_video_processed<T: AsRef<MessageSchedulingStateSendWhenVideoProcessed>>(
+    t: T,
+  ) -> Self {
+    MessageSchedulingState::SendWhenVideoProcessed(t.as_ref().clone())
   }
 }
 
@@ -134,8 +165,10 @@ pub struct MessageSchedulingStateSendAtDate {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Date the message will be sent. The date must be within 367 days in the future
+  /// Point in time (Unix timestamp) when the message will be sent. The date must be within 367 days in the future
   send_date: i64,
+  /// Period after which the message will be sent again; in seconds; 0 if never; for Telegram Premium users only; may be non-zero only in sendMessage and forwardMessages with one message requests; must be one of 0, 86400, 7 * 86400, 14 * 86400, 30 * 86400, 91 * 86400, 182 * 86400, 365 * 86400, or additionally 60, or 300 in the Test DC
+  repeat_period: i64,
 }
 
 impl RObject for MessageSchedulingStateSendAtDate {
@@ -170,6 +203,10 @@ impl MessageSchedulingStateSendAtDate {
   pub fn send_date(&self) -> i64 {
     self.send_date
   }
+
+  pub fn repeat_period(&self) -> i64 {
+    self.repeat_period
+  }
 }
 
 #[doc(hidden)]
@@ -186,6 +223,11 @@ impl RTDMessageSchedulingStateSendAtDateBuilder {
     self.inner.send_date = send_date;
     self
   }
+
+  pub fn repeat_period(&mut self, repeat_period: i64) -> &mut Self {
+    self.inner.repeat_period = repeat_period;
+    self
+  }
 }
 
 impl AsRef<MessageSchedulingStateSendAtDate> for MessageSchedulingStateSendAtDate {
@@ -200,7 +242,7 @@ impl AsRef<MessageSchedulingStateSendAtDate> for RTDMessageSchedulingStateSendAt
   }
 }
 
-/// The message will be sent when the peer will be online. Applicable to private chats only and when the exact online status of the peer is known
+/// The message will be sent when the other user is online. Applicable to private chats only and when the exact online status of the other user is known
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct MessageSchedulingStateSendWhenOnline {
   #[doc(hidden)]
@@ -261,6 +303,85 @@ impl AsRef<MessageSchedulingStateSendWhenOnline>
   for RTDMessageSchedulingStateSendWhenOnlineBuilder
 {
   fn as_ref(&self) -> &MessageSchedulingStateSendWhenOnline {
+    &self.inner
+  }
+}
+
+/// The message will be sent when the video in the message is converted and optimized; can be used only by the server
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct MessageSchedulingStateSendWhenVideoProcessed {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Approximate point in time (Unix timestamp) when the message is expected to be sent
+  send_date: i64,
+}
+
+impl RObject for MessageSchedulingStateSendWhenVideoProcessed {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "messageSchedulingStateSendWhenVideoProcessed"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDMessageSchedulingState for MessageSchedulingStateSendWhenVideoProcessed {}
+
+impl MessageSchedulingStateSendWhenVideoProcessed {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDMessageSchedulingStateSendWhenVideoProcessedBuilder {
+    let inner = MessageSchedulingStateSendWhenVideoProcessed {
+      td_name: "messageSchedulingStateSendWhenVideoProcessed".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDMessageSchedulingStateSendWhenVideoProcessedBuilder { inner }
+  }
+
+  pub fn send_date(&self) -> i64 {
+    self.send_date
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDMessageSchedulingStateSendWhenVideoProcessedBuilder {
+  inner: MessageSchedulingStateSendWhenVideoProcessed,
+}
+
+impl RTDMessageSchedulingStateSendWhenVideoProcessedBuilder {
+  pub fn build(&self) -> MessageSchedulingStateSendWhenVideoProcessed {
+    self.inner.clone()
+  }
+
+  pub fn send_date(&mut self, send_date: i64) -> &mut Self {
+    self.inner.send_date = send_date;
+    self
+  }
+}
+
+impl AsRef<MessageSchedulingStateSendWhenVideoProcessed>
+  for MessageSchedulingStateSendWhenVideoProcessed
+{
+  fn as_ref(&self) -> &MessageSchedulingStateSendWhenVideoProcessed {
+    self
+  }
+}
+
+impl AsRef<MessageSchedulingStateSendWhenVideoProcessed>
+  for RTDMessageSchedulingStateSendWhenVideoProcessedBuilder
+{
+  fn as_ref(&self) -> &MessageSchedulingStateSendWhenVideoProcessed {
     &self.inner
   }
 }

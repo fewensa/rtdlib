@@ -15,6 +15,8 @@ pub struct BotCommand {
   command: String,
   /// Represents a command supported by a bot
   description: String,
+  /// True, if the command must send an ephemeral message instead of a regular one
+  is_ephemeral: bool,
 }
 
 impl RObject for BotCommand {
@@ -51,6 +53,10 @@ impl BotCommand {
   pub fn description(&self) -> &String {
     &self.description
   }
+
+  pub fn is_ephemeral(&self) -> bool {
+    self.is_ephemeral
+  }
 }
 
 #[doc(hidden)]
@@ -70,6 +76,11 @@ impl RTDBotCommandBuilder {
 
   pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {
     self.inner.description = description.as_ref().to_string();
+    self
+  }
+
+  pub fn is_ephemeral(&mut self, is_ephemeral: bool) -> &mut Self {
+    self.inner.is_ephemeral = is_ephemeral;
     self
   }
 }

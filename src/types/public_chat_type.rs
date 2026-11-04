@@ -5,16 +5,16 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Describes a type of public chats
+/// TRAIT | Describes type of public chat
 pub trait TDPublicChatType: Debug + RObject {}
 
-/// Describes a type of public chats
+/// Describes type of public chat
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum PublicChatType {
   #[doc(hidden)]
   _Default(()),
-  /// The chat is public, because it has username
+  /// The chat is public, because it has an active username
   HasUsername(PublicChatTypeHasUsername),
   /// The chat is public, because it is a location-based supergroup
   IsLocationBased(PublicChatTypeIsLocationBased),
@@ -122,7 +122,7 @@ impl AsRef<PublicChatType> for PublicChatType {
   }
 }
 
-/// The chat is public, because it has username
+/// The chat is public, because it has an active username
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PublicChatTypeHasUsername {
   #[doc(hidden)]

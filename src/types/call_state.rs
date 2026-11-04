@@ -227,12 +227,14 @@ pub struct CallStateDiscarded {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// The reason, why the call has ended
+  /// The reason why the call has ended
   reason: CallDiscardReason,
   /// True, if the call rating must be sent to the server
   need_rating: bool,
   /// True, if the call debug information must be sent to the server
   need_debug_information: bool,
+  /// True, if the call log must be sent to the server
+  need_log: bool,
 }
 
 impl RObject for CallStateDiscarded {
@@ -275,6 +277,10 @@ impl CallStateDiscarded {
   pub fn need_debug_information(&self) -> bool {
     self.need_debug_information
   }
+
+  pub fn need_log(&self) -> bool {
+    self.need_log
+  }
 }
 
 #[doc(hidden)]
@@ -299,6 +305,11 @@ impl RTDCallStateDiscardedBuilder {
 
   pub fn need_debug_information(&mut self, need_debug_information: bool) -> &mut Self {
     self.inner.need_debug_information = need_debug_information;
+    self
+  }
+
+  pub fn need_log(&mut self, need_log: bool) -> &mut Self {
+    self.inner.need_log = need_log;
     self
   }
 }
@@ -611,7 +622,7 @@ pub struct CallStateReady {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Call protocols supported by the peer
+  /// Call protocols supported by the other call participant
   protocol: CallProtocol,
   /// List of available call servers
   servers: Vec<CallServer>,
@@ -619,10 +630,14 @@ pub struct CallStateReady {
   config: String,
   /// Call encryption key
   encryption_key: String,
-  /// Encryption key emojis fingerprint
+  /// Encryption key fingerprint represented as 4 emoji
   emojis: Vec<String>,
   /// True, if peer-to-peer connection is allowed by users privacy settings
   allow_p2p: bool,
+  /// True, if the other party supports upgrading of the call to a group call
+  is_group_call_supported: bool,
+  /// Custom JSON-encoded call parameters to be passed to tgcalls
+  custom_parameters: String,
 }
 
 impl RObject for CallStateReady {
@@ -677,6 +692,14 @@ impl CallStateReady {
   pub fn allow_p2p(&self) -> bool {
     self.allow_p2p
   }
+
+  pub fn is_group_call_supported(&self) -> bool {
+    self.is_group_call_supported
+  }
+
+  pub fn custom_parameters(&self) -> &String {
+    &self.custom_parameters
+  }
 }
 
 #[doc(hidden)]
@@ -716,6 +739,16 @@ impl RTDCallStateReadyBuilder {
 
   pub fn allow_p2p(&mut self, allow_p2p: bool) -> &mut Self {
     self.inner.allow_p2p = allow_p2p;
+    self
+  }
+
+  pub fn is_group_call_supported(&mut self, is_group_call_supported: bool) -> &mut Self {
+    self.inner.is_group_call_supported = is_group_call_supported;
+    self
+  }
+
+  pub fn custom_parameters<T: AsRef<str>>(&mut self, custom_parameters: T) -> &mut Self {
+    self.inner.custom_parameters = custom_parameters.as_ref().to_string();
     self
   }
 }

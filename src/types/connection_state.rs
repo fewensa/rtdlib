@@ -14,15 +14,15 @@ pub trait TDConnectionState: Debug + RObject {}
 pub enum ConnectionState {
   #[doc(hidden)]
   _Default(()),
-  /// Currently establishing a connection to the Telegram servers
+  /// Establishing a connection to the Telegram servers
   Connecting(ConnectionStateConnecting),
-  /// Currently establishing a connection with a proxy server
+  /// Establishing a connection with a proxy server
   ConnectingToProxy(ConnectionStateConnectingToProxy),
   /// There is a working connection to the Telegram servers
   Ready(ConnectionStateReady),
-  /// Downloading data received while the application was offline
+  /// Downloading data expected to be received while the application was offline
   Updating(ConnectionStateUpdating),
-  /// Currently waiting for the network to become available. Use setNetworkType to change the available network type
+  /// Waiting for the network to become available. Use setNetworkType to change the available network type
   WaitingForNetwork(ConnectionStateWaitingForNetwork),
 }
 
@@ -200,7 +200,7 @@ impl AsRef<ConnectionState> for ConnectionState {
   }
 }
 
-/// Currently establishing a connection to the Telegram servers
+/// Establishing a connection to the Telegram servers
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ConnectionStateConnecting {
   #[doc(hidden)]
@@ -263,7 +263,7 @@ impl AsRef<ConnectionStateConnecting> for RTDConnectionStateConnectingBuilder {
   }
 }
 
-/// Currently establishing a connection with a proxy server
+/// Establishing a connection with a proxy server
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ConnectionStateConnectingToProxy {
   #[doc(hidden)]
@@ -389,7 +389,7 @@ impl AsRef<ConnectionStateReady> for RTDConnectionStateReadyBuilder {
   }
 }
 
-/// Downloading data received while the application was offline
+/// Downloading data expected to be received while the application was offline
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ConnectionStateUpdating {
   #[doc(hidden)]
@@ -452,7 +452,7 @@ impl AsRef<ConnectionStateUpdating> for RTDConnectionStateUpdatingBuilder {
   }
 }
 
-/// Currently waiting for the network to become available. Use setNetworkType to change the available network type
+/// Waiting for the network to become available. Use setNetworkType to change the available network type
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ConnectionStateWaitingForNetwork {
   #[doc(hidden)]

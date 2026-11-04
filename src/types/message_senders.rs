@@ -11,7 +11,7 @@ pub struct MessageSenders {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Approximate total count of messages senders found
+  /// Approximate total number of message senders found
   total_count: i64,
   /// List of message senders
   senders: Vec<MessageSender>,

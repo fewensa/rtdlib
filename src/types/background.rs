@@ -20,7 +20,7 @@ pub struct Background {
   is_dark: bool,
   /// Unique background name
   name: String,
-  /// Document with the background; may be null. Null only for filled backgrounds
+  /// Document with the background; may be null. Null only for filled and chat theme backgrounds
   document: Option<Document>,
   /// Type of the background
   #[serde(rename(serialize = "type", deserialize = "type"))]

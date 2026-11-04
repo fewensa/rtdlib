@@ -4,7 +4,7 @@ Thanks for helping with `rtdlib`.
 
 ## Development
 
-The minimum supported Rust version is 1.89. CI uses current stable as well.
+The minimum supported Rust version is 1.89. CI uses current stable as well. The published version tracks the TDLib release (`1.8.69` is TDLib 1.8.69). Pin it with `=`.
 
 ```bash
 cargo fmt --check
@@ -19,7 +19,7 @@ The public Rust API should stay compatible with the 0.8.x line when the change a
 
 ## What this crate is
 
-`master` is the 0.8.x snapshot line (TDLib commit `789b9c0`). It is not a regeneration of current TDLib, and it is not the crates.io `1.8.x` line (branch `1d8x`, TDLib 1.8.0). Regenerating types for a newer TDLib is a separate change and needs a version-scheme decision before it lands.
+Types come from `generate/` (`td_api.tl` for TDLib 1.8.69). Regenerating replaces `src/types`. Keep `src/lib.rs`, `src/errors.rs`, and the public `sys` re-export of `rtdlib_sys::Tdlib` stable when the schema allows it. A new TDLib schema is a new crate version and a CHANGELOG breaking section.
 
 ## Security
 

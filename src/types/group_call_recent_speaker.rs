@@ -13,7 +13,7 @@ pub struct GroupCallRecentSpeaker {
   extra: Option<String>,
   /// Group call participant identifier
   participant_id: MessageSender,
-  /// True, is the user has spoken recently
+  /// True, if the user has spoken recently
   is_speaking: bool,
 }
 

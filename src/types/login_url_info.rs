@@ -5,20 +5,20 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Contains information about an inline button of type inlineKeyboardButtonTypeLoginUrl
+/// TRAIT | Contains information about an inline button of type inlineKeyboardButtonTypeLoginUrl or an external link
 pub trait TDLoginUrlInfo: Debug + RObject {}
 
-/// Contains information about an inline button of type inlineKeyboardButtonTypeLoginUrl
+/// Contains information about an inline button of type inlineKeyboardButtonTypeLoginUrl or an external link
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum LoginUrlInfo {
   #[doc(hidden)]
   _Default(()),
-  /// Returns information about an action to be done when the current user clicks an external link. Don't use this method for links from secret chats if web page preview is disabled in secret chats
+  /// Returns information about an action to be done when the current user clicks an external link. Don't use this method for links from secret chats if link preview is disabled in secret chats, and use directly getLinkWebBrowserType
   GetExternalLinkInfo(GetExternalLinkInfo),
   /// Returns information about a button of type inlineKeyboardButtonTypeLoginUrl. The method needs to be called when the user presses the button
   GetLoginUrlInfo(GetLoginUrlInfo),
-  /// An HTTP url needs to be open
+  /// An HTTP URL needs to be open
   Open(LoginUrlInfoOpen),
   /// An authorization confirmation dialog needs to be shown to the user
   RequestConfirmation(LoginUrlInfoRequestConfirmation),
@@ -173,7 +173,7 @@ impl AsRef<LoginUrlInfo> for LoginUrlInfo {
   }
 }
 
-/// An HTTP url needs to be open
+/// An HTTP URL needs to be open
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct LoginUrlInfoOpen {
   #[doc(hidden)]
@@ -184,8 +184,8 @@ pub struct LoginUrlInfoOpen {
   extra: Option<String>,
   /// The URL to open
   url: String,
-  /// True, if there is no need to show an ordinary open URL confirm
-  skip_confirm: bool,
+  /// True, if there is no need to show an ordinary open URL confirmation
+  skip_confirmation: bool,
 }
 
 impl RObject for LoginUrlInfoOpen {
@@ -221,8 +221,8 @@ impl LoginUrlInfoOpen {
     &self.url
   }
 
-  pub fn skip_confirm(&self) -> bool {
-    self.skip_confirm
+  pub fn skip_confirmation(&self) -> bool {
+    self.skip_confirmation
   }
 }
 
@@ -241,8 +241,8 @@ impl RTDLoginUrlInfoOpenBuilder {
     self
   }
 
-  pub fn skip_confirm(&mut self, skip_confirm: bool) -> &mut Self {
-    self.inner.skip_confirm = skip_confirm;
+  pub fn skip_confirmation(&mut self, skip_confirmation: bool) -> &mut Self {
+    self.inner.skip_confirmation = skip_confirmation;
     self
   }
 }
@@ -274,7 +274,7 @@ pub struct LoginUrlInfoRequestConfirmation {
   domain: String,
   /// User identifier of a bot linked with the website
   bot_user_id: i64,
-  /// True, if the user needs to be requested to give the permission to the bot to send them messages
+  /// True, if the user must be asked for the permission to the bot to send them messages
   request_write_access: bool,
 }
 

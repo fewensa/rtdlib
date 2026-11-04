@@ -32,8 +32,16 @@ pub enum PushMessageContent {
   ChatJoinByLink(PushMessageContentChatJoinByLink),
   /// A new member was accepted to the chat by an administrator
   ChatJoinByRequest(PushMessageContentChatJoinByRequest),
+  /// A chat background was edited
+  ChatSetBackground(PushMessageContentChatSetBackground),
   /// A chat theme was edited
   ChatSetTheme(PushMessageContentChatSetTheme),
+  /// A message with a checklist
+  Checklist(PushMessageContentChecklist),
+  /// Some tasks were added to a checklist
+  ChecklistTasksAdded(PushMessageContentChecklistTasksAdded),
+  /// Some tasks from a checklist were marked as done or not done
+  ChecklistTasksDone(PushMessageContentChecklistTasksDone),
   /// A message with a user contact
   Contact(PushMessageContentContact),
   /// A contact has registered with Telegram
@@ -44,28 +52,60 @@ pub enum PushMessageContent {
   Game(PushMessageContentGame),
   /// A new high score was achieved in a game
   GameScore(PushMessageContentGameScore),
+  /// A message with a gift
+  Gift(PushMessageContentGift),
+  /// A message with a giveaway
+  Giveaway(PushMessageContentGiveaway),
   /// A general message with hidden content
   Hidden(PushMessageContentHidden),
+  /// An invitation of participants to a video chat or live stream
+  InviteVideoChatParticipants(PushMessageContentInviteVideoChatParticipants),
   /// A message with an invoice from a bot
   Invoice(PushMessageContentInvoice),
   /// A message with a location
   Location(PushMessageContentLocation),
   /// A media album
   MediaAlbum(PushMessageContentMediaAlbum),
-  /// A forwarded messages
+  /// Forwarded messages
   MessageForwards(PushMessageContentMessageForwards),
+  /// A message with paid media
+  PaidMedia(PushMessageContentPaidMedia),
   /// A photo message
   Photo(PushMessageContentPhoto),
   /// A message with a poll
   Poll(PushMessageContentPoll),
+  /// An option was added to a poll
+  PollOptionAdded(PushMessageContentPollOptionAdded),
+  /// A message with a Telegram Premium gift code created for the user
+  PremiumGiftCode(PushMessageContentPremiumGiftCode),
+  /// A user in the chat came within proximity alert range from the current user
+  ProximityAlertTriggered(PushMessageContentProximityAlertTriggered),
+  /// A new recurring payment was made by the current user
+  RecurringPayment(PushMessageContentRecurringPayment),
   /// A screenshot of a message in the chat has been taken
   ScreenshotTaken(PushMessageContentScreenshotTaken),
   /// A message with a sticker
   Sticker(PushMessageContentSticker),
+  /// A message with a story
+  Story(PushMessageContentStory),
+  /// A birthdate was suggested to be set
+  SuggestBirthdate(PushMessageContentSuggestBirthdate),
+  /// A profile photo was suggested to the user
+  SuggestProfilePhoto(PushMessageContentSuggestProfilePhoto),
   /// A text message
   Text(PushMessageContentText),
+  /// A message with a request from a dApp was received through TON Connect
+  TonConnectRequest(PushMessageContentTonConnectRequest),
+  /// A message with a TON wallet transfer
+  TonWalletTransfer(PushMessageContentTonWalletTransfer),
+  /// A message with an upgraded gift
+  UpgradedGift(PushMessageContentUpgradedGift),
   /// A video message
   Video(PushMessageContentVideo),
+  /// A video chat or live stream has ended
+  VideoChatEnded(PushMessageContentVideoChatEnded),
+  /// A video chat or live stream was started
+  VideoChatStarted(PushMessageContentVideoChatStarted),
   /// A video note message
   VideoNote(PushMessageContentVideoNote),
   /// A voice note message
@@ -95,23 +135,43 @@ impl<'de> Deserialize<'de> for PushMessageContent {
       (pushMessageContentChatDeleteMember, ChatDeleteMember);
       (pushMessageContentChatJoinByLink, ChatJoinByLink);
       (pushMessageContentChatJoinByRequest, ChatJoinByRequest);
+      (pushMessageContentChatSetBackground, ChatSetBackground);
       (pushMessageContentChatSetTheme, ChatSetTheme);
+      (pushMessageContentChecklist, Checklist);
+      (pushMessageContentChecklistTasksAdded, ChecklistTasksAdded);
+      (pushMessageContentChecklistTasksDone, ChecklistTasksDone);
       (pushMessageContentContact, Contact);
       (pushMessageContentContactRegistered, ContactRegistered);
       (pushMessageContentDocument, Document);
       (pushMessageContentGame, Game);
       (pushMessageContentGameScore, GameScore);
+      (pushMessageContentGift, Gift);
+      (pushMessageContentGiveaway, Giveaway);
       (pushMessageContentHidden, Hidden);
+      (pushMessageContentInviteVideoChatParticipants, InviteVideoChatParticipants);
       (pushMessageContentInvoice, Invoice);
       (pushMessageContentLocation, Location);
       (pushMessageContentMediaAlbum, MediaAlbum);
       (pushMessageContentMessageForwards, MessageForwards);
+      (pushMessageContentPaidMedia, PaidMedia);
       (pushMessageContentPhoto, Photo);
       (pushMessageContentPoll, Poll);
+      (pushMessageContentPollOptionAdded, PollOptionAdded);
+      (pushMessageContentPremiumGiftCode, PremiumGiftCode);
+      (pushMessageContentProximityAlertTriggered, ProximityAlertTriggered);
+      (pushMessageContentRecurringPayment, RecurringPayment);
       (pushMessageContentScreenshotTaken, ScreenshotTaken);
       (pushMessageContentSticker, Sticker);
+      (pushMessageContentStory, Story);
+      (pushMessageContentSuggestBirthdate, SuggestBirthdate);
+      (pushMessageContentSuggestProfilePhoto, SuggestProfilePhoto);
       (pushMessageContentText, Text);
+      (pushMessageContentTonConnectRequest, TonConnectRequest);
+      (pushMessageContentTonWalletTransfer, TonWalletTransfer);
+      (pushMessageContentUpgradedGift, UpgradedGift);
       (pushMessageContentVideo, Video);
+      (pushMessageContentVideoChatEnded, VideoChatEnded);
+      (pushMessageContentVideoChatStarted, VideoChatStarted);
       (pushMessageContentVideoNote, VideoNote);
       (pushMessageContentVoiceNote, VoiceNote);
 
@@ -132,23 +192,43 @@ impl RObject for PushMessageContent {
       PushMessageContent::ChatDeleteMember(t) => t.td_name(),
       PushMessageContent::ChatJoinByLink(t) => t.td_name(),
       PushMessageContent::ChatJoinByRequest(t) => t.td_name(),
+      PushMessageContent::ChatSetBackground(t) => t.td_name(),
       PushMessageContent::ChatSetTheme(t) => t.td_name(),
+      PushMessageContent::Checklist(t) => t.td_name(),
+      PushMessageContent::ChecklistTasksAdded(t) => t.td_name(),
+      PushMessageContent::ChecklistTasksDone(t) => t.td_name(),
       PushMessageContent::Contact(t) => t.td_name(),
       PushMessageContent::ContactRegistered(t) => t.td_name(),
       PushMessageContent::Document(t) => t.td_name(),
       PushMessageContent::Game(t) => t.td_name(),
       PushMessageContent::GameScore(t) => t.td_name(),
+      PushMessageContent::Gift(t) => t.td_name(),
+      PushMessageContent::Giveaway(t) => t.td_name(),
       PushMessageContent::Hidden(t) => t.td_name(),
+      PushMessageContent::InviteVideoChatParticipants(t) => t.td_name(),
       PushMessageContent::Invoice(t) => t.td_name(),
       PushMessageContent::Location(t) => t.td_name(),
       PushMessageContent::MediaAlbum(t) => t.td_name(),
       PushMessageContent::MessageForwards(t) => t.td_name(),
+      PushMessageContent::PaidMedia(t) => t.td_name(),
       PushMessageContent::Photo(t) => t.td_name(),
       PushMessageContent::Poll(t) => t.td_name(),
+      PushMessageContent::PollOptionAdded(t) => t.td_name(),
+      PushMessageContent::PremiumGiftCode(t) => t.td_name(),
+      PushMessageContent::ProximityAlertTriggered(t) => t.td_name(),
+      PushMessageContent::RecurringPayment(t) => t.td_name(),
       PushMessageContent::ScreenshotTaken(t) => t.td_name(),
       PushMessageContent::Sticker(t) => t.td_name(),
+      PushMessageContent::Story(t) => t.td_name(),
+      PushMessageContent::SuggestBirthdate(t) => t.td_name(),
+      PushMessageContent::SuggestProfilePhoto(t) => t.td_name(),
       PushMessageContent::Text(t) => t.td_name(),
+      PushMessageContent::TonConnectRequest(t) => t.td_name(),
+      PushMessageContent::TonWalletTransfer(t) => t.td_name(),
+      PushMessageContent::UpgradedGift(t) => t.td_name(),
       PushMessageContent::Video(t) => t.td_name(),
+      PushMessageContent::VideoChatEnded(t) => t.td_name(),
+      PushMessageContent::VideoChatStarted(t) => t.td_name(),
       PushMessageContent::VideoNote(t) => t.td_name(),
       PushMessageContent::VoiceNote(t) => t.td_name(),
 
@@ -167,23 +247,43 @@ impl RObject for PushMessageContent {
       PushMessageContent::ChatDeleteMember(t) => t.extra(),
       PushMessageContent::ChatJoinByLink(t) => t.extra(),
       PushMessageContent::ChatJoinByRequest(t) => t.extra(),
+      PushMessageContent::ChatSetBackground(t) => t.extra(),
       PushMessageContent::ChatSetTheme(t) => t.extra(),
+      PushMessageContent::Checklist(t) => t.extra(),
+      PushMessageContent::ChecklistTasksAdded(t) => t.extra(),
+      PushMessageContent::ChecklistTasksDone(t) => t.extra(),
       PushMessageContent::Contact(t) => t.extra(),
       PushMessageContent::ContactRegistered(t) => t.extra(),
       PushMessageContent::Document(t) => t.extra(),
       PushMessageContent::Game(t) => t.extra(),
       PushMessageContent::GameScore(t) => t.extra(),
+      PushMessageContent::Gift(t) => t.extra(),
+      PushMessageContent::Giveaway(t) => t.extra(),
       PushMessageContent::Hidden(t) => t.extra(),
+      PushMessageContent::InviteVideoChatParticipants(t) => t.extra(),
       PushMessageContent::Invoice(t) => t.extra(),
       PushMessageContent::Location(t) => t.extra(),
       PushMessageContent::MediaAlbum(t) => t.extra(),
       PushMessageContent::MessageForwards(t) => t.extra(),
+      PushMessageContent::PaidMedia(t) => t.extra(),
       PushMessageContent::Photo(t) => t.extra(),
       PushMessageContent::Poll(t) => t.extra(),
+      PushMessageContent::PollOptionAdded(t) => t.extra(),
+      PushMessageContent::PremiumGiftCode(t) => t.extra(),
+      PushMessageContent::ProximityAlertTriggered(t) => t.extra(),
+      PushMessageContent::RecurringPayment(t) => t.extra(),
       PushMessageContent::ScreenshotTaken(t) => t.extra(),
       PushMessageContent::Sticker(t) => t.extra(),
+      PushMessageContent::Story(t) => t.extra(),
+      PushMessageContent::SuggestBirthdate(t) => t.extra(),
+      PushMessageContent::SuggestProfilePhoto(t) => t.extra(),
       PushMessageContent::Text(t) => t.extra(),
+      PushMessageContent::TonConnectRequest(t) => t.extra(),
+      PushMessageContent::TonWalletTransfer(t) => t.extra(),
+      PushMessageContent::UpgradedGift(t) => t.extra(),
       PushMessageContent::Video(t) => t.extra(),
+      PushMessageContent::VideoChatEnded(t) => t.extra(),
+      PushMessageContent::VideoChatStarted(t) => t.extra(),
       PushMessageContent::VideoNote(t) => t.extra(),
       PushMessageContent::VoiceNote(t) => t.extra(),
 
@@ -231,8 +331,20 @@ impl PushMessageContent {
   pub fn is_chat_join_by_request(&self) -> bool {
     matches!(self, PushMessageContent::ChatJoinByRequest(_))
   }
+  pub fn is_chat_set_background(&self) -> bool {
+    matches!(self, PushMessageContent::ChatSetBackground(_))
+  }
   pub fn is_chat_set_theme(&self) -> bool {
     matches!(self, PushMessageContent::ChatSetTheme(_))
+  }
+  pub fn is_checklist(&self) -> bool {
+    matches!(self, PushMessageContent::Checklist(_))
+  }
+  pub fn is_checklist_tasks_added(&self) -> bool {
+    matches!(self, PushMessageContent::ChecklistTasksAdded(_))
+  }
+  pub fn is_checklist_tasks_done(&self) -> bool {
+    matches!(self, PushMessageContent::ChecklistTasksDone(_))
   }
   pub fn is_contact(&self) -> bool {
     matches!(self, PushMessageContent::Contact(_))
@@ -249,8 +361,17 @@ impl PushMessageContent {
   pub fn is_game_score(&self) -> bool {
     matches!(self, PushMessageContent::GameScore(_))
   }
+  pub fn is_gift(&self) -> bool {
+    matches!(self, PushMessageContent::Gift(_))
+  }
+  pub fn is_giveaway(&self) -> bool {
+    matches!(self, PushMessageContent::Giveaway(_))
+  }
   pub fn is_hidden(&self) -> bool {
     matches!(self, PushMessageContent::Hidden(_))
+  }
+  pub fn is_invite_video_chat_participants(&self) -> bool {
+    matches!(self, PushMessageContent::InviteVideoChatParticipants(_))
   }
   pub fn is_invoice(&self) -> bool {
     matches!(self, PushMessageContent::Invoice(_))
@@ -264,11 +385,26 @@ impl PushMessageContent {
   pub fn is_message_forwards(&self) -> bool {
     matches!(self, PushMessageContent::MessageForwards(_))
   }
+  pub fn is_paid_media(&self) -> bool {
+    matches!(self, PushMessageContent::PaidMedia(_))
+  }
   pub fn is_photo(&self) -> bool {
     matches!(self, PushMessageContent::Photo(_))
   }
   pub fn is_poll(&self) -> bool {
     matches!(self, PushMessageContent::Poll(_))
+  }
+  pub fn is_poll_option_added(&self) -> bool {
+    matches!(self, PushMessageContent::PollOptionAdded(_))
+  }
+  pub fn is_premium_gift_code(&self) -> bool {
+    matches!(self, PushMessageContent::PremiumGiftCode(_))
+  }
+  pub fn is_proximity_alert_triggered(&self) -> bool {
+    matches!(self, PushMessageContent::ProximityAlertTriggered(_))
+  }
+  pub fn is_recurring_payment(&self) -> bool {
+    matches!(self, PushMessageContent::RecurringPayment(_))
   }
   pub fn is_screenshot_taken(&self) -> bool {
     matches!(self, PushMessageContent::ScreenshotTaken(_))
@@ -276,11 +412,35 @@ impl PushMessageContent {
   pub fn is_sticker(&self) -> bool {
     matches!(self, PushMessageContent::Sticker(_))
   }
+  pub fn is_story(&self) -> bool {
+    matches!(self, PushMessageContent::Story(_))
+  }
+  pub fn is_suggest_birthdate(&self) -> bool {
+    matches!(self, PushMessageContent::SuggestBirthdate(_))
+  }
+  pub fn is_suggest_profile_photo(&self) -> bool {
+    matches!(self, PushMessageContent::SuggestProfilePhoto(_))
+  }
   pub fn is_text(&self) -> bool {
     matches!(self, PushMessageContent::Text(_))
   }
+  pub fn is_ton_connect_request(&self) -> bool {
+    matches!(self, PushMessageContent::TonConnectRequest(_))
+  }
+  pub fn is_ton_wallet_transfer(&self) -> bool {
+    matches!(self, PushMessageContent::TonWalletTransfer(_))
+  }
+  pub fn is_upgraded_gift(&self) -> bool {
+    matches!(self, PushMessageContent::UpgradedGift(_))
+  }
   pub fn is_video(&self) -> bool {
     matches!(self, PushMessageContent::Video(_))
+  }
+  pub fn is_video_chat_ended(&self) -> bool {
+    matches!(self, PushMessageContent::VideoChatEnded(_))
+  }
+  pub fn is_video_chat_started(&self) -> bool {
+    matches!(self, PushMessageContent::VideoChatStarted(_))
   }
   pub fn is_video_note(&self) -> bool {
     matches!(self, PushMessageContent::VideoNote(_))
@@ -361,8 +521,41 @@ impl PushMessageContent {
     };
     self
   }
+  pub fn on_chat_set_background<F: FnOnce(&PushMessageContentChatSetBackground)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let PushMessageContent::ChatSetBackground(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_chat_set_theme<F: FnOnce(&PushMessageContentChatSetTheme)>(&self, fnc: F) -> &Self {
     if let PushMessageContent::ChatSetTheme(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_checklist<F: FnOnce(&PushMessageContentChecklist)>(&self, fnc: F) -> &Self {
+    if let PushMessageContent::Checklist(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_checklist_tasks_added<F: FnOnce(&PushMessageContentChecklistTasksAdded)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let PushMessageContent::ChecklistTasksAdded(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_checklist_tasks_done<F: FnOnce(&PushMessageContentChecklistTasksDone)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let PushMessageContent::ChecklistTasksDone(t) = self {
       fnc(t)
     };
     self
@@ -400,8 +593,31 @@ impl PushMessageContent {
     };
     self
   }
+  pub fn on_gift<F: FnOnce(&PushMessageContentGift)>(&self, fnc: F) -> &Self {
+    if let PushMessageContent::Gift(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_giveaway<F: FnOnce(&PushMessageContentGiveaway)>(&self, fnc: F) -> &Self {
+    if let PushMessageContent::Giveaway(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_hidden<F: FnOnce(&PushMessageContentHidden)>(&self, fnc: F) -> &Self {
     if let PushMessageContent::Hidden(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_invite_video_chat_participants<
+    F: FnOnce(&PushMessageContentInviteVideoChatParticipants),
+  >(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let PushMessageContent::InviteVideoChatParticipants(t) = self {
       fnc(t)
     };
     self
@@ -433,6 +649,12 @@ impl PushMessageContent {
     };
     self
   }
+  pub fn on_paid_media<F: FnOnce(&PushMessageContentPaidMedia)>(&self, fnc: F) -> &Self {
+    if let PushMessageContent::PaidMedia(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_photo<F: FnOnce(&PushMessageContentPhoto)>(&self, fnc: F) -> &Self {
     if let PushMessageContent::Photo(t) = self {
       fnc(t)
@@ -441,6 +663,42 @@ impl PushMessageContent {
   }
   pub fn on_poll<F: FnOnce(&PushMessageContentPoll)>(&self, fnc: F) -> &Self {
     if let PushMessageContent::Poll(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_poll_option_added<F: FnOnce(&PushMessageContentPollOptionAdded)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let PushMessageContent::PollOptionAdded(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_premium_gift_code<F: FnOnce(&PushMessageContentPremiumGiftCode)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let PushMessageContent::PremiumGiftCode(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_proximity_alert_triggered<F: FnOnce(&PushMessageContentProximityAlertTriggered)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let PushMessageContent::ProximityAlertTriggered(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_recurring_payment<F: FnOnce(&PushMessageContentRecurringPayment)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let PushMessageContent::RecurringPayment(t) = self {
       fnc(t)
     };
     self
@@ -460,14 +718,77 @@ impl PushMessageContent {
     };
     self
   }
+  pub fn on_story<F: FnOnce(&PushMessageContentStory)>(&self, fnc: F) -> &Self {
+    if let PushMessageContent::Story(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_suggest_birthdate<F: FnOnce(&PushMessageContentSuggestBirthdate)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let PushMessageContent::SuggestBirthdate(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_suggest_profile_photo<F: FnOnce(&PushMessageContentSuggestProfilePhoto)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let PushMessageContent::SuggestProfilePhoto(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_text<F: FnOnce(&PushMessageContentText)>(&self, fnc: F) -> &Self {
     if let PushMessageContent::Text(t) = self {
       fnc(t)
     };
     self
   }
+  pub fn on_ton_connect_request<F: FnOnce(&PushMessageContentTonConnectRequest)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let PushMessageContent::TonConnectRequest(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_ton_wallet_transfer<F: FnOnce(&PushMessageContentTonWalletTransfer)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let PushMessageContent::TonWalletTransfer(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_upgraded_gift<F: FnOnce(&PushMessageContentUpgradedGift)>(&self, fnc: F) -> &Self {
+    if let PushMessageContent::UpgradedGift(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_video<F: FnOnce(&PushMessageContentVideo)>(&self, fnc: F) -> &Self {
     if let PushMessageContent::Video(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_video_chat_ended<F: FnOnce(&PushMessageContentVideoChatEnded)>(&self, fnc: F) -> &Self {
+    if let PushMessageContent::VideoChatEnded(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_video_chat_started<F: FnOnce(&PushMessageContentVideoChatStarted)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let PushMessageContent::VideoChatStarted(t) = self {
       fnc(t)
     };
     self
@@ -539,8 +860,32 @@ impl PushMessageContent {
     }
     None
   }
+  pub fn as_chat_set_background(&self) -> Option<&PushMessageContentChatSetBackground> {
+    if let PushMessageContent::ChatSetBackground(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_chat_set_theme(&self) -> Option<&PushMessageContentChatSetTheme> {
     if let PushMessageContent::ChatSetTheme(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_checklist(&self) -> Option<&PushMessageContentChecklist> {
+    if let PushMessageContent::Checklist(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_checklist_tasks_added(&self) -> Option<&PushMessageContentChecklistTasksAdded> {
+    if let PushMessageContent::ChecklistTasksAdded(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_checklist_tasks_done(&self) -> Option<&PushMessageContentChecklistTasksDone> {
+    if let PushMessageContent::ChecklistTasksDone(t) = self {
       return Some(t);
     }
     None
@@ -575,8 +920,28 @@ impl PushMessageContent {
     }
     None
   }
+  pub fn as_gift(&self) -> Option<&PushMessageContentGift> {
+    if let PushMessageContent::Gift(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_giveaway(&self) -> Option<&PushMessageContentGiveaway> {
+    if let PushMessageContent::Giveaway(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_hidden(&self) -> Option<&PushMessageContentHidden> {
     if let PushMessageContent::Hidden(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_invite_video_chat_participants(
+    &self,
+  ) -> Option<&PushMessageContentInviteVideoChatParticipants> {
+    if let PushMessageContent::InviteVideoChatParticipants(t) = self {
       return Some(t);
     }
     None
@@ -605,6 +970,12 @@ impl PushMessageContent {
     }
     None
   }
+  pub fn as_paid_media(&self) -> Option<&PushMessageContentPaidMedia> {
+    if let PushMessageContent::PaidMedia(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_photo(&self) -> Option<&PushMessageContentPhoto> {
     if let PushMessageContent::Photo(t) = self {
       return Some(t);
@@ -613,6 +984,30 @@ impl PushMessageContent {
   }
   pub fn as_poll(&self) -> Option<&PushMessageContentPoll> {
     if let PushMessageContent::Poll(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_poll_option_added(&self) -> Option<&PushMessageContentPollOptionAdded> {
+    if let PushMessageContent::PollOptionAdded(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_premium_gift_code(&self) -> Option<&PushMessageContentPremiumGiftCode> {
+    if let PushMessageContent::PremiumGiftCode(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_proximity_alert_triggered(&self) -> Option<&PushMessageContentProximityAlertTriggered> {
+    if let PushMessageContent::ProximityAlertTriggered(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_recurring_payment(&self) -> Option<&PushMessageContentRecurringPayment> {
+    if let PushMessageContent::RecurringPayment(t) = self {
       return Some(t);
     }
     None
@@ -629,14 +1024,62 @@ impl PushMessageContent {
     }
     None
   }
+  pub fn as_story(&self) -> Option<&PushMessageContentStory> {
+    if let PushMessageContent::Story(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_suggest_birthdate(&self) -> Option<&PushMessageContentSuggestBirthdate> {
+    if let PushMessageContent::SuggestBirthdate(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_suggest_profile_photo(&self) -> Option<&PushMessageContentSuggestProfilePhoto> {
+    if let PushMessageContent::SuggestProfilePhoto(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_text(&self) -> Option<&PushMessageContentText> {
     if let PushMessageContent::Text(t) = self {
       return Some(t);
     }
     None
   }
+  pub fn as_ton_connect_request(&self) -> Option<&PushMessageContentTonConnectRequest> {
+    if let PushMessageContent::TonConnectRequest(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_ton_wallet_transfer(&self) -> Option<&PushMessageContentTonWalletTransfer> {
+    if let PushMessageContent::TonWalletTransfer(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_upgraded_gift(&self) -> Option<&PushMessageContentUpgradedGift> {
+    if let PushMessageContent::UpgradedGift(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_video(&self) -> Option<&PushMessageContentVideo> {
     if let PushMessageContent::Video(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_video_chat_ended(&self) -> Option<&PushMessageContentVideoChatEnded> {
+    if let PushMessageContent::VideoChatEnded(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_video_chat_started(&self) -> Option<&PushMessageContentVideoChatStarted> {
+    if let PushMessageContent::VideoChatStarted(t) = self {
       return Some(t);
     }
     None
@@ -690,8 +1133,24 @@ impl PushMessageContent {
     PushMessageContent::ChatJoinByRequest(t.as_ref().clone())
   }
 
+  pub fn chat_set_background<T: AsRef<PushMessageContentChatSetBackground>>(t: T) -> Self {
+    PushMessageContent::ChatSetBackground(t.as_ref().clone())
+  }
+
   pub fn chat_set_theme<T: AsRef<PushMessageContentChatSetTheme>>(t: T) -> Self {
     PushMessageContent::ChatSetTheme(t.as_ref().clone())
+  }
+
+  pub fn checklist<T: AsRef<PushMessageContentChecklist>>(t: T) -> Self {
+    PushMessageContent::Checklist(t.as_ref().clone())
+  }
+
+  pub fn checklist_tasks_added<T: AsRef<PushMessageContentChecklistTasksAdded>>(t: T) -> Self {
+    PushMessageContent::ChecklistTasksAdded(t.as_ref().clone())
+  }
+
+  pub fn checklist_tasks_done<T: AsRef<PushMessageContentChecklistTasksDone>>(t: T) -> Self {
+    PushMessageContent::ChecklistTasksDone(t.as_ref().clone())
   }
 
   pub fn contact<T: AsRef<PushMessageContentContact>>(t: T) -> Self {
@@ -714,8 +1173,22 @@ impl PushMessageContent {
     PushMessageContent::GameScore(t.as_ref().clone())
   }
 
+  pub fn gift<T: AsRef<PushMessageContentGift>>(t: T) -> Self {
+    PushMessageContent::Gift(t.as_ref().clone())
+  }
+
+  pub fn giveaway<T: AsRef<PushMessageContentGiveaway>>(t: T) -> Self {
+    PushMessageContent::Giveaway(t.as_ref().clone())
+  }
+
   pub fn hidden<T: AsRef<PushMessageContentHidden>>(t: T) -> Self {
     PushMessageContent::Hidden(t.as_ref().clone())
+  }
+
+  pub fn invite_video_chat_participants<T: AsRef<PushMessageContentInviteVideoChatParticipants>>(
+    t: T,
+  ) -> Self {
+    PushMessageContent::InviteVideoChatParticipants(t.as_ref().clone())
   }
 
   pub fn invoice<T: AsRef<PushMessageContentInvoice>>(t: T) -> Self {
@@ -734,12 +1207,34 @@ impl PushMessageContent {
     PushMessageContent::MessageForwards(t.as_ref().clone())
   }
 
+  pub fn paid_media<T: AsRef<PushMessageContentPaidMedia>>(t: T) -> Self {
+    PushMessageContent::PaidMedia(t.as_ref().clone())
+  }
+
   pub fn photo<T: AsRef<PushMessageContentPhoto>>(t: T) -> Self {
     PushMessageContent::Photo(t.as_ref().clone())
   }
 
   pub fn poll<T: AsRef<PushMessageContentPoll>>(t: T) -> Self {
     PushMessageContent::Poll(t.as_ref().clone())
+  }
+
+  pub fn poll_option_added<T: AsRef<PushMessageContentPollOptionAdded>>(t: T) -> Self {
+    PushMessageContent::PollOptionAdded(t.as_ref().clone())
+  }
+
+  pub fn premium_gift_code<T: AsRef<PushMessageContentPremiumGiftCode>>(t: T) -> Self {
+    PushMessageContent::PremiumGiftCode(t.as_ref().clone())
+  }
+
+  pub fn proximity_alert_triggered<T: AsRef<PushMessageContentProximityAlertTriggered>>(
+    t: T,
+  ) -> Self {
+    PushMessageContent::ProximityAlertTriggered(t.as_ref().clone())
+  }
+
+  pub fn recurring_payment<T: AsRef<PushMessageContentRecurringPayment>>(t: T) -> Self {
+    PushMessageContent::RecurringPayment(t.as_ref().clone())
   }
 
   pub fn screenshot_taken<T: AsRef<PushMessageContentScreenshotTaken>>(t: T) -> Self {
@@ -750,12 +1245,44 @@ impl PushMessageContent {
     PushMessageContent::Sticker(t.as_ref().clone())
   }
 
+  pub fn story<T: AsRef<PushMessageContentStory>>(t: T) -> Self {
+    PushMessageContent::Story(t.as_ref().clone())
+  }
+
+  pub fn suggest_birthdate<T: AsRef<PushMessageContentSuggestBirthdate>>(t: T) -> Self {
+    PushMessageContent::SuggestBirthdate(t.as_ref().clone())
+  }
+
+  pub fn suggest_profile_photo<T: AsRef<PushMessageContentSuggestProfilePhoto>>(t: T) -> Self {
+    PushMessageContent::SuggestProfilePhoto(t.as_ref().clone())
+  }
+
   pub fn text<T: AsRef<PushMessageContentText>>(t: T) -> Self {
     PushMessageContent::Text(t.as_ref().clone())
   }
 
+  pub fn ton_connect_request<T: AsRef<PushMessageContentTonConnectRequest>>(t: T) -> Self {
+    PushMessageContent::TonConnectRequest(t.as_ref().clone())
+  }
+
+  pub fn ton_wallet_transfer<T: AsRef<PushMessageContentTonWalletTransfer>>(t: T) -> Self {
+    PushMessageContent::TonWalletTransfer(t.as_ref().clone())
+  }
+
+  pub fn upgraded_gift<T: AsRef<PushMessageContentUpgradedGift>>(t: T) -> Self {
+    PushMessageContent::UpgradedGift(t.as_ref().clone())
+  }
+
   pub fn video<T: AsRef<PushMessageContentVideo>>(t: T) -> Self {
     PushMessageContent::Video(t.as_ref().clone())
+  }
+
+  pub fn video_chat_ended<T: AsRef<PushMessageContentVideoChatEnded>>(t: T) -> Self {
+    PushMessageContent::VideoChatEnded(t.as_ref().clone())
+  }
+
+  pub fn video_chat_started<T: AsRef<PushMessageContentVideoChatStarted>>(t: T) -> Self {
+    PushMessageContent::VideoChatStarted(t.as_ref().clone())
   }
 
   pub fn video_note<T: AsRef<PushMessageContentVideoNote>>(t: T) -> Self {
@@ -1479,6 +2006,81 @@ impl AsRef<PushMessageContentChatJoinByRequest> for RTDPushMessageContentChatJoi
   }
 }
 
+/// A chat background was edited
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentChatSetBackground {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// True, if the set background is the same as the background of the current user
+  is_same: bool,
+}
+
+impl RObject for PushMessageContentChatSetBackground {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentChatSetBackground"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentChatSetBackground {}
+
+impl PushMessageContentChatSetBackground {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentChatSetBackgroundBuilder {
+    let inner = PushMessageContentChatSetBackground {
+      td_name: "pushMessageContentChatSetBackground".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentChatSetBackgroundBuilder { inner }
+  }
+
+  pub fn is_same(&self) -> bool {
+    self.is_same
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentChatSetBackgroundBuilder {
+  inner: PushMessageContentChatSetBackground,
+}
+
+impl RTDPushMessageContentChatSetBackgroundBuilder {
+  pub fn build(&self) -> PushMessageContentChatSetBackground {
+    self.inner.clone()
+  }
+
+  pub fn is_same(&mut self, is_same: bool) -> &mut Self {
+    self.inner.is_same = is_same;
+    self
+  }
+}
+
+impl AsRef<PushMessageContentChatSetBackground> for PushMessageContentChatSetBackground {
+  fn as_ref(&self) -> &PushMessageContentChatSetBackground {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentChatSetBackground> for RTDPushMessageContentChatSetBackgroundBuilder {
+  fn as_ref(&self) -> &PushMessageContentChatSetBackground {
+    &self.inner
+  }
+}
+
 /// A chat theme was edited
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PushMessageContentChatSetTheme {
@@ -1488,8 +2090,8 @@ pub struct PushMessageContentChatSetTheme {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// If non-empty, name of a new theme, set for the chat. Otherwise chat theme was reset to the default one
-  theme_name: String,
+  /// If non-empty, human-readable name of the new theme. Otherwise, the chat theme was reset to the default one
+  name: String,
 }
 
 impl RObject for PushMessageContentChatSetTheme {
@@ -1521,8 +2123,8 @@ impl PushMessageContentChatSetTheme {
     RTDPushMessageContentChatSetThemeBuilder { inner }
   }
 
-  pub fn theme_name(&self) -> &String {
-    &self.theme_name
+  pub fn name(&self) -> &String {
+    &self.name
   }
 }
 
@@ -1536,8 +2138,8 @@ impl RTDPushMessageContentChatSetThemeBuilder {
     self.inner.clone()
   }
 
-  pub fn theme_name<T: AsRef<str>>(&mut self, theme_name: T) -> &mut Self {
-    self.inner.theme_name = theme_name.as_ref().to_string();
+  pub fn name<T: AsRef<str>>(&mut self, name: T) -> &mut Self {
+    self.inner.name = name.as_ref().to_string();
     self
   }
 }
@@ -1550,6 +2152,246 @@ impl AsRef<PushMessageContentChatSetTheme> for PushMessageContentChatSetTheme {
 
 impl AsRef<PushMessageContentChatSetTheme> for RTDPushMessageContentChatSetThemeBuilder {
   fn as_ref(&self) -> &PushMessageContentChatSetTheme {
+    &self.inner
+  }
+}
+
+/// A message with a checklist
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentChecklist {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Checklist title
+  title: String,
+  /// True, if the message is a pinned message with the specified content
+  is_pinned: bool,
+}
+
+impl RObject for PushMessageContentChecklist {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentChecklist"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentChecklist {}
+
+impl PushMessageContentChecklist {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentChecklistBuilder {
+    let inner = PushMessageContentChecklist {
+      td_name: "pushMessageContentChecklist".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentChecklistBuilder { inner }
+  }
+
+  pub fn title(&self) -> &String {
+    &self.title
+  }
+
+  pub fn is_pinned(&self) -> bool {
+    self.is_pinned
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentChecklistBuilder {
+  inner: PushMessageContentChecklist,
+}
+
+impl RTDPushMessageContentChecklistBuilder {
+  pub fn build(&self) -> PushMessageContentChecklist {
+    self.inner.clone()
+  }
+
+  pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
+    self.inner.title = title.as_ref().to_string();
+    self
+  }
+
+  pub fn is_pinned(&mut self, is_pinned: bool) -> &mut Self {
+    self.inner.is_pinned = is_pinned;
+    self
+  }
+}
+
+impl AsRef<PushMessageContentChecklist> for PushMessageContentChecklist {
+  fn as_ref(&self) -> &PushMessageContentChecklist {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentChecklist> for RTDPushMessageContentChecklistBuilder {
+  fn as_ref(&self) -> &PushMessageContentChecklist {
+    &self.inner
+  }
+}
+
+/// Some tasks were added to a checklist
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentChecklistTasksAdded {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Number of added tasks
+  task_count: i64,
+}
+
+impl RObject for PushMessageContentChecklistTasksAdded {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentChecklistTasksAdded"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentChecklistTasksAdded {}
+
+impl PushMessageContentChecklistTasksAdded {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentChecklistTasksAddedBuilder {
+    let inner = PushMessageContentChecklistTasksAdded {
+      td_name: "pushMessageContentChecklistTasksAdded".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentChecklistTasksAddedBuilder { inner }
+  }
+
+  pub fn task_count(&self) -> i64 {
+    self.task_count
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentChecklistTasksAddedBuilder {
+  inner: PushMessageContentChecklistTasksAdded,
+}
+
+impl RTDPushMessageContentChecklistTasksAddedBuilder {
+  pub fn build(&self) -> PushMessageContentChecklistTasksAdded {
+    self.inner.clone()
+  }
+
+  pub fn task_count(&mut self, task_count: i64) -> &mut Self {
+    self.inner.task_count = task_count;
+    self
+  }
+}
+
+impl AsRef<PushMessageContentChecklistTasksAdded> for PushMessageContentChecklistTasksAdded {
+  fn as_ref(&self) -> &PushMessageContentChecklistTasksAdded {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentChecklistTasksAdded>
+  for RTDPushMessageContentChecklistTasksAddedBuilder
+{
+  fn as_ref(&self) -> &PushMessageContentChecklistTasksAdded {
+    &self.inner
+  }
+}
+
+/// Some tasks from a checklist were marked as done or not done
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentChecklistTasksDone {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Number of changed tasks
+  task_count: i64,
+}
+
+impl RObject for PushMessageContentChecklistTasksDone {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentChecklistTasksDone"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentChecklistTasksDone {}
+
+impl PushMessageContentChecklistTasksDone {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentChecklistTasksDoneBuilder {
+    let inner = PushMessageContentChecklistTasksDone {
+      td_name: "pushMessageContentChecklistTasksDone".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentChecklistTasksDoneBuilder { inner }
+  }
+
+  pub fn task_count(&self) -> i64 {
+    self.task_count
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentChecklistTasksDoneBuilder {
+  inner: PushMessageContentChecklistTasksDone,
+}
+
+impl RTDPushMessageContentChecklistTasksDoneBuilder {
+  pub fn build(&self) -> PushMessageContentChecklistTasksDone {
+    self.inner.clone()
+  }
+
+  pub fn task_count(&mut self, task_count: i64) -> &mut Self {
+    self.inner.task_count = task_count;
+    self
+  }
+}
+
+impl AsRef<PushMessageContentChecklistTasksDone> for PushMessageContentChecklistTasksDone {
+  fn as_ref(&self) -> &PushMessageContentChecklistTasksDone {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentChecklistTasksDone>
+  for RTDPushMessageContentChecklistTasksDoneBuilder
+{
+  fn as_ref(&self) -> &PushMessageContentChecklistTasksDone {
     &self.inner
   }
 }
@@ -1649,6 +2491,8 @@ pub struct PushMessageContentContactRegistered {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// True, if the user joined Telegram as a Telegram Premium account
+  as_premium_account: bool,
 }
 
 impl RObject for PushMessageContentContactRegistered {
@@ -1675,8 +2519,13 @@ impl PushMessageContentContactRegistered {
     let inner = PushMessageContentContactRegistered {
       td_name: "pushMessageContentContactRegistered".to_string(),
       extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
     };
     RTDPushMessageContentContactRegisteredBuilder { inner }
+  }
+
+  pub fn as_premium_account(&self) -> bool {
+    self.as_premium_account
   }
 }
 
@@ -1688,6 +2537,11 @@ pub struct RTDPushMessageContentContactRegisteredBuilder {
 impl RTDPushMessageContentContactRegisteredBuilder {
   pub fn build(&self) -> PushMessageContentContactRegistered {
     self.inner.clone()
+  }
+
+  pub fn as_premium_account(&mut self, as_premium_account: bool) -> &mut Self {
+    self.inner.as_premium_account = as_premium_account;
+    self
   }
 }
 
@@ -1972,6 +2826,189 @@ impl AsRef<PushMessageContentGameScore> for RTDPushMessageContentGameScoreBuilde
   }
 }
 
+/// A message with a gift
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentGift {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Number of Telegram Stars that sender paid for the gift
+  star_count: i64,
+  /// True, if the message is about prepaid upgrade of the gift by another user instead of actual receiving of a new gift
+  is_prepaid_upgrade: bool,
+}
+
+impl RObject for PushMessageContentGift {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentGift"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentGift {}
+
+impl PushMessageContentGift {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentGiftBuilder {
+    let inner = PushMessageContentGift {
+      td_name: "pushMessageContentGift".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentGiftBuilder { inner }
+  }
+
+  pub fn star_count(&self) -> i64 {
+    self.star_count
+  }
+
+  pub fn is_prepaid_upgrade(&self) -> bool {
+    self.is_prepaid_upgrade
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentGiftBuilder {
+  inner: PushMessageContentGift,
+}
+
+impl RTDPushMessageContentGiftBuilder {
+  pub fn build(&self) -> PushMessageContentGift {
+    self.inner.clone()
+  }
+
+  pub fn star_count(&mut self, star_count: i64) -> &mut Self {
+    self.inner.star_count = star_count;
+    self
+  }
+
+  pub fn is_prepaid_upgrade(&mut self, is_prepaid_upgrade: bool) -> &mut Self {
+    self.inner.is_prepaid_upgrade = is_prepaid_upgrade;
+    self
+  }
+}
+
+impl AsRef<PushMessageContentGift> for PushMessageContentGift {
+  fn as_ref(&self) -> &PushMessageContentGift {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentGift> for RTDPushMessageContentGiftBuilder {
+  fn as_ref(&self) -> &PushMessageContentGift {
+    &self.inner
+  }
+}
+
+/// A message with a giveaway
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentGiveaway {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Number of users who will receive giveaway prizes; 0 for pinned message
+  winner_count: i64,
+  /// Prize of the giveaway; may be null for pinned message
+  prize: Option<GiveawayPrize>,
+  /// True, if the message is a pinned message with the specified content
+  is_pinned: bool,
+}
+
+impl RObject for PushMessageContentGiveaway {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentGiveaway"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentGiveaway {}
+
+impl PushMessageContentGiveaway {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentGiveawayBuilder {
+    let inner = PushMessageContentGiveaway {
+      td_name: "pushMessageContentGiveaway".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentGiveawayBuilder { inner }
+  }
+
+  pub fn winner_count(&self) -> i64 {
+    self.winner_count
+  }
+
+  pub fn prize(&self) -> &Option<GiveawayPrize> {
+    &self.prize
+  }
+
+  pub fn is_pinned(&self) -> bool {
+    self.is_pinned
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentGiveawayBuilder {
+  inner: PushMessageContentGiveaway,
+}
+
+impl RTDPushMessageContentGiveawayBuilder {
+  pub fn build(&self) -> PushMessageContentGiveaway {
+    self.inner.clone()
+  }
+
+  pub fn winner_count(&mut self, winner_count: i64) -> &mut Self {
+    self.inner.winner_count = winner_count;
+    self
+  }
+
+  pub fn prize<T: AsRef<GiveawayPrize>>(&mut self, prize: T) -> &mut Self {
+    self.inner.prize = Some(prize.as_ref().clone());
+    self
+  }
+
+  pub fn is_pinned(&mut self, is_pinned: bool) -> &mut Self {
+    self.inner.is_pinned = is_pinned;
+    self
+  }
+}
+
+impl AsRef<PushMessageContentGiveaway> for PushMessageContentGiveaway {
+  fn as_ref(&self) -> &PushMessageContentGiveaway {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentGiveaway> for RTDPushMessageContentGiveawayBuilder {
+  fn as_ref(&self) -> &PushMessageContentGiveaway {
+    &self.inner
+  }
+}
+
 /// A general message with hidden content
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PushMessageContentHidden {
@@ -2043,6 +3080,85 @@ impl AsRef<PushMessageContentHidden> for PushMessageContentHidden {
 
 impl AsRef<PushMessageContentHidden> for RTDPushMessageContentHiddenBuilder {
   fn as_ref(&self) -> &PushMessageContentHidden {
+    &self.inner
+  }
+}
+
+/// An invitation of participants to a video chat or live stream
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentInviteVideoChatParticipants {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// True, if the current user was invited to the video chat or the live stream
+  is_current_user: bool,
+}
+
+impl RObject for PushMessageContentInviteVideoChatParticipants {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentInviteVideoChatParticipants"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentInviteVideoChatParticipants {}
+
+impl PushMessageContentInviteVideoChatParticipants {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentInviteVideoChatParticipantsBuilder {
+    let inner = PushMessageContentInviteVideoChatParticipants {
+      td_name: "pushMessageContentInviteVideoChatParticipants".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentInviteVideoChatParticipantsBuilder { inner }
+  }
+
+  pub fn is_current_user(&self) -> bool {
+    self.is_current_user
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentInviteVideoChatParticipantsBuilder {
+  inner: PushMessageContentInviteVideoChatParticipants,
+}
+
+impl RTDPushMessageContentInviteVideoChatParticipantsBuilder {
+  pub fn build(&self) -> PushMessageContentInviteVideoChatParticipants {
+    self.inner.clone()
+  }
+
+  pub fn is_current_user(&mut self, is_current_user: bool) -> &mut Self {
+    self.inner.is_current_user = is_current_user;
+    self
+  }
+}
+
+impl AsRef<PushMessageContentInviteVideoChatParticipants>
+  for PushMessageContentInviteVideoChatParticipants
+{
+  fn as_ref(&self) -> &PushMessageContentInviteVideoChatParticipants {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentInviteVideoChatParticipants>
+  for RTDPushMessageContentInviteVideoChatParticipantsBuilder
+{
+  fn as_ref(&self) -> &PushMessageContentInviteVideoChatParticipants {
     &self.inner
   }
 }
@@ -2232,7 +3348,7 @@ pub struct PushMessageContentMediaAlbum {
   total_count: i64,
   /// True, if the album has at least one photo
   has_photos: bool,
-  /// True, if the album has at least one video
+  /// True, if the album has at least one video file
   has_videos: bool,
   /// True, if the album has at least one audio file
   has_audios: bool,
@@ -2338,7 +3454,7 @@ impl AsRef<PushMessageContentMediaAlbum> for RTDPushMessageContentMediaAlbumBuil
   }
 }
 
-/// A forwarded messages
+/// Forwarded messages
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PushMessageContentMessageForwards {
   #[doc(hidden)]
@@ -2409,6 +3525,92 @@ impl AsRef<PushMessageContentMessageForwards> for PushMessageContentMessageForwa
 
 impl AsRef<PushMessageContentMessageForwards> for RTDPushMessageContentMessageForwardsBuilder {
   fn as_ref(&self) -> &PushMessageContentMessageForwards {
+    &self.inner
+  }
+}
+
+/// A message with paid media
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentPaidMedia {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Number of Telegram Stars needed to buy access to the media in the message; 0 for pinned message
+  star_count: i64,
+  /// True, if the message is a pinned message with the specified content
+  is_pinned: bool,
+}
+
+impl RObject for PushMessageContentPaidMedia {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentPaidMedia"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentPaidMedia {}
+
+impl PushMessageContentPaidMedia {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentPaidMediaBuilder {
+    let inner = PushMessageContentPaidMedia {
+      td_name: "pushMessageContentPaidMedia".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentPaidMediaBuilder { inner }
+  }
+
+  pub fn star_count(&self) -> i64 {
+    self.star_count
+  }
+
+  pub fn is_pinned(&self) -> bool {
+    self.is_pinned
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentPaidMediaBuilder {
+  inner: PushMessageContentPaidMedia,
+}
+
+impl RTDPushMessageContentPaidMediaBuilder {
+  pub fn build(&self) -> PushMessageContentPaidMedia {
+    self.inner.clone()
+  }
+
+  pub fn star_count(&mut self, star_count: i64) -> &mut Self {
+    self.inner.star_count = star_count;
+    self
+  }
+
+  pub fn is_pinned(&mut self, is_pinned: bool) -> &mut Self {
+    self.inner.is_pinned = is_pinned;
+    self
+  }
+}
+
+impl AsRef<PushMessageContentPaidMedia> for PushMessageContentPaidMedia {
+  fn as_ref(&self) -> &PushMessageContentPaidMedia {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentPaidMedia> for RTDPushMessageContentPaidMediaBuilder {
+  fn as_ref(&self) -> &PushMessageContentPaidMedia {
     &self.inner
   }
 }
@@ -2618,6 +3820,310 @@ impl AsRef<PushMessageContentPoll> for RTDPushMessageContentPollBuilder {
   }
 }
 
+/// An option was added to a poll
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentPollOptionAdded {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Text of the option
+  text: String,
+}
+
+impl RObject for PushMessageContentPollOptionAdded {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentPollOptionAdded"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentPollOptionAdded {}
+
+impl PushMessageContentPollOptionAdded {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentPollOptionAddedBuilder {
+    let inner = PushMessageContentPollOptionAdded {
+      td_name: "pushMessageContentPollOptionAdded".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentPollOptionAddedBuilder { inner }
+  }
+
+  pub fn text(&self) -> &String {
+    &self.text
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentPollOptionAddedBuilder {
+  inner: PushMessageContentPollOptionAdded,
+}
+
+impl RTDPushMessageContentPollOptionAddedBuilder {
+  pub fn build(&self) -> PushMessageContentPollOptionAdded {
+    self.inner.clone()
+  }
+
+  pub fn text<T: AsRef<str>>(&mut self, text: T) -> &mut Self {
+    self.inner.text = text.as_ref().to_string();
+    self
+  }
+}
+
+impl AsRef<PushMessageContentPollOptionAdded> for PushMessageContentPollOptionAdded {
+  fn as_ref(&self) -> &PushMessageContentPollOptionAdded {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentPollOptionAdded> for RTDPushMessageContentPollOptionAddedBuilder {
+  fn as_ref(&self) -> &PushMessageContentPollOptionAdded {
+    &self.inner
+  }
+}
+
+/// A message with a Telegram Premium gift code created for the user
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentPremiumGiftCode {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Number of months the Telegram Premium subscription will be active after code activation
+  month_count: i64,
+}
+
+impl RObject for PushMessageContentPremiumGiftCode {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentPremiumGiftCode"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentPremiumGiftCode {}
+
+impl PushMessageContentPremiumGiftCode {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentPremiumGiftCodeBuilder {
+    let inner = PushMessageContentPremiumGiftCode {
+      td_name: "pushMessageContentPremiumGiftCode".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentPremiumGiftCodeBuilder { inner }
+  }
+
+  pub fn month_count(&self) -> i64 {
+    self.month_count
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentPremiumGiftCodeBuilder {
+  inner: PushMessageContentPremiumGiftCode,
+}
+
+impl RTDPushMessageContentPremiumGiftCodeBuilder {
+  pub fn build(&self) -> PushMessageContentPremiumGiftCode {
+    self.inner.clone()
+  }
+
+  pub fn month_count(&mut self, month_count: i64) -> &mut Self {
+    self.inner.month_count = month_count;
+    self
+  }
+}
+
+impl AsRef<PushMessageContentPremiumGiftCode> for PushMessageContentPremiumGiftCode {
+  fn as_ref(&self) -> &PushMessageContentPremiumGiftCode {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentPremiumGiftCode> for RTDPushMessageContentPremiumGiftCodeBuilder {
+  fn as_ref(&self) -> &PushMessageContentPremiumGiftCode {
+    &self.inner
+  }
+}
+
+/// A user in the chat came within proximity alert range from the current user
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentProximityAlertTriggered {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// The distance to the user
+  distance: i64,
+}
+
+impl RObject for PushMessageContentProximityAlertTriggered {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentProximityAlertTriggered"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentProximityAlertTriggered {}
+
+impl PushMessageContentProximityAlertTriggered {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentProximityAlertTriggeredBuilder {
+    let inner = PushMessageContentProximityAlertTriggered {
+      td_name: "pushMessageContentProximityAlertTriggered".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentProximityAlertTriggeredBuilder { inner }
+  }
+
+  pub fn distance(&self) -> i64 {
+    self.distance
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentProximityAlertTriggeredBuilder {
+  inner: PushMessageContentProximityAlertTriggered,
+}
+
+impl RTDPushMessageContentProximityAlertTriggeredBuilder {
+  pub fn build(&self) -> PushMessageContentProximityAlertTriggered {
+    self.inner.clone()
+  }
+
+  pub fn distance(&mut self, distance: i64) -> &mut Self {
+    self.inner.distance = distance;
+    self
+  }
+}
+
+impl AsRef<PushMessageContentProximityAlertTriggered>
+  for PushMessageContentProximityAlertTriggered
+{
+  fn as_ref(&self) -> &PushMessageContentProximityAlertTriggered {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentProximityAlertTriggered>
+  for RTDPushMessageContentProximityAlertTriggeredBuilder
+{
+  fn as_ref(&self) -> &PushMessageContentProximityAlertTriggered {
+    &self.inner
+  }
+}
+
+/// A new recurring payment was made by the current user
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentRecurringPayment {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// The paid amount
+  amount: String,
+}
+
+impl RObject for PushMessageContentRecurringPayment {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentRecurringPayment"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentRecurringPayment {}
+
+impl PushMessageContentRecurringPayment {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentRecurringPaymentBuilder {
+    let inner = PushMessageContentRecurringPayment {
+      td_name: "pushMessageContentRecurringPayment".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentRecurringPaymentBuilder { inner }
+  }
+
+  pub fn amount(&self) -> &String {
+    &self.amount
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentRecurringPaymentBuilder {
+  inner: PushMessageContentRecurringPayment,
+}
+
+impl RTDPushMessageContentRecurringPaymentBuilder {
+  pub fn build(&self) -> PushMessageContentRecurringPayment {
+    self.inner.clone()
+  }
+
+  pub fn amount<T: AsRef<str>>(&mut self, amount: T) -> &mut Self {
+    self.inner.amount = amount.as_ref().to_string();
+    self
+  }
+}
+
+impl AsRef<PushMessageContentRecurringPayment> for PushMessageContentRecurringPayment {
+  fn as_ref(&self) -> &PushMessageContentRecurringPayment {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentRecurringPayment> for RTDPushMessageContentRecurringPaymentBuilder {
+  fn as_ref(&self) -> &PushMessageContentRecurringPayment {
+    &self.inner
+  }
+}
+
 /// A screenshot of a message in the chat has been taken
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PushMessageContentScreenshotTaken {
@@ -2778,6 +4284,220 @@ impl AsRef<PushMessageContentSticker> for RTDPushMessageContentStickerBuilder {
   }
 }
 
+/// A message with a story
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentStory {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// True, if the user was mentioned in the story
+  is_mention: bool,
+  /// True, if the message is a pinned message with the specified content
+  is_pinned: bool,
+}
+
+impl RObject for PushMessageContentStory {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentStory"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentStory {}
+
+impl PushMessageContentStory {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentStoryBuilder {
+    let inner = PushMessageContentStory {
+      td_name: "pushMessageContentStory".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentStoryBuilder { inner }
+  }
+
+  pub fn is_mention(&self) -> bool {
+    self.is_mention
+  }
+
+  pub fn is_pinned(&self) -> bool {
+    self.is_pinned
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentStoryBuilder {
+  inner: PushMessageContentStory,
+}
+
+impl RTDPushMessageContentStoryBuilder {
+  pub fn build(&self) -> PushMessageContentStory {
+    self.inner.clone()
+  }
+
+  pub fn is_mention(&mut self, is_mention: bool) -> &mut Self {
+    self.inner.is_mention = is_mention;
+    self
+  }
+
+  pub fn is_pinned(&mut self, is_pinned: bool) -> &mut Self {
+    self.inner.is_pinned = is_pinned;
+    self
+  }
+}
+
+impl AsRef<PushMessageContentStory> for PushMessageContentStory {
+  fn as_ref(&self) -> &PushMessageContentStory {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentStory> for RTDPushMessageContentStoryBuilder {
+  fn as_ref(&self) -> &PushMessageContentStory {
+    &self.inner
+  }
+}
+
+/// A birthdate was suggested to be set
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentSuggestBirthdate {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for PushMessageContentSuggestBirthdate {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentSuggestBirthdate"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentSuggestBirthdate {}
+
+impl PushMessageContentSuggestBirthdate {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentSuggestBirthdateBuilder {
+    let inner = PushMessageContentSuggestBirthdate {
+      td_name: "pushMessageContentSuggestBirthdate".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDPushMessageContentSuggestBirthdateBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentSuggestBirthdateBuilder {
+  inner: PushMessageContentSuggestBirthdate,
+}
+
+impl RTDPushMessageContentSuggestBirthdateBuilder {
+  pub fn build(&self) -> PushMessageContentSuggestBirthdate {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<PushMessageContentSuggestBirthdate> for PushMessageContentSuggestBirthdate {
+  fn as_ref(&self) -> &PushMessageContentSuggestBirthdate {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentSuggestBirthdate> for RTDPushMessageContentSuggestBirthdateBuilder {
+  fn as_ref(&self) -> &PushMessageContentSuggestBirthdate {
+    &self.inner
+  }
+}
+
+/// A profile photo was suggested to the user
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentSuggestProfilePhoto {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for PushMessageContentSuggestProfilePhoto {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentSuggestProfilePhoto"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentSuggestProfilePhoto {}
+
+impl PushMessageContentSuggestProfilePhoto {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentSuggestProfilePhotoBuilder {
+    let inner = PushMessageContentSuggestProfilePhoto {
+      td_name: "pushMessageContentSuggestProfilePhoto".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDPushMessageContentSuggestProfilePhotoBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentSuggestProfilePhotoBuilder {
+  inner: PushMessageContentSuggestProfilePhoto,
+}
+
+impl RTDPushMessageContentSuggestProfilePhotoBuilder {
+  pub fn build(&self) -> PushMessageContentSuggestProfilePhoto {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<PushMessageContentSuggestProfilePhoto> for PushMessageContentSuggestProfilePhoto {
+  fn as_ref(&self) -> &PushMessageContentSuggestProfilePhoto {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentSuggestProfilePhoto>
+  for RTDPushMessageContentSuggestProfilePhotoBuilder
+{
+  fn as_ref(&self) -> &PushMessageContentSuggestProfilePhoto {
+    &self.inner
+  }
+}
+
 /// A text message
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PushMessageContentText {
@@ -2860,6 +4580,264 @@ impl AsRef<PushMessageContentText> for PushMessageContentText {
 
 impl AsRef<PushMessageContentText> for RTDPushMessageContentTextBuilder {
   fn as_ref(&self) -> &PushMessageContentText {
+    &self.inner
+  }
+}
+
+/// A message with a request from a dApp was received through TON Connect
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentTonConnectRequest {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Name of the dApp; may be empty if unknown
+  dapp_name: String,
+}
+
+impl RObject for PushMessageContentTonConnectRequest {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentTonConnectRequest"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentTonConnectRequest {}
+
+impl PushMessageContentTonConnectRequest {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentTonConnectRequestBuilder {
+    let inner = PushMessageContentTonConnectRequest {
+      td_name: "pushMessageContentTonConnectRequest".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentTonConnectRequestBuilder { inner }
+  }
+
+  pub fn dapp_name(&self) -> &String {
+    &self.dapp_name
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentTonConnectRequestBuilder {
+  inner: PushMessageContentTonConnectRequest,
+}
+
+impl RTDPushMessageContentTonConnectRequestBuilder {
+  pub fn build(&self) -> PushMessageContentTonConnectRequest {
+    self.inner.clone()
+  }
+
+  pub fn dapp_name<T: AsRef<str>>(&mut self, dapp_name: T) -> &mut Self {
+    self.inner.dapp_name = dapp_name.as_ref().to_string();
+    self
+  }
+}
+
+impl AsRef<PushMessageContentTonConnectRequest> for PushMessageContentTonConnectRequest {
+  fn as_ref(&self) -> &PushMessageContentTonConnectRequest {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentTonConnectRequest> for RTDPushMessageContentTonConnectRequestBuilder {
+  fn as_ref(&self) -> &PushMessageContentTonConnectRequest {
+    &self.inner
+  }
+}
+
+/// A message with a TON wallet transfer
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentTonWalletTransfer {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// Sender of the transfer; 0 if unknown
+  sender_user_id: i64,
+  /// String representation of the received amount
+  amount: String,
+  /// Comment added to the transaction if it is public
+  comment: String,
+}
+
+impl RObject for PushMessageContentTonWalletTransfer {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentTonWalletTransfer"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentTonWalletTransfer {}
+
+impl PushMessageContentTonWalletTransfer {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentTonWalletTransferBuilder {
+    let inner = PushMessageContentTonWalletTransfer {
+      td_name: "pushMessageContentTonWalletTransfer".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentTonWalletTransferBuilder { inner }
+  }
+
+  pub fn sender_user_id(&self) -> i64 {
+    self.sender_user_id
+  }
+
+  pub fn amount(&self) -> &String {
+    &self.amount
+  }
+
+  pub fn comment(&self) -> &String {
+    &self.comment
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentTonWalletTransferBuilder {
+  inner: PushMessageContentTonWalletTransfer,
+}
+
+impl RTDPushMessageContentTonWalletTransferBuilder {
+  pub fn build(&self) -> PushMessageContentTonWalletTransfer {
+    self.inner.clone()
+  }
+
+  pub fn sender_user_id(&mut self, sender_user_id: i64) -> &mut Self {
+    self.inner.sender_user_id = sender_user_id;
+    self
+  }
+
+  pub fn amount<T: AsRef<str>>(&mut self, amount: T) -> &mut Self {
+    self.inner.amount = amount.as_ref().to_string();
+    self
+  }
+
+  pub fn comment<T: AsRef<str>>(&mut self, comment: T) -> &mut Self {
+    self.inner.comment = comment.as_ref().to_string();
+    self
+  }
+}
+
+impl AsRef<PushMessageContentTonWalletTransfer> for PushMessageContentTonWalletTransfer {
+  fn as_ref(&self) -> &PushMessageContentTonWalletTransfer {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentTonWalletTransfer> for RTDPushMessageContentTonWalletTransferBuilder {
+  fn as_ref(&self) -> &PushMessageContentTonWalletTransfer {
+    &self.inner
+  }
+}
+
+/// A message with an upgraded gift
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentUpgradedGift {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+  /// True, if the gift was obtained by upgrading of a previously received gift; otherwise, if is_prepaid_upgrade == false, then this is a transferred or resold gift
+  is_upgrade: bool,
+  /// True, if the message is about completion of prepaid upgrade of the gift instead of actual receiving of a new gift
+  is_prepaid_upgrade: bool,
+}
+
+impl RObject for PushMessageContentUpgradedGift {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentUpgradedGift"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentUpgradedGift {}
+
+impl PushMessageContentUpgradedGift {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentUpgradedGiftBuilder {
+    let inner = PushMessageContentUpgradedGift {
+      td_name: "pushMessageContentUpgradedGift".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
+    RTDPushMessageContentUpgradedGiftBuilder { inner }
+  }
+
+  pub fn is_upgrade(&self) -> bool {
+    self.is_upgrade
+  }
+
+  pub fn is_prepaid_upgrade(&self) -> bool {
+    self.is_prepaid_upgrade
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentUpgradedGiftBuilder {
+  inner: PushMessageContentUpgradedGift,
+}
+
+impl RTDPushMessageContentUpgradedGiftBuilder {
+  pub fn build(&self) -> PushMessageContentUpgradedGift {
+    self.inner.clone()
+  }
+
+  pub fn is_upgrade(&mut self, is_upgrade: bool) -> &mut Self {
+    self.inner.is_upgrade = is_upgrade;
+    self
+  }
+
+  pub fn is_prepaid_upgrade(&mut self, is_prepaid_upgrade: bool) -> &mut Self {
+    self.inner.is_prepaid_upgrade = is_prepaid_upgrade;
+    self
+  }
+}
+
+impl AsRef<PushMessageContentUpgradedGift> for PushMessageContentUpgradedGift {
+  fn as_ref(&self) -> &PushMessageContentUpgradedGift {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentUpgradedGift> for RTDPushMessageContentUpgradedGiftBuilder {
+  fn as_ref(&self) -> &PushMessageContentUpgradedGift {
     &self.inner
   }
 }
@@ -2968,6 +4946,132 @@ impl AsRef<PushMessageContentVideo> for PushMessageContentVideo {
 
 impl AsRef<PushMessageContentVideo> for RTDPushMessageContentVideoBuilder {
   fn as_ref(&self) -> &PushMessageContentVideo {
+    &self.inner
+  }
+}
+
+/// A video chat or live stream has ended
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentVideoChatEnded {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for PushMessageContentVideoChatEnded {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentVideoChatEnded"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentVideoChatEnded {}
+
+impl PushMessageContentVideoChatEnded {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentVideoChatEndedBuilder {
+    let inner = PushMessageContentVideoChatEnded {
+      td_name: "pushMessageContentVideoChatEnded".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDPushMessageContentVideoChatEndedBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentVideoChatEndedBuilder {
+  inner: PushMessageContentVideoChatEnded,
+}
+
+impl RTDPushMessageContentVideoChatEndedBuilder {
+  pub fn build(&self) -> PushMessageContentVideoChatEnded {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<PushMessageContentVideoChatEnded> for PushMessageContentVideoChatEnded {
+  fn as_ref(&self) -> &PushMessageContentVideoChatEnded {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentVideoChatEnded> for RTDPushMessageContentVideoChatEndedBuilder {
+  fn as_ref(&self) -> &PushMessageContentVideoChatEnded {
+    &self.inner
+  }
+}
+
+/// A video chat or live stream was started
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PushMessageContentVideoChatStarted {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for PushMessageContentVideoChatStarted {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "pushMessageContentVideoChatStarted"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDPushMessageContent for PushMessageContentVideoChatStarted {}
+
+impl PushMessageContentVideoChatStarted {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDPushMessageContentVideoChatStartedBuilder {
+    let inner = PushMessageContentVideoChatStarted {
+      td_name: "pushMessageContentVideoChatStarted".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDPushMessageContentVideoChatStartedBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDPushMessageContentVideoChatStartedBuilder {
+  inner: PushMessageContentVideoChatStarted,
+}
+
+impl RTDPushMessageContentVideoChatStartedBuilder {
+  pub fn build(&self) -> PushMessageContentVideoChatStarted {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<PushMessageContentVideoChatStarted> for PushMessageContentVideoChatStarted {
+  fn as_ref(&self) -> &PushMessageContentVideoChatStarted {
+    self
+  }
+}
+
+impl AsRef<PushMessageContentVideoChatStarted> for RTDPushMessageContentVideoChatStartedBuilder {
+  fn as_ref(&self) -> &PushMessageContentVideoChatStarted {
     &self.inner
   }
 }

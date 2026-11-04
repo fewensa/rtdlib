@@ -20,7 +20,7 @@ pub enum LanguagePackStringValue {
   Deleted(LanguagePackStringValueDeleted),
   /// An ordinary language pack string
   Ordinary(LanguagePackStringValueOrdinary),
-  /// A language pack string which has different forms based on the number of some object it mentions. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more info
+  /// A language pack string which has different forms based on the number of some object it mentions. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more information
   Pluralized(LanguagePackStringValuePluralized),
 }
 
@@ -308,7 +308,7 @@ impl AsRef<LanguagePackStringValueOrdinary> for RTDLanguagePackStringValueOrdina
   }
 }
 
-/// A language pack string which has different forms based on the number of some object it mentions. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more info
+/// A language pack string which has different forms based on the number of some object it mentions. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more information
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct LanguagePackStringValuePluralized {
   #[doc(hidden)]

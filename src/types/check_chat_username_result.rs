@@ -14,18 +14,22 @@ pub trait TDCheckChatUsernameResult: Debug + RObject {}
 pub enum CheckChatUsernameResult {
   #[doc(hidden)]
   _Default(()),
+  /// Checks whether a username can be set for a new bot or assigned as a secondary username to an existing bot. Use checkChatUsername to check username for other chat types
+  CheckBotUsername(CheckBotUsername),
   /// Checks whether a username can be set for a chat
   CheckChatUsername(CheckChatUsername),
   /// The username can be set
   Ok(CheckChatUsernameResultOk),
   /// The user has too many chats with username, one of them must be made private first
-  PublicChatsTooMuch(CheckChatUsernameResultPublicChatsTooMuch),
+  PublicChatsTooMany(CheckChatUsernameResultPublicChatsTooMany),
   /// The user can't be a member of a public supergroup
   PublicGroupsUnavailable(CheckChatUsernameResultPublicGroupsUnavailable),
   /// The username is invalid
   UsernameInvalid(CheckChatUsernameResultUsernameInvalid),
   /// The username is occupied
   UsernameOccupied(CheckChatUsernameResultUsernameOccupied),
+  /// The username can be purchased at https://fragment.com. Information about the username can be received using getCollectibleItemInfo
+  UsernamePurchasable(CheckChatUsernameResultUsernamePurchasable),
 }
 
 impl Default for CheckChatUsernameResult {
@@ -42,12 +46,14 @@ impl<'de> Deserialize<'de> for CheckChatUsernameResult {
     use serde::de::Error;
     rtd_enum_deserialize!(
       CheckChatUsernameResult,
+      (checkBotUsername, CheckBotUsername);
       (checkChatUsername, CheckChatUsername);
       (checkChatUsernameResultOk, Ok);
-      (checkChatUsernameResultPublicChatsTooMuch, PublicChatsTooMuch);
+      (checkChatUsernameResultPublicChatsTooMany, PublicChatsTooMany);
       (checkChatUsernameResultPublicGroupsUnavailable, PublicGroupsUnavailable);
       (checkChatUsernameResultUsernameInvalid, UsernameInvalid);
       (checkChatUsernameResultUsernameOccupied, UsernameOccupied);
+      (checkChatUsernameResultUsernamePurchasable, UsernamePurchasable);
 
     )(deserializer)
   }
@@ -57,12 +63,14 @@ impl RObject for CheckChatUsernameResult {
   #[doc(hidden)]
   fn td_name(&self) -> &'static str {
     match self {
+      CheckChatUsernameResult::CheckBotUsername(t) => t.td_name(),
       CheckChatUsernameResult::CheckChatUsername(t) => t.td_name(),
       CheckChatUsernameResult::Ok(t) => t.td_name(),
-      CheckChatUsernameResult::PublicChatsTooMuch(t) => t.td_name(),
+      CheckChatUsernameResult::PublicChatsTooMany(t) => t.td_name(),
       CheckChatUsernameResult::PublicGroupsUnavailable(t) => t.td_name(),
       CheckChatUsernameResult::UsernameInvalid(t) => t.td_name(),
       CheckChatUsernameResult::UsernameOccupied(t) => t.td_name(),
+      CheckChatUsernameResult::UsernamePurchasable(t) => t.td_name(),
 
       _ => "-1",
     }
@@ -70,12 +78,14 @@ impl RObject for CheckChatUsernameResult {
   #[doc(hidden)]
   fn extra(&self) -> Option<String> {
     match self {
+      CheckChatUsernameResult::CheckBotUsername(t) => t.extra(),
       CheckChatUsernameResult::CheckChatUsername(t) => t.extra(),
       CheckChatUsernameResult::Ok(t) => t.extra(),
-      CheckChatUsernameResult::PublicChatsTooMuch(t) => t.extra(),
+      CheckChatUsernameResult::PublicChatsTooMany(t) => t.extra(),
       CheckChatUsernameResult::PublicGroupsUnavailable(t) => t.extra(),
       CheckChatUsernameResult::UsernameInvalid(t) => t.extra(),
       CheckChatUsernameResult::UsernameOccupied(t) => t.extra(),
+      CheckChatUsernameResult::UsernamePurchasable(t) => t.extra(),
 
       _ => None,
     }
@@ -94,14 +104,17 @@ impl CheckChatUsernameResult {
     matches!(self, CheckChatUsernameResult::_Default(_))
   }
 
+  pub fn is_check_bot_username(&self) -> bool {
+    matches!(self, CheckChatUsernameResult::CheckBotUsername(_))
+  }
   pub fn is_check_chat_username(&self) -> bool {
     matches!(self, CheckChatUsernameResult::CheckChatUsername(_))
   }
   pub fn is_ok(&self) -> bool {
     matches!(self, CheckChatUsernameResult::Ok(_))
   }
-  pub fn is_public_chats_too_much(&self) -> bool {
-    matches!(self, CheckChatUsernameResult::PublicChatsTooMuch(_))
+  pub fn is_public_chats_too_many(&self) -> bool {
+    matches!(self, CheckChatUsernameResult::PublicChatsTooMany(_))
   }
   pub fn is_public_groups_unavailable(&self) -> bool {
     matches!(self, CheckChatUsernameResult::PublicGroupsUnavailable(_))
@@ -112,7 +125,16 @@ impl CheckChatUsernameResult {
   pub fn is_username_occupied(&self) -> bool {
     matches!(self, CheckChatUsernameResult::UsernameOccupied(_))
   }
+  pub fn is_username_purchasable(&self) -> bool {
+    matches!(self, CheckChatUsernameResult::UsernamePurchasable(_))
+  }
 
+  pub fn on_check_bot_username<F: FnOnce(&CheckBotUsername)>(&self, fnc: F) -> &Self {
+    if let CheckChatUsernameResult::CheckBotUsername(t) = self {
+      fnc(t)
+    };
+    self
+  }
   pub fn on_check_chat_username<F: FnOnce(&CheckChatUsername)>(&self, fnc: F) -> &Self {
     if let CheckChatUsernameResult::CheckChatUsername(t) = self {
       fnc(t)
@@ -125,11 +147,11 @@ impl CheckChatUsernameResult {
     };
     self
   }
-  pub fn on_public_chats_too_much<F: FnOnce(&CheckChatUsernameResultPublicChatsTooMuch)>(
+  pub fn on_public_chats_too_many<F: FnOnce(&CheckChatUsernameResultPublicChatsTooMany)>(
     &self,
     fnc: F,
   ) -> &Self {
-    if let CheckChatUsernameResult::PublicChatsTooMuch(t) = self {
+    if let CheckChatUsernameResult::PublicChatsTooMany(t) = self {
       fnc(t)
     };
     self
@@ -163,7 +185,22 @@ impl CheckChatUsernameResult {
     };
     self
   }
+  pub fn on_username_purchasable<F: FnOnce(&CheckChatUsernameResultUsernamePurchasable)>(
+    &self,
+    fnc: F,
+  ) -> &Self {
+    if let CheckChatUsernameResult::UsernamePurchasable(t) = self {
+      fnc(t)
+    };
+    self
+  }
 
+  pub fn as_check_bot_username(&self) -> Option<&CheckBotUsername> {
+    if let CheckChatUsernameResult::CheckBotUsername(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_check_chat_username(&self) -> Option<&CheckChatUsername> {
     if let CheckChatUsernameResult::CheckChatUsername(t) = self {
       return Some(t);
@@ -176,8 +213,8 @@ impl CheckChatUsernameResult {
     }
     None
   }
-  pub fn as_public_chats_too_much(&self) -> Option<&CheckChatUsernameResultPublicChatsTooMuch> {
-    if let CheckChatUsernameResult::PublicChatsTooMuch(t) = self {
+  pub fn as_public_chats_too_many(&self) -> Option<&CheckChatUsernameResultPublicChatsTooMany> {
+    if let CheckChatUsernameResult::PublicChatsTooMany(t) = self {
       return Some(t);
     }
     None
@@ -202,6 +239,16 @@ impl CheckChatUsernameResult {
     }
     None
   }
+  pub fn as_username_purchasable(&self) -> Option<&CheckChatUsernameResultUsernamePurchasable> {
+    if let CheckChatUsernameResult::UsernamePurchasable(t) = self {
+      return Some(t);
+    }
+    None
+  }
+
+  pub fn check_bot_username<T: AsRef<CheckBotUsername>>(t: T) -> Self {
+    CheckChatUsernameResult::CheckBotUsername(t.as_ref().clone())
+  }
 
   pub fn check_chat_username<T: AsRef<CheckChatUsername>>(t: T) -> Self {
     CheckChatUsernameResult::CheckChatUsername(t.as_ref().clone())
@@ -211,8 +258,8 @@ impl CheckChatUsernameResult {
     CheckChatUsernameResult::Ok(t.as_ref().clone())
   }
 
-  pub fn public_chats_too_much<T: AsRef<CheckChatUsernameResultPublicChatsTooMuch>>(t: T) -> Self {
-    CheckChatUsernameResult::PublicChatsTooMuch(t.as_ref().clone())
+  pub fn public_chats_too_many<T: AsRef<CheckChatUsernameResultPublicChatsTooMany>>(t: T) -> Self {
+    CheckChatUsernameResult::PublicChatsTooMany(t.as_ref().clone())
   }
 
   pub fn public_groups_unavailable<T: AsRef<CheckChatUsernameResultPublicGroupsUnavailable>>(
@@ -227,6 +274,10 @@ impl CheckChatUsernameResult {
 
   pub fn username_occupied<T: AsRef<CheckChatUsernameResultUsernameOccupied>>(t: T) -> Self {
     CheckChatUsernameResult::UsernameOccupied(t.as_ref().clone())
+  }
+
+  pub fn username_purchasable<T: AsRef<CheckChatUsernameResultUsernamePurchasable>>(t: T) -> Self {
+    CheckChatUsernameResult::UsernamePurchasable(t.as_ref().clone())
   }
 }
 
@@ -301,7 +352,7 @@ impl AsRef<CheckChatUsernameResultOk> for RTDCheckChatUsernameResultOkBuilder {
 
 /// The user has too many chats with username, one of them must be made private first
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct CheckChatUsernameResultPublicChatsTooMuch {
+pub struct CheckChatUsernameResultPublicChatsTooMany {
   #[doc(hidden)]
   #[serde(rename(serialize = "@type", deserialize = "@type"))]
   td_name: String,
@@ -310,10 +361,10 @@ pub struct CheckChatUsernameResultPublicChatsTooMuch {
   extra: Option<String>,
 }
 
-impl RObject for CheckChatUsernameResultPublicChatsTooMuch {
+impl RObject for CheckChatUsernameResultPublicChatsTooMany {
   #[doc(hidden)]
   fn td_name(&self) -> &'static str {
-    "checkChatUsernameResultPublicChatsTooMuch"
+    "checkChatUsernameResultPublicChatsTooMany"
   }
   #[doc(hidden)]
   fn extra(&self) -> Option<String> {
@@ -324,44 +375,44 @@ impl RObject for CheckChatUsernameResultPublicChatsTooMuch {
   }
 }
 
-impl TDCheckChatUsernameResult for CheckChatUsernameResultPublicChatsTooMuch {}
+impl TDCheckChatUsernameResult for CheckChatUsernameResultPublicChatsTooMany {}
 
-impl CheckChatUsernameResultPublicChatsTooMuch {
+impl CheckChatUsernameResultPublicChatsTooMany {
   pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
     Ok(serde_json::from_str(json.as_ref())?)
   }
-  pub fn builder() -> RTDCheckChatUsernameResultPublicChatsTooMuchBuilder {
-    let inner = CheckChatUsernameResultPublicChatsTooMuch {
-      td_name: "checkChatUsernameResultPublicChatsTooMuch".to_string(),
+  pub fn builder() -> RTDCheckChatUsernameResultPublicChatsTooManyBuilder {
+    let inner = CheckChatUsernameResultPublicChatsTooMany {
+      td_name: "checkChatUsernameResultPublicChatsTooMany".to_string(),
       extra: Some(Uuid::new_v4().to_string()),
     };
-    RTDCheckChatUsernameResultPublicChatsTooMuchBuilder { inner }
+    RTDCheckChatUsernameResultPublicChatsTooManyBuilder { inner }
   }
 }
 
 #[doc(hidden)]
-pub struct RTDCheckChatUsernameResultPublicChatsTooMuchBuilder {
-  inner: CheckChatUsernameResultPublicChatsTooMuch,
+pub struct RTDCheckChatUsernameResultPublicChatsTooManyBuilder {
+  inner: CheckChatUsernameResultPublicChatsTooMany,
 }
 
-impl RTDCheckChatUsernameResultPublicChatsTooMuchBuilder {
-  pub fn build(&self) -> CheckChatUsernameResultPublicChatsTooMuch {
+impl RTDCheckChatUsernameResultPublicChatsTooManyBuilder {
+  pub fn build(&self) -> CheckChatUsernameResultPublicChatsTooMany {
     self.inner.clone()
   }
 }
 
-impl AsRef<CheckChatUsernameResultPublicChatsTooMuch>
-  for CheckChatUsernameResultPublicChatsTooMuch
+impl AsRef<CheckChatUsernameResultPublicChatsTooMany>
+  for CheckChatUsernameResultPublicChatsTooMany
 {
-  fn as_ref(&self) -> &CheckChatUsernameResultPublicChatsTooMuch {
+  fn as_ref(&self) -> &CheckChatUsernameResultPublicChatsTooMany {
     self
   }
 }
 
-impl AsRef<CheckChatUsernameResultPublicChatsTooMuch>
-  for RTDCheckChatUsernameResultPublicChatsTooMuchBuilder
+impl AsRef<CheckChatUsernameResultPublicChatsTooMany>
+  for RTDCheckChatUsernameResultPublicChatsTooManyBuilder
 {
-  fn as_ref(&self) -> &CheckChatUsernameResultPublicChatsTooMuch {
+  fn as_ref(&self) -> &CheckChatUsernameResultPublicChatsTooMany {
     &self.inner
   }
 }
@@ -559,6 +610,73 @@ impl AsRef<CheckChatUsernameResultUsernameOccupied>
   for RTDCheckChatUsernameResultUsernameOccupiedBuilder
 {
   fn as_ref(&self) -> &CheckChatUsernameResultUsernameOccupied {
+    &self.inner
+  }
+}
+
+/// The username can be purchased at https://fragment.com. Information about the username can be received using getCollectibleItemInfo
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct CheckChatUsernameResultUsernamePurchasable {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for CheckChatUsernameResultUsernamePurchasable {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "checkChatUsernameResultUsernamePurchasable"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDCheckChatUsernameResult for CheckChatUsernameResultUsernamePurchasable {}
+
+impl CheckChatUsernameResultUsernamePurchasable {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDCheckChatUsernameResultUsernamePurchasableBuilder {
+    let inner = CheckChatUsernameResultUsernamePurchasable {
+      td_name: "checkChatUsernameResultUsernamePurchasable".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDCheckChatUsernameResultUsernamePurchasableBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDCheckChatUsernameResultUsernamePurchasableBuilder {
+  inner: CheckChatUsernameResultUsernamePurchasable,
+}
+
+impl RTDCheckChatUsernameResultUsernamePurchasableBuilder {
+  pub fn build(&self) -> CheckChatUsernameResultUsernamePurchasable {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<CheckChatUsernameResultUsernamePurchasable>
+  for CheckChatUsernameResultUsernamePurchasable
+{
+  fn as_ref(&self) -> &CheckChatUsernameResultUsernamePurchasable {
+    self
+  }
+}
+
+impl AsRef<CheckChatUsernameResultUsernamePurchasable>
+  for RTDCheckChatUsernameResultUsernamePurchasableBuilder
+{
+  fn as_ref(&self) -> &CheckChatUsernameResultUsernamePurchasable {
     &self.inner
   }
 }

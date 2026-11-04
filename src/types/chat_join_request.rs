@@ -2,7 +2,7 @@ use crate::errors::*;
 use crate::types::*;
 use uuid::Uuid;
 
-/// Describes a user that sent a join request and waits for administrator approval
+/// Describes a user who sent a join request and waits for administrator approval
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ChatJoinRequest {
   #[doc(hidden)]

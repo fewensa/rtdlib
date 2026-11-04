@@ -14,7 +14,7 @@ pub trait TDUserStatus: Debug + RObject {}
 pub enum UserStatus {
   #[doc(hidden)]
   _Default(()),
-  /// The user status was never changed
+  /// The user's status has never been changed
   Empty(UserStatusEmpty),
   /// The user is offline, but was online last month
   LastMonth(UserStatusLastMonth),
@@ -218,7 +218,7 @@ impl AsRef<UserStatus> for UserStatus {
   }
 }
 
-/// The user status was never changed
+/// The user's status has never been changed
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct UserStatusEmpty {
   #[doc(hidden)]
@@ -290,6 +290,8 @@ pub struct UserStatusLastMonth {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// Exact user's status is hidden because the current user enabled userPrivacySettingShowStatus privacy setting for the user and has no Telegram Premium
+  by_my_privacy_settings: bool,
 }
 
 impl RObject for UserStatusLastMonth {
@@ -316,8 +318,13 @@ impl UserStatusLastMonth {
     let inner = UserStatusLastMonth {
       td_name: "userStatusLastMonth".to_string(),
       extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
     };
     RTDUserStatusLastMonthBuilder { inner }
+  }
+
+  pub fn by_my_privacy_settings(&self) -> bool {
+    self.by_my_privacy_settings
   }
 }
 
@@ -329,6 +336,11 @@ pub struct RTDUserStatusLastMonthBuilder {
 impl RTDUserStatusLastMonthBuilder {
   pub fn build(&self) -> UserStatusLastMonth {
     self.inner.clone()
+  }
+
+  pub fn by_my_privacy_settings(&mut self, by_my_privacy_settings: bool) -> &mut Self {
+    self.inner.by_my_privacy_settings = by_my_privacy_settings;
+    self
   }
 }
 
@@ -353,6 +365,8 @@ pub struct UserStatusLastWeek {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// Exact user's status is hidden because the current user enabled userPrivacySettingShowStatus privacy setting for the user and has no Telegram Premium
+  by_my_privacy_settings: bool,
 }
 
 impl RObject for UserStatusLastWeek {
@@ -379,8 +393,13 @@ impl UserStatusLastWeek {
     let inner = UserStatusLastWeek {
       td_name: "userStatusLastWeek".to_string(),
       extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
     };
     RTDUserStatusLastWeekBuilder { inner }
+  }
+
+  pub fn by_my_privacy_settings(&self) -> bool {
+    self.by_my_privacy_settings
   }
 }
 
@@ -392,6 +411,11 @@ pub struct RTDUserStatusLastWeekBuilder {
 impl RTDUserStatusLastWeekBuilder {
   pub fn build(&self) -> UserStatusLastWeek {
     self.inner.clone()
+  }
+
+  pub fn by_my_privacy_settings(&mut self, by_my_privacy_settings: bool) -> &mut Self {
+    self.inner.by_my_privacy_settings = by_my_privacy_settings;
+    self
   }
 }
 
@@ -566,6 +590,8 @@ pub struct UserStatusRecently {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
+  /// Exact user's status is hidden because the current user enabled userPrivacySettingShowStatus privacy setting for the user and has no Telegram Premium
+  by_my_privacy_settings: bool,
 }
 
 impl RObject for UserStatusRecently {
@@ -592,8 +618,13 @@ impl UserStatusRecently {
     let inner = UserStatusRecently {
       td_name: "userStatusRecently".to_string(),
       extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
     };
     RTDUserStatusRecentlyBuilder { inner }
+  }
+
+  pub fn by_my_privacy_settings(&self) -> bool {
+    self.by_my_privacy_settings
   }
 }
 
@@ -605,6 +636,11 @@ pub struct RTDUserStatusRecentlyBuilder {
 impl RTDUserStatusRecentlyBuilder {
   pub fn build(&self) -> UserStatusRecently {
     self.inner.clone()
+  }
+
+  pub fn by_my_privacy_settings(&mut self, by_my_privacy_settings: bool) -> &mut Self {
+    self.inner.by_my_privacy_settings = by_my_privacy_settings;
+    self
   }
 }
 

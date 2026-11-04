@@ -17,6 +17,8 @@ pub struct ChatAdministrator {
   custom_title: String,
   /// True, if the user is the owner of the chat
   is_owner: bool,
+  /// True, if the current user can edit the administrator privileges for the administrator
+  can_be_edited: bool,
 }
 
 impl RObject for ChatAdministrator {
@@ -57,6 +59,10 @@ impl ChatAdministrator {
   pub fn is_owner(&self) -> bool {
     self.is_owner
   }
+
+  pub fn can_be_edited(&self) -> bool {
+    self.can_be_edited
+  }
 }
 
 #[doc(hidden)]
@@ -81,6 +87,11 @@ impl RTDChatAdministratorBuilder {
 
   pub fn is_owner(&mut self, is_owner: bool) -> &mut Self {
     self.inner.is_owner = is_owner;
+    self
+  }
+
+  pub fn can_be_edited(&mut self, can_be_edited: bool) -> &mut Self {
+    self.inner.can_be_edited = can_be_edited;
     self
   }
 }

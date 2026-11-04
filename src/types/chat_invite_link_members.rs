@@ -11,7 +11,7 @@ pub struct ChatInviteLinkMembers {
   #[doc(hidden)]
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
-  /// Approximate total count of chat members found
+  /// Approximate total number of chat members found
   total_count: i64,
   /// List of chat members, joined a chat via an invite link
   members: Vec<ChatInviteLinkMember>,

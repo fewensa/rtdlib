@@ -2,7 +2,7 @@ use crate::errors::*;
 use crate::types::*;
 use uuid::Uuid;
 
-/// Represents a supergroup or channel with zero or more members (subscribers in the case of channels). From the point of view of the system, a channel is a special kind of a supergroup: only administrators can post and see the list of members, and posts from all administrators use the name and photo of the channel instead of individual names and profile photos. Unlike supergroups, channels can have an unlimited number of subscribers
+/// Represents a supergroup or channel with zero or more members (subscribers in the case of channels)
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Supergroup {
   #[doc(hidden)]
@@ -13,34 +13,54 @@ pub struct Supergroup {
   extra: Option<String>,
   /// Supergroup or channel identifier
   id: i64,
-  /// Username of the supergroup or channel; empty for private supergroups or channels
-  username: String,
+  /// Usernames of the supergroup or channel; may be null
+  usernames: Option<Usernames>,
   /// Point in time (Unix timestamp) when the current user joined, or the point in time when the supergroup or channel was created, in case the user is not a member
   date: i64,
-  /// Status of the current user in the supergroup or channel; custom title will be always empty
+  /// Status of the current user in the supergroup or channel
   status: ChatMemberStatus,
-  /// Number of members in the supergroup or channel; 0 if unknown. Currently, it is guaranteed to be known only if the supergroup or channel was received through searchPublicChats, searchChatsNearby, getInactiveSupergroupChats, getSuitableDiscussionChats, getGroupsInCommon, or getUserPrivacySettingRules
+  /// Number of members in the supergroup or channel; 0 if unknown. Currently, it is guaranteed to be known only if the supergroup or channel was received through getChatSimilarChats, getChatsToPostStories, getCreatedPublicChats, getGroupsInCommon, getInactiveSupergroupChats, getRecommendedChats, getSuitableDiscussionChats, getUserPrivacySettingRules, getVideoChatAvailableParticipants, searchPublicChats, or in chatFolderInviteLinkInfo.missing_chat_ids, or in userFullInfo.personal_chat_id, or for chats with messages or stories from publicForwards and foundStories
   member_count: i64,
+  /// Approximate boost level for the chat
+  boost_level: i64,
+  /// True, if automatic translation of messages is enabled in the channel
+  has_automatic_translation: bool,
   /// True, if the channel has a discussion group, or the supergroup is the designated discussion group for a channel
   has_linked_chat: bool,
   /// True, if the supergroup is connected to a location, i.e. the supergroup is a location-based supergroup
   has_location: bool,
-  /// True, if messages sent to the channel need to contain information about the sender. This field is only applicable to channels
+  /// True, if messages sent to the channel contains name of the sender. This field is only applicable to channels
   sign_messages: bool,
+  /// True, if messages sent to the channel have information about the sender user. This field is only applicable to channels
+  show_message_sender: bool,
+  /// True, if users need to join the supergroup before they can send messages. May be false only for discussion supergroups and channel direct messages groups
+  join_to_send_messages: bool,
+  /// True, if all users directly joining the supergroup need to be approved by supergroup administrators
+  join_by_request: bool,
   /// True, if the slow mode is enabled in the supergroup
   is_slow_mode_enabled: bool,
-  /// True, if the supergroup is a channel
+  /// True, if the supergroup is a channel, which can have an unlimited number of subscribers, but only administrators can post there and see the list of subscribers
   is_channel: bool,
   /// True, if the supergroup is a broadcast group, i.e. only administrators can send messages and there is no limit on the number of members
   is_broadcast_group: bool,
-  /// True, if the supergroup or channel is verified
-  is_verified: bool,
-  /// If non-empty, contains a human-readable description of the reason why access to this supergroup or channel must be restricted
-  restriction_reason: String,
-  /// True, if many users reported this supergroup or channel as a scam
-  is_scam: bool,
-  /// True, if many users reported this supergroup or channel as a fake account
-  is_fake: bool,
+  /// True, if the supergroup is a forum with topics
+  is_forum: bool,
+  /// True, if the supergroup is a direct message group for a channel chat
+  is_direct_messages_group: bool,
+  /// True, if the supergroup is a direct messages group for a channel chat that is administered by the current user
+  is_administered_direct_messages_group: bool,
+  /// Information about verification status of the supergroup or channel; may be null if none
+  verification_status: Option<VerificationStatus>,
+  /// True, if the channel has direct messages group
+  has_direct_messages_group: bool,
+  /// True, if the supergroup is a forum, which topics are shown in the same way as in channel direct messages groups
+  has_forum_tabs: bool,
+  /// Information about the restrictions that must be applied to the corresponding supergroup or channel chat; may be null if none
+  restriction_info: Option<RestrictionInfo>,
+  /// Number of Telegram Stars that must be paid by non-administrator users of the supergroup chat for each sent message
+  paid_message_star_count: i64,
+  /// State of active stories of the supergroup or channel; may be null if there are no active stories
+  active_story_state: Option<ActiveStoryState>,
 }
 
 impl RObject for Supergroup {
@@ -74,8 +94,8 @@ impl Supergroup {
     self.id
   }
 
-  pub fn username(&self) -> &String {
-    &self.username
+  pub fn usernames(&self) -> &Option<Usernames> {
+    &self.usernames
   }
 
   pub fn date(&self) -> i64 {
@@ -90,6 +110,14 @@ impl Supergroup {
     self.member_count
   }
 
+  pub fn boost_level(&self) -> i64 {
+    self.boost_level
+  }
+
+  pub fn has_automatic_translation(&self) -> bool {
+    self.has_automatic_translation
+  }
+
   pub fn has_linked_chat(&self) -> bool {
     self.has_linked_chat
   }
@@ -100,6 +128,18 @@ impl Supergroup {
 
   pub fn sign_messages(&self) -> bool {
     self.sign_messages
+  }
+
+  pub fn show_message_sender(&self) -> bool {
+    self.show_message_sender
+  }
+
+  pub fn join_to_send_messages(&self) -> bool {
+    self.join_to_send_messages
+  }
+
+  pub fn join_by_request(&self) -> bool {
+    self.join_by_request
   }
 
   pub fn is_slow_mode_enabled(&self) -> bool {
@@ -114,20 +154,40 @@ impl Supergroup {
     self.is_broadcast_group
   }
 
-  pub fn is_verified(&self) -> bool {
-    self.is_verified
+  pub fn is_forum(&self) -> bool {
+    self.is_forum
   }
 
-  pub fn restriction_reason(&self) -> &String {
-    &self.restriction_reason
+  pub fn is_direct_messages_group(&self) -> bool {
+    self.is_direct_messages_group
   }
 
-  pub fn is_scam(&self) -> bool {
-    self.is_scam
+  pub fn is_administered_direct_messages_group(&self) -> bool {
+    self.is_administered_direct_messages_group
   }
 
-  pub fn is_fake(&self) -> bool {
-    self.is_fake
+  pub fn verification_status(&self) -> &Option<VerificationStatus> {
+    &self.verification_status
+  }
+
+  pub fn has_direct_messages_group(&self) -> bool {
+    self.has_direct_messages_group
+  }
+
+  pub fn has_forum_tabs(&self) -> bool {
+    self.has_forum_tabs
+  }
+
+  pub fn restriction_info(&self) -> &Option<RestrictionInfo> {
+    &self.restriction_info
+  }
+
+  pub fn paid_message_star_count(&self) -> i64 {
+    self.paid_message_star_count
+  }
+
+  pub fn active_story_state(&self) -> &Option<ActiveStoryState> {
+    &self.active_story_state
   }
 }
 
@@ -146,8 +206,8 @@ impl RTDSupergroupBuilder {
     self
   }
 
-  pub fn username<T: AsRef<str>>(&mut self, username: T) -> &mut Self {
-    self.inner.username = username.as_ref().to_string();
+  pub fn usernames<T: AsRef<Usernames>>(&mut self, usernames: T) -> &mut Self {
+    self.inner.usernames = Some(usernames.as_ref().clone());
     self
   }
 
@@ -166,6 +226,16 @@ impl RTDSupergroupBuilder {
     self
   }
 
+  pub fn boost_level(&mut self, boost_level: i64) -> &mut Self {
+    self.inner.boost_level = boost_level;
+    self
+  }
+
+  pub fn has_automatic_translation(&mut self, has_automatic_translation: bool) -> &mut Self {
+    self.inner.has_automatic_translation = has_automatic_translation;
+    self
+  }
+
   pub fn has_linked_chat(&mut self, has_linked_chat: bool) -> &mut Self {
     self.inner.has_linked_chat = has_linked_chat;
     self
@@ -178,6 +248,21 @@ impl RTDSupergroupBuilder {
 
   pub fn sign_messages(&mut self, sign_messages: bool) -> &mut Self {
     self.inner.sign_messages = sign_messages;
+    self
+  }
+
+  pub fn show_message_sender(&mut self, show_message_sender: bool) -> &mut Self {
+    self.inner.show_message_sender = show_message_sender;
+    self
+  }
+
+  pub fn join_to_send_messages(&mut self, join_to_send_messages: bool) -> &mut Self {
+    self.inner.join_to_send_messages = join_to_send_messages;
+    self
+  }
+
+  pub fn join_by_request(&mut self, join_by_request: bool) -> &mut Self {
+    self.inner.join_by_request = join_by_request;
     self
   }
 
@@ -196,23 +281,57 @@ impl RTDSupergroupBuilder {
     self
   }
 
-  pub fn is_verified(&mut self, is_verified: bool) -> &mut Self {
-    self.inner.is_verified = is_verified;
+  pub fn is_forum(&mut self, is_forum: bool) -> &mut Self {
+    self.inner.is_forum = is_forum;
     self
   }
 
-  pub fn restriction_reason<T: AsRef<str>>(&mut self, restriction_reason: T) -> &mut Self {
-    self.inner.restriction_reason = restriction_reason.as_ref().to_string();
+  pub fn is_direct_messages_group(&mut self, is_direct_messages_group: bool) -> &mut Self {
+    self.inner.is_direct_messages_group = is_direct_messages_group;
     self
   }
 
-  pub fn is_scam(&mut self, is_scam: bool) -> &mut Self {
-    self.inner.is_scam = is_scam;
+  pub fn is_administered_direct_messages_group(
+    &mut self,
+    is_administered_direct_messages_group: bool,
+  ) -> &mut Self {
+    self.inner.is_administered_direct_messages_group = is_administered_direct_messages_group;
     self
   }
 
-  pub fn is_fake(&mut self, is_fake: bool) -> &mut Self {
-    self.inner.is_fake = is_fake;
+  pub fn verification_status<T: AsRef<VerificationStatus>>(
+    &mut self,
+    verification_status: T,
+  ) -> &mut Self {
+    self.inner.verification_status = Some(verification_status.as_ref().clone());
+    self
+  }
+
+  pub fn has_direct_messages_group(&mut self, has_direct_messages_group: bool) -> &mut Self {
+    self.inner.has_direct_messages_group = has_direct_messages_group;
+    self
+  }
+
+  pub fn has_forum_tabs(&mut self, has_forum_tabs: bool) -> &mut Self {
+    self.inner.has_forum_tabs = has_forum_tabs;
+    self
+  }
+
+  pub fn restriction_info<T: AsRef<RestrictionInfo>>(&mut self, restriction_info: T) -> &mut Self {
+    self.inner.restriction_info = Some(restriction_info.as_ref().clone());
+    self
+  }
+
+  pub fn paid_message_star_count(&mut self, paid_message_star_count: i64) -> &mut Self {
+    self.inner.paid_message_star_count = paid_message_star_count;
+    self
+  }
+
+  pub fn active_story_state<T: AsRef<ActiveStoryState>>(
+    &mut self,
+    active_story_state: T,
+  ) -> &mut Self {
+    self.inner.active_story_state = Some(active_story_state.as_ref().clone());
     self
   }
 }

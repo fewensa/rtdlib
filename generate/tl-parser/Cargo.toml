@@ -1,0 +1,40 @@
+[package]
+name = "tl-parser"
+version = "0.1.0"
+authors = ["fewensa <fewensa@protonmail.com>"]
+
+description = "tl schame parser"
+homepage = "https://github.com/fewensa/fantasy"
+repository = "https://github.com/fewensa/fantasy"
+license = "MIT"
+keywords = [ "tl", "codegen"]
+categories = ["encoding"]
+include = [
+  "Cargo.toml",
+  "**/*.rs",
+  "README.md",
+  "LICENSE"
+]
+readme = "README.md"
+edition = "2018"
+
+
+[dependencies]
+
+text-reader = "0.2"
+rstring-builder = "0.1"
+toolkit = "0.1"
+
+typed-builder = "0.3.0"
+failure = "0.1.5"
+log = "0.4"
+simple_logger = "1.3"
+
+
+
+serde = "1"
+serde_derive = "1"
+
+
+
+

@@ -5,16 +5,16 @@ use uuid::Uuid;
 use serde::de::{Deserialize, Deserializer};
 use std::fmt::Debug;
 
-/// TRAIT | Describes format of the thumbnail
+/// TRAIT | Describes format of a thumbnail
 pub trait TDThumbnailFormat: Debug + RObject {}
 
-/// Describes format of the thumbnail
+/// Describes format of a thumbnail
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum ThumbnailFormat {
   #[doc(hidden)]
   _Default(()),
-  /// The thumbnail is in static GIF format. It will be used only for some bot inline results
+  /// The thumbnail is in static GIF format. It will be used only for some bot inline query results
   Gif(ThumbnailFormatGif),
   /// The thumbnail is in JPEG format
   Jpeg(ThumbnailFormatJpeg),
@@ -22,9 +22,11 @@ pub enum ThumbnailFormat {
   Mpeg4(ThumbnailFormatMpeg4),
   /// The thumbnail is in PNG format. It will be used only for background patterns
   Png(ThumbnailFormatPng),
-  /// The thumbnail is in TGS format. It will be used only for animated sticker sets
+  /// The thumbnail is in TGS format. It will be used only for sticker sets
   Tgs(ThumbnailFormatTgs),
-  /// The thumbnail is in WEBP format. It will be used only for some stickers
+  /// The thumbnail is in WEBM format. It will be used only for sticker sets
+  Webm(ThumbnailFormatWebm),
+  /// The thumbnail is in WEBP format. It will be used only for some stickers and sticker sets
   Webp(ThumbnailFormatWebp),
 }
 
@@ -47,6 +49,7 @@ impl<'de> Deserialize<'de> for ThumbnailFormat {
       (thumbnailFormatMpeg4, Mpeg4);
       (thumbnailFormatPng, Png);
       (thumbnailFormatTgs, Tgs);
+      (thumbnailFormatWebm, Webm);
       (thumbnailFormatWebp, Webp);
 
     )(deserializer)
@@ -62,6 +65,7 @@ impl RObject for ThumbnailFormat {
       ThumbnailFormat::Mpeg4(t) => t.td_name(),
       ThumbnailFormat::Png(t) => t.td_name(),
       ThumbnailFormat::Tgs(t) => t.td_name(),
+      ThumbnailFormat::Webm(t) => t.td_name(),
       ThumbnailFormat::Webp(t) => t.td_name(),
 
       _ => "-1",
@@ -75,6 +79,7 @@ impl RObject for ThumbnailFormat {
       ThumbnailFormat::Mpeg4(t) => t.extra(),
       ThumbnailFormat::Png(t) => t.extra(),
       ThumbnailFormat::Tgs(t) => t.extra(),
+      ThumbnailFormat::Webm(t) => t.extra(),
       ThumbnailFormat::Webp(t) => t.extra(),
 
       _ => None,
@@ -109,6 +114,9 @@ impl ThumbnailFormat {
   pub fn is_tgs(&self) -> bool {
     matches!(self, ThumbnailFormat::Tgs(_))
   }
+  pub fn is_webm(&self) -> bool {
+    matches!(self, ThumbnailFormat::Webm(_))
+  }
   pub fn is_webp(&self) -> bool {
     matches!(self, ThumbnailFormat::Webp(_))
   }
@@ -139,6 +147,12 @@ impl ThumbnailFormat {
   }
   pub fn on_tgs<F: FnOnce(&ThumbnailFormatTgs)>(&self, fnc: F) -> &Self {
     if let ThumbnailFormat::Tgs(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_webm<F: FnOnce(&ThumbnailFormatWebm)>(&self, fnc: F) -> &Self {
+    if let ThumbnailFormat::Webm(t) = self {
       fnc(t)
     };
     self
@@ -180,6 +194,12 @@ impl ThumbnailFormat {
     }
     None
   }
+  pub fn as_webm(&self) -> Option<&ThumbnailFormatWebm> {
+    if let ThumbnailFormat::Webm(t) = self {
+      return Some(t);
+    }
+    None
+  }
   pub fn as_webp(&self) -> Option<&ThumbnailFormatWebp> {
     if let ThumbnailFormat::Webp(t) = self {
       return Some(t);
@@ -207,6 +227,10 @@ impl ThumbnailFormat {
     ThumbnailFormat::Tgs(t.as_ref().clone())
   }
 
+  pub fn webm<T: AsRef<ThumbnailFormatWebm>>(t: T) -> Self {
+    ThumbnailFormat::Webm(t.as_ref().clone())
+  }
+
   pub fn webp<T: AsRef<ThumbnailFormatWebp>>(t: T) -> Self {
     ThumbnailFormat::Webp(t.as_ref().clone())
   }
@@ -218,7 +242,7 @@ impl AsRef<ThumbnailFormat> for ThumbnailFormat {
   }
 }
 
-/// The thumbnail is in static GIF format. It will be used only for some bot inline results
+/// The thumbnail is in static GIF format. It will be used only for some bot inline query results
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ThumbnailFormatGif {
   #[doc(hidden)]
@@ -470,7 +494,7 @@ impl AsRef<ThumbnailFormatPng> for RTDThumbnailFormatPngBuilder {
   }
 }
 
-/// The thumbnail is in TGS format. It will be used only for animated sticker sets
+/// The thumbnail is in TGS format. It will be used only for sticker sets
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ThumbnailFormatTgs {
   #[doc(hidden)]
@@ -533,7 +557,70 @@ impl AsRef<ThumbnailFormatTgs> for RTDThumbnailFormatTgsBuilder {
   }
 }
 
-/// The thumbnail is in WEBP format. It will be used only for some stickers
+/// The thumbnail is in WEBM format. It will be used only for sticker sets
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ThumbnailFormatWebm {
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@type", deserialize = "@type"))]
+  td_name: String,
+  #[doc(hidden)]
+  #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
+  extra: Option<String>,
+}
+
+impl RObject for ThumbnailFormatWebm {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "thumbnailFormatWebm"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
+}
+
+impl TDThumbnailFormat for ThumbnailFormatWebm {}
+
+impl ThumbnailFormatWebm {
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  pub fn builder() -> RTDThumbnailFormatWebmBuilder {
+    let inner = ThumbnailFormatWebm {
+      td_name: "thumbnailFormatWebm".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+    };
+    RTDThumbnailFormatWebmBuilder { inner }
+  }
+}
+
+#[doc(hidden)]
+pub struct RTDThumbnailFormatWebmBuilder {
+  inner: ThumbnailFormatWebm,
+}
+
+impl RTDThumbnailFormatWebmBuilder {
+  pub fn build(&self) -> ThumbnailFormatWebm {
+    self.inner.clone()
+  }
+}
+
+impl AsRef<ThumbnailFormatWebm> for ThumbnailFormatWebm {
+  fn as_ref(&self) -> &ThumbnailFormatWebm {
+    self
+  }
+}
+
+impl AsRef<ThumbnailFormatWebm> for RTDThumbnailFormatWebmBuilder {
+  fn as_ref(&self) -> &ThumbnailFormatWebm {
+    &self.inner
+  }
+}
+
+/// The thumbnail is in WEBP format. It will be used only for some stickers and sticker sets
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ThumbnailFormatWebp {
   #[doc(hidden)]

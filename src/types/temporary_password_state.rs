@@ -2,7 +2,7 @@ use crate::errors::*;
 use crate::types::*;
 use uuid::Uuid;
 
-/// Returns information about the availability of a temporary password, which can be used for payments
+/// Contains information about the availability of a temporary password, which can be used for payments and withdrawal of upgraded gifts
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TemporaryPasswordState {
   #[doc(hidden)]
