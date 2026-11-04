@@ -1,48 +1,44 @@
-rtdlib
-===
+# rtdlib
 
-[![Build Status](https://api.travis-ci.org/fewensa/rtdlib.svg)](https://travis-ci.org/fewensa/rtdlib/)
+[![CI](https://github.com/fewensa/rtdlib/actions/workflows/ci.yml/badge.svg)](https://github.com/fewensa/rtdlib/actions/workflows/ci.yml)
 
+`rtdlib` is Rust types for [TDLib](https://github.com/tdlib/td).
 
-`rtdlib` is [td](https://github.com/tdlib/td) for rust.
+This repository's `master` branch is the **0.8.x** line. Those types were generated from TDLib commit [`789b9c0`](https://github.com/tdlib/td/commit/789b9c0a554d779945db027fd2612909c676345f) (January 2022). They have not been regenerated for newer TDLib. The crates.io **1.8.x** versions track TDLib 1.8.0 and are published from the `1d8x` branch; `0.8.2` does not replace `1.8.1` as the highest version number. See [version mapping](https://github.com/fewensa/telegram-client/blob/master/version.md) and [CHANGELOG](CHANGELOG.md).
 
-`rtdlib` crate have [td](https://github.com/tdlib/td) type (classes).
+Minimum supported Rust version: **1.89**.
 
+## Usage
 
-# Usage
-
-```toml
-[dependencies]
-rtdlib = "1.8.*"
-```
-
-The default, `rtdlib` only have `td` types, not have call tdjson dylib, if you want , you need add `features` to your dependency.
+Pin the version. TDLib types and `telegram-client` move together.
 
 ```toml
 [dependencies]
-rtdlib = { version = "1.8.*", features = "sys" }
+rtdlib = "=0.8.2"
 ```
 
-## version
+The default crate contains TDLib types only. To call `tdjson`, enable `sys`. That re-exports `rtdlib_sys::Tdlib` and needs `libtdjson` at link time. `rtdlib-sys` is still 0.1.0.
 
-Please read: [version](https://github.com/fewensa/telegram-client/blob/master/version.md)
+```toml
+[dependencies]
+rtdlib = { version = "=0.8.2", features = ["sys"] }
+```
 
-# Example
+## Example
 
-## types
+### types
 
 ```rust
 let json = r#"{"@type":"updateAuthorizationState","authorization_state":{"@type":"authorizationStateWaitTdlibParameters"}}"#;
-let state: UpdateAuthorizationState = serde_json::from_str(&json[..]).expect("Json fail");
+let state: UpdateAuthorizationState = serde_json::from_str(json).expect("Json fail");
 assert_eq!("updateAuthorizationState", state.td_name());
 let rjson = state.to_json();
-assert!(rjson.is_ok(), true);
-assert_eq!(json, rjson.unwrap());
+assert!(rjson.is_ok());
 ```
 
-## tdjson
+### tdjson
 
-If you enable `sys` features, you can use `Tdlib` to call tdjson dylib.
+With the `sys` feature:
 
 ```rust
 use rtdlib::Tdlib;
@@ -51,9 +47,10 @@ let request = r#"{"@type": "getMe"}"#;
 tdlib.send(request);
 ```
 
+## td
 
-# td
+Further protocol documentation is on the [Telegram API](https://core.telegram.org/api) site.
 
-More document you need check [telegram api](https://core.telegram.org/api)
+## Security
 
-
+Report vulnerabilities privately. See [SECURITY.md](SECURITY.md).

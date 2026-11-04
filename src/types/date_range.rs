@@ -1,10 +1,6 @@
-
-use crate::types::*;
 use crate::errors::*;
+use crate::types::*;
 use uuid::Uuid;
-
-
-
 
 /// Represents a date range
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -19,61 +15,73 @@ pub struct DateRange {
   start_date: i64,
   /// Point in time (Unix timestamp) at which the date range ends
   end_date: i64,
-  
 }
 
 impl RObject for DateRange {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "dateRange" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "dateRange"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
 
-
-
 impl DateRange {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
   pub fn builder() -> RTDDateRangeBuilder {
-    let mut inner = DateRange::default();
-    inner.td_name = "dateRange".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
+    let inner = DateRange {
+      td_name: "dateRange".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
     RTDDateRangeBuilder { inner }
   }
 
-  pub fn start_date(&self) -> i64 { self.start_date }
+  pub fn start_date(&self) -> i64 {
+    self.start_date
+  }
 
-  pub fn end_date(&self) -> i64 { self.end_date }
-
+  pub fn end_date(&self) -> i64 {
+    self.end_date
+  }
 }
 
 #[doc(hidden)]
 pub struct RTDDateRangeBuilder {
-  inner: DateRange
+  inner: DateRange,
 }
 
 impl RTDDateRangeBuilder {
-  pub fn build(&self) -> DateRange { self.inner.clone() }
+  pub fn build(&self) -> DateRange {
+    self.inner.clone()
+  }
 
-   
   pub fn start_date(&mut self, start_date: i64) -> &mut Self {
     self.inner.start_date = start_date;
     self
   }
 
-   
   pub fn end_date(&mut self, end_date: i64) -> &mut Self {
     self.inner.end_date = end_date;
     self
   }
-
 }
 
 impl AsRef<DateRange> for DateRange {
-  fn as_ref(&self) -> &DateRange { self }
+  fn as_ref(&self) -> &DateRange {
+    self
+  }
 }
 
 impl AsRef<DateRange> for RTDDateRangeBuilder {
-  fn as_ref(&self) -> &DateRange { &self.inner }
+  fn as_ref(&self) -> &DateRange {
+    &self.inner
+  }
 }
-
-
-

@@ -1,5 +1,6 @@
-
-use std::{io, fmt, error};
+use std::error::Error;
+use std::fmt;
+use std::io;
 
 #[derive(Debug)]
 pub enum RTDError {
@@ -11,25 +12,27 @@ pub enum RTDError {
 pub type RTDResult<T> = Result<T, RTDError>;
 
 impl RTDError {
-  pub fn custom(msg: String) -> Self { RTDError::Custom(msg) }
+  pub fn custom(msg: String) -> Self {
+    RTDError::Custom(msg)
+  }
 }
 
 impl fmt::Display for RTDError {
-  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     match self {
-      RTDError::Io(ref err) => write!(f, "IO error: {}", err),
-      RTDError::SerdeJson(ref err) => write!(f, "Serde json error: {}", err),
+      RTDError::Io(err) => write!(f, "IO error: {}", err),
+      RTDError::SerdeJson(err) => write!(f, "Serde json error: {}", err),
       RTDError::Custom(msg) => write!(f, "{}", msg),
     }
   }
 }
 
-impl error::Error for RTDError {
-  fn cause(&self) -> Option<&dyn error::Error> {
-    match *self {
-      RTDError::Io(ref err) => Some(err),
-      RTDError::SerdeJson(ref err) => Some(err),
-      RTDError::Custom(_) => None
+impl Error for RTDError {
+  fn source(&self) -> Option<&(dyn Error + 'static)> {
+    match self {
+      RTDError::Io(err) => Some(err),
+      RTDError::SerdeJson(err) => Some(err),
+      RTDError::Custom(_) => None,
     }
   }
 }
@@ -45,5 +48,3 @@ impl From<serde_json::Error> for RTDError {
     RTDError::SerdeJson(err)
   }
 }
-
-

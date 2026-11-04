@@ -1,14 +1,9 @@
-
 pub use self::_common::{
-  RObject,
-  RFunction,
-  detect_td_type,
-  detect_td_type_and_extra,
-  from_json,
-  TdType,
+  detect_td_type, detect_td_type_and_extra, from_json, RFunction, RObject, TdType,
 };
 
-#[macro_use] mod _common;
+#[macro_use]
+mod _common;
 
 pub use self::account_ttl::*;
 pub use self::address::*;
@@ -319,9 +314,6 @@ pub use self::voice_note::*;
 pub use self::web_page::*;
 pub use self::web_page_instant_view::*;
 
-
-
-
 mod account_ttl;
 mod address;
 mod animated_chat_photo;
@@ -630,5 +622,3 @@ mod video_note;
 mod voice_note;
 mod web_page;
 mod web_page_instant_view;
-
-

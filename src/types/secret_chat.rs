@@ -1,10 +1,6 @@
-
-use crate::types::*;
 use crate::errors::*;
+use crate::types::*;
 use uuid::Uuid;
-
-
-
 
 /// Represents a secret chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -27,93 +23,109 @@ pub struct SecretChat {
   key_hash: String,
   /// Secret chat layer; determines features supported by the chat partner's application. Nested text entities and underline and strikethrough entities are supported if the layer >= 101
   layer: i64,
-  
 }
 
 impl RObject for SecretChat {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "secretChat" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "secretChat"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
 
-
-
 impl SecretChat {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
   pub fn builder() -> RTDSecretChatBuilder {
-    let mut inner = SecretChat::default();
-    inner.td_name = "secretChat".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
+    let inner = SecretChat {
+      td_name: "secretChat".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
     RTDSecretChatBuilder { inner }
   }
 
-  pub fn id(&self) -> i64 { self.id }
+  pub fn id(&self) -> i64 {
+    self.id
+  }
 
-  pub fn user_id(&self) -> i64 { self.user_id }
+  pub fn user_id(&self) -> i64 {
+    self.user_id
+  }
 
-  pub fn state(&self) -> &SecretChatState { &self.state }
+  pub fn state(&self) -> &SecretChatState {
+    &self.state
+  }
 
-  pub fn is_outbound(&self) -> bool { self.is_outbound }
+  pub fn is_outbound(&self) -> bool {
+    self.is_outbound
+  }
 
-  pub fn key_hash(&self) -> &String { &self.key_hash }
+  pub fn key_hash(&self) -> &String {
+    &self.key_hash
+  }
 
-  pub fn layer(&self) -> i64 { self.layer }
-
+  pub fn layer(&self) -> i64 {
+    self.layer
+  }
 }
 
 #[doc(hidden)]
 pub struct RTDSecretChatBuilder {
-  inner: SecretChat
+  inner: SecretChat,
 }
 
 impl RTDSecretChatBuilder {
-  pub fn build(&self) -> SecretChat { self.inner.clone() }
+  pub fn build(&self) -> SecretChat {
+    self.inner.clone()
+  }
 
-   
   pub fn id(&mut self, id: i64) -> &mut Self {
     self.inner.id = id;
     self
   }
 
-   
   pub fn user_id(&mut self, user_id: i64) -> &mut Self {
     self.inner.user_id = user_id;
     self
   }
 
-   
   pub fn state<T: AsRef<SecretChatState>>(&mut self, state: T) -> &mut Self {
     self.inner.state = state.as_ref().clone();
     self
   }
 
-   
   pub fn is_outbound(&mut self, is_outbound: bool) -> &mut Self {
     self.inner.is_outbound = is_outbound;
     self
   }
 
-   
   pub fn key_hash<T: AsRef<str>>(&mut self, key_hash: T) -> &mut Self {
     self.inner.key_hash = key_hash.as_ref().to_string();
     self
   }
 
-   
   pub fn layer(&mut self, layer: i64) -> &mut Self {
     self.inner.layer = layer;
     self
   }
-
 }
 
 impl AsRef<SecretChat> for SecretChat {
-  fn as_ref(&self) -> &SecretChat { self }
+  fn as_ref(&self) -> &SecretChat {
+    self
+  }
 }
 
 impl AsRef<SecretChat> for RTDSecretChatBuilder {
-  fn as_ref(&self) -> &SecretChat { &self.inner }
+  fn as_ref(&self) -> &SecretChat {
+    &self.inner
+  }
 }
-
-
-

@@ -1,0 +1,19 @@
+name: Feature request
+description: An API or maintenance change that is not a vulnerability
+title: "[feature] "
+labels: []
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is missing, and who needs it?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Include whether this would break the 0.8.x public API or require regenerating TDLib types.
+    validations:
+      required: true

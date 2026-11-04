@@ -1,10 +1,6 @@
-
-use crate::types::*;
 use crate::errors::*;
+use crate::types::*;
 use uuid::Uuid;
-
-
-
 
 /// Describes a user or a chat as a member of another chat
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -23,77 +19,91 @@ pub struct ChatMember {
   joined_chat_date: i64,
   /// Status of the member in the chat
   status: ChatMemberStatus,
-  
 }
 
 impl RObject for ChatMember {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatMember" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatMember"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
 
-
-
 impl ChatMember {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
   pub fn builder() -> RTDChatMemberBuilder {
-    let mut inner = ChatMember::default();
-    inner.td_name = "chatMember".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
+    let inner = ChatMember {
+      td_name: "chatMember".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
     RTDChatMemberBuilder { inner }
   }
 
-  pub fn member_id(&self) -> &MessageSender { &self.member_id }
+  pub fn member_id(&self) -> &MessageSender {
+    &self.member_id
+  }
 
-  pub fn inviter_user_id(&self) -> i64 { self.inviter_user_id }
+  pub fn inviter_user_id(&self) -> i64 {
+    self.inviter_user_id
+  }
 
-  pub fn joined_chat_date(&self) -> i64 { self.joined_chat_date }
+  pub fn joined_chat_date(&self) -> i64 {
+    self.joined_chat_date
+  }
 
-  pub fn status(&self) -> &ChatMemberStatus { &self.status }
-
+  pub fn status(&self) -> &ChatMemberStatus {
+    &self.status
+  }
 }
 
 #[doc(hidden)]
 pub struct RTDChatMemberBuilder {
-  inner: ChatMember
+  inner: ChatMember,
 }
 
 impl RTDChatMemberBuilder {
-  pub fn build(&self) -> ChatMember { self.inner.clone() }
+  pub fn build(&self) -> ChatMember {
+    self.inner.clone()
+  }
 
-   
   pub fn member_id<T: AsRef<MessageSender>>(&mut self, member_id: T) -> &mut Self {
     self.inner.member_id = member_id.as_ref().clone();
     self
   }
 
-   
   pub fn inviter_user_id(&mut self, inviter_user_id: i64) -> &mut Self {
     self.inner.inviter_user_id = inviter_user_id;
     self
   }
 
-   
   pub fn joined_chat_date(&mut self, joined_chat_date: i64) -> &mut Self {
     self.inner.joined_chat_date = joined_chat_date;
     self
   }
 
-   
   pub fn status<T: AsRef<ChatMemberStatus>>(&mut self, status: T) -> &mut Self {
     self.inner.status = status.as_ref().clone();
     self
   }
-
 }
 
 impl AsRef<ChatMember> for ChatMember {
-  fn as_ref(&self) -> &ChatMember { self }
+  fn as_ref(&self) -> &ChatMember {
+    self
+  }
 }
 
 impl AsRef<ChatMember> for RTDChatMemberBuilder {
-  fn as_ref(&self) -> &ChatMember { &self.inner }
+  fn as_ref(&self) -> &ChatMember {
+    &self.inner
+  }
 }
-
-
-

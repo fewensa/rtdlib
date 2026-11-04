@@ -1,10 +1,6 @@
-
-use crate::types::*;
 use crate::errors::*;
+use crate::types::*;
 use uuid::Uuid;
-
-
-
 
 /// Contains information about found messages sent on a specific day
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -19,61 +15,73 @@ pub struct MessageCalendarDay {
   total_count: i64,
   /// First message sent on the day
   message: Message,
-  
 }
 
 impl RObject for MessageCalendarDay {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "messageCalendarDay" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "messageCalendarDay"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
 
-
-
 impl MessageCalendarDay {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
   pub fn builder() -> RTDMessageCalendarDayBuilder {
-    let mut inner = MessageCalendarDay::default();
-    inner.td_name = "messageCalendarDay".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
+    let inner = MessageCalendarDay {
+      td_name: "messageCalendarDay".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
     RTDMessageCalendarDayBuilder { inner }
   }
 
-  pub fn total_count(&self) -> i64 { self.total_count }
+  pub fn total_count(&self) -> i64 {
+    self.total_count
+  }
 
-  pub fn message(&self) -> &Message { &self.message }
-
+  pub fn message(&self) -> &Message {
+    &self.message
+  }
 }
 
 #[doc(hidden)]
 pub struct RTDMessageCalendarDayBuilder {
-  inner: MessageCalendarDay
+  inner: MessageCalendarDay,
 }
 
 impl RTDMessageCalendarDayBuilder {
-  pub fn build(&self) -> MessageCalendarDay { self.inner.clone() }
+  pub fn build(&self) -> MessageCalendarDay {
+    self.inner.clone()
+  }
 
-   
   pub fn total_count(&mut self, total_count: i64) -> &mut Self {
     self.inner.total_count = total_count;
     self
   }
 
-   
   pub fn message<T: AsRef<Message>>(&mut self, message: T) -> &mut Self {
     self.inner.message = message.as_ref().clone();
     self
   }
-
 }
 
 impl AsRef<MessageCalendarDay> for MessageCalendarDay {
-  fn as_ref(&self) -> &MessageCalendarDay { self }
+  fn as_ref(&self) -> &MessageCalendarDay {
+    self
+  }
 }
 
 impl AsRef<MessageCalendarDay> for RTDMessageCalendarDayBuilder {
-  fn as_ref(&self) -> &MessageCalendarDay { &self.inner }
+  fn as_ref(&self) -> &MessageCalendarDay {
+    &self.inner
+  }
 }
-
-
-

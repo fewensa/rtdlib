@@ -1,6 +1,6 @@
 [package]
 name = "rtdlib"
-version = "0.8.1"
+version = "0.8.2"
 authors = ["fewensa <fewensa@protonmail.com>"]
 description = "TDLib for rust"
 homepage = "https://github.com/fewensa/rtdlib"
@@ -12,20 +12,20 @@ include = [
   "Cargo.toml",
   "**/*.rs",
   "README.md",
-  "LICENSE"
+  "LICENSE",
+  "CHANGELOG.md",
 ]
 readme = "README.md"
-edition = "2018"
+edition = "2021"
+rust-version = "1.89"
 
 [dependencies]
-libc = "0.2"
-
 serde = "1"
 serde_derive = "1"
 serde_json = "1"
-serde-aux = "0.6"
+serde-aux = "4"
 
-uuid = { version = "0.8", features = ["v4"] }
+uuid = { version = "1", features = ["v4"] }
 
 rtdlib-sys = { version = "0.1", optional = true }
 

@@ -1,15 +1,9 @@
-
-use crate::types::*;
 use crate::errors::*;
+use crate::types::*;
 use uuid::Uuid;
 
-
-
-
-use std::fmt::Debug;
 use serde::de::{Deserialize, Deserializer};
-
-
+use std::fmt::Debug;
 
 /// TRAIT | Contains a description of a custom keyboard and actions that can be done with it to quickly reply to bots
 pub trait TDReplyMarkup: Debug + RObject {}
@@ -18,7 +12,8 @@ pub trait TDReplyMarkup: Debug + RObject {}
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum ReplyMarkup {
-  #[doc(hidden)] _Default(()),
+  #[doc(hidden)]
+  _Default(()),
   /// Instructs application to force a reply to this message
   ForceReply(ReplyMarkupForceReply),
   /// Contains an inline keyboard layout
@@ -27,15 +22,19 @@ pub enum ReplyMarkup {
   RemoveKeyboard(ReplyMarkupRemoveKeyboard),
   /// Contains a custom keyboard layout to quickly reply to bots
   ShowKeyboard(ReplyMarkupShowKeyboard),
-
 }
 
 impl Default for ReplyMarkup {
-  fn default() -> Self { ReplyMarkup::_Default(()) }
+  fn default() -> Self {
+    ReplyMarkup::_Default(())
+  }
 }
 
 impl<'de> Deserialize<'de> for ReplyMarkup {
-  fn deserialize<D>(deserializer: D) -> Result<ReplyMarkup, D::Error> where D: Deserializer<'de> {
+  fn deserialize<D>(deserializer: D) -> Result<ReplyMarkup, D::Error>
+  where
+    D: Deserializer<'de>,
+  {
     use serde::de::Error;
     rtd_enum_deserialize!(
       ReplyMarkup,
@@ -49,7 +48,8 @@ impl<'de> Deserialize<'de> for ReplyMarkup {
 }
 
 impl RObject for ReplyMarkup {
-  #[doc(hidden)] fn td_name(&self) -> &'static str {
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
     match self {
       ReplyMarkup::ForceReply(t) => t.td_name(),
       ReplyMarkup::InlineKeyboard(t) => t.td_name(),
@@ -59,7 +59,8 @@ impl RObject for ReplyMarkup {
       _ => "-1",
     }
   }
-  #[doc(hidden)] fn extra(&self) -> Option<String> {
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
     match self {
       ReplyMarkup::ForceReply(t) => t.extra(),
       ReplyMarkup::InlineKeyboard(t) => t.extra(),
@@ -69,49 +70,105 @@ impl RObject for ReplyMarkup {
       _ => None,
     }
   }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
 
 impl ReplyMarkup {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
-  #[doc(hidden)] pub fn _is_default(&self) -> bool { if let ReplyMarkup::_Default(_) = self { true } else { false } }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
+  #[doc(hidden)]
+  pub fn _is_default(&self) -> bool {
+    matches!(self, ReplyMarkup::_Default(_))
+  }
 
-  pub fn is_force_reply(&self) -> bool { if let ReplyMarkup::ForceReply(_) = self { true } else { false } }
-  pub fn is_inline_keyboard(&self) -> bool { if let ReplyMarkup::InlineKeyboard(_) = self { true } else { false } }
-  pub fn is_remove_keyboard(&self) -> bool { if let ReplyMarkup::RemoveKeyboard(_) = self { true } else { false } }
-  pub fn is_show_keyboard(&self) -> bool { if let ReplyMarkup::ShowKeyboard(_) = self { true } else { false } }
+  pub fn is_force_reply(&self) -> bool {
+    matches!(self, ReplyMarkup::ForceReply(_))
+  }
+  pub fn is_inline_keyboard(&self) -> bool {
+    matches!(self, ReplyMarkup::InlineKeyboard(_))
+  }
+  pub fn is_remove_keyboard(&self) -> bool {
+    matches!(self, ReplyMarkup::RemoveKeyboard(_))
+  }
+  pub fn is_show_keyboard(&self) -> bool {
+    matches!(self, ReplyMarkup::ShowKeyboard(_))
+  }
 
-  pub fn on_force_reply<F: FnOnce(&ReplyMarkupForceReply)>(&self, fnc: F) -> &Self { if let ReplyMarkup::ForceReply(t) = self { fnc(t) }; self }
-  pub fn on_inline_keyboard<F: FnOnce(&ReplyMarkupInlineKeyboard)>(&self, fnc: F) -> &Self { if let ReplyMarkup::InlineKeyboard(t) = self { fnc(t) }; self }
-  pub fn on_remove_keyboard<F: FnOnce(&ReplyMarkupRemoveKeyboard)>(&self, fnc: F) -> &Self { if let ReplyMarkup::RemoveKeyboard(t) = self { fnc(t) }; self }
-  pub fn on_show_keyboard<F: FnOnce(&ReplyMarkupShowKeyboard)>(&self, fnc: F) -> &Self { if let ReplyMarkup::ShowKeyboard(t) = self { fnc(t) }; self }
+  pub fn on_force_reply<F: FnOnce(&ReplyMarkupForceReply)>(&self, fnc: F) -> &Self {
+    if let ReplyMarkup::ForceReply(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_inline_keyboard<F: FnOnce(&ReplyMarkupInlineKeyboard)>(&self, fnc: F) -> &Self {
+    if let ReplyMarkup::InlineKeyboard(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_remove_keyboard<F: FnOnce(&ReplyMarkupRemoveKeyboard)>(&self, fnc: F) -> &Self {
+    if let ReplyMarkup::RemoveKeyboard(t) = self {
+      fnc(t)
+    };
+    self
+  }
+  pub fn on_show_keyboard<F: FnOnce(&ReplyMarkupShowKeyboard)>(&self, fnc: F) -> &Self {
+    if let ReplyMarkup::ShowKeyboard(t) = self {
+      fnc(t)
+    };
+    self
+  }
 
-  pub fn as_force_reply(&self) -> Option<&ReplyMarkupForceReply> { if let ReplyMarkup::ForceReply(t) = self { return Some(t) } None }
-  pub fn as_inline_keyboard(&self) -> Option<&ReplyMarkupInlineKeyboard> { if let ReplyMarkup::InlineKeyboard(t) = self { return Some(t) } None }
-  pub fn as_remove_keyboard(&self) -> Option<&ReplyMarkupRemoveKeyboard> { if let ReplyMarkup::RemoveKeyboard(t) = self { return Some(t) } None }
-  pub fn as_show_keyboard(&self) -> Option<&ReplyMarkupShowKeyboard> { if let ReplyMarkup::ShowKeyboard(t) = self { return Some(t) } None }
+  pub fn as_force_reply(&self) -> Option<&ReplyMarkupForceReply> {
+    if let ReplyMarkup::ForceReply(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_inline_keyboard(&self) -> Option<&ReplyMarkupInlineKeyboard> {
+    if let ReplyMarkup::InlineKeyboard(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_remove_keyboard(&self) -> Option<&ReplyMarkupRemoveKeyboard> {
+    if let ReplyMarkup::RemoveKeyboard(t) = self {
+      return Some(t);
+    }
+    None
+  }
+  pub fn as_show_keyboard(&self) -> Option<&ReplyMarkupShowKeyboard> {
+    if let ReplyMarkup::ShowKeyboard(t) = self {
+      return Some(t);
+    }
+    None
+  }
 
+  pub fn force_reply<T: AsRef<ReplyMarkupForceReply>>(t: T) -> Self {
+    ReplyMarkup::ForceReply(t.as_ref().clone())
+  }
 
+  pub fn inline_keyboard<T: AsRef<ReplyMarkupInlineKeyboard>>(t: T) -> Self {
+    ReplyMarkup::InlineKeyboard(t.as_ref().clone())
+  }
 
-  pub fn force_reply<T: AsRef<ReplyMarkupForceReply>>(t: T) -> Self { ReplyMarkup::ForceReply(t.as_ref().clone()) }
+  pub fn remove_keyboard<T: AsRef<ReplyMarkupRemoveKeyboard>>(t: T) -> Self {
+    ReplyMarkup::RemoveKeyboard(t.as_ref().clone())
+  }
 
-  pub fn inline_keyboard<T: AsRef<ReplyMarkupInlineKeyboard>>(t: T) -> Self { ReplyMarkup::InlineKeyboard(t.as_ref().clone()) }
-
-  pub fn remove_keyboard<T: AsRef<ReplyMarkupRemoveKeyboard>>(t: T) -> Self { ReplyMarkup::RemoveKeyboard(t.as_ref().clone()) }
-
-  pub fn show_keyboard<T: AsRef<ReplyMarkupShowKeyboard>>(t: T) -> Self { ReplyMarkup::ShowKeyboard(t.as_ref().clone()) }
-
+  pub fn show_keyboard<T: AsRef<ReplyMarkupShowKeyboard>>(t: T) -> Self {
+    ReplyMarkup::ShowKeyboard(t.as_ref().clone())
+  }
 }
 
 impl AsRef<ReplyMarkup> for ReplyMarkup {
-  fn as_ref(&self) -> &ReplyMarkup { self }
+  fn as_ref(&self) -> &ReplyMarkup {
+    self
+  }
 }
-
-
-
-
-
-
 
 /// Instructs application to force a reply to this message
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -126,70 +183,81 @@ pub struct ReplyMarkupForceReply {
   is_personal: bool,
   /// If non-empty, the placeholder to be shown in the input field when the reply is active; 0-64 characters
   input_field_placeholder: String,
-  
 }
 
 impl RObject for ReplyMarkupForceReply {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "replyMarkupForceReply" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "replyMarkupForceReply"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
-
 
 impl TDReplyMarkup for ReplyMarkupForceReply {}
 
-
-
 impl ReplyMarkupForceReply {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
   pub fn builder() -> RTDReplyMarkupForceReplyBuilder {
-    let mut inner = ReplyMarkupForceReply::default();
-    inner.td_name = "replyMarkupForceReply".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
+    let inner = ReplyMarkupForceReply {
+      td_name: "replyMarkupForceReply".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
     RTDReplyMarkupForceReplyBuilder { inner }
   }
 
-  pub fn is_personal(&self) -> bool { self.is_personal }
+  pub fn is_personal(&self) -> bool {
+    self.is_personal
+  }
 
-  pub fn input_field_placeholder(&self) -> &String { &self.input_field_placeholder }
-
+  pub fn input_field_placeholder(&self) -> &String {
+    &self.input_field_placeholder
+  }
 }
 
 #[doc(hidden)]
 pub struct RTDReplyMarkupForceReplyBuilder {
-  inner: ReplyMarkupForceReply
+  inner: ReplyMarkupForceReply,
 }
 
 impl RTDReplyMarkupForceReplyBuilder {
-  pub fn build(&self) -> ReplyMarkupForceReply { self.inner.clone() }
+  pub fn build(&self) -> ReplyMarkupForceReply {
+    self.inner.clone()
+  }
 
-   
   pub fn is_personal(&mut self, is_personal: bool) -> &mut Self {
     self.inner.is_personal = is_personal;
     self
   }
 
-   
-  pub fn input_field_placeholder<T: AsRef<str>>(&mut self, input_field_placeholder: T) -> &mut Self {
+  pub fn input_field_placeholder<T: AsRef<str>>(
+    &mut self,
+    input_field_placeholder: T,
+  ) -> &mut Self {
     self.inner.input_field_placeholder = input_field_placeholder.as_ref().to_string();
     self
   }
-
 }
 
 impl AsRef<ReplyMarkupForceReply> for ReplyMarkupForceReply {
-  fn as_ref(&self) -> &ReplyMarkupForceReply { self }
+  fn as_ref(&self) -> &ReplyMarkupForceReply {
+    self
+  }
 }
 
 impl AsRef<ReplyMarkupForceReply> for RTDReplyMarkupForceReplyBuilder {
-  fn as_ref(&self) -> &ReplyMarkupForceReply { &self.inner }
+  fn as_ref(&self) -> &ReplyMarkupForceReply {
+    &self.inner
+  }
 }
-
-
-
-
-
-
 
 /// Contains an inline keyboard layout
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -202,62 +270,69 @@ pub struct ReplyMarkupInlineKeyboard {
   extra: Option<String>,
   /// A list of rows of inline keyboard buttons
   rows: Vec<Vec<InlineKeyboardButton>>,
-  
 }
 
 impl RObject for ReplyMarkupInlineKeyboard {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "replyMarkupInlineKeyboard" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "replyMarkupInlineKeyboard"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
-
 
 impl TDReplyMarkup for ReplyMarkupInlineKeyboard {}
 
-
-
 impl ReplyMarkupInlineKeyboard {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
   pub fn builder() -> RTDReplyMarkupInlineKeyboardBuilder {
-    let mut inner = ReplyMarkupInlineKeyboard::default();
-    inner.td_name = "replyMarkupInlineKeyboard".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
+    let inner = ReplyMarkupInlineKeyboard {
+      td_name: "replyMarkupInlineKeyboard".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
     RTDReplyMarkupInlineKeyboardBuilder { inner }
   }
 
-  pub fn rows(&self) -> &Vec<Vec<InlineKeyboardButton>> { &self.rows }
-
+  pub fn rows(&self) -> &Vec<Vec<InlineKeyboardButton>> {
+    &self.rows
+  }
 }
 
 #[doc(hidden)]
 pub struct RTDReplyMarkupInlineKeyboardBuilder {
-  inner: ReplyMarkupInlineKeyboard
+  inner: ReplyMarkupInlineKeyboard,
 }
 
 impl RTDReplyMarkupInlineKeyboardBuilder {
-  pub fn build(&self) -> ReplyMarkupInlineKeyboard { self.inner.clone() }
+  pub fn build(&self) -> ReplyMarkupInlineKeyboard {
+    self.inner.clone()
+  }
 
-   
   pub fn rows(&mut self, rows: Vec<Vec<InlineKeyboardButton>>) -> &mut Self {
     self.inner.rows = rows;
     self
   }
-
 }
 
 impl AsRef<ReplyMarkupInlineKeyboard> for ReplyMarkupInlineKeyboard {
-  fn as_ref(&self) -> &ReplyMarkupInlineKeyboard { self }
+  fn as_ref(&self) -> &ReplyMarkupInlineKeyboard {
+    self
+  }
 }
 
 impl AsRef<ReplyMarkupInlineKeyboard> for RTDReplyMarkupInlineKeyboardBuilder {
-  fn as_ref(&self) -> &ReplyMarkupInlineKeyboard { &self.inner }
+  fn as_ref(&self) -> &ReplyMarkupInlineKeyboard {
+    &self.inner
+  }
 }
-
-
-
-
-
-
 
 /// Instructs application to remove the keyboard once this message has been received. This kind of keyboard can't be received in an incoming message; instead, UpdateChatReplyMarkup with message_id == 0 will be sent
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -270,62 +345,69 @@ pub struct ReplyMarkupRemoveKeyboard {
   extra: Option<String>,
   /// True, if the keyboard is removed only for the mentioned users or the target user of a reply
   is_personal: bool,
-  
 }
 
 impl RObject for ReplyMarkupRemoveKeyboard {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "replyMarkupRemoveKeyboard" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "replyMarkupRemoveKeyboard"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
-
 
 impl TDReplyMarkup for ReplyMarkupRemoveKeyboard {}
 
-
-
 impl ReplyMarkupRemoveKeyboard {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
   pub fn builder() -> RTDReplyMarkupRemoveKeyboardBuilder {
-    let mut inner = ReplyMarkupRemoveKeyboard::default();
-    inner.td_name = "replyMarkupRemoveKeyboard".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
+    let inner = ReplyMarkupRemoveKeyboard {
+      td_name: "replyMarkupRemoveKeyboard".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
     RTDReplyMarkupRemoveKeyboardBuilder { inner }
   }
 
-  pub fn is_personal(&self) -> bool { self.is_personal }
-
+  pub fn is_personal(&self) -> bool {
+    self.is_personal
+  }
 }
 
 #[doc(hidden)]
 pub struct RTDReplyMarkupRemoveKeyboardBuilder {
-  inner: ReplyMarkupRemoveKeyboard
+  inner: ReplyMarkupRemoveKeyboard,
 }
 
 impl RTDReplyMarkupRemoveKeyboardBuilder {
-  pub fn build(&self) -> ReplyMarkupRemoveKeyboard { self.inner.clone() }
+  pub fn build(&self) -> ReplyMarkupRemoveKeyboard {
+    self.inner.clone()
+  }
 
-   
   pub fn is_personal(&mut self, is_personal: bool) -> &mut Self {
     self.inner.is_personal = is_personal;
     self
   }
-
 }
 
 impl AsRef<ReplyMarkupRemoveKeyboard> for ReplyMarkupRemoveKeyboard {
-  fn as_ref(&self) -> &ReplyMarkupRemoveKeyboard { self }
+  fn as_ref(&self) -> &ReplyMarkupRemoveKeyboard {
+    self
+  }
 }
 
 impl AsRef<ReplyMarkupRemoveKeyboard> for RTDReplyMarkupRemoveKeyboardBuilder {
-  fn as_ref(&self) -> &ReplyMarkupRemoveKeyboard { &self.inner }
+  fn as_ref(&self) -> &ReplyMarkupRemoveKeyboard {
+    &self.inner
+  }
 }
-
-
-
-
-
-
 
 /// Contains a custom keyboard layout to quickly reply to bots
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -346,88 +428,105 @@ pub struct ReplyMarkupShowKeyboard {
   is_personal: bool,
   /// If non-empty, the placeholder to be shown in the input field when the keyboard is active; 0-64 characters
   input_field_placeholder: String,
-  
 }
 
 impl RObject for ReplyMarkupShowKeyboard {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "replyMarkupShowKeyboard" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "replyMarkupShowKeyboard"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
-
 
 impl TDReplyMarkup for ReplyMarkupShowKeyboard {}
 
-
-
 impl ReplyMarkupShowKeyboard {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
   pub fn builder() -> RTDReplyMarkupShowKeyboardBuilder {
-    let mut inner = ReplyMarkupShowKeyboard::default();
-    inner.td_name = "replyMarkupShowKeyboard".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
+    let inner = ReplyMarkupShowKeyboard {
+      td_name: "replyMarkupShowKeyboard".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
     RTDReplyMarkupShowKeyboardBuilder { inner }
   }
 
-  pub fn rows(&self) -> &Vec<Vec<KeyboardButton>> { &self.rows }
+  pub fn rows(&self) -> &Vec<Vec<KeyboardButton>> {
+    &self.rows
+  }
 
-  pub fn resize_keyboard(&self) -> bool { self.resize_keyboard }
+  pub fn resize_keyboard(&self) -> bool {
+    self.resize_keyboard
+  }
 
-  pub fn one_time(&self) -> bool { self.one_time }
+  pub fn one_time(&self) -> bool {
+    self.one_time
+  }
 
-  pub fn is_personal(&self) -> bool { self.is_personal }
+  pub fn is_personal(&self) -> bool {
+    self.is_personal
+  }
 
-  pub fn input_field_placeholder(&self) -> &String { &self.input_field_placeholder }
-
+  pub fn input_field_placeholder(&self) -> &String {
+    &self.input_field_placeholder
+  }
 }
 
 #[doc(hidden)]
 pub struct RTDReplyMarkupShowKeyboardBuilder {
-  inner: ReplyMarkupShowKeyboard
+  inner: ReplyMarkupShowKeyboard,
 }
 
 impl RTDReplyMarkupShowKeyboardBuilder {
-  pub fn build(&self) -> ReplyMarkupShowKeyboard { self.inner.clone() }
+  pub fn build(&self) -> ReplyMarkupShowKeyboard {
+    self.inner.clone()
+  }
 
-   
   pub fn rows(&mut self, rows: Vec<Vec<KeyboardButton>>) -> &mut Self {
     self.inner.rows = rows;
     self
   }
 
-   
   pub fn resize_keyboard(&mut self, resize_keyboard: bool) -> &mut Self {
     self.inner.resize_keyboard = resize_keyboard;
     self
   }
 
-   
   pub fn one_time(&mut self, one_time: bool) -> &mut Self {
     self.inner.one_time = one_time;
     self
   }
 
-   
   pub fn is_personal(&mut self, is_personal: bool) -> &mut Self {
     self.inner.is_personal = is_personal;
     self
   }
 
-   
-  pub fn input_field_placeholder<T: AsRef<str>>(&mut self, input_field_placeholder: T) -> &mut Self {
+  pub fn input_field_placeholder<T: AsRef<str>>(
+    &mut self,
+    input_field_placeholder: T,
+  ) -> &mut Self {
     self.inner.input_field_placeholder = input_field_placeholder.as_ref().to_string();
     self
   }
-
 }
 
 impl AsRef<ReplyMarkupShowKeyboard> for ReplyMarkupShowKeyboard {
-  fn as_ref(&self) -> &ReplyMarkupShowKeyboard { self }
+  fn as_ref(&self) -> &ReplyMarkupShowKeyboard {
+    self
+  }
 }
 
 impl AsRef<ReplyMarkupShowKeyboard> for RTDReplyMarkupShowKeyboardBuilder {
-  fn as_ref(&self) -> &ReplyMarkupShowKeyboard { &self.inner }
+  fn as_ref(&self) -> &ReplyMarkupShowKeyboard {
+    &self.inner
+  }
 }
-
-
-

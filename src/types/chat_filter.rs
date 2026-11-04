@@ -1,10 +1,6 @@
-
-use crate::types::*;
 use crate::errors::*;
+use crate::types::*;
 use uuid::Uuid;
-
-
-
 
 /// Represents a filter of user chats
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -41,149 +37,172 @@ pub struct ChatFilter {
   include_groups: bool,
   /// True, if channels need to be included
   include_channels: bool,
-  
 }
 
 impl RObject for ChatFilter {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "chatFilter" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "chatFilter"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
 
-
-
 impl ChatFilter {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
   pub fn builder() -> RTDChatFilterBuilder {
-    let mut inner = ChatFilter::default();
-    inner.td_name = "chatFilter".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
+    let inner = ChatFilter {
+      td_name: "chatFilter".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
     RTDChatFilterBuilder { inner }
   }
 
-  pub fn title(&self) -> &String { &self.title }
+  pub fn title(&self) -> &String {
+    &self.title
+  }
 
-  pub fn icon_name(&self) -> &String { &self.icon_name }
+  pub fn icon_name(&self) -> &String {
+    &self.icon_name
+  }
 
-  pub fn pinned_chat_ids(&self) -> &Vec<i64> { &self.pinned_chat_ids }
+  pub fn pinned_chat_ids(&self) -> &Vec<i64> {
+    &self.pinned_chat_ids
+  }
 
-  pub fn included_chat_ids(&self) -> &Vec<i64> { &self.included_chat_ids }
+  pub fn included_chat_ids(&self) -> &Vec<i64> {
+    &self.included_chat_ids
+  }
 
-  pub fn excluded_chat_ids(&self) -> &Vec<i64> { &self.excluded_chat_ids }
+  pub fn excluded_chat_ids(&self) -> &Vec<i64> {
+    &self.excluded_chat_ids
+  }
 
-  pub fn exclude_muted(&self) -> bool { self.exclude_muted }
+  pub fn exclude_muted(&self) -> bool {
+    self.exclude_muted
+  }
 
-  pub fn exclude_read(&self) -> bool { self.exclude_read }
+  pub fn exclude_read(&self) -> bool {
+    self.exclude_read
+  }
 
-  pub fn exclude_archived(&self) -> bool { self.exclude_archived }
+  pub fn exclude_archived(&self) -> bool {
+    self.exclude_archived
+  }
 
-  pub fn include_contacts(&self) -> bool { self.include_contacts }
+  pub fn include_contacts(&self) -> bool {
+    self.include_contacts
+  }
 
-  pub fn include_non_contacts(&self) -> bool { self.include_non_contacts }
+  pub fn include_non_contacts(&self) -> bool {
+    self.include_non_contacts
+  }
 
-  pub fn include_bots(&self) -> bool { self.include_bots }
+  pub fn include_bots(&self) -> bool {
+    self.include_bots
+  }
 
-  pub fn include_groups(&self) -> bool { self.include_groups }
+  pub fn include_groups(&self) -> bool {
+    self.include_groups
+  }
 
-  pub fn include_channels(&self) -> bool { self.include_channels }
-
+  pub fn include_channels(&self) -> bool {
+    self.include_channels
+  }
 }
 
 #[doc(hidden)]
 pub struct RTDChatFilterBuilder {
-  inner: ChatFilter
+  inner: ChatFilter,
 }
 
 impl RTDChatFilterBuilder {
-  pub fn build(&self) -> ChatFilter { self.inner.clone() }
+  pub fn build(&self) -> ChatFilter {
+    self.inner.clone()
+  }
 
-   
   pub fn title<T: AsRef<str>>(&mut self, title: T) -> &mut Self {
     self.inner.title = title.as_ref().to_string();
     self
   }
 
-   
   pub fn icon_name<T: AsRef<str>>(&mut self, icon_name: T) -> &mut Self {
     self.inner.icon_name = icon_name.as_ref().to_string();
     self
   }
 
-   
   pub fn pinned_chat_ids(&mut self, pinned_chat_ids: Vec<i64>) -> &mut Self {
     self.inner.pinned_chat_ids = pinned_chat_ids;
     self
   }
 
-   
   pub fn included_chat_ids(&mut self, included_chat_ids: Vec<i64>) -> &mut Self {
     self.inner.included_chat_ids = included_chat_ids;
     self
   }
 
-   
   pub fn excluded_chat_ids(&mut self, excluded_chat_ids: Vec<i64>) -> &mut Self {
     self.inner.excluded_chat_ids = excluded_chat_ids;
     self
   }
 
-   
   pub fn exclude_muted(&mut self, exclude_muted: bool) -> &mut Self {
     self.inner.exclude_muted = exclude_muted;
     self
   }
 
-   
   pub fn exclude_read(&mut self, exclude_read: bool) -> &mut Self {
     self.inner.exclude_read = exclude_read;
     self
   }
 
-   
   pub fn exclude_archived(&mut self, exclude_archived: bool) -> &mut Self {
     self.inner.exclude_archived = exclude_archived;
     self
   }
 
-   
   pub fn include_contacts(&mut self, include_contacts: bool) -> &mut Self {
     self.inner.include_contacts = include_contacts;
     self
   }
 
-   
   pub fn include_non_contacts(&mut self, include_non_contacts: bool) -> &mut Self {
     self.inner.include_non_contacts = include_non_contacts;
     self
   }
 
-   
   pub fn include_bots(&mut self, include_bots: bool) -> &mut Self {
     self.inner.include_bots = include_bots;
     self
   }
 
-   
   pub fn include_groups(&mut self, include_groups: bool) -> &mut Self {
     self.inner.include_groups = include_groups;
     self
   }
 
-   
   pub fn include_channels(&mut self, include_channels: bool) -> &mut Self {
     self.inner.include_channels = include_channels;
     self
   }
-
 }
 
 impl AsRef<ChatFilter> for ChatFilter {
-  fn as_ref(&self) -> &ChatFilter { self }
+  fn as_ref(&self) -> &ChatFilter {
+    self
+  }
 }
 
 impl AsRef<ChatFilter> for RTDChatFilterBuilder {
-  fn as_ref(&self) -> &ChatFilter { &self.inner }
+  fn as_ref(&self) -> &ChatFilter {
+    &self.inner
+  }
 }
-
-
-
