@@ -4,10 +4,10 @@
 
 | Version | Supported |
 | --- | --- |
-| 1.8.69 | yes |
-| < 1.8.69 | no |
+| 1.8.70 | yes |
+| < 1.8.70 | no |
 
-Only 1.8.69, generated from TDLib 1.8.69, is supported. Older crates.io releases (`1.8.1` and the `0.8.x` snapshot line) are not.
+Only 1.8.70 is supported. Its generated types are the TDLib 1.8.69 schema. Older crates.io releases (`1.8.69`, `1.8.1`, and the `0.8.x` snapshot line) are not.
 
 ## Reporting a vulnerability
 
