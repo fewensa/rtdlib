@@ -1,10 +1,6 @@
-
-use crate::types::*;
 use crate::errors::*;
+use crate::types::*;
 use uuid::Uuid;
-
-
-
 
 /// Contains auto-download settings
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -29,111 +25,140 @@ pub struct AutoDownloadSettings {
   preload_large_videos: bool,
   /// True, if the next audio track needs to be preloaded while the user is listening to an audio file
   preload_next_audio: bool,
+  /// True, if stories need to be preloaded
+  preload_stories: bool,
   /// True, if "use less data for calls" option needs to be enabled
   use_less_data_for_calls: bool,
-  
 }
 
 impl RObject for AutoDownloadSettings {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "autoDownloadSettings" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "autoDownloadSettings"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
 
-
-
 impl AutoDownloadSettings {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
   pub fn builder() -> RTDAutoDownloadSettingsBuilder {
-    let mut inner = AutoDownloadSettings::default();
-    inner.td_name = "autoDownloadSettings".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
+    let inner = AutoDownloadSettings {
+      td_name: "autoDownloadSettings".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
     RTDAutoDownloadSettingsBuilder { inner }
   }
 
-  pub fn is_auto_download_enabled(&self) -> bool { self.is_auto_download_enabled }
+  pub fn is_auto_download_enabled(&self) -> bool {
+    self.is_auto_download_enabled
+  }
 
-  pub fn max_photo_file_size(&self) -> i64 { self.max_photo_file_size }
+  pub fn max_photo_file_size(&self) -> i64 {
+    self.max_photo_file_size
+  }
 
-  pub fn max_video_file_size(&self) -> i64 { self.max_video_file_size }
+  pub fn max_video_file_size(&self) -> i64 {
+    self.max_video_file_size
+  }
 
-  pub fn max_other_file_size(&self) -> i64 { self.max_other_file_size }
+  pub fn max_other_file_size(&self) -> i64 {
+    self.max_other_file_size
+  }
 
-  pub fn video_upload_bitrate(&self) -> i64 { self.video_upload_bitrate }
+  pub fn video_upload_bitrate(&self) -> i64 {
+    self.video_upload_bitrate
+  }
 
-  pub fn preload_large_videos(&self) -> bool { self.preload_large_videos }
+  pub fn preload_large_videos(&self) -> bool {
+    self.preload_large_videos
+  }
 
-  pub fn preload_next_audio(&self) -> bool { self.preload_next_audio }
+  pub fn preload_next_audio(&self) -> bool {
+    self.preload_next_audio
+  }
 
-  pub fn use_less_data_for_calls(&self) -> bool { self.use_less_data_for_calls }
+  pub fn preload_stories(&self) -> bool {
+    self.preload_stories
+  }
 
+  pub fn use_less_data_for_calls(&self) -> bool {
+    self.use_less_data_for_calls
+  }
 }
 
 #[doc(hidden)]
 pub struct RTDAutoDownloadSettingsBuilder {
-  inner: AutoDownloadSettings
+  inner: AutoDownloadSettings,
 }
 
 impl RTDAutoDownloadSettingsBuilder {
-  pub fn build(&self) -> AutoDownloadSettings { self.inner.clone() }
+  pub fn build(&self) -> AutoDownloadSettings {
+    self.inner.clone()
+  }
 
-   
   pub fn is_auto_download_enabled(&mut self, is_auto_download_enabled: bool) -> &mut Self {
     self.inner.is_auto_download_enabled = is_auto_download_enabled;
     self
   }
 
-   
   pub fn max_photo_file_size(&mut self, max_photo_file_size: i64) -> &mut Self {
     self.inner.max_photo_file_size = max_photo_file_size;
     self
   }
 
-   
   pub fn max_video_file_size(&mut self, max_video_file_size: i64) -> &mut Self {
     self.inner.max_video_file_size = max_video_file_size;
     self
   }
 
-   
   pub fn max_other_file_size(&mut self, max_other_file_size: i64) -> &mut Self {
     self.inner.max_other_file_size = max_other_file_size;
     self
   }
 
-   
   pub fn video_upload_bitrate(&mut self, video_upload_bitrate: i64) -> &mut Self {
     self.inner.video_upload_bitrate = video_upload_bitrate;
     self
   }
 
-   
   pub fn preload_large_videos(&mut self, preload_large_videos: bool) -> &mut Self {
     self.inner.preload_large_videos = preload_large_videos;
     self
   }
 
-   
   pub fn preload_next_audio(&mut self, preload_next_audio: bool) -> &mut Self {
     self.inner.preload_next_audio = preload_next_audio;
     self
   }
 
-   
+  pub fn preload_stories(&mut self, preload_stories: bool) -> &mut Self {
+    self.inner.preload_stories = preload_stories;
+    self
+  }
+
   pub fn use_less_data_for_calls(&mut self, use_less_data_for_calls: bool) -> &mut Self {
     self.inner.use_less_data_for_calls = use_less_data_for_calls;
     self
   }
-
 }
 
 impl AsRef<AutoDownloadSettings> for AutoDownloadSettings {
-  fn as_ref(&self) -> &AutoDownloadSettings { self }
+  fn as_ref(&self) -> &AutoDownloadSettings {
+    self
+  }
 }
 
 impl AsRef<AutoDownloadSettings> for RTDAutoDownloadSettingsBuilder {
-  fn as_ref(&self) -> &AutoDownloadSettings { &self.inner }
+  fn as_ref(&self) -> &AutoDownloadSettings {
+    &self.inner
+  }
 }
-
-
-

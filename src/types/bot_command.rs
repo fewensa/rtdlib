@@ -1,10 +1,6 @@
-
-use crate::types::*;
 use crate::errors::*;
+use crate::types::*;
 use uuid::Uuid;
-
-
-
 
 /// Represents a command supported by a bot
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -19,61 +15,84 @@ pub struct BotCommand {
   command: String,
   /// Represents a command supported by a bot
   description: String,
-  
+  /// True, if the command must send an ephemeral message instead of a regular one
+  is_ephemeral: bool,
 }
 
 impl RObject for BotCommand {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "botCommand" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "botCommand"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
 
-
-
 impl BotCommand {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
   pub fn builder() -> RTDBotCommandBuilder {
-    let mut inner = BotCommand::default();
-    inner.td_name = "botCommand".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
+    let inner = BotCommand {
+      td_name: "botCommand".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
     RTDBotCommandBuilder { inner }
   }
 
-  pub fn command(&self) -> &String { &self.command }
+  pub fn command(&self) -> &String {
+    &self.command
+  }
 
-  pub fn description(&self) -> &String { &self.description }
+  pub fn description(&self) -> &String {
+    &self.description
+  }
 
+  pub fn is_ephemeral(&self) -> bool {
+    self.is_ephemeral
+  }
 }
 
 #[doc(hidden)]
 pub struct RTDBotCommandBuilder {
-  inner: BotCommand
+  inner: BotCommand,
 }
 
 impl RTDBotCommandBuilder {
-  pub fn build(&self) -> BotCommand { self.inner.clone() }
+  pub fn build(&self) -> BotCommand {
+    self.inner.clone()
+  }
 
-   
   pub fn command<T: AsRef<str>>(&mut self, command: T) -> &mut Self {
     self.inner.command = command.as_ref().to_string();
     self
   }
 
-   
   pub fn description<T: AsRef<str>>(&mut self, description: T) -> &mut Self {
     self.inner.description = description.as_ref().to_string();
     self
   }
 
+  pub fn is_ephemeral(&mut self, is_ephemeral: bool) -> &mut Self {
+    self.inner.is_ephemeral = is_ephemeral;
+    self
+  }
 }
 
 impl AsRef<BotCommand> for BotCommand {
-  fn as_ref(&self) -> &BotCommand { self }
+  fn as_ref(&self) -> &BotCommand {
+    self
+  }
 }
 
 impl AsRef<BotCommand> for RTDBotCommandBuilder {
-  fn as_ref(&self) -> &BotCommand { &self.inner }
+  fn as_ref(&self) -> &BotCommand {
+    &self.inner
+  }
 }
-
-
-

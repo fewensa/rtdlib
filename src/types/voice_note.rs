@@ -1,12 +1,8 @@
-
-use crate::types::*;
 use crate::errors::*;
+use crate::types::*;
 use uuid::Uuid;
 
-
-
-
-/// Describes a voice note. The voice note must be encoded with the Opus codec, and stored inside an OGG container. Voice notes can have only a single audio channel
+/// Describes a voice note
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct VoiceNote {
   #[doc(hidden)]
@@ -19,81 +15,109 @@ pub struct VoiceNote {
   duration: i64,
   /// A waveform representation of the voice note in 5-bit format
   waveform: String,
-  /// MIME type of the file; as defined by the sender
+  /// MIME type of the file; as defined by the sender. Usually, one of "audio/ogg" for Opus in an OGG container, "audio/mpeg" for an MP3 audio, or "audio/mp4" for an M4A audio
   mime_type: String,
+  /// Result of speech recognition in the voice note; may be null
+  speech_recognition_result: Option<SpeechRecognitionResult>,
   /// File containing the voice note
   voice: File,
-  
 }
 
 impl RObject for VoiceNote {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "voiceNote" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "voiceNote"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
 
-
-
 impl VoiceNote {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
   pub fn builder() -> RTDVoiceNoteBuilder {
-    let mut inner = VoiceNote::default();
-    inner.td_name = "voiceNote".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
+    let inner = VoiceNote {
+      td_name: "voiceNote".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
     RTDVoiceNoteBuilder { inner }
   }
 
-  pub fn duration(&self) -> i64 { self.duration }
+  pub fn duration(&self) -> i64 {
+    self.duration
+  }
 
-  pub fn waveform(&self) -> &String { &self.waveform }
+  pub fn waveform(&self) -> &String {
+    &self.waveform
+  }
 
-  pub fn mime_type(&self) -> &String { &self.mime_type }
+  pub fn mime_type(&self) -> &String {
+    &self.mime_type
+  }
 
-  pub fn voice(&self) -> &File { &self.voice }
+  pub fn speech_recognition_result(&self) -> &Option<SpeechRecognitionResult> {
+    &self.speech_recognition_result
+  }
 
+  pub fn voice(&self) -> &File {
+    &self.voice
+  }
 }
 
 #[doc(hidden)]
 pub struct RTDVoiceNoteBuilder {
-  inner: VoiceNote
+  inner: VoiceNote,
 }
 
 impl RTDVoiceNoteBuilder {
-  pub fn build(&self) -> VoiceNote { self.inner.clone() }
+  pub fn build(&self) -> VoiceNote {
+    self.inner.clone()
+  }
 
-   
   pub fn duration(&mut self, duration: i64) -> &mut Self {
     self.inner.duration = duration;
     self
   }
 
-   
   pub fn waveform<T: AsRef<str>>(&mut self, waveform: T) -> &mut Self {
     self.inner.waveform = waveform.as_ref().to_string();
     self
   }
 
-   
   pub fn mime_type<T: AsRef<str>>(&mut self, mime_type: T) -> &mut Self {
     self.inner.mime_type = mime_type.as_ref().to_string();
     self
   }
 
-   
+  pub fn speech_recognition_result<T: AsRef<SpeechRecognitionResult>>(
+    &mut self,
+    speech_recognition_result: T,
+  ) -> &mut Self {
+    self.inner.speech_recognition_result = Some(speech_recognition_result.as_ref().clone());
+    self
+  }
+
   pub fn voice<T: AsRef<File>>(&mut self, voice: T) -> &mut Self {
     self.inner.voice = voice.as_ref().clone();
     self
   }
-
 }
 
 impl AsRef<VoiceNote> for VoiceNote {
-  fn as_ref(&self) -> &VoiceNote { self }
+  fn as_ref(&self) -> &VoiceNote {
+    self
+  }
 }
 
 impl AsRef<VoiceNote> for RTDVoiceNoteBuilder {
-  fn as_ref(&self) -> &VoiceNote { &self.inner }
+  fn as_ref(&self) -> &VoiceNote {
+    &self.inner
+  }
 }
-
-
-

@@ -1,10 +1,6 @@
-
-use crate::types::*;
 use crate::errors::*;
+use crate::types::*;
 use uuid::Uuid;
-
-
-
 
 /// Describes an action associated with a bank card number
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -19,61 +15,73 @@ pub struct BankCardActionOpenUrl {
   text: String,
   /// The URL to be opened
   url: String,
-  
 }
 
 impl RObject for BankCardActionOpenUrl {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "bankCardActionOpenUrl" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "bankCardActionOpenUrl"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
 
-
-
 impl BankCardActionOpenUrl {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
   pub fn builder() -> RTDBankCardActionOpenUrlBuilder {
-    let mut inner = BankCardActionOpenUrl::default();
-    inner.td_name = "bankCardActionOpenUrl".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
+    let inner = BankCardActionOpenUrl {
+      td_name: "bankCardActionOpenUrl".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
     RTDBankCardActionOpenUrlBuilder { inner }
   }
 
-  pub fn text(&self) -> &String { &self.text }
+  pub fn text(&self) -> &String {
+    &self.text
+  }
 
-  pub fn url(&self) -> &String { &self.url }
-
+  pub fn url(&self) -> &String {
+    &self.url
+  }
 }
 
 #[doc(hidden)]
 pub struct RTDBankCardActionOpenUrlBuilder {
-  inner: BankCardActionOpenUrl
+  inner: BankCardActionOpenUrl,
 }
 
 impl RTDBankCardActionOpenUrlBuilder {
-  pub fn build(&self) -> BankCardActionOpenUrl { self.inner.clone() }
+  pub fn build(&self) -> BankCardActionOpenUrl {
+    self.inner.clone()
+  }
 
-   
   pub fn text<T: AsRef<str>>(&mut self, text: T) -> &mut Self {
     self.inner.text = text.as_ref().to_string();
     self
   }
 
-   
   pub fn url<T: AsRef<str>>(&mut self, url: T) -> &mut Self {
     self.inner.url = url.as_ref().to_string();
     self
   }
-
 }
 
 impl AsRef<BankCardActionOpenUrl> for BankCardActionOpenUrl {
-  fn as_ref(&self) -> &BankCardActionOpenUrl { self }
+  fn as_ref(&self) -> &BankCardActionOpenUrl {
+    self
+  }
 }
 
 impl AsRef<BankCardActionOpenUrl> for RTDBankCardActionOpenUrlBuilder {
-  fn as_ref(&self) -> &BankCardActionOpenUrl { &self.inner }
+  fn as_ref(&self) -> &BankCardActionOpenUrl {
+    &self.inner
+  }
 }
-
-
-

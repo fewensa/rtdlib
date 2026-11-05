@@ -1,26 +1,33 @@
 name: Publish
+
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
-  build:
-    name: Build and Publish
+  publish:
+    name: Publish to crates.io
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Install rust toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
+      - name: Install stable Rust
+        uses: dtolnay/rust-toolchain@stable
 
-      - name: Package
-        run: cargo package
+      - name: Require the tag to match Cargo.toml
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          version="$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -n 1)"
+          if [ "$tag" != "$version" ]; then
+            echo "tag v${tag} does not match crate version ${version}" >&2
+            exit 1
+          fi
+
+      - name: Dry run
+        run: cargo publish --dry-run --locked
 
       - name: Publish
-        run: |
-          cargo login ${{ secrets.TOKEN_CRATES_IO }}
-          cargo publish
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.TOKEN_CRATES_IO }}
+        run: cargo publish --locked

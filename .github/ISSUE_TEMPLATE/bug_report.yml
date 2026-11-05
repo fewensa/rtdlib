@@ -1,0 +1,34 @@
+name: Bug report
+description: A defect in rtdlib types, JSON (de)serialization, or the sys feature
+title: "[bug] "
+labels: []
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: rtdlib version
+      description: For example 0.8.2. This repository's master line is 0.8.x, not the crates.io 1.8.x line.
+      placeholder: 0.8.2
+    validations:
+      required: true
+  - type: input
+    id: rust
+    attributes:
+      label: Rust version
+      description: Output of `rustc --version`.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: A small JSON sample or snippet is enough. Do not include bot tokens, phone numbers, or session data.
+    validations:
+      required: true

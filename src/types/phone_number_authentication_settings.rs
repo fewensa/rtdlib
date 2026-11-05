@@ -1,10 +1,6 @@
-
-use crate::types::*;
 use crate::errors::*;
+use crate::types::*;
 use uuid::Uuid;
-
-
-
 
 /// Contains settings for the authentication of the user's phone number
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -21,89 +17,129 @@ pub struct PhoneNumberAuthenticationSettings {
   allow_missed_call: bool,
   /// Pass true if the authenticated phone number is used on the current device
   is_current_phone_number: bool,
+  /// Pass true if there is a SIM card in the current device, but it is not possible to check whether phone number matches
+  has_unknown_phone_number: bool,
   /// For official applications only. True, if the application can use Android SMS Retriever API (requires Google Play Services >= 10.2) to automatically receive the authentication code from the SMS. See https://developers.google.com/identity/sms-retriever/ for more details
   allow_sms_retriever_api: bool,
-  /// List of up to 20 authentication tokens, recently received in updateOption("authentication_token") in previously logged out sessions
+  /// For official Android and iOS applications only; pass null otherwise. Settings for Firebase Authentication
+  firebase_authentication_settings: FirebaseAuthenticationSettings,
+  /// List of up to 20 authentication tokens, recently received in updateOption("authentication_token") in previously logged out sessions; for setAuthenticationPhoneNumber only
   authentication_tokens: Vec<String>,
-  
 }
 
 impl RObject for PhoneNumberAuthenticationSettings {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "phoneNumberAuthenticationSettings" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "phoneNumberAuthenticationSettings"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
 
-
-
 impl PhoneNumberAuthenticationSettings {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
   pub fn builder() -> RTDPhoneNumberAuthenticationSettingsBuilder {
-    let mut inner = PhoneNumberAuthenticationSettings::default();
-    inner.td_name = "phoneNumberAuthenticationSettings".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
+    let inner = PhoneNumberAuthenticationSettings {
+      td_name: "phoneNumberAuthenticationSettings".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
     RTDPhoneNumberAuthenticationSettingsBuilder { inner }
   }
 
-  pub fn allow_flash_call(&self) -> bool { self.allow_flash_call }
+  pub fn allow_flash_call(&self) -> bool {
+    self.allow_flash_call
+  }
 
-  pub fn allow_missed_call(&self) -> bool { self.allow_missed_call }
+  pub fn allow_missed_call(&self) -> bool {
+    self.allow_missed_call
+  }
 
-  pub fn is_current_phone_number(&self) -> bool { self.is_current_phone_number }
+  pub fn is_current_phone_number(&self) -> bool {
+    self.is_current_phone_number
+  }
 
-  pub fn allow_sms_retriever_api(&self) -> bool { self.allow_sms_retriever_api }
+  pub fn has_unknown_phone_number(&self) -> bool {
+    self.has_unknown_phone_number
+  }
 
-  pub fn authentication_tokens(&self) -> &Vec<String> { &self.authentication_tokens }
+  pub fn allow_sms_retriever_api(&self) -> bool {
+    self.allow_sms_retriever_api
+  }
 
+  pub fn firebase_authentication_settings(&self) -> &FirebaseAuthenticationSettings {
+    &self.firebase_authentication_settings
+  }
+
+  pub fn authentication_tokens(&self) -> &Vec<String> {
+    &self.authentication_tokens
+  }
 }
 
 #[doc(hidden)]
 pub struct RTDPhoneNumberAuthenticationSettingsBuilder {
-  inner: PhoneNumberAuthenticationSettings
+  inner: PhoneNumberAuthenticationSettings,
 }
 
 impl RTDPhoneNumberAuthenticationSettingsBuilder {
-  pub fn build(&self) -> PhoneNumberAuthenticationSettings { self.inner.clone() }
+  pub fn build(&self) -> PhoneNumberAuthenticationSettings {
+    self.inner.clone()
+  }
 
-   
   pub fn allow_flash_call(&mut self, allow_flash_call: bool) -> &mut Self {
     self.inner.allow_flash_call = allow_flash_call;
     self
   }
 
-   
   pub fn allow_missed_call(&mut self, allow_missed_call: bool) -> &mut Self {
     self.inner.allow_missed_call = allow_missed_call;
     self
   }
 
-   
   pub fn is_current_phone_number(&mut self, is_current_phone_number: bool) -> &mut Self {
     self.inner.is_current_phone_number = is_current_phone_number;
     self
   }
 
-   
+  pub fn has_unknown_phone_number(&mut self, has_unknown_phone_number: bool) -> &mut Self {
+    self.inner.has_unknown_phone_number = has_unknown_phone_number;
+    self
+  }
+
   pub fn allow_sms_retriever_api(&mut self, allow_sms_retriever_api: bool) -> &mut Self {
     self.inner.allow_sms_retriever_api = allow_sms_retriever_api;
     self
   }
 
-   
+  pub fn firebase_authentication_settings<T: AsRef<FirebaseAuthenticationSettings>>(
+    &mut self,
+    firebase_authentication_settings: T,
+  ) -> &mut Self {
+    self.inner.firebase_authentication_settings = firebase_authentication_settings.as_ref().clone();
+    self
+  }
+
   pub fn authentication_tokens(&mut self, authentication_tokens: Vec<String>) -> &mut Self {
     self.inner.authentication_tokens = authentication_tokens;
     self
   }
-
 }
 
 impl AsRef<PhoneNumberAuthenticationSettings> for PhoneNumberAuthenticationSettings {
-  fn as_ref(&self) -> &PhoneNumberAuthenticationSettings { self }
+  fn as_ref(&self) -> &PhoneNumberAuthenticationSettings {
+    self
+  }
 }
 
 impl AsRef<PhoneNumberAuthenticationSettings> for RTDPhoneNumberAuthenticationSettingsBuilder {
-  fn as_ref(&self) -> &PhoneNumberAuthenticationSettings { &self.inner }
+  fn as_ref(&self) -> &PhoneNumberAuthenticationSettings {
+    &self.inner
+  }
 }
-
-
-

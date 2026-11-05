@@ -1,10 +1,6 @@
-
-use crate::types::*;
 use crate::errors::*;
+use crate::types::*;
 use uuid::Uuid;
-
-
-
 
 /// Contains information about one session in a Telegram application used by the current user. Sessions must be shown to the user in the returned order
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -16,15 +12,20 @@ pub struct Session {
   #[serde(rename(serialize = "@extra", deserialize = "@extra"))]
   extra: Option<String>,
   /// Session identifier
+  #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
   id: isize,
   /// True, if this session is the current session
   is_current: bool,
-  /// True, if a password is needed to complete authorization of the session
+  /// True, if a 2-step verification password is needed to complete authorization of the session
   is_password_pending: bool,
+  /// True, if the session wasn't confirmed from another session
+  is_unconfirmed: bool,
   /// True, if incoming secret chats can be accepted by the session
   can_accept_secret_chats: bool,
   /// True, if incoming calls can be accepted by the session
   can_accept_calls: bool,
+  /// Session device type based on the system and application version, which can be used to display a corresponding icon
+  device_type: SessionDeviceType,
   /// Telegram API identifier, as provided by the application
   api_id: i64,
   /// Name of the application, as provided by the application
@@ -44,186 +45,220 @@ pub struct Session {
   /// Point in time (Unix timestamp) when the session was last used
   last_active_date: i64,
   /// IP address from which the session was created, in human-readable format
-  ip: String,
-  /// A two-letter country code for the country from which the session was created, based on the IP address
-  country: String,
-  /// Region code from which the session was created, based on the IP address
-  region: String,
-  
+  ip_address: String,
+  /// A human-readable description of the location from which the session was created, based on the IP address
+  location: String,
 }
 
 impl RObject for Session {
-  #[doc(hidden)] fn td_name(&self) -> &'static str { "session" }
-  #[doc(hidden)] fn extra(&self) -> Option<String> { self.extra.clone() }
-  fn to_json(&self) -> RTDResult<String> { Ok(serde_json::to_string(self)?) }
+  #[doc(hidden)]
+  fn td_name(&self) -> &'static str {
+    "session"
+  }
+  #[doc(hidden)]
+  fn extra(&self) -> Option<String> {
+    self.extra.clone()
+  }
+  fn to_json(&self) -> RTDResult<String> {
+    Ok(serde_json::to_string(self)?)
+  }
 }
 
-
-
 impl Session {
-  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> { Ok(serde_json::from_str(json.as_ref())?) }
+  pub fn from_json<S: AsRef<str>>(json: S) -> RTDResult<Self> {
+    Ok(serde_json::from_str(json.as_ref())?)
+  }
   pub fn builder() -> RTDSessionBuilder {
-    let mut inner = Session::default();
-    inner.td_name = "session".to_string();
-    inner.extra = Some(Uuid::new_v4().to_string());
+    let inner = Session {
+      td_name: "session".to_string(),
+      extra: Some(Uuid::new_v4().to_string()),
+      ..Default::default()
+    };
     RTDSessionBuilder { inner }
   }
 
-  pub fn id(&self) -> isize { self.id }
+  pub fn id(&self) -> isize {
+    self.id
+  }
 
-  pub fn is_current(&self) -> bool { self.is_current }
+  pub fn is_current(&self) -> bool {
+    self.is_current
+  }
 
-  pub fn is_password_pending(&self) -> bool { self.is_password_pending }
+  pub fn is_password_pending(&self) -> bool {
+    self.is_password_pending
+  }
 
-  pub fn can_accept_secret_chats(&self) -> bool { self.can_accept_secret_chats }
+  pub fn is_unconfirmed(&self) -> bool {
+    self.is_unconfirmed
+  }
 
-  pub fn can_accept_calls(&self) -> bool { self.can_accept_calls }
+  pub fn can_accept_secret_chats(&self) -> bool {
+    self.can_accept_secret_chats
+  }
 
-  pub fn api_id(&self) -> i64 { self.api_id }
+  pub fn can_accept_calls(&self) -> bool {
+    self.can_accept_calls
+  }
 
-  pub fn application_name(&self) -> &String { &self.application_name }
+  pub fn device_type(&self) -> &SessionDeviceType {
+    &self.device_type
+  }
 
-  pub fn application_version(&self) -> &String { &self.application_version }
+  pub fn api_id(&self) -> i64 {
+    self.api_id
+  }
 
-  pub fn is_official_application(&self) -> bool { self.is_official_application }
+  pub fn application_name(&self) -> &String {
+    &self.application_name
+  }
 
-  pub fn device_model(&self) -> &String { &self.device_model }
+  pub fn application_version(&self) -> &String {
+    &self.application_version
+  }
 
-  pub fn platform(&self) -> &String { &self.platform }
+  pub fn is_official_application(&self) -> bool {
+    self.is_official_application
+  }
 
-  pub fn system_version(&self) -> &String { &self.system_version }
+  pub fn device_model(&self) -> &String {
+    &self.device_model
+  }
 
-  pub fn log_in_date(&self) -> i64 { self.log_in_date }
+  pub fn platform(&self) -> &String {
+    &self.platform
+  }
 
-  pub fn last_active_date(&self) -> i64 { self.last_active_date }
+  pub fn system_version(&self) -> &String {
+    &self.system_version
+  }
 
-  pub fn ip(&self) -> &String { &self.ip }
+  pub fn log_in_date(&self) -> i64 {
+    self.log_in_date
+  }
 
-  pub fn country(&self) -> &String { &self.country }
+  pub fn last_active_date(&self) -> i64 {
+    self.last_active_date
+  }
 
-  pub fn region(&self) -> &String { &self.region }
+  pub fn ip_address(&self) -> &String {
+    &self.ip_address
+  }
 
+  pub fn location(&self) -> &String {
+    &self.location
+  }
 }
 
 #[doc(hidden)]
 pub struct RTDSessionBuilder {
-  inner: Session
+  inner: Session,
 }
 
 impl RTDSessionBuilder {
-  pub fn build(&self) -> Session { self.inner.clone() }
+  pub fn build(&self) -> Session {
+    self.inner.clone()
+  }
 
-   
   pub fn id(&mut self, id: isize) -> &mut Self {
     self.inner.id = id;
     self
   }
 
-   
   pub fn is_current(&mut self, is_current: bool) -> &mut Self {
     self.inner.is_current = is_current;
     self
   }
 
-   
   pub fn is_password_pending(&mut self, is_password_pending: bool) -> &mut Self {
     self.inner.is_password_pending = is_password_pending;
     self
   }
 
-   
+  pub fn is_unconfirmed(&mut self, is_unconfirmed: bool) -> &mut Self {
+    self.inner.is_unconfirmed = is_unconfirmed;
+    self
+  }
+
   pub fn can_accept_secret_chats(&mut self, can_accept_secret_chats: bool) -> &mut Self {
     self.inner.can_accept_secret_chats = can_accept_secret_chats;
     self
   }
 
-   
   pub fn can_accept_calls(&mut self, can_accept_calls: bool) -> &mut Self {
     self.inner.can_accept_calls = can_accept_calls;
     self
   }
 
-   
+  pub fn device_type<T: AsRef<SessionDeviceType>>(&mut self, device_type: T) -> &mut Self {
+    self.inner.device_type = device_type.as_ref().clone();
+    self
+  }
+
   pub fn api_id(&mut self, api_id: i64) -> &mut Self {
     self.inner.api_id = api_id;
     self
   }
 
-   
   pub fn application_name<T: AsRef<str>>(&mut self, application_name: T) -> &mut Self {
     self.inner.application_name = application_name.as_ref().to_string();
     self
   }
 
-   
   pub fn application_version<T: AsRef<str>>(&mut self, application_version: T) -> &mut Self {
     self.inner.application_version = application_version.as_ref().to_string();
     self
   }
 
-   
   pub fn is_official_application(&mut self, is_official_application: bool) -> &mut Self {
     self.inner.is_official_application = is_official_application;
     self
   }
 
-   
   pub fn device_model<T: AsRef<str>>(&mut self, device_model: T) -> &mut Self {
     self.inner.device_model = device_model.as_ref().to_string();
     self
   }
 
-   
   pub fn platform<T: AsRef<str>>(&mut self, platform: T) -> &mut Self {
     self.inner.platform = platform.as_ref().to_string();
     self
   }
 
-   
   pub fn system_version<T: AsRef<str>>(&mut self, system_version: T) -> &mut Self {
     self.inner.system_version = system_version.as_ref().to_string();
     self
   }
 
-   
   pub fn log_in_date(&mut self, log_in_date: i64) -> &mut Self {
     self.inner.log_in_date = log_in_date;
     self
   }
 
-   
   pub fn last_active_date(&mut self, last_active_date: i64) -> &mut Self {
     self.inner.last_active_date = last_active_date;
     self
   }
 
-   
-  pub fn ip<T: AsRef<str>>(&mut self, ip: T) -> &mut Self {
-    self.inner.ip = ip.as_ref().to_string();
+  pub fn ip_address<T: AsRef<str>>(&mut self, ip_address: T) -> &mut Self {
+    self.inner.ip_address = ip_address.as_ref().to_string();
     self
   }
 
-   
-  pub fn country<T: AsRef<str>>(&mut self, country: T) -> &mut Self {
-    self.inner.country = country.as_ref().to_string();
+  pub fn location<T: AsRef<str>>(&mut self, location: T) -> &mut Self {
+    self.inner.location = location.as_ref().to_string();
     self
   }
-
-   
-  pub fn region<T: AsRef<str>>(&mut self, region: T) -> &mut Self {
-    self.inner.region = region.as_ref().to_string();
-    self
-  }
-
 }
 
 impl AsRef<Session> for Session {
-  fn as_ref(&self) -> &Session { self }
+  fn as_ref(&self) -> &Session {
+    self
+  }
 }
 
 impl AsRef<Session> for RTDSessionBuilder {
-  fn as_ref(&self) -> &Session { &self.inner }
+  fn as_ref(&self) -> &Session {
+    &self.inner
+  }
 }
-
-
-
