@@ -15,6 +15,11 @@ Edition 2021. Minimum supported Rust is 1.89. `uuid` 1 and `serde-aux` 4. `cargo
 - A TL field named `extra` (on `TonNft`) is the Rust field `extra_`. `@extra` is unchanged.
 - Cycles in `RichText`, `PageBlock`, and `InternalLinkType` / `TargetChat` use `Box` on the field that closes the cycle.
 
+### Build
+
+- Documented RAM for compiling the generated types (about 6 GB for one `rustc` on the 1.8.69 dev build; a 1 GB limit kills `rustc` with signal 9) and how to install `libtdjson` for the `sys` feature, including TDLib's `SplitSource.php` low-memory C++ build.
+- `build.rs` warns when the visible memory limit is under 6 GiB.
+
 ### Not in this release
 
 `rtdlib-sys` is still 0.1.0. The `sys` feature still re-exports `rtdlib_sys::Tdlib` and still links `libtdjson`.

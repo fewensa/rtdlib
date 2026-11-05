@@ -6,6 +6,8 @@ Thanks for helping with `rtdlib`.
 
 The minimum supported Rust version is 1.89. CI uses current stable as well. The published version tracks the TDLib release (`1.8.69` is TDLib 1.8.69). Pin it with `=`.
 
+Compiling the generated types needs about 6 GB of RAM for one `rustc` process. See [Building](README.md#building) in the README. `cargo test --locked` does not link TDLib. `cargo test --features sys` does, and fails with `cannot find -ltdjson` until `libtdjson` is on the linker path.
+
 ```bash
 cargo fmt --check
 cargo test --locked

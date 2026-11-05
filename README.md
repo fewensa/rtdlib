@@ -47,6 +47,50 @@ tdlib.send(request);
 
 Initialization parameters are fields of `SetTdlibParameters`. There is no `TdlibParameters` type.
 
+## Building
+
+### Memory
+
+`cargo build` compiles every generated TDLib type in one crate. On rustc 1.89, a dev build of 1.8.69 peaks at about **6 GB RSS** in that single `rustc` process (`cargo build -j 1`). The older 0.8.1 sources peak at about 2.8 GB. A machine or container limited to 1 GB kills `rustc` with signal 9 (`SIGKILL`). The log looks like `could not compile rtdlib` / `signal: 9`. `build.rs` prints a cargo warning when the visible RAM limit is under 6 GiB.
+
+`CARGO_BUILD_JOBS=1` keeps dependency builds from stacking on top of that process. An 8 GB host is a practical size when the rest of the system is quiet. The RAM goes to type-checking the generated types.
+
+### `libtdjson` (`sys` only)
+
+The default library build compiles the Rust types only. This crate does not compile TDLib. `rtdlib-sys` records `#[link(name = "tdjson")]`, and the linker searches for that library when it links a binary or a test that enables `sys`. A missing library fails there:
+
+```text
+ld: cannot find -ltdjson: No such file or directory
+```
+
+Copy `libtdjson` onto a library path the linker searches (`/usr/lib`, `/usr/local/lib` after `ldconfig`, or `LIBRARY_PATH`). `$PATH` is for executables. At run time the dynamic loader also needs the shared library (`LD_LIBRARY_PATH` on Linux, `DYLD_LIBRARY_PATH` on macOS, the DLL directory on Windows).
+
+Match the TDLib version to this crate (1.8.69). Build instructions for each OS are at <https://tdlib.github.io/td/build.html>. From a TDLib checkout:
+
+```bash
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build . --target tdjson
+```
+
+Install `libtdjson.so` (and the static archive, if you want it) from `build`. On Windows the import library is `tdjson.lib`; pass its directory with `RUSTFLAGS=-C link-arg=/LIBPATH:D:/path/to/lib`.
+
+TDLib's own C++ sources can be built on a small machine by splitting them first. That script lowers the C++ compiler's RAM use. The Rust compile above is unchanged.
+
+```bash
+php SplitSource.php
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build . --target tdjson
+cmake --build . --target tdjson_static
+cd ..
+php SplitSource.php --undo
+```
+
+TDLib's README reports that, with this split, Clang 6 used under 500 MB per file and GCC 4.9 / 6.3 used under 1 GB per file.
+
 ## td
 
 Further protocol documentation is on the [Telegram API](https://core.telegram.org/api) site.
