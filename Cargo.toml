@@ -10,6 +10,7 @@ keywords = ["tdlib", "telegram"]
 categories = ["data-structures"]
 include = [
   "Cargo.toml",
+  "build.rs",
   "src/**/*.rs",
   "tests/**/*.rs",
   "README.md",
