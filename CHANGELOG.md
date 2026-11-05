@@ -2,7 +2,7 @@
 
 ## 1.8.69 - 2026-11-04
 
-Breaking release. Types are regenerated from TDLib **1.8.69** (`td_api.tl` at commit `4c6377aa7386c39217878a9a56d581922ad37ca4`). This replaces both the crates.io `1.8.1` line (TDLib v1.8.0) and the unreleased `0.8.2` snapshot. Pin `rtdlib = "=1.8.69"`. A requirement such as `^1.8.1` will select this crate and will not compile against 1.8.1 code.
+Breaking release. Types are regenerated from TDLib **1.8.69** (`td_api.tl` at commit `4c6377aa7386c39217878a9a56d581922ad37ca4`) with [fantasy](https://github.com/fewensa/fantasy) (`RTD_OUT=target/rtd-out cargo run --release -p fantasy`). This replaces both the crates.io `1.8.1` line (TDLib v1.8.0) and the unreleased `0.8.2` snapshot. Pin `rtdlib = "=1.8.69"`. A requirement such as `^1.8.1` will select this crate and will not compile against 1.8.1 code.
 
 Edition 2021. Minimum supported Rust is 1.89. `uuid` 1 and `serde-aux` 4. `cargo audit` is clean. CI, `SECURITY.md`, and the tag publish workflow are unchanged from the maintenance pass except for this version.
 

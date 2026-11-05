@@ -54,3 +54,13 @@ Further protocol documentation is on the [Telegram API](https://core.telegram.or
 ## Security
 
 Report vulnerabilities privately. See [SECURITY.md](SECURITY.md).
+
+## Regenerating types
+
+Types are generated in [fantasy](https://github.com/fewensa/fantasy), not in this repository. From a fantasy checkout:
+
+```bash
+RTD_OUT=target/rtd-out cargo run --release -p fantasy
+```
+
+Copy `target/rtd-out/src/types` over `src/types` here.
