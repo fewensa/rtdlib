@@ -4,7 +4,7 @@
 
 `rtdlib` is Rust types for [TDLib](https://github.com/tdlib/td).
 
-This release is **1.8.69**, generated from TDLib 1.8.69 commit [`4c6377aa`](https://github.com/tdlib/td/commit/4c6377aa7386c39217878a9a56d581922ad37ca4). It is the highest version of this crate. The older `0.8.x` snapshot line and `1.8.0` / `1.8.1` (TDLib v1.8.0) are not current. Pin the version. See [CHANGELOG](CHANGELOG.md).
+This release is **1.8.70**. The generated types are still TDLib 1.8.69 commit [`4c6377aa`](https://github.com/tdlib/td/commit/4c6377aa7386c39217878a9a56d581922ad37ca4). It is the highest version of this crate. The older `0.8.x` snapshot line, `1.8.0` / `1.8.1` (TDLib v1.8.0), and crates.io `1.8.69` are not current. Pin the version. See [CHANGELOG](CHANGELOG.md).
 
 Minimum supported Rust version: **1.89**.
 
@@ -12,14 +12,14 @@ Minimum supported Rust version: **1.89**.
 
 ```toml
 [dependencies]
-rtdlib = "=1.8.69"
+rtdlib = "=1.8.70"
 ```
 
 The default crate contains TDLib types only. To call `tdjson`, enable `sys`. That re-exports `rtdlib_sys::Tdlib` and needs `libtdjson` at link time. `rtdlib-sys` is still 0.1.0.
 
 ```toml
 [dependencies]
-rtdlib = { version = "=1.8.69", features = ["sys"] }
+rtdlib = { version = "=1.8.70", features = ["sys"] }
 ```
 
 ## Example
@@ -65,7 +65,7 @@ ld: cannot find -ltdjson: No such file or directory
 
 Copy `libtdjson` onto a library path the linker searches (`/usr/lib`, `/usr/local/lib` after `ldconfig`, or `LIBRARY_PATH`). `$PATH` is for executables. At run time the dynamic loader also needs the shared library (`LD_LIBRARY_PATH` on Linux, `DYLD_LIBRARY_PATH` on macOS, the DLL directory on Windows).
 
-Match the TDLib version to this crate (1.8.69). Build instructions for each OS are at <https://tdlib.github.io/td/build.html>. From a TDLib checkout:
+Match `libtdjson` to the schema in this crate (TDLib 1.8.69). Build instructions for each OS are at <https://tdlib.github.io/td/build.html>. From a TDLib checkout:
 
 ```bash
 mkdir build
